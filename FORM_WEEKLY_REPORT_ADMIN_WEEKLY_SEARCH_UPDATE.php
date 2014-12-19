@@ -1,5 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ADMIN WEEKLY SEARCH/UPDATE******************************************//
+//DONE BY:SASIKALA
+//0.04-SD:19/12/2014 ED:19/12/2014,TRACKER NO:74,Updated sorting function for date nd timestamp
+//0.03-SD:03/12/2014 ED:04/12/2014,TRACKER NO:74,DONE REPORT SHOWING POINT BY POINT,DATATABLE HEADER FIXED AND PDF EXPORT FILENAME FIXED.
 //DONE BY:LALITHA
 //0.02-SD:02/12/2014 ED:02/12/2014,TRACKER NO:74,Fixed max date nd min dte,Changed Preloder funct,Removed confirmation err msg,Fixed flex tble width
 //DONE BY:SHALINI
@@ -8,7 +11,53 @@
 <?php
 include "HEADER.php";
 ?>
-<script>
+<!--<script>-->
+<script type="text/javascript">
+function pageSetup() {
+    $('#dialog-form').dialog("close");
+}
+function rejectMemberreq(userNumber) {
+    $('#subscriberNumber').val(userNumber);
+    $('#reasonText').val("");
+    $("#dialog-form").dialog("open");
+    $("#button-ok").button("disable");
+}
+function removeMemberreq() {
+    if($('#reasonText').val().length == 0){
+        $("#button-ok").button("disable");
+        $('#reasonText').focus();
+    }else{
+        var userNumber = $('#subscriberNumber').val();
+        var reqReason = $('#reasonText').val();
+        $.ajax({
+            data : {
+                datatype : 'json',
+                method : 'rejectUser',
+                subscriberNumber : userNumber,
+                reasonText : reqReason
+            },
+            beforeSend : function() {
+                $('#loadingscreen').show();
+            },
+            success : function(confmMsg) {
+                $('#buttonRef-' + userNumber).html("REJECTED");
+            },
+            error : function(xhr, ajaxOptions, thrownError) {
+                error = true;
+            }
+        });
+        setTimeout($.unblockUI, 1000);
+    }
+}
+/* Reject User req Dialog Form */
+function enableOk(){
+    var len = $('#reasonText').val().length;
+    if(len > 1) {
+        $("#button-ok").button("enable");
+    }else{
+        $("#button-ok").button("disable");
+    }
+}
 // READY FUNCTION STARTS
 $(document).ready(function(){
     $('.preloader').show();
@@ -50,6 +99,11 @@ $(document).ready(function(){
     var choice='ADMIN WEEKLY REPORT SEARCH UPDATE';
     xmlhttp.open("POST","COMMON.do?option="+choice,true);
     xmlhttp.send();
+    //FUNCTION FOR FORMTABLEDATEFORMAT
+    function FormTableDateFormat(inputdate){
+        var string = inputdate.split("-");
+        return string[2]+'-'+ string[1]+'-'+string[0];
+    }
     //TEXT AREA AUTO GROW
     $('textarea').autogrow({onInitialize: true});
     // CREATING UPDATE AND CANCEL BUTTON
@@ -68,7 +122,6 @@ $(document).ready(function(){
         var enddate = $('#AWSU_tb_enddte').val();
         var title=js_errormsg_array[3].toString().replace("[STARTDATE]",startdate);
         var titlemsg=title.toString().replace("[ENDDATE]",enddate);
-        $('#AWSU_lbl_title').text(titlemsg).show();
         data ="&startdate="+startdate+"&enddate="+enddate+"&option=showData";
         $.ajax({
             url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
@@ -77,10 +130,11 @@ $(document).ready(function(){
             cache: false,
             success: function(response){
                 $('.preloader', window.parent.document).hide();
+                $('#AWSU_lbl_title').text(titlemsg).show();
                 values_array=JSON.parse(response);
                 if(values_array)
                 {
-                    var AWSU_tableheader='<table id="AWSU_tble_adminweeklysearchupdate" border="1" class="display"  cellspacing="0" width="1300" ><thead bgcolor="#6495ed" style="color:white"><tr class="head"><th style="min-width:180px;" nowrap>WEEK</th><th style="width:1500px">WEEKLY REPORT</th><th>USERSTAMP</th><th sstyle="min-width:150px;" nowrap>TIMESTAMP</th><th style="width:50px;">EDIT</th></tr></thead><tbody>';
+                    var AWSU_tableheader='<table id="AWSU_tble_adminweeklysearchupdate" border="1" class="display"  cellspacing="0" width="1300" ><thead bgcolor="#6495ed" style="color:white"><tr class="head"><th style="min-width:180px;"  class="uk-week-column" nowrap >WEEK</th><th style="width:1500px">WEEKLY REPORT</th><th>USERSTAMP</th><th sstyle="min-width:150px;" class="uk-timestp-column" nowrap>TIMESTAMP</th><th style="width:50px;">EDIT</th></tr></thead><tbody>';
                     for(var j=0;j<values_array.length;j++)
                     {
                         var id=values_array[j].id;
@@ -96,14 +150,26 @@ $(document).ready(function(){
                     AWSU_tableheader +='</tbody></table>';
                     $('section').html(AWSU_tableheader);
                     $('#AWSU_tble_adminweeklysearchupdate').DataTable({
+                        "aaSorting": [],
+                        "pageLength": 10,
+                        "sPaginationType":"full_numbers",
+
+                        "aoColumnDefs" : [
+                            { "aTargets" : ["uk-week-column"] , "sType" : "uk_week"},    { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
+
                         dom: 'T<"clear">lfrtip',
+
                         tableTools: {"aButtons": [
                             {
                                 "sExtends": "pdf",
+                                "mColumns": [0 ,1 , 2, 3],
                                 "sTitle": titlemsg,
-                                "mColumns": [0, 1, 2, 3],
                                 "sPdfOrientation": "landscape",
-                                "sPdfSize": "A3"
+                                "background-color":"blue"
+                            }],
+                            "aoColumns" : [{
+                                "sClass" : "center",
+                                "bSortable" : false
                             }],
                             "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
                         }
@@ -120,6 +186,40 @@ $(document).ready(function(){
             }
         });
         $('#tablecontainer').show();
+        sorting();
+    }
+    //FUNCTION FOR SORTING
+    function sorting(){
+        jQuery.fn.dataTableExt.oSort['uk_week-asc']  = function(a,b) {
+            var x = new Date( Date.parse(weekDateFormat(a)));
+            var y = new Date( Date.parse(weekDateFormat(b)) );
+            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+        };
+        jQuery.fn.dataTableExt.oSort['uk_week-desc'] = function(a,b) {
+            var x = new Date( Date.parse(weekDateFormat(a)));
+            var y = new Date( Date.parse(weekDateFormat(b)) );
+            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+        }
+        jQuery.fn.dataTableExt.oSort['uk_date-asc']  = function(a,b) {
+            var x = new Date( Date.parse(FormTableDateFormat(a)));
+            var y = new Date( Date.parse(FormTableDateFormat(b)) );
+            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+        };
+        jQuery.fn.dataTableExt.oSort['uk_date-desc'] = function(a,b) {
+            var x = new Date( Date.parse(FormTableDateFormat(a)));
+            var y = new Date( Date.parse(FormTableDateFormat(b)) );
+            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+        }
+        jQuery.fn.dataTableExt.oSort['uk_timestp-asc']  = function(a,b) {
+            var x = new Date( Date.parse(FormTableDateFormat(a.split(' ')[0]))).setHours(a.split(' ')[1].split(':')[0],a.split(' ')[1].split(':')[1],a.split(' ')[1].split(':')[2]);
+            var y = new Date( Date.parse(FormTableDateFormat(b.split(' ')[0]))).setHours(b.split(' ')[1].split(':')[0],b.split(' ')[1].split(':')[1],b.split(' ')[1].split(':')[2]);
+            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+        };
+        jQuery.fn.dataTableExt.oSort['uk_timestp-desc'] = function(a,b) {
+            var x = new Date( Date.parse(FormTableDateFormat(a.split(' ')[0]))).setHours(a.split(' ')[1].split(':')[0],a.split(' ')[1].split(':')[1],a.split(' ')[1].split(':')[2]);
+            var y = new Date( Date.parse(FormTableDateFormat(b.split(' ')[0]))).setHours(b.split(' ')[1].split(':')[0],b.split(' ')[1].split(':')[1],b.split(' ')[1].split(':')[2]);
+            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+        };
     }
     //CLICK EVENT FOR SEARCH BUTTON
     $(document).on("click",'#AWSU_btn_search', function (){
@@ -130,7 +230,6 @@ $(document).ready(function(){
 // CLICK EVENT FOR EDIT BUTTON
     $('section').on('click','.AWSU_btn_edit',function(){
         $('.AWSU_btn_edit').attr("disabled","disabled");
-//        $('textarea').height(50).width(60);
         var edittrid = $(this).parent().parent().attr('id');
         var tds = $('#'+edittrid).children('td');
         var tdstr = '';
@@ -167,13 +266,43 @@ $(document).ready(function(){
         month[10]="November";
         month[11]="December";
         var d1=month[date1.getMonth()];
-        var a=(WeekNumber[weekNum] + ' week ,   '+d1+"    "+date1.getFullYear());
+        var a=(WeekNumber[weekNum] + ' week ,   '+d1+"-"+date1.getFullYear());
         return a;
+    }
+    //FUNCTION FOR WEEK TO DATE CONVERSION
+    function weekDateFormat(date){
+        var b=date.split('week');
+        var month=new Array();
+        month[0]="January";
+        month[1]="February";
+        month[2]="March";
+        month[3]="April";
+        month[4]="May";
+        month[5]="June";
+        month[6]="July";
+        month[7]="August";
+        month[8]="September";
+        month[9]="October";
+        month[10]="November";
+        month[11]="December";
+        var  WeekNumber = ['1st', '2nd', '3rd', '4th', '5th'];
+        b[0]=b[0].trim();
+        var date= WeekNumber.indexOf('"'+b[0]+'"');
+        date=date+7;
+        if(date<10)
+            date='0'+date;
+        var c=b[1].split("-");
+        c[0]=c[0].replace(',','');
+        c[0]=c[0].trim()
+        var mon= month.indexOf(c[0])+1;
+
+        var year=c[1];
+        return year+"-"+mon+"-"+date;
     }
 // UPDATE BUTTON VALIDATION
     $(document).on('change blur','#AWSU_tb_report',function(){
         var AWSU_tb_report=$("#AWSU_tb_report").val();
-        if(AWSU_tb_report !="")// && ($("#AWSU_tb_report").val().trim()!=aa))
+        if(AWSU_tb_report !="")
         {
             $("#AWSU_btn_update").removeAttr("disabled");
         }
