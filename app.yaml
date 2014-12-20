@@ -94,18 +94,6 @@ handlers:
 - url: /FORM_REPORT_ATTENDANCE.do
   script: FORM_REPORT_ATTENDANCE.php
 
-#- url: /DB_EMPLOYEE_ENTRY.do
-#  script: DB_EMPLOYEE_ENTRY.php
-#
-#- url: /FORM_EMPLOYEE_ENTRY.do
-#  script: FORM_EMPLOYEE_ENTRY.php
-#
-#- url: /DB_EMPLOYEE_SEARCH_UPDATE.do
-#  script: DB_EMPLOYEE_SEARCH_UPDATE.php
-#
-#- url: /FORM_EMPLOYEE_SEARCH_UPDATE.do
-#  script: FORM_EMPLOYEE_SEARCH_UPDATE.php
-
 - url: /FORM_REPORT_REVENUE.do
   script: FORM_REPORT_REVENUE.php
 
@@ -207,6 +195,12 @@ handlers:
 - url: /DB_PUBLIC_HOLIDAY_ENTRY.do
   script: DB_PUBLIC_HOLIDAY_ENTRY.php
 
+- url: /FORM_PUBLIC_HOLIDAY_SEARCH_UPDATE.do
+  script: FORM_PUBLIC_HOLIDAY_SEARCH_UPDATE.php
+
+- url: /DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do
+  script: DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.php
+
 
 
 - url: .*
@@ -214,8 +208,7 @@ handlers:
   login: required
 
 
-#- url: .*
-#  script: ATTENDANCE_REPORT_MAIL_PDF.php
+
 
 
 

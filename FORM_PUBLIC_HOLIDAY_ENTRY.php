@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************PUBLIC HOLIDAY ENTRY*********************************************//
 //DONE BY:LALITHA
+//VER 0.04-SD:17/12/2014 ED:18/12/2014,TRACKER NO:74,Checked conditn nd put err msgs,Added uld nd timestmp fields
 //VER 0.03-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
 //VER 0.02-SD:28/11/2014 ED:28/11/2014,TRACKER NO:74,Updated Validation,Err msg,Reset Function,Checked condition of alrdy ext nd valid id in save part,Aftr saved reset fn called
 //DONE BY:SAFI
@@ -62,6 +63,11 @@ include "HEADER.php";
                         //VALID KEY NS SS ID
                         $('#PH_ENTRY_lbl_valid').text(PH_ENTRY_errorAarray[2]).show();
                         $('#PH_ENTRY_lbl_valid1').text(PH_ENTRY_errorAarray[2]).show();
+                        $("#PH_ENTRY_btn_save").attr("disabled","disabled");
+                    }
+                    else if(valid_ss>='1186'){
+                        $('#PH_ENTRY_lbl_valid1').text(PH_ENTRY_errorAarray[2]).show();
+                        $('#PH_ENTRY_lbl_valid').text(PH_ENTRY_errorAarray[2]).show();
                         $("#PH_ENTRY_btn_save").attr("disabled","disabled");
                     }
                     else

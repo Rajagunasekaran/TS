@@ -5,8 +5,6 @@ include "GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;
 date_default_timezone_set('Asia/Kolkata');
 global $con;
-
-
 function getTimezone()
 {
     return ("'+00:00','+05:30'");
@@ -16,12 +14,10 @@ function getTimezone()
 function get_uldid(){
     global $USERSTAMP;
     global $con;
-//    mysqli_connect($con);
     $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
     while($row=mysqli_fetch_array($uld_id)){
         $ure_uld_id=$row["ULD_ID"];
     }
-//    mysql_close($con);
     return $ure_uld_id;
 }
 //GET PERMISSION
@@ -54,8 +50,6 @@ function get_emp_projectentry(){
         $get_project_array[]=array($row["PD_PROJECT_NAME"],$row["PS_ID"],$row["PS_REC_VER"]);
     }
     return $get_project_array;
-
-
 }
 //GET PROJECTS LIST FROM DB
 function get_project($ure_uld_id){
@@ -67,7 +61,6 @@ function get_project($ure_uld_id){
     }
     return $get_project_array;
 }
-
 //GET JOIN DATE FOR SELECTING LOGIN ID;
 function get_joindate($ure_uld_id){
     global $con;
@@ -79,10 +72,8 @@ function get_joindate($ure_uld_id){
     return  $min_date;
 }
 if($_REQUEST["option"]=="user_report_entry"){
-//    echo $USERSTAMP;
     $get_permission_array=get_permission();
     $ure_uld_id=get_uldid();
-
     $get_project_array=get_projectentry($ure_uld_id);
     $min_date=get_joindate($ure_uld_id);
     $error='3,4,5,6,7,8,16,17,18,67,115';
@@ -99,20 +90,16 @@ if($_REQUEST["option"]=="user_search_update"){
     $error='3,4,5,6,7,8,16,17,18,67,83,98';
     $error_array=get_error_msg($error);
     $min_date=get_joindate($ure_uld_id);
-
-
     $user_searchmin_date=mysqli_query($con,"SELECT MIN(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$ure_uld_id' ");
     while($row=mysqli_fetch_array($user_searchmin_date)){
         $user_searchmin_date_value=$row["UARD_DATE"];
         $user_searchmin_date_value = date('d-m-Y',strtotime($user_searchmin_date_value));
     }
-
     $user_searchmax_date=mysqli_query($con,"SELECT MAX(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$ure_uld_id' ");
     while($row=mysqli_fetch_array($user_searchmax_date)){
         $user_searchmax_date_value=$row["UARD_DATE"];
         $user_searchmax_date_value = date('d-m-Y',strtotime($user_searchmax_date_value));
     }
-
     $values_array=array($get_permission_array,$get_project_array,$user_searchmin_date_value,$user_searchmax_date_value,$error_array,$min_date,$USERSTAMP);
     echo JSON_ENCODE($values_array);
 
@@ -138,9 +125,6 @@ function get_nonactive_login_id(){
     }
     return $active_nonemp;
 }
-
-
-
 function get_company_start_date(){
 
     global $con;
@@ -150,9 +134,6 @@ function get_company_start_date(){
     }
     $comp_startdate = date('d-m-Y',strtotime($comp_startdate));
     return $comp_startdate;
-
-
-
 }
 if($_REQUEST["option"]=="admin_report_entry")
 {
@@ -168,53 +149,6 @@ if($_REQUEST["option"]=="admin_report_entry")
 }
 if($_REQUEST["option"]=="admin_search_update")
 {
-//    $get_permission_array=get_permission();
-//    $ure_uld_id=get_uldid();
-////    $get_project_array=get_project($ure_uld_id);
-//    $error='3,4,5,6,7,8,16,17,18,67,83,98,109,110';
-//    $error_array=get_error_msg($error);
-//
-////    $min_date=get_joindate($ure_uld_id);
-//    $admin_searchmin_date=mysqli_query($con,"SELECT MIN(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS  ");
-//    while($row=mysqli_fetch_array($admin_searchmin_date)){
-//        $admin_searchmin_date_value=$row["UARD_DATE"];
-//        $min_date = date('d-m-Y',strtotime($admin_searchmin_date_value));
-//    }
-//    $admin_searchmax_date=mysqli_query($con,"SELECT MAX(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS  ");
-//    while($row=mysqli_fetch_array($admin_searchmax_date)){
-//        $admin_searchmax_date_value=$row["UARD_DATE"];
-//        $max_date= date('d-m-Y',strtotime($admin_searchmax_date_value));
-//    }
-//    $loginid=mysqli_query($con,"SELECT ULD_LOGINID from VW_ACCESS_RIGHTS_TERMINATE_LOGINID where URC_DATA!='SUPER ADMIN' ORDER BY ULD_LOGINID");
-//    $login_array=array();
-//    while($row=mysqli_fetch_array($loginid)){
-//        $login_array[]=$row["ULD_LOGINID"];
-//    }
-//    $activeemp=mysqli_query($con,"SELECT ULD_LOGINID from VW_ACCESS_RIGHTS_TERMINATE_LOGINID where URC_DATA!='SUPER ADMIN' ORDER BY ULD_LOGINID");
-//    $active_emp=array();
-//    while($row=mysqli_fetch_array($activeemp)){
-//        $active_emp[]=$row["ULD_LOGINID"];
-//    }
-//    $activenonemp=mysqli_query($con,"SELECT * from VW_ACCESS_RIGHTS_REJOIN_LOGINID ORDER BY ULD_LOGINID");
-//    $active_nonemp=array();
-//    while($row=mysqli_fetch_array($activenonemp)){
-//        $active_nonemp[]=$row["ULD_LOGINID"];
-//    }
-//
-//    $onduty_searchmin_date=mysqli_query($con,"SELECT MIN(OED_DATE) as OED_DATE FROM ONDUTY_ENTRY_DETAILS");
-//    while($row=mysqli_fetch_array($onduty_searchmin_date)){
-//        $onduty_searchmin_date_value=$row["OED_DATE"];
-//        $od_mindate = date('d-m-Y',strtotime($onduty_searchmin_date_value));
-//    }
-//    $onduty_searchmax_date=mysqli_query($con,"SELECT MAX(OED_DATE) as OED_DATE FROM ONDUTY_ENTRY_DETAILS");
-//    while($row=mysqli_fetch_array($onduty_searchmax_date)){
-//        $onduty_searchmax_date_value=$row["OED_DATE"];
-//        $od_maxdate= date('d-m-Y',strtotime($onduty_searchmax_date_value));
-//    }
-//
-//    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array,$active_emp,$active_nonemp,$max_date,$od_mindate,$od_maxdate);
-//    echo JSON_ENCODE($values_array);
-
     $get_permission_array=get_permission();
     $ure_uld_id=get_uldid();
 //    $get_project_array=get_project();
@@ -252,9 +186,6 @@ if($_REQUEST["option"]=="admin_search_update")
 
     $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array,$active_emp,$active_nonemp,$max_date,$od_mindate,$od_maxdate);
     echo JSON_ENCODE($values_array);
-
-
-
 }
 //GET ERROR MSG
 function get_error_msg($str){
@@ -266,7 +197,6 @@ function get_error_msg($str){
     }
     return $errormessage;
 }
-
 
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
     $str='9,10,11,12,13,14,56,113,114,116';
