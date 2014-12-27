@@ -33,9 +33,7 @@ function get_permission(){
 //FOR GETTING PROJECT ID AND NAME FOR ENTRYFORM
 function get_projectentry($ure_uld_id){
     global $con;
-//    $project_result=mysqli_query($con,"SELECT DISTINCT B.PS_ID,A.PD_ID,A.PD_PROJECT_NAME,B.PS_REC_VER FROM PROJECT_DETAILS A,PROJECT_STATUS B WHERE B.PC_ID!=3 AND A.PD_ID = B.PD_ID ORDER BY A.PD_ID;");
     $project_result=mysqli_query($con,"select * from EMPLOYEE_PROJECT_DETAILS EPD,PROJECT_DETAILS PD,PROJECT_STATUS PS where EPD.PS_ID=PS.PS_ID AND PS.PD_ID=PD.PD_ID AND PS.PC_ID!=3 AND EPD.ULD_ID='$ure_uld_id' and EPD.EPD_FLAG IS NULL order by PD.PD_PROJECT_NAME asc");
-
     $get_project_array=array();
     while($row=mysqli_fetch_array($project_result)){
         $get_project_array[]=array($row["PD_PROJECT_NAME"],$row["PS_ID"],$row["PS_REC_VER"]);
@@ -72,8 +70,10 @@ function get_joindate($ure_uld_id){
     return  $min_date;
 }
 if($_REQUEST["option"]=="user_report_entry"){
+//    echo $USERSTAMP;
     $get_permission_array=get_permission();
     $ure_uld_id=get_uldid();
+
     $get_project_array=get_projectentry($ure_uld_id);
     $min_date=get_joindate($ure_uld_id);
     $error='3,4,5,6,7,8,16,17,18,67,115';
@@ -102,8 +102,6 @@ if($_REQUEST["option"]=="user_search_update"){
     }
     $values_array=array($get_permission_array,$get_project_array,$user_searchmin_date_value,$user_searchmax_date_value,$error_array,$min_date,$USERSTAMP);
     echo JSON_ENCODE($values_array);
-
-
 }
 //GET ACTIVE LOGIN ID;
 function get_active_login_id(){
@@ -186,6 +184,9 @@ if($_REQUEST["option"]=="admin_search_update")
 
     $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array,$active_emp,$active_nonemp,$max_date,$od_mindate,$od_maxdate);
     echo JSON_ENCODE($values_array);
+
+
+
 }
 //GET ERROR MSG
 function get_error_msg($str){
@@ -197,6 +198,7 @@ function get_error_msg($str){
     }
     return $errormessage;
 }
+
 
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
     $str='9,10,11,12,13,14,56,113,114,116';
@@ -316,6 +318,5 @@ if($_REQUEST["option"]=="PUBLIC_HOLIDAY"){
     $values_array=array($error_array);
     echo JSON_ENCODE($values_array);
 }
-//echo "<pre>";
-//print_r($active_nonemp);
+
 ?>

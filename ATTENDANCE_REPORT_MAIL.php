@@ -4,13 +4,18 @@
 //VER 0.01-INITIAL VERSION, SD:28/11/2014 ED:28/11/2014,TRACKER NO:74
 //*********************************************************************************************************//-->
 <?php
+set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
+require_once 'google-api-php-client-master/src/Google/Client.php';
+require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
+require_once('mpdf571/mpdf571/mpdf.php');
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
 include "COMMON_FUNCTIONS.php";
 include "CONNECTION.php";
+include "CONFIG.php";
 $month_end = date('Y-m-d',strtotime('first day of this month'));
 $current_date=date('Y-m-d');
-//if($month_end==$current_date){
+if($month_end==$current_date){
 $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
 $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
 $admin_rs=mysqli_query($con,$select_admin);
@@ -27,10 +32,7 @@ if($row=mysqli_fetch_array($admin_rs)){
 if($row=mysqli_fetch_array($sadmin_rs)){
     $sadmin=$row["ULD_LOGINID"];//get super admin
 }
-//$month_year=date('F-Y',strtotime("-1 month"));
-$month_year=date('F-Y');
-
-
+    $month_year=date('F-Y',strtotime("-1 month"));
 $admin_name = substr($admin, 0, strpos($admin, '.'));
 $sadmin_name = substr($sadmin, 0, strpos($sadmin, '.'));
 $spladminname=$admin_name.'/'.$sadmin_name;
@@ -67,7 +69,16 @@ $newphrase = str_replace($replace, $str_replaced, $email_body);
 $row=mysqli_num_rows($select_data_rs);
 $x=$row;
 $values_array=array();
-$message='<html><body>'.'<br>'.'<h> '.$newphrase.'</h>'.'<br>'.'<br>'.'<table border=1px  width=500 colspan=3px cellpadding=3px  class="srcresult"><thead  bgcolor=#6495ed style=color:white><tr align="center"  height=2px ><td><b>LOGIN ID</b></td><td width=100 nowrap><b>NO OF PRESENT</b></td><td width=90 nowrap><b>NO OF ABSENT</b></td><td width=90 nowrap><b>NO OF ONDUTY</b></td><td  width=120 nowrap><b>PERMISSION HOUR(S)</b></td><td width=90 nowrap><b>REPORT ENTRY MISSED</b></td><td width=100 nowrap><b>WORKED IN HOLIDAYS</b></td></tr></thead>';
+$message='<html><body>'.'<br>'.'<b>'.$mail_subject.'</b></h><br>'.'<br>'.'<br>'.'<h> '.$newphrase.'</h>'.'<br>'.'<table width=500 colspan=3px cellpadding=3px >'
+    . '<th><tr style="color:white;" bgcolor="#6495ed" align="center" height=2px >'
+    . '<td align="center" style="border: 1px solid black;color:white;"><b>LOGIN ID</b></td>'
+    . '<td align="center" width=90 nowrap style="border: 1px solid black;color:white;"><b>NO OF PRESENT</b></td>'
+    . '<td align="center" width=90 nowrap style="border: 1px solid black;color:white;"><b>NO OF ABSENT</b></td>'
+    . '<td align="center" width=90 nowrap style="border: 1px solid black;color:white;"><b>NO OF ONDUTY</b></td>'
+    . '<td align="center" width=120 nowrap style="border: 1px solid black;color:white;"><b>PERMISSION HOUR(S)</b></td>'
+    . '<td align="center" width=100 nowrap style="border: 1px solid black;color:white;"><b>REPORT ENTRY MISSED</b></td>'
+    . '<td align="center" width=100 nowrap style="border: 1px solid black;color:white;"><b>WORKED IN HOLIDAYS</b></td></tr></th>';
+
 while($row=mysqli_fetch_array($select_data_rs)){
     $absent_count=$row['ABSENT_COUNT'];
     $no_of_present=$row['NO_OF_PRESENT'];
@@ -91,8 +102,7 @@ while($row=mysqli_fetch_array($select_data_rs)){
     if($work_in_holiday<0.5){
         $work_in_holiday= ' ';
     }
-
-    $message=$message. "<tr height=25px ><td >".$login_id."</td><td align='center'>".$no_of_present."</td><td align='center'>".$no_of_absent."</td><td align='center'>".$no_of_onduty."</td><td align='center'>".$permission."</td><td align='center'>".$absent_count."</td><td align='center'>".$work_in_holiday."</td></tr>";
+    $message=$message. "<tr style='border: 1px solid black;' height=25px ><td style='border: 1px solid black;'>".$login_id."</td><td align='center' style='border: 1px solid black;'>".$no_of_present."</td><td align='center' style='border: 1px solid black;'>".$no_of_absent."</td><td align='center' style='border: 1px solid black;'>".$no_of_onduty."</td><td align='center' style='border: 1px solid black;'>".$permission."</td><td align='center' style='border: 1px solid black;'>".$absent_count."</td><td align='center' style='border: 1px solid black;'>".$work_in_holiday."</td></tr>";
 }
 $drop_query="DROP TABLE $temp_table_name ";
 $drop_query1="DROP TABLE $temp_table_name1 ";
@@ -101,21 +111,20 @@ mysqli_query($con,$drop_query1);
 
 $message=$message."</table></body></html>";
 
+$mpdf = new mPDF();
+$mpdf->WriteHTML($message);
+$outputpdf=$mpdf->Output('doc.pdf','s');
+$FILENAME='SSOMENS TS REPORT ' .$month_year. '.pdf';
+$message1 = new Message();
+$message1->setSender($admin);
+$message1->addTo($admin);
+$message1->addCc($sadmin);
+$message1->setSubject($mail_subject);
+$message1->setHtmlBody($message);
+$message1->addAttachment($FILENAME,$outputpdf);
+$message1->send();
 
+}
 
-    $mail_options = [
-        "sender" => 'safiyullah.mohideen@ssomens.com',//$admin,
-        "to" => $admin,
-        "cc"=>'safiyullah.mohideen@ssomens.com',//$sadmin,
-        "subject" => $mail_subject,
-        "htmlBody" => $message
-    ];
-    try {
-        $message = new Message($mail_options);
-        $message->send();
-    } catch (\InvalidArgumentException $e) {
-        echo $e;
-    }
-//}
 
 

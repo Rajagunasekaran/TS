@@ -45,9 +45,9 @@ if($temp_table_name!=''){
 
         }
                 $mail_options = [
-            "sender" => 'safiyullah.mohideen@ssomens.com',//$admin,
+            "sender" => $admin,
             "to" => $admin,
-             "cc"=> 'safiyullah.mohideen@ssomens.com',//$sadmin,
+             "cc"=> $sadmin,
             "subject" => $mail_subject,
             "htmlBody" => $message1
         ];

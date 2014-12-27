@@ -332,7 +332,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 $mail_options = [
                     "sender" => $admin,
                     "to" => $admin,
-                    "cc" => 'safiyullah.mohideen@ssomens.com',//$sadmin,
+                    "cc" => $sadmin,
                     "subject" => $mail_subject,
                     "htmlBody" => $sub.$values
                 ];

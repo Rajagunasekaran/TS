@@ -222,6 +222,11 @@ if(isset($_REQUEST))
             while($row=mysqli_fetch_array($uld_id)){
                 $URSC_uld_id=$row["ULD_ID"];
             }
+            $select_des=mysqli_query($con,"SELECT EMP_DESIGNATION FROM EMPLOYEE_DETAILS WHERE ULD_ID='$URSC_uld_id'");
+            while($row=mysqli_fetch_array($select_des)){
+                $URSC_des=$row["EMP_DESIGNATION"];
+            }
+
             $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
             if($row=mysqli_fetch_array($select_calenderid)){
                 $calenderid=$row["URC_DATA"];
@@ -256,28 +261,28 @@ if(isset($_REQUEST))
             }
 
             if(($ss_flag==1)&&($cal_flag==1)){
-            $email_body;
-            $body_msg =explode(",", $body);
-            $length=count($body_msg);
-            for($i=0;$i<$length;$i++){
-                $email_body.=$body_msg[$i].'<br><br>';
-            }
-            $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]");
-            $str_replaced  = array($loggin,$site_link, $ss_link, $youtubelink);
-            $final_message = str_replace($replace, $str_replaced, $email_body);
-            $mail_options = [
-                "sender" =>'safiyullah.mohideen@ssomens.com',//$admin,
-                "to" => $loggin,
-                "cc"=> $admin,
-                "subject" => $mail_subject,
-                "htmlBody" => $final_message
-            ];
-            try {
-                $message = new Message($mail_options);
-                $message->send();
-            } catch (\InvalidArgumentException $e) {
-                echo $e;
-            }
+                $email_body;
+                $body_msg =explode("^", $body);
+                $length=count($body_msg);
+                for($i=0;$i<$length;$i++){
+                    $email_body.=$body_msg[$i].'<br><br>';
+                }
+                $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]","[DES]");
+                $str_replaced  = array($loggin,$site_link, $ss_link, $youtubelink,'<b>'.$URSC_des.'</b>');
+                $final_message = str_replace($replace, $str_replaced, $email_body);
+                $mail_options = [
+                    "sender" =>$admin,
+                    "to" => $loggin,
+                    "cc"=> $admin,
+                    "subject" => $mail_subject,
+                    "htmlBody" => $final_message
+                ];
+                try {
+                    $message = new Message($mail_options);
+                    $message->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
             }
 
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
@@ -396,25 +401,25 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
     $refresh_token= $Refresh_Token;
     $drive->refreshToken($refresh_token);
     $service = new Google_Service_Drive($drive);
-if($form=='TERMINATE'){
-    try {
-        $permissions = $service->permissions->listPermissions($fileId);
-        $return_value= $permissions->getItems();
-    } catch (Exception $e) {
-        $ss_flag=0;
-    }
-    foreach ($return_value as $key => $value) {
-        if ($value->emailAddress==$loggin) {
-            $permission_id=$value->id;
+    if($form=='TERMINATE'){
+        try {
+            $permissions = $service->permissions->listPermissions($fileId);
+            $return_value= $permissions->getItems();
+        } catch (Exception $e) {
+            $ss_flag=0;
+        }
+        foreach ($return_value as $key => $value) {
+            if ($value->emailAddress==$loggin) {
+                $permission_id=$value->id;
+            }
+        }
+        try {
+            $service->permissions->delete($fileId, $permission_id);
+            $ss_flag=1;
+        } catch (Exception $e) {
+            $ss_flag=0;
         }
     }
-    try {
-        $service->permissions->delete($fileId, $permission_id);
-        $ss_flag=1;
-    } catch (Exception $e) {
-        $ss_flag=0;
-    }
-}
     else{
 
         $value=$loggin;
@@ -435,22 +440,22 @@ if($form=='TERMINATE'){
 
     }
     if($ss_flag==1){
-    $cal = new Google_Service_Calendar($drive);
-    $event = new Google_Service_Calendar_Event();
-    $event->setsummary($loginid_name.'  '.$status);
-    $event->setDescription($URSC_uld_id);
-    $start = new Google_Service_Calendar_EventDateTime();
-    $start->setDate($finaldate);//setDate('2014-11-18');
-    $event->setStart($start);
-    $event->setEnd($start);
-    try{
-    $createdEvent = $cal->events->insert($calenderid, $event);
-        $cal_flag=1;
+        $cal = new Google_Service_Calendar($drive);
+        $event = new Google_Service_Calendar_Event();
+        $event->setsummary($loginid_name.'  '.$status);
+        $event->setDescription($URSC_uld_id);
+        $start = new Google_Service_Calendar_EventDateTime();
+        $start->setDate($finaldate);//setDate('2014-11-18');
+        $event->setStart($start);
+        $event->setEnd($start);
+        try{
+            $createdEvent = $cal->events->insert($calenderid, $event);
+            $cal_flag=1;
+        }
+        catch(Exception $e){
+            $cal_flag=0;
+        }
     }
-    catch(Exception $e){
-        $cal_flag=0;
-    }
-    }
-$flag_array=[$ss_flag,$cal_flag];
+    $flag_array=[$ss_flag,$cal_flag];
     return $flag_array;
 }

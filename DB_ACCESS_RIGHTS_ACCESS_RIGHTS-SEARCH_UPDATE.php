@@ -212,57 +212,57 @@ if(isset($_REQUEST)){
                 $URSC_uld_id=$row["ULD_ID"];
             }
             if($ss_flag==1){
-           $cal_flag= URSRC_calendar_create($loginid_name,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
+                $cal_flag= URSRC_calendar_create($loginid_name,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
 
-            $cal_flag= URSRC_calendar_create($loginid_name,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
+                $cal_flag= URSRC_calendar_create($loginid_name,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
 
-            if($cal_flag==0){
-                URSRC_unshare_document($loginid,$fileId);
-                $con->rollback();
-            }
+                if($cal_flag==0){
+                    URSRC_unshare_document($loginid,$fileId);
+                    $con->rollback();
+                }
             }
             if(($ss_flag==1)&&($cal_flag==1)){
-            $email_body;
-            $body_msg =explode(",", $body);
-            $length=count($body_msg);
-            for($i=0;$i<$length;$i++){
-                $email_body.=$body_msg[$i].'<br><br>';
-            }
-            $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]");
-            $str_replaced  = array($loginid,$site_link, $ss_link, $youtubelink);
-            $final_message = str_replace($replace, $str_replaced, $email_body);
-            $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=10";
-            $select_template_rs=mysqli_query($con,$select_template);
-            if($row=mysqli_fetch_array($select_template_rs)){
-                $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
-                $body=$row["ETD_EMAIL_BODY"];
-            }
+                $email_body;
+                $body_msg =explode("^", $body);
+                $length=count($body_msg);
+                for($i=0;$i<$length;$i++){
+                    $email_body.=$body_msg[$i].'<br><br>';
+                }
+                $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]","[DES]");
+                $str_replaced  = array($URSRC_firstname,$site_link, $ss_link, $youtubelink,'<b>'.$URSRC_designation.'</b>');
+                $final_message = str_replace($replace, $str_replaced, $email_body);
+                $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=10";
+                $select_template_rs=mysqli_query($con,$select_template);
+                if($row=mysqli_fetch_array($select_template_rs)){
+                    $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
+                    $body=$row["ETD_EMAIL_BODY"];
+                }
 //STRING REPLACE FUNCTION
-            $emp_email_body;
-            $body_msg =explode(",", $body);
-            $length=count($body_msg);
-            for($i=0;$i<$length;$i++){
-                $emp_email_body.=$body_msg[$i].'<br><br>';
-            }
-            $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]");
-            $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$URSRC_branchaddr);
-            $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
-            $final_message=$final_message.'<br>'.$newphrase;
-            $mail_options = [
-                "sender" =>'safiyullah.mohideen@ssomens.com',//$admin,
-                "to" => $loginid,
-                "cc"=> $admin,
-                "subject" => $mail_subject,
-                "htmlBody" => $final_message
-            ];
-            try {
-                $message = new Message($mail_options);
-                $message->send();
-            } catch (\InvalidArgumentException $e) {
-                echo $e;
-            }
+                $emp_email_body;
+                $body_msg =explode(",", $body);
+                $length=count($body_msg);
+                for($i=0;$i<$length;$i++){
+                    $emp_email_body.=$body_msg[$i].'<br><br>';
+                }
+                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]");
+                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$URSRC_branchaddr);
+                $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
+                $final_message=$final_message.'<br>'.$newphrase;
+                $mail_options = [
+                    "sender" =>$admin,
+                    "to" => $loginid,
+                    "cc"=> $admin,
+                    "subject" => $mail_subject,
+                    "htmlBody" => $final_message
+                ];
+                try {
+                    $message = new Message($mail_options);
+                    $message->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
 
-        }
+            }
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
         }
         else{
@@ -508,48 +508,48 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                         $con->rollback();
                     }
                 }
-                  if(($ss_flag==1)&&($cal_flag==1)){
+                if(($ss_flag==1)&&($cal_flag==1)){
 
-                $email_body;
-                $body_msg =explode(",", $body);
-                $length=count($body_msg);
-                for($i=0;$i<$length;$i++){
-                    $email_body.=$body_msg[$i].'<br><br>';
-                }
-                $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]");
-                $str_replaced  = array($loginid,$site_link, $ss_link, $youtubelink);
-                $final_message = str_replace($replace, $str_replaced, $email_body);
-                $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=10";
-                $select_template_rs=mysqli_query($con,$select_template);
-                if($row=mysqli_fetch_array($select_template_rs)){
-                    $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
-                    $body=$row["ETD_EMAIL_BODY"];
-                }
+                    $email_body;
+                    $body_msg =explode("^", $body);
+                    $length=count($body_msg);
+                    for($i=0;$i<$length;$i++){
+                        $email_body.=$body_msg[$i].'<br><br>';
+                    }
+                    $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]","[DES]");
+                    $str_replaced  = array($URSRC_firstname,$site_link, $ss_link, $youtubelink,'<b>'.$URSRC_designation.'</b>');
+                    $final_message = str_replace($replace, $str_replaced, $email_body);
+                    $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=10";
+                    $select_template_rs=mysqli_query($con,$select_template);
+                    if($row=mysqli_fetch_array($select_template_rs)){
+                        $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
+                        $body=$row["ETD_EMAIL_BODY"];
+                    }
 //STRING REPLACE FUNCTION
-                $emp_email_body;
-                $body_msg =explode(",", $body);
-                $length=count($body_msg);
-                for($i=0;$i<$length;$i++){
-                    $emp_email_body.=$body_msg[$i].'<br><br>';
+                    $emp_email_body;
+                    $body_msg =explode(",", $body);
+                    $length=count($body_msg);
+                    for($i=0;$i<$length;$i++){
+                        $emp_email_body.=$body_msg[$i].'<br><br>';
+                    }
+                    $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]");
+                    $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_finaldob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$URSRC_branchaddr);
+                    $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
+                    $final_message=$final_message.'<br>'.$newphrase;
+                    $mail_options = [
+                        "sender" =>$admin,
+                        "to" => $loginid,
+                        "cc"=> $admin,
+                        "subject" => $mail_subject,
+                        "htmlBody" => $final_message
+                    ];
+                    try {
+                        $message = new Message($mail_options);
+                        $message->send();
+                    } catch (\InvalidArgumentException $e) {
+                        echo $e;
+                    }
                 }
-                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]");
-                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_finaldob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$URSRC_branchaddr);
-                $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
-                $final_message=$final_message.'<br>'.$newphrase;
-                $mail_options = [
-                    "sender" =>'safiyullah.mohideen@ssomens.com',//$admin,
-                    "to" => $loginid,
-                    "cc"=> $admin,
-                    "subject" => $mail_subject,
-                    "htmlBody" => $final_message
-                ];
-                try {
-                    $message = new Message($mail_options);
-                    $message->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
-                  }
             }
             else{
                 $ss_flag=1;
@@ -557,12 +557,12 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             }
             if($lastdate!=$finaldate){
 
-               $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$loginid_name,$finaldate);
+                $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$loginid_name,$finaldate);
 
-           if($cal_flag==0){
+                if($cal_flag==0){
 
-               $con->rollback();
-           }
+                    $con->rollback();
+                }
 
             }
             $flag_array=[$flag,$ss_flag,$cal_flag,$ss_fileid];
@@ -758,7 +758,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $select_basicrole_id= "select * from USER_RIGHTS_CONFIGURATION URC,BASIC_ROLE_PROFILE BRP where URC.URC_DATA='".$URSRC_basic_roleval."' and URC.URC_ID=BRP.URC_ID";
         $URSRC_basicroleid_rs=mysqli_query($con,$select_basicrole_id);
         while($row=mysqli_fetch_array($URSRC_basicroleid_rs)){
-            $URSRC_basicroleid_array=$row["BRP_BR_ID"];
+            $URSRC_basicroleid_array[]=$row["BRP_BR_ID"];
         }
         $URSRC_basicrole_array=array();
 
@@ -770,17 +770,25 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         }
         //UNIQUE FUNCTION
         $URSRC_basicrole_array=array_values(array_unique($URSRC_basicrole_array));
-        $value_array=array($URSRC_basicrole_menu_array,$URSRC_basicrole_array);
-        $URSRC_basicrole_values_array[]=($value_array);
-        $URSRC_getmenu_folder_values=  URSRC_getmenubasic_folder();
-        $URSRC_basicrole_values_array[]=[$URSRC_getmenu_folder_values,$value_array];
-        echo JSON_ENCODE($URSRC_basicrole_values_array);
+        $fullarray=URSRC_getmenubasic_folder1();
+        $value_array=array($URSRC_basicrole_menu_array,$URSRC_basicrole_array,$fullarray);
+//        $URSRC_basicrole_values_array[]=($value_array);
+//        $URSRC_getmenu_folder_values=  URSRC_getmenubasic_folder($URSRC_basic_roleval);
+//        $URSRC_basicrole_values_array[]=[$URSRC_getmenu_folder_values,$value_array];
+        echo JSON_ENCODE($value_array);
     }
     //FUNCTION to get role menus
     if($_REQUEST['option']=="URSRC_tree_view"){
         $menunameradiovalues = $_GET['radio_value'];
         $URSRC_basic_roleval=str_replace("_"," ",$menunameradiovalues);
         $URSRC_getmenu_folder_values=URSRC_getmenu_folder($URSRC_basic_roleval);
+        echo JSON_ENCODE($URSRC_getmenu_folder_values);
+    }
+    //FUNCTION to get basic menus
+    if($_REQUEST['option']=="URSRC_tree_view_basic"){
+        $menunameradiovalues = $_GET['radio_value'];
+        $URSRC_basic_roleval=str_replace("_"," ",$menunameradiovalues);
+        $URSRC_getmenu_folder_values=URSRC_getmenubasic_folder1();
         echo JSON_ENCODE($URSRC_getmenu_folder_values);
     }
     //FUNCTION TO LOAD INITIAL VALUES ROLE LST bX
@@ -843,22 +851,22 @@ function URSRC_calendar_create($loginid_name,$URSC_uld_id,$finaldate,$calenderid
     $event = new Google_Service_Calendar_Event();
     $event->setsummary($loginid_name.'  '.$status);
     if($status=='JOIN DATE'){
-    $event->setDescription($URSC_uld_id);
+        $event->setDescription($URSC_uld_id);
     }
     $start = new Google_Service_Calendar_EventDateTime();
     $start->setDate($finaldate);//setDate('2014-11-18');
     $event->setStart($start);
     $event->setEnd($start);
     try{
-    $createdEvent = $cal->events->insert($calenderid, $event);
+        $createdEvent = $cal->events->insert($calenderid, $event);
         $cal_flag=1;
     }
     catch(Exception $e){
 
-         $cal_flag=0;
+        $cal_flag=0;
     }
 
-return $cal_flag;
+    return $cal_flag;
 
 
 }
@@ -882,7 +890,7 @@ function URSRC_delete_create_calendarevent($ULD_id,$loginid_name,$finaldate){
     $cal = new Google_Service_Calendar($drive);
     $service = new Google_Service_Calendar($drive);
     try{
-    $events = $service->events->listEvents($calenderid);
+        $events = $service->events->listEvents($calenderid);
     }
     catch(Exception $e){
 
@@ -946,22 +954,54 @@ function URSRC_getmenu_folder($URSRC_basic_roleval){
 }
 
 //COMMON TREE SEARCH ND UPDATE FUNCTION
-function URSRC_getmenubasic_folder(){
+function URSRC_getmenubasic_folder($URSRC_basic_roleval){
     global $con;
-    $main_menu_data= mysqli_query($con,"SELECT DISTINCT MP_MNAME FROM MENU_PROFILE MP,BASIC_MENU_PROFILE BMP,USER_RIGHTS_CONFIGURATION URC where BMP.MP_ID=MP.MP_ID and BMP.URC_ID=URC.URC_ID  ORDER BY MP_MNAME ASC ");
+    $main_menu_data= mysqli_query($con,"SELECT DISTINCT MP_MNAME FROM MENU_PROFILE MP,BASIC_MENU_PROFILE BMP,USER_RIGHTS_CONFIGURATION URC where BMP.MP_ID=MP.MP_ID and BMP.URC_ID=URC.URC_ID and URC.URC_DATA='".$URSRC_basic_roleval."' ORDER BY MP_MNAME ASC ");
     $ure_values=array();
     $URSC_Main_menu_array=array();
     $i=0;
     while($row=mysqli_fetch_array($main_menu_data)){
         $URSC_Main_menu_array[]=$row["MP_MNAME"];
-        $sub_menu_data= mysqli_query($con,"SELECT  MP_MSUB, MP.MP_ID FROM MENU_PROFILE MP,BASIC_MENU_PROFILE BMP,USER_RIGHTS_CONFIGURATION URC where BMP.MP_ID=MP.MP_ID and BMP.URC_ID=URC.URC_ID  and MP.MP_MNAME='".$URSC_Main_menu_array[$i]."' AND MP.MP_MSUB IS NOT NULL GROUP BY MP_MSUB ORDER BY MP.MP_MSUB ASC ");
+        $sub_menu_data= mysqli_query($con,"SELECT  MP_MSUB, MP.MP_ID FROM MENU_PROFILE MP,BASIC_MENU_PROFILE BMP,USER_RIGHTS_CONFIGURATION URC where BMP.MP_ID=MP.MP_ID and BMP.URC_ID=URC.URC_ID and URC.URC_DATA='".$URSRC_basic_roleval."'  and MP.MP_MNAME='".$URSC_Main_menu_array[$i]."' and URC.URC_DATA='".$URSRC_basic_roleval."' AND MP.MP_MSUB IS NOT NULL GROUP BY MP_MSUB ORDER BY MP.MP_MSUB ASC ");
         $URSC_sub_menu_row=array();
         $URSC_sub_sub_menu_row_col=array();
         $URSC_sub_sub_menu_row_col_data=array();
         $j=0;
         while($row=mysqli_fetch_array($sub_menu_data))  {
             $URSC_sub_menu_row[]=array($row["MP_ID"],$row["MP_MSUB"]);
-            $sub_sub_menu_data= mysqli_query($con,"SELECT MP.MP_ID, MP_MSUBMENU FROM MENU_PROFILE MP,BASIC_MENU_PROFILE BMP,USER_RIGHTS_CONFIGURATION URC where BMP.MP_ID=MP.MP_ID and BMP.URC_ID=URC.URC_ID  and MP.MP_MNAME='".$URSC_Main_menu_array[$i]."' AND  MP.MP_MSUB='".$URSC_sub_menu_row[$j][1]."' AND MP.MP_MSUBMENU IS NOT NULL  ORDER BY MP_MSUBMENU ASC" );
+            $sub_sub_menu_data= mysqli_query($con,"SELECT MP.MP_ID, MP_MSUBMENU FROM MENU_PROFILE MP,BASIC_MENU_PROFILE BMP,USER_RIGHTS_CONFIGURATION URC where BMP.MP_ID=MP.MP_ID and BMP.URC_ID=URC.URC_ID and URC.URC_DATA='".$URSRC_basic_roleval."' and MP.MP_MNAME='".$URSC_Main_menu_array[$i]."' AND  MP.MP_MSUB='".$URSC_sub_menu_row[$j][1]."' AND MP.MP_MSUBMENU IS NOT NULL  ORDER BY MP_MSUBMENU ASC" );
+            $URSC_sub_sub_menu_row=array();
+            $URSC_sub_sub_menu_row_data=array();
+            while($row=mysqli_fetch_array($sub_sub_menu_data)){
+                $URSC_sub_sub_menu_row_data[]=array($row["MP_ID"],$row["MP_MSUBMENU"]);
+            }
+            $URSC_sub_sub_menu_row_col[]=$URSC_sub_sub_menu_row;
+            $URSC_sub_sub_menu_data_array[]=$URSC_sub_sub_menu_row_data;
+            $j++;
+        }
+        $URSC_sub_sub_menu_array[]=$URSC_sub_sub_menu_row_col;
+        $URSC_sub_menu_array[]=$URSC_sub_menu_row;
+        $i++;
+    }
+    $final_values=array($URSC_Main_menu_array, $URSC_sub_menu_array,$URSC_sub_sub_menu_data_array);
+    return $final_values;
+}
+function URSRC_getmenubasic_folder1(){
+    global $con;
+    $main_menu_data= mysqli_query($con,"SELECT DISTINCT MP_MNAME FROM MENU_PROFILE MP ORDER BY MP_MNAME ASC ");
+    $ure_values=array();
+    $URSC_Main_menu_array=array();
+    $i=0;
+    while($row=mysqli_fetch_array($main_menu_data)){
+        $URSC_Main_menu_array[]=$row["MP_MNAME"];
+        $sub_menu_data= mysqli_query($con,"SELECT  MP_MSUB, MP.MP_ID FROM MENU_PROFILE MP WHERE MP.MP_MNAME='".$URSC_Main_menu_array[$i]."' AND MP.MP_MSUB IS NOT NULL GROUP BY MP_MSUB ORDER BY MP.MP_MSUB ASC ");
+        $URSC_sub_menu_row=array();
+        $URSC_sub_sub_menu_row_col=array();
+        $URSC_sub_sub_menu_row_col_data=array();
+        $j=0;
+        while($row=mysqli_fetch_array($sub_menu_data))  {
+            $URSC_sub_menu_row[]=array($row["MP_ID"],$row["MP_MSUB"]);
+            $sub_sub_menu_data= mysqli_query($con,"SELECT MP.MP_ID, MP_MSUBMENU FROM MENU_PROFILE MP WHERE MP.MP_MNAME='".$URSC_Main_menu_array[$i]."' AND  MP.MP_MSUB='".$URSC_sub_menu_row[$j][1]."' AND MP.MP_MSUBMENU IS NOT NULL  ORDER BY MP_MSUBMENU ASC" );
             $URSC_sub_sub_menu_row=array();
             $URSC_sub_sub_menu_row_data=array();
             while($row=mysqli_fetch_array($sub_sub_menu_data)){

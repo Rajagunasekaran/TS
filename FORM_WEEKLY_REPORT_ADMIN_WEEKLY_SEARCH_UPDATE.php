@@ -1,7 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ADMIN WEEKLY SEARCH/UPDATE******************************************//
 //DONE BY:SASIKALA
-//0.04-SD:19/12/2014 ED:19/12/2014,TRACKER NO:74,Updated sorting function for date nd timestamp
+//0.04-SD:19/12/2014 ED:19/12/2014,TRACKER NO:74,Updated sorting function for date nd timestamp,Showned flex tble order by data()
 //0.03-SD:03/12/2014 ED:04/12/2014,TRACKER NO:74,DONE REPORT SHOWING POINT BY POINT,DATATABLE HEADER FIXED AND PDF EXPORT FILENAME FIXED.
 //DONE BY:LALITHA
 //0.02-SD:02/12/2014 ED:02/12/2014,TRACKER NO:74,Fixed max date nd min dte,Changed Preloder funct,Removed confirmation err msg,Fixed flex tble width

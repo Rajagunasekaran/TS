@@ -81,14 +81,9 @@ if($x>0){
         }
         if($adm_report==null){
 
-//            if($adm_absentflag=='X')
-//            {
-//                $final_report='REASON:'.$adm_reason;
-//            }
-//            else
-//            {
+
                 $final_report=$ure_morningsession.' - REASON'.':'.$adm_reason;
-//            }
+
         }
         else if($adm_reason==null){
             if($adm_permission!=null)
@@ -121,9 +116,9 @@ if($x>0){
     $REP_subject_date=$mail_subject.' - '.date("d/m/Y");
     // SENDING MAIL OPTIONS
     $mail_options = [
-        "sender" => 'safiyullah.mohideen@ssomens.com',//$admin,
+        "sender" => $admin,
         "to" => $admin,
-        "cc"=>'safiyullah.mohideen@ssomens.com',//$sadmin,
+        "cc"=>$sadmin,
         "subject" => $REP_subject_date,
         "htmlBody" => $message
     ];

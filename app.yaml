@@ -1,4 +1,4 @@
-application: test-time-sheet
+application: ei-html-ssomens
 version: 3
 runtime: php
 api_version: 1
@@ -94,6 +94,7 @@ handlers:
 - url: /FORM_REPORT_ATTENDANCE.do
   script: FORM_REPORT_ATTENDANCE.php
 
+
 - url: /FORM_REPORT_REVENUE.do
   script: FORM_REPORT_REVENUE.php
 
@@ -141,11 +142,11 @@ handlers:
   script: DB_EMPLOYEE_COMPANY_PROPERTY_VERIFICATION.php
 
 
-- url: /FORM_EMPLOYEE_PROJECT_ENTRY.do
-  script: FORM_EMPLOYEE_PROJECT_ENTRY.php
+- url: /FORM_EMPLOYEE_PROJECT_ACCESS.do
+  script: FORM_EMPLOYEE_PROJECT_ACCESS.php
 
-- url: /DB_EMPLOYEE_PROJECT_ENTRY.do
-  script: DB_EMPLOYEE_PROJECT_ENTRY.php
+- url: /DB_EMPLOYEE_PROJECT_ACCESS.do
+  script: DB_EMPLOYEE_PROJECT_ACCESS.php
 
 
 
@@ -195,18 +196,20 @@ handlers:
 - url: /DB_PUBLIC_HOLIDAY_ENTRY.do
   script: DB_PUBLIC_HOLIDAY_ENTRY.php
 
+
 - url: /FORM_PUBLIC_HOLIDAY_SEARCH_UPDATE.do
   script: FORM_PUBLIC_HOLIDAY_SEARCH_UPDATE.php
+
 
 - url: /DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do
   script: DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.php
 
 
 
+
 - url: .*
   script: MENU.php
   login: required
-
 
 
 

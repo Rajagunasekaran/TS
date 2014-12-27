@@ -45,7 +45,7 @@ $sadmin_name = substr($sadmin, 0, strpos($sadmin, '.'));
 $spladminname=$admin_name.'/'.$sadmin_name;
 $spladminname=strtoupper($spladminname);
 if($Current_day!='Sunday'){
-    if($check_ph==0 && $check_onduty==0){
+    if(($check_ph==0) && ($check_onduty==0)){
 
         $final_array=array_diff($get_active_user,$get_login_id);
         $final_array=array_values($final_array);
@@ -104,10 +104,9 @@ if($Current_day!='Sunday'){
         }
         if($num_count>0){
         $mail_options = [
-            "sender" => 'safiyullah.mohideen@ssomens.com',//$admin,
-            "to"=>$admin,
-//            "to" => $sadmin,
-            "cc"=>'safiyullah.mohideen@ssomens.com',
+            "sender" => $admin,
+            "to" => $sadmin,
+            "cc"=>$admin,
             "subject" => $mail_subject,
             "htmlBody" => $message
         ];
