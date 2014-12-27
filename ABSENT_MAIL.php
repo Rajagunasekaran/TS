@@ -72,8 +72,7 @@ if($Current_day!='Sunday'){
             $mail_options = [
                 "sender" => $admin,
                 "to" => $admin,
-                "cc"=>'safiyullah.mohideen@ssomens.com',
-//                "cc"=>$sadmin,
+                "cc"=>$sadmin,
                 "subject" => $mail_subject,
                 "htmlBody" =>$message1
             ];

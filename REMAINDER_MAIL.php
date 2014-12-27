@@ -58,8 +58,8 @@ if($Current_day!='Sunday'){
             $bodyscript=str_replace("[MAILID_USERNAME]","$username",$body);
             $message_body=str_replace("[DATE]",date('l jS  F Y '),$bodyscript);
             $mail_options = [
-                "sender" => 'safiyullah.mohideen@ssomens.com',
-                "to" => 'safiyullah.mohideen@ssomens.com',
+                "sender" => $admin,
+                "to" => $names,
                 "subject" => $mail_subject,
                 "textBody" => $message_body
             ];

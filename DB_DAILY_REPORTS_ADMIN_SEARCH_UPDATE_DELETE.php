@@ -397,8 +397,7 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
                 $mail_options = [
                     "sender" => $admin,
                     "to" => $admin,
-                    "cc" => 'safiyullah.mohideen@ssomens.com',
-//                    "cc" => $sadmin,
+                    "cc" => $sadmin,
                     "subject" => $mail_subject,
                     "htmlBody" => $sub.$values
                 ];

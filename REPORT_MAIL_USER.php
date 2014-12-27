@@ -84,7 +84,7 @@ if($Current_day!='Sunday'){
                 if($num_count>0){
                 $mail_options = [
                     "sender" => $admin,
-                    "to" => $admin,
+                    "to" => $names,
                     "subject" => $mail_subject,
                     "htmlBody" => $message
                 ];
