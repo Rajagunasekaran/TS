@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN SEARCH UPDATE DELETE***********************************//
 //DONE BY:LALITHA
+//VER 0.09-SD:29/12/2014 ED:29/12/2014,tracker no:84, updated delete function
 //VER 0.08-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,Implemented If reason means updated Onduty(am/pm)/Absent(am/pm) with checked condition) nd changed query also,Updated to showned nd hide the header err msg,Updated pdf file name frm err msgs,Changed listbx name
 //VER 0.07 SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
 //VER 0.06 SD:20/11/2014 ED:20/11/2014,TRACKER NO:74,DESC:Updated to showned point by point line for report nd reason,Showned permission in report fr all active employee flextble nd also Changed flex tble query
@@ -714,7 +715,6 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR DELETE BUTTON
     $(document).on('click','#ASRC_UPD_DEL_btn_del',function(){
-        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[2],confirmation:true}});
         $('.preloader', window.parent.document).show();
         var delid=$("input[name=ASRC_UPD_DEL_rd_flxtbl]:checked").val();
         var xmlhttp=new XMLHttpRequest();
@@ -724,21 +724,21 @@ $(document).ready(function(){
                 var delete_msg=xmlhttp.responseText;
                 if(delete_msg==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[2],confirmation:true}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[2]}});
                     flextablerange()
                     $('#ASRC_UPD_DEL_btn_del').hide();
                     $('#ASRC_UPD_DEL_btn_srch').hide();
                 }
                 else if(delete_msg==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[5],confirmation:true}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[5]}});
                     flextablerange()
                     $('#ASRC_UPD_DEL_btn_del').hide();
                     $('#ASRC_UPD_DEL_btn_srch').hide();
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:delete_msg,confirmation:true}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:delete_msg}});
                     flextablerange()
                     $('#ASRC_UPD_DEL_btn_del').hide();
                     $('#ASRC_UPD_DEL_btn_srch').hide();
@@ -1111,29 +1111,29 @@ $(document).ready(function(){
         var reportdate=$('#ASRC_UPD_DEL_ta_reportdate').val();
         if(reportdate!=date){
             $('.preloader', window.parent.document).show();
-        var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                var msgalert=xmlhttp.responseText;
-                $('.preloader', window.parent.document).hide();
-                if(msgalert==1)
-                {
-                    err_flag=1;
-                    var msg=err_msg[3].toString().replace("[DATE]",reportdate)
-                    $('#ASRC_UPD_DEL_errmsg').text(msg).show();
-                    $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+            var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    var msgalert=xmlhttp.responseText;
+                    $('.preloader', window.parent.document).hide();
+                    if(msgalert==1)
+                    {
+                        err_flag=1;
+                        var msg=err_msg[3].toString().replace("[DATE]",reportdate)
+                        $('#ASRC_UPD_DEL_errmsg').text(msg).show();
+                        $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                    }
+                    else{
+                        err_flag=0;
+                        $('#ASRC_UPD_DEL_errmsg').hide();
+                    }
                 }
-                else{
-                    err_flag=0;
-                    $('#ASRC_UPD_DEL_errmsg').hide();
-                }
-            }
 
-        }
-        var choice="DATE"
-        xmlhttp.open("GET","DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?reportdate="+reportdate+"&login_id="+loginid+"&option="+choice,true);
-        xmlhttp.send();
+            }
+            var choice="DATE"
+            xmlhttp.open("GET","DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?reportdate="+reportdate+"&login_id="+loginid+"&option="+choice,true);
+            xmlhttp.send();
         }
         else{
             err_flag=0;
@@ -1297,7 +1297,7 @@ $(document).ready(function(){
 //        else{
 
 
-                project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] + ' - '+ project_array[i][2]+'</td></tr>';
+            project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] + ' - '+ project_array[i][2]+'</td></tr>';
 //            }
 
 
@@ -1334,67 +1334,67 @@ $(document).ready(function(){
         var ASRC_UPD_DEL_nopermission=$("input[name=permission]:checked").val()=="NOPERMISSION";
         var ASRC_UPD_DEL_presenthalfdysvld=$("#ASRC_UPD_DEL_lb_attendance").val();
         if(err_flag!=1){
-        if(((ASRC_UPD_DEL_presenthalfdysvld=='0') && (ASRC_UPD_DEL_sessionlstbx=='AM' || ASRC_UPD_DEL_sessionlstbx=="PM")) || ((ASRC_UPD_DEL_presenthalfdysvld=='OD') && (ASRC_UPD_DEL_sessionlstbx=='AM' || ASRC_UPD_DEL_sessionlstbx=="PM") ))
-        {
-            if(((ASRC_UPD_DEL_reasontxtarea.trim()!="")&&(ASRC_UPD_DEL_reportenter!='')&&( ASRC_UPD_DEL_projectselectlistbx>0) && (ASRC_UPD_DEL_bndtxt!='')&& (parseFloat(ASRC_UPD_DEL_bndtxt)!=0) && (ASRC_UPD_DEL_bndtxt<=1000) && ((ASRC_UPD_DEL_permission==true) || (ASRC_UPD_DEL_nopermission==true))))
+            if(((ASRC_UPD_DEL_presenthalfdysvld=='0') && (ASRC_UPD_DEL_sessionlstbx=='AM' || ASRC_UPD_DEL_sessionlstbx=="PM")) || ((ASRC_UPD_DEL_presenthalfdysvld=='OD') && (ASRC_UPD_DEL_sessionlstbx=='AM' || ASRC_UPD_DEL_sessionlstbx=="PM") ))
             {
-                if(ASRC_UPD_DEL_permission==true)
+                if(((ASRC_UPD_DEL_reasontxtarea.trim()!="")&&(ASRC_UPD_DEL_reportenter!='')&&( ASRC_UPD_DEL_projectselectlistbx>0) && (ASRC_UPD_DEL_bndtxt!='')&& (parseFloat(ASRC_UPD_DEL_bndtxt)!=0) && (ASRC_UPD_DEL_bndtxt<=1000) && ((ASRC_UPD_DEL_permission==true) || (ASRC_UPD_DEL_nopermission==true))))
                 {
-                    if(ASRC_UPD_DEL_permissionlstbx!='SELECT')
+                    if(ASRC_UPD_DEL_permission==true)
                     {
-                        $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
+                        if(ASRC_UPD_DEL_permissionlstbx!='SELECT')
+                        {
+                            $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
+                        }
+                        else
+                        {
+                            $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                        }
                     }
                     else
                     {
-                        $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                        $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
                     }
+                }
+                else
+                {
+                    $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                }
+            }
+            else if((ASRC_UPD_DEL_presenthalfdysvld=='0' && ASRC_UPD_DEL_sessionlstbx=='FULLDAY') || (ASRC_UPD_DEL_presenthalfdysvld=='OD' && ASRC_UPD_DEL_sessionlstbx=='FULLDAY'))
+            {
+                if(ASRC_UPD_DEL_reasontxtarea.trim()=="")
+                {
+                    $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
                 }
                 else
                 {
                     $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
                 }
             }
-            else
+            else if(ASRC_UPD_DEL_presenthalfdysvld=='1')
             {
-                $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
-            }
-        }
-        else if((ASRC_UPD_DEL_presenthalfdysvld=='0' && ASRC_UPD_DEL_sessionlstbx=='FULLDAY') || (ASRC_UPD_DEL_presenthalfdysvld=='OD' && ASRC_UPD_DEL_sessionlstbx=='FULLDAY'))
-        {
-            if(ASRC_UPD_DEL_reasontxtarea.trim()=="")
-            {
-                $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
-            }
-            else
-            {
-                $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
-            }
-        }
-        else if(ASRC_UPD_DEL_presenthalfdysvld=='1')
-        {
-            if(((ASRC_UPD_DEL_reportenter.trim()!="")&&(ASRC_UPD_DEL_bndtxt!='')&& (parseFloat(ASRC_UPD_DEL_bndtxt)!=0) && (ASRC_UPD_DEL_bndtxt<=1000) && (ASRC_UPD_DEL_bndtxt<=1000)&&( ASRC_UPD_DEL_projectselectlistbx>0) && ((ASRC_UPD_DEL_permission==true) || (ASRC_UPD_DEL_nopermission==true))))
-            {
-                if(ASRC_UPD_DEL_permission==true)
+                if(((ASRC_UPD_DEL_reportenter.trim()!="")&&(ASRC_UPD_DEL_bndtxt!='')&& (parseFloat(ASRC_UPD_DEL_bndtxt)!=0) && (ASRC_UPD_DEL_bndtxt<=1000) && (ASRC_UPD_DEL_bndtxt<=1000)&&( ASRC_UPD_DEL_projectselectlistbx>0) && ((ASRC_UPD_DEL_permission==true) || (ASRC_UPD_DEL_nopermission==true))))
                 {
-                    if(ASRC_UPD_DEL_permissionlstbx!='SELECT')
+                    if(ASRC_UPD_DEL_permission==true)
                     {
-                        $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
+                        if(ASRC_UPD_DEL_permissionlstbx!='SELECT')
+                        {
+                            $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
+                        }
+                        else
+                        {
+                            $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                        }
                     }
                     else
                     {
-                        $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                        $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
                     }
                 }
                 else
                 {
-                    $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
+                    $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
                 }
             }
-            else
-            {
-                $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
-            }
-        }
         }
     }
 

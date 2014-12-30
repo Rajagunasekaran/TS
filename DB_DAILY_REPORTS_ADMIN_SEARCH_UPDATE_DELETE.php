@@ -420,7 +420,7 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
         while($row=mysqli_fetch_array($tabid)){
             $tab_id=$row["TTIP_ID"];
         }
-        $result = $con->query("CALL SP_TS_SINGLE_TABLE_ROW_DELETION($tab_id,$id,'$USERSTAMP',@success_flag)");
+        $result = $con->query("CALL SP_DELETE_USER_ADMIN_REPORT_DETAILS($id,'$USERSTAMP',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
