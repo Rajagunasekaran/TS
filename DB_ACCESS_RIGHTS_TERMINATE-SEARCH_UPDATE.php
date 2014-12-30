@@ -123,7 +123,7 @@ if(isset($_REQUEST))
         $date_value = $_REQUEST['date_value'];
         $final_date = date('Y-m-d',strtotime( $date_value));
         $ULD_ID=getULD_ID_from_ULD_LOGINID1($loginid);
-        $select_data="SELECT  MAX(UARD_DATE) AS UARD_DATE from USER_ADMIN_REPORT_DETAILS WHERE UARD_DATE>='$final_date' AND ULD_ID='$ULD_ID'";
+        $select_data="SELECT  MAX(UARD_DATE) AS UARD_DATE from USER_ADMIN_REPORT_DETAILS WHERE UARD_DATE>'$final_date' AND ULD_ID='$ULD_ID'";
         $select_data_rs=mysqli_query($con,$select_data);
         if($row=mysqli_fetch_array($select_data_rs)){
             $finaldate=$row['UARD_DATE'];

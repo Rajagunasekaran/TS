@@ -73,27 +73,34 @@ $(document).ready(function(){
             js_errormsg_array=value_array[0];
             AWSU_weekly_mindate=value_array[1];
             AWSU_weekly_maxdate=value_array[2];
-            //SET MIN ND MAX DATE FUNCTION FRO START ND END DATE
-            var PE_startdate=AWSU_weekly_mindate.split('-');
-            var day=PE_startdate[0];
-            var month=PE_startdate[1];
-            var year=PE_startdate[2];
-            PE_startdate=new Date(year,month-1,day);
-            var date = new Date( Date.parse( PE_startdate ));
-            date.setDate( date.getDate()  );
-            var PE_enddate = date.toDateString();
-            PE_enddate = new Date( Date.parse( PE_enddate ));
-            $('.mindate').datepicker("option","minDate",PE_enddate);
-            var PE_maxdate=AWSU_weekly_maxdate.split('-');
-            var day=PE_maxdate[0];
-            var month=PE_maxdate[1];
-            var year=PE_maxdate[2];
-            PE_maxdate=new Date(year,month-1,day);
-            var date = new Date( Date.parse( PE_maxdate ));
-            date.setDate( date.getDate()  );
-            var PE_max_enddate = date.toDateString();
-            PE_max_enddate = new Date( Date.parse( PE_max_enddate ));
-            $('.maxdate').datepicker("option","maxDate",PE_max_enddate);
+            if(AWSU_weekly_mindate=='01-01-1970')
+            {
+                $('#PE_form_projectentry').replaceWith('<p><label class="errormsg">'+ js_errormsg_array[3] +'</label></p>');
+            }
+            else
+            {
+                //SET MIN ND MAX DATE FUNCTION FRO START ND END DATE
+                var PE_startdate=AWSU_weekly_mindate.split('-');
+                var day=PE_startdate[0];
+                var month=PE_startdate[1];
+                var year=PE_startdate[2];
+                PE_startdate=new Date(year,month-1,day);
+                var date = new Date( Date.parse( PE_startdate ));
+                date.setDate( date.getDate()  );
+                var PE_enddate = date.toDateString();
+                PE_enddate = new Date( Date.parse( PE_enddate ));
+                $('.mindate').datepicker("option","minDate",PE_enddate);
+                var PE_maxdate=AWSU_weekly_maxdate.split('-');
+                var day=PE_maxdate[0];
+                var month=PE_maxdate[1];
+                var year=PE_maxdate[2];
+                PE_maxdate=new Date(year,month-1,day);
+                var date = new Date( Date.parse( PE_maxdate ));
+                date.setDate( date.getDate()  );
+                var PE_max_enddate = date.toDateString();
+                PE_max_enddate = new Date( Date.parse( PE_max_enddate ));
+                $('.maxdate').datepicker("option","maxDate",PE_max_enddate);
+            }
         }
     }
     var choice='ADMIN WEEKLY REPORT SEARCH UPDATE';
@@ -120,7 +127,7 @@ $(document).ready(function(){
         var values_array=[];
         var startdate=$('#AWSU_tb_strtdte').val();
         var enddate = $('#AWSU_tb_enddte').val();
-        var title=js_errormsg_array[3].toString().replace("[STARTDATE]",startdate);
+        var title=js_errormsg_array[4].toString().replace("[STARTDATE]",startdate);
         var titlemsg=title.toString().replace("[ENDDATE]",enddate);
         data ="&startdate="+startdate+"&enddate="+enddate+"&option=showData";
         $.ajax({

@@ -289,7 +289,7 @@ if($_REQUEST["option"]=="EMAIL_TEMPLATE_ENTRY"){
 
 if($_REQUEST['option']=="ADMIN WEEKLY REPORT SEARCH UPDATE"){
     //GET ERR MSG FROM DB
-    $str='4,16,17,110';
+    $str='4,16,17,110,83';
     $errormsg_array= get_error_msg($str);
     //SET MIN DATE ND MAX DATE
     $admin_weekly_mindate=mysqli_query($con,"SELECT MIN(AWRD_DATE) as AWRD_DATE FROM ADMIN_WEEKLY_REPORT_DETAILS");

@@ -60,8 +60,8 @@ if(isset($_REQUEST)){
         while($row=mysqli_fetch_array($uld_id)){
             $CPVD_uld_ids=$row["ULD_ID"];
         }
-        $CPVD_ta_reason=$_POST['CPVD_ta_reason'];
-        $CPVD_ta_reason= $con->real_escape_string($CPVD_ta_reason);
+        $CPVD_ta_reason1=$_POST['CPVD_ta_reason'];
+        $CPVD_ta_reason= $con->real_escape_string($CPVD_ta_reason1);
         $EMP_ENTRY_dob=$_POST['EMP_ENTRY_tb_dob'];
         $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
         while($row=mysqli_fetch_array($uld_id)){
@@ -103,14 +103,40 @@ if(isset($_REQUEST)){
             for($i=0;$i<$length;$i++){
                 $email_body.=$body_msg[$i].'<br><br>';
             }
-            $replace= array("[SADMIN]", "[LOGINID]","[CHECKEDBYID]", "[LAPNO]"," [CHARGERNO]","[COMMENTS]");
-            $str_replaced  = array($spladminname,$CPVD_lb_loginid, $CPVD_lb_chckdby,$CPVD_lap_no,$CPVD_charger_no,$CPVD_ta_reason);
+            $username = strtoupper(substr($CPVD_lb_loginid, 0, strpos($CPVD_lb_loginid, '@')));
+            if(substr($username, 0, strpos($username, '.'))){
+
+                $username = strtoupper(substr($username, 0, strpos($username, '.')));
+
+            }
+            else{
+                $username=$username;
+            }
+
+
+            $CPVD_lb_chckdby = strtoupper(substr($CPVD_lb_chckdby, 0, strpos($CPVD_lb_chckdby, '@')));
+            if(substr($CPVD_lb_chckdby, 0, strpos($CPVD_lb_chckdby, '.'))){
+
+                $CPVD_lb_chckdby = strtoupper(substr($CPVD_lb_chckdby, 0, strpos($CPVD_lb_chckdby, '.')));
+
+            }
+            else{
+                $CPVD_lb_chckdby=$CPVD_lb_chckdby;
+            }
+            $comment =explode("\n", $CPVD_ta_reason1);
+            $commnet_length=count($comment);
+            for($i=0;$i<$commnet_length;$i++){
+                $comment_msg.=$comment[$i].'<br>';
+            }
+
+
+            $replace= array("[SADMIN]", "[NAME]","[CHECKEDBYID]","[LAPNO]","[CHARGERNO]","[COMMENTS]");
+            $str_replaced  = array($spladminname,$username, $CPVD_lb_chckdby,$CPVD_lap_no,$CPVD_charger_no,$comment_msg);
             $main_body = str_replace($replace, $str_replaced, $email_body);
             $mail_options = [
-                "sender" => 'safiyullah.mohideen@ssomens.com',//$admin,
+                "sender" => $admin,
                 "to" => $admin,
-                "cc" => 'safiyullah.mohideen@ssomens.com',
-//                "cc" => $sadmin,
+                "cc" => $sadmin,
                 "subject" => $mail_subject,
                 "htmlBody" => $main_body
             ];
