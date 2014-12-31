@@ -24,7 +24,7 @@ if($row=mysqli_fetch_array($select_template_rs)){
 $mail_subject=str_replace("[CURRENTDATE]","$currentdate",$mail_subject);
 
 
-$result = $con->query("CALL SP_TS_DROP_PROD_TEMP_TABLE('TS_INT','$admin',@FINAL_TEMP_TABLE)");
+$result = $con->query("CALL SP_TS_DROP_PROD_TEMP_TABLE('TS_PHP','$admin',@FINAL_TEMP_TABLE)");
 if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
 $select = $con->query('SELECT @FINAL_TEMP_TABLE');
 $result = $select->fetch_assoc();

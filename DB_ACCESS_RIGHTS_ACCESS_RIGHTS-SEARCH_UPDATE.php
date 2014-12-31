@@ -64,6 +64,7 @@ if(isset($_REQUEST)){
         $URSRC_ifsccode=$_POST['URSRC_tb_ifsccode'];
         $URSRC_acctype=$_POST['URSRC_tb_accntyp'];
         $URSRC_branchaddr=$_POST['URSRC_ta_brnchaddr'];
+        $URSRC_branchaddr= $con->real_escape_string($URSRC_branchaddr);
         $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
         $URSRC_bag=$_POST['URSRC_chk_bag'];
@@ -351,6 +352,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $URSRC_ifsccode=$_POST['URSRC_tb_ifsccode'];
         $URSRC_acctype=$_POST['URSRC_tb_accntyp'];
         $URSRC_branchaddr=$_POST['URSRC_ta_brnchaddr'];
+        $URSRC_branchaddr= $con->real_escape_string($URSRC_branchaddr);
         $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
         $URSRC_bag=$_POST['URSRC_chk_bag'];

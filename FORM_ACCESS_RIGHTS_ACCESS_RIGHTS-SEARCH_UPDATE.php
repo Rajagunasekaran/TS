@@ -2,7 +2,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_SEARCH_UPDATE*********************************************//
 //DONE BY:SASIKALA
-
+//ver 0.06 DESC:changed text box id while change login id and added real escapt for branchadress-safi
 //VER 0.05  DESC:updated login creation/updation  validation part
 //VER 0.04 SD:2/12/14 ED:2/12/2014 TRACKER NO:74 DESC:ISSUE CORRECTED IN COMMENT NO:123
 //VER 0.03 SD:28/11/14 ED:1/12/2014 TRACKER NO:74 DESC:MERGED LOGIN CREATION/UPDATION AND EMPLOYEE CREATION FORM
@@ -448,7 +448,7 @@ $(document).ready(function(){
     $('.URSRC_email_validate').blur(function(){
 
         var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
-        var URSRC_login_id=$(this).val();
+        var URSRC_login_id=$(this).val().toLowerCase();
         var old_loginid=$('#URSRC_lb_selectloginid').val();
         if(URSRC_radio_button_select_value=='LOGIN SEARCH UPDATE'){
 
@@ -463,6 +463,8 @@ $(document).ready(function(){
                 $('#URSRC_tb_loginidupd').removeClass("invalid")
                 $('#URSRC_lbl_email_errupd').hide();
                 error_ext='valid';
+                var newloginid=($('#URSRC_tb_loginidupd').val().toLowerCase());
+                $('#URSRC_tb_loginidupd').val(newloginid)
                 loginbuttonvalidation();
             }
         }
@@ -508,7 +510,7 @@ $(document).ready(function(){
                     $("#URSRC_lbl_email_errupd").hide();
                     $('#URSRC_tb_loginidupd').removeClass("invalid")
                     $('#URSRC_tb_loginidupd').val($('#URSRC_tb_loginidupd').val().toLowerCase())
-                    URSRC_login_id=$('#URSRC_tb_loginid').val();
+                    URSRC_login_id=$('#URSRC_tb_loginidupd').val();
                 }
                 URSRC_login_id=URSRC_login_id;//$(this).val();
                 if((URSRC_login_id.substring(URSRC_login_id.indexOf("@") + 1) == "ssomens.com")||(URSRC_login_id.substring(URSRC_login_id.indexOf("@") + 1) == "gmail.com"))
@@ -613,6 +615,9 @@ $(document).ready(function(){
                 $('#URSRC_lbl_emptype').hide();
                 $('#URSRC_table_employeetbl').hide();
                 $('#URSRC_table_others').hide();
+                $('#URSRC_lb_selectemptype').hide();
+                $('#URSRC_btn_login_submitbutton').hide();
+                flag=0;
             }
             else{
                 $('#URSRC_submitupdate').attr("disabled","disabled");
