@@ -212,6 +212,7 @@ $(document).ready(function(){
     // CHANGE EVENT FOR DATE
     $(document).on('change','#ARE_tb_date',function(){
         $('.preloader', window.parent.document).show();
+        $('#ARE_lbl_checkmsg').hide();
         var reportdate=$('#ARE_tb_date').val();
         var loginid=$('#ARE_lb_loginid').val();
         var xmlhttp=new XMLHttpRequest();

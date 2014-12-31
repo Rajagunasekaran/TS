@@ -116,6 +116,7 @@ $(document).ready(function(){
     $(document).on('change','#URE_tb_date',function(){
         $('.preloader', window.parent.document).show();
         var reportdate=$('#URE_tb_date').val();
+        $('#URE_lbl_checkmsg').hide();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {

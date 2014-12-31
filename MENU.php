@@ -323,7 +323,7 @@ $(document).ready(function(){
         </ul>
     </div>
     <div class="space" id="buttondiv" style="display: none" >
-        <input type="button" id="checkin" class="maxbtn" name="checkin" value="CHECK IN" />
+        <input type="button" id="checkin" class="maxbtn" name="checkin" value="CLOCK IN" />
     </div>
     <div id="liveclock" class="outer_face">
         <div class="marker oneseven"></div>
