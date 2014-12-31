@@ -333,7 +333,7 @@ $(document).ready(function(){
                         var mindate=min_date.toString().split('-');
                         var month=mindate[1]-1;
                         var year=mindate[2];
-                        var date=parseInt(mindate[0])+1;
+                        var date=parseInt(mindate[0]);
                         var minimumdate = new Date(year,month,date);
                         $('#URT_SRC_tb_datepickerupdate').val(values_array.enddate);
                         $('#URT_SRC_ta_reasonupdate').val(values_array.reasonn);

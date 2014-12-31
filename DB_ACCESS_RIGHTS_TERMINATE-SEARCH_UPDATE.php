@@ -138,6 +138,7 @@ if(isset($_REQUEST))
     else if($_REQUEST['option']=='UPDATE')
     {
         $reason_update=$_REQUEST['URT_SRC_ta_nreasonupdate'];
+        $reason_update=$con->real_escape_string($reason_update);
         $loggin=$_REQUEST['URT_SRC_lb_nloginupdate'];
         $date=$_REQUEST['URT_SRC_tb_ndatepickerupdate'];
         $recver=$_REQUEST['URT_SRC_lb_recordversion'];
@@ -299,6 +300,8 @@ if(isset($_REQUEST))
     else if($_REQUEST['option']=='TERMINATE')
     {
         $reason_termin=$_POST['URT_SRC_ta_nreasontermination'];
+        $reason_termin=$con->real_escape_string($reason_termin);
+
         $loggin=$_POST['URT_SRC_lb_nloginterminate'];
         $date=$_POST['URT_SRC_tb_ndatepickertermination'];
         $enddate = date("Y-m-d",strtotime($date));

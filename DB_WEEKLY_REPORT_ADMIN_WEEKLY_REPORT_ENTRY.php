@@ -16,6 +16,7 @@ if(isset($_REQUEST))
         while($row=mysqli_fetch_array($result)){
             $rep_getuld_id=$row["ULD_ID"];
         }
+        $rep_entryreport=$con->real_escape_string($rep_entryreport);
         $sql="INSERT INTO ADMIN_WEEKLY_REPORT_DETAILS (AWRD_REPORT,AWRD_DATE,ULD_ID)VALUES('$rep_entryreport','$rep_entrydate','$rep_getuld_id')";
         if (!mysqli_query($con,$sql)) {
             die('Error: ' . mysqli_error($con));

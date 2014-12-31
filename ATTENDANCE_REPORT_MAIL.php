@@ -33,7 +33,7 @@ if($row=mysqli_fetch_array($sadmin_rs)){
     $sadmin=$row["ULD_LOGINID"];//get super admin
 }
     $month_year=date('F-Y',strtotime("-1 month"));
-$admin_name = substr($admin, 0, strpos($admin, '.'));
+    $admin_name = substr($admin, 0, strpos($admin, '.'));
 $sadmin_name = substr($sadmin, 0, strpos($sadmin, '.'));
 $spladminname=$admin_name.'/'.$sadmin_name;
 $spladminname=strtoupper($spladminname);

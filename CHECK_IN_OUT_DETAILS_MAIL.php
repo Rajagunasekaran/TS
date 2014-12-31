@@ -42,7 +42,7 @@ if($month_sdate==$current_date){
     $sub=str_replace("[SADMIN]","$spladminname",$body);
     $sub=str_replace("[MONTH]",$month_year,$sub);
     $mail_subject=str_replace("[MONTH]",$month_year,$mail_subject);
-    $query="SELECT B.ULD_LOGINID, DATE_FORMAT(A.ECIOD_DATE,'%d-%m-%Y,%a') AS ECIOD_DATE, A.ECIOD_CHECK_IN_TIME, A.ECIOD_CHECK_IN_LOCATION, A.ECIOD_CHECK_OUT_TIME, A.ECIOD_CHECK_OUT_LOCATION
+    $query="SELECT B.ULD_LOGINID, DATE_FORMAT(A.ECIOD_DATE,'%d-%m-%Y,%a') AS ECIOD_DATE, A.ECIOD_CHECK_IN_TIME, A.ECIOD_CHECK_IN_LOCATION,DATE_FORMAT(CONVERT_TZ(A.ECIOD_CHECK_OUT_TIME,'+00:00','+05:30'), '%T') AS ECIOD_CHECK_OUT_TIME, A.ECIOD_CHECK_OUT_LOCATION
             FROM EMPLOYEE_CHECK_IN_OUT_DETAILS A, USER_LOGIN_DETAILS B WHERE A.ULD_ID = B.ULD_ID AND A.ECIOD_DATE BETWEEN '$sdate' AND '$edate' ORDER BY B.ULD_LOGINID";
     $sql=mysqli_query($con,$query);
     $row=mysqli_num_rows($sql);
@@ -77,7 +77,7 @@ if($month_sdate==$current_date){
     $mpdf->WriteHTML($message);
     $outputpdf=$mpdf->Output('docs.pdf','S');
     ob_end_clean();
-    $FILENAME='CHECK IN/OUT DETAILS ' .$month_year. '.pdf';
+    $FILENAME='CLOCK IN/OUT DETAILS ' .$month_year. '.pdf';
     $message1 = new Message();
     $message1->setSender($admin);
     $message1->addTo($admin);
