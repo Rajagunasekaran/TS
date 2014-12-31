@@ -46,5 +46,24 @@ cron:
   schedule: every day 04:00
   timezone: Asia/Kolkata
 
+- description: scrape xml
+  url: /CHECK_IN_REMAINDER_MAIL
+  schedule: every day 08:00
+  timezone: Asia/Kolkata
+
+- description: scrape xml
+  url: /CHECK_IN_REMAINDER_MAIL
+  schedule: every day 09:00
+  timezone: Asia/Kolkata
+
+- description: scrape xml
+  url: /CHECK_IN_REMAINDER_MAIL
+  schedule: every day 10:00
+  timezone: Asia/Kolkata
+
+- description: scrape xml
+  url: /CHECK_IN_OUT_DETAILS_MAIL
+  schedule: every day 04:00
+  timezone: Asia/Kolkata
 
 

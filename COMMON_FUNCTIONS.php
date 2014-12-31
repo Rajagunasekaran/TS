@@ -34,6 +34,17 @@ function get_login_id($currentdate){
 
     return $active_user_array;
 }
+//FUNCTION TO RETURN LOGIN ID WHO ARE ALL CHECKED IN FOR GIVEN DATE
+function get_chekin_login_id($currentdate){
+    global $con;
+    $activeuser_array=array();
+    $select_activeuser="SELECT ULD.ULD_LOGINID FROM EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD, USER_LOGIN_DETAILS ULD WHERE ECIOD.ECIOD_DATE='$currentdate' and ECIOD.ULD_ID=ULD.ULD_ID ";
+    $activeuser=mysqli_query($con,$select_activeuser);
+    while($row=mysqli_fetch_array($activeuser)){
+        $activeuser_array[]=$row["ULD_LOGINID"];
+    }
+    return $activeuser_array;
+}
 //FUNCTION TO RETURN PUBLIC HOLIDAY
 function get_public_holiday(){
 
