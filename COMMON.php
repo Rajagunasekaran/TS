@@ -76,7 +76,7 @@ if($_REQUEST["option"]=="user_report_entry"){
 
     $get_project_array=get_projectentry($ure_uld_id);
     $min_date=get_joindate($ure_uld_id);
-    $error='3,4,5,6,7,8,16,17,18,67,115';
+    $error='3,4,5,6,7,8,16,17,18,67,115,120';
     $error_array=get_error_msg($error);
     $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$USERSTAMP);
     echo JSON_ENCODE($values_array);
@@ -138,7 +138,7 @@ if($_REQUEST["option"]=="admin_report_entry")
     $get_permission_array=get_permission();
     $ure_uld_id=get_uldid();
     $get_project_array=get_projectentry($ure_uld_id);
-    $error='3,4,5,6,7,8,16,17,18,67,115';
+    $error='3,4,5,6,7,8,16,17,18,67,115,120';
     $error_array=get_error_msg($error);
     $min_date=get_joindate($ure_uld_id);
     $login_array=get_active_login_id();

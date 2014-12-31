@@ -68,6 +68,7 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     $project=$_POST['checkbox'];
     $login_id=$_POST['ARE_lb_loginid'];
     $finaldate = date('Y-m-d',strtotime($date));
+    $checkoutlocation=$_REQUEST['checkoutlocation'];
     $length=count($project);
     $projectid;
     for($i=0;$i<$length;$i++){
@@ -225,12 +226,59 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
 
     $report= $con->real_escape_string($report);
     $reason= $con->real_escape_string($reason);
-    $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP',@success_flag)");
-    if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
-    $select = $con->query('SELECT @success_flag');
-    $result = $select->fetch_assoc();
-    $flag= $result['@success_flag'];
+    if($login_id==$USERSTAMP)
+    {
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$checkoutlocation','$USERSTAMP',@success_flag)");
+        if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+        $select = $con->query('SELECT @success_flag');
+        $result = $select->fetch_assoc();
+        $flag= $result['@success_flag'];
+    }
+    else if(($attendance==1) || (($attendance=="0") && (($ampm=="AM") || ($ampm=="PM"))) || (($attendance=="OD") && (($ampm=="AM") || ($ampm=="PM"))))
+    {
+        $checkintime=date("G:i:s", time());
+        $checkouttime="null";
+        $outlocation="null";
+        $sql="SELECT * FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE ULD_ID='$ADM_uld_id' AND ECIOD_DATE='$finaldate'";
 
+        $sql_result= mysqli_query($con,$sql);
+        $row=mysqli_num_rows($sql_result);
+        if($row>0)
+        {
+            $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$checkoutlocation','$USERSTAMP',@success_flag)");
+            if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+            $select = $con->query('SELECT @success_flag');
+            $result = $select->fetch_assoc();
+            $flag= $result['@success_flag'];
+        }
+        else
+        {
+            $sql="INSERT INTO EMPLOYEE_CHECK_IN_OUT_DETAILS(ULD_ID,ECIOD_DATE,ECIOD_CHECK_IN_TIME,ECIOD_CHECK_IN_LOCATION,ECIOD_CHECK_OUT_TIME,ECIOD_CHECK_OUT_LOCATION,ECIOD_USERSTAMP_ID) VALUES('$ADM_uld_id','$finaldate','$checkintime','$checkoutlocation',$checkouttime,$outlocation,'$ADM_userstamp_id')";
+            if (!mysqli_query($con,$sql)) {
+                die('Error: ' . mysqli_error($con));
+                $insertflag=0;
+            }
+            else{
+                $insertflag=1;
+            }
+            if($insertflag==1)
+            {
+                $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$checkoutlocation','$USERSTAMP',@success_flag)");
+                if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+                $select = $con->query('SELECT @success_flag');
+                $result = $select->fetch_assoc();
+                $flag= $result['@success_flag'];
+            }
+        }
+    }
+    else
+    {
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$checkoutlocation','$USERSTAMP',@success_flag)");
+        if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+        $select = $con->query('SELECT @success_flag');
+        $result = $select->fetch_assoc();
+        $flag= $result['@success_flag'];
+    }
     echo $flag;
 }
 if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
@@ -398,5 +446,66 @@ if($_REQUEST['option']=='ALLEMPDATE')
     }
     $allmindate = date('d-m-Y',strtotime($allmindate));
     echo $allmindate;
+}
+if($_REQUEST['option']=='PRESENT')
+{$emptyflag=0;
+    $rprtdate=$_REQUEST['reportdate'];
+    $logind=$_REQUEST['loginid'];
+    $rprtdate = date('Y-m-d',strtotime($rprtdate));
+    if($logind==$USERSTAMP)
+    {
+        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$logind'");
+        while($row=mysqli_fetch_array($uld_id)){
+            $ure_uld_id=$row["ULD_ID"];
+        }
+        $sql="SELECT * FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE ULD_ID='$ure_uld_id' AND ECIOD_DATE='$rprtdate'";
+        $sql_result= mysqli_query($con,$sql);
+        $row=mysqli_num_rows($sql_result);
+        if($row>0)
+        {
+            $flag=0;//true
+        }
+        else
+        {
+            $flag=1;//false
+        }
+    }
+    else
+    {
+        $emptyflag=1;
+    }
+    $value=array($flag,$emptyflag);
+    echo json_encode($value);
+}
+if($_REQUEST['option']=='HALFDAYABSENT')
+{
+    $emptyflag=0;
+    $rprtdate=$_REQUEST['reportdate'];
+    $logind=$_REQUEST['logind'];
+    $rprtdate = date('Y-m-d',strtotime($rprtdate));
+    if($logind==$USERSTAMP)
+    {
+        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$logind'");
+        while($row=mysqli_fetch_array($uld_id)){
+            $ure_uld_id=$row["ULD_ID"];
+        }
+        $sql="SELECT * FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE ULD_ID='$ure_uld_id' AND ECIOD_DATE='$rprtdate'";
+        $sql_result= mysqli_query($con,$sql);
+        $row=mysqli_num_rows($sql_result);
+        if($row>0)
+        {
+            $flag=0;//true
+        }
+        else
+        {
+            $flag=1;//false
+        }
+    }
+    else
+    {
+        $emptyflag=1;
+    }
+    $value=array($flag,$emptyflag);
+    echo json_encode($value);
 }
 ?>

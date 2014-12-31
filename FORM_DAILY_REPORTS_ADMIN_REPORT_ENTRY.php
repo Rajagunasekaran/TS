@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN REPORT ENTRY *************************************//
+//DONE BY:SASIKALA
+//VER 0.04-SD:28/12/2014 ED:29/12/2014, TRACKER NO:74,DESC:ADDED GEOLOCATION AND CHECKOUT TIME VALIDATION
 //DONE BY:LALITHA
 //VER 0.03-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct,Removed Confirmation fr err msgs
 //DONE BY:SASIKALA
@@ -10,6 +12,53 @@
 include "HEADER.php";
 ?>
 <script>
+var checkoutlocation;
+function displayLocation(latitude,longitude){
+    var request = new XMLHttpRequest();
+    var method = 'GET';
+    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true';
+    var async = true;
+
+    request.open(method, url, async);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var data = JSON.parse(request.responseText);
+            var address = data.results[0];
+            checkoutlocation=address.formatted_address;
+        }
+    };
+    request.send();
+};
+var successCallback = function(position){
+    var x = position.coords.latitude;
+    var y = position.coords.longitude;
+    displayLocation(x,y);
+};
+
+var errorCallback = function(error){
+    var errorMessage = 'Unknown error';
+    switch(error.code) {
+        case 1:
+            errorMessage = 'Permission denied';
+            break;
+        case 2:
+            errorMessage = 'Position unavailable';
+            break;
+        case 3:
+            errorMessage = 'Timeout';
+            break;
+    }
+    document.write(errorMessage);
+};
+
+var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+};
+
+navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
+
 //READY FUNCTION START
 $(document).ready(function(){
     $('#ARE_tble_attendence').hide();
@@ -78,6 +127,7 @@ $(document).ready(function(){
     //CHANGE EVENT FOR LOGIN LIST BX
     $(document).on('change','#ARE_lb_loginid',function(){
         $('#ARE_lbl_errmsg').hide();
+        $('#ARE_lbl_checkmsg').hide();
         var ARE_loginidlistbx= $("#ARE_lb_loginid").val();
         $('#ARE_tble_attendence').hide();
         if(ARE_loginidlistbx=='SELECT')
@@ -100,6 +150,7 @@ $(document).ready(function(){
             $('#ARE_tb_band').hide();
             $("#ARE_btn_submit,#ARE_mrg_projectlistbx").html('');
             ARE_clear()
+
         }
         else
         {
@@ -210,33 +261,65 @@ $(document).ready(function(){
             $('#ARE_lb_ampm').hide();
             $('#ARE_btn_submit').hide();
             $('#ARE_lbl_errmsg').hide();
+            $('#ARE_lbl_checkmsg').hide();
         }
         else if($('#ARE_lb_attendance').val()=='1')
         {
-            $('#ARE_tbl_enterthereport,#ARE_ta_reason,#ARE_tble_bandwidth').html('');
-            $('#ARE_rd_permission').attr('checked',false);
-            $('#ARE_rd_nopermission').attr('checked',false);
-            $('#ARE_lb_timing').hide();
-            $('#ARE_rd_permission').show();
-            $('#ARE_lbl_permission').show();
-            $('#ARE_rd_nopermission').show();
-            $('#ARE_lbl_nopermission').show();
-            var permission_list='<option>SELECT</option>';
-            for (var i=0;i<permission_array.length;i++) {
-                permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
+            $(".preloader").show();
+            var reportdate=$('#ARE_tb_date').val();
+            var loginid=$('#ARE_lb_loginid').val();
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    $(".preloader").hide();
+                    var response=JSON.parse(xmlhttp.responseText);
+                    if((response[0]==1) && (response[1]==0))
+                    {
+                        $('#ARE_lbl_checkmsg').text(err_msg[11]).show();
+                        $('#ARE_lb_timing').hide();
+                        $('#ARE_rd_permission').hide();
+                        $('#ARE_lbl_permission').hide();
+                        $('#ARE_rd_nopermission').hide();
+                        $('#ARE_lbl_nopermission').hide();
+                        $('#ARE_lbl_session').hide();
+                        $('#ARE_lb_ampm').hide();
+                        $('#ARE_lbl_txtselectproj').hide();
+                        $('#ARE_tble_projectlistbx').hide();
+                        $('#ARE_btn_submit').hide();
+                        $('#ARE_lbl_errmsg').hide();
+                    }
+                    else{
+                        $('#ARE_tbl_enterthereport,#ARE_ta_reason,#ARE_tble_bandwidth').html('');
+                        $('#ARE_rd_permission').attr('checked',false);
+                        $('#ARE_rd_nopermission').attr('checked',false);
+                        $('#ARE_lb_timing').hide();
+                        $('#ARE_rd_permission').show();
+                        $('#ARE_lbl_permission').show();
+                        $('#ARE_rd_nopermission').show();
+                        $('#ARE_lbl_nopermission').show();
+                        var permission_list='<option>SELECT</option>';
+                        for (var i=0;i<permission_array.length;i++) {
+                            permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
+                        }
+                        $('#ARE_lb_timing').html(permission_list);
+                        $('#ARE_lbl_session').hide();
+                        $('#ARE_lb_ampm').hide();
+                        $('#ARE_lbl_txtselectproj').show();
+                        $('#ARE_tble_projectlistbx').show();
+                        projectlist();
+                        ARE_report();
+                        ARE_tble_bandwidth();
+                        $('#ARE_btn_submit').hide();
+                        $('#ARE_rd_permission').removeAttr("disabled");
+                        $('#ARE_rd_nopermission').removeAttr("disabled");
+                        $('#ARE_lbl_errmsg').hide();
+                        $('#ARE_lbl_checkmsg').hide();
+                    }
+                }
             }
-            $('#ARE_lb_timing').html(permission_list);
-            $('#ARE_lbl_session').hide();
-            $('#ARE_lb_ampm').hide();
-            $('#ARE_lbl_txtselectproj').show();
-            $('#ARE_tble_projectlistbx').show();
-            projectlist();
-            ARE_report();
-            ARE_tble_bandwidth();
-            $('#ARE_btn_submit').hide();
-            $('#ARE_rd_permission').removeAttr("disabled");
-            $('#ARE_rd_nopermission').removeAttr("disabled");
-            $('#ARE_lbl_errmsg').hide();
+            var option="PRESENT";
+            xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
+            xmlhttp.send();
         }
         else if($('#ARE_lb_attendance').val()=='0')
         {
@@ -262,6 +345,7 @@ $(document).ready(function(){
             $('#ARE_rd_permission').attr('disabled','disabled');
             $('#ARE_rd_nopermission').attr('disabled','disabled');
             $('#ARE_lbl_errmsg').hide();
+            $('#ARE_lbl_checkmsg').hide();
         }
         else if($('#ARE_lb_attendance').val()=='OD')
         {
@@ -287,6 +371,7 @@ $(document).ready(function(){
             $('#ARE_rd_permission').attr('disabled','disabled');
             $('#ARE_rd_nopermission').attr('disabled','disabled');
             $('#ARE_lbl_errmsg').hide();
+            $('#ARE_lbl_checkmsg').hide();
         }
     });
     // CLICK EVENT PERMISSION RADIO BUTTON
@@ -342,6 +427,7 @@ $(document).ready(function(){
             $('#ARE_tble_bandwidth').html('');
             $('#ARE_btn_submit').hide();
             $('#ARE_lbl_errmsg').hide();
+            $('#ARE_lbl_checkmsg').hide();
         }
         else if($('#ARE_lb_ampm').val()=='FULLDAY')
         {
@@ -356,26 +442,57 @@ $(document).ready(function(){
             $('#ARE_rd_nopermission').attr('disabled','disabled');
             $('#ARE_btn_submit').show();
             $('#ARE_lbl_errmsg').hide();
+            $('#ARE_lbl_checkmsg').hide();
         }
         else
         {
-            ARE_reason();
-            $('#ARE_btn_submit').hide();
-            $('#ARE_rd_permission').attr('checked',false);
-            $('#ARE_rd_nopermission').attr('checked',false);
-            $('#ARE_rd_permission').removeAttr("disabled");
-            $('#ARE_rd_nopermission').removeAttr("disabled");
-            $('#ARE_rd_permission').show();
-            $('#ARE_lbl_permission').show();
-            $('#ARE_rd_nopermission').show();
-            $('#ARE_lbl_nopermission').show();
-            $('#ARE_lb_timing').hide();
-            $('#ARE_tble_projectlistbx').show();
-            $('#ARE_lbl_txtselectproj').show();
-            projectlist();
-            ARE_report();
-            ARE_tble_bandwidth();
-            $('#ARE_lbl_errmsg').hide();
+            $(".preloader").show();
+            var reportdate=$('#ARE_tb_date').val();
+            var loginid=$('#ARE_lb_loginid').val();
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    $(".preloader").hide();
+                    var response=JSON.parse(xmlhttp.responseText);
+                    if((response[0]==1) && (response[1]==0))
+                    {
+                        $('#ARE_lbl_checkmsg').text(err_msg[11]).show();
+                        $('#ARE_btn_submit').hide();
+                        $('#ARE_rd_permission').hide();
+                        $('#ARE_lbl_permission').hide();
+                        $('#ARE_rd_nopermission').hide();
+                        $('#ARE_lbl_nopermission').hide();
+                        $('#ARE_lb_timing').hide();
+                        $('#ARE_tble_projectlistbx').hide();
+                        $('#ARE_lbl_txtselectproj').hide();
+                        $('#ARE_lbl_errmsg').hide();
+                    }
+                    else
+                    {
+                        ARE_reason();
+                        $('#ARE_btn_submit').hide();
+                        $('#ARE_rd_permission').attr('checked',false);
+                        $('#ARE_rd_nopermission').attr('checked',false);
+                        $('#ARE_rd_permission').removeAttr("disabled");
+                        $('#ARE_rd_nopermission').removeAttr("disabled");
+                        $('#ARE_rd_permission').show();
+                        $('#ARE_lbl_permission').show();
+                        $('#ARE_rd_nopermission').show();
+                        $('#ARE_lbl_nopermission').show();
+                        $('#ARE_lb_timing').hide();
+                        $('#ARE_tble_projectlistbx').show();
+                        $('#ARE_lbl_txtselectproj').show();
+                        projectlist();
+                        ARE_report();
+                        ARE_tble_bandwidth();
+                        $('#ARE_lbl_errmsg').hide();
+                        $('#ARE_lbl_checkmsg').hide();
+                    }
+                }
+            }
+            var option="HALFDAYABSENT";
+            xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&logind="+loginid);
+            xmlhttp.send();
         }
     });
     //CHANGE EVENT FOR REPORT TEXTAREA
@@ -551,12 +668,13 @@ $(document).ready(function(){
             }
         }
         var choice="SINGLE DAY ENTRY";
-        xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice,true);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice+"&checkoutlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
     });
     // CHANGE EVENT FOR OPTION BUTTON
     $(document).on('change','#option',function(){
         $('#ARE_form_dailyuserentry').hide();
+        $('#ARE_lbl_checkmsg').hide();
         if($('#option').val()=='ADMIN REPORT ENTRY')
         {
             $("#ARE_lbl_sinentry").show();
@@ -629,6 +747,7 @@ $(document).ready(function(){
         $("#ARE_lbl_sinemp").hide();
         $("#ARE_rd_allemp").hide();
         $("#ARE_lbl_allemp").hide();
+        $('#ARE_msg').hide();
     });
     // CLICK EVENT FOR MULTIPLEDAYENTRY RADIO BUTTON
     $("#ARE_rd_mulentry").click(function(){
@@ -645,6 +764,7 @@ $(document).ready(function(){
         $('#ARE_rd_sinemp').attr('checked',false);
         $('#ARE_rd_allemp').attr('checked',false);
         ARE_clear()
+        $('#ARE_lbl_checkmsg').hide();
     });
     //CLICK EVENT FOR SINGLE EMPLOYEE RADIO BUTTON
     $("#ARE_rd_sinemp").click(function(){
@@ -1069,6 +1189,7 @@ $(document).ready(function(){
             </tr>
 
             <td><label id="ARE_lbl_errmsg" name="ARE_lbl_errmsg" class="errormsg"></label></td>
+            <td><label id="ARE_lbl_checkmsg" name="ARE_lbl_checkmsg" class="errormsg"></label></td>
         </table>
         <table id="ARE_tble_mutipledayentry" hidden>
             <tr>
