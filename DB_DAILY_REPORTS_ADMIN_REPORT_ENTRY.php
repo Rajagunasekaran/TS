@@ -291,6 +291,7 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
     $report='';
     $bandwidth='';
     $project='';
+    $location="null";
     $login_id=$_POST['ARE_lb_lgnid'];
     $first_date = date('Y-m-d',strtotime($firstdate));
     $second_date = date('Y-m-d',strtotime($seconddate));
@@ -358,7 +359,7 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
 
     $report= $con->real_escape_string($report);
     $reason= $con->real_escape_string($reason);
-    $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP',@success_flag)");
+    $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,$location,'$USERSTAMP',@success_flag)");
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query('SELECT @success_flag');
     $result = $select->fetch_assoc();
