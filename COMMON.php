@@ -123,6 +123,26 @@ function get_nonactive_login_id(){
     }
     return $active_nonemp;
 }
+//GET ACTIVE EMPLOYEE ID;
+function get_active_emp_id(){
+    global $con;
+    $loginid=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where URC_DATA!='SUPER ADMIN' ORDER BY EMPLOYEE_NAME");
+    $active_array=array();
+    while($row=mysqli_fetch_array($loginid)){
+        $active_array[]=array($row["EMPLOYEE_NAME"],$row["ULD_ID"]);
+    }
+    return $active_array;
+}
+//GET NON ACTIVE EMPLOYEE ID
+function get_nonactive_emp_id(){
+    global $con;
+    $activenonemp=mysqli_query($con,"SELECT * from VW_TS_ALL_NON_ACTIVE_EMPLOYEE_DETAILS ORDER BY EMPLOYEE_NAME");
+    $active_nonemp=array();
+    while($row=mysqli_fetch_array($activenonemp)){
+        $active_nonemp[]=array($row["EMPLOYEE_NAME"],$row["ULD_ID"]);
+    }
+    return $active_nonemp;
+}
 function get_company_start_date(){
 
     global $con;
