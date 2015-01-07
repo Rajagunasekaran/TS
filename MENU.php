@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************MENU*********************************************//
+//DONE BY:SAFI
+//VER 0.05,SD:06/01/2015 ED:06/01/2015,TRACKER NO 74,DESC:VALIDATION DONE FOR CLOCK OUT FUNCTION
 //DONE BY:SASIKALA
 //VER 0.04,SD:26/12/2014 ED:27/12/2014,TRACKER NO 74,DESC:DISPLAYED ANALOG CLOCK AND SAVEPART FOR CLOCK IN TIME
 //DONE BY:SAFI
@@ -16,7 +18,7 @@ $Userstamp=json_encode($UserStamp);
 var ErrorControl ={MsgBox:'false'}
 var MenuPage=1;
 var SubPage=2;
-var address;
+var address='';
 function CheckPageStatus(){
     if(MenuPage!=1 && SubPage!=1)
         $(".preloader").hide();
@@ -49,63 +51,65 @@ function updateClock ( )
     $("#clock").html(currentTime);
 
 }
-// FUNCTION FOR GEO LOCATION
-function displayLocation(latitude,longitude){
-    var request = new XMLHttpRequest();
-    var method = 'GET';
-    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true';
-    var async = true;
-
-    request.open(method, url, async);
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            var data = JSON.parse(request.responseText);
-            address = data.results[0];
-            $('#location').html(address.formatted_address);
-        }
-    };
-    request.send();
-};
-var successCallback = function(position){
-    var x = position.coords.latitude;
-    var y = position.coords.longitude;
-    displayLocation(x,y);
-};
-
-var errorCallback = function(error){
-    var errorMessage = 'Unknown error';
-    switch(error.code) {
-        case 1:
-            errorMessage = 'Permission denied';
-            break;
-        case 2:
-            errorMessage = 'Position unavailable';
-            break;
-        case 3:
-            errorMessage = 'Timeout';
-            break;
-    }
-    document.write(errorMessage);
-};
-
-var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-};
-
-navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
 
 $(document).ready(function(){
+
     $(".preloader").show();
+    $('#checkin').attr("disabled","disabled");
+    function displayLocation(latitude,longitude){
+        var request = new XMLHttpRequest();
+        var method = 'GET';
+        var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true';
+        var async = true;
+
+        request.open(method, url, async);
+        request.onreadystatechange = function(){
+            if(request.readyState == 4 && request.status == 200){
+                var data = JSON.parse(request.responseText);
+                address = data.results[0];
+                $('#location').text(address.formatted_address);
+                $('#checkin').removeAttr("disabled");
+                $('#errmsg').hide();
+
+            }
+        };
+        request.send();
+    };
+    var successCallback = function(position){
+        var x = position.coords.latitude;
+        var y = position.coords.longitude;
+        displayLocation(x,y);
+    };
+
+    var errorCallback = function(error){
+        var errorMessage = 'Unknown error';
+        switch(error.code) {
+            case 1:
+                errorMessage = 'Permission denied';
+                break;
+            case 2:
+                errorMessage = 'Position unavailable';
+                break;
+            case 3:
+                errorMessage = 'Timeout';
+                break;
+        }
+        document.write(errorMessage);
+    };
+
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
     <?php echo  "var Userstamp = ". $Userstamp.PHP_EOL;?>
     setInterval('updateClock()', 1000);
     var Page_url;
     $(document).on("click",'.btnclass', function (){
 
         Page_url =$(this).data('pageurl');
-
-
         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"MENU CONFIRMATION",msgcontent:"Do You Want to Open "+$(this).attr("id")+" "+$(this).text()+" ?",confirmation:true,position:{top:150,left:300}}});
         return false;
     });
@@ -134,32 +138,64 @@ $(document).ready(function(){
     requestAnimationFrame(analogupdateclock)
     var all_menu_array=[];
     var checkintime;
+    var checkouttime;
     var checkinerrormsg=[];
+
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
 
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             $(".preloader").hide();
+
             var value_array=JSON.parse(xmlhttp.responseText);
+
             all_menu_array= value_array[0];
             checkintime=value_array[1];
             checkinerrormsg=value_array[2];
+            checkouttime=value_array[4];
+
+            if($('#location').text()==""){
+                $('#errmsg').text(checkinerrormsg[2]).show();
+            }
+            else{
+
+                $('#errmsg').hide();
+
+            }
             if(all_menu_array[0]!=''){
                 ACRMENU_getallmenu_result(all_menu_array)
-                if(checkintime==null)
+                var login_id_role=value_array[5];
+                if(login_id_role!='SUPER ADMIN'){
+                if(checkintime==null && checkouttime==null )
                 {
                     $('#liveclock').show();
-                    $('#checkin').show();
+                    $('#checkin').val('CLOCK IN').show();
                     $('#clockmsg').hide();
                     $('#buttondiv').removeAttr('style');
 
                 }
-                else{
+                else if(checkouttime==null){
+                    $('#buttondiv').removeAttr('style');
+                    $('#liveclock').show();
+                    $('#checkin').val("CLOCK OUT").show();
+                    var msg=checkinerrormsg[1].toString().replace("[TIME]",checkintime);
+                    $('#clockmsg').text(msg).show();
+                }
+                else {
+
                     $('#buttondiv').css('display','none');
                     $('#liveclock').hide();
                     $('#checkin').hide();
                     var msg=checkinerrormsg[1].toString().replace("[TIME]",checkintime);
                     $('#clockmsg').text(msg).show();
+                }
+                }
+                else{
+                    $('#buttondiv').css('display','none');
+                    $('#liveclock').hide();
+                    $('#checkin').hide();
+                    $('#clockmsg').hide();
+
                 }
             }
             else{
@@ -180,6 +216,7 @@ $(document).ready(function(){
     var option="MENU";
     xmlhttp.open("POST","DB_MENU.do?option="+option,true);
     xmlhttp.send();
+
     $(document).on('click','.messageconfirm',function(){
         $(".preloader").show();
         $('#buttondiv').css('display','none');
@@ -275,25 +312,42 @@ $(document).ready(function(){
     }
     $('#checkin').click(function(){
         var locationaddress=address.formatted_address;
+        var button_value=$('#checkin').val();
         var currentTime = new Date ();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $(".preloader").hide();
                 var response=JSON.parse(xmlhttp.responseText);
-                if(response[0]==1)
-                {
-                    var msg=checkinerrormsg[1].toString().replace("[TIME]",response[1]);
-                    $('#clockmsg').text(msg).show();
-                    $('#liveclock').hide();
-                    $('#checkin').hide();
-                    $('#buttondiv').css('display','none');
+                if(button_value=="CLOCK IN"){
+                    if(response[0]==1)
+                    {
+                        var msg=checkinerrormsg[1].toString().replace("[TIME]",response[1]);
+                        $('#clockmsg').text(msg).show();
+                        $('#liveclock').show();
+                        $('#checkin').val("CLOCK OUT").show();
+                        $('#buttondiv').removeAttr('style');
+                    }
+                    else{
+
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
+                    }
+                }
+                else{
+                    if(response[0]==1){
+                        $('#buttondiv').css('display','none');
+                        $('#liveclock').hide();
+                        $('#checkin').val("CLOCK IN").hide();
+                    }
+                    else{
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
+                    }
                 }
             }
 
         }
         var option="CLOCK";
-        xmlhttp.open("POST","DB_MENU.do?option="+option+"&location="+locationaddress);
+        xmlhttp.open("POST","DB_MENU.do?option="+option+"&location="+locationaddress+"&btn_value="+button_value);
         xmlhttp.send();
     });
 });
@@ -301,7 +355,7 @@ $(document).ready(function(){
 <title>SSOMENS TIME SHEET</title>
 </head>
 <body >
-<div class="wrapper">
+<div class="wrapper" >
 
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <table>
@@ -315,15 +369,17 @@ $(document).ready(function(){
             <td style="width:1000px";><b><h4><span id="clock" ></span></h4></b></td><td><b><?php echo $UserStamp ?></b></td>
         </tr>
         <tr>
-            <td><b><label id="clockmsg" name="clockmsg" ></label></b> </td><td><b><span id="location"></b></td>
+            <td><b><label id="clockmsg" name="clockmsg" ></label></b> </td><td><b><label id="location"></label></b></td>
         </tr>
     </table>
     <div id='cssmenu' width="1500">
         <ul class="nav" id="ACRMENU_ulclass_mainmenu">
         </ul>
     </div>
+
     <div class="space" id="buttondiv" style="display: none" >
-        <input type="button" id="checkin" class="maxbtn" name="checkin" value="CLOCK IN" />
+        <lable id="errmsg" class="errormsg" width="50px" hidden ></lable>
+        <input type="button" id="checkin" class="maxbtn" name="checkin" value="CLOCK IN" disabled />
     </div>
     <div id="liveclock" class="outer_face">
         <div class="marker oneseven"></div>

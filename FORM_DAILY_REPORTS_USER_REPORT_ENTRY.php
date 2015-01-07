@@ -1,6 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER REPORT ENTRY **************************************//
 //DONE BY:SASIKALA
+//VER 0.05-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR MULTIPLE ENTRY
+//DONE BY:SASIKALA
 //VER 0.04-SD:28/12/2014 ED:28/12/2014, TRACKER NO:74,DESC:ADDED GEOLOCATION AND CHECKOUT TIME VALIDATION
 //DONE BY:LALITHA
 //VER 0.03-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct,Removed Confirmation fr err msgs
@@ -61,7 +63,7 @@ var options = {
 navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
 //READY FUNCTION START
 $(document).ready(function(){
-    $(".preloader").show();
+    $('.preloader',window.parent.document).show();
     $('textarea').autogrow({onInitialize: true});
     $('#URE_btn_submit').hide();
     $('#URE_btn_save').hide();
@@ -72,7 +74,8 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             var value_array=JSON.parse(xmlhttp.responseText);
             permission_array=value_array[0];
             project_array=value_array[1];
@@ -114,13 +117,17 @@ $(document).ready(function(){
     $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
     //JQUERY LIB VALIDATION END
     $(document).on('change','#URE_tb_date',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var reportdate=$('#URE_tb_date').val();
         $('#URE_lbl_checkmsg').hide();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var msgalert=xmlhttp.responseText;
                 if(msgalert==1)
                 {
@@ -165,12 +172,16 @@ $(document).ready(function(){
         }
         else if($('#URE_lb_attendance').val()=='1')
         {
-            $(".preloader").show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var reportdate=$('#URE_tb_date').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $(".preloader").hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var response=xmlhttp.responseText;
                     if(response==1)
                     {
@@ -349,12 +360,16 @@ $(document).ready(function(){
         }
         else
         {
-            $(".preloader").show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var reportdate=$('#URE_tb_date').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $(".preloader").hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var response=xmlhttp.responseText;
                     if(response==1)
                     {
@@ -532,12 +547,16 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR SAVE BUTTON
     $(document).on('click','#URE_btn_submit',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var formElement = document.getElementById("URE_form_dailyuserentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
@@ -638,13 +657,17 @@ $(document).ready(function(){
     }
     // CHANGE EVENT FOR MULTIPLE DAY SAVE BUTTON
     $('#URE_btn_save').click(function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var formElement = document.getElementById("URE_form_dailyuserentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var msg_alert=xmlhttp.responseText;
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 if(msg_alert==1){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0]}});
                     URE_mulclear()
@@ -674,7 +697,7 @@ $(document).ready(function(){
             }
         }
         var option="MULTIPLE DAY ENTRY";
-        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option,true);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
     });
 // CHANGE FUNCTIO FOR TO DATE ALEREADY EXISTS
@@ -683,13 +706,17 @@ $(document).ready(function(){
         var todate=$('#URE_ta_todate').val();
         if(fromdate!='' && todate!='')
         {
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var date_array=JSON.parse(xmlhttp.responseText);
                     var error_date='';
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     for(var i=0;i<date_array.length;i++){
                         if(i==0){
                             error_date=date_array[i]

@@ -109,6 +109,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
         $bandwidth=$_POST['USRC_UPD_tb_band'];
         $ampm=$_POST['USRC_UPD_lb_ampm'];
         $project=$_POST['checkbox'];
+        $reportlocation=$_REQUEST['reportlocation'];
         $finaldate = date('Y-m-d',strtotime($date));
         if($perm_time=='SELECT')
         {
@@ -259,7 +260,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
         }
         $report= $con->real_escape_string($report);
         $reason= $con->real_escape_string($reason);
-        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','',@success_flag)");
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','','$reportlocation',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();

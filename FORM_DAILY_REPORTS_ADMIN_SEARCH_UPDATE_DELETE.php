@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN SEARCH UPDATE DELETE***********************************//
+//DONE BY:SASIKALA
+//VER 1.0-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR REPORT UPDATE
 //DONE BY:LALITHA
 //VER 0.09-SD:29/12/2014 ED:29/12/2014,tracker no:84, updated delete function
 //VER 0.08-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,Implemented If reason means updated Onduty(am/pm)/Absent(am/pm) with checked condition) nd changed query also,Updated to showned nd hide the header err msg,Updated pdf file name frm err msgs,Changed listbx name
@@ -16,6 +18,53 @@
 include "HEADER.php";
 ?>
 <script>
+var checkoutlocation;
+function displayLocation(latitude,longitude){
+    var request = new XMLHttpRequest();
+    var method = 'GET';
+    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true';
+    var async = true;
+
+    request.open(method, url, async);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var data = JSON.parse(request.responseText);
+            var address = data.results[0];
+            checkoutlocation=address.formatted_address;
+        }
+    };
+    request.send();
+};
+var successCallback = function(position){
+    var x = position.coords.latitude;
+    var y = position.coords.longitude;
+    displayLocation(x,y);
+};
+
+var errorCallback = function(error){
+    var errorMessage = 'Unknown error';
+    switch(error.code) {
+        case 1:
+            errorMessage = 'Permission denied';
+            break;
+        case 2:
+            errorMessage = 'Position unavailable';
+            break;
+        case 3:
+            errorMessage = 'Timeout';
+            break;
+    }
+    document.write(errorMessage);
+};
+
+var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+};
+
+navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
+
 //READY FUNCTION START
 $(document).ready(function(){
     $('#ASRC_UPD_DEL_tble_attendence').hide();
@@ -642,6 +691,7 @@ $(document).ready(function(){
                 }
                 else
                 {
+                    $('#ASRC_UPD_DEL_div_header').hide();
                     var sd=err_msg[6].toString().replace("[SDATE]",start_date);
                     var msg=sd.toString().replace("[EDATE]",end_date);
                     $('#ASRC_UPD_DEL_errmsg').text(msg).show();
@@ -1444,7 +1494,7 @@ $(document).ready(function(){
 
         }
         var option="UPDATE"
-        xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?option="+option,true);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?option="+option+"&reportlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
     });
     // CHANGE EVENT FOR OPTION LIST BOX
@@ -1751,9 +1801,9 @@ $(document).ready(function(){
 <!--SCRIPT TAG END-->
 <!--BODY TAG START-->
 <body>
-<div class="wrapper">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN REPORT SEARCH/UPDATE/DELETE</h3><p></div></div>
+<div >
+    <!--    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>-->
+    <!--    <div class="title"><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN REPORT SEARCH/UPDATE/DELETE</h3><p></div></div>-->
     <form   id="ASRC_UPD_DEL_form_adminsearchupdate" class="content" >
         <table>
             <tr>
@@ -1932,4 +1982,3 @@ $(document).ready(function(){
 <!--BODY TAG END-->
 </html>
 <!--HTML TAG END-->
-

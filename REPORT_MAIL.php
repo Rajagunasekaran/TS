@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************REPORT MAIL TRIGGER *************************************//
+//DONE BY:SAFI
+//VER 0.08,SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,DESC:ADDED GEOLOCATION AND LOGINID CHANGED AS EMPLOYEE NAME
 //DONE BY:RAJA
 //VER 0.07,SD:29/12/2014 ED:29/12/2014,TRACKER NO:74,DESC:joined the employee check in/out table with report
 //DONE BY:LALITHA
@@ -39,11 +41,19 @@ $spladminname=$admin_name.'/'.$sadmin_name;
 $spladminname=strtoupper($spladminname);
 $sub=str_replace("[SADMIN]","$spladminname",$body);
 $sub=str_replace("[DATE]",date("d-m-Y"),$sub);
-$message='<html><body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=2200 ><thead  bgcolor=#6495ed style=color:white><tr  align="center"  height=2px ><td width=260><b>LOGIN ID</b></td><td width=1000><b>REPORT</b></td><td width=50 nowrap><b>CLOCK IN TIME</b></td><td width=260><b>CLOCK IN LOCATION</b></td> <td width=50 nowrap><b>CLOCK OUT TIME</b></td><td width=260><b>CLOCK OUT LOCATION</b></td><td width=260><b>USERSTAMP</b></td><td width=150 nowrap><b>TIMESTAMP</b></td></tr></thead>';
-$query="SELECT DISTINCT ECIOD.ECIOD_CHECK_IN_TIME, ECIOD.ECIOD_CHECK_IN_LOCATION,DATE_FORMAT(CONVERT_TZ(ECIOD.ECIOD_CHECK_OUT_TIME,'+00:00','+05:30'), '%T') AS ECIOD_CHECK_OUT_TIME, ECIOD.ECIOD_CHECK_OUT_LOCATION,AC.AC_DATA,A.UARD_REPORT,A.UARD_REASON,A.ABSENT_FLAG,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,B.ULD_LOGINID,
-        C.ULD_LOGINID AS USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP FROM USER_ADMIN_REPORT_DETAILS A INNER JOIN USER_LOGIN_DETAILS B ON A.ULD_ID=B.ULD_ID INNER JOIN USER_LOGIN_DETAILS C ON A.UARD_USERSTAMP_ID=C.ULD_ID
-        LEFT JOIN EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD ON ECIOD.ULD_ID = B.ULD_ID AND A.ULD_ID = ECIOD.ULD_ID AND A.UARD_DATE=ECIOD.ECIOD_DATE INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION
-        LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION WHERE A.UARD_DATE='$currentdate' AND D.UA_TERMINATE IS NULL ORDER BY ULD_LOGINID";
+$message='<html><body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=2200 ><thead  bgcolor=#6495ed style=color:white><tr  align="center"  height=2px ><td width=260><b>EMPLOYEE NAME</b></td><td width=1000><b>REPORT</b></td><td width=50 nowrap><b>CLOCK IN TIME</b></td><td width=260><b>CLOCK IN LOCATION</b></td> <td width=60 nowrap><b>CLOCK OUT TIME</b></td><td width=260><b>CLOCK OUT LOCATION</b></td><td><b>REPORT LOCATION</b></td><td width=260><b>USERSTAMP</b></td><td width=150 nowrap><b>TIMESTAMP</b></td></tr></thead>';
+//$query="SELECT DISTINCT ECIOD.ECIOD_CHECK_IN_TIME, ECIOD.ECIOD_CHECK_IN_LOCATION,DATE_FORMAT(CONVERT_TZ(ECIOD.ECIOD_CHECK_OUT_TIME,'+00:00','+05:30'), '%T') AS ECIOD_CHECK_OUT_TIME, ECIOD.ECIOD_CHECK_OUT_LOCATION,AC.AC_DATA,A.UARD_REPORT,A.UARD_REASON,A.ABSENT_FLAG,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,B.ULD_LOGINID,
+//        C.ULD_LOGINID AS USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP FROM USER_ADMIN_REPORT_DETAILS A INNER JOIN USER_LOGIN_DETAILS B ON A.ULD_ID=B.ULD_ID INNER JOIN USER_LOGIN_DETAILS C ON A.UARD_USERSTAMP_ID=C.ULD_ID
+//        LEFT JOIN EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD ON ECIOD.ULD_ID = B.ULD_ID AND A.ULD_ID = ECIOD.ULD_ID AND A.UARD_DATE=ECIOD.ECIOD_DATE INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION
+//        LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION WHERE A.UARD_DATE='$currentdate' AND D.UA_TERMINATE IS NULL ORDER BY ULD_LOGINID";
+
+$query="SELECT DISTINCT  EMP.EMPLOYEE_NAME AS EMPLOYEE_NAME, ECIOD.ECIOD_CHECK_IN_TIME, CIORL_IN.CIORL_LOCATION as ECIOD_CHECK_IN_LOCATION,ECIOD.ECIOD_CHECK_OUT_TIME, CIORL_OUT.CIORL_LOCATION as ECIOD_CHECK_OUT_LOCATION,AC.AC_DATA,A.UARD_REPORT,A.UARD_REASON,A.ABSENT_FLAG,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,B.ULD_LOGINID,R_LOCATION.CIORL_LOCATION AS REPORT_LOCATION,
+        C.ULD_LOGINID AS USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP FROM USER_ADMIN_REPORT_DETAILS A INNER JOIN USER_LOGIN_DETAILS B ON A.ULD_ID=B.ULD_ID   JOIN VW_TS_ALL_EMPLOYEE_DETAILS EMP on EMP.ULD_ID=A.ULD_ID INNER JOIN USER_LOGIN_DETAILS C ON A.UARD_USERSTAMP_ID=C.ULD_ID
+        LEFT JOIN EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD ON ECIOD.ULD_ID = B.ULD_ID AND A.ULD_ID = ECIOD.ULD_ID AND A.UARD_DATE=ECIOD.ECIOD_DATE INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_IN ON ECIOD.ECIOD_CHECK_IN_LOCATION=CIORL_IN.CIORL_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_OUT ON ECIOD.ECIOD_CHECK_OUT_LOCATION=CIORL_OUT.CIORL_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION R_LOCATION ON A.CIORL_ID = R_LOCATION.CIORL_ID
+        LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION WHERE A.UARD_DATE='$currentdate' AND D.UA_TERMINATE IS NULL ORDER BY ULD_LOGINID ";
+
+
+
 $sql=mysqli_query($con,$query);
 $row=mysqli_num_rows($sql);
 $x=$row;
@@ -52,7 +62,7 @@ if($x>0){
         $adm_reprt=$row["UARD_REPORT"];
         $adm_userstamp=$row["USERSTAMP"];
         $adm_timestamp=$row["UARD_TIMESTAMP"];
-        $adm_loginid=$row["ULD_LOGINID"];
+        $adm_loginid=$row["EMPLOYEE_NAME"];
         $ure_reason_txt=$row["UARD_REASON"];
         $adm_permission=$row["AC_DATA"];
         $adm_absentflag=$row["ABSENT_FLAG"];
@@ -62,6 +72,7 @@ if($x>0){
         $checkinlocation=$row["ECIOD_CHECK_IN_LOCATION"];
         $checkouttime=$row["ECIOD_CHECK_OUT_TIME"];
         $checkoutlocation=$row["ECIOD_CHECK_OUT_LOCATION"];
+        $report_location=$row["REPORT_LOCATION"];
         //STRING REPLACED
         if($adm_reprt!=null){
             $adm_report='';
@@ -116,14 +127,14 @@ if($x>0){
                 $final_report=$adm_report.'<br>'.$ure_after_mrg.' - REASON'.':'.$adm_reason;
             }
         }
-        $message=$message. "<tr><td width=260>".$adm_loginid."</td><td >".$final_report."</td><td align='center' width=150>".$checkintime."</td><td width=260 nowrap>".$checkinlocation."</td><td align='center' width=150>".$checkouttime."</td><td width=260 nowrap>".$checkoutlocation."</td><td width=260>".$adm_userstamp."</td><td align='center' width=150 nowrap>".$adm_timestamp."</td></tr>";
+        $message=$message. "<tr><td width=260>".$adm_loginid."</td><td >".$final_report."</td><td align='center' width=80>".$checkintime."</td><td width=260 nowrap>".$checkinlocation."</td><td align='center' width=90>".$checkouttime."</td><td width=260 nowrap>".$checkoutlocation."</td><td width=260 nowrap>".$report_location."</td><td align='center' width=260>".$adm_userstamp."</td><td align='center' width=150 nowrap>".$adm_timestamp."</td></tr>";
     }
     $message=$message."</table></body></html>";
     $REP_subject_date=$mail_subject.' - '.date("d/m/Y");
     //SENDING MAIL OPTIONS
     $mail_options = [
-        "sender" => $admin,
-        "to" => $admin,
+        "sender" =>$admin,
+        "to" =>$admin,
         "cc"=>$sadmin,
         "subject" => $REP_subject_date,
         "htmlBody" => $message

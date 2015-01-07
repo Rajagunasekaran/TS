@@ -158,6 +158,7 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
         $login_id=$_POST['ASRC_UPD_DEL_lb_loginid'];
         $flag_abs=$_POST['flag'];
         $finaldate = date('Y-m-d',strtotime($date));
+        $reportlocation=$_REQUEST['reportlocation'];
         $length=count($project);
         if($flag_abs=='on'){
 
@@ -324,7 +325,7 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
         }
         $report= $con->real_escape_string($report);
         $reason= $con->real_escape_string($reason);
-        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent',@success_flag)");
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -397,7 +398,7 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
                 $mail_options = [
                     "sender" => $admin,
                     "to" => $admin,
-                    "cc" => $sadmin,
+                    "cc" =>$sadmin,
                     "subject" => $mail_subject,
                     "htmlBody" => $sub.$values
                 ];

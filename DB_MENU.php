@@ -9,7 +9,13 @@ if($_REQUEST['option']=="MENU")
     mysqli_report(MYSQLI_REPORT_STRICT);
     try{
 
-        $err_msg=get_error_msg('61,119');
+        $err_msg=get_error_msg('61,119,124');
+
+        $select_loginid_role=mysqli_query($con,"SELECT URC_DATA from VW_ACCESS_RIGHTS_TERMINATE_LOGINID where ULD_LOGINID='$USERSTAMP' ");
+        $login_id_role;
+        while($row=mysqli_fetch_array($select_loginid_role)){
+            $login_id_role=$row["URC_DATA"];
+        }
 
         $main_menu_data= mysqli_query($con,"SELECT DISTINCT MP_MNAME FROM USER_LOGIN_DETAILS ULD,USER_ACCESS UA,USER_MENU_DETAILS UMP,MENU_PROFILE MP where ULD_LOGINID='$UserStamp' and UA.ULD_ID=ULD.ULD_ID and UA.RC_ID=UMP.RC_ID and MP.MP_ID=UMP.MP_ID AND UA.UA_TERMINATE IS NULL ORDER BY MP_MNAME ASC");
 
@@ -75,7 +81,20 @@ if($_REQUEST['option']=="MENU")
         {
             $checkintime=null;
         }
-        $allvalues=array($final_values,$checkintime,$err_msg);
+        $checkouttime=mysqli_query($con,"select ECIOD_CHECK_OUT_TIME from EMPLOYEE_CHECK_IN_OUT_DETAILS where ECIOD_DATE='$date' and ULD_ID='$ADM_userstamp_id'");
+        $checkoutrow=mysqli_num_rows($checkouttime);
+        if($checkoutrow>0){
+
+            if($checkoutrow=mysqli_fetch_array($checkouttime)){
+                $check_out_time=$checkoutrow["ECIOD_CHECK_OUT_TIME"];
+            }
+        }
+        else{
+
+            $check_out_time=null;
+
+        }
+        $allvalues=array($final_values,$checkintime,$err_msg,$date,$check_out_time,$login_id_role);
 //    mysqli_close($con);
         echo JSON_ENCODE($allvalues);
     }
@@ -87,26 +106,45 @@ if($_REQUEST['option']=="MENU")
     }
 }
 else if($_REQUEST['option']=='CLOCK')
-{global $con;
-    $checkinlocation=$_REQUEST['location'];
+{
+
+    global $con;
+    $check_in_out_location=$_REQUEST['location'];
+    $btn_value=$_REQUEST['btn_value'];
     $date=date('Y-m-d');
     $checkintime=date("G:i:s", time());
-    $checkouttime="null";
-    $checkoutlocation="null";
+    $checkouttime=date("G:i:s", time());
     $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
     while($row=mysqli_fetch_array($uld_id)){
         $ure_uld_id=$row["ULD_ID"];
     }
 //    $checkinlocation= $con->real_escape_string($checkinlocation);
-    $sql="INSERT INTO EMPLOYEE_CHECK_IN_OUT_DETAILS(ULD_ID,ECIOD_DATE,ECIOD_CHECK_IN_TIME,ECIOD_CHECK_IN_LOCATION,ECIOD_CHECK_OUT_TIME,ECIOD_CHECK_OUT_LOCATION,ECIOD_USERSTAMP_ID) VALUES('$ure_uld_id','$date','$checkintime','$checkinlocation',$checkouttime,$checkoutlocation,'$ure_uld_id')";
-    if (!mysqli_query($con,$sql)) {
-        die('Error: ' . mysqli_error($con));
+    if($btn_value=='CLOCK IN'){
+//    echo "CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE('1','$ure_uld_id','$date','$checkintime','$check_in_out_location','$ure_uld_id',@success_flag";
 
-        $flag=0;
+        $result = $con->query("CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE('1','$ure_uld_id','$date','$checkintime','$check_in_out_location','$ure_uld_id',@success_flag)");
+        if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+        $select = $con->query('SELECT @success_flag');
+        $result = $select->fetch_assoc();
+        $flag= $result['@success_flag'];
     }
     else{
-        $flag=1;
+        $result = $con->query("CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE('2','$ure_uld_id','$date','$checkouttime','$check_in_out_location','$ure_uld_id',@success_flag)");
+        if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+        $select = $con->query('SELECT @success_flag');
+        $result = $select->fetch_assoc();
+        $flag= $result['@success_flag'];
+
     }
+//    $sql="INSERT INTO EMPLOYEE_CHECK_IN_OUT_DETAILS(ULD_ID,ECIOD_DATE,ECIOD_CHECK_IN_TIME,ECIOD_CHECK_IN_LOCATION,ECIOD_CHECK_OUT_TIME,ECIOD_CHECK_OUT_LOCATION,ECIOD_USERSTAMP_ID) VALUES('$ure_uld_id','$date','$checkintime','$checkinlocation',$checkouttime,$checkoutlocation,'$ure_uld_id')";
+//    if (!mysqli_query($con,$sql)) {
+//        die('Error: ' . mysqli_error($con));
+//
+//        $flag=0;
+//    }
+//    else{
+//        $flag=1;
+//    }
     $values=array($flag,$checkintime);
     echo JSON_encode($values);
 }

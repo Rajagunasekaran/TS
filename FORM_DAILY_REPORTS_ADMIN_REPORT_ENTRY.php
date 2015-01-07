@@ -1,6 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN REPORT ENTRY *************************************//
 //DONE BY:SASIKALA
+//VER 0.05-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR MULTIPLE ENTRY
+//DONE BY:SASIKALA
 //VER 0.04-SD:28/12/2014 ED:29/12/2014, TRACKER NO:74,DESC:ADDED GEOLOCATION AND CHECKOUT TIME VALIDATION
 //DONE BY:LALITHA
 //VER 0.03-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct,Removed Confirmation fr err msgs
@@ -1004,7 +1006,7 @@ $(document).ready(function(){
             }
         }
         var choice="MULTIPLE DAY ENTRY";
-        xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice,true);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice+"&reportlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
     });
 // FUNCTION FORM MULTIPLE ENTRY CLEAR FUNCTION

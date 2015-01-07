@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER SEARCH UPDATE **************************************//
+//DONE BY:SASIKALA
+//VER 0.09-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR REPORT UPDATE
 //DONE BY:LALITHA
 //VER 0.08-SD:04/12/2014 ED:05/12/2014,TRACKER NO:74,Implemented If reason means updated Onduty(am/pm)/Absent(am/pm) with checked condition) nd changed query also,Updated to showned nd hide the header err msg,Updated pdf file name frm err msgs
 //VER 0.07-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
@@ -16,6 +18,52 @@
 include "HEADER.php";
 ?>
 <script>
+var checkoutlocation;
+function displayLocation(latitude,longitude){
+    var request = new XMLHttpRequest();
+    var method = 'GET';
+    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true';
+    var async = true;
+
+    request.open(method, url, async);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var data = JSON.parse(request.responseText);
+            var address = data.results[0];
+            checkoutlocation=address.formatted_address;
+        }
+    };
+    request.send();
+};
+var successCallback = function(position){
+    var x = position.coords.latitude;
+    var y = position.coords.longitude;
+    displayLocation(x,y);
+};
+
+var errorCallback = function(error){
+    var errorMessage = 'Unknown error';
+    switch(error.code) {
+        case 1:
+            errorMessage = 'Permission denied';
+            break;
+        case 2:
+            errorMessage = 'Position unavailable';
+            break;
+        case 3:
+            errorMessage = 'Timeout';
+            break;
+    }
+    document.write(errorMessage);
+};
+
+var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+};
+
+navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
 // READY FUNCTION STARTS
 $(document).ready(function(){
     $(".preloader").show();
@@ -822,7 +870,7 @@ $(document).ready(function(){
 //            }
 //            else{
 
-                project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] +' - '+ project_array[i][2]+ '</td></tr>';
+            project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] +' - '+ project_array[i][2]+ '</td></tr>';
 
 
 //            }
@@ -965,7 +1013,7 @@ $(document).ready(function(){
             }
         }
         var option="UPDATE"
-        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?option="+option,true);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?option="+option+"&reportlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
     });
 });
@@ -992,7 +1040,7 @@ $(document).ready(function(){
                 <td><input type="button" class="btn" name="USRC_UPD_btn_search" id="USRC_UPD_btn_search" value="SEARCH" disabled ></td><br>
             </table>
             <div class="srctitle" name="USRC_UPD_div_header" id="USRC_UPD_div_header" hidden></div>
-<!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
+            <!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
             <div class="container" id="USRC_UPD_div_tablecontainer" hidden>
                 <section>
                 </section>
