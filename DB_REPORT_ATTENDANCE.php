@@ -5,7 +5,7 @@ include "COMMON.php";
 
 
 if($_REQUEST["option"]=="search_option"){
-    $loginid=get_active_login_id();
+    $loginid=get_active_emp_id();
     $err_msg=get_error_msg('18,103,104,105');
     $select_query="SELECT * FROM REPORT_CONFIGURATION WHERE RC_ID IN (1,2,6) ORDER BY RC_DATA";
     $result=mysqli_query($con,$select_query);
@@ -32,16 +32,12 @@ if($_REQUEST["option"]=="search_option"){
 }
 if($_REQUEST["option"]=="login_id"){
     $login_id=$_REQUEST['login_id'];
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-    while($row=mysqli_fetch_array($uld_id)){
-        $uld_id=$row["ULD_ID"];
-    }
-    $admin_searchmin_date=mysqli_query($con,"SELECT MIN(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$uld_id' ");
+    $admin_searchmin_date=mysqli_query($con,"SELECT MIN(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$login_id' ");
     while($row=mysqli_fetch_array($admin_searchmin_date)){
         $admin_searchmin_date_value=$row["UARD_DATE"];
         $admin_min_date =$admin_searchmin_date_value;// date('F-Y',strtotime($admin_searchmin_date_value));
     }
-    $admin_searchmax_date=mysqli_query($con,"SELECT MAX(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$uld_id' ");
+    $admin_searchmax_date=mysqli_query($con,"SELECT MAX(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$login_id' ");
     while($row=mysqli_fetch_array($admin_searchmax_date)){
         $admin_searchmax_date_value=$row["UARD_DATE"];
         $admin_max_date= $admin_searchmax_date_value;//date('F-Y',strtotime($admin_searchmax_date_value));
@@ -50,7 +46,6 @@ if($_REQUEST["option"]=="login_id"){
     echo JSON_ENCODE($finalvalue);
 }
 if($_REQUEST["option"]=="6"){
-
     $date=$_REQUEST["date"];
     $result = $con->query("CALL SP_TS_REPORT_COUNT_ABSENT_FLAG('$date','$UserStamp',@TEMP_USER_ABSENT_COUNT)");
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);

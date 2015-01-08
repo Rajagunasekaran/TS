@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //**********************************************REVENUE*******************************************************//
+//DONE BY:SARADAMBAL
+//VER 0.08-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,INCLUDE PRELOADER WHILE SETTING MIN AND MAX DATE,CHANGED LOGIN ID INTO EMPLOYEE NAME,REMOVED DP VALIDATION IF DATE IS NULL
 //DONE BY:RAJA
 //VER 0.07-SD:02/01/2015 ED:02/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
 //DONE BY:LALITHA
@@ -38,12 +40,12 @@ $(document).ready(function(){
     var REV_project_listbx=[];
     var err_msg_array=[];
     var REV_project_recver=[];
-    $('.preloader').show();
+    $('.preloader', window.parent.document).show();
     var formElement = document.getElementById("REV_form_revenue");
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.preloader', window.parent.document).hide();
             var values_array=JSON.parse(xmlhttp.responseText);
             REV_project_listbx=values_array[0];
             REV_project_name=values_array[1];
@@ -309,7 +311,10 @@ $(document).ready(function(){
 // CHANGE EVENT FOR PROJECT NAME
     var daterange_val=[];
     $('#REV_lb_projectname').change(function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('#REV_btn_prjctsrch').show();
         $('#REV_tble_searchbtn').html('');
         $('#REV_nodata_loginid').hide();
@@ -323,7 +328,8 @@ $(document).ready(function(){
         $('#REV_btn_pdf').hide();
         if($('#REV_lb_projectname').val()=="SELECT")
         {
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REV_lb_precver').hide();
             $('#REV_lbl_precver').hide();
             $('#REV_btn_prjctsrch').attr("disabled","disabled");
@@ -335,7 +341,8 @@ $(document).ready(function(){
         }
         else
         {
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REV_tble_searchbtn').show();
             $('#REV_tble_startdate').show();
             $('#REV_btn_prjctsrch').removeAttr("disabled");
@@ -358,7 +365,7 @@ $(document).ready(function(){
         {
             var active_employee='<option>SELECT</option>';
             for (var i=0;i<REV_active_emp.length;i++) {
-                active_employee += '<option value="' + REV_active_emp[i] + '">' + REV_active_emp[i] + '</option>';
+                active_employee += '<option value="' + REV_active_emp[i][1] + '">' + REV_active_emp[i][0] + '</option>';
             }
             $('#REV_lb_loginid').html(active_employee);
 
@@ -403,7 +410,7 @@ $(document).ready(function(){
         {
             var nonactive_employee='<option>SELECT</option>';
             for (var i=0;i<REV_nonactive_emp.length;i++) {
-                nonactive_employee += '<option value="' + REV_nonactive_emp[i] + '">' + REV_nonactive_emp[i] + '</option>';
+                nonactive_employee += '<option value="' + REV_nonactive_emp[i][1] + '">' + REV_nonactive_emp[i][0] + '</option>';
             }
             $('#REV_lb_loginid').html(nonactive_employee);
             $('#REV_lbl_nonactveemps').show();
@@ -592,6 +599,10 @@ $(document).ready(function(){
         }
         else if(option==9)
         {
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             $('#REV_lbl_empproject').hide();
             $('#REV_lb_empproject').val("SELECT").hide();
             $('#REV_lbl_recver').hide();
@@ -610,12 +621,34 @@ $(document).ready(function(){
                     changeYear: true,
                     changeMonth: true
                 });
+            $("#REV_tb_strtdte,#REV_tb_enddte").datepicker(
+                {
+                    dateFormat: 'dd-mm-yy',
+                    changeYear: true,
+                    changeMonth: true
+                });
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    var values_array=JSON.parse(xmlhttp.responseText);
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
+                    if(values_array[0]!=null && values_array[0]!=''){
+                        $('#REV_tb_strtdte,#REV_tb_enddte').datepicker("option","minDate",new Date(values_array[0]));
+                        $('#REV_tb_strtdte,#REV_tb_enddte').datepicker("option","maxDate",new Date(values_array[1]));}
+                }}
+            var choice="EMPLOYEEPERIOD";
+            xmlhttp.open("POST","DB_REPORT_REVENUE.do?option="+choice+"&selectoption="+$('#REV_lb_loginid').val());
+            xmlhttp.send(new FormData(formElement));
             //END DATE PICKER FUNCTION
         }
     });
 //CHANGE FUNCTION FOR PROJECT NAME
     $('#REV_lb_projectname').change(function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('section').html('');
         $('sectionprbydtrange').html('');
         $('#REV_btn_prjctsrch').hide();
@@ -633,7 +666,8 @@ $(document).ready(function(){
         $('#REV_div_loginid').hide();
         if($('#REV_lb_projectname').val()=="SELECT")
         {
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REV_btn_empsrch').hide();
             $('#REV_btn_empsrch').attr("disabled","disabled");
             $('#REV_lbl_ttlprjct').hide();
@@ -650,7 +684,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     REV_project_recver=values_array;
                     var recver_list='<option>SELECT</option>';
@@ -715,10 +750,12 @@ $(document).ready(function(){
     // CHANGE EVENT FOR PROJECT NAME
     $('#REV_lb_precver').change(function(){
         REV_showform();
-
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
     });
     function REV_showform(){
-        $('.preloader', window.parent.document).show();
         $('section').html('');
         $('sectionprbydtrange').html('');
         $('#REV_btn_prjctsrch').hide();
@@ -731,7 +768,8 @@ $(document).ready(function(){
         $('#REV_div_loginid').hide();
         if($('#REV_lb_precver').val()=="SELECT")
         {
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REV_btn_empsrch').hide();
             $('#REV_btn_empsrch').attr("disabled","disabled");
             $('#REV_lbl_ttlprjct').hide();
@@ -787,13 +825,16 @@ $(document).ready(function(){
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
                         daterange_val=JSON.parse(xmlhttp.responseText);
                         var REV_start_dates=daterange_val[0];
                         var REV_end_dates=daterange_val[1];
-                        $('#REV_tb_strtdtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
-                        $('#REV_tb_strtdtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
-                        $('#REV_tb_enddtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
+                        if(REV_end_dates!=null && REV_end_dates !=''){
+                            $('#REV_tb_strtdtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
+                            $('#REV_tb_strtdtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
+                            $('#REV_tb_enddtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
+                            $('#REV_tb_enddtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));}
                     }
                 }
                 var choice="set_datemin_max";
@@ -845,11 +886,14 @@ $(document).ready(function(){
         $('#REV_div_loginid').hide();
         $('#REV_nodata_loginid').hide();
         var option=$("#REV_lb_project").val();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var formElement = document.getElementById("REV_form_revenue");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $(".preloader").hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
                 REV_project_recver=values_array;
                 if($('#REV_lb_empproject').val()=="SELECT")
@@ -869,6 +913,8 @@ $(document).ready(function(){
                     $('#REV_tble_nonactive_bydaterange').html('');
                     $('#REV_lbl_recver').hide();
                     $('#REV_lb_recver').hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                 }
                 else
                 {
@@ -941,14 +987,17 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 date_val=JSON.parse(xmlhttp.responseText);
                 var REV_start_dates=date_val[0];
                 var REV_end_dates=date_val[1];
-                $('#REV_tb_strtdte').datepicker("option","minDate",new Date(REV_start_dates));
-                $('#REV_tb_strtdte').datepicker("option","maxDate",new Date(REV_end_dates));
-                $('#REV_tb_enddte').datepicker("option","maxDate",new Date(REV_end_dates));
-            }
+                if(REV_start_dates!=null && REV_start_dates !=''){
+                    $('#REV_tb_strtdte').datepicker("option","minDate",new Date(REV_start_dates));
+                    $('#REV_tb_strtdte').datepicker("option","maxDate",new Date(REV_end_dates));
+                    $('#REV_tb_enddte').datepicker("option","minDate",new Date(REV_start_dates));
+                    $('#REV_tb_enddte').datepicker("option","maxDate",new Date(REV_end_dates));
+                }}
         }
         var choice="login_id";
         xmlhttp.open("GET","DB_REPORT_REVENUE.do?REV_loginids="+REV_loginids+"&option="+choice+"&project_recverss="+project_recverss+"&project_namess="+project_namess,true);
@@ -1038,7 +1087,10 @@ $(document).ready(function(){
         var project_recver=$('#REV_lb_precver').val();
         $('#REV_btn_prjctsrch').attr("disabled","disabled");
         var REV_projectname=$('#REV_lb_projectname').val();
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -1059,7 +1111,7 @@ $(document).ready(function(){
                     var total_hrs= projectvalues[0].REV_total_hrs;
                     $('#REV_lbl_totaldays').text("TOTAL NO OF  DAYS: "  +   total_days).show();
                     $('#REV_lbl_totalhrs').text("TOTAL NO OF HRS: "  +   total_hrs).show();
-                    var REV_table_header='<table id="REV_tble_totaldays" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>USERNAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
+                    var REV_table_header='<table id="REV_tble_totaldays" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:150px">EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
                     for(var i=0;i<projectvalues.length;i++){
                         var username=projectvalues[i].username;
                         var noofdays=projectvalues[i].noofdays;
@@ -1078,7 +1130,8 @@ $(document).ready(function(){
                     $('#REV_nodata_pdflextble').text(sd).show();
                     $('#REV_div_projecttotal').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
         }
         $('#REV_div_projecttotal').show();
@@ -1102,7 +1155,10 @@ $(document).ready(function(){
         var REV_prjctname=$('#REV_lb_empproject').val();
         var seacrhby_prjct=$("input[name=REV_rd_project]:checked").val();
         var project_recver=$('#REV_lb_recver').val();
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -1116,7 +1172,7 @@ $(document).ready(function(){
                         if(loginpos>0){
                             loginname=REV_loginid.substring(0,loginpos);
                         }
-                        var emptitle=err_msg_array[6].toString().replace("[LOGINID]",REV_loginid);
+                        var emptitle=err_msg_array[6].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                         var employeetitle=emptitle.replace("[PROJECTNAME]",REV_prjctname);
                         if(REV_project_recver.length>1)
                         {
@@ -1126,7 +1182,7 @@ $(document).ready(function(){
                         {
                             $('#REV_lbl_emptitle').text(employeetitle).show();
                         }
-                        var emptitle=err_msg_array[6].toString().replace("[LOGINID]",loginname);
+                        var emptitle=err_msg_array[6].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                         if(REV_project_recver.length>1)
                         {
                             employeetitles=emptitle.replace("[PROJECTNAME]",REV_prjctname+' '+'VER'+ - +rec_ver);
@@ -1154,8 +1210,8 @@ $(document).ready(function(){
                         if(loginpos>0){
                             loginname=REV_loginid.substring(0,loginpos);
                         }
-                        var employeetitle=err_msg_array[6].toString().replace("[LOGINID] FOR [PROJECTNAME]",REV_loginid);
-                        employeetitles=err_msg_array[6].toString().replace("[LOGINID] FOR [PROJECTNAME]",loginname);
+                        var employeetitle=err_msg_array[6].toString().replace("[LOGINID] FOR [PROJECTNAME]",$("#REV_lb_loginid option:selected").text());
+                        employeetitles=err_msg_array[6].toString().replace("[LOGINID] FOR [PROJECTNAME]",$("#REV_lb_loginid option:selected").text());
                         $('#REV_lbl_emptitle').text(employeetitle).show();
                         $('#REV_btn_emplist_pdf').show();
                         var REV_table_header1='<table id="REV_tble_empday_nonactveemp1" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:200px" nowrap>PROJECT NAME</th><th>DAYS</th><th>HOURS</th><th>MINUTES</th></tr></thead><tbody>'
@@ -1179,11 +1235,12 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    var sd=err_msg_array[2].toString().replace("[LOGINID]",REV_loginid);
+                    var sd=err_msg_array[2].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                     $('#REV_nodata_loginid').text(sd).show();
                     $('#REV_div_loginid').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
         }
         $('#REV_div_loginid').show();
@@ -1207,7 +1264,10 @@ $(document).ready(function(){
         $('#REV_btn_search').attr("disabled","disabled");
         var REV_loginid=$('#REV_lb_loginid').val();
         var REV_prjctname=$('#REV_lb_empproject').val();
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -1221,7 +1281,7 @@ $(document).ready(function(){
                         if(loginpos>0){
                             loginname=REV_loginid.substring(0,loginpos);
                         }
-                        var emptitle=err_msg_array[8].toString().replace("[LOGINID]",REV_loginid);
+                        var emptitle=err_msg_array[8].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                         var startdate=emptitle.replace("[STARTDATE]",REV_start_datevalue);
                         var enddate=startdate.replace("[ENDDATE]",REV_end_datevalue);
                         var header=enddate.replace("[PROJECTNAME]",REV_prjctname);
@@ -1234,7 +1294,7 @@ $(document).ready(function(){
                             $('#REV_lbl_emptitle').text(header).show();
                         }
                         //PDF FILE NAME ERR MSG
-                        var emptitle=err_msg_array[8].toString().replace("[LOGINID]",loginname);
+                        var emptitle=err_msg_array[8].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                         var startdate=emptitle.replace("[STARTDATE]",REV_start_datevalue);
                         var enddate=startdate.replace("[ENDDATE]",REV_end_datevalue);
                         if(REV_project_recver.length>1)
@@ -1265,12 +1325,12 @@ $(document).ready(function(){
                         if(loginpos>0){
                             loginname=REV_loginid.substring(0,loginpos);
                         }
-                        var emptitle=err_msg_array[5].toString().replace("[MONTH]",REV_loginid);
+                        var emptitle=err_msg_array[5].toString().replace("[MONTH]",$("#REV_lb_loginid option:selected").text());
                         var startdate=emptitle.replace("[STARTDATE]",REV_start_datevalue);
                         var header=startdate.replace("[ENDDATE]",REV_end_datevalue);
                         $('#REV_lbl_emptitle').text(header).show();
                         $('#REV_btn_emplist_pdf').show();
-                        var emptitle=err_msg_array[5].toString().replace("[MONTH]",loginname);
+                        var emptitle=err_msg_array[5].toString().replace("[MONTH]",$("#REV_lb_loginid option:selected").text());
                         var startdate=emptitle.replace("[STARTDATE]",REV_start_datevalue);
                         heading=startdate.replace("[ENDDATE]",REV_end_datevalue);
                         var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:250px" align="center">PROJECT NAME</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
@@ -1303,7 +1363,8 @@ $(document).ready(function(){
                     $('#REV_lbl_empday').hide();
                     $('#REV_btn_emp_pdf').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
         }
         $('#REV_div_nonactve_dterange').show();
@@ -1322,7 +1383,10 @@ $(document).ready(function(){
         var REV_end_datevalue=$('#REV_tb_enddtebyrange').val()
         var REV_projectname=$('#REV_lb_projectname').val();
         var REV_project_recversion=$('#REV_lb_precver').val();
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -1345,7 +1409,7 @@ $(document).ready(function(){
                     $('#REV_lbl_totaldays_dterange').text("TOTAL NO OF  DAYS: "  +   working_day).show();
                     $('#REV_lbl_totalhrs_dterange').text("TOTAL NO OF HRS: "  +   REV_total_hrs).show();
                     $('#REV_btn_totalhrs_pdf').show();
-                    var REV_table_header='<table id="REV_tble_projctrevenue_bydaterange" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>USERNAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
+                    var REV_table_header='<table width="700px" id="REV_tble_projctrevenue_bydaterange" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th width="200px">EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
                     for(var i=0;i<projectvalues.length;i++){
                         var username=projectvalues[i].username;
                         var noofdays=projectvalues[i].noofdays;
@@ -1369,7 +1433,8 @@ $(document).ready(function(){
                     $('#REV_btn_emp_pdf').hide();
                     $('#REV_lbl_eachproject_empday').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
         }
         $('#REV_div_projecttotal_dtebyrange').show();

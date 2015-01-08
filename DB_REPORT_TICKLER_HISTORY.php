@@ -2,32 +2,33 @@
 error_reporting(0);
 include "CONNECTION.php";
 include "GET_USERSTAMP.php";
+include "COMMON.php";
 $USERSTAMP=$UserStamp;
 global $con;
 if($_REQUEST['option']=="active_emp")
 {
-    $TH_empid=mysqli_query($con,"SELECT ULD_LOGINID from VW_ACCESS_RIGHTS_TERMINATE_LOGINID where URC_DATA!='SUPER ADMIN' ORDER BY ULD_LOGINID");
-    $TH_active_emp=array();
-    while($row=mysqli_fetch_array($TH_empid)){
-        $TH_active_emp[]=$row["ULD_LOGINID"];
+    $TH_active_emp=get_active_emp_id();
+    $TH_active_empname=array();
+    $TH_query=mysqli_query($con,"SELECT EMPLOYEE_NAME FROM VW_TS_ALL_EMPLOYEE_DETAILS ORDER BY EMPLOYEE_NAME ASC");
+    while($row=mysqli_fetch_array($TH_query)){
+        $TH_active_empname[]=$row["EMPLOYEE_NAME"];
     }
     $errormessage=array();
     $errormsg=mysqli_query($con,"SELECT DISTINCT EMC_DATA FROM ERROR_MESSAGE_CONFIGURATION WHERE EMC_ID IN (73,74,75)");
     while($row=mysqli_fetch_array($errormsg)){
         $errormessage[]=$row["EMC_DATA"];
     }
-    $TH_array_values=array($TH_active_emp,$errormessage);
+    $TH_array_values=array($TH_active_empname,$errormessage);
     echo JSON_ENCODE($TH_array_values);
 }
 if($_REQUEST['option']=="search")
 {
     $loginid=$_REQUEST['empid'];
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loginid'");
+    $uld_id=mysqli_query($con,"select ULD_ID from VW_TS_ALL_EMPLOYEE_DETAILS where EMPLOYEE_NAME='$loginid'");
     while($row=mysqli_fetch_array($uld_id)){
         $TH_uld_id=$row["ULD_ID"];
     }
-
-    $result = $con->query("CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA('$loginid','$USERSTAMP',@TEMP_UARD_TICKLER_HISTORY)");
+    $result = $con->query("CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA('$TH_uld_id','$USERSTAMP',@TEMP_UARD_TICKLER_HISTORY)");
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query('SELECT @TEMP_UARD_TICKLER_HISTORY');
     $result = $select->fetch_assoc();

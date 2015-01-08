@@ -1,8 +1,9 @@
 <!--//******************************************FILE DESCRIPTION*********************************************//
 //**********************************************TICKLER HISTORY ***********************************************//
-//DONE BY:RAJA
-//VER 0.06-SD:02/01/2015 ED:02/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
+//DONE BY:SARADAMBAL
+//VER 0.07-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,REPLACED VIEW TO JOIN THE ACTIVE AND NON-ACTIVE EMPLOYEE,PASSED TITLE AS EMPLOYEE NAME INSTEAD OF REPLACING @SSOMENS IN ID
 //DONE BY: RAJA
+//VER 0.06-SD:02/01/2015 ED:02/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
 //VER 0.05-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,IMPLEMENTED TITLE NAME FOR PDF
 //VER 0.04-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
 //DONE BY:SASIKALA
@@ -18,12 +19,13 @@ include "HEADER.php";
     $(document).ready(function(){
         var pdferrmsg;
         $('#TH_btn_pdf').hide();
-        $(".preloader").show();
+        $('.preloader', window.parent.document).show();
         var TH_err_msg=[];
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $(".preloader").hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader', window.parent.document).hide();
                 var arrayvalues=JSON.parse(xmlhttp.responseText);
                 TH_employeeid=arrayvalues[0];
                 TH_err_msg=arrayvalues[1];
@@ -85,7 +87,10 @@ include "HEADER.php";
         });
 // CLICK EVENT FOR SEARCH BUTTON
         $(document).on('click','#TH_btn_search',function(){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             flextable()
             $('#TH_btn_search').attr("disabled","disabled");
         });
@@ -107,19 +112,13 @@ include "HEADER.php";
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var values_array=JSON.parse(xmlhttp.responseText);
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     if(values_array.length!=0)
                     {
                         var msg=TH_err_msg[1].toString().replace("[LOGINID]",emp_id);
                         $('#TH_lbl_heading').text(msg).show();
                         $('#TH_btn_pdf').show();
-                        var loginname;
-                        var loginpos=emp_id.search("@");
-                        if(loginpos>0){
-                            loginname=emp_id.substring(0,loginpos);
-                        }
-                        pdferrmsg;
-                        pdferrmsg=msg.replace(emp_id,loginname);
                         var TH_table_header='<table id="TH_tble_flextble" border="1"  cellspacing="0" class="srcresult" style="width:1200px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th  style="width:880px">HISTORY</th><th width="200">USERSTAMP</th><th width="120" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                         for(var i=0;i<values_array.length;i++){
                             var TH_tptype=values_array[i].tptype;
@@ -131,8 +130,6 @@ include "HEADER.php";
                             var TH_arrayold=[];
                             var TH_arraynew=[];
                             TH_arrayold=(TH_oldvalue).split(',');
-
-
                             var TH_arroldvalue='';
                             var TH_arrnewvalue='';
                             for(var j=0;j<TH_arrayold.length;j++)
@@ -164,7 +161,6 @@ include "HEADER.php";
                             else{
                                 TH_arraynew= "NULL";
                             }
-//                            TH_arraynew= replaceSpclcharAngularBrack(TH_newvalue)
                             TH_table_header+='<tr><td style="width:880px">'+'UPDATION/DELETION :'+''+TH_tptype+'  '+'<br><br>'+'TABLE NAME:'+''+TH_ttipdata+'  '+'<br><br>'+'OLD VALUE:'+TH_arroldvalue+'  '+'<br><br><br>'+'NEW VALUE:'+TH_arrnewvalue+'</td><td style="text-align:center;width:200px">'+TH_userstamp+'</td><td style=" text-align:center;width:120px" nowrap>'+TH_timestamp+'</td></tr>';
                         }
                         TH_table_header+='</tbody></table>';
@@ -210,7 +206,7 @@ include "HEADER.php";
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#TH_btn_pdf',function(){
             var inputValOne=$('#TH_tb_empid').val();
-            var url=document.location.href='COMMON_PDF.do?flag=3&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='COMMON_PDF.do?flag=3&inputValOne='+inputValOne+'&title='+$('#TH_lbl_heading').text();
 
         });
     });
@@ -229,7 +225,7 @@ include "HEADER.php";
         <table>
             <table border=0>
                 <tr>
-                    <td><label name="TH_lbl_employeeid" id="TH_lbl_employeeid">LOGIN ID</label></td>
+                    <td><label name="TH_lbl_employeeid" id="TH_lbl_employeeid">EMPLOYEE NAME</label></td>
                     <td><input type="text" class="autosize" name="TH_tb_empid" id="TH_tb_empid" style="width:300px"/></td><td><label id="TH_lbl_notmatch" name="TH_lbl_notmatch" class="errormsg" hidden></label></td>
                 <tr><td></td><td><input type="button" name="TH_btn_search" class='btn' value="SEARCH" id="TH_btn_search" disabled/></td><tr>
             </table>

@@ -42,9 +42,9 @@ if(isset($_REQUEST)){
             $REV_project_recver[]=$row["PS_REC_VER"];
         }
 // ACTIVE EMPLOYEE LIST
-        $REV_active_emp=get_active_login_id();
+        $REV_active_emp=get_active_emp_id();
 // NON ACTIVE EMPLOYEE LIST
-        $REV_active_nonemp=get_nonactive_login_id();
+        $REV_active_nonemp=get_nonactive_emp_id();
         $final_values=array($REV_projectlist,$REV_project_array,$REV_active_emp,$REV_active_nonemp,$REV_errmsg,$REV_project_recver);
         echo JSON_ENCODE($final_values);
     }
@@ -52,11 +52,7 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="SPECICIFIED_PROJECT_NAME")
     {
         $REV_loginid=$_REQUEST['login_id'];
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$REV_loginid'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $REV_uld_id=$row["ULD_ID"];
-        }
-        $REV_prjct_name=get_project($REV_uld_id);
+        $REV_prjct_name=get_project($REV_loginid);
         $final_values=array($REV_prjct_name);
         echo JSON_ENCODE($final_values);
     }
@@ -70,24 +66,36 @@ if(isset($_REQUEST)){
             $REV_ps_id=$row["PS_ID"];
         }
         $REV_loginid=$_REQUEST['REV_loginids'];
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$REV_loginid'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $REV_uld_id=$row["ULD_ID"];
-        }
+//        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$REV_loginid'");
+//        while($row=mysqli_fetch_array($uld_id)){
+//            $REV_uld_id=$row["ULD_ID"];
+//        }
         //SET MIN DATE
-        $min_date=mysqli_query($con,"SELECT MIN(UARD_DATE)AS DATE FROM USER_ADMIN_REPORT_DETAILS WHERE  UARD_PSID LIKE '%$REV_ps_id%' AND ULD_ID='$REV_uld_id'");
+        $min_date=mysqli_query($con,"SELECT MIN(UARD_DATE)AS DATE FROM USER_ADMIN_REPORT_DETAILS WHERE  UARD_PSID LIKE '%$REV_ps_id%' AND ULD_ID='$REV_loginid'");
         while($row=mysqli_fetch_array($min_date)){
             $mindate_array=$row["DATE"];
             $min_date = $mindate_array;
         }
         //SET MAC DATE
-        $REV_searchmax_date=mysqli_query($con,"SELECT  MAX(UARD_DATE) AS DATE FROM USER_ADMIN_REPORT_DETAILS WHERE  UARD_PSID LIKE '%$REV_ps_id%' AND ULD_ID='$REV_uld_id'");
+        $REV_searchmax_date=mysqli_query($con,"SELECT  MAX(UARD_DATE) AS DATE FROM USER_ADMIN_REPORT_DETAILS WHERE  UARD_PSID LIKE '%$REV_ps_id%' AND ULD_ID='$REV_loginid'");
         while($row=mysqli_fetch_array($REV_searchmax_date)){
             $REV_searchmax_date_value=$row["DATE"];
             $max_date= $REV_searchmax_date_value;
         }
         $min_date_values=array($min_date,$max_date);
         echo JSON_ENCODE($min_date_values);
+    }
+    //EMPLOYEE PERIOD
+    if($_REQUEST['option']=="EMPLOYEEPERIOD")
+    {
+        $login_id=$_REQUEST['selectoption'];
+        $REV_project_date = mysqli_query($con,"SELECT MIN(UARD_DATE)AS MINDATE, MAX(UARD_DATE) AS MAXDATE FROM USER_ADMIN_REPORT_DETAILS WHERE  ULD_ID='$login_id'");
+        while($row=mysqli_fetch_array($REV_project_date)){
+            $min_date=$row["MINDATE"];
+            $max_date =$row["MAXDATE"];
+            $date_values=array($min_date,$max_date);
+        }
+        echo JSON_ENCODE($date_values);
     }
 //SET  MIN ND MAX DATE FUNCTION FOR PROJECT NAME BY DATE RANGE
     if($_REQUEST['option']=="set_datemin_max")

@@ -1,8 +1,9 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*************************************BANDWIDTH****************************************************************//
-//DONE BY:RAJA
-//VER 0.05-SD:02/01/2015 ED:02/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
+//DONE BY:SARADAMBAL
+//VER 0.06-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,INCLUDE PRELOADER WHILE SETTING MIN AND MAX DATE,CHANGED LOGIN ID INTO EMPLOYEE NAME,SHOWED ERROR MESSAGE FOR NO DATA,REMOVED DP VALIDATION IF DATE IS NULL
 //DONE BY: RAJA
+//VER 0.05-SD:02/01/2015 ED:02/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
 //VER 0.04-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,IMPLEMENTED HEADER NAME FOR PDF AND DATA TABLE
 //DONE BY:LALITHA
 //VER 0.03-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
@@ -33,13 +34,13 @@ $(document).ready(function(){
     var REP_BND_reportconfig_listbx=[];
     var REP_BND_active_emp=[];
     var REP_BND_nonactive_emp=[];
-    $('.preloader').show();
+    $('.preloader', window.parent.document).show()
     $('#REP_BND_btn_search').hide();
     $('#REP_BND_btn_mysearch').hide();
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.preloader', window.parent.document).hide()
             var values_array=JSON.parse(xmlhttp.responseText);
             REP_BND_reportconfig_listbx=values_array[0];
             REP_BND_active_emp=values_array[1];
@@ -102,6 +103,10 @@ $(document).ready(function(){
         //BANDWIDTH BY MONTH
         else if(option=='11')
         {
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             //FUNCTION FOR SETTING MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -110,6 +115,8 @@ $(document).ready(function(){
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                 }
                 //DATE PICKER FUNCTION START
                 $('#REP_BND_db_selectmnth').datepicker( {
@@ -136,8 +143,9 @@ $(document).ready(function(){
                         of: $(this)
                     });
                 });
-                $("#REP_BND_db_selectmnth").datepicker("option","minDate", new Date(REP_BND_start_dates));
-                $("#REP_BND_db_selectmnth").datepicker("option","maxDate", new Date(REP_BND_end_dates));
+                if(REP_BND_start_dates!='' &&REP_BND_start_dates !=null){
+                    $("#REP_BND_db_selectmnth").datepicker("option","minDate", new Date(REP_BND_start_dates));
+                    $("#REP_BND_db_selectmnth").datepicker("option","maxDate", new Date(REP_BND_end_dates));}
                 //VALIDATION FNCTION FOR DATE BX OF BW BY MONTH
                 function dpvalidation(){
                     $('section').html('');
@@ -209,7 +217,7 @@ $(document).ready(function(){
         {
             var REP_BND_active_employee='<option>SELECT</option>';
             for (var i=0;i<REP_BND_active_emp.length;i++) {
-                REP_BND_active_employee += '<option value="' + REP_BND_active_emp[i] + '">' + REP_BND_active_emp[i] + '</option>';
+                REP_BND_active_employee += '<option value="' + REP_BND_active_emp[i][1] + '">' + REP_BND_active_emp[i][0] + '</option>';
             }
             $('#REP_BND_lb_loginid').html(REP_BND_active_employee);
             $('#REP_BND_lbl_actveemps').show();
@@ -243,7 +251,7 @@ $(document).ready(function(){
         {
             var REP_BND_nonactive='<option>SELECT</option>';
             for (var i=0;i<REP_BND_nonactive_emp.length;i++) {
-                REP_BND_nonactive += '<option value="' + REP_BND_nonactive_emp[i] + '">' + REP_BND_nonactive_emp[i] + '</option>';
+                REP_BND_nonactive += '<option value="' + REP_BND_nonactive_emp[i][1] + '">' + REP_BND_nonactive_emp[i][0] + '</option>';
             }
             $('#REP_BND_lb_loginid').html(REP_BND_nonactive);
             $('#REP_BND_lbl_nonactveemps').show();
@@ -283,11 +291,16 @@ $(document).ready(function(){
         }
         else
         {
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             //FUNCTION FOR SETTINF MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $(".preloader").hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
@@ -317,8 +330,9 @@ $(document).ready(function(){
                         of: $(this)
                     });
                 });
-                $(".date-pickers").datepicker("option","minDate", new Date(REP_BND_start_dates));
-                $(".date-pickers").datepicker("option","maxDate", new Date(REP_BND_end_dates));
+                if(REP_BND_start_dates!=null && REP_BND_start_dates!=''){
+                    $(".date-pickers").datepicker("option","minDate", new Date(REP_BND_start_dates));
+                    $(".date-pickers").datepicker("option","maxDate", new Date(REP_BND_end_dates));}
                 //VALIDATION FOR DATE BX
                 function validationdp(){
                     $('section').html('');
@@ -361,16 +375,20 @@ $(document).ready(function(){
         $('#REP_BND_btn_search').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnths').val();
         var REP_BND_loginid=$('#REP_BND_lb_loginid').val();
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var REP_BND_actnon_values=JSON.parse(xmlhttp.responseText);
-                if(REP_BND_actnon_values)
+                if(REP_BND_actnon_values[0]!=null)
                 {
                     errmsg=REP_BND_errorAarray[4].toString().replace("[MONTH]",REP_BND_monthyear);
-                    errmsg=errmsg.replace("[LOGINID]",REP_BND_loginid);
+                    errmsg=errmsg.replace("[LOGINID]", $("#REP_BND_lb_loginid option:selected").text());
                     $('#src_lbl_error_login').text(errmsg).show();
                     $('#REP_BND_btn_emp_pdf').show();
                     var loginname;
@@ -433,7 +451,8 @@ $(document).ready(function(){
                 else
                 {
                     var sd=REP_BND_errorAarray[1].toString().replace("[DATE]",REP_BND_monthyear);
-                    $('#REV_nodata_pdflextbles').text(sd).show();
+                    $('#REV_nodata_pdflextbles').show();
+                    $('#REV_nodata_pdflextbles').text(sd);
                     $('#REP_BND_div_actvenon_dterange').hide();
                 }
             }
@@ -455,13 +474,17 @@ $(document).ready(function(){
         $('#REP_BND_btn_emp_pdf').hide();
         $('#REP_BND_btn_mysearch').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnth').val();
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var REP_BND_monthyr_values=JSON.parse(xmlhttp.responseText);
-                if(REP_BND_monthyr_values)
+                if(REP_BND_monthyr_values[0]!='' && REP_BND_monthyr_values[0]!=null)
                 {
                     errmsg=REP_BND_errorAarray[3].toString().replace("[MONTH]",REP_BND_monthyear);
                     $('#src_lbl_error').text(errmsg).show();
@@ -470,11 +493,11 @@ $(document).ready(function(){
                     var total= REP_BND_monthyr_values[1];
                     if(REP_BND_userbndwdth.length!=1)
                     {
-                        var REP_BND_table_header='<table id="REP_BND_tble_bw" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>LOGIN ID</th><th>BANDWIDTH</th></tr></thead><tfoot><tr> <th colspan="1" style="text-align:right">TOTAL:</th><th></th></tr></tfoot><tbody>'
+                        var REP_BND_table_header='<table id="REP_BND_tble_bw" border="1"  cellspacing="0" class="srcresult" width=600px><thead  bgcolor="#6495ed" style="color:white"><tr><th width=200px>EMPLOYEE NAME</th><th>BANDWIDTH</th></tr></thead><tfoot><tr> <th colspan="1" style="text-align:right">TOTAL:</th><th></th></tr></tfoot><tbody>'
                     }
                     else
                     {
-                        var REP_BND_table_header='<table id="REP_BND_tble_bw" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>LOGIN ID</th><th>BANDWIDTH</th></tr></thead><tbody>'
+                        var REP_BND_table_header='<table id="REP_BND_tble_bw" border="1"  cellspacing="0" class="srcresult" width=600px ><thead  bgcolor="#6495ed" style="color:white"><tr><th width=200px>EMPLOYEE NAME</th><th>BANDWIDTH</th></tr></thead><tbody>'
                         $('#REP_BND_div_monthyr').show();
                     }
                     for(var i=0;i<REP_BND_userbndwdth.length;i++){
@@ -488,7 +511,6 @@ $(document).ready(function(){
                         //FOOTER FUNCTION
                         "footerCallback": function ( row, data, start, end, display ) {
                             var api = this.api(), data;
-
                             // Remove the formatting to get integer data for summation
                             var intVal = function ( i ) {
                                 return typeof i === 'string' ?
@@ -514,7 +536,7 @@ $(document).ready(function(){
                             var pt=pageTotal.toFixed(2)
                             var n=total.toFixed(2)
                             $( api.column( 1 ).footer() ).html(
-                                +pt +' ('+ n +' total)'
+                                +pt +' ('+ n +' 20)'
                             );
                         }
                     });
@@ -542,7 +564,6 @@ $(document).ready(function(){
         var inputValTwo=$('#REP_BND_lb_loginid').val();
         var url=document.location.href='COMMON_PDF.do?flag=15&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
     });
-});
 <!--SCRIPT TAG END-->
 </script>
 <!--BODY TAG START-->
@@ -599,7 +620,7 @@ $(document).ready(function(){
             <tr><td><label id="REP_BND_nodata_lgnid" name="REP_BND_nodata_lgnid" class="errormsg"></label></td></tr>
             <table>
                 <tr><td width="150">
-                        <label name="REP_BND_lbl_loginid" id="REP_BND_lbl_loginid"  hidden>LOGIN ID<em>*</em></label></td>
+                        <label name="REP_BND_lbl_loginid" id="REP_BND_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label></td>
                     <td>
                         <select name="REP_BND_lb_loginid" id="REP_BND_lb_loginid" hidden>
                         </select>
@@ -617,7 +638,7 @@ $(document).ready(function(){
                 <label id="src_lbl_error_login" class="srctitle"></label>
             </div>
             <div><input type="button" id="REP_BND_btn_emp_pdf" class="btnpdf" value="PDF"></div>
-            <tr><td><label id="REP_BND_nodatas_pdflextble" name="REP_BND_nodatas_pdflextble" class="errormsg"></label></td></tr>
+            <tr><td><label id="REV_nodata_pdflextbles" name="REP_BND_nodatas_pdflextble" class="errormsg"></label></td></tr>
             <div id ="REP_BND_div_actvenon_dterange" class="container" style="width:500px" hidden>
                 <section>
                 </section>

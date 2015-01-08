@@ -18,29 +18,26 @@ if(isset($_REQUEST)){
             $REP_BND_rprtconfiglist[]=array($row["RC_DATA"],$row["RC_ID"]);
         }
 // ACTIVE EMPLOYEE LIST
-        $REP_BND_active_emp=get_active_login_id();
+        $REP_BND_active_emp=get_active_emp_id();
 // NONACTIVE EMPLOYEE LIST
-        $REP_BND_active_nonemp=get_nonactive_login_id();
+        $REP_BND_active_nonemp=get_nonactive_emp_id();
         $REP_BND_final_values=array($REP_BND_rprtconfiglist,$REP_BND_active_emp,$REP_BND_active_nonemp,$REP_BND_errmsg);
         echo JSON_ENCODE($REP_BND_final_values);
     }
 //SETTING MIN ND MAX DATE FOR DATE PICKER WITH LOGIN ID OPTION
     if($_REQUEST["option"]=="minmax_dtewth_loginid"){
         $login_id=$_REQUEST['REP_BND_loginid'];
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $ADM_uld_id=$row["ULD_ID"];
-        }
-        $admin_searchmin_date=mysqli_query($con,"SELECT MIN(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$ADM_uld_id' ");
+        $admin_searchmin_date=mysqli_query($con,"SELECT MIN(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$login_id' ");
         while($row=mysqli_fetch_array($admin_searchmin_date)){
             $admin_searchmin_date_value=$row["UARD_DATE"];
             $admin_min_date = $admin_searchmin_date_value;
         }
-        $admin_searchmax_date=mysqli_query($con,"SELECT MAX(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$ADM_uld_id' ");
+        $admin_searchmax_date=mysqli_query($con,"SELECT MAX(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$login_id' ");
         while($row=mysqli_fetch_array($admin_searchmax_date)){
             $admin_searchmax_date_value=$row["UARD_DATE"];
             $admin_max_date= $admin_searchmax_date_value;
         }
+
         $finalvalue=array($admin_min_date,$admin_max_date);
         echo JSON_ENCODE($finalvalue);
     }

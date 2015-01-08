@@ -1,8 +1,9 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //***********************************************ATTENDANCE**************************************************//
+//DONE BY:SARADAMBAL
+//VER 0.07-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME,REMOVED DP VALIDATION IF DATE IS NULL
 //DONE BY:RAJA
 //VER 0.06-SD:03/01/2015 ED:03/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
-//DONE BY: RAJA
 //VER 0.05-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,IMPLEMENTED HEADERS FOR DATA TABLE AND PDF
 //DONE BY:LALITHA
 //VER 0.04-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
@@ -26,7 +27,7 @@ include "COMMON.php";
 //DOCUMENT READY FUNCTION START
 $(document).ready(function(){
     $('#REP_btn_att_pdf').hide();
-    $(".preloader").show();
+    $('.preloader', window.parent.document).show();
     $('#REP_btn_search').hide();
     var err_msg_array=[];
     var mindate;
@@ -37,7 +38,7 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.preloader', window.parent.document).hide();
             var final_array=JSON.parse(xmlhttp.responseText);
             var loginid_array=final_array[0];
             err_msg_array=final_array[1];
@@ -46,7 +47,7 @@ $(document).ready(function(){
             maxdate=final_array[4];
             var active_employee='<option>SELECT</option>';
             for (var i=0;i<loginid_array.length;i++) {
-                active_employee += '<option value="' + loginid_array[i] + '">' + loginid_array[i] + '</option>';
+                active_employee += '<option value="' + loginid_array[i][1] + '">' + loginid_array[i][0] + '</option>';
             }
             $('#REP_lb_loginid').html(active_employee);
             var report_option='<option>SELECT</option>';
@@ -54,6 +55,8 @@ $(document).ready(function(){
                 report_option += '<option value="' + report_array[i][1] + '">' + report_array[i][0] + '</option>';
             }
             $('#REP_lb_attendance').html(report_option);
+            $('#REP_td_attendance').show();
+            $('#REP_lb_attendance').show();
         }
     }
     var option="search_option";
@@ -61,7 +64,10 @@ $(document).ready(function(){
     xmlhttp.send();
     //CHANGE FUNCTION FOR LOGIN ID LIST BX
     $(document).on('change','#REP_lb_loginid',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('#REP_tablecontainer').hide();
@@ -73,7 +79,8 @@ $(document).ready(function(){
         var loginid=$('#REP_lb_loginid').val();
         $('#REP_date').val("");
         if(loginid=="SELECT"){
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -89,7 +96,8 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var finaldate=JSON.parse(xmlhttp.responseText);
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var min_date=finaldate[0];
                     var max_date=finaldate[1];
                 }
@@ -123,8 +131,9 @@ $(document).ready(function(){
                         of: $(this)
                     });
                 });
-                $(".date-pickers").datepicker("option","minDate", new Date(min_date));
-                $(".date-pickers").datepicker("option","maxDate", new Date(max_date));
+                if(min_date!='' && min_date!=null){
+                    $(".date-pickers").datepicker("option","minDate", new Date(min_date));
+                    $(".date-pickers").datepicker("option","maxDate", new Date(max_date));}
                 //VALIDATION FOR DATE BX
                 function validationdp(){
                     $('#REP_tablecontainer').hide();
@@ -154,7 +163,10 @@ $(document).ready(function(){
     });
     //CHANGE FUNCTION FOR ATTENDANCE LISTBX
     $(document).on('change','#REP_lb_attendance',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('#REP_tablecontainer').hide();
         $('#REP_btn_search').hide();
         $('#REP_lbl_dte').show();
@@ -170,7 +182,8 @@ $(document).ready(function(){
         $('#REP_tble_absent_count').html('');
         var option=$('#REP_lb_attendance').val();
         if(option=="1"){
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REP_lb_loginid').show();
             $('#REP_lbl_loginid').show();
             $('#REP_lbl_dte').hide();
@@ -178,7 +191,8 @@ $(document).ready(function(){
             $('#REP_btn_search').hide();
         }
         if(option=="SELECT"){
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -189,7 +203,8 @@ $(document).ready(function(){
             $('#REP_btn_att_pdf').hide();
         }
         if(option=='6' || option=='2'){
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#REP_btn_search').attr("disabled","disabled").show();
             //DATE PICKER FUNCTION
             $('.date-pickers').datepicker( {
@@ -215,8 +230,9 @@ $(document).ready(function(){
                     of: $(this)
                 });
             });
-            $(".date-pickers").datepicker("option","minDate", new Date(mindate));
-            $(".date-pickers").datepicker("option","maxDate", new Date(maxdate));
+            if(mindate!='' && maxdate!=null){
+                $(".date-pickers").datepicker("option","minDate", new Date(mindate));
+                $(".date-pickers").datepicker("option","maxDate", new Date(maxdate));}
             $('#REP_date').show();
             //VALIDATION FOR DATE BX
 
@@ -242,7 +258,10 @@ $(document).ready(function(){
     var allvalues_array;
     //CHANGE FUNCTION FOR DATE BX
     $(document).on('click','#REP_btn_search',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('section').html('');
@@ -257,11 +276,12 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();;
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     if(option=='6'){
-                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:500px"  ><thead  bgcolor="#6495ed" style="color:white"><tr><th >NAME</th><th style="width:90px">REPORT ENTRY MISSED</th></tr></thead><tbody>'
+                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:400px"  ><thead  bgcolor="#6495ed" style="color:white"><tr><th width="200px">EMPLOYEE NAME</th><th style="width:90px">REPORT ENTRY MISSED</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var name=allvalues_array[j].name;
                             var absent_count=allvalues_array[j].absent_count;
@@ -281,7 +301,7 @@ $(document).ready(function(){
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
                         $('#src_lbl_error').text(errmsg).show();
                         $('#REP_btn_att_pdf').show();
-                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:600px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>NAME</th><th>NO OF PRESENT</th><th>NO OF ABSENT</th><th>NO OF ONDUTY</th><th>TOTAL HOUR(S) OF PERMISSION</th></tr></thead><tbody>'
+                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:600px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:200px" >EMPLOYEE NAME</th><th>NO OF PRESENT</th><th>NO OF ABSENT</th><th>NO OF ONDUTY</th><th>TOTAL HOUR(S) OF PERMISSION</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var name=allvalues_array[j].loginid;
                             var absent_count=allvalues_array[j].absent_count;
@@ -295,13 +315,13 @@ $(document).ready(function(){
                         var working_days= allvalues_array[0].working_day;
                         var total_days= allvalues_array[0].today_no_days;
                         errmsg=err_msg_array[1].toString().replace("[MONTH]",date);
-                        errmsg=errmsg.replace("[EMPLOYEE]",loginid);
+                        errmsg=errmsg.replace("[EMPLOYEE]",$("#REP_lb_loginid option:selected").text());
                         var loginname;
                         var loginpos=loginid.search("@");
                         if(loginpos>0){
                             loginname=loginid.substring(0,loginpos);
                         }
-                        pdferrmsg=errmsg.replace(loginid,loginname);
+                        pdferrmsg=errmsg.replace(loginid,$("#REP_lb_loginid option:selected").text());
                         $('#no_of_working_days').text("TOTAL NO OF WORKING DAYS: "  +  working_days  +  " DAYS").show();
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
                         $('#src_lbl_error').text(errmsg).show();
@@ -391,9 +411,9 @@ $(document).ready(function(){
     <form   id="REP_form_attendance" class="content" >
         <table>
             <tr>
-                <td width="150"><label name="REP_lbl_optn" id="REP_lbl_optn" class="srctitle">SELECT A OPTION</label><em>*</em></td>
+                <td width="150" id="REP_td_attendance" hidden><label name="REP_lbl_optn" id="REP_lbl_optn" class="srctitle">SELECT A OPTION</label><em>*</em></td>
                 <td width="150">
-                    <select id="REP_lb_attendance" name="option">
+                    <select id="REP_lb_attendance" name="option" hidden>
                     </select>
                 </td>
             </tr>
@@ -401,7 +421,7 @@ $(document).ready(function(){
         <table>
             <tr>
                 <td>
-                    <label name="REP_lbl_loginid" id="REP_lbl_loginid"  hidden>LOGIN ID<em>*</em></label></td>
+                    <label name="REP_lbl_loginid" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label></td>
                 <br>
                 <td>
                     <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
