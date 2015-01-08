@@ -2,9 +2,9 @@
 //*******************************************FILE DESCRIPTION*************************************************//
 //***********************************************COMPANY PROPERTY VERFICATION*******************************//
 //DONE BY:LALITHA
+//VER 0.02 SD:06/12/2014 ED:08/12/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
 //************************************************************************************************************//
-
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
 error_reporting(0);
@@ -18,8 +18,7 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="INITIAL_DATAS"){
         // GET ERR MSG
         $CPVD_errmsg=get_error_msg('3,7,15');
-//        $CPVD_final_values=array($CPVD_errmsg);
-        $CPVD_act_employee=get_active_login_id();
+        $CPVD_act_employee=get_active_emp_id();
         $final_array=array($CPVD_errmsg,$CPVD_act_employee);
         echo JSON_ENCODE($final_array);
     }
@@ -27,7 +26,7 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="COMPANY_PROPERTY")
     {
         $CPVD_loginid=$_REQUEST['CPVD_lb_loginid'];
-        $CPVD_cmpny_prop=mysqli_query($con,"select CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER from EMPLOYEE_DETAILS ED JOIN COMPANY_PROPERTIES_DETAILS CPD on CPD.EMP_ID = ED.EMP_ID JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID = ED.ULD_ID where ULD.ULD_LOGINID ='$CPVD_loginid'");
+        $CPVD_cmpny_prop=mysqli_query($con,"select CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER from EMPLOYEE_DETAILS ED JOIN COMPANY_PROPERTIES_DETAILS CPD on CPD.EMP_ID = ED.EMP_ID JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID = ED.ULD_ID where ULD.ULD_ID='$CPVD_loginid'");
         while($row=mysqli_fetch_array($CPVD_cmpny_prop)){
             $CPVD_lap_no=$row["CPD_LAPTOP_NUMBER"];
             $CPVD_charger_no=$row["CPD_CHARGER_NUMBER"];
@@ -41,11 +40,7 @@ if(isset($_REQUEST)){
         $CPVD_lb_loginid=$_POST['CPVD_lb_loginid'];
         $CPVD_lap_no=$_POST['CPVD_tb_laptopno'];
         $CPVD_charger_no=$_POST['CPVD_tb_chargerno'];
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$CPVD_lb_loginid'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $CPVD_uld_id=$row["ULD_ID"];
-        }
-        $emp_id=mysqli_query($con,"select EMP_ID from EMPLOYEE_DETAILS where ULD_ID='$CPVD_uld_id'");
+        $emp_id=mysqli_query($con,"select EMP_ID from EMPLOYEE_DETAILS where ULD_ID='$CPVD_lb_loginid'");
         while($row=mysqli_fetch_array($emp_id)){
             $CPVD_emp_id=$row["EMP_ID"];
         }
@@ -56,10 +51,6 @@ if(isset($_REQUEST)){
         }
         //COMPANY PROP VERIFY LOGIN ID
         $CPVD_lb_chckdby=$_POST['CPVD_lb_chckdby'];
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$CPVD_lb_chckdby'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $CPVD_uld_ids=$row["ULD_ID"];
-        }
         $CPVD_ta_reason1=$_POST['CPVD_ta_reason'];
         $CPVD_ta_reason= $con->real_escape_string($CPVD_ta_reason1);
         $EMP_ENTRY_dob=$_POST['EMP_ENTRY_tb_dob'];
@@ -67,7 +58,7 @@ if(isset($_REQUEST)){
         while($row=mysqli_fetch_array($uld_id)){
             $CPVD_uld_id=$row["ULD_ID"];
         }
-        $sql="INSERT INTO COMPANY_PROP_VERIFY_DETAILS (EMP_ID,CPD_ID,CPVD_VERIFIED_BY,CPVD_COMMENTS,ULD_ID) VALUES ('$CPVD_emp_id','$CPVD_cpd_id','$CPVD_uld_ids','$CPVD_ta_reason','$CPVD_uld_id')";
+        $sql="INSERT INTO COMPANY_PROP_VERIFY_DETAILS (EMP_ID,CPD_ID,CPVD_VERIFIED_BY,CPVD_COMMENTS,ULD_ID) VALUES ('$CPVD_emp_id','$CPVD_cpd_id','$CPVD_lb_chckdby','$CPVD_ta_reason','$CPVD_uld_id')";
         if (!mysqli_query($con,$sql)) {
             die('Error: ' . mysqli_error($con));
             $flag=0;
@@ -158,13 +149,13 @@ if(isset($_REQUEST['option']) && $_REQUEST['option']!=''){
 }
 //GET ACTIVE LOGIN ID
 function showData($data,$con){
-    $sql = "SELECT VW.ULD_LOGINID from VW_ACCESS_RIGHTS_TERMINATE_LOGINID VW,EMPLOYEE_DETAILS ED,USER_LOGIN_DETAILS ULD WHERE ED.ULD_ID=ULD.ULD_ID AND ED.EMP_ID NOT IN (SELECT EMP_ID FROM  COMPANY_PROP_VERIFY_DETAILS) AND ULD.ULD_LOGINID=VW.ULD_LOGINID";
+    $sql = "SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS VW,EMPLOYEE_DETAILS ED,USER_LOGIN_DETAILS ULD WHERE ED.ULD_ID=ULD.ULD_ID AND ED.EMP_ID NOT IN (SELECT EMP_ID FROM  COMPANY_PROP_VERIFY_DETAILS) AND ULD.ULD_LOGINID=VW.ULD_LOGINID";
     $data = $con->query($sql);
     $str='<select name="dynamic_data">';
     $str.='<option>SELECT</option>';
     if($data->num_rows>0){
         while( $row = $data->fetch_array(MYSQLI_ASSOC)){
-            $str .= '<option value="' .$row['ULD_LOGINID']. '">' .$row['ULD_LOGINID']. '</option>';
+            $str .= '<option value="' .$row['ULD_ID']. '">' .$row['EMPLOYEE_NAME']. '</option>';
         }
     }
     echo $str;

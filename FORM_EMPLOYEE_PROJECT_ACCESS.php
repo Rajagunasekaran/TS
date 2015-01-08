@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************EMPLOYEE PROJECT ACCESS*********************************************//
 //DONE BY:LALITHA
+//VER 0.02 SD:06/01/2014 ED:08/01/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:24/09/2014 ED:29/09/2014,TRACKER NO:79
 //*********************************************************************************************************//
 <?php
@@ -14,16 +15,17 @@ include "HEADER.php";
     var project_array=[];
     //START DOCUMENT READY FUNCTION
     $(document).ready(function(){
-        $(".preloader").show();
+        $('.preloader', window.parent.document).show();
         $('#EMP_ENTRY_btn_save').hide();
         $('#EMP_ENTRY_btn_reset').hide();
+        var EMP_ENTRY_empname;
         initialload();
         //FUNCTION FOR GETTING PROJECT LIST,ERR MSG,LOGIN ID
         function initialload(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $(".preloader").hide();
+                    $('.preloader', window.parent.document).hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     EMP_ENTRY_loginid=values_array[0];
                     project_array=values_array[1];
@@ -32,7 +34,7 @@ include "HEADER.php";
                     {
                         var active_employee='<option>SELECT</option>';
                         for (var i=0;i<EMP_ENTRY_loginid.length;i++) {
-                            active_employee += '<option value="' + EMP_ENTRY_loginid[i] + '">' + EMP_ENTRY_loginid[i] + '</option>';
+                            active_employee += '<option value="' + EMP_ENTRY_loginid[i][1]+ '">' + EMP_ENTRY_loginid[i][0]+ '</option>';
                         }
                         $('#EMP_ENTRY_lb_loginid').html(active_employee);
                         $('#EMP_ENTRY_lbl_loginid').show();
@@ -61,12 +63,18 @@ include "HEADER.php";
         }
         //CHANGE EVENT FOR ACTIVE LOGIN ID
         $('#EMP_ENTRY_lb_loginid').change(function(){
-            $('.preloader', window.parent.document).show();
+            //PRELOADER ADJUST FUNCTION
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             $('input:checkbox[id=checkbox]').attr('checked',false);
             $('#checkbox').attr('checked',false);
-            if($('#EMP_ENTRY_lb_loginid').val()=="SELECT")
+            EMP_ENTRY_empname=$("#EMP_ENTRY_lb_loginid option:selected").text();
+            if(EMP_ENTRY_empname=="SELECT")
             {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 $('#EMP_ENTRY_btn_save').hide();
                 $('#EMP_ENTRY_btn_reset').hide();
                 $('#EMP_ENTRY_tble_frstsel_projectlistbx').hide();
@@ -76,7 +84,8 @@ include "HEADER.php";
             else
             {
                 projectlist();
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 $('#EMP_ENTRY_lb_loginid').show();
                 $('#EMP_ENTRY_lbl_loginid').show();
                 $('#EMP_ENTRY_btn_save').attr("disabled","disabled").show();
@@ -116,8 +125,12 @@ include "HEADER.php";
         });
         //CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#EMP_ENTRY_btn_save',function(){
-            $('.preloader', window.parent.document).show();
-            var loginid=$('#EMP_ENTRY_lb_loginid').val();
+            //PRELOADER ADJUST FUNCTION
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
+            var loginid=$("#EMP_ENTRY_lb_loginid option:selected").text();
             var formElement = document.getElementById("EMP_ENTRY_form_employeename");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -125,16 +138,18 @@ include "HEADER.php";
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $('.preloader', window.parent.document).hide();
-                        var msg=err_msg_array[2].replace("[LOGIN ID]",loginid);
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:msg}});
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
+                        var msg=err_msg_array[2].replace("[LOGINID]",loginid);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:msg,position:{top:150,left:500}}});
                         EMP_ENTRY_rset()
                         initialload();
                     }
                     else
                     {
-                        $('.preloader', window.parent.document).hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:err_msg_array[0]}});
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:err_msg_array[0],position:{top:150,left:500}}});
                     }
                 }
             }
@@ -154,7 +169,7 @@ include "HEADER.php";
     <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" >
         <table>
             <tr>
-                <td style="width:155px"><label name="EMP_ENTRY_lbl_loginid" id="EMP_ENTRY_lbl_loginid" hidden>LOGIN ID<em>*</em></label></td>
+                <td style="width:155px"><label name="EMP_ENTRY_lbl_loginid" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label></td>
                 <td><select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" hidden>
                     </select></td>
                 <div><label id="EMP_ENTRY_lbl_nologinid" name="EMP_ENTRY_lbl_nologinid" class="errormsg"></label></div>

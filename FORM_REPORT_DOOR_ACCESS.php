@@ -63,7 +63,7 @@ include "HEADER.php";
                 }
             }
             $('#tablecontainer').show();
-            xmlhttp.open("POST",""DB_REPORT_DOOR_ACCESS.do",true);
+            xmlhttp.open("POST","DB_REPORT_DOOR_ACCESS.do",true);
             xmlhttp.send();
         }
         //CLICK EVENT FOR PDF BUTTON

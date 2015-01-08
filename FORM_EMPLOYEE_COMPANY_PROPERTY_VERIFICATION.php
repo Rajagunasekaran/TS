@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //***********************************************COMPANY PROPERTY VERFICATION*******************************//
 //DONE BY:LALITHA
+//VER 0.02 SD:06/12/2014 ED:08/12/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
@@ -15,6 +16,8 @@ include "HEADER.php";
     var active_loginid=[];
     //READY FUNCTION START
     $(document).ready(function(){
+        $('.preloader', window.parent.document).show();
+        var CPVD_lb_loginid_val;
         //JQUERY LIB VALIDATION START
         $('textarea').autogrow({onInitialize: true});
         //JQUERY LIB VALIDATION END
@@ -22,13 +25,13 @@ include "HEADER.php";
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $(".preloader").hide();
+                $('.preloader', window.parent.document).hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
                 err_msg_array=values_array[0];
                 active_loginid=values_array[1];
                 var CPVD_act_loginid_list='<option>SELECT</option>';
                 for (var i=0;i<active_loginid.length;i++) {
-                    CPVD_act_loginid_list += '<option value="' + active_loginid[i] + '">' + active_loginid[i] + '</option>';
+                    CPVD_act_loginid_list += '<option value="' + active_loginid[i][1]+ '">' + active_loginid[i][0]+ '</option>';
                 }
                 $('#CPVD_lb_chckdby').html(CPVD_act_loginid_list);
 
@@ -52,7 +55,8 @@ include "HEADER.php";
                     loginid=response;
                     if(loginid!=0)
                     {
-                        $(".preloader").hide();
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
                         $('#CPVD_lbl_loginid').show();
                         $('#CPVD_lb_loginid').html(loginid).show();
                     }
@@ -66,16 +70,19 @@ include "HEADER.php";
         var CPVD_laptop_no=[];
         //CHANGE FUNCTION FOR LOGIN ID
         $(document).on('change','#CPVD_lb_loginid',function(){
-            $(".preloader").show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             $('#CPVD_ta_reason').val('');
             $("#CPVD_btn_send").attr("disabled", "disabled");
             var CPVD_lb_loginid=$('#CPVD_lb_loginid').val();
-            if(CPVD_lb_loginid!='SELECT')
+            CPVD_lb_loginid_val=$("#CPVD_lb_loginid option:selected").text();
+            if(CPVD_lb_loginid_val!='SELECT')
             {
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $(".preloader").hide();
                         var value_array=JSON.parse(xmlhttp.responseText);
                         for(var i=0;i<value_array.length;i++){
                             var CPVD_laptop_no=value_array[i].CPVD_lap_no;
@@ -84,7 +91,7 @@ include "HEADER.php";
                         $('#CPVD_lbl_laptopno').show();
                         $('#CPVD_tb_laptopno').val(CPVD_laptop_no).show();
                         $('#CPVD_lbl_chargerno').show();
-                        var EMPSRC_UPD_DEL_employlstnmes=(CPVD_charger_no).length;
+                        var EMPSRC_UPD_DEL_employlstnmes=(CPVD_charger_no).length+7;
                         $('#CPVD_tb_chargerno').attr("size",EMPSRC_UPD_DEL_employlstnmes);
                         $('#CPVD_tb_chargerno').val(CPVD_charger_no).show();
                         $('#CPVD_lbl_chckdby').show();
@@ -101,7 +108,8 @@ include "HEADER.php";
             }
             else
             {
-                $(".preloader").hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 $('#CPVD_lbl_reason').hide();
                 $('#CPVD_ta_reason').hide();
                 $('#CPVD_lbl_laptopno').hide();
@@ -112,10 +120,13 @@ include "HEADER.php";
                 $('#CPVD_lb_chckdby').hide();
                 $('#CPVD_btns_sendreset').hide();
             }
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
         });
         //BLUR FUNCTION FOR TRIM REASON
         $("#CPVD_ta_reason").blur(function(){
-            $(".preloader").hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#CPVD_ta_reason').val($('#CPVD_ta_reason').val().toUpperCase())
             var trimfunc=($('#CPVD_ta_reason').val()).trim()
             $('#CPVD_ta_reason').val(trimfunc)
@@ -139,7 +150,10 @@ include "HEADER.php";
         });
         //CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#CPVD_btn_send',function(){
-            $(".preloader").show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var formElement = document.getElementById("CPVD_form_cmpnypropverfictn");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -147,15 +161,17 @@ include "HEADER.php";
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $(".preloader").hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0]}});
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0],position:{top:150,left:530}}});
                         CPVD_rset()
                         showTable()
                     }
                     else
                     {
-                        $(".preloader").hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1]}});
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1],position:{top:150,left:530}}});
                     }
                 }
             }
@@ -197,7 +213,7 @@ include "HEADER.php";
     <form   id="CPVD_form_cmpnypropverfictn" class="content" >
         <table>
             <tr>
-                <td><label name="CPVD_lbl_loginid" id="CPVD_lbl_loginid" hidden>LOGIN ID<em>*</em></label></td>
+                <td><label name="CPVD_lbl_loginid" id="CPVD_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label></td>
                 <td><select name="CPVD_lb_loginid" id="CPVD_lb_loginid" hidden>
                         <option>SELECT</option>
                     </select></td>
