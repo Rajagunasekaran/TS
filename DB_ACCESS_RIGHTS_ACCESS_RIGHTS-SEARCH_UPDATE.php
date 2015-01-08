@@ -4,6 +4,20 @@ require_once 'google/appengine/api/mail/Message.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
+
+//file upload code
+$drive = new Google_Client();
+$drive->setClientId('651424197810-72ki9kr1k58v3qec0034q1bfj2og6ss8.apps.googleusercontent.com');
+$drive->setClientSecret('NRY1PYuUK-NeJAZVJxUvXBeb');
+$drive->setRedirectUri('https://developers.google.com/oauthplayground');
+$drive->setScopes(array('https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/calendar'));
+$drive->setAccessType('online');
+$authUrl = $drive->createAuthUrl();
+$refresh_token= '1/YkIO518mEEVO9z5bdieivdpf9XVBnZN4PWZPLStyGzk';
+$drive->refreshToken($refresh_token);
+$service = new Google_Service_Drive($drive);
+//end of file upload
+
 include "CONNECTION.php";
 include "COMMON.php";
 include "GET_USERSTAMP.php";
@@ -68,6 +82,24 @@ if(isset($_REQUEST)){
         $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
         $URSRC_bag=$_POST['URSRC_chk_bag'];
+
+        //File upload function
+        $filesarray=$_REQUEST['filearray'];
+        if($filesarray!='')
+        {
+            $allfilearray=(explode(",",$filesarray));
+            foreach ($allfilearray as $value)
+            {
+                $uploadfilename=$value;
+                $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
+                $extension =(explode(".",$uploadfilename));
+                if($extension[1]=='pdf'){$mimeType='application/pdf';}
+                if($extension[1]=='jpg'){$mimeType='image/jpeg';}
+                if($extension[1]=='png'){$mimeType='image/png';}
+                $return =insertFile($service,$drivefilename,'PersonalDetails','0Bzvv-O9jT9r_YXk3Uld5eXdOTE0',$mimeType,$uploadfilename);
+            }
+        }
+        //End of File Uploads
 
         if($URSRC_bag=='on')
         {
@@ -356,6 +388,24 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
         $URSRC_bag=$_POST['URSRC_chk_bag'];
+
+        //File upload function
+        $filesarray=$_REQUEST['filearray'];
+        if($filesarray!='')
+        {
+            $allfilearray=(explode(",",$filesarray));
+            foreach ($allfilearray as $value)
+            {
+                $uploadfilename=$value;
+                $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
+                $extension =(explode(".",$uploadfilename));
+                if($extension[1]=='pdf'){$mimeType='application/pdf';}
+                if($extension[1]=='jpg'){$mimeType='image/jpeg';}
+                if($extension[1]=='png'){$mimeType='image/png';}
+                $return =insertFile($service,$drivefilename,'PersonalDetails','0Bzvv-O9jT9r_YXk3Uld5eXdOTE0',$mimeType,$uploadfilename);
+            }
+        }
+        //End of File Uploads
 
         if($URSRC_bag=='on')
         {
@@ -1019,6 +1069,34 @@ function URSRC_getmenubasic_folder1(){
     }
     $final_values=array($URSC_Main_menu_array, $URSC_sub_menu_array,$URSC_sub_sub_menu_data_array);
     return $final_values;
+}
+
+//File Upload Function Script
+function insertFile($service, $title, $description, $parentId,$mimeType,$uploadfilename)
+{
+    $file = new Google_Service_Drive_DriveFile();
+    $file->setTitle($title);
+    $file->setDescription($description);
+    $file->setMimeType($mimeType);
+    if ($parentId != null) {
+        $parent = new Google_Service_Drive_ParentReference();
+        $parent->setId($parentId);
+        $file->setParents(array($parent));
+    }
+    try
+    {
+        $data =file_get_contents($uploadfilename);
+        $createdFile = $service->files->insert($file, array(
+            'data' => $data,
+            'mimeType' => $mimeType,
+            'uploadType' => 'media',
+        ));
+        return $createdFile;
+    }
+    catch (Exception $e)
+    {
+        echo "An error occurred: " . $e->getMessage();
+    }
 }
 
 ?>

@@ -2,6 +2,10 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_SEARCH_UPDATE*********************************************//
 //DONE BY:SASIKALA
+//VER 0.07 DESC:SD:07/01/2015-ED:08/01/2015
+//1.Form Side: Added Attach File Html Code and Attach File Validation(form accept oly PDF,JPEG,PNG file oly).
+//2. DB Script side:Added file Upload Script(Temp hardcoded  Drive Folder id in Script) .
+// DONE BY KUMAR R
 //ver 0.06 DESC:changed text box id while change login id and added real escapt for branchadress-safi
 //VER 0.05  DESC:updated login creation/updation  validation part
 //VER 0.04 SD:2/12/14 ED:2/12/2014 TRACKER NO:74 DESC:ISSUE CORRECTED IN COMMENT NO:123
