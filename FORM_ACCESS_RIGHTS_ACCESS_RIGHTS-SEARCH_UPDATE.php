@@ -1,4 +1,3 @@
-
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_SEARCH_UPDATE*********************************************//
 //DONE BY:SASIKALA
@@ -23,6 +22,64 @@ include "HEADER.php";
 <script>
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
+
+    //reomve file upload row
+    $(document).on('click', 'button.removebutton', function () {
+
+        $(this).closest('tr').remove();
+        var rowCount = $('#filetableuploads tr').length;
+        if(rowCount!=0)
+        {
+            $('#attachafile').text('Attach another file');
+        }
+        else
+        {
+            $('#attachafile').text('Attach a file');
+        }
+        return false;
+    });
+
+    //file extension validation
+    $(document).on("change",'.fileextensionchk', function (){
+        for(var i=0;i<25;i++)
+        {
+            var data= $('#upload_filename'+i).val();
+            var datasplit=data.split('.');
+            var ext=datasplit[1].toUpperCase();
+            if(ext=='PDF'|| ext=='JPG'|| ext=='PNG' || ext=='JPEG' || data==undefined || data=="")
+            {}
+            else
+            {
+//     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:'pdf/jpg/png files are only allowed!'}});
+                alert('PDF/JPEG/JPG/PNG Files are Only Allowed!!!')
+                reset_field($('#upload_filename'+i));
+            }
+        }
+    });
+    //file upload reset
+    function reset_field(e) {
+        e.wrap('<form>').parent('form').trigger('reset');
+        e.unwrap();
+    }
+
+    //add file upload row
+    $(document).on("click",'#attachprompt', function (){
+        var tablerowCount = $('#filetableuploads tr').length;
+        var uploadfileid="upload_filename"+tablerowCount;
+        var appendfile='<tr><td ><input type="file" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></td></tr></br>';
+        $('#filetableuploads').append(appendfile);
+        var rowCount = $('#filetableuploads tr').length;
+        if(rowCount!=0)
+        {
+            $('#attachafile').text('Attach another file');
+        }
+        else
+        {
+            $('#attachafile').text('Attach a file');
+        }
+    });
+
+
     var URSRC_menuname=[];
     var URSRC_submenu=[];
     var URSRC_subsubmenu=[];
@@ -977,6 +1034,27 @@ $(document).ready(function(){
     $(document).on("click",'#URSRC_submitupdate ', function (){
         $('.preloader', window.parent.document).show();
         var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
+
+        //Removing fakepath in all files
+        var filearray=[];
+        for(var i=0;i<25;i++)
+        {
+            var data=$('#upload_filename'+i).val();
+            if(data!='' && data!=undefined)
+            {
+                data=(data.toString()).replace("C:\\fakepath\\", "");
+                filearray.push(data);
+            }
+        }
+        var filenames='';
+        for(var j=0;j<filearray.length;j++)
+        {
+            if(j==0){filenames=filearray[j];}
+            else
+            {filenames=filenames+','+filearray[j];}
+        }
+        //End Removing fakepath in all files
+
         var formElement = document.getElementById("URE_attendanceentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -1011,6 +1089,8 @@ $(document).ready(function(){
                     $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
                     $('#URSRC_table_employeetbl').hide();
                     $('#URSRC_lbl_selectloginid').hide();
+                    $("#filetableuploads tr").remove();
+                    $('#attachafile').text('Attach a file');
                 }
                 if(success_flag==0){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18]}});
@@ -1071,13 +1151,34 @@ $(document).ready(function(){
             }
         }
         var choice="loginupdate"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
+        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice+"&filearray="+filenames,true);
         xmlhttp.send(new FormData(formElement));
     });
     //VALIDATION FOR CREATE BUTTON FOR LOGIN CREATION ENTRY
     $(document).on("click",'#URSRC_btn_login_submitbutton ', function (){
         $('.preloader', window.parent.document).show();
-        var radio_checked=$("input[name=roles1]:checked" ).val()
+        var radio_checked=$("input[name=roles1]:checked" ).val();
+
+        //Removing fakepath in all files
+        var filearray=[];
+        for(var i=0;i<25;i++)
+        {
+            var data=$('#upload_filename'+i).val();
+            if(data!='' && data!=undefined)
+            {
+                data=(data.toString()).replace("C:\\fakepath\\", "");
+                filearray.push(data);
+            }
+        }
+        var filenames='';
+        for(var j=0;j<filearray.length;j++)
+        {
+            if(j==0){filenames=filearray[j];}
+            else
+            {filenames=filenames+','+filearray[j];}
+        }
+        //End Removing fakepath in all files
+
         var formElement = document.getElementById("URE_attendanceentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -1117,6 +1218,8 @@ $(document).ready(function(){
                     $('#URSRC_tb_joindate').val("");
                     $('#URSRC_tb_loginid').val("");
                     $('input[name=URSRC_mainradiobutton]:checked').attr('checked',false);
+                    $("#filetableuploads tr").remove();
+                    $('#attachafile').text('Attach a file');
                 }
                 if(success_flag==0)
                 {
@@ -1146,7 +1249,7 @@ $(document).ready(function(){
             }
         }
         var choice="loginsave"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_checked="+radio_checked+"&option="+choice,true);
+        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_checked="+radio_checked+"&option="+choice+"&filearray="+filenames,true);
         xmlhttp.send(new FormData(formElement));
     });
     //FUNCTION TO CLICK BASIC ROLE
@@ -1853,7 +1956,24 @@ $(document).ready(function(){
                         <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
                         <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label></td>
                 </tr>
+
             </table></td></tr>
+    <tr>
+        <td> </td>
+        <td>
+            <table ID="filetableuploads">
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td><label></label></td>
+        <td>
+                    <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
+                    <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
+                    </span>
+        </td>
+    </tr>
 </table>
 <tr>
     <td ><input class="btn" type="button"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden /></td>
