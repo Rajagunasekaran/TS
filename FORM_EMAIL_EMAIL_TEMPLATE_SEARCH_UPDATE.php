@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************EMAIL TEMPLATE SEARCH/UPDATE*********************************************//
+//DONE BY:RAJA
+//VER 0.03-SD:03/01/2015 ED:06/01/2015, TRACKER NO:179,DESC: SETTING PRELOADER POSITON AND MSGBOX POSITION
 //DONE BY:LALITHA
 //VER 0.02-SD:14/11/2014 ED:14/11/2014,TRACKER NO:74,Fixed width
 //VER 0.01-INITIAL VERSION, SD:27/10/2014 ED:28/10/2014,TRACKER NO:99
@@ -17,11 +19,11 @@ var ET_SRC_UPD_DEL_errorMsg_array=[];
 var ET_SRC_UPD_DEL_emailtemplate_list=[];
 //READY FUNCTION START
 $(document).ready(function(){
-    $(".preloader").show();
+    $('.preloader', window.parent.document).show();
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.preloader', window.parent.document).hide();
             var value_array=JSON.parse(xmlhttp.responseText);
             ET_SRC_UPD_DEL_emailtemplate_list=value_array[0];
             ET_SRC_UPD_DEL_errorMsg_array=value_array[1];
@@ -76,14 +78,18 @@ $(document).ready(function(){
     //CHANGE FUNCTION FOR SCRIPTNAME
     $('#ET_SRC_UPD_DEL_lb_scriptname').change(function()
     {
-        $(".preloader").show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('#ET_SRC_UPD_DEL_div_headernodata').hide();
         ET_SRC_UPD_DEL_name=$('#ET_SRC_UPD_DEL_lb_scriptname').find('option:selected').text();
         $('#ET_SRC_UPD_DEL_div_header').hide();
         var ET_SRC_UPD_DEL_scriptname = $("#ET_SRC_UPD_DEL_lb_scriptname").val();
         if(ET_SRC_UPD_DEL_scriptname=='SELECT')
         {
-            $(".preloader").hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#ET_SRC_UPD_DEL_tble_htmltable').hide();
             $('#ET_SRC_UPD_DEL_div_header').hide();
             $('#ET_SRC_UPD_DEL_div_headernodata').hide();
@@ -101,12 +107,13 @@ $(document).ready(function(){
     });
     //RESPONSE FUNCTION FOR FLEXTABLE SHOWING
     function ET_SRC_UPD_DEL_srch_result(){
-        $(".preloader").hide();
+        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+        $('.preloader').hide();
         var formElement = document.getElementById("ET_SRC_UPD_DEL_form_emailtemplate");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                var ET_SRC_UPD_DEL_table_header='<tr><th></th><th style="width:1000px">EMAIL SUBJECT</th><th style="width:1000px">EMAIL BODY</th><th style="width:90px">USERSTAMP</th><th style="width:150px" nowrap>TIMESTAMP</th></tr>'
+                var ET_SRC_UPD_DEL_table_header='<table border="1"  cellspacing="0"><tr><th></th><th style="width:1000px">EMAIL SUBJECT</th><th style="width:1000px">EMAIL BODY</th><th style="width:90px">USERSTAMP</th><th style="width:150px" nowrap>TIMESTAMP</th></tr></thead><tbody>'
                 $('#ET_SRC_UPD_DEL_tble_htmltable').html(ET_SRC_UPD_DEL_table_header);
                 values_array=JSON.parse(xmlhttp.responseText);
                 if(values_array.length!=0)
@@ -122,7 +129,7 @@ $(document).ready(function(){
                         ET_SRC_UPD_DEL_userstamp=values_array[j].ET_SRC_UPD_DEL_userstamp;
                         ET_SRC_UPD_DEL_timestmp=values_array[j].ET_SRC_UPD_DEL_timestamp;
                         id=values_array[j].id;
-                        ET_SRC_UPD_DEL_table_value='<tbody><tr><td><input type="radio" name="ET_SRC_UPD_DEL_rd_flxtbl" class="ET_SRC_UPD_DEL_radio" id='+id+'  value='+id+' ></td><td style="width:1000px">'+ET_SRC_UPD_DEL_emailsubject+'</td><td style="width:1000px">'+ET_SRC_UPD_DEL_emailbody+'</td><td>'+ET_SRC_UPD_DEL_userstamp+'</td><td>'+ET_SRC_UPD_DEL_timestmp+'</td></tr>';
+                        ET_SRC_UPD_DEL_table_value='<tr><td><input type="radio" name="ET_SRC_UPD_DEL_rd_flxtbl" class="ET_SRC_UPD_DEL_radio" id='+id+'  value='+id+' ></td><td style="width:1000px">'+ET_SRC_UPD_DEL_emailsubject+'</td><td style="width:1000px">'+ET_SRC_UPD_DEL_emailbody+'</td><td>'+ET_SRC_UPD_DEL_userstamp+'</td><td>'+ET_SRC_UPD_DEL_timestmp+'</td></tr></tdody></table>';
                         $('#ET_SRC_UPD_DEL_tble_htmltable').append(ET_SRC_UPD_DEL_table_value).show();
                     }
                 }
@@ -132,7 +139,8 @@ $(document).ready(function(){
                     $('#ET_SRC_UPD_DEL_div_table').hide();
                     $('#ET_SRC_UPD_DEL_div_headernodata').text(ET_SRC_UPD_DEL_errorMsg_array[1]).show();
                     $('#ET_SRC_UPD_DEL_tble_htmltable').hide();
-                    $(".preloader").hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                 }
             }
         }
@@ -191,7 +199,10 @@ $(document).ready(function(){
     //CLICK EVENT FUCNTION FOR UPDATE
     $('#ET_SRC_UPD_DEL_btn_update').click(function()
     {
-        $(".preloader").show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var ET_SRC_UPD_DEL_scriptname=$('#ET_SRC_UPD_DEL_lb_scriptname').val();
         var ET_SRC_UPD_DEL_datasubject=$('#ET_SRC_UPD_DEL_ta_updsubject').val();
         var ET_SRC_UPD_DEL_databody=$('#ET_SRC_UPD_DEL_ta_updbody').val();
@@ -204,15 +215,16 @@ $(document).ready(function(){
                     var ET_SRC_UPD_DEL_scriptname=$('#ET_SRC_UPD_DEL_lb_scriptname').val();
                     $("#ET_SRC_UPD_DEL_btn_search").hide();
                     $('#ET_SRC_UPD_DEL_div_update').hide();
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE SEARCH/UPDATE",msgcontent:ET_SRC_UPD_DEL_errorMsg_array[2]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE SEARCH/UPDATE",msgcontent:ET_SRC_UPD_DEL_errorMsg_array[2],position:{top:150,left:500}}});
                     ET_SRC_UPD_DEL_srch_result()
                 }
                 else
                 {
                     //MESSAGE BOX FOR NOT UPDATED
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE SEARCH/UPDATE",msgcontent:ET_SRC_UPD_DEL_errorMsg_array[0]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE SEARCH/UPDATE",msgcontent:ET_SRC_UPD_DEL_errorMsg_array[0],position:{top:150,left:500}}});
                 }
-                $(".preloader").hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
         }
         var choice="EMAIL_TEMPLATE_UPDATE"
@@ -244,10 +256,10 @@ $(document).ready(function(){
                     <option>SELECT</option>
                 </select></td>
         </tr>
-        </table>
-        <div class="srctitle" name="ET_SRC_UPD_DEL_div_header" id="ET_SRC_UPD_DEL_div_header"></div>
+        </table><br><br>
+        <div class="srctitle" name="ET_SRC_UPD_DEL_div_header" id="ET_SRC_UPD_DEL_div_header"></div><br>
         <div class="errormsg" name="ET_SRC_UPD_DEL_div_headernodata" id="ET_SRC_UPD_DEL_div_headernodata"></div>
-        <table id="ET_SRC_UPD_DEL_tble_htmltable" class="srcresult" style="width:1300px">
+        <table id="ET_SRC_UPD_DEL_tble_htmltable" class="srcresult" style="width:1300px" border="1">
         </table>
         <table id="ET_SRC_UPD_DEL_tble_srchupd" name="ET_SRC_UPD_DEL_tble_srchupd" hidden><tr>
                 <td><input type="button" class="btn" name="ET_SRC_UPD_DEL_btn_search" id="ET_SRC_UPD_DEL_btn_search" disabled="" value="SEARCH" style="width:100;height:30"></td>

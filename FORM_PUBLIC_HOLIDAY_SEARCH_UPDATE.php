@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************PUBLIC HOLIDAY SEARCH/UPDATE*********************************************//
+//DONE BY:RAJA
+//VER 0.02-SD:03/01/2015 ED:06/01/2015, TRACKER NO:166,179,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:LALITHA
 //VER 0.01-INITIAL VERSION, SD:17/12/2014 ED:17/12/2014,TRACKER NO:74
 //*********************************************************************************************************//
@@ -13,12 +15,14 @@ var err_msg_array=[];
 $('#PH_SRC_UPD_btn_search').hide();
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
-    $(".preloader").show();
+    var pdfmsg;
+    $('#PH_SRC_UP_btn_pdf').hide();
+    $('.preloader', window.parent.document).show();
     $('#PH_SRC_UPD_btn_search').hide();
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.preloader', window.parent.document).hide();
             var values_array=JSON.parse(xmlhttp.responseText);
             PH_SRC_UPD_yr_listbx=values_array[0];
             err_msg_array=values_array[1];
@@ -34,6 +38,8 @@ $(document).ready(function(){
             else
             {
                 $('#PH_SRC_UPD_nodaterr').text(err_msg_array[3]).show();
+                $('#PH_SRC_UP_btn_pdf').hide();
+                $('#PH_SRC_UPD_nodate').hide();
             }
         }
     }
@@ -51,11 +57,15 @@ $(document).ready(function(){
     var values_array=[];
     var id;
     $(document).on('change','#PH_SRC_UPD_lb_yr',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('#tablecontainer').hide();
         $('#PH_SRC_UPD_tble_htmltable').html('');
         $('section').html('');
         $('#PH_SRC_UPD_nodate').hide();
+        $('#PH_SRC_UP_btn_pdf').hide();
         var yr=$('#PH_SRC_UPD_lb_yr').val()
         var msg=err_msg_array[0].replace("[DATE]",yr);
         $('#PH_SRC_UPD_lbl_norole_err').text(msg).hide();
@@ -65,19 +75,21 @@ $(document).ready(function(){
     function flex_table(){
         if($('#PH_SRC_UPD_lb_yr').val()!="SELECT")
         {
-            var yr=$('#PH_SRC_UPD_lb_yr').val()
+            var yr=$('#PH_SRC_UPD_lb_yr').val();
             var formElement = document.getElementById("PH_SRC_UPD_form");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
-                    $(".preloader").hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     values_arraystotal=JSON.parse(xmlhttp.responseText);
                     values_array=values_arraystotal[0];
                     if(values_array.length!=0)
                     {
                         var msg=err_msg_array[4].replace("[SCRIPT]",'PUBLIC HOLIDAY FOR '+yr);
+                        pdfmsg=msg;
                         $('#PH_SRC_UPD_nodate').text(msg).show();
+                        $('#PH_SRC_UP_btn_pdf').show();
                         var PH_SRC_UPD_table_header='<table id="PH_SRC_UPD_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:900px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:10px"></th><th class="uk-date-column" style="width:100px">DATE</th><th style="width:400px">DESCRIPTION</th><th style="width:100px">USERSTAMP</th><th class="uk-timestp-column" style="width:180px">TIMESTAMP</th></tr></thead><tbody>'
                         for(var j=0;j<values_array.length;j++){
                             var PH_SRC_UPD_date=values_array[j].PH_SRC_UPD_date;
@@ -94,19 +106,8 @@ $(document).ready(function(){
                             "pageLength": 10,
                             "sPaginationType":"full_numbers",
                             "aoColumnDefs" : [
-                                { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
-                            dom: 'T<"clear">lfrtip',
-                            tableTools: {"aButtons": [
-                                {
-                                    "sExtends": "pdf",
-                                    "mColumns": [1, 2, 3 ,4],
-                                    "sTitle": msg,
-                                    "sPdfOrientation": "landscape",
-                                    "sPdfSize": "A3"
-                                }],
-                                "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                            }
-                        });
+                                { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
+                            });
                     }
                     else
                     {
@@ -118,7 +119,8 @@ $(document).ready(function(){
                         $('#PH_SRC_UPD_tble_htmltable').html('');
 
                     }
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                 }
             }
             $('#tablecontainer').show();
@@ -128,7 +130,8 @@ $(document).ready(function(){
         }
         else
         {
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#PH_SRC_UPD_updateform').hide();
             $('#PH_SRC_UPD_btn_search').hide();
             $('#tablecontainer').hide();
@@ -200,7 +203,10 @@ $(document).ready(function(){
     //CLICK EVENT FUCNTION FOR UPDATE
     $('#PH_SRC_UPD_btn_update').click(function()
     {
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var PH_SRC_UPD_date=$('#PH_SRC_UPD_tb_date').val();
         var PH_SRC_UPD_des=$('#PH_SRC_UPD_tb_des').val();
         var formElement = document.getElementById("PH_SRC_UPD_form");
@@ -212,16 +218,17 @@ $(document).ready(function(){
                     $("#PH_SRC_UPD_updateform").hide();
                     $('#PH_SRC_UPD_btn_search').hide();
                     var msg=err_msg_array[0].replace("REPORT",'RECORD');
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
                     PH_SRC_UPD_detailrset()
                     flex_table();
                 }
                 else
                 {
                     //MESSAGE BOX FOR NOT UPDATED
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
                 }
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
         }
         var choice="PROJECT_DETAILS_UPDATE"
@@ -231,17 +238,25 @@ $(document).ready(function(){
     //CLICK EVENT FUCNTION FOR RESET
     $('#PH_SRC_UPD_btn_reset').click(function()
     {
-        $(".preloader").show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         PH_SRC_UPD_detailrset()
     });
 //RESET ALL THE ELEMENT//
     function PH_SRC_UPD_detailrset()
     {
-        $(".preloader").hide();
+        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+        $('.preloader').hide();
         $('#PH_SRC_UPD_tb_date').val('');
         $('#PH_SRC_UPD_tb_des').val('');
         $("#PH_SRC_UPD_btn_update").attr("disabled","disabled");
     }
+    $(document).on('click','#PH_SRC_UP_btn_pdf',function(){
+        var inputValOne=$('#PH_SRC_UPD_lb_yr').val();
+        var url=document.location.href='COMMON_PDF.do?flag=16&inputValOne='+inputValOne+'&title='+pdfmsg;
+    });
     //END DOCUMENT READY FUNCTION
 });
 <!--SCRIPT TAG END-->
@@ -261,7 +276,8 @@ $(document).ready(function(){
             <div><label id="PH_SRC_UPD_nodaterr" name="PH_SRC_UPD_nodaterr" class="errormsg"></label></div>
         </table>
         <table>
-            <div class="srctitle" name="PH_SRC_UPD_nodate" id="PH_SRC_UPD_nodate" hidden></div>
+            <br><div class="srctitle" name="PH_SRC_UPD_nodate" id="PH_SRC_UPD_nodate" hidden></div>
+            <div><input type="button" id="PH_SRC_UP_btn_pdf" class="btnpdf" value="PDF"></div>
             <div><label id="UPH_SRC_UPD_lbl_header" name="UPH_SRC_UPD_lbl_header" class="errormsg"></label></div>
             <div class="container">
                 <div class="container" id="tablecontainer" style="width:900px;" hidden>
@@ -272,7 +288,7 @@ $(document).ready(function(){
             <div><label id="PH_SRC_UPD_lbl_norole_err" name="PH_SRC_UPD_lbl_norole_err" class="errormsg"></label></div>
         </table>
         <tr>
-            <td><input class="btn" type="button"  id="PH_SRC_UPD_btn_search" name="PH_SRC_UPD_btn_search" value="SEARCH" hidden /></td>
+            <td><input class="btn" type="button" id="PH_SRC_UPD_btn_search" name="PH_SRC_UPD_btn_search" value="SEARCH" hidden /></td>
         </tr>
         <table id="PH_SRC_UPD_updateform" hidden>
             <tr>

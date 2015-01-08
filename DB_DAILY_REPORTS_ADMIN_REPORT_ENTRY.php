@@ -6,11 +6,11 @@ include "COMMON.php";
 date_default_timezone_set('Asia/Kolkata');
 $USERSTAMP=$UserStamp;
 if($_REQUEST["option"]=="login_id"){
-    $login_id=$_REQUEST['login_id'];
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-    while($row=mysqli_fetch_array($uld_id)){
-        $ADM_uld_id=$row["ULD_ID"];
-    }
+    $ADM_uld_id=$_REQUEST['login_id'];
+//    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+//    while($row=mysqli_fetch_array($uld_id)){
+//        $ADM_uld_id=$row["ULD_ID"];
+//    }
     $min_date=mysqli_query($con,"SELECT UA_JOIN_DATE FROM USER_ACCESS where ULD_ID='$ADM_uld_id' AND UA_TERMINATE IS NULL");
     while($row=mysqli_fetch_array($min_date)){
         $mindate_array=$row["UA_JOIN_DATE"];
@@ -21,11 +21,11 @@ if($_REQUEST["option"]=="login_id"){
     echo JSON_ENCODE($finalvalue);
 }
 if($_REQUEST["option"]=="LOGINID"){
-    $login_id=$_REQUEST['login_id'];
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-    while($row=mysqli_fetch_array($uld_id)){
-        $ADM_uld_id=$row["ULD_ID"];
-    }
+    $ADM_uld_id=$_REQUEST['login_id'];
+//    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+//    while($row=mysqli_fetch_array($uld_id)){
+//        $ADM_uld_id=$row["ULD_ID"];
+//    }
     $min_date=mysqli_query($con,"SELECT UA_JOIN_DATE FROM USER_ACCESS where ULD_ID='$ADM_uld_id' AND UA_TERMINATE IS NULL");
     while($row=mysqli_fetch_array($min_date)){
         $mindate_array=$row["UA_JOIN_DATE"];
@@ -36,12 +36,12 @@ if($_REQUEST["option"]=="LOGINID"){
 if($_REQUEST["option"]=="DATE")
 {
     $date=$_REQUEST['date_change'];
-    $login_id=$_REQUEST['login_id'];
+    $ADM_uld_id=$_REQUEST['login_id'];
     $ADM_date=date('Y-m-d',strtotime($date));
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-    while($row=mysqli_fetch_array($uld_id)){
-        $ADM_uld_id=$row["ULD_ID"];
-    }
+//    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+//    while($row=mysqli_fetch_array($uld_id)){
+//        $ADM_uld_id=$row["ULD_ID"];
+//    }
     $sql="SELECT * FROM USER_ADMIN_REPORT_DETAILS WHERE ULD_ID='$ADM_uld_id' AND UARD_DATE='$ADM_date'";
     $sql_result= mysqli_query($con,$sql);
     $row=mysqli_num_rows($sql_result);
@@ -66,7 +66,7 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     $bandwidth=$_POST['ARE_tb_band'];
     $ampm=$_POST['ARE_lb_ampm'];
     $project=$_POST['checkbox'];
-    $login_id=$_POST['ARE_lb_loginid'];
+    $ADM_uld_id=$_POST['ARE_lb_loginid'];
     $finaldate = date('Y-m-d',strtotime($date));
     $reportlocation=$_REQUEST['checkoutlocation'];
     $length=count($project);
@@ -96,9 +96,9 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     while($row=mysqli_fetch_array($userstamp_id)){
         $ADM_userstamp_id=$row["ULD_ID"];
     }
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+    $uld_id=mysqli_query($con,"select ULD_LOGINID from USER_LOGIN_DETAILS where ULD_ID='$ADM_uld_id'");
     while($row=mysqli_fetch_array($uld_id)){
-        $ADM_uld_id=$row["ULD_ID"];
+        $login_id=$row["ULD_LOGINID"];
     }
     $present=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='1'");
     while($row=mysqli_fetch_array($present)){
@@ -238,6 +238,7 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     {
         $time=date("G:i:s", time());
         $sql="SELECT * FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE ULD_ID='$ADM_uld_id' AND ECIOD_DATE='$finaldate'";
+
         $sql_result= mysqli_query($con,$sql);
         $row=mysqli_num_rows($sql_result);
         if($row>0)
@@ -291,16 +292,16 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
     $bandwidth='';
     $project='';
     $reportlocation=$_REQUEST['reportlocation'];
-    $login_id=$_POST['ARE_lb_lgnid'];
+    $ADM_uld_id=$_POST['ARE_lb_lgnid'];
     $first_date = date('Y-m-d',strtotime($firstdate));
     $second_date = date('Y-m-d',strtotime($seconddate));
-    if($login_id=='SELECT')
+    if($ADM_uld_id=='SELECT')
     {
-        $login_id='';
+        $ADM_uld_id='';
     }
     else
     {
-        $login_id=$login_id;
+        $ADM_uld_id=$ADM_uld_id;
     }
     $urc_id=mysqli_query($con,"SELECT URC_ID FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE ULD_LOGINID='$USERSTAMP'");
     while($row=mysqli_fetch_array($urc_id)){
@@ -310,9 +311,9 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
     while($row=mysqli_fetch_array($userstamp_id)){
         $ADM_userstamp_id=$row["ULD_ID"];
     }
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+    $uld_id=mysqli_query($con,"select ULD_LOGINID from USER_LOGIN_DETAILS where ULD_ID='$ADM_uld_id'");
     while($row=mysqli_fetch_array($uld_id)){
-        $ADM_uld_id=$row["ULD_ID"];
+        $login_id=$row["ULD_LOGINID"];
     }
     $absent=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='2'");
     while($row=mysqli_fetch_array($absent)){
@@ -414,15 +415,15 @@ if($_REQUEST['option']=='BETWEEN DATE')
 {
     $fdate=$_REQUEST['fromdate'];
     $tdate=$_REQUEST['todate'];
-    $loginid=$_REQUEST['loginid'];
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loginid'");
-    while($row=mysqli_fetch_array($uld_id)){
-        $ADM_uld_id=$row["ULD_ID"];
-    }
+    $ADM_uld_id=$_REQUEST['loginid'];
+//    $uld_id=mysqli_query($con,"select ULD_LOGINID from USER_LOGIN_DETAILS where ULD_ID='$ADM_uld_id'");
+//    while($row=mysqli_fetch_array($uld_id)){
+//        $loginid=$row["ULD_LOGINID"];
+//    }
     $fromdate = date('Y-m-d',strtotime($fdate));
     $todate = date('Y-m-d',strtotime($tdate));
     $ure_date_array=array();
-    if($loginid!='SELECT')
+    if($ADM_uld_id!='SELECT')
     {
         $sql= mysqli_query($con,"SELECT DISTINCT DATE_FORMAT(UARD_DATE,'%d-%m-%Y') AS UARD_DATE FROM USER_ADMIN_REPORT_DETAILS WHERE UARD_DATE BETWEEN '$fromdate' AND '$todate' AND ULD_ID=$ADM_uld_id ORDER BY UARD_DATE");
         while($row=mysqli_fetch_array($sql)){
@@ -448,16 +449,17 @@ if($_REQUEST['option']=='ALLEMPDATE')
     echo $allmindate;
 }
 if($_REQUEST['option']=='PRESENT')
-{$emptyflag=0;
+{
+    $emptyflag=0;
     $rprtdate=$_REQUEST['reportdate'];
-    $logind=$_REQUEST['loginid'];
+    $ure_uld_id=$_REQUEST['loginid'];
     $rprtdate = date('Y-m-d',strtotime($rprtdate));
+    $uld_id=mysqli_query($con,"select ULD_LOGINID from USER_LOGIN_DETAILS where ULD_ID='$ure_uld_id'");
+    while($row=mysqli_fetch_array($uld_id)){
+        $logind=$row["ULD_LOGINID"];
+    }
     if($logind==$USERSTAMP)
     {
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$logind'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $ure_uld_id=$row["ULD_ID"];
-        }
         $sql="SELECT * FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE ULD_ID='$ure_uld_id' AND ECIOD_DATE='$rprtdate'";
         $sql_result= mysqli_query($con,$sql);
         $row=mysqli_num_rows($sql_result);
@@ -481,14 +483,14 @@ if($_REQUEST['option']=='HALFDAYABSENT')
 {
     $emptyflag=0;
     $rprtdate=$_REQUEST['reportdate'];
-    $logind=$_REQUEST['logind'];
+    $ure_uld_id=$_REQUEST['logind'];
     $rprtdate = date('Y-m-d',strtotime($rprtdate));
+    $uld_id=mysqli_query($con,"select ULD_LOGINID from USER_LOGIN_DETAILS where ULD_ID='$ure_uld_id'");
+    while($row=mysqli_fetch_array($uld_id)){
+        $logind=$row["ULD_LOGINID"];
+    }
     if($logind==$USERSTAMP)
     {
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$logind'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $ure_uld_id=$row["ULD_ID"];
-        }
         $sql="SELECT * FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE ULD_ID='$ure_uld_id' AND ECIOD_DATE='$rprtdate'";
         $sql_result= mysqli_query($con,$sql);
         $row=mysqli_num_rows($sql_result);

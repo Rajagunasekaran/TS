@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*************************************BANDWIDTH****************************************************************//
+//DONE BY:RAJA
+//VER 0.05-SD:02/01/2015 ED:02/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
 //DONE BY: RAJA
 //VER 0.04-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,IMPLEMENTED HEADER NAME FOR PDF AND DATA TABLE
 //DONE BY:LALITHA
@@ -25,10 +27,12 @@ $(document).ready(function(){
     var errmsg;
     var pdferrmsg;
     $('#REP_BND_nodata_rc').hide();
+    $('#REP_BND_btn_mnth_pdf').hide();
+    $('#REP_BND_btn_emp_pdf').hide();
     $(".ui-datepicker-calendar").hide();
     var REP_BND_reportconfig_listbx=[];
     var REP_BND_active_emp=[];
-    var  REP_BND_nonactive_emp=[];
+    var REP_BND_nonactive_emp=[];
     $('.preloader').show();
     $('#REP_BND_btn_search').hide();
     $('#REP_BND_btn_mysearch').hide();
@@ -78,7 +82,9 @@ $(document).ready(function(){
         $('#REV_nodata_pdflextbles').hide();
         $('#REP_BND_nodata_lgnid').hide();
         $('#src_lbl_error').hide();
+        $('#REP_BND_btn_mnth_pdf').hide();
         $('#src_lbl_error_login').hide();
+        $('#REP_BND_btn_emp_pdf').hide();
         $("#REP_BND_btn_mysearch").attr("disabled","disabled");
         $('input:radio[name=REP_BND_rd_actveemp]').attr('checked',false);
         var option=$("#REP_BND_lb_reportconfig").val();
@@ -88,7 +94,9 @@ $(document).ready(function(){
             $('#REP_BND_db_selectmnth').hide();
             $('#REP_BND_btn_mysearch').hide();
             $('#src_lbl_error').hide();
+            $('#REP_BND_btn_mnth_pdf').hide();
             $('#src_lbl_error_login').hide();
+            $('#REP_BND_btn_emp_pdf').hide();
             $('#REP_BND_tble_prjctrevactnonact').hide();
         }
         //BANDWIDTH BY MONTH
@@ -136,7 +144,9 @@ $(document).ready(function(){
                     $('sections').html('');
                     $('#REP_BND_div_monthyr').hide();
                     $('#src_lbl_error').hide();
+                    $('#REP_BND_btn_mnth_pdf').hide();
                     $('#src_lbl_error_login').hide();
+                    $('#REP_BND_btn_emp_pdf').hide();
                     $('#REP_BND_nodata_pdflextble').hide();
                     $("#REP_BND_btn_mysearch").attr("disabled","disabled");
                     if($("#REP_BND_db_selectmnth").val()=='')
@@ -173,7 +183,9 @@ $(document).ready(function(){
             $('#REP_BND_btn_mysearch').hide();
             $('#REP_BND_db_selectmnth').hide();
             $('#src_lbl_error').hide();
+            $('#REP_BND_btn_mnth_pdf').hide();
             $('#src_lbl_error_login').hide();
+            $('#REP_BND_btn_emp_pdf').hide();
         }
     });
     // CLICK EVENT FOR ACTIVE RADIO BUTTON
@@ -190,7 +202,9 @@ $(document).ready(function(){
         $('#REV_nodata_pdflextbles').hide();
         $('#REP_BND_nodata_lgnid').hide();
         $('#src_lbl_error').hide();
+        $('#REP_BND_btn_mnth_pdf').hide();
         $('#src_lbl_error_login').hide();
+        $('#REP_BND_btn_emp_pdf').hide();
         if(REP_BND_active_emp.length!=0)
         {
             var REP_BND_active_employee='<option>SELECT</option>';
@@ -222,7 +236,9 @@ $(document).ready(function(){
         $('#REV_nodata_pdflextbles').hide();
         $('#REP_BND_nodata_lgnid').hide();
         $('#src_lbl_error').hide();
+        $('#REP_BND_btn_mnth_pdf').hide();
         $('#src_lbl_error_login').hide();
+        $('#REP_BND_btn_emp_pdf').hide();
         if(REP_BND_nonactive_emp.length!=0)
         {
             var REP_BND_nonactive='<option>SELECT</option>';
@@ -250,7 +266,9 @@ $(document).ready(function(){
         $('#REP_BND_div_actvenon_dterange').hide();
         $('#REV_nodata_pdflextbles').hide();
         $('#src_lbl_error').hide();
+        $('#REP_BND_btn_mnth_pdf').hide();
         $('#src_lbl_error_login').hide();
+        $('#REP_BND_btn_emp_pdf').hide();
         var REP_BND_loginid=$('#REP_BND_lb_loginid').val();
         if($('#REP_BND_lb_loginid').val()=="SELECT")
         {
@@ -259,7 +277,9 @@ $(document).ready(function(){
             $('#REP_BND_lbl_selectmnths').hide();
             $('#REP_BND_db_selectmnths').hide();
             $('#src_lbl_error').hide();
+            $('#REP_BND_btn_mnth_pdf').hide();
             $('#src_lbl_error_login').hide();
+            $('#REP_BND_btn_emp_pdf').hide();
         }
         else
         {
@@ -306,7 +326,9 @@ $(document).ready(function(){
                     $('#REP_BND_div_actvenon_dterange').hide();
                     $('#REV_nodata_pdflextbles').hide();
                     $('#src_lbl_error').hide();
+                    $('#REP_BND_btn_mnth_pdf').hide();
                     $('#src_lbl_error_login').hide();
+                    $('#REP_BND_btn_emp_pdf').hide();
                     $("#REP_BND_btn_search").attr("disabled","disabled");
                     if($("#REP_BND_db_selectmnths").val()=='')
                     {
@@ -350,6 +372,7 @@ $(document).ready(function(){
                     errmsg=REP_BND_errorAarray[4].toString().replace("[MONTH]",REP_BND_monthyear);
                     errmsg=errmsg.replace("[LOGINID]",REP_BND_loginid);
                     $('#src_lbl_error_login').text(errmsg).show();
+                    $('#REP_BND_btn_emp_pdf').show();
                     var loginname;
                     var loginpos=REP_BND_loginid.search("@");
                     if(loginpos>0){
@@ -374,19 +397,6 @@ $(document).ready(function(){
                     REP_BND_table_header+='</tbody></table>';
                     $('section').html(REP_BND_table_header);
                     $('#REP_BND_tble_lgn').DataTable({
-                        //SET PDF ONLY
-                        dom: 'T<"clear">lfrtip',
-                        "pageLength": 50,
-                        tableTools: {"aButtons": [
-                            {
-                                "sExtends": "pdf",
-                                "sTitle": pdferrmsg,
-//                                "sPdfOrientation": "landscape",
-                                "sPdfSize": "A4"
-                            }
-                        ],
-                            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                        },
                         //FOOTER FUNCTION
                         "footerCallback": function ( row, data, start, end, display ) {
                             var api = this.api(), data;
@@ -440,7 +450,9 @@ $(document).ready(function(){
         $('#REP_BND_div_monthyr').hide();
         $('#REP_BND_tble_bw').html('');
         $('#src_lbl_error').hide();
+        $('#REP_BND_btn_mnth_pdf').hide();
         $('#src_lbl_error_login').hide();
+        $('#REP_BND_btn_emp_pdf').hide();
         $('#REP_BND_btn_mysearch').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnth').val();
         $('.preloader', window.parent.document).show();
@@ -453,7 +465,7 @@ $(document).ready(function(){
                 {
                     errmsg=REP_BND_errorAarray[3].toString().replace("[MONTH]",REP_BND_monthyear);
                     $('#src_lbl_error').text(errmsg).show();
-                    pdferrmsg=errmsg;
+                    $('#REP_BND_btn_mnth_pdf').show();
                     var REP_BND_userbndwdth= REP_BND_monthyr_values[0];
                     var total= REP_BND_monthyr_values[1];
                     if(REP_BND_userbndwdth.length!=1)
@@ -473,19 +485,6 @@ $(document).ready(function(){
                     REP_BND_table_header+='</tbody></table>';
                     $('sections').html(REP_BND_table_header);
                     $('#REP_BND_tble_bw').DataTable({
-                        //SET PDF ONLY
-                        dom: 'T<"clear">lfrtip',
-                        "pageLength": 25,
-                        tableTools: {"aButtons": [
-                            {
-                                "sExtends": "pdf",
-                                "sTitle": pdferrmsg,
-//                                "sPdfOrientation": "landscape",
-                                "sPdfSize": "A4"
-                            }
-                        ],
-                            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                        },
                         //FOOTER FUNCTION
                         "footerCallback": function ( row, data, start, end, display ) {
                             var api = this.api(), data;
@@ -533,6 +532,16 @@ $(document).ready(function(){
         xmlhttp.open("GET","DB_REPORT_BANDWIDTH.do?option="+option+"&REP_BND_db_selectmnth="+REP_BND_monthyear);
         xmlhttp.send();
     });
+    //CLICK EVENT FOR PDF BUTTON
+    $(document).on('click','#REP_BND_btn_mnth_pdf',function(){
+        var inputValOne=$("#REP_BND_db_selectmnth").val();
+        var url=document.location.href='COMMON_PDF.do?flag=14&inputValOne='+inputValOne+'&title='+errmsg;
+    });
+    $(document).on('click','#REP_BND_btn_emp_pdf',function(){
+        var inputValOne=$("#REP_BND_db_selectmnths").val();
+        var inputValTwo=$('#REP_BND_lb_loginid').val();
+        var url=document.location.href='COMMON_PDF.do?flag=15&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+    });
 });
 <!--SCRIPT TAG END-->
 </script>
@@ -565,6 +574,7 @@ $(document).ready(function(){
             <div>
                 <label id="src_lbl_error" class="srctitle"></label>
             </div>
+            <div><input type="button" id="REP_BND_btn_mnth_pdf" class="btnpdf" value="PDF"></div>
             <div><label id="REP_BND_nodata_pdflextble" name="REP_BND_nodata_pdflextble" class="errormsg"></label></div>
             <div id ="REP_BND_div_monthyr" class="container" style="width:500px" hidden>
                 <sections>
@@ -606,6 +616,7 @@ $(document).ready(function(){
             <div>
                 <label id="src_lbl_error_login" class="srctitle"></label>
             </div>
+            <div><input type="button" id="REP_BND_btn_emp_pdf" class="btnpdf" value="PDF"></div>
             <tr><td><label id="REP_BND_nodatas_pdflextble" name="REP_BND_nodatas_pdflextble" class="errormsg"></label></td></tr>
             <div id ="REP_BND_div_actvenon_dterange" class="container" style="width:500px" hidden>
                 <section>

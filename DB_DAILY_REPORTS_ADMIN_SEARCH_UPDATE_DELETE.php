@@ -11,10 +11,11 @@ if(isset($_REQUEST)){
     $USERSTAMP=$UserStamp;
     if($_REQUEST["option"]=="login_id"){
         $login_id=$_REQUEST['login_id'];
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $ADM_uld_id=$row["ULD_ID"];
-        }
+//        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+//        while($row=mysqli_fetch_array($uld_id)){
+//            $ADM_uld_id=$row["ULD_ID"];
+//        }
+        $ADM_uld_id=$login_id;
         $admin_searchmin_date=mysqli_query($con,"SELECT MIN(UARD_DATE) as UARD_DATE FROM USER_ADMIN_REPORT_DETAILS where ULD_ID='$ADM_uld_id' ");
         while($row=mysqli_fetch_array($admin_searchmin_date)){
             $admin_searchmin_date_value=$row["UARD_DATE"];
@@ -44,18 +45,19 @@ if(isset($_REQUEST)){
         $active_loginid=$_REQUEST['actionloginid'];
         $startdate = date('Y-m-d',strtotime($sdate));
         $enddate = date('Y-m-d',strtotime($edate));
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$active_loginid'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $ure_uld_id=$row["ULD_ID"];
-        }
+//        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$active_loginid'");
+//        while($row=mysqli_fetch_array($uld_id)){
+//            $ure_uld_id=$row["ULD_ID"];
+//        }
+        $ure_uld_id=$active_loginid;
         $date= mysqli_query($con,"SELECT UARD_ID,UARD_REPORT,UARD_REASON,UARD_DATE,b.AC_DATA as UARD_PERMISSION, c.AC_DATA as UARD_ATTENDANCE,UARD.UARD_PSID,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,I.ULD_LOGINID AS ULD_ID,DATE_FORMAT(CONVERT_TZ(UARD.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP,UARD_BANDWIDTH,ULD.ULD_LOGINID as UARD_USERSTAMP_ID,ABSENT_FLAG FROM USER_ADMIN_REPORT_DETAILS UARD
-LEFT JOIN ATTENDANCE_CONFIGURATION b ON b.AC_ID=UARD.UARD_PERMISSION
-left JOIN ATTENDANCE_CONFIGURATION c on c.AC_ID=UARD.UARD_ATTENDANCE
-LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=UARD.UARD_AM_SESSION
-LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=UARD.UARD_PM_SESSION
-LEFT JOIN USER_LOGIN_DETAILS I ON I.ULD_ID=UARD.ULD_ID
-LEFT JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID=UARD.UARD_USERSTAMP_ID
-where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id' ORDER BY UARD.UARD_DATE ");
+            LEFT JOIN ATTENDANCE_CONFIGURATION b ON b.AC_ID=UARD.UARD_PERMISSION
+            LEFT JOIN ATTENDANCE_CONFIGURATION c on c.AC_ID=UARD.UARD_ATTENDANCE
+            LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=UARD.UARD_AM_SESSION
+            LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=UARD.UARD_PM_SESSION
+            LEFT JOIN USER_LOGIN_DETAILS I ON I.ULD_ID=UARD.ULD_ID
+            LEFT JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID=UARD.UARD_USERSTAMP_ID
+            WHERE UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id' ORDER BY UARD.UARD_DATE ");
         while($row=mysqli_fetch_array($date)){
             $ure_id=$row["UARD_ID"];
             $uredate=$row["UARD_DATE"];
@@ -104,15 +106,14 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
     {
         $alldate = $_REQUEST['alldate'];
         $empdate = date('Y-m-d',strtotime($alldate));
-        $sql=mysqli_query($con,"SELECT DISTINCT AC.AC_DATA,A.UARD_REPORT,A.UARD_REASON,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,B.ULD_LOGINID,C.ULD_LOGINID as USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') as UARD_TIMESTAMP FROM USER_ADMIN_REPORT_DETAILS A
-INNER JOIN USER_LOGIN_DETAILS B on A.ULD_ID=B.ULD_ID INNER JOIN USER_LOGIN_DETAILS C on A.UARD_USERSTAMP_ID=C.ULD_ID
-INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION
-LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID  where A.UARD_DATE='$empdate' and D.UA_TERMINATE IS null order by ULD_LOGINID");
+        $sql=mysqli_query($con,"SELECT DISTINCT AED.EMPLOYEE_NAME,AC.AC_DATA,A.UARD_REPORT,A.UARD_REASON,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,B.ULD_LOGINID,C.ULD_LOGINID as USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') as UARD_TIMESTAMP FROM USER_ADMIN_REPORT_DETAILS A
+            INNER JOIN USER_LOGIN_DETAILS B on A.ULD_ID=B.ULD_ID INNER JOIN USER_LOGIN_DETAILS C on A.UARD_USERSTAMP_ID=C.ULD_ID INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION INNER JOIN VW_TS_ALL_EMPLOYEE_DETAILS AED ON A.ULD_ID=AED.ULD_ID
+            LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID WHERE A.UARD_DATE='$empdate' and D.UA_TERMINATE IS NULL ORDER BY EMPLOYEE_NAME");
         while($row=mysqli_fetch_array($sql)){
             $adm_reprt=$row["UARD_REPORT"];
             $adm_userstamp=$row["USERSTAMP"];
             $adm_timestamp=$row["UARD_TIMESTAMP"];
-            $adm_loginid=$row["ULD_LOGINID"];
+            $adm_loginid=$row["EMPLOYEE_NAME"];
             $adm_reason_txt=$row["UARD_REASON"];
             $ure_morningsession=$row["UARD_AM_SESSION"];
             $ure_afternoonsession=$row["UARD_PM_SESSION"];
@@ -155,7 +156,7 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
         $bandwidth=$_POST['ASRC_UPD_DEL_tb_band'];
         $ampm=$_POST['ASRC_UPD_DEL_lb_ampm'];
         $project=$_POST['checkbox'];
-        $login_id=$_POST['ASRC_UPD_DEL_lb_loginid'];
+        $ADM_uld_id=$_POST['ASRC_UPD_DEL_lb_loginid'];
         $flag_abs=$_POST['flag'];
         $finaldate = date('Y-m-d',strtotime($date));
         $reportlocation=$_REQUEST['reportlocation'];
@@ -197,9 +198,9 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
             $ADM_userstamp_id=$row["ULD_ID"];
         }
 
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+        $uld_id=mysqli_query($con,"select ULD_LOGINID from USER_LOGIN_DETAILS where ULD_ID='$ADM_uld_id'");
         while($row=mysqli_fetch_array($uld_id)){
-            $ADM_uld_id=$row["ULD_ID"];
+            $login_id=$row["ULD_LOGINID"];
         }
         $present=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='1'");
         while($row=mysqli_fetch_array($present)){
@@ -348,19 +349,19 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
         }
         if($flag==1)
         {
-            $header='<body>'.'<br>'.'<table border=1  width=2000><thead  bgcolor=#6495ed style=color:white><tr bgcolor=#498af3 align=center  height="40" ><th>LOGIN ID</th><th style="max-width:850px; !important;" >OLD VALUE</th><th style="max-width:850px; !important;" >NEW VALUE</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead>';
-            $result = $con->query("CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA('$login_id','$USERSTAMP',@TEMP_UARD_TICKLER_HISTORY)");
+            $header='<body>'.'<br>'.'<table border=1  width=2000><thead  bgcolor=#6495ed style=color:white><tr bgcolor=#498af3 align=center  height="40" ><th>EMPLOYEE NAME</th><th style="max-width:850px; !important;" >OLD VALUE</th><th style="max-width:850px; !important;" >NEW VALUE</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead>';
+            $result = $con->query("CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA('$ADM_uld_id','$USERSTAMP',@TEMP_UARD_TICKLER_HISTORY)");
             if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
             $select = $con->query('SELECT @TEMP_UARD_TICKLER_HISTORY');
             $result = $select->fetch_assoc();
             $temp_tickler_history= $result['@TEMP_UARD_TICKLER_HISTORY'];
-            $tickler_data=mysqli_query($con,"SELECT ULD_LOGINID,TH_OLD_VALUE,TH_NEW_VALUE,TH_USERSTAMP,DATE_FORMAT(CONVERT_TZ(TH_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS T_TIMESTAMP FROM $temp_tickler_history WHERE  TABLE_NAME='USER_ADMIN_REPORT_DETAILS'  ORDER BY TH_TIMESTAMP DESC ");
+            $tickler_data=mysqli_query($con,"SELECT AE.EMPLOYEE_NAME,A.TH_OLD_VALUE,A.TH_NEW_VALUE,A.TH_USERSTAMP,DATE_FORMAT(CONVERT_TZ(TH_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS T_TIMESTAMP FROM $temp_tickler_history A,VW_TS_ALL_EMPLOYEE_DETAILS AE WHERE  TABLE_NAME='USER_ADMIN_REPORT_DETAILS' AND A.ULD_ID = AE.ULD_ID ORDER BY TH_TIMESTAMP DESC ");
 
             $row=mysqli_num_rows($tickler_data);
             $x=$row;
             if($x>0){
                 if($row=mysqli_fetch_array($tickler_data)){
-                    $loginid=$row["ULD_LOGINID"];
+                    $loginid=$row["EMPLOYEE_NAME"];
                     $old_value=$row["TH_OLD_VALUE"];
                     $old_value=htmlspecialchars($old_value);
                     $old_value_array=explode(",",$old_value);
@@ -398,7 +399,7 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
                 $mail_options = [
                     "sender" => $admin,
                     "to" => $admin,
-                    "cc" =>$sadmin,
+                    "cc" => $sadmin,
                     "subject" => $mail_subject,
                     "htmlBody" => $sub.$values
                 ];
@@ -477,13 +478,13 @@ LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTE
         echo $flag;
     }
     if($_REQUEST["option"]=="DATE"){
-        $login_id=$_REQUEST['login_id'];
+        $ADM_uld_id=$_REQUEST['login_id'];
         $date=$_REQUEST['reportdate'];
         $ADM_reportdate=date('Y-m-d',strtotime($date));
-        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-        while($row=mysqli_fetch_array($uld_id)){
-            $ADM_uld_id=$row["ULD_ID"];
-        }
+//        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
+//        while($row=mysqli_fetch_array($uld_id)){
+//            $ADM_uld_id=$row["ULD_ID"];
+//        }
         $sql="SELECT * FROM USER_ADMIN_REPORT_DETAILS WHERE ULD_ID='$ADM_uld_id' AND UARD_DATE='$ADM_reportdate'";
         $sql_result= mysqli_query($con,$sql);
         $row=mysqli_num_rows($sql_result);

@@ -1,5 +1,7 @@
 <!--//******************************************FILE DESCRIPTION*********************************************//
 //**********************************************TICKLER HISTORY ***********************************************//
+//DONE BY:RAJA
+//VER 0.06-SD:02/01/2015 ED:02/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
 //DONE BY: RAJA
 //VER 0.05-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,IMPLEMENTED TITLE NAME FOR PDF
 //VER 0.04-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
@@ -14,6 +16,8 @@ include "HEADER.php";
 <script>
     //READY FUNCTION START
     $(document).ready(function(){
+        var pdferrmsg;
+        $('#TH_btn_pdf').hide();
         $(".preloader").show();
         var TH_err_msg=[];
         var xmlhttp=new XMLHttpRequest();
@@ -48,6 +52,7 @@ include "HEADER.php";
             $('#TH_tble_flextble').hide();
             $('#TH_div_flexdata_result').hide();
             $('#TH_lbl_nodata').hide();
+            $('#TH_btn_pdf').hide();
             TH_view_highlightSearchText();
             $("#TH_tb_empid").autocomplete({
                 source: TH_employeeid,
@@ -69,6 +74,7 @@ include "HEADER.php";
                 $('#TH_tble_flextble').hide();
                 $('#TH_div_flexdata_result').hide();
                 $('#TH_lbl_heading').hide();
+                $('#TH_btn_pdf').hide();
             }
             else
             {
@@ -106,12 +112,13 @@ include "HEADER.php";
                     {
                         var msg=TH_err_msg[1].toString().replace("[LOGINID]",emp_id);
                         $('#TH_lbl_heading').text(msg).show();
+                        $('#TH_btn_pdf').show();
                         var loginname;
                         var loginpos=emp_id.search("@");
                         if(loginpos>0){
                             loginname=emp_id.substring(0,loginpos);
                         }
-                        var pdferrmsg;
+                        pdferrmsg;
                         pdferrmsg=msg.replace(emp_id,loginname);
                         var TH_table_header='<table id="TH_tble_flextble" border="1"  cellspacing="0" class="srcresult" style="width:1200px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th  style="width:880px">HISTORY</th><th width="200">USERSTAMP</th><th width="120" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                         for(var i=0;i<values_array.length;i++){
@@ -167,17 +174,7 @@ include "HEADER.php";
                             "pageLength": 10,
                             "sPaginationType":"full_numbers",
                             "aoColumnDefs" : [
-                                { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
-                            dom: 'T<"clear">lfrtip',
-                            tableTools: {"aButtons": [
-                                {
-                                    "sExtends": "pdf",
-                                    "sTitle": pdferrmsg,
-                                    "sPdfOrientation": "landscape",
-                                    "sPdfSize": "A3"
-                                }],
-                                "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                            }
+                                { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
                         });
                         $('#TH_lbl_nodata').hide();
                     }
@@ -188,6 +185,7 @@ include "HEADER.php";
                         $('#TH_div_flexdata_result').hide();
                         var msg=TH_err_msg[2].toString().replace("[LOGINID]",emp_id)
                         $('#TH_lbl_nodata').text(msg).show();
+                        $('#TH_btn_pdf').hide();
                     }
                 }
             }
@@ -209,6 +207,12 @@ include "HEADER.php";
                 return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
             };
         }
+        //CLICK EVENT FOR PDF BUTTON
+        $(document).on('click','#TH_btn_pdf',function(){
+            var inputValOne=$('#TH_tb_empid').val();
+            var url=document.location.href='COMMON_PDF.do?flag=3&inputValOne='+inputValOne+'&title='+pdferrmsg;
+
+        });
     });
     //DOCUMENT READY FUNCTION END
 </script>
@@ -232,6 +236,7 @@ include "HEADER.php";
             <tr>
                 <td><label id="TH_lbl_heading" name="TH_lbl_heading"  class="srctitle" hidden></label></td>
                 <td><label id="TH_lbl_nodata" name="TH_lbl_nodata"  class="errormsg" hidden></label></td><br><br>
+                <input type="button" id="TH_btn_pdf" class="btnpdf" value="PDF">
             </tr>
             <div id ="TH_div_flexdata_result" class="container" hidden>
                 <section>

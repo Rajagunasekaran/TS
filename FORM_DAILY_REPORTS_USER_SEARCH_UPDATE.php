@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER SEARCH UPDATE **************************************//
+//DONE BY:RAJA
+//VER 0.10-SD:03/01/2015 ED:07/01/2015, TRACKER NO:166,175,179,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:SASIKALA
 //VER 0.09-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR REPORT UPDATE
 //DONE BY:LALITHA
@@ -66,7 +68,9 @@ var options = {
 navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
 // READY FUNCTION STARTS
 $(document).ready(function(){
-    $(".preloader").show();
+    $('.preloader', window.parent.document).show();
+    $('#USRC_UPD_btn_pdf').hide();
+    var errmsgs;
     $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
     $('textarea').autogrow({onInitialize: true});
     var permission_array=[];
@@ -75,13 +79,13 @@ $(document).ready(function(){
     var max_date;
     var search_max_date;
     var err_msg=[];
-    var userstamp;
+    var empname;
     var join_date;
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             var value_array=JSON.parse(xmlhttp.responseText);
-            $(".preloader").hide();
+            $('.preloader', window.parent.document).hide();
             permission_array=value_array[0];
             project_array=value_array[1];
             min_date=value_array[2];
@@ -94,7 +98,7 @@ $(document).ready(function(){
             {
                 search_max_date=value_array[3];
                 join_date=value_array[5];
-                userstamp=value_array[6];
+                empname=value_array[6];
                 var mindatesplit=join_date.split('-');
                 var max_date=new Date();
                 var month=max_date.getMonth()+1;
@@ -140,6 +144,7 @@ $(document).ready(function(){
     //CHANGE EVENT FOR STARTDATE AND ENDDATE
     $(document).on('change','#USRC_UPD_tb_strtdte,#USRC_UPD_tb_enddte',function(){
         $('#USRC_UPD_div_header').hide();
+        $('#USRC_UPD_btn_pdf').hide();
         UARD_clear()
         $('#USRC_UPD_tbl_htmltable').html('');
         $('#USRC_UPD_btn_srch').hide();
@@ -152,6 +157,7 @@ $(document).ready(function(){
     // CHANGE EVENT FOR STARTDATE
     $(document).on('change','#USRC_UPD_tb_strtdte',function(){
         $('#USRC_UPD_div_header').hide();
+        $('#USRC_UPD_btn_pdf').hide();
         var USRC_UPD_startdate = $('#USRC_UPD_tb_strtdte').datepicker('getDate');
         var date = new Date( Date.parse( USRC_UPD_startdate ));
         date.setDate( date.getDate()  );
@@ -162,9 +168,13 @@ $(document).ready(function(){
     var values_array=[];
     $('#USRC_UPD_btn_search').click(function(){
         $('#USRC_UPD_div_header').hide();
+        $('#USRC_UPD_btn_pdf').hide();
         $('#USRC_UPD_div_tablecontainer').hide();
         $('section').html('');
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         flextable()
         $("#USRC_UPD_btn_search").attr("disabled", "disabled");
     });
@@ -189,21 +199,15 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 values_array=JSON.parse(xmlhttp.responseText);
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 if(values_array.length!=0){
-                    var loginname;
-                    var loginpos=userstamp.search("@");
-                    if(loginpos>0){
-                        loginname=userstamp.substring(0,loginpos);
-                    }
-                    var sd=err_msg[11].toString().replace("[LOGINID]",userstamp);
-                    var msg=sd.toString().replace("[STARTDATE]",start_date);
-                    var errmsg=msg.toString().replace("[ENDDATE]",end_date);
                     //HEADER ERR MSG
-                    var sd=err_msg[11].toString().replace("[LOGINID]",loginname);
+                    var sd=err_msg[11].toString().replace("[LOGINID]",empname);
                     var msg=sd.toString().replace("[STARTDATE]",start_date);
-                    var errmsgs=msg.toString().replace("[ENDDATE]",end_date);
-                    $('#USRC_UPD_div_header').text(errmsg).show();
+                    errmsgs=msg.toString().replace("[ENDDATE]",end_date);
+                    $('#USRC_UPD_div_header').text(errmsgs).show();
+                    $('#USRC_UPD_btn_pdf').show();
                     var USRC_UPD_table_header='<table id="USRC_UPD_tbl_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:1350px";><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:20px;"></th><th style="width:50px;" class="uk-date-column">DATE</th><th style="max-width:400px; !important;">REPORT</th><th style="width:130px;" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                     for(var j=0;j<values_array.length;j++){
                         var emp_date=values_array[j].date;
@@ -280,23 +284,13 @@ $(document).ready(function(){
                         "pageLength": 10,
                         "sPaginationType":"full_numbers",
                         "aoColumnDefs" : [
-                            { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
-                        dom: 'T<"clear">lfrtip',
-                        tableTools: {"aButtons": [
-                            {
-                                "sExtends": "pdf",
-                                "mColumns": [1, 2, 3],
-                                "sTitle": errmsgs,
-                                "sPdfOrientation": "landscape",
-                                "sPdfSize": "A3"
-                            }],
-                            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                        }
-                    });
+                            { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
+                        });
                 }
                 else{
                     $('#USRC_UPD_div_tablecontainer').hide();
                     $('#USRC_UPD_div_header').hide();
+                    $('#USRC_UPD_btn_pdf').hide();
                     var sd=err_msg[6].toString().replace("[SDATE]",start_date);
                     var msg=sd.toString().replace("[EDATE]",end_date);
                     $('#USRC_UPD_errmsg').text(msg).show();
@@ -600,12 +594,16 @@ $(document).ready(function(){
 
         var reportdate=$('#USRC_UPD_tb_date').val();
         if(date!=reportdate){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var msgalert=xmlhttp.responseText;
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     if(msgalert==1)
                     {
                         err_flag=1;
@@ -870,7 +868,7 @@ $(document).ready(function(){
 //            }
 //            else{
 
-            project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] +' - '+ project_array[i][2]+ '</td></tr>';
+                project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] +' - '+ project_array[i][2]+ '</td></tr>';
 
 
 //            }
@@ -979,16 +977,20 @@ $(document).ready(function(){
     }
     // CHANGE EVENT FOR UPDATE BUTTON
     $(document).on('click','#USRC_UPD_btn_submit',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var formElement = document.getElementById("USRC_UPD_form_usersearchupdate");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[1],confirmation:true}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[1],confirmation:true,position:{top:150,left:500}}});
                     UARD_clear()
                     flextable()
                     $("#USRC_UPD_tb_date").val('').hide()
@@ -996,7 +998,7 @@ $(document).ready(function(){
                 }
                 else if(msg_alert==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[7],confirmation:true}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[7],confirmation:true,position:{top:150,left:500}}});
                     UARD_clear()
                     flextable()
                     $("#USRC_UPD_tb_date").val('').hide()
@@ -1004,7 +1006,7 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:msg_alert,confirmation:true}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:msg_alert,confirmation:true,position:{top:150,left:500}}});
                     UARD_clear()
                     flextable()
                     $("#USRC_UPD_tb_date").val('').hide()
@@ -1015,6 +1017,13 @@ $(document).ready(function(){
         var option="UPDATE"
         xmlhttp.open("POST","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?option="+option+"&reportlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
+    });
+    $(document).on('click','#USRC_UPD_btn_pdf',function(){
+        var inputValOne=$('#USRC_UPD_tb_strtdte').val();
+        inputValOne = inputValOne.split("-").reverse().join("-");
+        var inputValTwo=$('#USRC_UPD_tb_enddte').val();
+        inputValTwo = inputValTwo.split("-").reverse().join("-");
+        var url=document.location.href='COMMON_PDF.do?flag=18&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+errmsgs;
     });
 });
 // READY FUNCTION ENDS
@@ -1040,7 +1049,8 @@ $(document).ready(function(){
                 <td><input type="button" class="btn" name="USRC_UPD_btn_search" id="USRC_UPD_btn_search" value="SEARCH" disabled ></td><br>
             </table>
             <div class="srctitle" name="USRC_UPD_div_header" id="USRC_UPD_div_header" hidden></div>
-            <!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
+            <div><input type="button" id='USRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
+<!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
             <div class="container" id="USRC_UPD_div_tablecontainer" hidden>
                 <section>
                 </section>

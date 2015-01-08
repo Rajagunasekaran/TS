@@ -283,18 +283,18 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 $mail_subject=$row["ETD_EMAIL_SUBJECT"];
                 $body=$row["ETD_EMAIL_BODY"];
             }
-            $header='<body>'.'<br>'.'<table border=1  width=2000><thead  bgcolor=#6495ed style=color:white><tr bgcolor=#498af3 align=center  height="40" ><th>LOGIN ID</th><th style="max-width:1000px; !important;" >OLD VALUE</th><th style="max-width:1000px; !important;" >NEW VALUE</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead>';
-            $result = $con->query("CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA('$USERSTAMP','$USERSTAMP',@TEMP_UARD_TICKLER_HISTORY)");
+            $header='<body>'.'<br>'.'<table border=1  width=2000><thead  bgcolor=#6495ed style=color:white><tr bgcolor=#498af3 align=center  height="40" ><th>EMPLOYEE NAME</th><th style="max-width:1000px; !important;" >OLD VALUE</th><th style="max-width:1000px; !important;" >NEW VALUE</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead>';
+            $result = $con->query("CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA('$ure_uld_id','$USERSTAMP',@TEMP_UARD_TICKLER_HISTORY)");
             if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
             $select = $con->query('SELECT @TEMP_UARD_TICKLER_HISTORY');
             $result = $select->fetch_assoc();
             $temp_tickler_history= $result['@TEMP_UARD_TICKLER_HISTORY'];
-            $tickler_data=mysqli_query($con,"SELECT ULD_LOGINID,TH_OLD_VALUE,TH_NEW_VALUE,TH_USERSTAMP,DATE_FORMAT(CONVERT_TZ(TH_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS T_TIMESTAMP FROM $temp_tickler_history WHERE  TABLE_NAME='USER_ADMIN_REPORT_DETAILS'  ORDER BY TH_TIMESTAMP DESC ");
+            $tickler_data=mysqli_query($con,"SELECT AE.EMPLOYEE_NAME,A.TH_OLD_VALUE,A.TH_NEW_VALUE,A.TH_USERSTAMP,DATE_FORMAT(CONVERT_TZ(TH_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS T_TIMESTAMP FROM $temp_tickler_history A,VW_TS_ALL_EMPLOYEE_DETAILS AE WHERE  TABLE_NAME='USER_ADMIN_REPORT_DETAILS' AND A.ULD_ID = AE.ULD_ID ORDER BY TH_TIMESTAMP DESC ");
             $row=mysqli_num_rows($tickler_data);
             $x=$row;
             if($x>0){
                 if($row=mysqli_fetch_array($tickler_data)){
-                    $loginid=$row["ULD_LOGINID"];
+                    $loginid=$row["EMPLOYEE_NAME"];
                     $old_value=$row["TH_OLD_VALUE"];
                     $old_value=htmlspecialchars($old_value);
 

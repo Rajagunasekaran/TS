@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER REPORT ENTRY **************************************//
+//DONE BY:RAJA
+//VER 0.06-SD:05/01/2015 ED:06/01/2015, TRACKER NO:175,179,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:SASIKALA
 //VER 0.05-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR MULTIPLE ENTRY
 //DONE BY:SASIKALA
@@ -63,7 +65,7 @@ var options = {
 navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
 //READY FUNCTION START
 $(document).ready(function(){
-    $('.preloader',window.parent.document).show();
+    $('.preloader', window.parent.document).show();
     $('textarea').autogrow({onInitialize: true});
     $('#URE_btn_submit').hide();
     $('#URE_btn_save').hide();
@@ -74,8 +76,7 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             var value_array=JSON.parse(xmlhttp.responseText);
             permission_array=value_array[0];
             project_array=value_array[1];
@@ -83,7 +84,6 @@ $(document).ready(function(){
             err_msg=value_array[3];
             var userstamp=value_array[4];
             if(project_array.length==0){
-
                 var msg=err_msg[10].replace('[LOGIN ID]',userstamp);
                 $('#URE_form_dailyuserentry').replaceWith('<p><label class="errormsg">'+ msg +'</label></p>');
 
@@ -560,19 +560,19 @@ $(document).ready(function(){
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
                     UARD_clear();
                     $('#URE_tb_date').val('');
                 }
                 else if(msg_alert==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
                     UARD_clear();
                     $('#URE_tb_date').val('');
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
                     UARD_clear();
                     $('#URE_tb_date').val('');
                 }
@@ -669,7 +669,7 @@ $(document).ready(function(){
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
                 $('.preloader').hide();
                 if(msg_alert==1){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
                     URE_mulclear()
                     $('#URE_lbl_sdte').show();
                     $('#URE_ta_fromdate').val('').show();
@@ -678,7 +678,7 @@ $(document).ready(function(){
                 }
                 else if(msg_alert==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
                     $('#URE_lbl_sdte').show();
                     $('#URE_ta_fromdate').val('').show();
                     $('#URE_lbl_edte').show();
@@ -687,7 +687,7 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
                     $('#URE_lbl_sdte').show();
                     $('#URE_ta_fromdate').val('').show();
                     $('#URE_lbl_edte').show();

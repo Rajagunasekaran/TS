@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************PUBLIC HOLIDAY ENTRY*********************************************//
+//DONE BY:RAJA
+//VER 0.05-SD:06/01/2015 ED:06/01/2015, TRACKER NO:179,DESC: SETTING PRELOADER POSITON AND MSGBOX POSITION
 //DONE BY:LALITHA
 //VER 0.04-SD:17/12/2014 ED:18/12/2014,TRACKER NO:74,Checked conditn nd put err msgs,Added uld nd timestmp fields
 //VER 0.03-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
@@ -15,11 +17,12 @@ include "HEADER.php";
     var PH_ENTRY_errorAarray=[];
     //START DOCUMENT READY FUNCTION
     $(document).ready(function(){
+        $('.preloader', window.parent.document).show();
         //GETTING ERR MSG FROM DB
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $(".preloader").hide();
+                $('.preloader', window.parent.document).hide();
                 var value_array=JSON.parse(xmlhttp.responseText);
                 PH_ENTRY_errorAarray=value_array[0];
             }
@@ -40,18 +43,22 @@ include "HEADER.php";
         });
         //CLICK FUNCTION FOR SAVE BUTTON
         $(document).on('click','#PH_ENTRY_btn_save',function(){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var formElement = document.getElementById("PH_entry_form");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var msg_alert_array=JSON.parse(xmlhttp.responseText);
                     var valid_ss=msg_alert_array[2];
                     var ph_date_already_exixst=msg_alert_array[0];
                     var ph_saved=msg_alert_array[1];
                     if(ph_date_already_exixst==0 && ph_saved==1 && valid_ss!=0){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[1]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[1],position:{top:150,left:500}}});
                         PH_ENTRY_holiday_rset();
                     }
                     else if(ph_date_already_exixst==1){
@@ -72,7 +79,7 @@ include "HEADER.php";
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[0]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[0],position:{top:150,left:500}}});
                     }
                 }
             }

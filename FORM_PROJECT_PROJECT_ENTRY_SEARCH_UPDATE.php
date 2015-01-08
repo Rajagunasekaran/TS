@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************PROJECT ENTRY/SEARCH/UPDATE**************************************//
+//DONE BY:RAJA
+//VER 0.05-SD:03/01/2015 ED:06/01/2015, TRACKER NO:166,179,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:LALTHA
 //VER 0.04 SD:03/12/2014 ED:03/12/2014,TRACKER NO:74,DESC:Updated preloader funct,Removed confirmation err msg,Added no data err msg,Fixed Width
 //DONE BY:safi
@@ -16,8 +18,9 @@ include "HEADER.php";
 var SubPage=1;
 // READY FUNCTION STARTS
 $(document).ready(function(){
+    $('.preloader', window.parent.document).show();
     get_Values();
-
+    $('#PE_btn_pdf').hide();
     var  CACS_VIEW_customername;
     $('textarea').autogrow({onInitialize: true});
     $(".autosize").doValidation({rule:'general',prop:{autosize:true}});
@@ -68,17 +71,22 @@ $(document).ready(function(){
         var option='AUTO';
         xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?&option="+option,true);
         xmlhttp.send();
+
     }
     showTable();
     //BLUR FUNCTION FOR PROJECT NAME
     $(document).on("change blur",'#projectname',function(){
         var checkproject_name=$(this).val();
         if(checkproject_name!=''){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var check_array=JSON.parse(xmlhttp.responseText);
                     if(check_array[0]==1){
                         $("#PE_btn_update").attr("disabled", "disabled");
@@ -125,11 +133,15 @@ $(document).ready(function(){
         var checkproject_name=$(this).val();
         $('#PE_tb_prjectname').val(checkproject_name.toUpperCase())
         if(checkproject_name!=''){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var check_array=JSON.parse(xmlhttp.responseText);
 //                    var desc=check_array[1];
                     var min_enddate=check_array[1];
@@ -207,16 +219,20 @@ $(document).ready(function(){
     }
 // CLICK EVENT FOR SAVE BUTTON
     $(document).on('click','#PE_btn_save',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var formElement = document.getElementById("PE_form_projectentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[1]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[1],position:{top:150,left:500}}});
                     $("#PE_tb_prjectname").val('').show();
                     $("#PE_ta_prjdescrptn").val('').show();
                     $("#PE_tb_sdate").val('').show();
@@ -228,7 +244,7 @@ $(document).ready(function(){
                 }
                 else if(msg_alert==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[2]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[2],position:{top:150,left:500}}});
                     $("#PE_tb_prjectname").val('').show();
                     $("#PE_ta_prjdescrptn").val('').show();
                     $("#PE_tb_sdate").val('').show();
@@ -240,7 +256,7 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:msg_alert}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
                     $("#PE_tb_prjectname").val('').show();
                     $("#PE_ta_prjdescrptn").val('').show();
                     $("#PE_tb_sdate").val('').show();
@@ -294,43 +310,27 @@ $(document).ready(function(){
             success: function(response){
                 if(response!=0){
                     $('#PE_lbl_title').text(error_message[6]).show();
+                    $('#PE_btn_pdf').show();
                     var header='<table id="demoajax" border="1" cellspacing="0" class="srcresult" width="1700">';//<thead  bgcolor="#6495ed" style="color:white"><tr ><th  width=200>PROJECT NAME</th><th width=500 >PROJECT DESCRIPTION</th><th width=10>REC VER</th><th width=30>STATUS</th><th width=50 class="uk-date-column">START DATE</th><th width=50 class="uk-date-column">END DATE</th><th style="min-width:70px;">USERSTAMP</th><th style="min-width:100px;" nowrap class="uk-timestp-column">TIMESTAMP</th><th width=110>EDIT</th></tr></thead><tbody>';
 
                     header+=response;
 //                    header+='</tbody></table>';
                     $('section').html(header);
                     $('#demoajax').DataTable({
-
-
                         "aaSorting": [],
                         "pageLength": 10,
                         "sPaginationType":"full_numbers",
                         "aoColumnDefs" : [
-                            { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
-
-
-
-                        dom: 'T<"clear">lfrtip',
-                        tableTools: {"aButtons": [
-                            {
-                                "sExtends": "pdf",
-                                "sTitle": error_message[6],
-                                "mColumns": [0, 1, 2, 3, 4, 5, 6],
-                                "sPdfOrientation": "landscape",
-                                "sPdfSize": "A3"
-                            }],
-                            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                        }
+                            { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
                     });
                     $('#tablecontainer').show();
                     sorting();
-
-
                 }
                 else
                 {
                     $('#PE_nodataerrormsg').text(error_message[5]).show();
                     $('#PE_lbl_title').text(error_message[6]).hide();
+                    $('#PE_btn_pdf').hide();
                     $('#tablecontainer').hide();
                 }
 
@@ -472,11 +472,15 @@ $(document).ready(function(){
         var checkproject_name=$('#projectname').val();
         var rec_ver=$('#recver').val();
         if(checkproject_name!=''){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var check_array=(xmlhttp.responseText);
 //                    alert(check_array);
                     if(check_array==1){
@@ -513,19 +517,19 @@ $(document).ready(function(){
             cache: false,
             success: function(response){
                 if(response==1){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3],position:{top:150,left:500}}});
                     showTable()
                     get_Values();
                 }
                 else if(response==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[4]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[4],position:{top:150,left:500}}});
                     showTable()
                     get_Values();
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:response}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:response,position:{top:150,left:500}}});
                     showTable()
                     get_Values();
                 }
@@ -536,6 +540,9 @@ $(document).ready(function(){
     $('section').on('click','.ajaxcancel',function(){
         var edittrid = $(this).parent().parent().attr('id');
         $('#'+edittrid).html(pre_tds);
+    });
+    $(document).on('click','#PE_btn_pdf',function(){
+        var url=document.location.href='COMMON_PDF.do?flag=17&title='+error_message[6];
     });
 });
 // READY FUNCTION ENDS
@@ -552,7 +559,7 @@ $(document).ready(function(){
             <table id="PE_tble_projectentry">
                 <tr>
                     <td><label name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label></td>
-                    <td><input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'></td><td><label id="PE_lbl_erromsg" class="errormsg"></label></label></td>
+                    <td><input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label></td>
                 </tr>
                 <tr>
                     <td><label name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label></td>
@@ -574,18 +581,19 @@ $(document).ready(function(){
                     <td align="left"><input type="button" class="btn" name="PE_btn_save" id="PE_btn_save"  value="SAVE" disabled></td>
                 </tr>
             </table>
-            <tr>
-                <td ><label class="errormsg" id="PE_nodataerrormsg" hidden></label></td>
-            </tr>
-            <tr>
-                <td ><label class="srctitle" id="PE_lbl_title" hidden></label></td>
-            </tr>
+            <div>
+                <label class="errormsg" id="PE_nodataerrormsg" hidden></label>
+            </div>
+            <div>
+                <label class="srctitle" id="PE_lbl_title" hidden></label>
+            </div>
+            <div><input type="button" id="PE_btn_pdf" class="btnpdf" value="PDF"></div>
             <div class="container" id="tablecontainer" hidden>
                 <section>
                 </section>
             </div>
+        </form>
     </div>
-    </form>
 </div>
 </body>
 <!--BODY TAG END-->

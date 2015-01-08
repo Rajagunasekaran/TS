@@ -9,7 +9,16 @@ function getTimezone()
 {
     return ("'+00:00','+05:30'");
 }
-
+//GET SINGLE EMP_NAME
+function get_empname(){
+    global $USERSTAMP;
+    global $con;
+    $uld_id=mysqli_query($con,"select EMPLOYEE_NAME from VW_TS_ALL_EMPLOYEE_DETAILS where ULD_LOGINID='$USERSTAMP' AND ULD_ID=(select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP')");
+    while($row=mysqli_fetch_array($uld_id)){
+        $ure_empname=$row["EMPLOYEE_NAME"];
+    }
+    return $ure_empname;
+}
 //GET ULD_ID
 function get_uldid(){
     global $USERSTAMP;
@@ -73,12 +82,12 @@ if($_REQUEST["option"]=="user_report_entry"){
 //    echo $USERSTAMP;
     $get_permission_array=get_permission();
     $ure_uld_id=get_uldid();
-
+    $ure_empname=get_empname();
     $get_project_array=get_projectentry($ure_uld_id);
     $min_date=get_joindate($ure_uld_id);
     $error='3,4,5,6,7,8,16,17,18,67,115,120';
     $error_array=get_error_msg($error);
-    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$USERSTAMP);
+    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$ure_empname);
     echo JSON_ENCODE($values_array);
 
 }
@@ -86,6 +95,7 @@ if($_REQUEST["option"]=="user_search_update"){
 
     $get_permission_array=get_permission();
     $ure_uld_id=get_uldid();
+    $ure_empname=get_empname();
     $get_project_array=get_project($ure_uld_id);
     $error='3,4,5,6,7,8,16,17,18,67,83,98';
     $error_array=get_error_msg($error);
@@ -100,7 +110,7 @@ if($_REQUEST["option"]=="user_search_update"){
         $user_searchmax_date_value=$row["UARD_DATE"];
         $user_searchmax_date_value = date('d-m-Y',strtotime($user_searchmax_date_value));
     }
-    $values_array=array($get_permission_array,$get_project_array,$user_searchmin_date_value,$user_searchmax_date_value,$error_array,$min_date,$USERSTAMP);
+    $values_array=array($get_permission_array,$get_project_array,$user_searchmin_date_value,$user_searchmax_date_value,$error_array,$min_date,$ure_empname);
     echo JSON_ENCODE($values_array);
 }
 //GET ACTIVE LOGIN ID;
@@ -161,7 +171,7 @@ if($_REQUEST["option"]=="admin_report_entry")
     $error='3,4,5,6,7,8,16,17,18,67,115,120';
     $error_array=get_error_msg($error);
     $min_date=get_joindate($ure_uld_id);
-    $login_array=get_active_login_id();
+    $login_array=get_active_emp_id();
     $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array);
     echo JSON_ENCODE($values_array);
 }
@@ -185,12 +195,11 @@ if($_REQUEST["option"]=="admin_search_update")
         $max_date= date('d-m-Y',strtotime($admin_searchmax_date_value));
     }
 
-    $login_array=get_active_login_id();
-
-    $active_emp=get_active_login_id();
+    $login_array=get_active_emp_id();
+    $active_emp=get_active_emp_id();
     $activenonemp=mysqli_query($con,"SELECT * from VW_ACCESS_RIGHTS_REJOIN_LOGINID ORDER BY ULD_LOGINID");
 
-    $active_nonemp=get_nonactive_login_id();
+    $active_nonemp=get_nonactive_emp_id();
     $onduty_searchmin_date=mysqli_query($con,"SELECT MIN(OED_DATE) as OED_DATE FROM ONDUTY_ENTRY_DETAILS");
     while($row=mysqli_fetch_array($onduty_searchmin_date)){
         $onduty_searchmin_date_value=$row["OED_DATE"];

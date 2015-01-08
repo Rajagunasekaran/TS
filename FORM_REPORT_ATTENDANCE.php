@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //***********************************************ATTENDANCE**************************************************//
+//DONE BY:RAJA
+//VER 0.06-SD:03/01/2015 ED:03/01/2015, TRACKER NO:166, DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB
 //DONE BY: RAJA
 //VER 0.05-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,IMPLEMENTED HEADERS FOR DATA TABLE AND PDF
 //DONE BY:LALITHA
@@ -23,6 +25,7 @@ include "COMMON.php";
 <script>
 //DOCUMENT READY FUNCTION START
 $(document).ready(function(){
+    $('#REP_btn_att_pdf').hide();
     $(".preloader").show();
     $('#REP_btn_search').hide();
     var err_msg_array=[];
@@ -66,6 +69,7 @@ $(document).ready(function(){
         $('#no_of_working_days').hide();
         $('#no_of_days').hide();
         $('#src_lbl_error').hide();
+        $('#REP_btn_att_pdf').hide();
         var loginid=$('#REP_lb_loginid').val();
         $('#REP_date').val("");
         if(loginid=="SELECT"){
@@ -77,6 +81,7 @@ $(document).ready(function(){
             $('#no_of_days').hide();
             $("#REP_btn_search").hide();
             $('#src_lbl_error').hide();
+            $('#REP_btn_att_pdf').hide();
         }
         else{
             var loginid=$('#REP_lb_loginid').val();
@@ -127,6 +132,7 @@ $(document).ready(function(){
                     $('#no_of_days').hide();
                     $('#REP_lbl_error').hide();
                     $('#src_lbl_error').hide();
+                    $('#REP_btn_att_pdf').hide();
                     $("#REP_btn_search").attr("disabled","disabled");
                     if(($('#REP_date').val()!='undefined')&&($('#REP_date').val()!='')&&($('#REP_lb_loginid').val()!="SELECT")&&($('#REP_lb_attendance').val()!="SELECT"))
                     {
@@ -153,6 +159,7 @@ $(document).ready(function(){
         $('#REP_btn_search').hide();
         $('#REP_lbl_dte').show();
         $('#src_lbl_error').hide();
+        $('#REP_btn_att_pdf').hide();
         $('#REP_date').val("");
         $('#REP_lb_loginid').hide();
         $('#REP_lb_loginid').prop('selectedIndex',0)
@@ -179,6 +186,7 @@ $(document).ready(function(){
             $('#no_of_working_days').hide();
             $('#no_of_days').hide();
             $('#src_lbl_error').hide();
+            $('#REP_btn_att_pdf').hide();
         }
         if(option=='6' || option=='2'){
             $('.preloader', window.parent.document).hide();
@@ -220,6 +228,7 @@ $(document).ready(function(){
         $('#no_of_days').hide();
         $('#REP_lbl_error').hide();
         $('#src_lbl_error').hide();
+        $('#REP_btn_att_pdf').hide();
         $("#REP_btn_search").attr("disabled","disabled");
         if(($('#REP_date').val()!='undefined')&&($('#REP_date').val()!=''))
         {
@@ -241,6 +250,7 @@ $(document).ready(function(){
         $('#no_of_working_days').hide();
         $('#REP_lbl_error').hide();
         $('#src_lbl_error').hide();
+        $('#REP_btn_att_pdf').hide();
         var option=$('#REP_lb_attendance').val();
         var date=$('#REP_date').val();
         var loginid=$('#REP_lb_loginid').val();
@@ -257,6 +267,7 @@ $(document).ready(function(){
                             var absent_count=allvalues_array[j].absent_count;
                             errmsg=err_msg_array[3].toString().replace("[MONTH]",date);
                             $('#src_lbl_error').text(errmsg).show();
+                            $('#REP_btn_att_pdf').show();
                             pdferrmsg=errmsg;
                             ADM_tableheader+='<tr ><td>'+name+'</td><td align="center" style="width:90px">'+absent_count+'</td></tr>';
                         }
@@ -269,6 +280,7 @@ $(document).ready(function(){
                         $('#no_of_working_days').text("TOTAL NO OF WORKING DAYS: "  +  working_days  +  " DAYS").show();
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
                         $('#src_lbl_error').text(errmsg).show();
+                        $('#REP_btn_att_pdf').show();
                         var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:600px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>NAME</th><th>NO OF PRESENT</th><th>NO OF ABSENT</th><th>NO OF ONDUTY</th><th>TOTAL HOUR(S) OF PERMISSION</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var name=allvalues_array[j].loginid;
@@ -293,6 +305,7 @@ $(document).ready(function(){
                         $('#no_of_working_days').text("TOTAL NO OF WORKING DAYS: "  +  working_days  +  " DAYS").show();
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
                         $('#src_lbl_error').text(errmsg).show();
+                        $('#REP_btn_att_pdf').show();
                         var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:500px"><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="min-width:80px;">DATE</th><th style="min-width:20px;">PRESENT</th><th>ABSENT</th><th>ONDUTY</th><th>PERMISSION HOUR(S)</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var report_date=allvalues_array[j].reportdate;
@@ -318,17 +331,7 @@ $(document).ready(function(){
                         "pageLength": 10,
                         "sPaginationType":"full_numbers",
                         "aoColumnDefs" : [
-                            { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
-                        dom: 'T<"clear">lfrtip',
-                        tableTools: {"aButtons": [
-                            {
-                                "sExtends": "pdf",
-                                "sTitle": pdferrmsg,
-//                                "sPdfOrientation": "landscape",
-                                "sPdfSize": "A4"
-                            }],
-                            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                        }
+                            { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
                     });
                     $('#REP_lbl_error').hide();
                 }
@@ -342,6 +345,7 @@ $(document).ready(function(){
                     $('#no_of_working_days').hide();
                     $('#no_of_days').hide();
                     $('#src_lbl_error').hide();
+                    $('#REP_btn_att_pdf').hide();
                 }
             }
         }
@@ -362,6 +366,19 @@ $(document).ready(function(){
             return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
         };
     }
+    $(document).on('click','#REP_btn_att_pdf',function(){
+        var inputValOne=$('#REP_date').val();
+        var inputValTwo=$('#REP_lb_loginid').val();
+        if($('#REP_lb_attendance').val()==1){
+            var url=document.location.href='COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+        }
+        else if($('#REP_lb_attendance').val()==2){
+            var url=document.location.href='COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
+        }
+        else if($('#REP_lb_attendance').val()==6){
+            var url=document.location.href='COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
+        }
+    });
 });
 //DOCUMENT READY FUNCTION END
 </script>
@@ -400,12 +417,15 @@ $(document).ready(function(){
             </tr>
         </table>
         <div>
-            <label id="src_lbl_error" class="srctitle"></label><br><br>
+            <label id="src_lbl_error" class="srctitle"></label>
         </div>
         <div>
-            <label id="no_of_days" class="srctitle"></label><br>
+            <label id="no_of_days" class="srctitle"></label>
+        </div>
+        <div>
             <label id="no_of_working_days" class="srctitle"></label>
         </div>
+        <div><input type="button" id="REP_btn_att_pdf" class="btnpdf" value="PDF"></div>
         <div class="container" id="REP_tablecontainer" style="width:500px;" hidden>
             <section style="width:500px;">
             </section>

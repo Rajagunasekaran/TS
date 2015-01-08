@@ -2,6 +2,8 @@
 <!--*********************************************************************************************************//-->
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //****************************************USER SEARCH DETAILS*************************************************//
+//DONE BY:RAJA
+//VER 0.03-SD:05/01/2015 ED:06/01/2015, TRACKER NO:166,175,179,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON
 //DONE BY:LALITHA
 //VER 0.02 SD:31/10/2014 ED:31/10/2014,TRACKER NO:79,Updated date sorting,Changed resize the width,Changed header name,Changed resize the width
 //VER 0.01-INITIAL VERSION,SD:11/10/2014 ED:11/10/2014,TRACKER NO:79
@@ -15,7 +17,9 @@ include "HEADER.php";
 <script>
     //DOCUMENT READY FUNCTION START
     $(document).ready(function(){
-        $(".preloader").show();
+        $('#URSRC_btn_pdf').hide();
+        $('.preloader', window.parent.document).show();
+        var title;
         var values_arraystotal=[];
         var values_array=[];
         table();
@@ -28,15 +32,16 @@ include "HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $(".preloader").hide();
+                    $('.preloader', window.parent.document).hide();
                     values_arraystotal=JSON.parse(xmlhttp.responseText);
                     values_array=values_arraystotal[0];
                     var USD_SRC_errorAarray=values_arraystotal[1];
                     if(values_array.length!=0)
                     {
-                        var title=USD_SRC_errorAarray[1].toString().replace("PROJECT","EMPLOYEE");
+                        title=USD_SRC_errorAarray[1].toString().replace("PROJECT","EMPLOYEE");
                         $('#URSRC_lbl_title').text(title).show();
-                        var USU_table_header='<table id="USD_SRC_SRC_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:900px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>LOGIN ID</th><th>ROLE</th><th>REC VER</th><th style="width:10px;"  class="uk-date-column">JOIN DATE</th><th style="width:50px;" class="uk-date-column">TERMINATION DATE</th><th style="min-width:750px;">REASON OF TERMINATION</th><th style="width:70px">EMP TYPE</th><th>USERSTAMP</th><th style="width:150px;" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
+                        $('#URSRC_btn_pdf').show();
+                        var USU_table_header='<table id="USD_SRC_SRC_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:900px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th nowrap>EMPLOYEE NAME</th><th>ROLE</th><th>REC VER</th><th style="width:10px;"  class="uk-date-column">JOIN DATE</th><th style="width:50px;" class="uk-date-column">TERMINATION DATE</th><th style="min-width:750px;">REASON OF TERMINATION</th><th style="width:70px" nowrap>EMP TYPE</th><th>USERSTAMP</th><th style="width:150px;" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                         for(var j=0;j<values_array.length;j++){
                             var USD_SRC_loginid=values_array[j].loginid;
                             var USD_SRC_rcid=values_array[j].rcid;
@@ -59,7 +64,7 @@ include "HEADER.php";
                             }
                             var USD_SRC_userstamp=values_array[j].userstamp;
                             var USD_SRC_timestamp=values_array[j].timestamp;
-                            USU_table_header+='<tr><td>'+USD_SRC_loginid+'</td><td>'+USD_SRC_rcid+'</td><td>'+USD_SRC_recordver+'</td><td nowrap>'+USD_SRC_joindate+'</td><td style="width:10px;" align="center">'+USD_SRC_terminationdate+'</td><td style="width:850px;">'+USD_SRC_reasonoftermination+'</td><td style="width:70px;">'+USD_SRC_emptype+'</td><td>'+USD_SRC_userstamp+'</td><td  style="min-width:150px;">'+USD_SRC_timestamp+'</td></tr>';
+                            USU_table_header+='<tr><td nowrap>'+USD_SRC_loginid+'</td><td align="center">'+USD_SRC_rcid+'</td><td align="center">'+USD_SRC_recordver+'</td><td nowrap align="center">'+USD_SRC_joindate+'</td><td style="width:10px;" align="center">'+USD_SRC_terminationdate+'</td><td style="width:850px;">'+USD_SRC_reasonoftermination+'</td><td style="width:70px;" align="center">'+USD_SRC_emptype+'</td><td align="center">'+USD_SRC_userstamp+'</td><td  style="min-width:150px;" align="center">'+USD_SRC_timestamp+'</td></tr>';
                         }
                         USU_table_header+='</tbody></table>';
                         $('section').html(USU_table_header);
@@ -68,24 +73,14 @@ include "HEADER.php";
                             "pageLength": 10,
                             "sPaginationType":"full_numbers",
                             "aoColumnDefs" : [
-                                { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
-
-                            dom: 'T<"clear">lfrtip',
-                            tableTools: {"aButtons": [
-                                {
-                                    "sExtends": "pdf",
-                                    "sTitle": title,
-                                    "sPdfOrientation": "landscape",
-                                    "sPdfSize": "A3"
-                                }],
-                                "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                            }
+                                { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
                         });
                     }
                     else
                     {
                         $('#URSRC_lbl_norole_err').text(USD_SRC_errorAarray[0]).show();
                         $('#URSRC_lbl_title').hide();
+                        $('#URSRC_btn_pdf').hide();
                     }
                 }
             }
@@ -114,6 +109,9 @@ include "HEADER.php";
             var y = new Date( Date.parse(FormTableDateFormat(b.split(' ')[0]))).setHours(b.split(' ')[1].split(':')[0],b.split(' ')[1].split(':')[1],b.split(' ')[1].split(':')[2]);
             return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
         };
+        $(document).on('click','#URSRC_btn_pdf',function(){
+            var url=document.location.href='COMMON_PDF.do?flag=1&title='+title;
+        });
     });
     //DOCUMENT READY FUNCTION END
 </script>
@@ -127,6 +125,7 @@ include "HEADER.php";
     <div class="newtitle" id="fhead"><div style="padding-left:500px; text-align:left;"><p><h3>USER SEARCH DETAILS </h3><p></div></div>
     <form class="newcontent" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
         <div><label id="URSRC_lbl_title" name="URSRC_lbl_title" class="srctitle"></label></div>
+        <div><input type="button" id='URSRC_btn_pdf' class="btnpdf" value="PDF"></div>
         <div class="container">
             <div class="container" id="tablecontainer" style="width:900px;" hidden>
                 <section style="width:900px;">
