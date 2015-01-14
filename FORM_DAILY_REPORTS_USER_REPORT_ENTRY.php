@@ -1,6 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER REPORT ENTRY **************************************//
 //DONE BY:RAJA
+//VER 0.07-SD:10/01/2015 ED:10/01/2015, TRACKER NO:74,DESC:CHANGED PRELOADER POSITION IMPLEMENTED AUTOFOCUS
+//DONE BY:RAJA
 //VER 0.06-SD:05/01/2015 ED:06/01/2015, TRACKER NO:175,179,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:SASIKALA
 //VER 0.05-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR MULTIPLE ENTRY
@@ -58,7 +60,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 5000,
+    timeout: 10000,
     maximumAge: 0
 };
 
@@ -117,7 +119,7 @@ $(document).ready(function(){
     $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
     //JQUERY LIB VALIDATION END
     $(document).on('change','#URE_tb_date',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#URE_rd_sinentry').position(),70,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -172,7 +174,7 @@ $(document).ready(function(){
         }
         else if($('#URE_lb_attendance').val()=='1')
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#URE_rd_sinentry').position(),70,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -201,6 +203,7 @@ $(document).ready(function(){
                     }
                     else if(response==0)
                     {
+                        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                         $('#URE_tble_enterthereport,#URE_ta_reason,#URE_tble_bandwidth').html('');
                         $('#URE_rd_permission').attr('checked',false);
                         $('#URE_rd_nopermission').attr("checked",false);
@@ -360,7 +363,7 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#URE_rd_sinentry').position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -385,6 +388,7 @@ $(document).ready(function(){
                     }
                     else
                     {
+                        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                         $('#URE_tble_projectlistbx').show();
                         URE_tble_reason();
                         projectlist();
@@ -547,7 +551,7 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR SAVE BUTTON
     $(document).on('click','#URE_btn_submit',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($(this).position(),-80,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -638,6 +642,7 @@ $(document).ready(function(){
         }
         else if(($('#URE_lb_attdnce').val()=='0') || ($('#URE_lb_attdnce').val()=='OD'))
         {
+            $("html, body").animate({ scrollTop: $(document).height() }, "fast");
             URE_mulreason()
             $('#URE_lbl_reason').show();
             $('#URE_ta_reason').show();
@@ -657,7 +662,7 @@ $(document).ready(function(){
     }
     // CHANGE EVENT FOR MULTIPLE DAY SAVE BUTTON
     $('#URE_btn_save').click(function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#URE_lb_attdnce').position(),110,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -700,13 +705,13 @@ $(document).ready(function(){
         xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
     });
-// CHANGE FUNCTIO FOR TO DATE ALEREADY EXISTS
+// CHANGE FUNCTION FOR TO DATE ALEREADY EXISTS
     $('.valid' ).change(function(){
         var fromdate=$('#URE_ta_fromdate').val();
         var todate=$('#URE_ta_todate').val();
         if(fromdate!='' && todate!='')
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#URE_rd_sinentry').position(),50,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -741,6 +746,10 @@ $(document).ready(function(){
                         $('#URE_tbl_attendence').hide();
                         $('#URE_lbl_attdnce').hide();
                         $('#URE_lb_attdnce').hide();
+                        $('#URE_ta_reason').hide();
+                        $('#URE_lbl_reason').hide();
+                        $('#URE_btn_save').hide();
+
                     }
                 }
             }

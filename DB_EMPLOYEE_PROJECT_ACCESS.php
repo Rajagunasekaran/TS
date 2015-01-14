@@ -1,7 +1,8 @@
 <?php
 //*******************************************FILE DESCRIPTION*********************************************//
-//*******************************************EMPLOYEE PROJECT DETAILS ENTRY*********************************************//
+//*******************************************EMPLOYEE PROJECT ACCESS*********************************************//
 //DONE BY:LALITHA
+//VER 0.03 SD:09/01/2014 ED:09/01/2014,TRACKER NO:74,Changed preloader position
 //VER 0.02 SD:06/01/2014 ED:08/01/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:24/09/2014 ED:29/09/2014,TRACKER NO:79
 //*********************************************************************************************************//

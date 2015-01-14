@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ABSENT MAIL TRIGGER *************************************//
+//DONE BY:RAJA
+//VER 0.04-SD:09/01/2015 ED:09/01/2015, TRACKER NO:74,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME
 //DONE BY:SAFIYULLAH
 //VER 0.03, SD:29/10/2014 ED:29/10/2014,TRACKER NO:74,DESC:updated the query to show data in order.
 //VER 0.02,SD:24/10/2014 ED:24/10/2014,TRACKER NO:82,DESC:update subject and body to get from email template
@@ -45,49 +47,37 @@ if($Current_day!='Sunday'){
         $result = $select->fetch_assoc();
         $temp_table_name= $result['@TEMP_ABSENT_USER'];
         if($temp_table_name!=''){
-        $admin_name = substr($admin, 0, strpos($admin, '.'));
-        $sadmin_name = substr($sadmin, 0, strpos($sadmin, '.'));
-        $spladminname=$admin_name.'/'.$sadmin_name;
+            $admin_name = substr($admin, 0, strpos($admin, '.'));
+            $sadmin_name = substr($sadmin, 0, strpos($sadmin, '.'));
+            $spladminname=$admin_name.'/'.$sadmin_name;
             $spladminname=strtoupper($spladminname);
-        $select_data="select * from $temp_table_name ORDER BY EMPLOYEE_NAME ";
-        $select_data_rs=mysqli_query($con,$select_data);
-        $row=mysqli_num_rows($select_data_rs);
-        $x=$row;
-        if($x>0){
-            $sub1=str_replace("[SADMIN]","$spladminname",$body);
-            $message1= '<body>'.'<br>'.'<h> '.$sub1.'</h>'.'<br>'.'<br>'.'<table border=1  width=700><thead  bgcolor=#6495ed style=color:white><tr  align=center  height=2px><td >EMPLOYEE NAME </td><td >REPORT DATE</td></tr></thead>';
-            while($row=mysqli_fetch_array($select_data_rs)){
-
-                $employee_name=$row['EMPLOYEE_NAME'];
-                if(substr($employee_name, 0, strpos($employee_name, '@'))){
-                    $username = strtoupper(substr($employee_name, 0, strpos($employee_name, '@')));
+            $select_data="select * from $temp_table_name ORDER BY EMPLOYEE_NAME ";
+            $select_data_rs=mysqli_query($con,$select_data);
+            $row=mysqli_num_rows($select_data_rs);
+            $x=$row;
+            if($x>0){
+                $sub1=str_replace("[SADMIN]","$spladminname",$body);
+                $message1= '<body>'.'<br>'.'<h> '.$sub1.'</h>'.'<br>'.'<br>'.'<table border=1  width=500><thead  bgcolor=#6495ed style=color:white><tr  align=center  height=2px><td >EMPLOYEE NAME </td><td >REPORT DATE</td></tr></thead>';
+                while($row=mysqli_fetch_array($select_data_rs)){
+                    $message1=$message1."<tr><td>".$row['EMPLOYEE_NAME']."</td><td align=center>".$row['REPORT_DATE']."</td></tr>";
                 }
-                else{
-                    $username= $employee_name;
-
+                echo "</table>";
+                $mail_options = [
+                    "sender" => $admin,
+                    "to" => $admin,
+                    "cc"=>$sadmin,
+                    "subject" => $mail_subject,
+                    "htmlBody" =>$message1
+                ];
+                try {
+                    $message = new Message($mail_options);
+                    $message->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
                 }
-                $message1=$message1."<tr><td>".$username."</td><td>".$row['REPORT_DATE']."</td></tr>";
             }
-            echo "</table>";
-            $mail_options = [
-                "sender" => $admin,
-                "to" => $admin,
-                "cc"=>$sadmin,
-                "subject" => $mail_subject,
-                "htmlBody" =>$message1
-            ];
-            try {
-                $message = new Message($mail_options);
-                $message->send();
-            } catch (\InvalidArgumentException $e) {
-                echo $e;
-            }
+            $drop_query="DROP TABLE $temp_table_name ";
+            mysqli_query($con,$drop_query);
         }
-        $drop_query="DROP TABLE $temp_table_name ";
-        mysqli_query($con,$drop_query);
-
     }
-    }
-
-
 }

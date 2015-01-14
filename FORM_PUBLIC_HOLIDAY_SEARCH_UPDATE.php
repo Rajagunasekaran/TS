@@ -46,6 +46,12 @@ $(document).ready(function(){
     var option="common";
     xmlhttp.open("GET","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+option);
     xmlhttp.send();
+    //FUNCTION FOR FORMTABLEDATEFORMAT
+    function FormTableDateFormat(inputdate){
+        var string = inputdate.split("-");
+        return string[2]+'-'+ string[1]+'-'+string[0];
+    }
+
     //DATE PICKER FUNCTION
     $('.PH_SRC_UPD_tb_dates').datepicker({
         dateFormat:"dd-mm-yy",
@@ -65,6 +71,7 @@ $(document).ready(function(){
         $('#PH_SRC_UPD_tble_htmltable').html('');
         $('section').html('');
         $('#PH_SRC_UPD_nodate').hide();
+        $("#PH_SRC_UPD_updateform").hide();
         $('#PH_SRC_UP_btn_pdf').hide();
         var yr=$('#PH_SRC_UPD_lb_yr').val()
         var msg=err_msg_array[0].replace("[DATE]",yr);
@@ -86,6 +93,7 @@ $(document).ready(function(){
                     values_array=values_arraystotal[0];
                     if(values_array.length!=0)
                     {
+                        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         var msg=err_msg_array[4].replace("[SCRIPT]",'PUBLIC HOLIDAY FOR '+yr);
                         pdfmsg=msg;
                         $('#PH_SRC_UPD_nodate').text(msg).show();
@@ -107,7 +115,7 @@ $(document).ready(function(){
                             "sPaginationType":"full_numbers",
                             "aoColumnDefs" : [
                                 { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
-                            });
+                        });
                     }
                     else
                     {
@@ -127,6 +135,7 @@ $(document).ready(function(){
             var choice="PUBLIC_HOLIDAY_DETAILS"
             xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?&option="+choice,true);
             xmlhttp.send(new FormData(formElement));
+            sorting();
         }
         else
         {
@@ -140,6 +149,7 @@ $(document).ready(function(){
     }
     //RADIO CLICK FUNCTION
     $(document).on('click','.EMPSRC_UPD_DEL_radio',function(){
+        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('#PH_SRC_UPD_btn_search').show();
         $("#PH_SRC_UPD_btn_search").removeAttr("disabled","disabled");
         $('#PH_SRC_UPD_updateform').hide();
@@ -147,6 +157,7 @@ $(document).ready(function(){
     var values_array=[];
     //CLICK FUNCTION FOR SEARCH BTN
     $(document).on('click','#PH_SRC_UPD_btn_search',function(){
+        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('#PH_SRC_UPD_updateform').show();
         $('#EMP_ENTRY_table_others').show();
         $("#PH_SRC_UPD_btn_search").attr("disabled","disabled");
@@ -190,20 +201,16 @@ $(document).ready(function(){
             $("#PH_SRC_UPD_btn_update").attr("disabled","disabled");
         }
     });
-
+//CLICK FUNCTION FOR PDF BTN
     $(document).on('click','.paginate_button',function(){
-//    alert('inside');
-
         $("#PH_SRC_UPD_updateform").hide();
         $('#PH_SRC_UPD_btn_search').hide();
         $('input:radio[name=EMPSRC_UPD_DEL_rd_flxtbl]').attr('checked',false);
-
-
     });
     //CLICK EVENT FUCNTION FOR UPDATE
     $('#PH_SRC_UPD_btn_update').click(function()
     {
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#PH_SRC_UPD_tb_des').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -257,6 +264,19 @@ $(document).ready(function(){
         var inputValOne=$('#PH_SRC_UPD_lb_yr').val();
         var url=document.location.href='COMMON_PDF.do?flag=16&inputValOne='+inputValOne+'&title='+pdfmsg;
     });
+    //FUNCTION FOR SORTING
+    function sorting(){
+        jQuery.fn.dataTableExt.oSort['uk_date-asc']  = function(a,b) {
+            var x = new Date( Date.parse(FormTableDateFormat(a)));
+            var y = new Date( Date.parse(FormTableDateFormat(b)) );
+            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+        };
+        jQuery.fn.dataTableExt.oSort['uk_date-desc'] = function(a,b) {
+            var x = new Date( Date.parse(FormTableDateFormat(a)));
+            var y = new Date( Date.parse(FormTableDateFormat(b)) );
+            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+        };
+    }
     //END DOCUMENT READY FUNCTION
 });
 <!--SCRIPT TAG END-->

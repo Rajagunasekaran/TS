@@ -15,7 +15,7 @@ var USR_SITE_checked_mpid=[];
 var USR_SITE_errorAarray=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
-    $(".preloader").show();
+    $('.preloader', window.parent.document).show();
     var USR_SITE_menuname=[];
     var USR_SITE_submenu=[];
     var USR_SITE_subsubmenu=[];
@@ -26,7 +26,7 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.preloader', window.parent.document).hide();
             value_array=JSON.parse(xmlhttp.responseText);
             USR_SITE_tree_view(value_array)
         }
@@ -264,7 +264,11 @@ $(document).ready(function(){
     });
     //CLICK FUNCTON FOR SUBMIT BUTTON
     $(document).on('click','#USR_SITE_btn_submitbutton',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),-100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var formElement = document.getElementById("USR_SITE_form_user");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -274,14 +278,16 @@ $(document).ready(function(){
                 {
                     if($('#USR_SITE_btn_submitbutton').val()=='REVOKE ACCESS')
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[0]}});
-                        $('.preloader', window.parent.document).hide();
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[0],position:{top:150,left:500}}});
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
                         USR_SITE_clear()
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[1]}});
-                        $('.preloader', window.parent.document).hide();
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[1],position:{top:150,left:500}}});
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
                         USR_SITE_clear()
                     }
                 }

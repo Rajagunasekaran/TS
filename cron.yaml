@@ -62,8 +62,8 @@ cron:
   timezone: Asia/Kolkata
 
 - description: scrape xml
-  url: /CHECK_IN_OUT_DETAILS_MAIL
-  schedule: every day 04:00
-  timezone: Asia/Kolkata
+   url: /CHECK_IN_OUT_DETAILS_MAIL
+   schedule: every day 04:00
+   timezone: Asia/Kolkata
 
 

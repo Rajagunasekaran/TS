@@ -34,7 +34,7 @@ if($_REQUEST['option']=="search")
     $result = $select->fetch_assoc();
     $temp_tickler_history= $result['@TEMP_UARD_TICKLER_HISTORY'];
     $TH_values=array();
-    $sqlquery=mysqli_query($con,"SELECT EVENT_TYPE,TABLE_NAME,TH_OLD_VALUE,TH_NEW_VALUE,TH_USERSTAMP,DATE_FORMAT(TH_TIMESTAMP, '%d-%m-%Y %h:%m:%s') AS T_TIMESTAMP FROM $temp_tickler_history WHERE  TABLE_NAME='USER_ADMIN_REPORT_DETAILS'  ORDER BY TH_TIMESTAMP DESC ");
+    $sqlquery=mysqli_query($con,"SELECT EVENT_TYPE,TABLE_NAME,TH_OLD_VALUE,TH_NEW_VALUE,TH_USERSTAMP,DATE_FORMAT(CONVERT_TZ(TH_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T') AS T_TIMESTAMP FROM $temp_tickler_history WHERE  TABLE_NAME='USER_ADMIN_REPORT_DETAILS'  ORDER BY TH_TIMESTAMP DESC ");
     while($row=mysqli_fetch_array($sqlquery)){
         $TH_eventtype=$row["EVENT_TYPE"];
         $TH_tblename=$row["TABLE_NAME"];

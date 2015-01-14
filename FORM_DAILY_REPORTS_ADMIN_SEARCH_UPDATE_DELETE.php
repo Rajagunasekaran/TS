@@ -1,7 +1,9 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN SEARCH UPDATE DELETE***********************************//
 //DONE BY:RAJA
-//VER 0.11-SD:02/01/2015 ED:07/01/2015, TRACKER NO:166,175,179,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
+//VER 0.12-SD:10/01/2015 ED:10/01/2015, TRACKER NO:74,DESC:ADDED LOCATION COLUMN IN DATATABLE, CHANGED PRELOADER POSITON AND
+//DONE BY:RAJA
+//VER 0.11-SD:02/01/2015 ED:07/01/2015, TRACKER NO:74,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:SASIKALA
 //VER 0.10-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR REPORT UPDATE
 //DONE BY:LALITHA
@@ -61,7 +63,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 5000,
+    timeout: 10000,
     maximumAge: 0
 };
 
@@ -180,7 +182,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
         var ure_after_mrg;
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#ASRC_UPD_DEL_lbl_btwnrange').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -197,12 +199,13 @@ $(document).ready(function(){
                 $('.preloader').hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array!=''){
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     //HEADER ERR MSG
                     var errmsg=err_msg[12].replace('[DATE]',date);
                     pdfmsg=errmsg;
                     $('#ASRC_UPD_DEL_div_header').text(errmsg).show();
                     $('#ASRC_UPD_btn_pdf').show();
-                    var ASRC_UPD_DEL_tableheader='<table id="ASRC_UPD_DEL_tbl_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:1400px"><thead  bgcolor="#6495ed" style="color:white"><tr><th nowrap>EMPLOYEE NAME</th><th style="width:1100px">REPORT</th><th style="width:90px">USERSTAMP</th><th style="width:100px" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
+                    var ASRC_UPD_DEL_tableheader='<table id="ASRC_UPD_DEL_tbl_htmltable" border="1" class="srcresult" style="width:1600px"><thead  bgcolor="#6495ed" style="color:white"><tr><th nowrap>EMPLOYEE NAME</th><th style="width:1100px">REPORT</th><th>LOCATION</th><th style="width:90px">USERSTAMP</th><th style="width:100px" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                     for(var j=0;j<allvalues_array.length;j++){
                         var report=allvalues_array[j].admreport;
                         var reason=allvalues_array[j].admreason;
@@ -212,6 +215,11 @@ $(document).ready(function(){
                         var userstamp=allvalues_array[j].admuserstamp;
                         var timestamp=allvalues_array[j].admtimestamp;
                         var login=allvalues_array[j].admlogin;
+                        var location=allvalues_array[j].location;
+                        if(location==null)
+                        {
+                            location='';
+                        }
                         if(permission==null)
                         {
                             if(morningsession=='PRESENT'){
@@ -230,15 +238,15 @@ $(document).ready(function(){
                                 {
                                     ure_after_mrg=morningsession;
                                 }
-                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +'  -  '+'REASON:'+reason+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +'  -  '+'REASON:'+reason+'</td><td width="245">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else if(reason==null)
                             {
-                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+'</td><td width="245">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else
                             {
-                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+' <br>'+ure_after_mrg +'  -  '+'REASON:'+reason+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+' <br>'+ure_after_mrg +'  -  '+'REASON:'+reason+'</td><td width="245">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                         }
                         else
@@ -259,15 +267,15 @@ $(document).ready(function(){
                                 {
                                     ure_after_mrg=morningsession;
                                 }
-                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +' -  '+'REASON:'+reason+'<br>PERMISSION:'+permission+' hrs</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +' -  '+'REASON:'+reason+'<br>PERMISSION:'+permission+' hrs</td><td width="245">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else if(reason==null)
                             {
-                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+' <br>PERMISSION:'+permission+' hrs</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+' <br>PERMISSION:'+permission+' hrs</td><td width="245">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else
                             {
-                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+' <br>'+ure_after_mrg +'  - '+'REASON:'+reason+' <br>PERMISSION:'+permission+' hrs</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_tableheader+='<tr ><td nowrap>'+login+'</td><td style="max-width:1000px; !important;">'+report+' <br>'+ure_after_mrg +'  - '+'REASON:'+reason+' <br>PERMISSION:'+permission+' hrs</td><td width="245">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                         }
                     }
@@ -374,7 +382,6 @@ $(document).ready(function(){
     });
     //CHANGE EVENT FOR ALL ACTIVE  RANGE RADIO BTN
     $(document).on('change','#ASRC_UPD_DEL_rd_allactveemp',function(){
-
         $('#ASRC_UPD_DEL_lbl_reportdte').hide();
         $('#ASRC_UPD_DEL_ta_reportdate').hide();
         $('#ASRC_UPD_DEL_lbl_allactveemps').show();
@@ -580,13 +587,14 @@ $(document).ready(function(){
     });
     var values_array=[];
     $(document).on('click','#ASRC_UPD_DEL_btn_search',function(){
+        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('section').html('')
         $('#ASRC_UPD_DEL_div_tablecontainer').hide();
         $('#ASRC_UPD_DEL_div_header').hide();
         $('#ASRC_UPD_btn_pdf').hide();
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#ASRC_UPD_DEL_lbl_allactveemp').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -622,7 +630,7 @@ $(document).ready(function(){
                     var errmsg=msg.toString().replace("[ENDDATE]",end_date);
                     $('#ASRC_UPD_DEL_div_header').text(errmsg).show();
                     $('#ASRC_UPD_btn_pdf').show();
-                    var ASRC_UPD_DEL_table_header='<table id="ASRC_UPD_DEL_tbl_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:1400px"><thead  bgcolor="#6495ed" style="color:white"><tr><th  style="width:10px"></th><th style="width:70px"  class="uk-date-column" nowrap>DATE</th><th style="width:1100px">REPORT</th><th style="width:150px">USERSTAMP</th><th class="uk-timestp-column" style="width:100px">TIMESTAMP</th></tr></thead><tbody>'
+                    var ASRC_UPD_DEL_table_header='<table id="ASRC_UPD_DEL_tbl_htmltable" border="1" class="srcresult" style="width:1700px"><thead  bgcolor="#6495ed" style="color:white"><tr><th  style="width:10px"></th><th style="width:70px" class="uk-date-column" nowrap>DATE</th><th style="width:1100px">REPORT</th><th>LOCATION</th><th style="width:150px">USERSTAMP</th><th class="uk-timestp-column" style="width:100px">TIMESTAMP</th></tr></thead><tbody>'
                     for(var j=0;j<values_array.length;j++){
                         var emp_date=values_array[j].date;
                         var emp_report=values_array[j].report;
@@ -634,6 +642,11 @@ $(document).ready(function(){
                         var permission=values_array[j].permission;
                         var id=values_array[j].id;
                         var flag=values_array[j].flag;
+                        var location=values_array[j].location;
+                        if(location==null)
+                        {
+                            location='';
+                        }
                         if(permission==null)
                         {
                             if(morningsession=='PRESENT'){
@@ -652,15 +665,15 @@ $(document).ready(function(){
                                 {
                                     ure_after_mrg=morningsession;
                                 }
-                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td>'+emp_date+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +'  -  '+'REASON:'+emp_reason+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td align="center" >'+emp_date+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +'  -  '+'REASON:'+emp_reason+'</td><td width="250">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else if(emp_reason==null)
                             {
-                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td>'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td align="center" >'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+'</td><td width="250">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else
                             {
-                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td>'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+' <br>'+ure_after_mrg +'  -  '+'REASON:'+emp_reason+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td align="center" >'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+' <br>'+ure_after_mrg +'  -  '+'REASON:'+emp_reason+'</td><td width="250">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                         }
                         else
@@ -681,15 +694,15 @@ $(document).ready(function(){
                                 {
                                     ure_after_mrg=morningsession;
                                 }
-                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td>'+emp_date+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +'  -  '+'REASON:'+emp_reason+'<br>PERMISSION:'+permission+' hrs</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td align="center" >'+emp_date+'</td><td style="max-width:1000px; !important;"> '+ure_after_mrg +'  -  '+'REASON:'+emp_reason+'<br>PERMISSION:'+permission+' hrs</td><td width="250">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else if(emp_reason==null)
                             {
-                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td>'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+' <br>PERMISSION:'+permission+' hrs</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td align="center" >'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+' <br>PERMISSION:'+permission+' hrs</td><td width="250">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                             else
                             {
-                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td>'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+' <br>'+ure_after_mrg +'  -  '+'REASON:'+emp_reason+' <br>PERMISSION:'+permission+' hrs</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
+                                ASRC_UPD_DEL_table_header+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_flxtbl" class="ASRC_UPD_DEL_class_radio" id='+id+'  value='+id+' ></td><td align="center" >'+emp_date+'</td><td style="max-width:1000px; !important;">'+emp_report+' <br>'+ure_after_mrg +'  -  '+'REASON:'+emp_reason+' <br>PERMISSION:'+permission+' hrs</td><td width="250">'+location+'</td><td style="width:150px">'+userstamp+'</td><td style="min-width:90px;" nowrap>'+timestamp+'</td></tr>';
                             }
                         }
                     }
@@ -701,7 +714,7 @@ $(document).ready(function(){
                         "sPaginationType":"full_numbers",
                         "aoColumnDefs" : [
                             { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
-                        });
+                    });
                 }
                 else
                 {
@@ -778,7 +791,7 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR DELETE BUTTON
     $(document).on('click','#ASRC_UPD_DEL_btn_del',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($(this).position(),-140,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1471,7 +1484,7 @@ $(document).ready(function(){
 
     //FUNCTION FOR UPDATE BUTTON
     $(document).on('click','#ASRC_UPD_DEL_btn_submit',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($(this).position(),-140,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1682,7 +1695,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
     });
-    //CLICK FUNCTIO FOR SEARCH BUTTON IN ONDUTY
+    //CLICK FUNCTION FOR SEARCH BUTTON IN ONDUTY
     $(document).on('click','#ASRC_UPD_DEL_od_btn',function(){
         $('#ASRC_UPD_section_od').html('')
         $('#ASRC_UPD_DEL_div_ondutytablecontainer').hide();
@@ -1690,7 +1703,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_btn_pdf').hide();
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#option').position(),30,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1709,6 +1722,7 @@ $(document).ready(function(){
                 $('.preloader').hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
+                    $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                     //HEADER ERR MSG
                     var sd=err_msg[13].toString().replace("WEEKLY","ONDUTY");
                     var msg=sd.toString().replace("[STARTDATE]",sdate);
@@ -1716,14 +1730,14 @@ $(document).ready(function(){
                     pdfmsg=errmsg;
                     $('#ASRC_UPD_DEL_div_headers').text(errmsg).show();
                     $('#ASRC_UPD_btn_od_pdf').show();
-                    var ASRC_UPD_DEL_tbleheader='<table id="ASRC_UPD_DEL_tbl_ondutyhtmltable" border="1"  cellspacing="0" class="srcresult" style="width:1100px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:10px;"></th><th style="width:20px;" class="uk-date-column">DATE</th><th style="width:500px">DESCRIPTION</th><th style="width:90px">USERSTAMP</th><th style="width:100px" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>';
+                    var ASRC_UPD_DEL_tbleheader='<table id="ASRC_UPD_DEL_tbl_ondutyhtmltable" border="1"  cellspacing="0" class="srcresult" style="width:1500px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:10px;"></th><th nowrap class="uk-date-column">DATE</th><th style="width:920px">DESCRIPTION</th><th style="width:90px">USERSTAMP</th><th style="width:100px" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>';
                     for(var j=0;j<allvalues_array.length;j++){
                         var id=allvalues_array[j].id;
                         var description=allvalues_array[j].description;
                         var userstamp=allvalues_array[j].userstamp;
                         var timestamp=allvalues_array[j].timestamp;
                         var date=allvalues_array[j].date;
-                        ASRC_UPD_DEL_tbleheader+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_tbl" class="ASRC_UPD_DEL_class_radio odclass" id='+id+'  value='+id+' ></td><td>'+date+'</td><td style="max-width:600px">'+description+'</td><td style="max-width:155px">'+userstamp+'</td><td style="max-width:100px" nowrap>'+timestamp+'</td></tr>';
+                        ASRC_UPD_DEL_tbleheader+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_tbl" class="ASRC_UPD_DEL_class_radio odclass" id='+id+'  value='+id+' ></td><td width="30px" align="center" nowrap>'+date+'</td><td style="max-width:900px">'+description+'</td><td style="max-width:145px">'+userstamp+'</td><td style="max-width:100px" nowrap align="center">'+timestamp+'</td></tr>';
                     }
                     ASRC_UPD_DEL_tbleheader+='</tbody></table>';
                     $('#ASRC_UPD_section_od').html(ASRC_UPD_DEL_tbleheader);
@@ -1733,7 +1747,7 @@ $(document).ready(function(){
                         "sPaginationType":"full_numbers",
                         "aoColumnDefs" : [
                             { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
-                        });
+                    });
                 }
                 else
                 {
@@ -1770,7 +1784,7 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR ONDUTY SEARCH BUTTON
     $(document).on('click','#ASRC_UPD_DEL_odsrch_btn',function(){
-        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         var ASRC_UPD_DEL_radio=$('input:radio[name=ASRC_UPD_DEL_rd_tbl]:checked').attr('id');
         $("#ASRC_UPD_DEL_odsrch_btn").attr("disabled", "disabled");
         $("#updatepart").show();
@@ -1803,7 +1817,7 @@ $(document).ready(function(){
     });
     // CLICK FUNCTIO ONDUTY UPDATE BUTTON
     $('#ASRC_UPD_DEL_odsubmit').click(function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#ASRC_UPD_DEL_tb_oddte').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1814,7 +1828,7 @@ $(document).ready(function(){
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
                 $('.preloader').hide();
                 var msg_alert=xmlhttp.responseText;
-                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ONDUTY SEARCH/UPDATE",msgcontent:msg_alert,confirmation:true,position:{top:150,left:500}}});
+                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ONDUTY SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
                 ondutyflextable()
                 $('#ASRC_UPD_DEL_tb_oddte').hide();
                 $('#ASRC_UPD_DEL_lbl_oddte').hide();
@@ -1858,8 +1872,8 @@ $(document).ready(function(){
 <body>
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN REPORT SEARCH/UPDATE/DELETE</h3><p></div></div>
-    <form   id="ASRC_UPD_DEL_form_adminsearchupdate" class="content" >
+    <div class="newtitle"><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN REPORT SEARCH/UPDATE/DELETE</h3><p></div></div>
+    <form   id="ASRC_UPD_DEL_form_adminsearchupdate" class="newcontent" >
         <table>
             <tr>
                 <td width="150"><label name="ASRC_UPD_DEL_lbl_optn" id="ASRC_UPD_DEL_lbl_optn">SELECT A OPTION</label><em>*</em></td>
@@ -2039,4 +2053,3 @@ $(document).ready(function(){
 <!--BODY TAG END-->
 </html>
 <!--HTML TAG END-->
-

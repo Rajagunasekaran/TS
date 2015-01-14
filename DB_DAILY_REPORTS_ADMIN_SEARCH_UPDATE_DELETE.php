@@ -50,14 +50,15 @@ if(isset($_REQUEST)){
 //            $ure_uld_id=$row["ULD_ID"];
 //        }
         $ure_uld_id=$active_loginid;
-        $date= mysqli_query($con,"SELECT UARD_ID,UARD_REPORT,UARD_REASON,UARD_DATE,b.AC_DATA as UARD_PERMISSION, c.AC_DATA as UARD_ATTENDANCE,UARD.UARD_PSID,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,I.ULD_LOGINID AS ULD_ID,DATE_FORMAT(CONVERT_TZ(UARD.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP,UARD_BANDWIDTH,ULD.ULD_LOGINID as UARD_USERSTAMP_ID,ABSENT_FLAG FROM USER_ADMIN_REPORT_DETAILS UARD
-            LEFT JOIN ATTENDANCE_CONFIGURATION b ON b.AC_ID=UARD.UARD_PERMISSION
-            LEFT JOIN ATTENDANCE_CONFIGURATION c on c.AC_ID=UARD.UARD_ATTENDANCE
-            LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=UARD.UARD_AM_SESSION
-            LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=UARD.UARD_PM_SESSION
-            LEFT JOIN USER_LOGIN_DETAILS I ON I.ULD_ID=UARD.ULD_ID
-            LEFT JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID=UARD.UARD_USERSTAMP_ID
-            WHERE UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id' ORDER BY UARD.UARD_DATE ");
+        $date= mysqli_query($con,"SELECT UARD_ID,UARD_REPORT,UARD_REASON,UARD_DATE,b.AC_DATA as UARD_PERMISSION, c.AC_DATA as UARD_ATTENDANCE,UARD.UARD_PSID,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,I.ULD_LOGINID AS ULD_ID,DATE_FORMAT(CONVERT_TZ(UARD.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP,UARD_BANDWIDTH,ULD.ULD_LOGINID as UARD_USERSTAMP_ID,ABSENT_FLAG,J.CIORL_LOCATION FROM USER_ADMIN_REPORT_DETAILS UARD
+LEFT JOIN ATTENDANCE_CONFIGURATION b ON b.AC_ID=UARD.UARD_PERMISSION
+left JOIN ATTENDANCE_CONFIGURATION c on c.AC_ID=UARD.UARD_ATTENDANCE
+LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=UARD.UARD_AM_SESSION
+LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=UARD.UARD_PM_SESSION
+LEFT JOIN USER_LOGIN_DETAILS I ON I.ULD_ID=UARD.ULD_ID
+LEFT JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID=UARD.UARD_USERSTAMP_ID
+LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION J ON J.CIORL_ID=UARD.CIORL_ID
+where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id' ORDER BY UARD.UARD_DATE ");
         while($row=mysqli_fetch_array($date)){
             $ure_id=$row["UARD_ID"];
             $uredate=$row["UARD_DATE"];
@@ -74,6 +75,7 @@ if(isset($_REQUEST)){
             $ure_morningsession=$row["UARD_AM_SESSION"];
             $ure_afternoonsession=$row["UARD_PM_SESSION"];
             $ure_flag=$row["ABSENT_FLAG"];
+            $location=$row['CIORL_LOCATION'];
 //STRING REPLACED
             if($ure_reprt!=null){
                 $ure_report='';
@@ -97,7 +99,7 @@ if(isset($_REQUEST)){
             else{
                 $ure_reason=null;
             }
-            $final_values=(object) ['id'=>$ure_id,'date' => $ure_date,'report' =>$ure_report,'report1' =>$ure_reprt,'userstamp'=> $ure_userstamp,'timestamp'=>$ure_timestamp,'reason'=>$ure_reason,'reason1'=>$ure_reason_txt,'permission'=>$ure_permission,'attendance'=>$ure_attendance,'pdid'=>$ure_pdid,'morningsession'=>$ure_morningsession,'afternoonsession'=>$ure_afternoonsession,'bandwidth'=>$ure_bandwidth,'user_stamp'=>$userstamp,'flag'=>$ure_flag];
+            $final_values=(object) ['id'=>$ure_id,'date' => $ure_date,'report' =>$ure_report,'report1' =>$ure_reprt,'userstamp'=> $ure_userstamp,'timestamp'=>$ure_timestamp,'reason'=>$ure_reason,'reason1'=>$ure_reason_txt,'permission'=>$ure_permission,'attendance'=>$ure_attendance,'pdid'=>$ure_pdid,'morningsession'=>$ure_morningsession,'afternoonsession'=>$ure_afternoonsession,'bandwidth'=>$ure_bandwidth,'user_stamp'=>$userstamp,'flag'=>$ure_flag,'location'=>$location];
             $ure_values[]=$final_values;
         }
         echo json_encode($ure_values);
@@ -106,9 +108,8 @@ if(isset($_REQUEST)){
     {
         $alldate = $_REQUEST['alldate'];
         $empdate = date('Y-m-d',strtotime($alldate));
-        $sql=mysqli_query($con,"SELECT DISTINCT AED.EMPLOYEE_NAME,AC.AC_DATA,A.UARD_REPORT,A.UARD_REASON,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,B.ULD_LOGINID,C.ULD_LOGINID as USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') as UARD_TIMESTAMP FROM USER_ADMIN_REPORT_DETAILS A
-            INNER JOIN USER_LOGIN_DETAILS B on A.ULD_ID=B.ULD_ID INNER JOIN USER_LOGIN_DETAILS C on A.UARD_USERSTAMP_ID=C.ULD_ID INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION INNER JOIN VW_TS_ALL_EMPLOYEE_DETAILS AED ON A.ULD_ID=AED.ULD_ID
-            LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID WHERE A.UARD_DATE='$empdate' and D.UA_TERMINATE IS NULL ORDER BY EMPLOYEE_NAME");
+        $sql=mysqli_query($con,"SELECT DISTINCT AED.EMPLOYEE_NAME,A.UARD_REPORT,A.UARD_REASON,AC.AC_DATA as PERMISSION,AT.AC_DATA,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,C.ULD_LOGINID as USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') as UARD_TIMESTAMP,J.CIORL_LOCATION FROM USER_ADMIN_REPORT_DETAILS A INNER JOIN USER_LOGIN_DETAILS B on A.ULD_ID=B.ULD_ID INNER JOIN USER_LOGIN_DETAILS C on A.UARD_USERSTAMP_ID=C.ULD_ID INNER JOIN VW_TS_ALL_EMPLOYEE_DETAILS AED ON A.ULD_ID=AED.ULD_ID
+         INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION LEFT join ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID left JOIN ATTENDANCE_CONFIGURATION AT on AT.AC_ID=A.UARD_ATTENDANCE INNER JOIN EMPLOYEE_DETAILS ED ON A.ULD_ID=ED.ULD_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION J ON J.CIORL_ID=A.CIORL_ID where A.UARD_DATE='$empdate' and D.UA_TERMINATE IS null order by EMPLOYEE_NAME");
         while($row=mysqli_fetch_array($sql)){
             $adm_reprt=$row["UARD_REPORT"];
             $adm_userstamp=$row["USERSTAMP"];
@@ -117,7 +118,8 @@ if(isset($_REQUEST)){
             $adm_reason_txt=$row["UARD_REASON"];
             $ure_morningsession=$row["UARD_AM_SESSION"];
             $ure_afternoonsession=$row["UARD_PM_SESSION"];
-            $ure_permission=$row["AC_DATA"];
+            $ure_permission=$row["PERMISSION"];
+            $location=$row['CIORL_LOCATION'];
             if($adm_reprt!=null){
                 $adm_report='';
                 $body_msg =explode("\n", $adm_reprt);
@@ -140,7 +142,7 @@ if(isset($_REQUEST)){
             else{
                 $adm_reason=null;
             }
-            $all_values=(object) ['admreason'=>$adm_reason,'morningsession'=>$ure_morningsession,'afternoonsession'=>$ure_afternoonsession,'admreport' =>$adm_report,'permission'=>$ure_permission,'admuserstamp'=> $adm_userstamp,'admtimestamp'=>$adm_timestamp,'admlogin'=>$adm_loginid];
+            $all_values=(object) ['admreason'=>$adm_reason,'morningsession'=>$ure_morningsession,'afternoonsession'=>$ure_afternoonsession,'admreport' =>$adm_report,'permission'=>$ure_permission,'admuserstamp'=> $adm_userstamp,'admtimestamp'=>$adm_timestamp,'admlogin'=>$adm_loginid,'location'=>$location];
             $ure_values[]=$all_values;
         }
         echo json_encode($ure_values);
@@ -436,8 +438,7 @@ if(isset($_REQUEST)){
         $odstartdate = date('Y-m-d',strtotime($sdate));
         $odenddate=date('Y-m-d',strtotime($edate));
         $sql=mysqli_query($con,"SELECT DISTINCT A.OED_ID,A.OED_DATE,A.OED_DESCRIPTION,B.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(A.OED_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T')as OED_TIMESTAMP FROM ONDUTY_ENTRY_DETAILS A
-            INNER JOIN USER_LOGIN_DETAILS B on A.ULD_ID=B.ULD_ID
-            INNER JOIN USER_ACCESS C where A.OED_DATE between '$odstartdate' and '$odenddate' and C.UA_TERMINATE IS null");
+            INNER JOIN USER_LOGIN_DETAILS B on A.ULD_ID=B.ULD_ID INNER JOIN USER_ACCESS C where A.OED_DATE between '$odstartdate' and '$odenddate' and C.UA_TERMINATE IS null");
         while($row=mysqli_fetch_array($sql)){
             $ondutyid=$row["OED_ID"];
             $oddate=$row["OED_DATE"];
@@ -450,7 +451,7 @@ if(isset($_REQUEST)){
         }
         echo json_encode($ure_values);
     }
-    if($_REQUEST["option"]=="ONDUTY REPORT SEARCH/UPDATE")
+    if($_REQUEST["option"]=="ONDUTY REPORT SEARCH UPDATE")
     {
         $ondutydate=$_POST['ASRC_UPD_DEL_tb_oddte'];
         $ondutydes=$_POST['ASRC_UPD_DEL_ta_des'];

@@ -99,7 +99,7 @@ $(document).ready(function(){
 
     var options = {
         enableHighAccuracy: true,
-        timeout: 5000,
+        timeout: 10000,
         maximumAge: 0
     };
 
@@ -110,7 +110,7 @@ $(document).ready(function(){
     $(document).on("click",'.btnclass', function (){
 
         Page_url =$(this).data('pageurl');
-        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"MENU CONFIRMATION",msgcontent:"Do You Want to Open "+$(this).attr("id")+" "+$(this).text()+" ?",confirmation:true,position:{top:150,left:300}}});
+        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"MENU CONFIRMATION",msgcontent:"Do You Want to Open "+$(this).attr("id")+" "+$(this).text()+" ?",confirmation:true,position:{top:150,left:480}}});
         return false;
     });
     function init () {

@@ -2,6 +2,7 @@
 //*******************************************FILE DESCRIPTION*************************************************//
 //***********************************************COMPANY PROPERTY VERFICATION*******************************//
 //DONE BY:LALITHA
+//VER 0.03 SD:09/12/2014 ED:08/12/2014,TRACKER NO:74,Changed preloader position,login id changed to emp name in mail part
 //VER 0.02 SD:06/12/2014 ED:08/12/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
 //************************************************************************************************************//
@@ -38,6 +39,10 @@ if(isset($_REQUEST)){
     //FUNCTION FOR TO SAVE THE EMPLOYEE DETAILS ND COMPANY DETAILS
     if($_REQUEST['option']=="CMPNY_PROPETIES_SAVE"){
         $CPVD_lb_loginid=$_POST['CPVD_lb_loginid'];
+        $loginid=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID='$CPVD_lb_loginid' ORDER BY EMPLOYEE_NAME");
+        while($row=mysqli_fetch_array($loginid)){
+            $CPVD_emp_name=$row["EMPLOYEE_NAME"];
+        }
         $CPVD_lap_no=$_POST['CPVD_tb_laptopno'];
         $CPVD_charger_no=$_POST['CPVD_tb_chargerno'];
         $emp_id=mysqli_query($con,"select EMP_ID from EMPLOYEE_DETAILS where ULD_ID='$CPVD_lb_loginid'");
@@ -51,6 +56,10 @@ if(isset($_REQUEST)){
         }
         //COMPANY PROP VERIFY LOGIN ID
         $CPVD_lb_chckdby=$_POST['CPVD_lb_chckdby'];
+        $loginid=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID='$CPVD_lb_chckdby' ORDER BY EMPLOYEE_NAME");
+        while($row=mysqli_fetch_array($loginid)){
+            $CPVD_checkedby_empname=$row["EMPLOYEE_NAME"];
+        }
         $CPVD_ta_reason1=$_POST['CPVD_ta_reason'];
         $CPVD_ta_reason= $con->real_escape_string($CPVD_ta_reason1);
         $EMP_ENTRY_dob=$_POST['EMP_ENTRY_tb_dob'];
@@ -66,7 +75,6 @@ if(isset($_REQUEST)){
         else{
             $flag=1;
         }
-
         if ($flag==1){
             $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
             $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
@@ -78,8 +86,25 @@ if(isset($_REQUEST)){
             if($row=mysqli_fetch_array($sadmin_rs)){
                 $sadmin=$row["ULD_LOGINID"];//get super admin
             }
-            $admin_name = substr($admin, 0, strpos($admin, '.'));
-            $sadmin_name = substr($sadmin, 0, strpos($sadmin, '.'));
+//            $admin_name = substr($admin, 0, strpos($admin, '.'));
+            $admin_name = strtoupper(substr($admin, 0, strpos($admin, '@')));
+            if(substr($admin_name, 0, strpos($admin_name, '.'))){
+
+                $admin_name = strtoupper(substr($admin_name, 0, strpos($admin_name, '.')));
+
+            }
+            else{
+                $admin_name=$admin_name;
+            }
+            $sadmin_name = strtoupper(substr($sadmin, 0, strpos($sadmin, '@')));
+            if(substr($sadmin_name, 0, strpos($sadmin_name, '.'))){
+
+                $sadmin_name = strtoupper(substr($sadmin_name, 0, strpos($sadmin_name, '.')));
+
+            }
+            else{
+                $sadmin_name=$sadmin_name;
+            }
             $spladminname=$admin_name.'/'.$sadmin_name;
             $spladminname=strtoupper($spladminname);
             $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=9";
@@ -94,35 +119,13 @@ if(isset($_REQUEST)){
             for($i=0;$i<$length;$i++){
                 $email_body.=$body_msg[$i].'<br><br>';
             }
-            $username = strtoupper(substr($CPVD_lb_loginid, 0, strpos($CPVD_lb_loginid, '@')));
-            if(substr($username, 0, strpos($username, '.'))){
-
-                $username = strtoupper(substr($username, 0, strpos($username, '.')));
-
-            }
-            else{
-                $username=$username;
-            }
-
-
-            $CPVD_lb_chckdby = strtoupper(substr($CPVD_lb_chckdby, 0, strpos($CPVD_lb_chckdby, '@')));
-            if(substr($CPVD_lb_chckdby, 0, strpos($CPVD_lb_chckdby, '.'))){
-
-                $CPVD_lb_chckdby = strtoupper(substr($CPVD_lb_chckdby, 0, strpos($CPVD_lb_chckdby, '.')));
-
-            }
-            else{
-                $CPVD_lb_chckdby=$CPVD_lb_chckdby;
-            }
             $comment =explode("\n", $CPVD_ta_reason1);
             $commnet_length=count($comment);
             for($i=0;$i<$commnet_length;$i++){
                 $comment_msg.=$comment[$i].'<br>';
             }
-
-
             $replace= array("[SADMIN]", "[NAME]","[CHECKEDBYID]","[LAPNO]","[CHARGERNO]","[COMMENTS]");
-            $str_replaced  = array($spladminname,$username, $CPVD_lb_chckdby,$CPVD_lap_no,$CPVD_charger_no,$comment_msg);
+            $str_replaced  = array($spladminname,$CPVD_emp_name, $CPVD_checkedby_empname,$CPVD_lap_no,$CPVD_charger_no,$comment_msg);
             $main_body = str_replace($replace, $str_replaced, $email_body);
             $mail_options = [
                 "sender" => $admin,
@@ -137,8 +140,6 @@ if(isset($_REQUEST)){
             } catch (\InvalidArgumentException $e) {
                 echo $e;
             }
-
-
         }
         echo $flag;
     }
@@ -149,7 +150,7 @@ if(isset($_REQUEST['option']) && $_REQUEST['option']!=''){
 }
 //GET ACTIVE LOGIN ID
 function showData($data,$con){
-    $sql = "SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS VW,EMPLOYEE_DETAILS ED,USER_LOGIN_DETAILS ULD WHERE ED.ULD_ID=ULD.ULD_ID AND ED.EMP_ID NOT IN (SELECT EMP_ID FROM  COMPANY_PROP_VERIFY_DETAILS) AND ULD.ULD_LOGINID=VW.ULD_LOGINID";
+    $sql = "SELECT * FROM COMPANY_PROPERTIES_DETAILS CPVD,VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS VW,EMPLOYEE_DETAILS EMP WHERE CPVD.EMP_ID=EMP.EMP_ID AND EMP.ULD_ID=VW.ULD_ID AND EMP.EMP_ID NOT IN (SELECT EMP_ID FROM  COMPANY_PROP_VERIFY_DETAILS)";
     $data = $con->query($sql);
     $str='<select name="dynamic_data">';
     $str.='<option>SELECT</option>';

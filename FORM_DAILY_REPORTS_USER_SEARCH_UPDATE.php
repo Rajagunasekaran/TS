@@ -1,7 +1,9 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER SEARCH UPDATE **************************************//
 //DONE BY:RAJA
-//VER 0.10-SD:03/01/2015 ED:07/01/2015, TRACKER NO:166,175,179,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
+//VER 0.11-SD:10/01/2015 ED:10/01/2015, TRACKER NO:74,DESC:CHANGED PRELOADER POSITION AND IMPLEMENTED AUTOFOCUS
+//DONE BY:RAJA
+//VER 0.10-SD:03/01/2015 ED:07/01/2015, TRACKER NO:74,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:SASIKALA
 //VER 0.09-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR REPORT UPDATE
 //DONE BY:LALITHA
@@ -61,7 +63,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 5000,
+    timeout: 10000,
     maximumAge: 0
 };
 
@@ -171,7 +173,7 @@ $(document).ready(function(){
         $('#USRC_UPD_btn_pdf').hide();
         $('#USRC_UPD_div_tablecontainer').hide();
         $('section').html('');
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($(this).position(),-50,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -202,6 +204,7 @@ $(document).ready(function(){
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
                 $('.preloader').hide();
                 if(values_array.length!=0){
+                    $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                     //HEADER ERR MSG
                     var sd=err_msg[11].toString().replace("[LOGINID]",empname);
                     var msg=sd.toString().replace("[STARTDATE]",start_date);
@@ -285,7 +288,7 @@ $(document).ready(function(){
                         "sPaginationType":"full_numbers",
                         "aoColumnDefs" : [
                             { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
-                        });
+                    });
                 }
                 else{
                     $('#USRC_UPD_div_tablecontainer').hide();
@@ -591,10 +594,9 @@ $(document).ready(function(){
     var err_flag=0;
     // CHANGE EVENT FOR DATE ALREADY EXISTS
     $(document).on('change ','#USRC_UPD_tb_date',function(){
-
         var reportdate=$('#USRC_UPD_tb_date').val();
         if(date!=reportdate){
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($(this).position(),70,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -654,6 +656,7 @@ $(document).ready(function(){
             $('#USRC_UPD_tble_reasonlbltxtarea').html('');
             if($('#USRC_UPD_lb_attendance').val()=='1')
             {
+                $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                 $('#USRC_UPD_tble_enterthereport,#USRC_UPD_ta_reason,#USRC_UPD_tble_bandwidth').html('');
                 $('#USRC_UPD_rd_permission').attr('checked',false);
                 $('#USRC_UPD_rd_nopermission').attr('checked',false);
@@ -808,6 +811,7 @@ $(document).ready(function(){
         }
         else
         {
+            $("html, body").animate({ scrollTop: $(document).height() }, "fast");
             USRC_UPD_reason();
             $('#USRC_UPD_tble_projectlistbx').show();
             projectlist();
@@ -868,7 +872,7 @@ $(document).ready(function(){
 //            }
 //            else{
 
-                project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] +' - '+ project_array[i][2]+ '</td></tr>';
+            project_list += '<tr><td><input type="checkbox" id="' + project_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + project_array[i][1] + '" >' + project_array[i][0] +' - '+ project_array[i][2]+ '</td></tr>';
 
 
 //            }
@@ -977,7 +981,7 @@ $(document).ready(function(){
     }
     // CHANGE EVENT FOR UPDATE BUTTON
     $(document).on('click','#USRC_UPD_btn_submit',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($(this).position(),-70,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -990,7 +994,7 @@ $(document).ready(function(){
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[1],confirmation:true,position:{top:150,left:500}}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[1],position:{top:150,left:500}}});
                     UARD_clear()
                     flextable()
                     $("#USRC_UPD_tb_date").val('').hide()
@@ -998,7 +1002,7 @@ $(document).ready(function(){
                 }
                 else if(msg_alert==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[7],confirmation:true,position:{top:150,left:500}}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[7],position:{top:150,left:500}}});
                     UARD_clear()
                     flextable()
                     $("#USRC_UPD_tb_date").val('').hide()
@@ -1006,7 +1010,7 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:msg_alert,confirmation:true,position:{top:150,left:500}}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
                     UARD_clear()
                     flextable()
                     $("#USRC_UPD_tb_date").val('').hide()
@@ -1050,7 +1054,7 @@ $(document).ready(function(){
             </table>
             <div class="srctitle" name="USRC_UPD_div_header" id="USRC_UPD_div_header" hidden></div>
             <div><input type="button" id='USRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
-<!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
+            <!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
             <div class="container" id="USRC_UPD_div_tablecontainer" hidden>
                 <section>
                 </section>

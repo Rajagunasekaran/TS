@@ -1,14 +1,13 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************REPORT MAIL ADMIN TRIGGER *************************************//
+//DONE BY:RAJA
+//VER 0.04-SD:09/01/2015 ED:09/01/2015, TRACKER NO:175,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME
 //DONE BY:SAFIYULLAH
 //VER 0.03,SD:06/11/2014 ED:06/11/2014,tracker:74,DESC:checked onduty date also to send remainder
 //VER 0.02,SD:24/10/2014 ED:24/10/2014,TRACKER NO:82,DESC:update subject and body to get from email template
 //VER 0.01-INITIAL VERSION, SD:16/09/2014 ED:08/10/2014,TRACKER NO:82
 //*********************************************************************************************************//-->
-
-
 <?php
-
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
 include "COMMON_FUNCTIONS.php";
@@ -53,19 +52,15 @@ if($Current_day!='Sunday'){
         $final_user_array=array();
         for($i=0;$i<$array_length;$i++){
             $names=$final_array[$i];
-            $username = strtoupper(substr($names, 0, strpos($names, '@')));
-            if(substr($username, 0, strpos($username, '.'))){
-
-                $username = strtoupper(substr($username, 0, strpos($username, '.')));
-
-            }
-            else{
-                $username=$username;
+            $select_empname="SELECT EMPLOYEE_NAME from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_LOGINID='$names' ";
+            $select_emp_name=mysqli_query($con,$select_empname);
+            if($row=mysqli_fetch_array($select_emp_name)){
+                $empname=$row["EMPLOYEE_NAME"];
             }
             $sub=str_replace("[SADMIN]","$spladminname",$body);
             $get_uldid=get_uldid($names);
             $get_joindate=get_joindate($get_uldid);
-            $message='<body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=400 ><thead  bgcolor=#6495ed style=color:white><tr  align=center  height=2px ><td>EMPLOYEE NAME</td><td >REPORT DATE</td></tr></thead>';
+            $message='<body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=490 ><thead  bgcolor=#6495ed style=color:white><tr  align=center  height=3px ><td>EMPLOYEE NAME</td><td >REPORT DATE</td></tr></thead>';
             $select_last_report="SELECT UARD_DATE FROM USER_ADMIN_REPORT_DETAILS UARD,USER_LOGIN_DETAILS ULD WHERE  UARD.ULD_ID=(SELECT ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$names') ORDER by UARD.UARD_DATE desc LIMIT 1";
             $select_last_report_rs=mysqli_query($con,$select_last_report);
             while($row=mysqli_fetch_array($select_last_report_rs)){
@@ -77,9 +72,9 @@ if($Current_day!='Sunday'){
                     $final_date=date('Y-m-d', strtotime($last_date.  + $j.' days'));
                     if($final_date<=$currentdate){
                         if($final_date>=$get_joindate){
-                        $day=date('l', strtotime($final_date));
-                        if($day!="Sunday")
-                            $final_date_array[]=($final_date);
+                            $day=date('l', strtotime($final_date));
+                            if($day!="Sunday")
+                                $final_date_array[]=($final_date);
                         }
                     }
                 }
@@ -89,7 +84,7 @@ if($Current_day!='Sunday'){
                 $date_array=array_values($date_array);
                 if(count($date_array)==0)continue;
                 for($k=0;$k<count($date_array);$k++){
-                    $user_name=$username."/".$date_array[$k];
+                    $user_name=$empname."/".$date_array[$k];
                     $final_user_array[]=($user_name);
 
                 }
@@ -100,28 +95,22 @@ if($Current_day!='Sunday'){
             $final_user_array1= explode("/", $final_user_array[$l]);
             $emp_name=$final_user_array1[0];
             $emp_date=$final_user_array1[1];
-            $message=$message. "<tr><td >".$emp_name."</td><td >".date('l jS  F Y ',strtotime($emp_date))."</td></tr>";
+            $message=$message. "<tr><td>".$emp_name."</td><td align=center>".date('l jS F Y ',strtotime($emp_date))."</td></tr>";
         }
         if($num_count>0){
-        $mail_options = [
-            "sender" => $admin,
-            "to" => $sadmin,
-            "cc"=>$admin,
-            "subject" => $mail_subject,
-            "htmlBody" => $message
-        ];
-        try {
-            $message = new Message($mail_options);
-            $message->send();
-        } catch (\InvalidArgumentException $e) {
-            echo $e;
-        }
+            $mail_options = [
+                "sender" => $admin,
+                "to" => $sadmin,
+                "cc"=>$admin,
+                "subject" => $mail_subject,
+                "htmlBody" => $message
+            ];
+            try {
+                $message = new Message($mail_options);
+                $message->send();
+            } catch (\InvalidArgumentException $e) {
+                echo $e;
+            }
         }
     }
 }
-
-
-
-
-
-

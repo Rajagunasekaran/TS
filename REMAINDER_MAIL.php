@@ -1,14 +1,12 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************REMAINDER MAIL TRIGGER *************************************//
+//DONE BY:RAJA
+//VER 0.03-SD:09/01/2015 ED:09/01/2015, TRACKER NO:175,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME
 //DONE BY:SAFIYULLAH
 //VER 0.02,SD:24/10/2014 ED:24/10/2014,TRACKER NO:82,DESC:update subject and body to get from email template
 //VER 0.01-INITIAL VERSION, SD:16/09/2014 ED:08/10/2014,TRACKER NO:82
 //*********************************************************************************************************//-->
-
-
-
 <?php
-
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
 include "COMMON_FUNCTIONS.php";
@@ -46,17 +44,13 @@ if($Current_day!='Sunday'){
         $array_length=count($remainder_array);
         for($i=0;$i<$array_length;$i++){
             $names=$remainder_array[$i];
-            $username = strtoupper(substr($names, 0, strpos($names, '@')));
-            if(substr($username, 0, strpos($username, '.'))){
-
-                $username = strtoupper(substr($username, 0, strpos($username, '.')));
-
+            $select_empname="SELECT EMPLOYEE_NAME from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_LOGINID='$names' ";
+            $select_emp_name=mysqli_query($con,$select_empname);
+            if($row=mysqli_fetch_array($select_emp_name)){
+                $empname=$row["EMPLOYEE_NAME"];
             }
-            else{
-                $username=$username;
-            }
-            $bodyscript=str_replace("[MAILID_USERNAME]","$username",$body);
-            $message_body=str_replace("[DATE]",date('l jS  F Y '),$bodyscript);
+            $bodyscript=str_replace("[MAILID_USERNAME]","$empname",$body);
+            $message_body=str_replace("[DATE]",date('l jS F Y '),$bodyscript);
             $mail_options = [
                 "sender" => $admin,
                 "to" => $names,

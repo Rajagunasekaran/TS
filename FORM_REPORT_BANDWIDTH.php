@@ -291,7 +291,7 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#REP_BND_rd_nonemp').position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -375,7 +375,7 @@ $(document).ready(function(){
         $('#REP_BND_btn_search').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnths').val();
         var REP_BND_loginid=$('#REP_BND_lb_loginid').val();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#REP_BND_rd_nonemp').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -387,6 +387,7 @@ $(document).ready(function(){
                 var REP_BND_actnon_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_actnon_values[0]!=null)
                 {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     errmsg=REP_BND_errorAarray[4].toString().replace("[MONTH]",REP_BND_monthyear);
                     errmsg=errmsg.replace("[LOGINID]", $("#REP_BND_lb_loginid option:selected").text());
                     $('#src_lbl_error_login').text(errmsg).show();
@@ -396,17 +397,10 @@ $(document).ready(function(){
                     if(loginpos>0){
                         loginname=REP_BND_loginid.substring(0,loginpos);
                     }
-                    pdferrmsg=errmsg.replace(REP_BND_loginid,loginname)
+                    pdferrmsg=errmsg;
                     var REP_BND_reportdate= REP_BND_actnon_values[0];
                     var total= REP_BND_actnon_values[1];
-                    if(REP_BND_reportdate.length!=1)
-                    {
-                        var REP_BND_table_header='<table id="REP_BND_tble_lgn" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>REPORT DATE</th><th>BANDWIDTH</th></tr></thead><tfoot><tr> <th colspan="1" style="text-align:right">TOTAL:</th><th></th></tr></tfoot><tbody>'
-                    }
-                    else
-                    {
-                        var REP_BND_table_header='<table id="REP_BND_tble_lgn" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>REPORT DATE</th><th>BANDWIDTH</th></tr></thead><tbody>'
-                    }
+                    var REP_BND_table_header='<table id="REP_BND_tble_lgn" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>REPORT DATE</th><th>BANDWIDTH</th></tr></thead><tfoot><tr> <th colspan="1" style="text-align:right">TOTAL:</th><th></th></tr></tfoot><tbody>'
                     for(var i=0;i<REP_BND_reportdate.length;i++){
                         var REP_BND_reportdte=REP_BND_reportdate[i].REP_BND_rptdte;
                         var REP_BND_bandwidthmb=REP_BND_reportdate[i].REP_BND_bndwdth;
@@ -418,34 +412,38 @@ $(document).ready(function(){
                         //FOOTER FUNCTION
                         "footerCallback": function ( row, data, start, end, display ) {
                             var api = this.api(), data;
-                            // Remove the formatting to get integer data for summation
-                            var intVal = function ( i ) {
-                                return typeof i === 'string' ?
-                                    i.replace(/[\$,]/g, '')*1 :
-                                    typeof i === 'number' ?
-                                        i : 0;
-                            };
-                            // Total over all pages
-                            data = api.column( 1 ).data();
-                            total = data.length ?
-                                data.reduce( function (a, b) {
-                                    return intVal(a) + intVal(b);
-                                } ) :
-                                0;
-                            // Total over this page
-                            data = api.column( 1, { page: 'current'} ).data();
-                            pageTotal = data.length ?
-                                data.reduce( function (a, b) {
-                                    return intVal(a) + intVal(b);
-                                } ) :
-                                0;
-                            // Update footer
-                            var pt=pageTotal.toFixed(2)
-                            var n=total.toFixed(2)
-                            $( api.column( 1 ).footer() ).html(
-                                +pt +' ('+ n +' total)'
-                            );
-                        }
+                            if(REP_BND_reportdate.length==1){
+                                $( api.column( 1 ).footer() ).html(
+                                    total.REP_BND_bndwdth
+                                );}else{
+                                // Remove the formatting to get integer data for summation
+                                var intVal = function ( i ) {
+                                    return typeof i === 'string' ?
+                                        i.replace(/[\$,]/g, '')*1 :
+                                        typeof i === 'number' ?
+                                            i : 0;
+                                };
+                                // Total over all pages
+                                data = api.column( 1 ).data();
+                                total = data.length ?
+                                    data.reduce( function (a, b) {
+                                        return intVal(a) + intVal(b);
+                                    } ) :
+                                    0;
+                                // Total over this page
+                                data = api.column( 1, { page: 'current'} ).data();
+                                pageTotal = data.length ?
+                                    data.reduce( function (a, b) {
+                                        return intVal(a) + intVal(b);
+                                    } ) :
+                                    0;
+                                // Update footer
+                                var pt=pageTotal.toFixed(2)
+                                var n=total.toFixed(2)
+                                $( api.column( 1 ).footer() ).html(
+                                    +pt +' ('+ n +' total)'
+                                );
+                            }}
                     });
                 }
                 else
@@ -474,7 +472,7 @@ $(document).ready(function(){
         $('#REP_BND_btn_emp_pdf').hide();
         $('#REP_BND_btn_mysearch').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnth').val();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#REP_BND_db_selectmnth').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -486,20 +484,13 @@ $(document).ready(function(){
                 var REP_BND_monthyr_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_monthyr_values[0]!='' && REP_BND_monthyr_values[0]!=null)
                 {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     errmsg=REP_BND_errorAarray[3].toString().replace("[MONTH]",REP_BND_monthyear);
                     $('#src_lbl_error').text(errmsg).show();
                     $('#REP_BND_btn_mnth_pdf').show();
                     var REP_BND_userbndwdth= REP_BND_monthyr_values[0];
                     var total= REP_BND_monthyr_values[1];
-                    if(REP_BND_userbndwdth.length!=1)
-                    {
-                        var REP_BND_table_header='<table id="REP_BND_tble_bw" border="1"  cellspacing="0" class="srcresult" width=600px><thead  bgcolor="#6495ed" style="color:white"><tr><th width=200px>EMPLOYEE NAME</th><th>BANDWIDTH</th></tr></thead><tfoot><tr> <th colspan="1" style="text-align:right">TOTAL:</th><th></th></tr></tfoot><tbody>'
-                    }
-                    else
-                    {
-                        var REP_BND_table_header='<table id="REP_BND_tble_bw" border="1"  cellspacing="0" class="srcresult" width=600px ><thead  bgcolor="#6495ed" style="color:white"><tr><th width=200px>EMPLOYEE NAME</th><th>BANDWIDTH</th></tr></thead><tbody>'
-                        $('#REP_BND_div_monthyr').show();
-                    }
+                    var REP_BND_table_header='<table id="REP_BND_tble_bw" border="1"  cellspacing="0" class="srcresult" width=600px><thead  bgcolor="#6495ed" style="color:white"><tr><th width=200px>EMPLOYEE NAME</th><th>BANDWIDTH</th></tr></thead><tfoot><tr> <th colspan="1" style="text-align:right">TOTAL:</th><th></th></tr></tfoot><tbody>'
                     for(var i=0;i<REP_BND_userbndwdth.length;i++){
                         var REP_BND_loginid=REP_BND_userbndwdth[i].REP_BND_lgnid;
                         var REP_BND_bandwidthmb=REP_BND_userbndwdth[i].REP_BND_bndwdth;
@@ -511,34 +502,38 @@ $(document).ready(function(){
                         //FOOTER FUNCTION
                         "footerCallback": function ( row, data, start, end, display ) {
                             var api = this.api(), data;
-                            // Remove the formatting to get integer data for summation
-                            var intVal = function ( i ) {
-                                return typeof i === 'string' ?
-                                    i.replace(/[\$,]/g, '')*1 :
-                                    typeof i === 'number' ?
-                                        i : 0;
-                            };
-                            // Total over all pages
-                            data = api.column( 1 ).data();
-                            total = data.length ?
-                                data.reduce( function (a, b) {
-                                    return intVal(a) + intVal(b);
-                                } ) :
-                                0;
-                            // Total over this page
-                            data = api.column( 1, { page: 'current'} ).data();
-                            pageTotal = data.length ?
-                                data.reduce( function (a, b) {
-                                    return intVal(a) + intVal(b);
-                                } ) :
-                                0;
-                            // Update footer
-                            var pt=pageTotal.toFixed(2)
-                            var n=total.toFixed(2)
-                            $( api.column( 1 ).footer() ).html(
-                                +pt +' ('+ n +' 20)'
-                            );
-                        }
+                            if(REP_BND_userbndwdth.length==1){
+                                $( api.column( 1 ).footer() ).html(
+                                    total.REP_BND_bndwdth
+                                );}else{
+                                // Remove the formatting to get integer data for summation
+                                var intVal = function ( i ) {
+                                    return typeof i === 'string' ?
+                                        i.replace(/[\$,]/g, '')*1 :
+                                        typeof i === 'number' ?
+                                            i : 0;
+                                };
+                                // Total over all pages
+                                data = api.column( 1 ).data();
+                                total = data.length ?
+                                    data.reduce( function (a, b) {
+                                        return intVal(a) + intVal(b);
+                                    } ) :
+                                    0;
+                                // Total over this page
+                                data = api.column( 1, { page: 'current'} ).data();
+                                pageTotal = data.length ?
+                                    data.reduce( function (a, b) {
+                                        return intVal(a) + intVal(b);
+                                    } ) :
+                                    0;
+                                // Update footer
+                                var pt=pageTotal.toFixed(2)
+                                var n=total.toFixed(2)
+                                $( api.column( 1 ).footer() ).html(
+                                    +pt +' ('+ n +' total)'
+                                );
+                            }}
                     });
                 }
                 else
@@ -564,6 +559,7 @@ $(document).ready(function(){
         var inputValTwo=$('#REP_BND_lb_loginid').val();
         var url=document.location.href='COMMON_PDF.do?flag=15&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
     });
+});
 <!--SCRIPT TAG END-->
 </script>
 <!--BODY TAG START-->
@@ -650,3 +646,4 @@ $(document).ready(function(){
 <!--BODY TAG END-->
 </html>
 <!--HTML TAG END-->
+	

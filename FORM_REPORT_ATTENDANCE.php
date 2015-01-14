@@ -258,7 +258,7 @@ $(document).ready(function(){
     var allvalues_array;
     //CHANGE FUNCTION FOR DATE BX
     $(document).on('click','#REP_btn_search',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#REP_lb_loginid').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -280,6 +280,7 @@ $(document).ready(function(){
                 $('.preloader').hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(option=='6'){
                         var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:400px"  ><thead  bgcolor="#6495ed" style="color:white"><tr><th width="200px">EMPLOYEE NAME</th><th style="width:90px">REPORT ENTRY MISSED</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
@@ -321,7 +322,7 @@ $(document).ready(function(){
                         if(loginpos>0){
                             loginname=loginid.substring(0,loginpos);
                         }
-                        pdferrmsg=errmsg.replace(loginid,$("#REP_lb_loginid option:selected").text());
+                        pdferrmsg=errmsg;//.replace(loginid,$("#REP_lb_loginid option:selected").text());
                         $('#no_of_working_days').text("TOTAL NO OF WORKING DAYS: "  +  working_days  +  " DAYS").show();
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
                         $('#src_lbl_error').text(errmsg).show();

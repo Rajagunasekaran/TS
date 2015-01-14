@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //***********************************************COMPANY PROPERTY VERFICATION*******************************//
 //DONE BY:LALITHA
+//VER 0.03 SD:09/12/2014 ED:08/12/2014,TRACKER NO:74,Changed preloader position,login id changed to emp name in mail part
 //VER 0.02 SD:06/12/2014 ED:08/12/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
 //************************************************************************************************************-->
@@ -150,7 +151,7 @@ include "HEADER.php";
         });
         //CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#CPVD_btn_send',function(){
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#CPVD_ta_reason').position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -242,7 +243,7 @@ include "HEADER.php";
             </tr>
             <table id="CPVD_btns_sendreset"   hidden>
                 <tr>
-                    <td  align="right"><input class="btn" type="button"  id="CPVD_btn_send" name="SAVE" value="SEND" disabled hidden /></td>
+                    <td width="150px" align="right"><input class="btn" type="button"  id="CPVD_btn_send" name="SAVE" value="SEND" disabled hidden /></td>
                     <td align="left"><input type="button" class="btn" name="CPVD_btn_reset" id="CPVD_btn_reset" value="RESET"></td>
                 </tr>
             </table>

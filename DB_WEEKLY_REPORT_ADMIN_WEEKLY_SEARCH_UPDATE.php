@@ -1,9 +1,16 @@
 <?php
 //*******************************************FILE DESCRIPTION*********************************************//
-//*********************************ADMIN WEEKLY SEARCH/UPDATE**************************************//
+//*********************************ADMIN WEEKLY SEARCH/UPDATE******************************************//
+//DONE BY:LALITHA
+//0.05-SD:29/12/2014 ED:30/12/2014,TRACKER NO:74,Changed date picker nd validation
+//0.04-SD:19/12/2014 ED:19/12/2014,TRACKER NO:74,Updated sorting function for date nd timestamp
+//DONE BY:SASIKALA
+//0.03-SD:03/12/2014 ED:04/12/2014,TRACKER NO:74,DONE REPORT SHOWING POINT BY POINT,DATATABLE HEADER FIXED AND PDF EXPORT FILENAME FIXED.
+//DONE BY:LALITHA
+//0.02-SD:02/12/2014 ED:02/12/2014,TRACKER NO:74,Fixed max date nd min dte,Changed Preloder funct,Removed confirmation err msg,Fixed flex tble width
 //DONE BY:SHALINI
 //VER 0.01-INITIAL VERSION, SD:20/10/2014 ED:28/10/2014,TRACKER NO:86
-//*********************************************************************************************************//
+//*********************************************************************************************************//-->
 error_reporting(0);
 include "CONNECTION.php";
 include "GET_USERSTAMP.php";
@@ -15,9 +22,11 @@ if(isset($_REQUEST['option']) && $_REQUEST['option']!=''){
 //FUNCTION TO SHOW DATATABLE
 function showData($data,$con){
     $date = $con->real_escape_string($data['startdate']);
-    $startdate = date("Y-m-d",strtotime($date));
-    $date = $con->real_escape_string($data['enddate']);
-    $enddate = date("Y-m-d",strtotime($date));
+    $startdate=$_REQUEST['startdate'];
+    $startdate = date("Y-m-d",strtotime($startdate));
+    $enddate=$_REQUEST['enddate'];
+//    $date = $con->real_escape_string($data['enddate']);
+    $enddate = date("Y-m-d",strtotime($enddate));
     $AWSU_values=array();
     $sql="SELECT AW.AWRD_ID,AW.AWRD_REPORT,AW.AWRD_DATE,DATE_FORMAT(CONVERT_TZ(AW.AWRD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS AWRD_TIMESTAMP,ULD.ULD_LOGINID as ULD_USERSTAMP FROM ADMIN_WEEKLY_REPORT_DETAILS AW JOIN USER_LOGIN_DETAILS ULD on AW.ULD_ID=ULD.ULD_ID  where AW.AWRD_DATE BETWEEN '$startdate' AND '$enddate' ORDER BY AWRD_DATE DESC";
     $projectfetch= mysqli_query($con, $sql);

@@ -43,7 +43,7 @@ include "HEADER.php";
         });
         //CLICK FUNCTION FOR SAVE BUTTON
         $(document).on('click','#PH_ENTRY_btn_save',function(){
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#PH_ENTRY_tb_gid').position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();

@@ -116,6 +116,7 @@ include "HEADER.php";
                     $('.preloader').hide();
                     if(values_array.length!=0)
                     {
+                        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                         var msg=TH_err_msg[1].toString().replace("[LOGINID]",emp_id);
                         $('#TH_lbl_heading').text(msg).show();
                         $('#TH_btn_pdf').show();

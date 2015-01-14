@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ADMIN WEEKLY REPORT ENTRY******************************************//
 //DONE BY:LALITHA
+//VER 0.04-SD:29/12/2014 ED:30/12/2014,TRACKER NO:74,Changed date picker function nd validation,Updated err msg(rep nt saved)
 //VER 0.03-SD:02/12/2014 ED:02/12/2014,TRACKER NO:74,Changed Preloder funct,Removed confirmation err msg,Removed hardcode fr mindate
 //VER 0.02,SD:14/11/2014 ED:14/11/2014,TRACKER NO:74,Fixed max date nd min dte
 //DONE BY:SHALINI
@@ -10,165 +11,257 @@
 include "HEADER.php";
 ?>
 <script>
-    // READY FUNCTION STARTS
-    $(document).ready(function(){
-        //ERROR MESSAGE
-        var js_errormsg_array=[];
-        var js_min_date=[];
+// READY FUNCTION STARTS
+$(document).ready(function(){
+    $('.preloader', window.parent.document).show();
+    //ERROR MESSAGE
+    var js_errormsg_array=[];
+    var js_min_date=[];
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            $('.preloader', window.parent.document).hide();
+            var value_array=JSON.parse(xmlhttp.responseText);
+            js_errormsg_array=value_array[0];
+            js_min_date=value_array[1];
+            //SET MIN ND MAX DATE
+            var maxdate=new Date();
+            var day=maxdate.getUTCDay();
+            if(day==0)
+            {
+                var month=maxdate.getMonth();
+                var year=maxdate.getFullYear();
+                var date=maxdate.getDate()+6;
+            }
+            if(day==1)
+            {
+                var month=maxdate.getMonth();
+                var year=maxdate.getFullYear();
+                var date=maxdate.getDate()+5;
+            }
+            if(day==2)
+            {
+                var month=maxdate.getMonth();
+                var year=maxdate.getFullYear();
+                var date=maxdate.getDate()+4;
+            }
+            if(day==3)
+            {
+                var month=maxdate.getMonth();
+                var year=maxdate.getFullYear();
+                var date=maxdate.getDate()+3;
+            }
+            if(day==4)
+            {
+                var month=maxdate.getMonth();
+                var year=maxdate.getFullYear();
+                var date=maxdate.getDate()+2;
+            }
+            if(day==5)
+            {
+                var month=maxdate.getMonth();
+                var year=maxdate.getFullYear();
+                var date=maxdate.getDate()+1;
+            }
+            if(day==6)
+            {
+                var month=maxdate.getMonth();
+                var year=maxdate.getFullYear();
+                var date=maxdate.getDate()-7;
+            }
+            var max_date = new Date(year,month,date);
+            var datepicker_maxdate=new Date(Date.parse(max_date));
+            var PE_startdate=js_min_date.split('-');
+            var day=PE_startdate[0];
+            var month=PE_startdate[1];
+            var year=PE_startdate[2];
+            PE_startdate=new Date(year,month-1,day);
+            var date = new Date( Date.parse( PE_startdate ));
+            date.setDate( date.getDate()  );
+            var PE_enddate = date.toDateString();
+            PE_enddate = new Date( Date.parse( PE_enddate ));
+            $('.AWRE_SRC_tb_datepicker').datepicker("option","minDate",PE_enddate);
+            $('.AWRE_SRC_tb_datepicker').datepicker("option","maxDate",datepicker_maxdate);
+        }
+    }
+    var choice='ADMIN WEEKLY REPORT ENTRY';
+    xmlhttp.open("POST","COMMON.do?option="+choice,true);
+    xmlhttp.send();
+    $('#AWRE_SRC_btn_submit').hide();
+    $('#AWRE_SRC_btn_reset').hide();
+    $('textarea').autogrow({onInitialize: true});
+    datesarray();
+    //FUNCTION FOR FINDING DATE ALREADY ENTERED
+    function W_GetWeekInmonth(date)
+    {
+        var date1 = new Date(date);
+        WeekNumber = ['1', '2', '3', '4', '5'];
+        var weekNum = 0 | date1.getDate() / 7;
+        weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
+        var month=new Array();
+        month[0]="January";
+        month[1]="February";
+        month[2]="March";
+        month[3]="April";
+        month[4]="May";
+        month[5]="June";
+        month[6]="July";
+        month[7]="August";
+        month[8]="September";
+        month[9]="October";
+        month[10]="November";
+        month[11]="December";
+        var d1=month[date1.getMonth()];
+        var a=(WeekNumber[weekNum] +d1+date1.getFullYear());
+        return a;
+    }
+    function W_GetWeekInMonth(date)
+    {
+        var date1 = new Date(date);
+        WeekNumber = ['1', '2', '3', '4', '5'];
+        var weekNum = 0 | date1.getDate() / 7;
+        weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
+        return WeekNumber[weekNum];
+    }
+//CHANGE EVENT FOR SELECTDATE
+//        $(document).on("blur change",'#AWRE_SRC_tb_selectdate', function (){
+    function validation(){
+        $('#AWRE_errmsg').text(msg).hide();
+        $('textarea').height(50).width(60);
+        var checkreportdate=$('#AWRE_SRC_tb_date').val();//$(this).val();
+        var y=0;
+        var array1=[];
+        for(var z=0;z<date_array.length;z++)
+        {
+            var d8=date_array[z];
+            var d7=W_GetWeekInmonth(d8);
+            var d9=W_GetWeekInmonth(checkreportdate);
+            if((d7)==(d9))
+            {
+                y++;
+            }
+        }
+        for(var i=0;i<date_array.length;i++)
+        {
+            var d3=date_array[i];
+            var d2=W_GetWeekInMonth(d3);
+            array1.push(d2);
+        }
+        var p=0;
+        for(var k=0;k<array1.length;k++)
+        {
+            var d4=array1[k];
+            var d1=W_GetWeekInMonth(checkreportdate);
+            if(d4==d1)
+            {
+                p++;
+            }
+        }
+        if(p==0)
+        {
+            $("#AWRE_SRC_lbl_enterreport").show();
+            $("#AWRE_SRC_ta_enterreport").val('').show();
+            $("#AWRE_SRC_btn_submit").show();
+            $("#AWRE_SRC_btn_reset").show();
+            $('#AWRE_errmsg').text(msg).hide();
+        }
+        else if(y==0)
+        {
+            $("#AWRE_SRC_lbl_enterreport").show();
+            $("#AWRE_SRC_ta_enterreport").val('').show();
+            $("#AWRE_SRC_btn_submit").show();
+            $("#AWRE_SRC_btn_reset").show();
+            $('#AWRE_errmsg').text(msg).hide();
+        }
+        else
+        {
+            var date=$("#AWRE_SRC_tb_selectdate").val();
+            var msg=js_errormsg_array[2].toString().replace("[DATE]",date);
+            $('#AWRE_errmsg').text(msg).show();
+            $("#AWRE_SRC_lbl_enterreport").hide();
+            $("#AWRE_SRC_ta_enterreport").val('').hide();
+            $("#AWRE_SRC_btn_submit").hide();
+            $("#AWRE_SRC_btn_reset").hide();
+        }
+    }
+    //CHECKING REPORT ALREADY ENTERED IN THIS WEEK OR NOT
+    var d2;
+    var date_array=[];
+    function datesarray(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                var value_array=JSON.parse(xmlhttp.responseText);
-                js_errormsg_array=value_array[0];
-                js_min_date=value_array[1];
-                //SET MIN ND MAX DATE
-                var maxdate=new Date();
-                var month=maxdate.getMonth()+1;
-                var year=maxdate.getFullYear();
-                var date=maxdate.getDate();
-                var max_date = new Date(year,month,date);
-                var datepicker_maxdate=new Date(Date.parse(max_date));
-                var PE_startdate=js_min_date.split('-');
-                var day=PE_startdate[0];
-                var month=PE_startdate[1];
-                var year=PE_startdate[2];
-                PE_startdate=new Date(year,month-1,day);
-                var date = new Date( Date.parse( PE_startdate ));
-                date.setDate( date.getDate()  );
-                var PE_enddate = date.toDateString();
-                PE_enddate = new Date( Date.parse( PE_enddate ));
-                $('.AWRE_SRC_tb_datepicker').datepicker("option","minDate",PE_enddate);
-                $('.AWRE_SRC_tb_datepicker').datepicker("option","maxDate",datepicker_maxdate);
+                date_array=JSON.parse(xmlhttp.responseText);
             }
         }
-        var choice='ADMIN WEEKLY REPORT ENTRY';
-        xmlhttp.open("POST","COMMON.do?option="+choice,true);
+        var option='CHECK';
+        xmlhttp.open("GET","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?&option="+option,true);
         xmlhttp.send();
-        $('#AWRE_SRC_btn_submit').hide();
-        $('#AWRE_SRC_btn_reset').hide();
-        $('textarea').autogrow({onInitialize: true});
-        datesarray();
-        //FUNCTION FOR FINDING DATE ALREADY ENTERED
-        function W_GetWeekInmonth(date)
+    }
+    //DATEPICKER FUNCTION
+    $('#AWRE_SRC_tb_selectdate').datepicker({
+        onSelect: function(dateText, inst) {
+            $('#AWRE_SRC_tb_date').val(dateText);
+            d1=new Date(dateText),
+                date= GetWeekInMonth(d1);
+            dateFormat:$(this).val(date);
+            validation();
+        },
+        changeYear: true,
+        changeMonth: true
+    });
+//FUNCTION FOR DATE BOX VALIDATION
+    $(document).on('change blur','.valid',function(){
+        var date= $('#AWRE_SRC_tb_selectdate').val();
+        var report=$("#AWRE_SRC_ta_enterreport").val().trim();
+        if((date!="") &&(report !=""))
         {
-            var date1 = new Date(date);
-            WeekNumber = ['1', '2', '3', '4', '5'];
-            var weekNum = 0 | date1.getDate() / 7;
-            weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
-            var month=new Array();
-            month[0]="January";
-            month[1]="February";
-            month[2]="March";
-            month[3]="April";
-            month[4]="May";
-            month[5]="June";
-            month[6]="July";
-            month[7]="August";
-            month[8]="September";
-            month[9]="October";
-            month[10]="November";
-            month[11]="December";
-            var d1=month[date1.getMonth()];
-            var a=(WeekNumber[weekNum] +d1+date1.getFullYear());
-            return a;
+            $("#AWRE_SRC_btn_submit").removeAttr("disabled");
         }
-        function W_GetWeekInMonth(date)
+        else
         {
-            var date1 = new Date(date);
-            WeekNumber = ['1', '2', '3', '4', '5'];
-            var weekNum = 0 | date1.getDate() / 7;
-            weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
-            return WeekNumber[weekNum];
+            $("#AWRE_SRC_btn_submit").attr("disabled", "disabled");
         }
-//CHANGE EVENT FOR SELECTDATE
-        $(document).on("change",'#AWRE_SRC_tb_selectdate', function (){
-            $('textarea').height(50).width(60);
-            var checkreportdate=$(this).val();
-            var y=0;
-            var array1=[];
-            for(var z=0;z<date_array.length;z++)
-            {
-                var d8=date_array[z];
-                var d7=W_GetWeekInmonth(d8);
-                var d9=W_GetWeekInmonth(checkreportdate);
-                if((d7)==(d9))
-                {
-                    y++;
-                }
-            }
-            for(var i=0;i<date_array.length;i++)
-            {
-                var d3=date_array[i];
-                var d2=W_GetWeekInMonth(d3);
-                array1.push(d2);
-            }
-            var p=0;
-            for(var k=0;k<array1.length;k++)
-            {
-                var d4=array1[k];
-                var d1=W_GetWeekInMonth(checkreportdate);
-                if(d4==d1)
-                {
-                    p++;
-                }
-            }
-            if(p==0)
-            {
-                $("#AWRE_SRC_lbl_enterreport").show();
-                $("#AWRE_SRC_ta_enterreport").val('').show();
-                $("#AWRE_SRC_btn_submit").show();
-                $("#AWRE_SRC_btn_reset").show();
-                $('#AWRE_errmsg').text(msg).hide();
-            }
-            else if(y==0)
-            {
-                $("#AWRE_SRC_lbl_enterreport").show();
-                $("#AWRE_SRC_ta_enterreport").val('').show();
-                $("#AWRE_SRC_btn_submit").show();
-                $("#AWRE_SRC_btn_reset").show();
-                $('#AWRE_errmsg').text(msg).hide();
-            }
-            else
-            {
-                var date=$("#AWRE_SRC_tb_selectdate").val();
-                var msg=js_errormsg_array[1].toString().replace("[DATE]",date);
-                $('#AWRE_errmsg').text(msg).show();
-                $("#AWRE_SRC_lbl_enterreport").hide();
-                $("#AWRE_SRC_ta_enterreport").val('').hide();
-                $("#AWRE_SRC_btn_submit").hide();
-                $("#AWRE_SRC_btn_reset").hide();
-            }
-        });
-        //CHECKING REPORT ALREADY ENTERED IN THIS WEEK OR NOT
-        var date_array=[];
-        function datesarray(){
-            var xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    date_array=JSON.parse(xmlhttp.responseText);
-                }
-            }
-            var option='CHECK';
-            xmlhttp.open("GET","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?&option="+option,true);
-            xmlhttp.send();
-        }
-        //DATEPICKER FUNCTION
-        $('.AWRE_SRC_tb_datepicker').datepicker({
-            dateFormat:"dd MM yy",
-            changeYear: true,
-            changeMonth: true
-        });
+    });
+    //FUNCTION FOR DATE TO WEEK CONVERSION
+    function GetWeekInMonth(date)
+    {
+        var date1=new Date(date);
+        var  WeekNumber = ['1st', '2nd', '3rd', '4th', '5th'];
+        var weekNum = 0 | date1.getDate() / 7;
+        weekNum = ( date1.getDate() % 7 == 0 ) ? weekNum - 1 : weekNum;
+        var month=new Array();
+        month[0]="January";
+        month[1]="February";
+        month[2]="March";
+        month[3]="April";
+        month[4]="May";
+        month[5]="June";
+        month[6]="July";
+        month[7]="August";
+        month[8]="September";
+        month[9]="October";
+        month[10]="November";
+        month[11]="December";
+        var d1=month[date1.getMonth()];
+        var a=(WeekNumber[weekNum] + ' week ,'+d1 +' '+date1.getFullYear());
+        return a;
+    }
 //CLICK EVENT FOR SUBMIT BUTTON
-        $(document).on('click','#AWRE_SRC_btn_submit',function(){
-            $('.preloader', window.parent.document).show();
-            var formElement = document.getElementById("AWRE_SRC_form_reportentry");
-            var xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    var msg_alert=xmlhttp.responseText;
-                    var msg=js_errormsg_array[0];
-                    $('.preloader', window.parent.document).hide();
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg}});
+    $(document).on('click','#AWRE_SRC_btn_submit',function(){
+        var newPos= adjustPosition($('#AWRE_SRC_ta_enterreport').position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
+        var formElement = document.getElementById("AWRE_SRC_form_reportentry");
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                var msg_alert=xmlhttp.responseText;
+                var msg=js_errormsg_array[0];
+                if(msg_alert==1)
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg,position:{top:150,left:520}}});
                     $("#AWRE_SRC_lbl_enterreport").hide();
                     $("#AWRE_SRC_ta_enterreport").val('').hide();
                     $("#AWRE_SRC_btn_submit").hide();
@@ -176,45 +269,40 @@ include "HEADER.php";
                     $("#AWRE_SRC_tb_selectdate").val('').show();
                     datesarray();
                 }
+                else
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:150,left:520}}});
+                }
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
-            var option='SUBMIT';
-            xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?option="+option,true);
-            xmlhttp.send(new FormData(formElement));
-        });
-        //CLICK EVENT FOR RESET BUTTON
-        $('#AWRE_SRC_btn_reset').click(function(){
-            $("#AWRE_SRC_tb_selectdate").val('').show();
-            $("#AWRE_SRC_lbl_enterreport").hide();
-            $("#AWRE_SRC_ta_enterreport").hide();
-            $("#AWRE_SRC_btn_submit").hide();
-            $("#AWRE_SRC_btn_reset").hide();
-        });
-        //VALIDATION FOR SUBMIT BUTTON
-        $(document).on('change blur','.valid',function(){
-            var date= $('#AWRE_SRC_tb_selectdate').val();
-            var report=$("#AWRE_SRC_ta_enterreport").val().trim();
-            if((date!="") &&(report !=""))
-            {
-                $("#AWRE_SRC_btn_submit").removeAttr("disabled");
-            }
-            else
-            {
-                $("#AWRE_SRC_btn_submit").attr("disabled", "disabled");
-            }
-        });
+        }
+        var option='SUBMIT';
+        xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?option="+option,true);
+        xmlhttp.send(new FormData(formElement));
     });
-    // READY FUNCTION ENDS
+    //CLICK EVENT FOR RESET BUTTON
+    $('#AWRE_SRC_btn_reset').click(function(){
+        $("#AWRE_SRC_tb_selectdate").val('').show();
+        $("#AWRE_SRC_lbl_enterreport").hide();
+        $("#AWRE_SRC_ta_enterreport").hide();
+        $("#AWRE_SRC_btn_submit").hide();
+        $("#AWRE_SRC_btn_reset").hide();
+    });
+});
+// READY FUNCTION ENDS
 </script>
 <body>
 <!--BODY TAG START-->
 <div class="wrapper">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="https://googledrive.com/host/0Bzvv-O9jT9r_QW8yYzc1N1JVM2c/Loading.gif"  /></div></div></div>
-    <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN WEEKLY REPORT ENTRY</h3><p></div></div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+    <div class="title"><div style="padding-left:500px; text-align:left;" ><p><h3>ADMIN WEEKLY REPORT ENTRY</h3><p></div></div>
     <form id="AWRE_SRC_form_reportentry" class="content">
         <table>
             <tr>
                 <td width="200"><label name="AWRE_SRC_lbl_selectdate" id="AWRE_SRC_lbl_selectdate" >SELECT A DATE<em>*</em></label></td>
-                <td><input type="text" name="AWRE_SRC_tb_selectdate" id="AWRE_SRC_tb_selectdate" style="width:120px;" class="AWRE_SRC_tb_datepicker valid datemandtry"></td>
+                <td><input type="text" name="AWRE_SRC_tb_selectdate" id="AWRE_SRC_tb_selectdate" style="width:160px;" class="AWRE_SRC_tb_datepicker valid datemandtry"></td>
+                <td><input type="text" name="AWRE_SRC_tb_date" id="AWRE_SRC_tb_date" style="width:170px;" class="AWRE_SRC_tb_datepicker valid datemandtry" hidden ></td>
             </tr>
             <tr>
                 <td width="200"><label name="AWRE_SRC_lbl_enterreport" id="AWRE_SRC_lbl_enterreport" hidden>ENTER THE REPORT<em>*</em></label></td>

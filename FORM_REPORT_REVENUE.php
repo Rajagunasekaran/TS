@@ -886,7 +886,7 @@ $(document).ready(function(){
         $('#REV_div_loginid').hide();
         $('#REV_nodata_loginid').hide();
         var option=$("#REV_lb_project").val();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#REV_lb_loginid').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1073,6 +1073,7 @@ $(document).ready(function(){
             $('#REV_tble_empday_nonactveemp1').html('');
             $('sections').html('');
             $('#REV_nodata_loginid').hide();
+            $('#REV_nodata_startenddate').hide();
         }
         daterange();
     });
@@ -1097,6 +1098,7 @@ $(document).ready(function(){
                 var projectvalues=JSON.parse(xmlhttp.responseText);
                 if(projectvalues)
                 {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(REV_project_recver.length>1)
                     {
                         title=err_msg_array[7].toString().replace("[PROJECTNAME]",REV_projectname+' '+'VER'+ - +project_recver);
@@ -1155,7 +1157,7 @@ $(document).ready(function(){
         var REV_prjctname=$('#REV_lb_empproject').val();
         var seacrhby_prjct=$("input[name=REV_rd_project]:checked").val();
         var project_recver=$('#REV_lb_recver').val();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#REV_lb_loginid').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1165,6 +1167,7 @@ $(document).ready(function(){
                 loginidvalues=JSON.parse(xmlhttp.responseText);
                 if(loginidvalues)
                 {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(seacrhby_prjct=='project')
                     {
                         var loginname;
@@ -1264,7 +1267,7 @@ $(document).ready(function(){
         $('#REV_btn_search').attr("disabled","disabled");
         var REV_loginid=$('#REV_lb_loginid').val();
         var REV_prjctname=$('#REV_lb_empproject').val();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#REV_rd_withoutproject').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1274,6 +1277,7 @@ $(document).ready(function(){
                 loginidvalues=JSON.parse(xmlhttp.responseText);
                 if(loginidvalues)
                 {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(seacrhby_prjct=='project')
                     {
                         var loginname;
@@ -1383,7 +1387,7 @@ $(document).ready(function(){
         var REV_end_datevalue=$('#REV_tb_enddtebyrange').val()
         var REV_projectname=$('#REV_lb_projectname').val();
         var REV_project_recversion=$('#REV_lb_precver').val();
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#REV_tb_strtdtebyrange').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1393,6 +1397,7 @@ $(document).ready(function(){
                 var projectvalues=JSON.parse(xmlhttp.responseText);
                 if(projectvalues)
                 {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(REV_project_recver.length>1)
                     {
                         var replaceprjct=err_msg_array[5].toString().replace("[MONTH]",REV_projectname+' '+'VER'+ - +REV_project_recversion);

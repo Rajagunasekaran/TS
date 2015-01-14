@@ -51,7 +51,7 @@ $(document).ready(function(){
     $('textarea').autogrow({onInitialize: true});
     //JQUERY LIB VALIDATION END
 //KEY PRESS FUNCTION START
-    var ET_SRC_UPD_DEL_max=1000;
+    var ET_SRC_UPD_DEL_max=3000;
     $('.maxlength').keypress(function(e)
     {
         if(e.which < 0x20)
@@ -156,6 +156,7 @@ $(document).ready(function(){
     });
     //CLICK EVENT FUCNTION FOR BUTTON SEARCH
     $(document).on('click','#ET_SRC_UPD_DEL_btn_search',function(){
+        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
         $('#ET_SRC_UPD_DEL_div_update').show();
         $("#ET_SRC_UPD_DEL_btn_search").attr("disabled","disabled");
         $("#ET_SRC_UPD_DEL_btn_update").attr("disabled","disabled");
@@ -199,7 +200,7 @@ $(document).ready(function(){
     //CLICK EVENT FUCNTION FOR UPDATE
     $('#ET_SRC_UPD_DEL_btn_update').click(function()
     {
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#ET_SRC_UPD_DEL_ta_updbody').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();

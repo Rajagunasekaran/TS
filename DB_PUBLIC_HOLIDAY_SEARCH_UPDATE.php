@@ -29,7 +29,7 @@ if(isset($_REQUEST)){
     {
         //FETCHING USER LOGIN DETAILS RECORDS
         $PH_SRC_UPD_year=$_REQUEST["PH_SRC_UPD_lb_yr"];
-        $date= mysqli_query($con,"SELECT PH.PH_ID,DATE_FORMAT(PH.PH_DATE,'%d-%m-%Y') AS PH_DATE,PH.PH_DESCRIPTION,ULD.ULD_LOGINID,DATE_FORMAT(PH.PH_TIMESTAMP , '%d-%m-%Y %h:%m:%s') AS PH_TIMESTAMP FROM PUBLIC_HOLIDAY PH ,USER_LOGIN_DETAILS ULD WHERE PH.ULD_ID=ULD.ULD_ID AND YEAR(PH.PH_DATE)='$PH_SRC_UPD_year'");
+        $date= mysqli_query($con,"SELECT PH.PH_ID,DATE_FORMAT(PH.PH_DATE,'%d-%m-%Y') AS PH_DATE,PH.PH_DESCRIPTION,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(PH.PH_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS PH_TIMESTAMP FROM PUBLIC_HOLIDAY PH ,USER_LOGIN_DETAILS ULD WHERE PH.ULD_ID=ULD.ULD_ID AND YEAR(PH.PH_DATE)='$PH_SRC_UPD_year'");
         $ure_values=array();
         while($row=mysqli_fetch_array($date)){
             $PH_SRC_UPD_date=$row["PH_DATE"];
@@ -47,6 +47,7 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="PROJECT_DETAILS_UPDATE"){
         $EMPSRC_UPD_DEL_rd_flxtbl=$_POST['EMPSRC_UPD_DEL_rd_flxtbl'];
         $PH_SRC_UPD_des=$_POST['PH_SRC_UPD_tb_des'];
+        $PH_SRC_UPD_des=$con->real_escape_string($PH_SRC_UPD_des);
         $PH_SRC_UPD_date=$_POST['PH_SRC_UPD_tb_date'];
         $PH_SRC_UPD_date = date('Y-m-d',strtotime($PH_SRC_UPD_date));
         $sql="UPDATE PUBLIC_HOLIDAY SET PH_DATE='$PH_SRC_UPD_date',PH_DESCRIPTION='$PH_SRC_UPD_des',ULD_ID=(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP') WHERE PH_ID='$EMPSRC_UPD_DEL_rd_flxtbl' ";

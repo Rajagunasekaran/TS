@@ -30,6 +30,7 @@ if(isset($_REQUEST))
         $psid=0;
         $project_name= $con->real_escape_string($project_name);
         $project_des= $con->real_escape_string($project_des);
+
         $result = $con->query("CALL SP_TS_PROJECT_DETAILS_INSERT_UPDATE('$projectid','$project_name','$project_des','$psid','$project_status','$project_sdate','$project_edate','$USERSTAMP','INSERT',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
@@ -52,12 +53,13 @@ if(isset($_REQUEST))
             $flag=0;
         }
 
-        $select_enddate="SELECT PS_END_DATE FROM PROJECT_STATUS WHERE PS_REC_VER=(SELECT MAX(PS_REC_VER) FROM PROJECT_STATUS WHERE PC_ID=3 AND PD_ID=(SELECT PD_ID FROM PROJECT_DETAILS WHERE PD_PROJECT_NAME='$project_name' ))AND PD_ID=(SELECT PD_ID FROM PROJECT_DETAILS WHERE PD_PROJECT_NAME='$project_name' )";
+        $select_enddate="SELECT PS_END_DATE,PS_PROJECT_DESCRIPTION FROM PROJECT_STATUS WHERE PS_REC_VER=(SELECT MAX(PS_REC_VER) FROM PROJECT_STATUS WHERE PC_ID=3 AND PD_ID=(SELECT PD_ID FROM PROJECT_DETAILS WHERE PD_PROJECT_NAME='$project_name' ))AND PD_ID=(SELECT PD_ID FROM PROJECT_DETAILS WHERE PD_PROJECT_NAME='$project_name' )";
         $enddate_result=mysqli_query($con,$select_enddate);
         while($row=mysqli_fetch_array($enddate_result)){
             $enddate=$row['PS_END_DATE'];
+            $project_desc=$row['PS_PROJECT_DESCRIPTION'];
         }
-        $final_value=array($flag,$enddate);
+        $final_value=array($flag,$enddate,$project_desc);
         echo json_encode($final_value);
     }
     else if($_REQUEST['option']=='RANDOM')
@@ -116,7 +118,7 @@ if(isset($_REQUEST['option']) && $_REQUEST['option']!=''){
 }
 //FUNCTION FOR SHOWN FLEC TABLE
 function showData($data,$con){
-    $sql = "SELECT PC.PC_DATA,PC.PC_ID,PS.PS_ID,PS.PS_REC_VER,DATE_FORMAT(PS.PS_END_DATE,'%d-%m-%Y')as PS_END_DATE,DATE_FORMAT(PS.PS_START_DATE,'%d-%m-%Y') as PS_START_DATE,PD.PD_ID,PD.PD_PROJECT_NAME,PS.PS_PROJECT_DESCRIPTION,DATE_FORMAT(CONVERT_TZ(PD.PD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') as TIMESTAMP,ULD.ULD_LOGINID as  ULD_USERSTAMP FROM PROJECT_DETAILS PD JOIN PROJECT_STATUS PS on PD.PD_ID = PS.PD_ID JOIN PROJECT_CONFIGURATION PC on PS.PC_ID = PC.PC_ID JOIN USER_LOGIN_DETAILS ULD on PD.ULD_ID=ULD.ULD_ID ORDER BY PC.PC_DATA";
+    $sql = "SELECT PC.PC_DATA,PC.PC_ID,PS.PS_ID,PS.PS_REC_VER,DATE_FORMAT(PS.PS_END_DATE,'%d-%m-%Y')as PS_END_DATE,DATE_FORMAT(PS.PS_START_DATE,'%d-%m-%Y') as PS_START_DATE,PD.PD_ID,PD.PD_PROJECT_NAME,PS.PS_PROJECT_DESCRIPTION,DATE_FORMAT(CONVERT_TZ(PS.PS_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') as TIMESTAMP,ULD.ULD_LOGINID as  ULD_USERSTAMP FROM PROJECT_DETAILS PD JOIN PROJECT_STATUS PS on PD.PD_ID = PS.PD_ID JOIN PROJECT_CONFIGURATION PC on PS.PC_ID = PC.PC_ID JOIN USER_LOGIN_DETAILS ULD on PS.ULD_ID=ULD.ULD_ID ORDER BY PD_PROJECT_NAME";
     $data = $con->query($sql);
     $str='<thead  bgcolor="#6495ed" style="color:white"><tr class="head"><th  width=200>PROJECT NAME</th><th width=500 >PROJECT DESCRIPTION</th><th width=10>REC VER</th><th width=30>STATUS</th><th width=50 class="uk-date-column">START DATE</th><th width=50 class="uk-date-column">END DATE</th><th style="min-width:70px;">USERSTAMP</th><th style="min-width:100px;" nowrap class="uk-timestp-column">TIMESTAMP</th><th width=110>EDIT</th></tr></thead><tbody>';
 //    $str='';

@@ -115,6 +115,7 @@ $(document).ready(function(){
 
     //CHANGE EVENT FOR PROJECT TEXT BOX
     $(document).on("change blur",'#PE_tb_prjectname', function (){
+
         $('#PE_ta_prjdescrptn').val("");
         $('#PE_tb_edate').val('');
         $('#PE_tb_sdate').val('');
@@ -130,9 +131,10 @@ $(document).ready(function(){
         var date=max_date.getDate();
         var max_date = new Date(year,month,date);
         $('#PE_tb_sdate').datepicker("option","maxDate",max_date);
-        var checkproject_name=$(this).val();
-        $('#PE_tb_prjectname').val(checkproject_name.toUpperCase())
+
+        var checkproject_name=($(this).val()).trim();
         if(checkproject_name!=''){
+            $('#PE_tb_prjectname').val(checkproject_name.toUpperCase())
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
@@ -162,6 +164,8 @@ $(document).ready(function(){
                             $('#PE_tb_sdate').datepicker("option","maxDate",max_date);
 //                            $('#PE_ta_prjdescrptn').val(desc);
                             $('#PE_tb_status').val('REOPEN');
+                            $('#PE_lbl_erromsg').hide();
+                            $('#PE_ta_prjdescrptn').val(check_array[2]);
                             count=1;
                             break;
                             //reopen
@@ -180,6 +184,7 @@ $(document).ready(function(){
                             validation();
                         }
                     }
+
                 }
             }
             var option='CHECK';
@@ -230,6 +235,7 @@ $(document).ready(function(){
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
                 $('.preloader').hide();
                 var msg_alert=xmlhttp.responseText;
+
                 if(msg_alert==1)
                 {
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[1],position:{top:150,left:500}}});
@@ -378,7 +384,7 @@ $(document).ready(function(){
         var tdstr = '';
         var td = '';
         pre_tds = tds;
-        tdstr += "<td><input type='text' id='projectname' name='projectname'  class='autosize enable' style='font-weight:bold;' value='"+$(tds[0]).html()+"'></td>";
+        tdstr += "<td><input type='text' id='projectname' name='projectname'  class='autosize enable' style='font-weight:bold;' value='"+($(tds[0]).html()).trim()+"'></td>";
         tdstr += "<td><textarea id='projectdes' name='projectdes'  class='enable' value='"+$(tds[1]).html()+"'></textarea></td>";
         tdstr += "<td><input type='text' id='recver' name='recver' style='width:25px';  value='"+$(tds[2]).html()+"' readonly></td>";
         if($(tds[3]).html()=='STARTED'||$(tds[3]).html()=='REOPEN'){
@@ -472,7 +478,7 @@ $(document).ready(function(){
         var checkproject_name=$('#projectname').val();
         var rec_ver=$('#recver').val();
         if(checkproject_name!=''){
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#demoajax').position(),100,1000);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -482,7 +488,6 @@ $(document).ready(function(){
                     $('.maskpanel',window.parent.document).removeAttr('style').hide();
                     $('.preloader').hide();
                     var check_array=(xmlhttp.responseText);
-//                    alert(check_array);
                     if(check_array==1){
                         $('#std').prop('disabled','disabled');
                     }
@@ -499,6 +504,10 @@ $(document).ready(function(){
     });
 // CLICK EVENT FOR UPDATE BUTTON
     $('section').on('click','.ajaxupdate',function(){
+        var newPos= adjustPosition($('#demoajax').position(),100,1000);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var edittrid = $(this).parent().parent().attr('id');
         var combineid = $(this).parent().parent().attr('id');
         var combineid_split=combineid.split('_');
@@ -516,20 +525,22 @@ $(document).ready(function(){
             data:data,
             cache: false,
             success: function(response){
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 if(response==1){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3],position:{top:150,left:500}}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3],position:{top:150,left:520}}});
                     showTable()
                     get_Values();
                 }
                 else if(response==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[4],position:{top:150,left:500}}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[4],position:{top:150,left:520}}});
                     showTable()
                     get_Values();
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:response,position:{top:150,left:500}}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:response,position:{top:150,left:520}}});
                     showTable()
                     get_Values();
                 }

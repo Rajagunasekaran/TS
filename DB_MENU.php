@@ -118,9 +118,7 @@ else if($_REQUEST['option']=='CLOCK')
     while($row=mysqli_fetch_array($uld_id)){
         $ure_uld_id=$row["ULD_ID"];
     }
-//    $checkinlocation= $con->real_escape_string($checkinlocation);
     if($btn_value=='CLOCK IN'){
-//    echo "CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE('1','$ure_uld_id','$date','$checkintime','$check_in_out_location','$ure_uld_id',@success_flag";
 
         $result = $con->query("CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE('1','$ure_uld_id','$date','$checkintime','$check_in_out_location','$ure_uld_id',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
@@ -136,15 +134,7 @@ else if($_REQUEST['option']=='CLOCK')
         $flag= $result['@success_flag'];
 
     }
-//    $sql="INSERT INTO EMPLOYEE_CHECK_IN_OUT_DETAILS(ULD_ID,ECIOD_DATE,ECIOD_CHECK_IN_TIME,ECIOD_CHECK_IN_LOCATION,ECIOD_CHECK_OUT_TIME,ECIOD_CHECK_OUT_LOCATION,ECIOD_USERSTAMP_ID) VALUES('$ure_uld_id','$date','$checkintime','$checkinlocation',$checkouttime,$checkoutlocation,'$ure_uld_id')";
-//    if (!mysqli_query($con,$sql)) {
-//        die('Error: ' . mysqli_error($con));
-//
-//        $flag=0;
-//    }
-//    else{
-//        $flag=1;
-//    }
+
     $values=array($flag,$checkintime);
     echo JSON_encode($values);
 }

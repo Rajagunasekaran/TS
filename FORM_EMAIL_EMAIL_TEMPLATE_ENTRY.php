@@ -33,7 +33,7 @@ include "HEADER.php";
         $('textarea').autogrow({onInitialize: true});
         //JQUERY LIB VALIDATION END
         //KEY PRESS FUNCTION START
-        var ET_ENTRY_max=1000;
+        var ET_ENTRY_max=3000;
         $('.maxlength').keypress(function(e)
         {
             if(e.which < 0x20)
@@ -52,6 +52,11 @@ include "HEADER.php";
 //KEY PRESS FUNCTION END
         //CHANGE FUNCTION FOR VALIDATION
         $("#ET_ENTRY_form_template").change(function(){
+            $("#ET_ENTRY_hidden_chkvalid").val("")//SET VALIDATION FUNCTION VALUE
+            ET_ENTRY_checkscriptname()
+        });
+        //CHANGE FUNCTION FOR VALIDATION
+        $("#ET_ENTRY_tb_scriptname").blur(function(){
             $("#ET_ENTRY_hidden_chkvalid").val("")//SET VALIDATION FUNCTION VALUE
             ET_ENTRY_checkscriptname()
         });
@@ -90,10 +95,6 @@ include "HEADER.php";
             if(ET_ENTRY_scriptname!="")
             {
                 ET_ENTRY_already_result()
-                var newPos= adjustPosition($(this).position(),100,270);
-                resetPreloader(newPos);
-                $('.maskpanel',window.parent.document).css("height","276px").show();
-                $('.preloader').show();
             }
 //SUCCESS FUNCTION FOR ALREADY EXIST FOR SCRIPT NAME
             function ET_ENTRY_already_result()
@@ -143,7 +144,7 @@ include "HEADER.php";
         //CLICK EVENT FOR SAVE BUTTON
         $('#ET_ENTRY_btn_save').click(function()
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#ET_ENTRY_ta_body').position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();

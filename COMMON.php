@@ -139,7 +139,7 @@ function get_active_emp_id(){
     $loginid=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where URC_DATA!='SUPER ADMIN' ORDER BY EMPLOYEE_NAME");
     $active_array=array();
     while($row=mysqli_fetch_array($loginid)){
-        $active_array[]=array($row["EMPLOYEE_NAME"],$row["ULD_ID"]);
+        $active_array[]=array($row["EMPLOYEE_NAME"],$row["ULD_ID"],$row['ULD_LOGINID']);
     }
     return $active_array;
 }
@@ -230,7 +230,7 @@ function get_error_msg($str){
 
 
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
-    $str='9,10,11,12,13,14,56,113,114,116';
+    $str='9,10,11,12,13,14,56,70,113,114,116';
     $errormsg_array= get_error_msg($str);
     $role_result=mysqli_query($con,"SELECT  RC_NAME,RC_ID FROM ROLE_CREATION;");
     $get_role_array=array();
@@ -259,7 +259,7 @@ function get_roles(){
 }
 if($_REQUEST["option"]=="ACCESS_RIGHTS_SEARCH_UPDATE")
 {
-    $str='40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,1,2,69,70,71,72,95,113,114';
+    $str='40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,1,2,69,70,71,72,95,113,114,132,133';
     $URSRC_errmsg=get_error_msg($str);
 
     $get_rolecreation_array=get_roles();
@@ -320,7 +320,7 @@ if($_REQUEST['option']=="ADMIN WEEKLY REPORT SEARCH UPDATE"){
     //GET ERR MSG FROM DB
     $str='4,16,17,110,83';
     $errormsg_array= get_error_msg($str);
-    //SET MIN DATE ND MAX DATE
+//SET MIN DATE ND MAX DATE
     $admin_weekly_mindate=mysqli_query($con,"SELECT MIN(AWRD_DATE) as AWRD_DATE FROM ADMIN_WEEKLY_REPORT_DETAILS");
     while($row=mysqli_fetch_array($admin_weekly_mindate)){
         $admin_searchmin_date_value=$row["AWRD_DATE"];
@@ -335,7 +335,7 @@ if($_REQUEST['option']=="ADMIN WEEKLY REPORT SEARCH UPDATE"){
     echo JSON_ENCODE($value_array);
 }
 if($_REQUEST['option']=="ADMIN WEEKLY REPORT ENTRY"){
-    $str='3,84';
+    $str='3,7,84';
     $errormsg_array= get_error_msg($str);
     $comp_startdate=get_company_start_date();
     $value_array=array($errormsg_array,$comp_startdate);

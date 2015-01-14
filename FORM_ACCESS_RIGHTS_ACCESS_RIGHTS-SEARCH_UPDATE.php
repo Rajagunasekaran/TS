@@ -1,10 +1,6 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_SEARCH_UPDATE*********************************************//
 //DONE BY:SASIKALA
-//VER 0.07 DESC:SD:07/01/2015-ED:08/01/2015
-//1.Form Side: Added Attach File Html Code and Attach File Validation(form accept oly PDF,JPEG,PNG file oly).
-//2. DB Script side:Added file Upload Script(Temp hardcoded  Drive Folder id in Script) .
-// DONE BY KUMAR R
 //ver 0.06 DESC:changed text box id while change login id and added real escapt for branchadress-safi
 //VER 0.05  DESC:updated login creation/updation  validation part
 //VER 0.04 SD:2/12/14 ED:2/12/2014 TRACKER NO:74 DESC:ISSUE CORRECTED IN COMMENT NO:123
@@ -22,7 +18,7 @@ include "HEADER.php";
 <script>
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
-
+    $('.preloader',window.parent.document).show();
     //reomve file upload row
     $(document).on('click', 'button.removebutton', function () {
 
@@ -79,7 +75,6 @@ $(document).ready(function(){
         }
     });
 
-
     var URSRC_menuname=[];
     var URSRC_submenu=[];
     var URSRC_subsubmenu=[];
@@ -98,7 +93,7 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $(".preloader").hide();
+            $('.preloader',window.parent.document).hide();
             var value_array=JSON.parse(xmlhttp.responseText);
             URSRC_rolecreation_array=value_array[0];
             URSRC_userrigths_array=value_array[1];
@@ -153,13 +148,6 @@ $(document).ready(function(){
     });
     //MAX DATE SETTING
     $( '.datepicker' ).datepicker( "option", "maxDate", new Date() );
-    //COMMON DATE PICKER FUNCTION
-    // $('.datepickerdob').datepicker({
-    //     dateFormat:"dd-mm-yy",
-    //     changeYear: true,
-    //     changeMonth: true
-    // });
-
     //SET DOB DATEPICKER
     var EMP_ENTRY_d = new Date();
     var EMP_ENTRY_year = EMP_ENTRY_d.getFullYear() - 18;
@@ -192,6 +180,7 @@ $(document).ready(function(){
     //BASIC ROLE MENU CREATION CLICK FUNCTION
     $(document).on('click','#URSRC_radio_basicrolemenucreation',function(){
         flag=0;
+//        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('#URSRC_lbl_header').text("BASIC ROLE MENU CREATION").show();
         $('#URSRC_tble_basicroles').show();
         $('#URSRC_lbl_nodetails_err').hide()
@@ -225,6 +214,7 @@ $(document).ready(function(){
     //BASIC ROLE MENU SEARCH/UPDATE CLICK FUNCTION
     $('#URSRC_radio_basicrolemenusearchupdate').click(function(){
         flag=0;
+//        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('#URSRC_lbl_header').text("BASIC ROLE MENU SEARCH UPDATE").show()
         $('#URSRC_lbl_login_role').hide();
         $('#URSRC_lbl_joindate').hide().val("");
@@ -259,6 +249,7 @@ $(document).ready(function(){
     //ROLE CREATION CLICK FUNCTION
     $(document).on('click','#URSRC_radio_rolecreation',function(){
         flag=0;
+//        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         // $('#joindate').hide();
         $('#URSRC_lbl_joindate').hide();
         $('#URSRC_tb_joindate').hide();
@@ -292,8 +283,12 @@ $(document).ready(function(){
     var basicmenurolesresult=[];
     //WEHN BASIC ROLE CLICK IN BASIC MENU CREATION AND SEARCH/UPDATE FORM
     $(document).on("click",'.URSRC_class_basic', function (){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('#URSRC_btn_submitbutton').hide();
+//        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('input[type=checkbox]').attr('checked', false);
         URSRC_basicradio_value=$(this).val();
         var role=$(this).val()
@@ -306,7 +301,8 @@ $(document).ready(function(){
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     if($("input[name=URSRC_mainradiobutton]:checked").val()=="BASIC ROLE MENU CREATION"){
                         $('#URSRC_lbl_basicrole_err').hide();
                         $('#URSRC_tble_basicroles_chk').show();
@@ -314,7 +310,8 @@ $(document).ready(function(){
                         URSRC_loadmenu_basicrole()
                     }
                     else{
-                        $('.preloader', window.parent.document).hide();
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
                         var msg=URSRC_errorAarray[16].toString().replace("[NAME]",$("input[name=URSRC_radio_basicroles1]:checked").val())
                         $('#URSRC_lbl_basicrole_err').text(msg).show();
                         $('#URSRC_tble_basicroles_chk').hide()
@@ -327,7 +324,8 @@ $(document).ready(function(){
                     if($("input[name=URSRC_mainradiobutton]:checked").val()=="BASIC ROLE MENU CREATION")
                     {
                         $('#URSRC_lbl_basicrole_err').text(URSRC_errorAarray[13]).show()
-                        $('.preloader', window.parent.document).hide();
+                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                        $('.preloader').hide();
                         $('#URSRC_tble_basicroles_chk').hide()
                         $('#URSRC_tble_menu').hide();
                         $('#URSRC_tble_folder').hide();
@@ -395,7 +393,10 @@ $(document).ready(function(){
     $(document).on('blur','#URSRC_tb_customrole',function(){
         var URSRC_roleidval=$(this).val();
         if(URSRC_roleidval!=''){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             $('#URSRC_tble_roles').hide()
             $('#URSRC_tble_menu').hide();
             $('#URSRC_tble_folder').hide();
@@ -405,7 +406,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var msgalert=JSON.parse(xmlhttp.responseText);//
                     if(msgalert==0)
                     {
@@ -426,6 +428,7 @@ $(document).ready(function(){
     });
     //LOGIN CREATION CLICK FUNCTION
     $('#URSRC_radio_logincreation').click(function(){
+//        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         flag=0;
         exist_flag=1;
         error_valid='valid';
@@ -498,6 +501,12 @@ $(document).ready(function(){
         $('#URSRC_chk_dracess').attr('checked',false);
         $('#URSRC_chk_idcrd').attr('checked',false);
         $('#URSRC_chk_headset').attr('checked',false);
+        $('#URSRC_chk_aadharno').attr('checked',false);
+        $('#URSRC_chk_passportno').attr('checked',false);
+        $('#URSRC_chk_votersid').attr('checked',false);
+        $('#URSRC_tb_aadharno').val('').hide();
+        $('#URSRC_tb_passportno').val('').hide();
+        $('#URSRC_tb_votersid').val('').hide();
         $('#URSRC_lbl_role_err').hide();
         $('#URSRC_lbl_validnumber').hide();
         $('#URSRC_lbl_validnumber1').hide();
@@ -544,7 +553,8 @@ $(document).ready(function(){
             if ((atpos<1 || dotpos<atpos+2 || dotpos+2>=URSRC_login_id.length)||(/^[@a-zA-Z0-9-\\.]*$/.test(URSRC_login_id) == false))
             {
                 error_valid='invalid';
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                     $("#URSRC_lbl_email_err").text(URSRC_errorAarray[2]).show();
                     $('#URSRC_tb_loginid').addClass("invalid")
@@ -559,7 +569,10 @@ $(document).ready(function(){
             else
             {
                 error_valid='valid';
-                $('.preloader', window.parent.document).show();
+                var newPos= adjustPosition($('#URSRC_tb_loginid').position(),100,270);
+                resetPreloader(newPos);
+                $('.maskpanel',window.parent.document).css("height","276px").show();
+                $('.preloader').show();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                     $("#URSRC_lbl_email_err").hide();
                     $('#URSRC_tb_loginid').removeClass("invalid")
@@ -580,7 +593,8 @@ $(document).ready(function(){
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                            $('.preloader', window.parent.document).hide();
+                            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                            $('.preloader').hide();
                             var msgalert=JSON.parse(xmlhttp.responseText);
                             var LoginId_exist=msgalert[0];
                             var URSRC_role_array=msgalert[1];
@@ -649,7 +663,8 @@ $(document).ready(function(){
                 }
                 else{
                     error_ext='invalid';
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                         $('#URSRC_tble_rolecreation').show()
                         $('#URSRC_lbl_email_err').text(URSRC_errorAarray[17]).show()
@@ -666,7 +681,8 @@ $(document).ready(function(){
             loginbuttonvalidation();
         }
         else{
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                 $('#URSRC_tble_rolecreation tr').remove().hide();
                 $('#URSRC_lbl_joindate').hide();
@@ -710,8 +726,20 @@ $(document).ready(function(){
             var URSRC_ifsc = $("#URSRC_tb_ifsccode").val();
             var URSRC_accttyp = $("#URSRC_tb_accntyp").val();
             var URSRC_brnchaddr= $("#URSRC_ta_brnchaddr").val();
-            if((login_id!="")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="")){
+            var URSRC_aadharno=$('#URSRC_tb_aadharno').val();
+            var URSRC_passportno=$('#URSRC_tb_passportno').val();
+            var URSRC_voterid=$('#URSRC_tb_votersid').val();
+            if((login_id!="")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
+            {
                 $("#URSRC_btn_login_submitbutton").removeAttr("disabled")
+
+                if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true))
+                {
+                    if((URSRC_aadharno=='' && $("input[name=URSRC_chk_aadharno]").is(":checked")==true) ||(URSRC_passportno=='' && $("input[name=URSRC_chk_passportno]").is(":checked")==true)||(URSRC_voterid=='' && $("input[name=URSRC_chk_votersid]").is(":checked")==true))
+                        $("#URSRC_btn_login_submitbutton").attr("disabled", "disabled");
+                    else
+                        $("#URSRC_btn_login_submitbutton").removeAttr("disabled");
+                }
             }
             else{
                 $('#URSRC_btn_login_submitbutton').attr("disabled","disabled");
@@ -739,8 +767,18 @@ $(document).ready(function(){
             var URSRC_ifsc = $("#URSRC_tb_ifsccode").val();
             var URSRC_accttyp = $("#URSRC_tb_accntyp").val();
             var URSRC_brnchaddr= $("#URSRC_ta_brnchaddr").val();
+            var URSRC_aadharno=$('#URSRC_tb_aadharno').val();
+            var URSRC_passportno=$('#URSRC_tb_passportno').val();
+            var URSRC_voterid=$('#URSRC_tb_votersid').val();
             if((login_id!="SELECT")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(updatedloginid!='')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="")){
                 $("#URSRC_submitupdate").removeAttr("disabled")
+                if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true))
+                {
+                    if((URSRC_aadharno=='' && $("input[name=URSRC_chk_aadharno]").is(":checked")==true) ||(URSRC_passportno=='' && $("input[name=URSRC_chk_passportno]").is(":checked")==true)||(URSRC_voterid=='' && $("input[name=URSRC_chk_votersid]").is(":checked")==true))
+                        $("#URSRC_submitupdate").attr("disabled", "disabled");
+                    else
+                        $("#URSRC_submitupdate").removeAttr("disabled");
+                }
             }
             else{
                 $('#URSRC_submitupdate').attr("disabled","disabled");
@@ -773,7 +811,10 @@ $(document).ready(function(){
     });
     //LOGIN SEARCH/UPDATE CLICK FUNCTION
     $('#URSRC_radio_loginsearchupdate').click(function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),-100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         flag=0;
         exist_flag=1;
         error_valid='valid';
@@ -828,12 +869,13 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var loginid_array=JSON.parse(xmlhttp.responseText);
                 if(loginid_array.length!=0){
                     var URSRC_loginid_options='<option>SELECT</option>'
                     for(var l=0;l<loginid_array.length;l++){
-                        URSRC_loginid_options+= '<option value="' + loginid_array[l] + '">' + loginid_array[l]+ '</option>';
+                        URSRC_loginid_options+= '<option value="' + loginid_array[l][2] + '">' + loginid_array[l][0]+ '</option>';
                     }
                     $('#URSRC_lb_selectloginid').html(URSRC_loginid_options);
                     $('#URSRC_lb_selectloginid').show().prop('selectedIndex',0);
@@ -854,11 +896,14 @@ $(document).ready(function(){
     });
     //LOGIN SEARCH ND UPDATE FOR LOGIN ID CHANGE FUNCTION
     $('#URSRC_lb_selectloginid').change(function(){
-        $('.preloader', window.parent.document).show();
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         exist_flag=1;
         error_valid='valid';
         error_ext='valid';
-
         $("#URSRC_btn_update").html('')
         var URSRC_login_id=$(this).val();
         var len=URSRC_login_id.length;
@@ -870,16 +915,12 @@ $(document).ready(function(){
             $('#URSRC_lbl_loginidupd').show();
             $('#URSRC_tb_loginidupd').val(URSRC_login_id).show().prop("size",len);
             $('#URSRC_tble_rolecreation tr').remove();
-//            $('#URSRC_lbl_joindate').hide();
-//            $('#URSRC_tb_joindate').hide().val("");
-//            $('#URSRC_lbl_login_role').hide() ;
-
             $('#URSRC_btn_login_submitbutton').attr("disabled","disabled");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     var join_date=values_array[0][0].joindate;
                     var rc_name=values_array[0][0].rcname;
@@ -907,6 +948,10 @@ $(document).ready(function(){
                     var accountype=values_array[0][0].accountype;
                     var branchaddr=values_array[0][0].branchaddress;
                     var URSRC_role1=values_array[0][1];
+                    var aadharno=values_array[0][0].aadharno;
+                    var passportno=values_array[0][0].passportno;
+                    var voterid=values_array[0][0].voterid;
+                    var comment=values_array[0][0].comment;
                     //UPDATE FORM
                     for (var i = 0; i < URSRC_role1.length; i++) {
                         var value=URSRC_role1[i].replace(" ","_");
@@ -947,23 +992,32 @@ $(document).ready(function(){
                     $('#URSRC_lb_selectemptype').val(emp_type).show();
                     $('#URSRC_table_employeetbl').show();
                     $('#URSRC_table_others').show();
-                    $('#URSRC_tb_firstname').val(firstname);
-                    $('#URSRC_tb_lastname').val(lastname);
+                    var emp_firstname=firstname.length;
+                    $('#URSRC_tb_firstname').val(firstname).attr("size",emp_firstname+3);
+                    var emp_lastname=lastname.length;
+                    $('#URSRC_tb_lastname').val(lastname).attr("size",emp_lastname+3);
                     $('#URSRC_tb_dob').val(dob);
-                    $('#URSRC_tb_designation').val(designation);
+                    var emp_designation=designation.length;
+                    $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
                     $('#URSRC_tb_permobile').val(mobile);
-                    $('#URSRC_tb_kinname').val(kinname);
+                    var emp_kinname=kinname.length;
+                    $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
                     $('#URSRC_tb_relationhd').val(relationhood);
                     $('#URSRC_tb_mobile').val(altmobile);
-                    $('#URSRC_tb_bnkname').val(bankname);
-                    $('#URSRC_tb_brnchname').val(branchname);
-                    $('#URSRC_tb_accntname').val(accountname);
-                    $('#URSRC_tb_accntno').val(accountno);
+                    var emp_bankname=bankname.length;
+                    $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
+                    var emp_branchname=branchname.length;
+                    $('#URSRC_tb_brnchname').val(branchname).attr("size",emp_branchname+3);
+                    var emp_accountname=accountname.length;
+                    $('#URSRC_tb_accntname').val(accountname).attr("size",emp_accountname+2);
+                    var emp_accountno=accountno.length;
+                    $('#URSRC_tb_accntno').val(accountno).attr("size",emp_accountno+2);
                     $('#URSRC_tb_ifsccode').val(ifsccode);
                     $('#URSRC_tb_accntyp').val(accountype);
                     $('#URSRC_ta_brnchaddr').val(branchaddr);
                     $('#URSRC_tb_laptopno').val(laptop);
-                    $('#URSRC_tb_chargerno').val(chargerno);
+                    var emp_cahrgerno=chargerno.length;
+                    $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
                     if(bag=='X')
                     {
                         $('#URSRC_chk_bag').attr('checked',true);
@@ -1004,6 +1058,44 @@ $(document).ready(function(){
                     {
                         $('#URSRC_chk_headset').attr('checked',false);
                     }
+                    if(aadharno!=null)
+                    {
+                        $('#URSRC_chk_aadharno').attr('checked',true);
+                        $('#URSRC_tb_aadharno').val(aadharno).show();
+                    }
+                    else
+                    {
+                        $('#URSRC_chk_aadharno').attr('checked',false);
+                        $('#URSRC_tb_aadharno').val('').hide();
+                    }
+                    if(passportno!=null)
+                    {
+                        $('#URSRC_chk_passportno').attr('checked',true);
+                        $('#URSRC_tb_passportno').val(passportno).show();
+                    }
+                    else
+                    {
+                        $('#URSRC_chk_passportno').attr('checked',false);
+                        $('#URSRC_tb_passportno').val('').hide();
+                    }
+                    if(voterid!=null)
+                    {
+                        $('#URSRC_chk_votersid').attr('checked',true);
+                        $('#URSRC_tb_votersid').val(voterid).show();
+                    }
+                    else
+                    {
+                        $('#URSRC_chk_votersid').attr('checked',false);
+                        $('#URSRC_tb_votersid').val('').hide();;
+                    }
+                    if(comment!=null)
+                    {
+                        $('#URSRC_ta_comments').val(comment).show();
+                    }
+                    else
+                    {
+                        $('#URSRC_ta_comments').val('').show();
+                    }
 
                     $('<tr><td align="left"><input type="button"  class="btn" name="URSRC_submitupdate" id="URSRC_submitupdate"  value="UPDATE" disabled></td></tr>').appendTo($("#URSRC_btn_update"));
                 }
@@ -1013,7 +1105,8 @@ $(document).ready(function(){
             xmlhttp.send();
         }
         else{
-            $('.preloader', window.parent.document).hide();
+            $('.maskpanel',window.parent.document).removeAttr('style').hide();
+            $('.preloader').hide();
             $('#URSRC_tble_rolecreation').hide();
             $('#URSRC_tble_rolecreation tr').remove();
             $('#URSRC_lbl_joindate').hide();
@@ -1032,36 +1125,38 @@ $(document).ready(function(){
     });
     //VALIDATION FOR UPDATE BUTTON LOGIN SEARCH ND UPDATE
     $(document).on("click",'#URSRC_submitupdate ', function (){
-        $('.preloader', window.parent.document).show();
-        var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
-
+        var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         //Removing fakepath in all files
-        var filearray=[];
-        for(var i=0;i<25;i++)
-        {
-            var data=$('#upload_filename'+i).val();
-            if(data!='' && data!=undefined)
-            {
-                data=(data.toString()).replace("C:\\fakepath\\", "");
-                filearray.push(data);
-            }
-        }
-        var filenames='';
-        for(var j=0;j<filearray.length;j++)
-        {
-            if(j==0){filenames=filearray[j];}
-            else
-            {filenames=filenames+','+filearray[j];}
-        }
+//        var filearray=[];
+//        for(var i=0;i<25;i++)
+//        {
+//            var data=$('#upload_filename'+i).val();
+//            if(data!='' && data!=undefined)
+//            {
+//                data=(data.toString()).replace("C:\\fakepath\\", "");
+//                filearray.push(data);
+//            }
+//        }
+//        var filenames='';
+//        for(var j=0;j<filearray.length;j++)
+//        {
+//            if(j==0){filenames=filearray[j];}
+//            else
+//            {filenames=filenames+','+filearray[j];}
+//        }
         //End Removing fakepath in all files
-
+        var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
         var formElement = document.getElementById("URE_attendanceentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var msg_alert=JSON.parse(xmlhttp.responseText);
-//                alert(msg_alert);
+
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
                 var cal_flag=msg_alert[2];
@@ -1078,7 +1173,7 @@ $(document).ready(function(){
                 var msg=URSRC_errorAarray[8].replace("[NAME]",name)
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
                     $('#URSRC_submitupdate').hide();
                     $('#URSRC_lb_selectloginid').hide();
                     $('#URSRC_lbl_loginid').hide();
@@ -1093,7 +1188,7 @@ $(document).ready(function(){
                     $('#attachafile').text('Attach a file');
                 }
                 if(success_flag==0){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18]}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
                     $('#URSRC_submitupdate').hide();
                     $('#URSRC_lb_selectloginid').hide();
                     $('#URSRC_lbl_loginid').hide();
@@ -1110,7 +1205,7 @@ $(document).ready(function(){
                     var fileid=msg_alert[3];
                     var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
 
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
                     $('#URSRC_submitupdate').hide();
                     $('#URSRC_lb_selectloginid').hide();
                     $('#URSRC_lbl_loginid').hide();
@@ -1121,10 +1216,6 @@ $(document).ready(function(){
                     $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
                     $('#URSRC_table_employeetbl').hide();
                     $('#URSRC_lbl_selectloginid').hide();
-
-
-
-
                 }
 
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
@@ -1133,7 +1224,7 @@ $(document).ready(function(){
 //                    var fileid=msg_alert[3];
                     var msg= URSRC_errorAarray[29];
 
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
                     $('#URSRC_submitupdate').hide();
                     $('#URSRC_lb_selectloginid').hide();
                     $('#URSRC_lbl_loginid').hide();
@@ -1151,53 +1242,53 @@ $(document).ready(function(){
             }
         }
         var choice="loginupdate"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice+"&filearray="+filenames,true);
+        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
         xmlhttp.send(new FormData(formElement));
     });
     //VALIDATION FOR CREATE BUTTON FOR LOGIN CREATION ENTRY
     $(document).on("click",'#URSRC_btn_login_submitbutton ', function (){
-        $('.preloader', window.parent.document).show();
-        var radio_checked=$("input[name=roles1]:checked" ).val();
-
+        var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         //Removing fakepath in all files
-        var filearray=[];
-        for(var i=0;i<25;i++)
-        {
-            var data=$('#upload_filename'+i).val();
-            if(data!='' && data!=undefined)
-            {
-                data=(data.toString()).replace("C:\\fakepath\\", "");
-                filearray.push(data);
-            }
-        }
-        var filenames='';
-        for(var j=0;j<filearray.length;j++)
-        {
-            if(j==0){filenames=filearray[j];}
-            else
-            {filenames=filenames+','+filearray[j];}
-        }
+//        var filearray=[];
+//        for(var i=0;i<25;i++)
+//        {
+//            var data=$('#upload_filename'+i).val();
+//            if(data!='' && data!=undefined)
+//            {
+//                data=(data.toString()).replace("C:\\fakepath\\", "");
+//                filearray.push(data);
+//            }
+//        }
+//        var filenames='';
+//        for(var j=0;j<filearray.length;j++)
+//        {
+//            if(j==0){filenames=filearray[j];}
+//            else
+//            {filenames=filenames+','+filearray[j];}
+//        }
         //End Removing fakepath in all files
-
+        var radio_checked=$("input[name=roles1]:checked" ).val()
         var formElement = document.getElementById("URE_attendanceentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var msg_alert=JSON.parse(xmlhttp.responseText);
-//                alert(msg_alert);
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
                 var cal_flag=msg_alert[2];
-
+                var file_flag=msg_alert[4];
                 var name=$('#URSRC_tb_loginid').val();
                 var msg=URSRC_errorAarray[7].replace("[NAME]",name)
                 var finalmsg=msg.replace("[NAME]",name)
-
                 $('#URSRC_lbl_header').hide();
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
                     $('#URSRC_tble_login').hide();
                     $('#URSRC_tble_rolesearch').hide();
                     $('#URSRC_tb_joindate').val("");
@@ -1226,22 +1317,29 @@ $(document).ready(function(){
                     var name=$('#URSRC_tb_loginid').val();
                     var msg=URSRC_errorAarray[27].replace("[NAME]",name)
                     var finalmsg=msg.replace("[NAME]",name)
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
 
                 }
                 if((success_flag==1)&&(ss_flag==0))
                 {
                     var fileid=msg_alert[3];
                     var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
 
                 }
-
-                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
+//                if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
+//                    var folderid=msg_alert[5];
+//                    var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+//
+//
+//
+//                }
+                if((success_flag==1)&&(ss_flag==1)&&(file_flag==1))
                 {
                     var fileid=msg_alert[3];
                     var msg= URSRC_errorAarray[29];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
 
                 }
 
@@ -1249,17 +1347,21 @@ $(document).ready(function(){
             }
         }
         var choice="loginsave"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_checked="+radio_checked+"&option="+choice+"&filearray="+filenames,true);
+        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_checked="+radio_checked+"&option="+choice,true);
         xmlhttp.send(new FormData(formElement));
     });
     //FUNCTION TO CLICK BASIC ROLE
     $(document).on("click",'.URSRC_class_basicroles', function (){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var radio_value=$(this).val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
                 URSRC_menuname=values_array[0];
                 URSRC_submenu=values_array[1];
@@ -1273,7 +1375,8 @@ $(document).ready(function(){
     });
     //COMMON TREE VIEW FUNCTION
     function URSRC_tree_view(values_array,URSRC_checked_mpid){
-        $('.preloader', window.parent.document).hide();
+        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+        $('.preloader').hide();
         $('#URSRC_btn_submitbutton').attr("disabled","disabled");
         $('#URSRC_tble_menu').replaceWith('<table id="URSRC_tble_menu"  ></table>')
         var count=0;
@@ -1514,12 +1617,18 @@ $(document).ready(function(){
     });
     //Basic Role/Search&update/Role Creation and Update  button click
     $(document).on('click','#URSRC_btn_submitbutton',function(){
+        var newPos= adjustPosition($(this).position(),-100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
         //ROLE CREATION SAVE PART
         var formElement = document.getElementById("URE_attendanceentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 var msg_alert=xmlhttp.responseText;
                 if(URSRC_radio_button_select_value=="ROLE CREATION"){
                     $('#URSRC_tble_menu').hide();
@@ -1532,7 +1641,7 @@ $(document).ready(function(){
                     $('#URSRC_lbl_header').hide();
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[6]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[6] ,position:{top:150,left:500}}});
                         $('#URSRC_tble_menu').hide();
                         $('#URSRC_tble_folder').hide();
                         $('#URSRC_tble_roles').hide();
@@ -1544,7 +1653,7 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
                     }
                 }
                 if(URSRC_radio_button_select_value=="ROLE SEARCH UPDATE"){
@@ -1556,7 +1665,7 @@ $(document).ready(function(){
                     $('#URSRC_lb_selectrole').prop('selectedIndex',0);
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[9]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[9] ,position:{top:150,left:500}}});
                         $('#URSRC_tble_menu').hide();
                         $('#URSRC_tble_folder').hide();
                         $('#URSRC_tble_roles').hide();
@@ -1570,7 +1679,7 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
                     }
                 }
                 if(URSRC_radio_button_select_value=="BASIC ROLE MENU CREATION"){
@@ -1585,12 +1694,12 @@ $(document).ready(function(){
                     $('#URSRC_lbl_header').hide();
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[14]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[14] ,position:{top:150,left:500}}});
 
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
                     }
                 }
                 if(URSRC_radio_button_select_value=="BASIC ROLE MENU SEARCH UPDATE"){
@@ -1604,10 +1713,10 @@ $(document).ready(function(){
                     $('#URSRC_tble_basicroles').hide();
                     $('input[name=URSRC_mainradiobutton]:checked').attr('checked',false);
                     if(msg_alert==1){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[15]}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[15] ,position:{top:150,left:500}}});
                     }
                     else{
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18]}})
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
                     }
                 }
             }
@@ -1621,7 +1730,10 @@ $(document).ready(function(){
         flag=0;
         var radio_value_rolesearch=$(this).val();
         $('#URSRC_lbl_header').text("ROLE SEARCH/UPDATE").show()
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($(this).position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('#URSRC_btn_submitbutton').val('UPDATE').hide();
         $('#URSRC_tble_role').hide();
         $('#URSRC_tble_menu').hide();
@@ -1656,7 +1768,8 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var values_array_rcname=JSON.parse(xmlhttp.responseText);
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
                 if(values_array_rcname.length!=0){
                     var URSRC_customerole_options='<option>SELECT</option>'
                     for(var l=0;l<values_array_rcname.length;l++){
@@ -1688,12 +1801,16 @@ $(document).ready(function(){
     $('#URSRC_lb_selectrole').change(function(){
         var URSRC_lbrole_srchndupdate=$('#URSRC_lb_selectrole').val();
         if($(this).val()!='SELECT'){
-            $('.preloader', window.parent.document).show();
+            var newPos= adjustPosition($(this).position(),100,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.preloader').show();
             //FUNCTION TO LOAD SELECTED ROLE DETAILS
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     values_array_rcname=JSON.parse(xmlhttp.responseText);
                     var URSRC_lb_radiovalrolesearch=values_array_rcname[0];
                     URSRC_checked_mpid=values_array_rcname[1];
@@ -1730,6 +1847,43 @@ $(document).ready(function(){
         $('#URSRC_btn_submitbutton').hide();
     });
 
+    $('#URSRC_chk_aadharno').click(function(){
+        if($("input[name=URSRC_chk_aadharno]").is(":checked")==true){
+            $('#URSRC_tb_aadharno').show();
+        }
+        else{
+
+            $('#URSRC_tb_aadharno').hide().val("");
+        }
+
+
+    });
+
+    $('#URSRC_chk_passportno').click(function(){
+        if($("input[name=URSRC_chk_passportno]").is(":checked")==true){
+
+            $('#URSRC_tb_passportno').show();
+        }
+        else{
+
+            $('#URSRC_tb_passportno').hide().val("");
+        }
+
+
+    });
+
+    $('#URSRC_chk_votersid').click(function(){
+        if($("input[name=URSRC_chk_votersid]").is(":checked")==true){
+
+            $('#URSRC_tb_votersid').show();
+        }
+        else{
+
+            $('#URSRC_tb_votersid').hide().val("");
+        }
+
+
+    });
 
     $('#URSRC_btn_submitbutton').hide();
 });
@@ -1805,13 +1959,13 @@ $(document).ready(function(){
         <td> <input type="text" name="URSRC_tb_loginid" id="URSRC_tb_loginid" class="login_submitvalidate URSRC_email_validate " hidden /></td><td><label id="URSRC_lbl_email_err" class="errormsg"></label></td>
     </tr>
     <tr>
-        <td width="175"><label id="URSRC_lbl_selectloginid">LOGIN ID<em>*</em></label></td>
+        <td width="175"><label id="URSRC_lbl_selectloginid">EMPLOYEE NAME<em>*</em></label></td>
         <td><select id='URSRC_lb_selectloginid' name="URSRC_lb_loginid" title="LOGIN ID" maxlength="40"   >
                 <option value='SELECT' selected="selected"> SELECT</option>
             </select></td>
     </tr>
     <tr>
-        <td width="175" ><label id="URSRC_lbl_loginidupd">NEW LOGIN ID<em>*</em></label></td>
+        <td width="175" ><label id="URSRC_lbl_loginidupd">LOGIN ID<em>*</em></label></td>
         <td> <input type="text" name="URSRC_tb_loginidupd" id="URSRC_tb_loginidupd" class="login_submitvalidate URSRC_email_validate " hidden /></td><td><label id="URSRC_lbl_email_errupd" class="errormsg"></label></td>
     </tr>
     <tr>
@@ -1930,7 +2084,7 @@ $(document).ready(function(){
         <td><input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='25' class="alphanumeric sizefix login_submitvalidate"></td>
     </tr>
     <tr><td></td><td>
-            <table id="URSRC_table_others" style="width:200px" hidden>
+            <table id="URSRC_table_others" style="width:450px" hidden>
                 <tr>
                     <td>
                         <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
@@ -1956,24 +2110,44 @@ $(document).ready(function(){
                         <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
                         <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label></td>
                 </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
+                        <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">AADHAAR NO</label></td><td><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate" hidden></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
+                        <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">PASSPORT NO</label></td><td><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate" hidden></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
+                        <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">VOTERS ID</label></td><td><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate" hidden></td>
+                </tr>
 
             </table></td></tr>
     <tr>
-        <td> </td>
-        <td>
-            <table ID="filetableuploads">
-
-            </table>
-        </td>
+        <td width="175">
+            <label name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label></td>
+        <td><textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea></td>
     </tr>
-    <tr>
-        <td><label></label></td>
-        <td>
-                    <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
-                    <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
-                    </span>
-        </td>
-    </tr>
+<!--    <tr>-->
+<!--        <td> </td>-->
+<!--        <td>-->
+<!--            <table ID="filetableuploads">-->
+<!---->
+<!--            </table>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td><label></label></td>-->
+<!--        <td>-->
+<!--                    <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">-->
+<!--                    <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>-->
+<!--                    </span>-->
+<!--        </td>-->
+<!--    </tr>-->
 </table>
 <tr>
     <td ><input class="btn" type="button"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden /></td>

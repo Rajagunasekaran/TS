@@ -1,7 +1,9 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ADMIN WEEKLY SEARCH/UPDATE******************************************//
-//DONE BY:SASIKALA
+//DONE BY:LALITHA
+//0.05-SD:29/12/2014 ED:30/12/2014,TRACKER NO:74,Changed date picker nd validation,Preloader position
 //0.04-SD:19/12/2014 ED:19/12/2014,TRACKER NO:74,Updated sorting function for date nd timestamp,Showned flex tble order by data()
+//DONE BY:SASIKALA
 //0.03-SD:03/12/2014 ED:04/12/2014,TRACKER NO:74,DONE REPORT SHOWING POINT BY POINT,DATATABLE HEADER FIXED AND PDF EXPORT FILENAME FIXED.
 //DONE BY:LALITHA
 //0.02-SD:02/12/2014 ED:02/12/2014,TRACKER NO:74,Fixed max date nd min dte,Changed Preloder funct,Removed confirmation err msg,Fixed flex tble width
@@ -60,15 +62,18 @@ function enableOk(){
 }
 // READY FUNCTION STARTS
 $(document).ready(function(){
-    $('.preloader').show();
+    $('#AWSU_btn_pdf').hide();
+    $('.preloader', window.parent.document).show();
 //ERROR_MESSAGE
+    var pdfmsg;
+    var dateText="";
     var js_errormsg_array=[];
     var AWSU_weekly_mindate=[];
     var AWSU_weekly_maxdate=[];
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             var value_array=JSON.parse(xmlhttp.responseText);
             js_errormsg_array=value_array[0];
             AWSU_weekly_mindate=value_array[1];
@@ -121,14 +126,20 @@ $(document).ready(function(){
     var pre_tds;
     //FUNCTION FOR DATATABLE
     function showTable(){
+        var newPos= adjustPosition($('#AWSU_lbl_title').position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $("#AWSU_btn_search").attr("disabled", "disabled");
         $('#AWSU_nodata_startenddate').hide();
-        $('.preloader', window.parent.document).show();
         var values_array=[];
-        var startdate=$('#AWSU_tb_strtdte').val();
-        var enddate = $('#AWSU_tb_enddte').val();
-        var title=js_errormsg_array[4].toString().replace("[STARTDATE]",startdate);
-        var titlemsg=title.toString().replace("[ENDDATE]",enddate);
+        var startdate=$('#AWSU_tb_strtdtes').val();
+        var enddate =$('#AWSU_tb_enddtes').val();
+        var startdates=$('#AWSU_tb_strtdte').val();
+        var enddates =$('#AWSU_tb_enddte').val();
+        var title=js_errormsg_array[4].toString().replace("[STARTDATE]",startdates);
+        var titlemsg=title.toString().replace("[ENDDATE]",enddates);
+        pdfmsg=titlemsg;
         data ="&startdate="+startdate+"&enddate="+enddate+"&option=showData";
         $.ajax({
             url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
@@ -136,11 +147,13 @@ $(document).ready(function(){
             data:data,
             cache: false,
             success: function(response){
-                $('.preloader', window.parent.document).hide();
                 $('#AWSU_lbl_title').text(titlemsg).show();
+                $('#AWSU_btn_pdf').show();
                 values_array=JSON.parse(response);
                 if(values_array)
                 {
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var AWSU_tableheader='<table id="AWSU_tble_adminweeklysearchupdate" border="1" class="display"  cellspacing="0" width="1300" ><thead bgcolor="#6495ed" style="color:white"><tr class="head"><th style="min-width:180px;"  class="uk-week-column" nowrap >WEEK</th><th style="width:1500px">WEEKLY REPORT</th><th>USERSTAMP</th><th sstyle="min-width:150px;" class="uk-timestp-column" nowrap>TIMESTAMP</th><th style="width:50px;">EDIT</th></tr></thead><tbody>';
                     for(var j=0;j<values_array.length;j++)
                     {
@@ -162,33 +175,19 @@ $(document).ready(function(){
                         "sPaginationType":"full_numbers",
 
                         "aoColumnDefs" : [
-                            { "aTargets" : ["uk-week-column"] , "sType" : "uk_week"},    { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ],
-
-                        dom: 'T<"clear">lfrtip',
-
-                        tableTools: {"aButtons": [
-                            {
-                                "sExtends": "pdf",
-                                "mColumns": [0 ,1 , 2, 3],
-                                "sTitle": titlemsg,
-                                "sPdfOrientation": "landscape",
-                                "background-color":"blue"
-                            }],
-                            "aoColumns" : [{
-                                "sClass" : "center",
-                                "bSortable" : false
-                            }],
-                            "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
-                        }
+                            { "aTargets" : ["uk-week-column"] , "sType" : "uk_week"},    { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
                     });
                 }
                 else
                 {
-                    var sd=js_errormsg_array[1].toString().replace("[SDATE]",startdate);
-                    var msg=sd.toString().replace("[EDATE]",enddate);
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
+                    var sd=js_errormsg_array[1].toString().replace("[SDATE]",startdates);
+                    var msg=sd.toString().replace("[EDATE]",enddates);
                     $('#AWSU_nodata_startenddate').text(msg).show();
                     $('#tablecontainer').hide();
                     $('#AWSU_lbl_title').hide();
+                    $('#AWSU_btn_pdf').hide();
                 }
             }
         });
@@ -233,7 +232,6 @@ $(document).ready(function(){
         $("#AWSU_btn_search").attr("disabled", "disabled");
         showTable();
     });
-
 // CLICK EVENT FOR EDIT BUTTON
     $('section').on('click','.AWSU_btn_edit',function(){
         $('.AWSU_btn_edit').attr("disabled","disabled");
@@ -250,8 +248,32 @@ $(document).ready(function(){
         $('#'+edittrid).html(tdstr);
         var str = $(tds[1]).html();
         var regex = /<br\s*[\/]?>/gi;
-        $("#AWSU_tb_report").html(str.replace(regex, ""));
+        $("#AWSU_tb_report").html(str.replace(regex,"\n"));
     });
+    //FUNCTION FOR DATE TO WEEK CONVERSION
+    function GetWeekInMonths(date)
+    {
+        var date1=new Date(date);
+        var  WeekNumber = ['1st', '2nd', '3rd', '4th', '5th'];
+        var weekNum = 0 | date1.getDate() / 7;
+        weekNum = ( date1.getDate() % 7 == 0 ) ? weekNum - 1 : weekNum;
+        var month=new Array();
+        month[0]="January";
+        month[1]="February";
+        month[2]="March";
+        month[3]="April";
+        month[4]="May";
+        month[5]="June";
+        month[6]="July";
+        month[7]="August";
+        month[8]="September";
+        month[9]="October";
+        month[10]="November";
+        month[11]="December";
+        var d1=month[date1.getMonth()];
+        var a=(WeekNumber[weekNum] + ' week ,'+d1+' '+date1.getFullYear());
+        return a;
+    }
     //FUNCTION FOR DATE TO WEEK CONVERSION
     function GetWeekInMonth(date)
     {
@@ -302,7 +324,6 @@ $(document).ready(function(){
         c[0]=c[0].replace(',','');
         c[0]=c[0].trim()
         var mon= month.indexOf(c[0])+1;
-
         var year=c[1];
         return year+"-"+mon+"-"+date;
     }
@@ -324,7 +345,10 @@ $(document).ready(function(){
     });
 // CLICK EVENT FOR UPDATE BUTTON
     $('section').on('click','.AWSU_btn_update',function(){
-        $('.preloader', window.parent.document).show();
+        var newPos= adjustPosition($('#AWSU_lbl_title').position(),100,270);
+        resetPreloader(newPos);
+        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.preloader').show();
         $('textarea').height(50).width(60);
         var edittrid = $(this).parent().parent().attr('id');
         var AWSU_tb_report = $('#AWSU_tb_report').val();
@@ -337,16 +361,17 @@ $(document).ready(function(){
             success: function(response){
                 if(response==1){
                     var msg=js_errormsg_array[0];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
                     showTable();
                 }
                 else
                 {
                     var msg=js_errormsg_array[2];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg}});
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
                     showTable();
                 }
-                $('.preloader', window.parent.document).hide();
+                $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                $('.preloader').hide();
             }
         });
     });
@@ -355,17 +380,38 @@ $(document).ready(function(){
         var edittrid = $(this).parent().parent().attr('id');
         $('#'+edittrid).html(pre_tds);
     });
-    //DATE PICKER FUNCTION
-    $('.AWSU_tb_datepicker').datepicker({
+//DATEPICKER FUNCTION
+    $('#AWSU_tb_strtdte').datepicker({
         dateFormat:"dd MM yy",
+        onSelect: function(dateText, inst) {
+            $('#AWSU_tb_strtdtes').val(dateText);
+            d1=new Date(dateText),
+                date= GetWeekInMonths(d1);
+            dateFormat:$(this).val(date);
+            validation();
+        },
+        changeYear: true,
+        changeMonth: true
+    });
+    //DATEPICKER FUNCTION
+    $('#AWSU_tb_enddte').datepicker({
+        dateFormat:"dd MM yy",
+        onSelect: function(dateText, inst) {
+            $('#AWSU_tb_enddtes').val(dateText);
+            d1=new Date(dateText),
+                date= GetWeekInMonths(d1);
+            dateFormat:$(this).val(date);
+            validation();
+        },
         changeYear: true,
         changeMonth: true
     });
     //VALIDATION FOR SEARCH BUTTON
-    $(document).on('change blur','.valid',function(){
+    function validation(){
         $('#tablecontainer').hide();
         $('#AWSU_nodata_startenddate').hide();
         $('#AWSU_lbl_title').hide();
+        $('#AWSU_btn_pdf').hide();
         var startdate= $('#AWSU_tb_strtdte').val();
         var enddate=$("#AWSU_tb_enddte").val();
         if((startdate!="") &&(enddate !=""))
@@ -376,6 +422,14 @@ $(document).ready(function(){
         {
             $("#AWSU_btn_search").attr("disabled", "disabled");
         }
+    }
+    //CLICK FUNCTION FOR BTN PDF
+    $(document).on('click','#AWSU_btn_pdf',function(){
+        var inputValOne=$('#AWSU_tb_strtdtes').val();
+        inputValOne = inputValOne.split("-").reverse().join("-");
+        var inputValTwo=$('#AWSU_tb_enddtes').val();
+        inputValTwo = inputValTwo.split("-").reverse().join("-");
+        var url=document.location.href='COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
     });
 });
 // READY FUNCTION ENDS
@@ -385,23 +439,26 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="wrapper">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN WEEKLY SEARCH/UPDATE</h3><p></div></div>
     <div class="container">
         <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="content">
             <table>
                 <tr>
                     <td width="150"><label name="AWSU_lbl_strtdte" id="AWSU_lbl_strtdte" >START DATE<em>*</em></label></td>
-                    <td><input type="text" name="AWSU_tb_strtdte" id="AWSU_tb_strtdte" class="AWSU_tb_datepicker mindate maxdate valid datemandtry" style="width:120px;"></td><br>
+                    <td><input type="text" name="AWSU_tb_strtdte" id="AWSU_tb_strtdte" class="mindate maxdate valid datemandtry" style="width:160px;"></td><br>
+                    <td><input type="text" name="AWSU_tb_strtdtes" id="AWSU_tb_strtdtes"  style="width:170px;" class="AWSU_tb_datepicker" hidden></td><br>
                 </tr>
                 <tr>
                     <td width="150"><label name="AWSU_lbl_enddte" id="AWSU_lbl_enddte" >END DATE<em>*</em></label></td>
-                    <td><input type="text" name="AWSU_tb_enddte" id="AWSU_tb_enddte" class="AWSU_tb_datepicker mindate maxdate valid datemandtry" style="width:120px;"></td><br>
+                    <td><input type="text" name="AWSU_tb_enddte" id="AWSU_tb_enddte" class="mindate maxdate valid datemandtry" style="width:160px;"></td><br>
+                    <td><input type="text" name="AWSU_tb_enddtes" id="AWSU_tb_enddtes" class="AWSU_tb_datepicker" style="width:170px;" hidden></td><br>
                 </tr>
                 <td><input type="button" class="btn"  id="AWSU_btn_search" value="SEARCH" disabled></td><br>
             </table>
             <tr><td><label id="AWSU_nodata_startenddate" name="AWSU_nodata_startenddate" class="errormsg"></label></td></tr>
             <tr><td><label id="AWSU_lbl_title" name="AWSU_lbl_title" class="srctitle"></label></td></tr>
+            <div><input type="button" id='AWSU_btn_pdf' class="btnpdf" value="PDF"></div>
             <div class="container" id="tablecontainer" hidden>
                 <section>
                 </section>

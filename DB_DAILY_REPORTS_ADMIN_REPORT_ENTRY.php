@@ -7,10 +7,7 @@ date_default_timezone_set('Asia/Kolkata');
 $USERSTAMP=$UserStamp;
 if($_REQUEST["option"]=="login_id"){
     $ADM_uld_id=$_REQUEST['login_id'];
-//    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-//    while($row=mysqli_fetch_array($uld_id)){
-//        $ADM_uld_id=$row["ULD_ID"];
-//    }
+
     $min_date=mysqli_query($con,"SELECT UA_JOIN_DATE FROM USER_ACCESS where ULD_ID='$ADM_uld_id' AND UA_TERMINATE IS NULL");
     while($row=mysqli_fetch_array($min_date)){
         $mindate_array=$row["UA_JOIN_DATE"];
@@ -22,10 +19,7 @@ if($_REQUEST["option"]=="login_id"){
 }
 if($_REQUEST["option"]=="LOGINID"){
     $ADM_uld_id=$_REQUEST['login_id'];
-//    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-//    while($row=mysqli_fetch_array($uld_id)){
-//        $ADM_uld_id=$row["ULD_ID"];
-//    }
+
     $min_date=mysqli_query($con,"SELECT UA_JOIN_DATE FROM USER_ACCESS where ULD_ID='$ADM_uld_id' AND UA_TERMINATE IS NULL");
     while($row=mysqli_fetch_array($min_date)){
         $mindate_array=$row["UA_JOIN_DATE"];
@@ -38,10 +32,7 @@ if($_REQUEST["option"]=="DATE")
     $date=$_REQUEST['date_change'];
     $ADM_uld_id=$_REQUEST['login_id'];
     $ADM_date=date('Y-m-d',strtotime($date));
-//    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-//    while($row=mysqli_fetch_array($uld_id)){
-//        $ADM_uld_id=$row["ULD_ID"];
-//    }
+
     $sql="SELECT * FROM USER_ADMIN_REPORT_DETAILS WHERE ULD_ID='$ADM_uld_id' AND UARD_DATE='$ADM_date'";
     $sql_result= mysqli_query($con,$sql);
     $row=mysqli_num_rows($sql_result);
@@ -359,6 +350,7 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
 
     $report= $con->real_escape_string($report);
     $reason= $con->real_escape_string($reason);
+
     $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',@success_flag)");
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query('SELECT @success_flag');

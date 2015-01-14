@@ -2,6 +2,11 @@
 //*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************EMAIL TEMPLATE SEARCH/UPDATE*********************************************//
 //DONE BY:LALITHA
+//VER 0.04-SD:09/01/2015 ED:09/01/2015,TRACKER NO:74,Changed timestamp,preloader position fr btn
+//DONE BY:RAJA
+//VER 0.03-SD:03/01/2015 ED:06/01/2015, TRACKER NO:74,DESC: SETTING PRELOADER POSITON AND MSGBOX POSITION
+//DONE BY:LALITHA
+//VER 0.02-SD:14/11/2014 ED:14/11/2014,TRACKER NO:74,Fixed width
 //VER 0.01-INITIAL VERSION, SD:27/10/2014 ED:28/10/2014,TRACKER NO:99
 //*********************************************************************************************************//
 error_reporting(0);
@@ -26,7 +31,7 @@ if(isset($_REQUEST)){
     //FUNCTION FOR SHOW THE DATA IN TABLE
     if($_REQUEST['option']=="EMAIL_TEMPLATE_DETAILS"){
         $ET_SRC_UPD_DEL_scriptname=$_POST['ET_SRC_UPD_DEL_lb_scriptname'];
-        $ET_SRC_UPD_DEL_flextbl= mysqli_query($con,"SELECT DATE_FORMAT(ETD.ETD_TIMESTAMP, '%d-%m-%Y %h:%m:%s') AS TIMESTAMP,ETD.ETD_EMAIL_SUBJECT,ETD.ETD_EMAIL_BODY,ULD.ULD_LOGINID,ETD.ETD_ID FROM EMAIL_TEMPLATE_DETAILS ETD,USER_LOGIN_DETAILS ULD WHERE ETD.ULD_ID=ULD.ULD_ID AND ETD.ET_ID='$ET_SRC_UPD_DEL_scriptname'");
+        $ET_SRC_UPD_DEL_flextbl= mysqli_query($con,"SELECT DATE_FORMAT(CONVERT_TZ(ETD.ETD_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T') AS TIMESTAMP,ETD.ETD_EMAIL_SUBJECT,ETD.ETD_EMAIL_BODY,ULD.ULD_LOGINID,ETD.ETD_ID FROM EMAIL_TEMPLATE_DETAILS ETD,USER_LOGIN_DETAILS ULD WHERE ETD.ULD_ID=ULD.ULD_ID AND ETD.ET_ID='$ET_SRC_UPD_DEL_scriptname'");
         $ET_SRC_UPD_DEL_values=array();
         while($row=mysqli_fetch_array($ET_SRC_UPD_DEL_flextbl)){
             $ET_SRC_UPD_DEL_subject=$row["ETD_EMAIL_SUBJECT"];

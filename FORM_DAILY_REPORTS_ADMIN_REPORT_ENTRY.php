@@ -1,6 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN REPORT ENTRY *************************************//
 //DONE BY:RAJA
+//VER 0.07-SD:10/01/2015 ED:10/01/2015, TRACKER NO:74,DESC:CHANGED PRELOADER POSITION AND IMPLEMENTED AUTOFOCUS
+//DONE BY:RAJA
 //VER 0.06-SD:05/01/2015 ED:07/01/2015, TRACKER NO:175,179,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
 //DONE BY:SASIKALA
 //VER 0.05-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR MULTIPLE ENTRY
@@ -57,7 +59,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 5000,
+    timeout: 10000,
     maximumAge: 0
 };
 
@@ -131,6 +133,7 @@ $(document).ready(function(){
     $('#ARE_tb_dte').datepicker("option","maxDate",OD_max_date);
     //CHANGE EVENT FOR LOGIN LIST BX
     $(document).on('change','#ARE_lb_loginid',function(){
+//        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         $('#ARE_lbl_errmsg').hide();
         $('#ARE_lbl_checkmsg').hide();
         var ARE_loginidlistbx= $("#ARE_lb_loginid").val();
@@ -159,7 +162,7 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#option').position(),80,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -220,7 +223,8 @@ $(document).ready(function(){
     //JQUERY LIB VALIDATION END
     // CHANGE EVENT FOR DATE
     $(document).on('change','#ARE_tb_date',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+//        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
+        var newPos= adjustPosition($('#option').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -258,6 +262,7 @@ $(document).ready(function(){
     });
     // CHANGE EVENT FOR ATTENDANCE
     $('#ARE_lb_attendance').change(function(){
+        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         $('#ARE_tble_frstsel_projectlistbx').html('');
         $('#ARE_btn_submit').attr('disabled','disabled');
         $('#ARE_tble_reasonlbltxtarea').html('');
@@ -279,7 +284,7 @@ $(document).ready(function(){
         }
         else if($('#ARE_lb_attendance').val()=='1')
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#ARE_lbl_sinentry').position(),70,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -395,6 +400,7 @@ $(document).ready(function(){
     // CLICK EVENT PERMISSION RADIO BUTTON
     $(document).on('click','#ARE_rd_permission',function()
     {
+//        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         if($('#ARE_rd_permission').attr("checked","checked"))
         {
             $('#ARE_lb_timing').val('SELECT').show();
@@ -434,6 +440,7 @@ $(document).ready(function(){
     }
     // CHANGE EVENT FOR SESSION LIST BOX
     $('#ARE_lb_ampm').change(function(){
+        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         flag=1;
         $('#ARE_tble_reasonlbltxtarea,#ARE_tbl_enterthereport,#ARE_tble_bandwidth,#ARE_tble_frstsel_projectlistbx').html('');
         if($('#ARE_lb_ampm').val()=='SELECT')
@@ -464,7 +471,7 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#ARE_tb_date').position(),20,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -656,7 +663,7 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR SAVE BUTTON
     $(document).on('click','#ARE_btn_submit',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($(this).position(),-130,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -863,6 +870,7 @@ $(document).ready(function(){
     var max_date;
     // CHANGE EVENT FOR MULTIPLE DAY LOGINID LISTBOX
     $(document).on('change','#ARE_lb_lgnid',function(){
+//        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         $('#ARE_lbl_errmsg').hide();
         var ARE_loginidlist= $("#ARE_lb_lgnid").val();
         $('#ARE_tble_attendence').hide();
@@ -879,7 +887,7 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#option').position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -919,6 +927,7 @@ $(document).ready(function(){
     });
     // CHANGE EVENT FOR FROMDATE
     $(document).on('change','#ARE_tb_sdate',function(){
+//        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
         var ARE_fromdate = $('#ARE_tb_sdate').datepicker('getDate');
         var date = new Date( Date.parse( ARE_fromdate ));
         date.setDate( date.getDate()  );
@@ -934,12 +943,13 @@ $(document).ready(function(){
     });
     // CHANGE FUNCTIOn FOR TODATE
     $(document).on('change','.valid',function(){
+//        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
         var loginid=$('#ARE_lb_lgnid').val();
         var fromdate=$('#ARE_tb_sdate').val();
         var todate=$('#ARE_tb_edate').val();
         if(fromdate!='' && todate!='')
         {
-            var newPos= adjustPosition($(this).position(),100,270);
+            var newPos= adjustPosition($('#ARE_lbl_mulentry').position(),100,270);
             resetPreloader(newPos);
             $('.maskpanel',window.parent.document).css("height","276px").show();
             $('.preloader').show();
@@ -984,6 +994,7 @@ $(document).ready(function(){
     });
     //CHANGE EVENT FOR MULTIPLEDAY ATTENDANCE
     $('#ARE_lb_attdnce').change(function(){
+        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         $('#ARE_tbl_reason').html('');
         if($('#ARE_lb_attdnce').val()=='SELECT')
         {
@@ -1001,7 +1012,7 @@ $(document).ready(function(){
     });
     //CLICK EVENT FOR MULTIPLEDAY SAVE BUTTON
     $('#ARE_btn_save').click(function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#ARE_lb_attdnce').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1074,7 +1085,8 @@ $(document).ready(function(){
     });
     //CHANGE EVENT ONDUTY ENTRY DATE FUNCTION
     $('#ARE_tb_dte').change(function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+//        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+        var newPos= adjustPosition($('#option').position(),70,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();
@@ -1107,7 +1119,7 @@ $(document).ready(function(){
     });
 // CLICK EVENT ONDUTY SAVE BUTTON
     $('#ARE_btn_odsubmit').click(function(){
-        var newPos= adjustPosition($(this).position(),100,270);
+        var newPos= adjustPosition($('#ARE_tb_dte').position(),100,270);
         resetPreloader(newPos);
         $('.maskpanel',window.parent.document).css("height","276px").show();
         $('.preloader').show();

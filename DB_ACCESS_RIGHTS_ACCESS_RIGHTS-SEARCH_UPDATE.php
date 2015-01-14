@@ -4,20 +4,6 @@ require_once 'google/appengine/api/mail/Message.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
-
-//file upload code
-$drive = new Google_Client();
-$drive->setClientId('651424197810-72ki9kr1k58v3qec0034q1bfj2og6ss8.apps.googleusercontent.com');
-$drive->setClientSecret('NRY1PYuUK-NeJAZVJxUvXBeb');
-$drive->setRedirectUri('https://developers.google.com/oauthplayground');
-$drive->setScopes(array('https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/calendar'));
-$drive->setAccessType('online');
-$authUrl = $drive->createAuthUrl();
-$refresh_token= '1/YkIO518mEEVO9z5bdieivdpf9XVBnZN4PWZPLStyGzk';
-$drive->refreshToken($refresh_token);
-$service = new Google_Service_Drive($drive);
-//end of file upload
-
 include "CONNECTION.php";
 include "COMMON.php";
 include "GET_USERSTAMP.php";
@@ -77,30 +63,15 @@ if(isset($_REQUEST)){
         $URSRC_acctno=$_POST['URSRC_tb_accntno'];
         $URSRC_ifsccode=$_POST['URSRC_tb_ifsccode'];
         $URSRC_acctype=$_POST['URSRC_tb_accntyp'];
-        $URSRC_branchaddr=$_POST['URSRC_ta_brnchaddr'];
-        $URSRC_branchaddr= $con->real_escape_string($URSRC_branchaddr);
+        $URSRC_branchaddr1=$_POST['URSRC_ta_brnchaddr'];
+        $URSRC_branchaddr= $con->real_escape_string($URSRC_branchaddr1);
         $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+        $URSRC_aadharno=$_POST['URSRC_tb_aadharno'];
+        $URSRC_passportno=$_POST['URSRC_tb_passportno'];
+        $URSRC_voterid=$_POST['URSRC_tb_votersid'];
+        $comment=$_POST['URSRC_ta_comments'];
         $URSRC_bag=$_POST['URSRC_chk_bag'];
-
-        //File upload function
-        $filesarray=$_REQUEST['filearray'];
-        if($filesarray!='')
-        {
-            $allfilearray=(explode(",",$filesarray));
-            foreach ($allfilearray as $value)
-            {
-                $uploadfilename=$value;
-                $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-                $extension =(explode(".",$uploadfilename));
-                if($extension[1]=='pdf'){$mimeType='application/pdf';}
-                if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-                if($extension[1]=='png'){$mimeType='image/png';}
-                $return =insertFile($service,$drivefilename,'PersonalDetails','0Bzvv-O9jT9r_YXk3Uld5eXdOTE0',$mimeType,$uploadfilename);
-            }
-        }
-        //End of File Uploads
-
         if($URSRC_bag=='on')
         {
             $URSRC_bag= 'X';
@@ -155,12 +126,40 @@ if(isset($_REQUEST)){
             $URSRC_headset='';
             $headset='NO';
         }
+        $URSRC_chkaadharno=$_POST['URSRC_chk_aadharno'];
+        if($URSRC_chkaadharno=='on')
+        {
+            $URSRC_aadharno;
+        }
+        else
+        {
+            $URSRC_aadharno='';
+        }
+        $URSRC_chkpassportno=$_POST['URSRC_chk_passportno'];
+        if($URSRC_chkpassportno=='on')
+        {
+            $URSRC_passportno;
+        }
+        else
+        {
+            $URSRC_passportno='';
+        }
+        $URSCR_chkvoterid=$_POST['URSRC_chk_votersid'];
+        if($URSCR_chkvoterid=='on')
+        {
+            $URSRC_voterid;
+        }
+        else
+        {
+            $URSRC_voterid='';
+        }
         $con->autocommit(false);
-        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT('$loginid','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP',@success_flag)");
+        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
+
         if($flag==1){
 
             $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
@@ -245,9 +244,9 @@ if(isset($_REQUEST)){
                 $URSC_uld_id=$row["ULD_ID"];
             }
             if($ss_flag==1){
-                $cal_flag= URSRC_calendar_create($loginid_name,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
+                $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
 
-                $cal_flag= URSRC_calendar_create($loginid_name,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
+                $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
 
                 if($cal_flag==0){
                     URSRC_unshare_document($loginid,$fileId);
@@ -272,13 +271,19 @@ if(isset($_REQUEST)){
                 }
 //STRING REPLACE FUNCTION
                 $emp_email_body;
-                $body_msg =explode(",", $body);
+                $body_msg =explode("^", $body);
                 $length=count($body_msg);
                 for($i=0;$i<$length;$i++){
                     $emp_email_body.=$body_msg[$i].'<br><br>';
                 }
-                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]");
-                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$URSRC_branchaddr);
+                $comment =explode("\n", $URSRC_branchaddr1);
+                $commnet_length=count($comment);
+                for($i=0;$i<$commnet_length;$i++){
+                    $comment_msg.=$comment[$i].'<br>';
+                }
+                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
+                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
+
                 $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                 $final_message=$final_message.'<br>'.$newphrase;
                 $mail_options = [
@@ -294,7 +299,35 @@ if(isset($_REQUEST)){
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
-
+                $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
+                $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
+                if($row=mysqli_fetch_array($select_introtemplate_rs)){
+                    $intro_mail_subject=$row["ETD_EMAIL_SUBJECT"];
+                    $intro_body=$row["ETD_EMAIL_BODY"];
+                }
+                $intro_email_body;
+                $intro_body_msg =explode("^", $intro_body);
+                $intro_length=count($intro_body_msg);
+                for($i=0;$i<$intro_length;$i++){
+                    $intro_email_body.=$intro_body_msg[$i].'<br>';
+                }
+                $replace= array("[DATE]", "[employee name]","[emailid]","[designation]");
+                $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
+                $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
+                 $cc_array=get_active_login_id();
+//                $cc_array=['dhandapani.sattanathan@ssomens.com','safiyullah.mohideen@ssomens.com'];
+                $intro_mail_options = [
+                    "sender" =>$admin,
+                    "to" => $cc_array,
+                    "subject" => $intro_mail_subject,
+                    "htmlBody" => $intro_message
+                ];
+                try {
+                    $message1 = new Message($intro_mail_options);
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
             }
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
         }
@@ -313,7 +346,7 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="loginfetch")
     {
         $loginid_result = $_REQUEST['URSRC_login_id'];
-        $loginsearch_fetchingdata= mysqli_query($con," SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
+        $loginsearch_fetchingdata= mysqli_query($con," SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
 FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD_LOGINID='$loginid_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD_LOGINID='$loginid_result' and UA_JOIN is not null) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         $URSRC_values=array();
         $rolecreation_result = mysqli_query($con,"SELECT * FROM ROLE_CREATION");
@@ -348,15 +381,20 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $URSRC_acctype=$row['EMP_ACCOUNT_TYPE'];
             $URSRC_ifsccode=$row['EMP_IFSC_CODE'];
             $URSRC_branchaddr=$row['EMP_BRANCH_ADDRESS'];
+            $URSRC_aadharno=$row['EMP_AADHAAR_NO'];
+            $URSRC_passportno=$row['EMP_PASSPORT_NO'];
+            $URSRC_voterid=$row['EMP_VOTER_ID'];
+            $URSRC_comment=$row['EMP_COMMENTS'];
 
-            $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr];
+            $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'aadharno'=>$URSRC_aadharno,'passportno'=>$URSRC_passportno,'voterid'=>$URSRC_voterid,'comment'=>$URSRC_comment];
+
 
         }
         $URSRC_values[]=array($final_values,$get_rolecreation_array);
         echo json_encode($URSRC_values);
     }
     if($_REQUEST['option']=="login_db"){
-        $active_emp=get_active_login_id();
+        $active_emp=get_active_emp_id();
         echo json_encode($active_emp);
     }
 //LOGIN CREATION UPATE FORM
@@ -383,30 +421,15 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $URSRC_acctno=$_POST['URSRC_tb_accntno'];
         $URSRC_ifsccode=$_POST['URSRC_tb_ifsccode'];
         $URSRC_acctype=$_POST['URSRC_tb_accntyp'];
-        $URSRC_branchaddr=$_POST['URSRC_ta_brnchaddr'];
-        $URSRC_branchaddr= $con->real_escape_string($URSRC_branchaddr);
+        $URSRC_branchaddr1=$_POST['URSRC_ta_brnchaddr'];
+        $URSRC_branchaddr= $con->real_escape_string($URSRC_branchaddr1);
         $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+        $URSRC_aadharno=$_POST['URSRC_tb_aadharno'];
+        $URSRC_passportno=$_POST['URSRC_tb_passportno'];
+        $URSRC_voterid=$_POST['URSRC_tb_votersid'];
+        $URSRC_comment=$_POST['URSRC_ta_comments'];
         $URSRC_bag=$_POST['URSRC_chk_bag'];
-
-        //File upload function
-        $filesarray=$_REQUEST['filearray'];
-        if($filesarray!='')
-        {
-            $allfilearray=(explode(",",$filesarray));
-            foreach ($allfilearray as $value)
-            {
-                $uploadfilename=$value;
-                $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-                $extension =(explode(".",$uploadfilename));
-                if($extension[1]=='pdf'){$mimeType='application/pdf';}
-                if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-                if($extension[1]=='png'){$mimeType='image/png';}
-                $return =insertFile($service,$drivefilename,'PersonalDetails','0Bzvv-O9jT9r_YXk3Uld5eXdOTE0',$mimeType,$uploadfilename);
-            }
-        }
-        //End of File Uploads
-
         if($URSRC_bag=='on')
         {
             $URSRC_bag= 'X';
@@ -461,6 +484,33 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $URSRC_headset='';
             $headset='NO';
         }
+        $URSRC_chkaadharno=$_POST['URSRC_chk_aadharno'];
+        if($URSRC_chkaadharno=='on')
+        {
+            $URSRC_aadharno;
+        }
+        else
+        {
+            $URSRC_aadharno='';
+        }
+        $URSRC_chkpassportno=$_POST['URSRC_chk_passportno'];
+        if($URSRC_chkpassportno=='on')
+        {
+            $URSRC_passportno;
+        }
+        else
+        {
+            $URSRC_passportno='';
+        }
+        $URSCR_chkvoterid=$_POST['URSRC_chk_votersid'];
+        if($URSCR_chkvoterid=='on')
+        {
+            $URSRC_voterid;
+        }
+        else
+        {
+            $URSRC_voterid='';
+        }
         $sql="select * from USER_LOGIN_DETAILS where ULD_LOGINID='$oldloginid'";
         $sql_result= mysqli_query($con,$sql);
         if($row=mysqli_fetch_array($sql_result)){
@@ -474,7 +524,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $lastdate=$row['UA_JOIN_DATE'];
         }
         $con->autocommit(false);
-        $result = $con->query("CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP',@success_flag)");
+        $result = $con->query("CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -554,14 +604,15 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $con->rollback();
                 }
                 if($ss_flag==1){
-                    $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$loginid_name,$finaldate);
+                    $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
+                    URSRC_unshare_document($oldloginid,$fileId);
                     if($cal_flag==0){
-
+                        URSRC_unshare_document($loginid,$fileId);
                         $con->rollback();
                     }
                 }
                 if(($ss_flag==1)&&($cal_flag==1)){
-
+                    URSRC_unshare_document($oldloginid,$fileId);
                     $email_body;
                     $body_msg =explode("^", $body);
                     $length=count($body_msg);
@@ -579,13 +630,18 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     }
 //STRING REPLACE FUNCTION
                     $emp_email_body;
-                    $body_msg =explode(",", $body);
+                    $body_msg =explode("^", $body);
                     $length=count($body_msg);
                     for($i=0;$i<$length;$i++){
                         $emp_email_body.=$body_msg[$i].'<br><br>';
                     }
-                    $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]");
-                    $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_finaldob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$URSRC_branchaddr);
+                    $comment =explode("\n", $URSRC_branchaddr1);
+                    $commnet_length=count($comment);
+                    for($i=0;$i<$commnet_length;$i++){
+                        $comment_msg.=$comment[$i].'<br>';
+                    }
+                    $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
+                    $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
                     $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                     $final_message=$final_message.'<br>'.$newphrase;
                     $mail_options = [
@@ -601,6 +657,36 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
+                    $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
+                    $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
+                    if($row=mysqli_fetch_array($select_introtemplate_rs)){
+                        $intro_mail_subject=$row["ETD_EMAIL_SUBJECT"];
+                        $intro_body=$row["ETD_EMAIL_BODY"];
+                    }
+                    $intro_email_body;
+                    $intro_body_msg =explode("^", $intro_body);
+                    $intro_length=count($intro_body_msg);
+                    for($i=0;$i<$intro_length;$i++){
+                        $intro_email_body.=$intro_body_msg[$i].'<br>';
+                    }
+                    $replace= array("[DATE]", "[employee name]","[emailid]","[designation]");
+                    $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
+                    $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
+                 $cc_array=get_active_login_id();
+
+                    $intro_mail_options = [
+                        "sender" =>$admin,
+                        "to" => $cc_array,
+                        "subject" => $intro_mail_subject,
+                        "htmlBody" => $intro_message
+                    ];
+                    try {
+                        $message1 = new Message($intro_mail_options);
+                        $message1->send();
+                    } catch (\InvalidArgumentException $e) {
+                        echo $e;
+                    }
+
                 }
             }
             else{
@@ -609,7 +695,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             }
             if($lastdate!=$finaldate){
 
-                $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$loginid_name,$finaldate);
+                $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
 
                 if($cal_flag==0){
 
@@ -877,13 +963,14 @@ function URSRC_unshare_document($loggin,$fileId){
             $permission_id=$value->id;
         }
     }
-
-    try {
-        $service->permissions->delete($fileId, $permission_id);
+    if($permission_id!=''){
+        try {
+            $service->permissions->delete($fileId, $permission_id);
 //        $ss_flag=1;
-    } catch (Exception $e) {
+        } catch (Exception $e) {
 //        print "An error occurred: " . $e->getMessage();
 //        $ss_flag=0;
+        }
     }
 
 }
@@ -1069,34 +1156,6 @@ function URSRC_getmenubasic_folder1(){
     }
     $final_values=array($URSC_Main_menu_array, $URSC_sub_menu_array,$URSC_sub_sub_menu_data_array);
     return $final_values;
-}
-
-//File Upload Function Script
-function insertFile($service, $title, $description, $parentId,$mimeType,$uploadfilename)
-{
-    $file = new Google_Service_Drive_DriveFile();
-    $file->setTitle($title);
-    $file->setDescription($description);
-    $file->setMimeType($mimeType);
-    if ($parentId != null) {
-        $parent = new Google_Service_Drive_ParentReference();
-        $parent->setId($parentId);
-        $file->setParents(array($parent));
-    }
-    try
-    {
-        $data =file_get_contents($uploadfilename);
-        $createdFile = $service->files->insert($file, array(
-            'data' => $data,
-            'mimeType' => $mimeType,
-            'uploadType' => 'media',
-        ));
-        return $createdFile;
-    }
-    catch (Exception $e)
-    {
-        echo "An error occurred: " . $e->getMessage();
-    }
 }
 
 ?>
