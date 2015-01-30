@@ -73,7 +73,7 @@ include "HEADER.php";
         $(document).on('change','#CPVD_lb_loginid',function(){
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             $('#CPVD_ta_reason').val('');
             $("#CPVD_btn_send").attr("disabled", "disabled");
@@ -153,7 +153,7 @@ include "HEADER.php";
         $(document).on('click','#CPVD_btn_send',function(){
             var newPos= adjustPosition($('#CPVD_ta_reason').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var formElement = document.getElementById("CPVD_form_cmpnypropverfictn");
             var xmlhttp=new XMLHttpRequest();

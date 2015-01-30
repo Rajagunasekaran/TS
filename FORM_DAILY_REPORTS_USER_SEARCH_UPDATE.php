@@ -63,7 +63,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 10000,
+    timeout: 30000,
     maximumAge: 0
 };
 
@@ -175,7 +175,7 @@ $(document).ready(function(){
         $('section').html('');
         var newPos= adjustPosition($(this).position(),-50,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         flextable()
         $("#USRC_UPD_btn_search").attr("disabled", "disabled");
@@ -598,7 +598,7 @@ $(document).ready(function(){
         if(date!=reportdate){
             var newPos= adjustPosition($(this).position(),70,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -983,7 +983,7 @@ $(document).ready(function(){
     $(document).on('click','#USRC_UPD_btn_submit',function(){
         var newPos= adjustPosition($(this).position(),-70,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("USRC_UPD_form_usersearchupdate");
         var xmlhttp=new XMLHttpRequest();

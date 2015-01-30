@@ -59,7 +59,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 10000,
+    timeout: 30000,
     maximumAge: 0
 };
 
@@ -164,7 +164,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#option').position(),80,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var loginid=$('#ARE_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
@@ -226,7 +226,7 @@ $(document).ready(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         var newPos= adjustPosition($('#option').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('#ARE_lbl_checkmsg').hide();
         var reportdate=$('#ARE_tb_date').val();
@@ -262,7 +262,6 @@ $(document).ready(function(){
     });
     // CHANGE EVENT FOR ATTENDANCE
     $('#ARE_lb_attendance').change(function(){
-        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         $('#ARE_tble_frstsel_projectlistbx').html('');
         $('#ARE_btn_submit').attr('disabled','disabled');
         $('#ARE_tble_reasonlbltxtarea').html('');
@@ -286,7 +285,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#ARE_lbl_sinentry').position(),70,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var reportdate=$('#ARE_tb_date').val();
             var loginid=$('#ARE_lb_loginid').val();
@@ -295,6 +294,7 @@ $(document).ready(function(){
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     $('.maskpanel',window.parent.document).removeAttr('style').hide();
                     $('.preloader').hide();
+                    $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                     var response=JSON.parse(xmlhttp.responseText);
                     if((response[0]==1) && (response[1]==0))
                     {
@@ -440,7 +440,6 @@ $(document).ready(function(){
     }
     // CHANGE EVENT FOR SESSION LIST BOX
     $('#ARE_lb_ampm').change(function(){
-        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
         flag=1;
         $('#ARE_tble_reasonlbltxtarea,#ARE_tbl_enterthereport,#ARE_tble_bandwidth,#ARE_tble_frstsel_projectlistbx').html('');
         if($('#ARE_lb_ampm').val()=='SELECT')
@@ -473,7 +472,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#ARE_tb_date').position(),20,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var reportdate=$('#ARE_tb_date').val();
             var loginid=$('#ARE_lb_loginid').val();
@@ -482,6 +481,7 @@ $(document).ready(function(){
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     $('.maskpanel',window.parent.document).removeAttr('style').hide();
                     $('.preloader').hide();
+                    $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                     var response=JSON.parse(xmlhttp.responseText);
                     if((response[0]==1) && (response[1]==0))
                     {
@@ -665,7 +665,7 @@ $(document).ready(function(){
     $(document).on('click','#ARE_btn_submit',function(){
         var newPos= adjustPosition($(this).position(),-130,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("ARE_form_adminreportentry");
         var xmlhttp=new XMLHttpRequest();
@@ -889,7 +889,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#option').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var loginid=$('#ARE_lb_lgnid').val();
             var xmlhttp=new XMLHttpRequest();
@@ -951,7 +951,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#ARE_lbl_mulentry').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -1014,7 +1014,7 @@ $(document).ready(function(){
     $('#ARE_btn_save').click(function(){
         var newPos= adjustPosition($('#ARE_lb_attdnce').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("ARE_form_adminreportentry");
         var xmlhttp=new XMLHttpRequest();
@@ -1088,7 +1088,7 @@ $(document).ready(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
         var newPos= adjustPosition($('#option').position(),70,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var reportdate=$('#ARE_tb_dte').val();
         var xmlhttp=new XMLHttpRequest();
@@ -1121,7 +1121,7 @@ $(document).ready(function(){
     $('#ARE_btn_odsubmit').click(function(){
         var newPos= adjustPosition($('#ARE_tb_dte').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("ARE_form_adminreportentry");
         var xmlhttp=new XMLHttpRequest();

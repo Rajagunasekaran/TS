@@ -134,7 +134,15 @@ else if($_REQUEST['option']=='CLOCK')
         $flag= $result['@success_flag'];
 
     }
-
+//    $sql="INSERT INTO EMPLOYEE_CHECK_IN_OUT_DETAILS(ULD_ID,ECIOD_DATE,ECIOD_CHECK_IN_TIME,ECIOD_CHECK_IN_LOCATION,ECIOD_CHECK_OUT_TIME,ECIOD_CHECK_OUT_LOCATION,ECIOD_USERSTAMP_ID) VALUES('$ure_uld_id','$date','$checkintime','$checkinlocation',$checkouttime,$checkoutlocation,'$ure_uld_id')";
+//    if (!mysqli_query($con,$sql)) {
+//        die('Error: ' . mysqli_error($con));
+//
+//        $flag=0;
+//    }
+//    else{
+//        $flag=1;
+//    }
     $values=array($flag,$checkintime);
     echo JSON_encode($values);
 }

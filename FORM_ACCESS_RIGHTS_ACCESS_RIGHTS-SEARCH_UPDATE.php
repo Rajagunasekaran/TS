@@ -41,13 +41,17 @@ $(document).ready(function(){
         {
             var data= $('#upload_filename'+i).val();
             var datasplit=data.split('.');
+            var old_loginid=$('#URSRC_lb_selectloginid').val();
             var ext=datasplit[1].toUpperCase();
             if(ext=='PDF'|| ext=='JPG'|| ext=='PNG' || ext=='JPEG' || data==undefined || data=="")
-            {}
+            {
+//                $('#attach_error').hide();
+//                URSRC_login_validate(old_loginid);
+                loginbuttonvalidation();
+            }
             else
             {
-//     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:'pdf/jpg/png files are only allowed!'}});
-                alert('PDF/JPEG/JPG/PNG Files are Only Allowed!!!')
+     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[31],position:{top:1800,left:550}}});
                 reset_field($('#upload_filename'+i));
             }
         }
@@ -62,7 +66,7 @@ $(document).ready(function(){
     $(document).on("click",'#attachprompt', function (){
         var tablerowCount = $('#filetableuploads tr').length;
         var uploadfileid="upload_filename"+tablerowCount;
-        var appendfile='<tr><td ><input type="file" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></td></tr></br>';
+        var appendfile='<tr><td ><input type="file" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
         $('#filetableuploads').append(appendfile);
         var rowCount = $('#filetableuploads tr').length;
         if(rowCount!=0)
@@ -210,6 +214,8 @@ $(document).ready(function(){
         $('#URSRC_lbl_role_err').hide();
         $('#URSRC_lbl_validnumber').hide();
         $('#URSRC_lbl_validnumber1').hide();
+        $("#filetableuploads tr").remove();
+        $('#attachafile').text('Attach a file');
     });
     //BASIC ROLE MENU SEARCH/UPDATE CLICK FUNCTION
     $('#URSRC_radio_basicrolemenusearchupdate').click(function(){
@@ -245,6 +251,8 @@ $(document).ready(function(){
         $('#URSRC_lbl_role_err').hide();
         $('#URSRC_lbl_validnumber').hide();
         $('#URSRC_lbl_validnumber1').hide();
+        $("#filetableuploads tr").remove();
+        $('#attachafile').text('Attach a file');
     });
     //ROLE CREATION CLICK FUNCTION
     $(document).on('click','#URSRC_radio_rolecreation',function(){
@@ -278,6 +286,8 @@ $(document).ready(function(){
         $('#URSRC_table_others').hide();
         $('#URSRC_lbl_validnumber').hide();
         $('#URSRC_lbl_validnumber1').hide();
+        $("#filetableuploads tr").remove();
+        $('#attachafile').text('Attach a file');
 
     });
     var basicmenurolesresult=[];
@@ -285,7 +295,7 @@ $(document).ready(function(){
     $(document).on("click",'.URSRC_class_basic', function (){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('#URSRC_btn_submitbutton').hide();
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -395,7 +405,7 @@ $(document).ready(function(){
         if(URSRC_roleidval!=''){
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             $('#URSRC_tble_roles').hide()
             $('#URSRC_tble_menu').hide();
@@ -507,9 +517,12 @@ $(document).ready(function(){
         $('#URSRC_tb_aadharno').val('').hide();
         $('#URSRC_tb_passportno').val('').hide();
         $('#URSRC_tb_votersid').val('').hide();
+        $('#URSRC_ta_comments').val('');
         $('#URSRC_lbl_role_err').hide();
         $('#URSRC_lbl_validnumber').hide();
         $('#URSRC_lbl_validnumber1').hide();
+        $("#filetableuploads tr").remove();
+        $('#attachafile').text('Attach a file');
     });
     var error_valid='valid';
     var error_ext='valid';
@@ -571,7 +584,7 @@ $(document).ready(function(){
                 error_valid='valid';
                 var newPos= adjustPosition($('#URSRC_tb_loginid').position(),100,270);
                 resetPreloader(newPos);
-                $('.maskpanel',window.parent.document).css("height","276px").show();
+                $('.maskpanel',window.parent.document).css("height","297px").show();
                 $('.preloader').show();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                     $("#URSRC_lbl_email_err").hide();
@@ -813,7 +826,7 @@ $(document).ready(function(){
     $('#URSRC_radio_loginsearchupdate').click(function(){
         var newPos= adjustPosition($(this).position(),-100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         flag=0;
         exist_flag=1;
@@ -860,6 +873,8 @@ $(document).ready(function(){
         $('#URSRC_lbl_role_err').hide();
         $('#URSRC_lbl_validnumber').hide();
         $('#URSRC_lbl_validnumber1').hide();
+        $("#filetableuploads tr").remove();
+        $('#attachafile').text('Attach a file');
         var PE_startdate=(URSRC_comp_sdate).split('-');
         var day=PE_startdate[0];
         var month=PE_startdate[1];
@@ -899,7 +914,7 @@ $(document).ready(function(){
         $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         exist_flag=1;
         error_valid='valid';
@@ -1002,7 +1017,8 @@ $(document).ready(function(){
                     $('#URSRC_tb_permobile').val(mobile);
                     var emp_kinname=kinname.length;
                     $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
-                    $('#URSRC_tb_relationhd').val(relationhood);
+                    var emp_relationhood=relationhood.length;
+                    $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+1);
                     $('#URSRC_tb_mobile').val(altmobile);
                     var emp_bankname=bankname.length;
                     $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
@@ -1012,10 +1028,13 @@ $(document).ready(function(){
                     $('#URSRC_tb_accntname').val(accountname).attr("size",emp_accountname+2);
                     var emp_accountno=accountno.length;
                     $('#URSRC_tb_accntno').val(accountno).attr("size",emp_accountno+2);
-                    $('#URSRC_tb_ifsccode').val(ifsccode);
-                    $('#URSRC_tb_accntyp').val(accountype);
+                    var emp_ifsccode=ifsccode.length;
+                    $('#URSRC_tb_ifsccode').val(ifsccode).attr("size",emp_ifsccode+2);
+                    var emp_accountype=accountype.length;
+                    $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
                     $('#URSRC_ta_brnchaddr').val(branchaddr);
-                    $('#URSRC_tb_laptopno').val(laptop);
+                    var emp_laptop=laptop.length;
+                    $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
                     var emp_cahrgerno=chargerno.length;
                     $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
                     if(bag=='X')
@@ -1061,7 +1080,8 @@ $(document).ready(function(){
                     if(aadharno!=null)
                     {
                         $('#URSRC_chk_aadharno').attr('checked',true);
-                        $('#URSRC_tb_aadharno').val(aadharno).show();
+                        var emp_aadharno=aadharno.length;
+                        $('#URSRC_tb_aadharno').val(aadharno).show().attr("size",emp_aadharno);
                     }
                     else
                     {
@@ -1071,7 +1091,8 @@ $(document).ready(function(){
                     if(passportno!=null)
                     {
                         $('#URSRC_chk_passportno').attr('checked',true);
-                        $('#URSRC_tb_passportno').val(passportno).show();
+                        var emp_passportno=passportno.length;
+                        $('#URSRC_tb_passportno').val(passportno).show().attr("size",emp_passportno);
                     }
                     else
                     {
@@ -1081,7 +1102,8 @@ $(document).ready(function(){
                     if(voterid!=null)
                     {
                         $('#URSRC_chk_votersid').attr('checked',true);
-                        $('#URSRC_tb_votersid').val(voterid).show();
+                        var emp_votersid=voterid.length;
+                        $('#URSRC_tb_votersid').val(voterid).show().attr("size",emp_votersid);
                     }
                     else
                     {
@@ -1127,26 +1149,26 @@ $(document).ready(function(){
     $(document).on("click",'#URSRC_submitupdate ', function (){
         var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         //Removing fakepath in all files
-//        var filearray=[];
-//        for(var i=0;i<25;i++)
-//        {
-//            var data=$('#upload_filename'+i).val();
-//            if(data!='' && data!=undefined)
-//            {
-//                data=(data.toString()).replace("C:\\fakepath\\", "");
-//                filearray.push(data);
-//            }
-//        }
-//        var filenames='';
-//        for(var j=0;j<filearray.length;j++)
-//        {
-//            if(j==0){filenames=filearray[j];}
-//            else
-//            {filenames=filenames+','+filearray[j];}
-//        }
+        var filearray=[];
+        for(var i=0;i<25;i++)
+        {
+            var data=$('#upload_filename'+i).val();
+            if(data!='' && data!=undefined)
+            {
+                data=(data.toString()).replace("C:\\fakepath\\", "");
+                filearray.push(data);
+            }
+        }
+        var filenames='';
+        for(var j=0;j<filearray.length;j++)
+        {
+            if(j==0){filenames=filearray[j];}
+            else
+            {filenames=filenames+','+filearray[j];}
+        }
         //End Removing fakepath in all files
         var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
         var formElement = document.getElementById("URE_attendanceentry");
@@ -1156,10 +1178,11 @@ $(document).ready(function(){
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
                 $('.preloader').hide();
                 var msg_alert=JSON.parse(xmlhttp.responseText);
-
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
                 var cal_flag=msg_alert[2];
+                var file_flag=msg_alert[4];
+                var folderid=msg_alert[5];
                 var name=$('#URSRC_tb_loginid').val();
                 $('#URSRC_tb_joindate').hide();
                 $('#URSRC_lbl_joindate').hide()
@@ -1217,7 +1240,14 @@ $(document).ready(function(){
                     $('#URSRC_table_employeetbl').hide();
                     $('#URSRC_lbl_selectloginid').hide();
                 }
+                if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
+                    var folderid=msg_alert[5];
+                    var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
 
+
+
+                }
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
                 {
 
@@ -1242,33 +1272,33 @@ $(document).ready(function(){
             }
         }
         var choice="loginupdate"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
+        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice+"&filearray="+filenames,true);
         xmlhttp.send(new FormData(formElement));
     });
     //VALIDATION FOR CREATE BUTTON FOR LOGIN CREATION ENTRY
     $(document).on("click",'#URSRC_btn_login_submitbutton ', function (){
         var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         //Removing fakepath in all files
-//        var filearray=[];
-//        for(var i=0;i<25;i++)
-//        {
-//            var data=$('#upload_filename'+i).val();
-//            if(data!='' && data!=undefined)
-//            {
-//                data=(data.toString()).replace("C:\\fakepath\\", "");
-//                filearray.push(data);
-//            }
-//        }
-//        var filenames='';
-//        for(var j=0;j<filearray.length;j++)
-//        {
-//            if(j==0){filenames=filearray[j];}
-//            else
-//            {filenames=filenames+','+filearray[j];}
-//        }
+        var filearray=[];
+        for(var i=0;i<25;i++)
+        {
+            var data=$('#upload_filename'+i).val();
+            if(data!='' && data!=undefined)
+            {
+                data=(data.toString()).replace("C:\\fakepath\\", "");
+                filearray.push(data);
+            }
+        }
+        var filenames='';
+        for(var j=0;j<filearray.length;j++)
+        {
+            if(j==0){filenames=filearray[j];}
+            else
+            {filenames=filenames+','+filearray[j];}
+        }
         //End Removing fakepath in all files
         var radio_checked=$("input[name=roles1]:checked" ).val()
         var formElement = document.getElementById("URE_attendanceentry");
@@ -1327,15 +1357,15 @@ $(document).ready(function(){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
 
                 }
-//                if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
-//                    var folderid=msg_alert[5];
-//                    var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
-//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-//
-//
-//
-//                }
-                if((success_flag==1)&&(ss_flag==1)&&(file_flag==1))
+                if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
+                    var folderid=msg_alert[5];
+                    var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+
+
+
+                }
+                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
                 {
                     var fileid=msg_alert[3];
                     var msg= URSRC_errorAarray[29];
@@ -1347,14 +1377,14 @@ $(document).ready(function(){
             }
         }
         var choice="loginsave"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_checked="+radio_checked+"&option="+choice,true);
+        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_checked="+radio_checked+"&option="+choice+"&filearray="+filenames,true);
         xmlhttp.send(new FormData(formElement));
     });
     //FUNCTION TO CLICK BASIC ROLE
     $(document).on("click",'.URSRC_class_basicroles', function (){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var radio_value=$(this).val();
         var xmlhttp=new XMLHttpRequest();
@@ -1619,7 +1649,7 @@ $(document).ready(function(){
     $(document).on('click','#URSRC_btn_submitbutton',function(){
         var newPos= adjustPosition($(this).position(),-100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
         //ROLE CREATION SAVE PART
@@ -1732,7 +1762,7 @@ $(document).ready(function(){
         $('#URSRC_lbl_header').text("ROLE SEARCH/UPDATE").show()
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('#URSRC_btn_submitbutton').val('UPDATE').hide();
         $('#URSRC_tble_role').hide();
@@ -1803,7 +1833,7 @@ $(document).ready(function(){
         if($(this).val()!='SELECT'){
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             //FUNCTION TO LOAD SELECTED ROLE DETAILS
             var xmlhttp=new XMLHttpRequest();
@@ -2132,22 +2162,22 @@ $(document).ready(function(){
             <label name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label></td>
         <td><textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea></td>
     </tr>
-<!--    <tr>-->
-<!--        <td> </td>-->
-<!--        <td>-->
-<!--            <table ID="filetableuploads">-->
-<!---->
-<!--            </table>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td><label></label></td>-->
-<!--        <td>-->
-<!--                    <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">-->
-<!--                    <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>-->
-<!--                    </span>-->
-<!--        </td>-->
-<!--    </tr>-->
+    <tr>
+        <td> </td>
+        <td>
+            <table ID="filetableuploads">
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td><label></label></td>
+        <td>
+                        <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
+                        <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
+                        </span>
+        </td>
+    </tr>
 </table>
 <tr>
     <td ><input class="btn" type="button"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden /></td>

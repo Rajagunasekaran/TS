@@ -45,7 +45,7 @@ include "HEADER.php";
         $(document).on('click','#PH_ENTRY_btn_save',function(){
             var newPos= adjustPosition($('#PH_ENTRY_tb_gid').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var formElement = document.getElementById("PH_entry_form");
             var xmlhttp=new XMLHttpRequest();

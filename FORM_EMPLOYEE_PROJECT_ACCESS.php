@@ -68,7 +68,7 @@ include "HEADER.php";
             //PRELOADER ADJUST FUNCTION
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             $('input:checkbox[id=checkbox]').attr('checked',false);
             $('#checkbox').attr('checked',false);
@@ -130,7 +130,7 @@ include "HEADER.php";
             //PRELOADER ADJUST FUNCTION
             var newPos= adjustPosition($('#EMP_ENTRY_lbl_txtselectproj').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var loginid=$("#EMP_ENTRY_lb_loginid option:selected").text();
             var formElement = document.getElementById("EMP_ENTRY_form_employeename");

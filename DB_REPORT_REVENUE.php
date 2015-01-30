@@ -21,7 +21,7 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="common")
     {
 // GET ERR MSG
-        $REV_errmsg=get_error_msg('15,16,75,82,106,107,108,111,112');
+        $REV_errmsg=get_error_msg('15,16,75,82,83,106,107,108,111,112');
 // REPORT CONFIGURATION LIST
         $REV_project_list = mysqli_query($con,"SELECT * FROM REPORT_CONFIGURATION WHERE CGN_ID=2");
         $REV_projectlist=array();

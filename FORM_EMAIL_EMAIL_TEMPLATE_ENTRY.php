@@ -146,7 +146,7 @@ include "HEADER.php";
         {
             var newPos= adjustPosition($('#ET_ENTRY_ta_body').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             $("#ET_ENTRY_hidden_chkvalid").val("SAVE")//SET SAVE FUNCTION VALUE
             var ET_ENTRY_scriptname=$('#ET_ENTRY_tb_scriptname').val();
@@ -158,7 +158,7 @@ include "HEADER.php";
         //SUCCESS FUNCTIOIN FOR SAVE
         function ET_ENTRY_save_resultsuccess()
         {
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var formElement = document.getElementById("ET_ENTRY_form_template");
             var xmlhttp=new XMLHttpRequest();

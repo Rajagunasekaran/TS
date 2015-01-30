@@ -105,7 +105,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             //FUNCTION FOR SETTING MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
@@ -293,7 +293,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#REP_BND_rd_nonemp').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             //FUNCTION FOR SETTINF MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
@@ -331,8 +331,23 @@ $(document).ready(function(){
                     });
                 });
                 if(REP_BND_start_dates!=null && REP_BND_start_dates!=''){
+
+                    $('#REP_BND_btn_search').show();
+                    $('#REP_BND_lbl_selectmnths').show();
+                    $('#REP_BND_db_selectmnths').show();
+//                    $('#REP_BND_nodata_lgnid').hide();
+                    $('#src_lbl_error_login').hide();
                     $(".date-pickers").datepicker("option","minDate", new Date(REP_BND_start_dates));
-                    $(".date-pickers").datepicker("option","maxDate", new Date(REP_BND_end_dates));}
+                    $(".date-pickers").datepicker("option","maxDate", new Date(REP_BND_end_dates));
+                }
+                else{
+                    $('#REP_BND_btn_search').hide();
+                    $('#REP_BND_lbl_selectmnths').hide();
+                    $('#REP_BND_db_selectmnths').hide();
+                    $('#src_lbl_error_login').text(REP_BND_errorAarray[2]).addClass('errormsg').removeClass('srctitle').show();
+//                    $('#REP_BND_nodata_lgnid').text(REP_BND_errorAarray[2]).show();
+//                    $('#REP_BND_nodata_lgnid')
+                }
                 //VALIDATION FOR DATE BX
                 function validationdp(){
                     $('section').html('');
@@ -357,9 +372,7 @@ $(document).ready(function(){
                         $("#REP_BND_btn_search").attr("disabled","disabled");
                     }
                 }
-                $('#REP_BND_btn_search').show();
-                $('#REP_BND_lbl_selectmnths').show();
-                $('#REP_BND_db_selectmnths').show();
+
             }
             var choice="minmax_dtewth_loginid";
             xmlhttp.open("GET","DB_REPORT_BANDWIDTH.do?REP_BND_loginid="+REP_BND_loginid+"&option="+choice,true);
@@ -377,7 +390,7 @@ $(document).ready(function(){
         var REP_BND_loginid=$('#REP_BND_lb_loginid').val();
         var newPos= adjustPosition($('#REP_BND_rd_nonemp').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -390,7 +403,7 @@ $(document).ready(function(){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     errmsg=REP_BND_errorAarray[4].toString().replace("[MONTH]",REP_BND_monthyear);
                     errmsg=errmsg.replace("[LOGINID]", $("#REP_BND_lb_loginid option:selected").text());
-                    $('#src_lbl_error_login').text(errmsg).show();
+                    $('#src_lbl_error_login').text(errmsg).addClass('srctitle').removeClass('errormsg').show();
                     $('#REP_BND_btn_emp_pdf').show();
                     var loginname;
                     var loginpos=REP_BND_loginid.search("@");
@@ -474,7 +487,7 @@ $(document).ready(function(){
         var REP_BND_monthyear=$('#REP_BND_db_selectmnth').val();
         var newPos= adjustPosition($('#REP_BND_db_selectmnth').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {

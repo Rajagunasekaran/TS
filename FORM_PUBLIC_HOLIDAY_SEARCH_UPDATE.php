@@ -65,7 +65,7 @@ $(document).ready(function(){
     $(document).on('change','#PH_SRC_UPD_lb_yr',function(){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('#tablecontainer').hide();
         $('#PH_SRC_UPD_tble_htmltable').html('');
@@ -212,7 +212,7 @@ $(document).ready(function(){
     {
         var newPos= adjustPosition($('#PH_SRC_UPD_tb_des').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var PH_SRC_UPD_date=$('#PH_SRC_UPD_tb_date').val();
         var PH_SRC_UPD_des=$('#PH_SRC_UPD_tb_des').val();
@@ -247,7 +247,7 @@ $(document).ready(function(){
     {
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         PH_SRC_UPD_detailrset()
     });

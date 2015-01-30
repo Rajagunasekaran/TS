@@ -63,7 +63,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 10000,
+    timeout: 30000,
     maximumAge: 0
 };
 
@@ -184,7 +184,7 @@ $(document).ready(function(){
         var ure_after_mrg;
         var newPos= adjustPosition($('#ASRC_UPD_DEL_lbl_btwnrange').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $("#ASRC_UPD_DEL_btn_allsearch").attr("disabled", "disabled");
         $('section').html('')
@@ -497,8 +497,10 @@ $(document).ready(function(){
         $('#ASRC_UPD_DEL_banerrmsg').hide();
     });
     //CHANGE EVENT FOR LOGIN ID LISTBX
+//    var min_date;
     $(document).on('change','#ASRC_UPD_DEL_lb_loginid',function(){
         var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginid").val();
+        $('#ASRC_UPD_DEL_errmsg').hide();
         if(ASRC_UPD_DEL_loginidlist=='SELECT')
         {
             $('#ASRC_UPD_DEL_lbl_session').hide();
@@ -529,12 +531,19 @@ $(document).ready(function(){
         }
         else
         {
+            var newPos= adjustPosition($('#ASRC_UPD_DEL_lb_loginid').position(),0,270);
+            resetPreloader(newPos);
+            $('.maskpanel',window.parent.document).css("height","297px").show();
+            $('.preloader').show();
+            var min_date;
             var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
+                    $('.preloader').hide();
                     var finaldate=JSON.parse(xmlhttp.responseText);
-                    var min_date=finaldate[0];
+                    min_date=finaldate[0];
                     var max_date=finaldate[1];
                     var rprt_min_date=finaldate[2];
                     project_array=finaldate[3];
@@ -543,34 +552,49 @@ $(document).ready(function(){
                     $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","maxDate",max_date);
                     $('#ASRC_UPD_DEL_ta_reportdate').datepicker("option","minDate",rprt_min_date);
                     $('#ASRC_UPD_DEL_ta_reportdate').datepicker("option","maxDate",rprt_max_date);
+                    $('#ASRC_UPD_DEL_lbl_session').hide();
+                    if(min_date=='01-01-1970')
+                    {
+                        $('#ASRC_UPD_DEL_errmsg').replaceWith('<p><label class="errormsg" id="ASRC_UPD_DEL_errmsg">'+ err_msg[10] +'</label></p>');
+                        $('#ASRC_UPD_DEL_errmsg').text(err_msg[10]).show();
+                        $('#ASRC_UPD_DEL_lbl_strtdte').hide();
+                        $('#ASRC_UPD_DEL_tb_strtdte').hide();
+                        $('#ASRC_UPD_DEL_lbl_enddte').hide();
+                        $('#ASRC_UPD_DEL_tb_enddte').hide();
+                        $('#ASRC_UPD_DEL_btn_search').hide();
+                    }
+                    else{
+                        $('#ASRC_UPD_DEL_errmsg').hide();
+                        $('#ASRC_UPD_DEL_lbl_strtdte').show();
+                        $('#ASRC_UPD_DEL_tb_strtdte').show();
+                        $('#ASRC_UPD_DEL_lbl_enddte').show();
+                        $('#ASRC_UPD_DEL_tb_enddte').show();
+                        $('#ASRC_UPD_DEL_btn_search').show();
+                        $('#ASRC_UPD_DEL_tb_strtdte').val('').show();
+                        $('#ASRC_UPD_DEL_tb_enddte').val('').show();
+
+                    }
+                    $('#ASRC_UPD_DEL_tbl_htmltable').hide();
+                    $("#ASRC_UPD_DEL_btn_search").attr("disabled", "disabled");
+                    $("#ASRC_UPD_DEL_tble_reasonlbltxtarea,#ASRC_UPD_DEL_secndselectprojct,#ASRC_UPD_DEL_tble_enterthereport,#ASRC_UPD_DEL_tble_bandwidth,#ASRC_UPD_DEL_mrg_projectlistbx,#ASRC_UPD_DEL_aftern_projectlistbx,#ASRC_UPD_DEL_btn_allsearch").html('')
+                    $('#ASRC_UPD_DEL_lbl_session').hide();
+                    $('#ASRC_UPD_DEL_lbl_reason').hide();
+                    $('#ASRC_UPD_DEL_ta_reason').hide();
+                    $("#ASRC_UPD_DEL_btn_submit,#ASRC_UPD_DEL_mrg_projectlistbx").html('');
+                    $('#ASRC_UPD_DEL_lb_ampm').hide();
+                    $('#ASRC_UPD_DEL_lbl_report').hide();
+                    $('#ASRC_UPD_DEL_ta_report').hide();
+                    $('#ASRC_UPD_DEL_lbl_permission').hide();
+                    $('#ASRC_UPD_DEL_chk_permission').hide();
+                    $('#ASRC_UPD_DEL_lb_timing').hide();
+                    $('#ASRC_UPD_DEL_lbl_band').hide();
+                    $('#ASRC_UPD_DEL_tb_band').hide();
                 }
             }
             var choice="login_id"
             xmlhttp.open("GET","DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?login_id="+loginid+"&option="+choice,true);
             xmlhttp.send();
-            $('#ASRC_UPD_DEL_lbl_session').hide();
-            $('#ASRC_UPD_DEL_lbl_strtdte').show();
-            $('#ASRC_UPD_DEL_tb_strtdte').show();
-            $('#ASRC_UPD_DEL_lbl_enddte').show();
-            $('#ASRC_UPD_DEL_tb_enddte').show();
-            $('#ASRC_UPD_DEL_btn_search').show();
-            $('#ASRC_UPD_DEL_tb_strtdte').val('').show();
-            $('#ASRC_UPD_DEL_tb_enddte').val('').show();
-            $('#ASRC_UPD_DEL_tbl_htmltable').hide();
-            $("#ASRC_UPD_DEL_btn_search").attr("disabled", "disabled");
-            $("#ASRC_UPD_DEL_tble_reasonlbltxtarea,#ASRC_UPD_DEL_secndselectprojct,#ASRC_UPD_DEL_tble_enterthereport,#ASRC_UPD_DEL_tble_bandwidth,#ASRC_UPD_DEL_mrg_projectlistbx,#ASRC_UPD_DEL_aftern_projectlistbx,#ASRC_UPD_DEL_btn_allsearch").html('')
-            $('#ASRC_UPD_DEL_lbl_session').hide();
-            $('#ASRC_UPD_DEL_lbl_reason').hide();
-            $('#ASRC_UPD_DEL_ta_reason').hide();
-            $("#ASRC_UPD_DEL_btn_submit,#ASRC_UPD_DEL_mrg_projectlistbx").html('');
-            $('#ASRC_UPD_DEL_lb_ampm').hide();
-            $('#ASRC_UPD_DEL_lbl_report').hide();
-            $('#ASRC_UPD_DEL_ta_report').hide();
-            $('#ASRC_UPD_DEL_lbl_permission').hide();
-            $('#ASRC_UPD_DEL_chk_permission').hide();
-            $('#ASRC_UPD_DEL_lb_timing').hide();
-            $('#ASRC_UPD_DEL_lbl_band').hide();
-            $('#ASRC_UPD_DEL_tb_band').hide();
+
         }
     });
     // CHANGE EVENT FOR STARTDATE AND ENDDATE
@@ -587,7 +611,6 @@ $(document).ready(function(){
     });
     var values_array=[];
     $(document).on('click','#ASRC_UPD_DEL_btn_search',function(){
-        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('section').html('')
         $('#ASRC_UPD_DEL_div_tablecontainer').hide();
         $('#ASRC_UPD_DEL_div_header').hide();
@@ -596,7 +619,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_btn_od_pdf').hide();
         var newPos= adjustPosition($('#ASRC_UPD_DEL_lbl_allactveemp').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         flextablerange()
         $("#ASRC_UPD_DEL_btn_search").attr("disabled", "disabled");
@@ -616,6 +639,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
                 $('.preloader').hide();
                 values_array=JSON.parse(xmlhttp.responseText);
@@ -793,7 +817,7 @@ $(document).ready(function(){
     $(document).on('click','#ASRC_UPD_DEL_btn_del',function(){
         var newPos= adjustPosition($(this).position(),-140,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var delid=$("input[name=ASRC_UPD_DEL_rd_flxtbl]:checked").val();
         var xmlhttp=new XMLHttpRequest();
@@ -1192,7 +1216,7 @@ $(document).ready(function(){
         if(reportdate!=date){
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
@@ -1486,7 +1510,7 @@ $(document).ready(function(){
     $(document).on('click','#ASRC_UPD_DEL_btn_submit',function(){
         var newPos= adjustPosition($(this).position(),-140,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("ASRC_UPD_DEL_form_adminsearchupdate");
         var xmlhttp=new XMLHttpRequest();
@@ -1705,7 +1729,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_btn_od_pdf').hide();
         var newPos= adjustPosition($('#option').position(),30,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('#ASRC_UPD_DEL_od_btn').attr("disabled","disabled");
         $('#ASRC_UPD_DEL_tbl_ondutyhtmltable').show();
@@ -1819,7 +1843,7 @@ $(document).ready(function(){
     $('#ASRC_UPD_DEL_odsubmit').click(function(){
         var newPos= adjustPosition($('#ASRC_UPD_DEL_tb_oddte').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("ASRC_UPD_DEL_form_adminsearchupdate");
         var xmlhttp=new XMLHttpRequest();

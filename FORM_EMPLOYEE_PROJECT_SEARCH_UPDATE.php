@@ -60,7 +60,7 @@ include "HEADER.php";
             //PRELOADER ADJUST FUNCTION
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             EMPSRC_UPD_empname=$("#EMPSRC_UPD_lb_loginid option:selected").text();
             if(EMPSRC_UPD_empname=='SELECT')
@@ -144,7 +144,7 @@ include "HEADER.php";
         $(document).on('click','#EMPSRC_UPD_btn_update',function(){
             var newPos= adjustPosition($('#EMPSRC_UPD_lbl_txtselectproj').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+             $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var formElement = document.getElementById("EMPSRC_UPD_form_employeename");
             var xmlhttp=new XMLHttpRequest();

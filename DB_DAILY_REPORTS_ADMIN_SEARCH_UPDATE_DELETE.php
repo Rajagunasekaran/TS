@@ -482,10 +482,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
         $ADM_uld_id=$_REQUEST['login_id'];
         $date=$_REQUEST['reportdate'];
         $ADM_reportdate=date('Y-m-d',strtotime($date));
-//        $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$login_id'");
-//        while($row=mysqli_fetch_array($uld_id)){
-//            $ADM_uld_id=$row["ULD_ID"];
-//        }
+
         $sql="SELECT * FROM USER_ADMIN_REPORT_DETAILS WHERE ULD_ID='$ADM_uld_id' AND UARD_DATE='$ADM_reportdate'";
         $sql_result= mysqli_query($con,$sql);
         $row=mysqli_num_rows($sql_result);

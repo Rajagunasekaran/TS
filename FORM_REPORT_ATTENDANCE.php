@@ -66,7 +66,7 @@ $(document).ready(function(){
     $(document).on('change','#REP_lb_loginid',function(){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
@@ -100,61 +100,71 @@ $(document).ready(function(){
                     $('.preloader').hide();
                     var min_date=finaldate[0];
                     var max_date=finaldate[1];
-                }
-                //DATE PICKER FUNCTION
-                $('.date-pickers').datepicker( {
-                    changeMonth: true,      //provide option to select Month
-                    changeYear: true,       //provide option to select year
-                    showButtonPanel: true,   // button panel having today and done button
-                    dateFormat: 'MM-yy',    //set date format
-                    //ONCLOSE FUNCTION
-                    onClose: function(dateText, inst) {
-                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                        $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
-                        $(this).blur();//remove focus input box
-                        var option=$('#REP_lb_attendance').val();
-                        if(option=='1'){
-                            validationdp()
+
+                    //DATE PICKER FUNCTION
+                    $('.date-pickers').datepicker( {
+                        changeMonth: true,      //provide option to select Month
+                        changeYear: true,       //provide option to select year
+                        showButtonPanel: true,   // button panel having today and done button
+                        dateFormat: 'MM-yy',    //set date format
+                        //ONCLOSE FUNCTION
+                        onClose: function(dateText, inst) {
+                            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                            $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
+                            $(this).blur();//remove focus input box
+                            var option=$('#REP_lb_attendance').val();
+                            if(option=='1'){
+                                validationdp()
+                            }
+                            else{
+                                validation_dps()
+                            }
                         }
-                        else{
-                            validation_dps()
-                        }
-                    }
-                });
-                //FOCUS FUNCTION
-                $(".date-pickers").focus(function () {
-                    $(".ui-datepicker-calendar").hide();
-                    $("#ui-datepicker-div").position({
-                        my: "center top",
-                        at: "center bottom",
-                        of: $(this)
                     });
-                });
-                if(min_date!='' && min_date!=null){
-                    $(".date-pickers").datepicker("option","minDate", new Date(min_date));
-                    $(".date-pickers").datepicker("option","maxDate", new Date(max_date));}
-                //VALIDATION FOR DATE BX
-                function validationdp(){
-                    $('#REP_tablecontainer').hide();
-                    $('#no_of_working_days').hide();
-                    $('#no_of_days').hide();
-                    $('#REP_lbl_error').hide();
-                    $('#src_lbl_error').hide();
-                    $('#REP_btn_att_pdf').hide();
-                    $("#REP_btn_search").attr("disabled","disabled");
-                    if(($('#REP_date').val()!='undefined')&&($('#REP_date').val()!='')&&($('#REP_lb_loginid').val()!="SELECT")&&($('#REP_lb_attendance').val()!="SELECT"))
-                    {
-                        $("#REP_btn_search").removeAttr("disabled");
+                    //FOCUS FUNCTION
+                    $(".date-pickers").focus(function () {
+                        $(".ui-datepicker-calendar").hide();
+                        $("#ui-datepicker-div").position({
+                            my: "center top",
+                            at: "center bottom",
+                            of: $(this)
+                        });
+                    });
+                    if(min_date!='' && min_date!=null){
+                        $('#REP_lbl_dte').show();
+                        $('#REP_date').show();
+                        $('#REP_btn_search').show();
+                        $('#REP_lbl_error').hide();
+                        $(".date-pickers").datepicker("option","minDate", new Date(min_date));
+                        $(".date-pickers").datepicker("option","maxDate", new Date(max_date));}
+                    else{
+                    $('#REP_lbl_error').text(err_msg_array[1]).show();
+                        $('#REP_lbl_dte').hide();
+                        $('#REP_date').hide();
+                        $('#REP_btn_search').hide();
+
                     }
-                    else
-                    {
+                    //VALIDATION FOR DATE BX
+                    function validationdp(){
+                        $('#REP_tablecontainer').hide();
+                        $('#no_of_working_days').hide();
+                        $('#no_of_days').hide();
+                        $('#REP_lbl_error').hide();
+                        $('#src_lbl_error').hide();
+                        $('#REP_btn_att_pdf').hide();
                         $("#REP_btn_search").attr("disabled","disabled");
+                        if(($('#REP_date').val()!='undefined')&&($('#REP_date').val()!='')&&($('#REP_lb_loginid').val()!="SELECT")&&($('#REP_lb_attendance').val()!="SELECT"))
+                        {
+                            $("#REP_btn_search").removeAttr("disabled");
+                        }
+                        else
+                        {
+                            $("#REP_btn_search").attr("disabled","disabled");
+                        }
                     }
+
                 }
-                $('#REP_lbl_dte').show();
-                $('#REP_date').show();
-                $('#REP_btn_search').show();
             }
             var choice="login_id"
             xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?login_id="+loginid+"&option="+choice,true);
@@ -165,7 +175,7 @@ $(document).ready(function(){
     $(document).on('change','#REP_lb_attendance',function(){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('#REP_tablecontainer').hide();
         $('#REP_btn_search').hide();
@@ -260,7 +270,7 @@ $(document).ready(function(){
     $(document).on('click','#REP_btn_search',function(){
         var newPos= adjustPosition($('#REP_lb_loginid').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+         $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
@@ -286,7 +296,7 @@ $(document).ready(function(){
                         for(var j=0;j<allvalues_array.length;j++){
                             var name=allvalues_array[j].name;
                             var absent_count=allvalues_array[j].absent_count;
-                            errmsg=err_msg_array[3].toString().replace("[MONTH]",date);
+                            errmsg=err_msg_array[4].toString().replace("[MONTH]",date);
                             $('#src_lbl_error').text(errmsg).show();
                             $('#REP_btn_att_pdf').show();
                             pdferrmsg=errmsg;
@@ -296,7 +306,7 @@ $(document).ready(function(){
                     else if(option=='2'){
                         var working_days= allvalues_array[0].total_working_days;
                         var total_days= allvalues_array[0].total_days;
-                        errmsg=err_msg_array[2].toString().replace("[MONTH]",date);
+                        errmsg=err_msg_array[3].toString().replace("[MONTH]",date);
                         pdferrmsg=errmsg;
                         $('#no_of_working_days').text("TOTAL NO OF WORKING DAYS: "  +  working_days  +  " DAYS").show();
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
@@ -315,7 +325,7 @@ $(document).ready(function(){
                     else if(option=='1'){
                         var working_days= allvalues_array[0].working_day;
                         var total_days= allvalues_array[0].today_no_days;
-                        errmsg=err_msg_array[1].toString().replace("[MONTH]",date);
+                        errmsg=err_msg_array[2].toString().replace("[MONTH]",date);
                         errmsg=errmsg.replace("[EMPLOYEE]",$("#REP_lb_loginid option:selected").text());
                         var loginname;
                         var loginpos=loginid.search("@");
@@ -438,6 +448,7 @@ $(document).ready(function(){
             </tr>
         </table>
         <div>
+<!--            <label id="error" class="errormsg" hideen></label>-->
             <label id="src_lbl_error" class="srctitle"></label>
         </div>
         <div>

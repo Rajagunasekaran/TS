@@ -128,7 +128,7 @@ $(document).ready(function(){
     function showTable(){
         var newPos= adjustPosition($('#AWSU_lbl_title').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $("#AWSU_btn_search").attr("disabled", "disabled");
         $('#AWSU_nodata_startenddate').hide();
@@ -347,7 +347,7 @@ $(document).ready(function(){
     $('section').on('click','.AWSU_btn_update',function(){
         var newPos= adjustPosition($('#AWSU_lbl_title').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('textarea').height(50).width(60);
         var edittrid = $(this).parent().parent().attr('id');

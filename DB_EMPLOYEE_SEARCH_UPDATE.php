@@ -175,6 +175,7 @@ if(isset($_REQUEST)){
             $mail_options = [
                 "sender" => $admin,
                 "to" => $admin,
+                "cc" => 'safiyullah.mohideen@ssomens.com',
 //                "cc" => $sadmin,
                 "subject" => $mail_subject,
                 "htmlBody" => $newphrase

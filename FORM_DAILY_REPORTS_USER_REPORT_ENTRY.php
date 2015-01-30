@@ -60,7 +60,7 @@ var errorCallback = function(error){
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 10000,
+    timeout: 30000,
     maximumAge: 0
 };
 
@@ -121,7 +121,7 @@ $(document).ready(function(){
     $(document).on('change','#URE_tb_date',function(){
         var newPos= adjustPosition($('#URE_rd_sinentry').position(),70,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var reportdate=$('#URE_tb_date').val();
         $('#URE_lbl_checkmsg').hide();
@@ -176,7 +176,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#URE_rd_sinentry').position(),70,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var reportdate=$('#URE_tb_date').val();
             var xmlhttp=new XMLHttpRequest();
@@ -365,7 +365,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#URE_rd_sinentry').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var reportdate=$('#URE_tb_date').val();
             var xmlhttp=new XMLHttpRequest();
@@ -553,7 +553,7 @@ $(document).ready(function(){
     $(document).on('click','#URE_btn_submit',function(){
         var newPos= adjustPosition($(this).position(),-80,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("URE_form_dailyuserentry");
         var xmlhttp=new XMLHttpRequest();
@@ -664,7 +664,7 @@ $(document).ready(function(){
     $('#URE_btn_save').click(function(){
         var newPos= adjustPosition($('#URE_lb_attdnce').position(),110,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("URE_form_dailyuserentry");
         var xmlhttp=new XMLHttpRequest();
@@ -713,7 +713,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#URE_rd_sinentry').position(),50,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {

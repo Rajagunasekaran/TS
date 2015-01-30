@@ -1,6 +1,5 @@
 <?php
 
-
 $ClientId='912451683210-ndhgvfoneihe4rb4fn0kcr64srbris70.apps.googleusercontent.com';
 $ClientSecret='Ib1_psqzYm5dhkgUOReZZ2It';
 $RedirectUri='https://developers.google.com/oauthplayground';

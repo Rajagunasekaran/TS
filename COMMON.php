@@ -230,7 +230,7 @@ function get_error_msg($str){
 
 
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
-    $str='9,10,11,12,13,14,56,70,113,114,116';
+    $str='9,10,11,12,13,14,56,70,113,114,116,132,133';
     $errormsg_array= get_error_msg($str);
     $role_result=mysqli_query($con,"SELECT  RC_NAME,RC_ID FROM ROLE_CREATION;");
     $get_role_array=array();

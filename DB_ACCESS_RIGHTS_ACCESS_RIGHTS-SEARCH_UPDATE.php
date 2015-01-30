@@ -195,6 +195,10 @@ if(isset($_REQUEST)){
             if($row=mysqli_fetch_array($select_youtubelink)){
                 $youtubelink=$row["URC_DATA"];
             }
+            $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
+            if($row=mysqli_fetch_array($select_folderid)){
+                $folderid=$row["URC_DATA"];
+            }
 
 
             $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=1";
@@ -244,14 +248,65 @@ if(isset($_REQUEST)){
                 $URSC_uld_id=$row["ULD_ID"];
             }
             if($ss_flag==1){
+
+                //File upload function
+                $filesarray=$_REQUEST['filearray'];
+                if($filesarray!='')
+                {
+                    $file_array=array();
+                    $allfilearray=(explode(",",$filesarray));
+                    foreach ($allfilearray as $value)
+                    {
+                        $uploadfilename=$value;
+                        $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
+                        $extension =(explode(".",$uploadfilename));
+                        if($extension[1]=='pdf'){$mimeType='application/pdf';}
+                        if($extension[1]=='jpg'){$mimeType='image/jpeg';}
+                        if($extension[1]=='png'){$mimeType='image/png';}
+                        $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
+                        if($file_id_value!=''){
+                        array_push($file_array,$file_id_value);
+                        }
+                    }
+                    if(count($file_array)==0){
+                        $file_flag=0;
+                        URSRC_unshare_document($loginid,$fileId);
+                        $con->rollback();
+
+                    }
+                }
+            }
+
+
+            if($filesarray!=''){
+            if((count($file_array)>0) && ($ss_flag==1)){
                 $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
-
                 $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
-
                 if($cal_flag==0){
                     URSRC_unshare_document($loginid,$fileId);
+                    for($i=0;$i<count($file_array);$i++){
+                        delete_file($service,$file_array[$i]);
+
+                    }
                     $con->rollback();
                 }
+            }
+            }
+            else{
+
+                if($ss_flag==1){
+
+                    $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
+
+                    $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
+
+                    if($cal_flag==0){
+                        URSRC_unshare_document($loginid,$fileId);
+                        $con->rollback();
+                    }
+
+                }
+
             }
             if(($ss_flag==1)&&($cal_flag==1)){
                 $email_body;
@@ -309,13 +364,12 @@ if(isset($_REQUEST)){
                 $intro_body_msg =explode("^", $intro_body);
                 $intro_length=count($intro_body_msg);
                 for($i=0;$i<$intro_length;$i++){
-                    $intro_email_body.=$intro_body_msg[$i].'<br>';
+                    $intro_email_body.=$intro_body_msg[$i].'<br><br>';
                 }
                 $replace= array("[DATE]", "[employee name]","[emailid]","[designation]");
                 $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
-                 $cc_array=get_active_login_id();
-//                $cc_array=['dhandapani.sattanathan@ssomens.com','safiyullah.mohideen@ssomens.com'];
+                $cc_array=get_active_login_id();
                 $intro_mail_options = [
                     "sender" =>$admin,
                     "to" => $cc_array,
@@ -329,7 +383,7 @@ if(isset($_REQUEST)){
                     echo $e;
                 }
             }
-            $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
+            $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
         }
         else{
 
@@ -530,6 +584,12 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
         if($flag==1){
+
+            $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
+            if($row=mysqli_fetch_array($select_folderid)){
+                $folderid=$row["URC_DATA"];
+            }
+
             $loginid_name = strtoupper(substr($loginid, 0, strpos($loginid, '@')));
             if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
 
@@ -604,12 +664,59 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $con->rollback();
                 }
                 if($ss_flag==1){
+
+                    //File upload function
+                    $filesarray=$_REQUEST['filearray'];
+                    if($filesarray!='')
+                    {
+                        $file_array=array();
+                        $allfilearray=(explode(",",$filesarray));
+                        foreach ($allfilearray as $value)
+                        {
+                            $uploadfilename=$value;
+                            $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
+                            $extension =(explode(".",$uploadfilename));
+                            if($extension[1]=='pdf'){$mimeType='application/pdf';}
+                            if($extension[1]=='jpg'){$mimeType='image/jpeg';}
+                            if($extension[1]=='png'){$mimeType='image/png';}
+                            $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
+                            if($file_id_value!=''){
+                                array_push($file_array,$file_id_value);
+                            }
+                        }
+                        if(count($file_array)==0){
+                            $file_flag=0;
+                            URSRC_unshare_document($loginid,$fileId);
+                            $con->rollback();
+
+                        }
+                    }
+                    //End of File Uploads
+                }
+                if($filesarray!=''){
+                if(($ss_flag==1) && (count($file_array)>0)){
                     $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
-                    URSRC_unshare_document($oldloginid,$fileId);
                     if($cal_flag==0){
                         URSRC_unshare_document($loginid,$fileId);
+                        for($i=0;$i<count($file_array);$i++){
+                            delete_file($service,$file_array[$i]);
+
+                        }
                         $con->rollback();
                     }
+                }
+                }
+                else{
+
+                    if(($ss_flag==1)){
+                        $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
+                        if($cal_flag==0){
+                            URSRC_unshare_document($loginid,$fileId);
+                            $con->rollback();
+                        }
+
+                    }
+
                 }
                 if(($ss_flag==1)&&($cal_flag==1)){
                     URSRC_unshare_document($oldloginid,$fileId);
@@ -667,12 +774,12 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $intro_body_msg =explode("^", $intro_body);
                     $intro_length=count($intro_body_msg);
                     for($i=0;$i<$intro_length;$i++){
-                        $intro_email_body.=$intro_body_msg[$i].'<br>';
+                        $intro_email_body.=$intro_body_msg[$i].'<br><br>';
                     }
                     $replace= array("[DATE]", "[employee name]","[emailid]","[designation]");
                     $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
                     $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
-                 $cc_array=get_active_login_id();
+                    $cc_array=get_active_login_id();
 
                     $intro_mail_options = [
                         "sender" =>$admin,
@@ -692,6 +799,37 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             else{
                 $ss_flag=1;
                 $cal_flag=1;
+                //File upload function
+                $filesarray=$_REQUEST['filearray'];
+                if($filesarray!='')
+                {
+                    $drive = new Google_Client();
+                    $drive->setClientId($ClientId);
+                    $drive->setClientSecret($ClientSecret);
+                    $drive->setRedirectUri($RedirectUri);
+                    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+                    $drive->setAccessType('online');
+                    $authUrl = $drive->createAuthUrl();
+                    $refresh_token= $Refresh_Token;
+                    $drive->refreshToken($refresh_token);
+                    $service = new Google_Service_Drive($drive);
+                    $file_array=array();
+                    $allfilearray=(explode(",",$filesarray));
+                    foreach ($allfilearray as $value)
+                    {
+                        $uploadfilename=$value;
+                        $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
+                        $extension =(explode(".",$uploadfilename));
+                        if($extension[1]=='pdf'){$mimeType='application/pdf';}
+                        if($extension[1]=='jpg'){$mimeType='image/jpeg';}
+                        if($extension[1]=='png'){$mimeType='image/png';}
+
+                        $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
+                        if($file_id_value!=''){
+                            array_push($file_array,$file_id_value);
+                        }
+                    }
+                }
             }
             if($lastdate!=$finaldate){
 
@@ -703,7 +841,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                 }
 
             }
-            $flag_array=[$flag,$ss_flag,$cal_flag,$ss_fileid];
+            $flag_array=[$flag,$ss_flag,$cal_flag,$ss_fileid,$file_flag,$folderid];
         }
         else{
             $flag_array=[$flag];
@@ -1157,5 +1295,48 @@ function URSRC_getmenubasic_folder1(){
     $final_values=array($URSC_Main_menu_array, $URSC_sub_menu_array,$URSC_sub_sub_menu_data_array);
     return $final_values;
 }
+//File Upload Function Script
+function insertFile($service, $title, $description, $parentId,$mimeType,$uploadfilename)
+{
 
+    $file = new Google_Service_Drive_DriveFile();
+    $file->setTitle($title);
+    $file->setDescription($description);
+    $file->setMimeType($mimeType);
+    if ($parentId != null) {
+        $parent = new Google_Service_Drive_ParentReference();
+        $parent->setId($parentId);
+        $file->setParents(array($parent));
+    }
+    try
+    {
+        $data =file_get_contents($uploadfilename);
+        $createdFile = $service->files->insert($file, array(
+            'data' => $data,
+            'mimeType' => $mimeType,
+            'uploadType' => 'media',
+        ));
+
+        $fileid = $createdFile->getId();
+
+
+    }
+    catch (Exception $e)
+    {
+        $file_flag=0;
+
+    }
+    return $fileid;
+
+}
+function delete_file($service,$fileid){
+
+    try {
+        $f=$service->files->delete($fileid);
+    } catch (Exception $e) {
+        $f= "An error occurred: " . $e->getMessage();
+    }
+    return $f;
+
+}
 ?>

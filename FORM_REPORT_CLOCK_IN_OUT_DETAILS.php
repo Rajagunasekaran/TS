@@ -328,7 +328,7 @@ $(document).ready(function(){
         {
             var newPos= adjustPosition($('#REP_chk_rd_nonemp').position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             //DATE PICKER FUNCTION
             $('.REP_datepicker').datepicker(
@@ -353,16 +353,30 @@ $(document).ready(function(){
                     $('#REP_tb_strtdtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
                     $('#REP_tb_strtdtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
                     $('#REP_tb_enddtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
+                    if(REV_start_dates==null){
+                        $('#REP_nodata_btwrange').text(REP_chk_errorAarray[3]).show();
+                        $('#REP_tb_strtdtebyrange').hide();
+                        $('#REP_tb_enddtebyrange').hide();
+                        $('#REP_lbl_strtdtebyrange').hide();
+                        $('#REP_btn_searchdaterange').hide();
+                        $('#REP_lbl_enddte').hide();
+
+                    }
+                    else{
+                        $('#REP_nodata_btwrange').hide();
+                        $('#REP_tb_strtdtebyrange').show();
+                        $('#REP_tb_enddtebyrange').show();
+                        $('#REP_lbl_strtdtebyrange').show();
+                        $('#REP_btn_searchdaterange').show();
+                        $('#REP_lbl_enddte').show();
+
+                    }
                 }
             }
             var choice="set_datemin_max";
             xmlhttp.open("GET","DB_REPORT_CLOCK_IN_OUT_DETAILS.do?REP_chk_loginid="+REP_chk_loginid+"&option="+choice,true);
             xmlhttp.send(new FormData(formElement));
-            $('#REP_tb_strtdtebyrange').show();
-            $('#REP_tb_enddtebyrange').show();
-            $('#REP_lbl_strtdtebyrange').show();
-            $('#REP_btn_searchdaterange').show();
-            $('#REP_lbl_enddte').show();
+
             //SET END DATE
             $(document).on('change','#REP_tb_strtdtebyrange',function(){
                 $('#REV_lbl_emptitle').hide();
@@ -401,7 +415,7 @@ $(document).ready(function(){
     $(document).on('click','#REP_btn_date',function(){
         var newPos= adjustPosition($('#REP_chk_rd_allactveemp').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $("#REP_btn_date").attr("disabled","disabled");
         $('#REP_tablecontainer').hide();
@@ -480,7 +494,7 @@ $(document).ready(function(){
     $(document).on('click','#REP_btn_searchdaterange',function(){
         var newPos= adjustPosition($('#REP_lb_loginid').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $("#REP_btn_searchdaterange").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
@@ -683,7 +697,7 @@ $(document).ready(function(){
                 <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
             </tr>
             <div class="container" id="REP_tablecontainer_bydaterange" style="width:1000px;" hidden>
-                <section style="width:500px;">
+                <section style="width:1000px;">
                 </section>
             </div>
             <tr><td><label id="REP_lbl_nodata_allactive" name="REP_lbl_nodata_allactive" class="errormsg"></label></td></tr>

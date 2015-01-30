@@ -99,7 +99,7 @@ $(document).ready(function(){
 
     var options = {
         enableHighAccuracy: true,
-        timeout: 10000,
+        timeout: 30000,
         maximumAge: 0
     };
 
@@ -146,7 +146,6 @@ $(document).ready(function(){
 
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             $(".preloader").hide();
-
             var value_array=JSON.parse(xmlhttp.responseText);
 
             all_menu_array= value_array[0];
@@ -311,6 +310,10 @@ $(document).ready(function(){
         CheckPageStatus();
     }
     $('#checkin').click(function(){
+//        var newPos= adjustPosition($("#checkin").position(),100,270);
+//        resetPreloader(newPos);
+//        $('.maskpanel',window.parent.document).css("height","276px").show();
+//        $('.preloader').show();
         var locationaddress=address.formatted_address;
         var button_value=$('#checkin').val();
         var currentTime = new Date ();
@@ -322,16 +325,21 @@ $(document).ready(function(){
                 if(button_value=="CLOCK IN"){
                     if(response[0]==1)
                     {
+//                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
+//                        $('.preloader').hide();
+
                         var msg=checkinerrormsg[1].toString().replace("[TIME]",response[1]);
                         $('#clockmsg').text(msg).show();
                         $('#liveclock').show();
                         $('#checkin').val("CLOCK OUT").show();
                         $('#buttondiv').removeAttr('style');
-                    }
-                    else{
 
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
+
                     }
+//                    else{
+//
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
+//                    }
                 }
                 else{
                     if(response[0]==1){
@@ -339,9 +347,9 @@ $(document).ready(function(){
                         $('#liveclock').hide();
                         $('#checkin').val("CLOCK IN").hide();
                     }
-                    else{
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
-                    }
+//                    else{
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
+//                    }
                 }
             }
 

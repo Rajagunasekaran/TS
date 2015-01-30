@@ -251,7 +251,7 @@ $(document).ready(function(){
     $(document).on('click','#AWRE_SRC_btn_submit',function(){
         var newPos= adjustPosition($('#AWRE_SRC_ta_enterreport').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("AWRE_SRC_form_reportentry");
         var xmlhttp=new XMLHttpRequest();

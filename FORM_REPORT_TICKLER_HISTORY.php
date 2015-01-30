@@ -89,7 +89,7 @@ include "HEADER.php";
         $(document).on('click','#TH_btn_search',function(){
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             flextable()
             $('#TH_btn_search').attr("disabled","disabled");

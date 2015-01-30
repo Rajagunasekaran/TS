@@ -267,7 +267,7 @@ $(document).ready(function(){
 //        $('.preloader', window.parent.document).show();
         var newPos= adjustPosition($(this).position(),-100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("USR_SITE_form_user");
         var xmlhttp=new XMLHttpRequest();

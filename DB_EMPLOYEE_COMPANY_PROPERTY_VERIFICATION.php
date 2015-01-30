@@ -114,7 +114,7 @@ if(isset($_REQUEST)){
                 $body=$row["ETD_EMAIL_BODY"];
             }
             $email_body;
-            $body_msg =explode(",", $body);
+            $body_msg =explode("^", $body);
             $length=count($body_msg);
             for($i=0;$i<$length;$i++){
                 $email_body.=$body_msg[$i].'<br><br>';

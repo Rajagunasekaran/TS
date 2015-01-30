@@ -80,7 +80,7 @@ $(document).ready(function(){
         if(checkproject_name!=''){
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -137,7 +137,7 @@ $(document).ready(function(){
             $('#PE_tb_prjectname').val(checkproject_name.toUpperCase())
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -226,7 +226,7 @@ $(document).ready(function(){
     $(document).on('click','#PE_btn_save',function(){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var formElement = document.getElementById("PE_form_projectentry");
         var xmlhttp=new XMLHttpRequest();
@@ -480,7 +480,7 @@ $(document).ready(function(){
         if(checkproject_name!=''){
             var newPos= adjustPosition($('#demoajax').position(),100,1000);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -506,7 +506,7 @@ $(document).ready(function(){
     $('section').on('click','.ajaxupdate',function(){
         var newPos= adjustPosition($('#demoajax').position(),100,1000);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var edittrid = $(this).parent().parent().attr('id');
         var combineid = $(this).parent().parent().attr('id');

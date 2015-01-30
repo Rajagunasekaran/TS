@@ -218,23 +218,10 @@ if(isset($_REQUEST))
         $URSRC_comments=$_REQUEST['URSRC_ta_comments'];
         $URSRC_comments=$con->real_escape_string($URSRC_comments);
 
-//        //File upload function
-//        $filesarray=$_REQUEST['filearray'];
-//        if($filesarray!='')
-//        {
-//            $allfilearray=(explode(",",$filesarray));
-//            foreach ($allfilearray as $value)
-//            {
-//                $uploadfilename=$value;
-//                $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-//                $extension =(explode(".",$uploadfilename));
-//                if($extension[1]=='pdf'){$mimeType='application/pdf';}
-//                if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-//                if($extension[1]=='png'){$mimeType='image/png';}
-//                $return =insertFile($service,$drivefilename,'PersonalDetails','0Bzvv-O9jT9r_YXk3Uld5eXdOTE0',$mimeType,$uploadfilename);
-//            }
-//        }
-//        //End of File Uploads
+        //File upload function
+        $filesarray=$_REQUEST['filearray'];
+
+        //End of File Uploads
         if($URSRC_bag=='on')
         {
             $URSRC_bag= 'X';
@@ -379,6 +366,10 @@ if(isset($_REQUEST))
             if($row=mysqli_fetch_array($select_youtubelink)){
                 $youtubelink=$row["URC_DATA"];
             }
+            $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
+            if($row=mysqli_fetch_array($select_folderid)){
+                $folderid=$row["URC_DATA"];
+            }
 
             $fileId=$ss_fileid;
             $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=1";
@@ -387,10 +378,34 @@ if(isset($_REQUEST))
                 $mail_subject=$row["ETD_EMAIL_SUBJECT"];
                 $body=$row["ETD_EMAIL_BODY"];
             }
+            $drive = new Google_Client();
+            $drive->setClientId($ClientId);
+            $drive->setClientSecret($ClientSecret);
+            $drive->setRedirectUri($RedirectUri);
+            $drive->setScopes(array($DriveScopes,$CalenderScopes));
+            $drive->setAccessType('online');
+            $authUrl = $drive->createAuthUrl();
+            $refresh_token= $Refresh_Token;
+            $drive->refreshToken($refresh_token);
+            $service = new Google_Service_Drive($drive);
+            $return_array=URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN',$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid);
+//           print_r($return_array);
 
-            $return_array=URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN');
             $ss_flag=$return_array[0];
             $cal_flag=$return_array[1];
+
+            $file_array=$return_array[3];
+//            echo $cal_flag.$ss_flag;
+             if($filesarray!=''){
+
+            if(count($file_array)==0){
+                $file_flag=0;
+                $cal_flag=0;
+                URSRC_unshare_document($loggin,$fileId);
+                $con->rollback();
+
+            }
+             }
 
             if($ss_flag==0){
 
@@ -398,8 +413,13 @@ if(isset($_REQUEST))
 
             }
             if($cal_flag==0){
+                URSRC_unshare_document($loggin,$fileId);
+                for($i=0;$i<count($file_array);$i++){
+                    delete_file($service,$file_array[$i]);
+                }
                 $con->rollback();
             }
+//            echo $flag.$ss_flag.$cal_flag.$fileId.$file_flag.$folderid;
             if(($ss_flag==1)&&($cal_flag==1)){
                 $email_body;
                 $body_msg =explode("^", $body);
@@ -458,12 +478,12 @@ if(isset($_REQUEST))
                 $intro_body_msg =explode("^", $intro_body);
                 $intro_length=count($intro_body_msg);
                 for($i=0;$i<$intro_length;$i++){
-                    $intro_email_body.=$intro_body_msg[$i].'<br>';
+                    $intro_email_body.=$intro_body_msg[$i].'<br><br>';
                 }
                 $replace= array("[DATE]", "[employee name]","[emailid]","[designation]");
                 $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loggin,'<b>'.$URSRC_designation.'</b>');
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
-                 $cc_array=get_active_login_id();
+                $cc_array=get_active_login_id();
                 $intro_mail_options = [
                     "sender" =>$admin,
                     "to" => $cc_array,
@@ -477,7 +497,8 @@ if(isset($_REQUEST))
                     echo $e;
                 }
             }
-            $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
+            $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
+
         }
         else{
 
@@ -530,7 +551,7 @@ if(isset($_REQUEST))
             }
             $fileId=$ss_fileid;
 
-            $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE');
+            $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE','','','','');
             $ss_flag=$return_array[0];
             $cal_flag=$return_array[1];
             if($ss_flag==0){
@@ -579,7 +600,7 @@ function share_document($loggin,$fileId){
     }
 }
 //FUNCTION FOR CALENDAR CREATION
-function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$finaldate,$calenderid,$status,$form){
+function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$finaldate,$calenderid,$status,$form,$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid){
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
     $drive = new Google_Client();
     $drive->setClientId($ClientId);
@@ -592,6 +613,7 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
     $drive->refreshToken($refresh_token);
     $service = new Google_Service_Drive($drive);
     if($form=='TERMINATE'){
+        $file_arraycount=1;
         try {
             $permissions = $service->permissions->listPermissions($fileId);
             $return_value= $permissions->getItems();
@@ -604,12 +626,12 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
             }
         }
         if($permission_id!=''){
-        try {
-            $service->permissions->delete($fileId, $permission_id);
-            $ss_flag=1;
-        } catch (Exception $e) {
-            $ss_flag=0;
-        }
+            try {
+                $service->permissions->delete($fileId, $permission_id);
+                $ss_flag=1;
+            } catch (Exception $e) {
+                $ss_flag=0;
+            }
         }
         else{
 
@@ -632,8 +654,35 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
         } catch (Exception $e) {
             $ss_flag=0;
         }
+
+        if($ss_flag==1){
+            if($filesarray!='')
+            {
+                $file_array=array();
+                $allfilearray=(explode(",",$filesarray));
+                foreach ($allfilearray as $value)
+                {
+                    $uploadfilename=$value;
+                    $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
+                    $extension =(explode(".",$uploadfilename));
+                    if($extension[1]=='pdf'){$mimeType='application/pdf';}
+                    if($extension[1]=='jpg'){$mimeType='image/jpeg';}
+                    if($extension[1]=='png'){$mimeType='image/png';}
+                    $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
+                    if($file_id_value!=''){
+                        array_push($file_array,$file_id_value);
+                    }
+                }
+                $file_arraycount=count($file_array);
+            }
+            else{
+                $file_arraycount=1;
+            }
+        }
+
+
     }
-    if($ss_flag==1){
+    if($ss_flag==1 && $file_arraycount>0){
         $cal = new Google_Service_Calendar($drive);
         $event = new Google_Service_Calendar_Event();
         $event->setsummary($loginid_name.'  '.$status);
@@ -650,7 +699,7 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
             $cal_flag=0;
         }
     }
-    $flag_array=[$ss_flag,$cal_flag];
+    $flag_array=[$ss_flag,$cal_flag,$file_id_value,$file_array];
     return $flag_array;
 }
 //File Upload Function Script
@@ -673,10 +722,66 @@ function insertFile($service, $title, $description, $parentId,$mimeType,$uploadf
             'mimeType' => $mimeType,
             'uploadType' => 'media',
         ));
-        return $createdFile;
+
+        $fileid = $createdFile->getId();
+
+
     }
     catch (Exception $e)
     {
-        echo "An error occurred: " . $e->getMessage();
+        $file_flag=0;
+//        echo "An error occurred: " . $e->getMessage();
+
     }
+    return $fileid;
+//    return $file_flag;
+
+}
+function URSRC_unshare_document($loggin,$fileId){
+
+    global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+    $drive = new Google_Client();
+    $drive->setClientId($ClientId);
+    $drive->setClientSecret($ClientSecret);
+    $drive->setRedirectUri($RedirectUri);
+    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+    $drive->setAccessType('online');
+    $authUrl = $drive->createAuthUrl();
+    $refresh_token= $Refresh_Token;
+    $drive->refreshToken($refresh_token);
+    $service = new Google_Service_Drive($drive);
+
+
+    try {
+        $permissions = $service->permissions->listPermissions($fileId);
+        $return_value= $permissions->getItems();
+    } catch (Exception $e) {
+//        print "An error occurred: " . $e->getMessage();
+        $ss_flag=0;
+    }
+    foreach ($return_value as $key => $value) {
+        if ($value->emailAddress==$loggin) {
+            $permission_id=$value->id;
+        }
+    }
+    if($permission_id!=''){
+        try {
+            $service->permissions->delete($fileId, $permission_id);
+//        $ss_flag=1;
+        } catch (Exception $e) {
+//        print "An error occurred: " . $e->getMessage();
+//        $ss_flag=0;
+        }
+    }
+
+}
+function delete_file($service,$fileid){
+
+    try {
+        $f=$service->files->delete($fileid);
+    } catch (Exception $e) {
+        $f= "An error occurred: " . $e->getMessage();
+    }
+    return $f;
+
 }

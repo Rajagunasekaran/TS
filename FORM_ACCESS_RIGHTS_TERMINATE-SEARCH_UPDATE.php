@@ -45,6 +45,8 @@ $(document).ready(function(){
             else
             {
                 reset_field($('#upload_filename'+i));
+                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[12],position:{top:1800,left:550}}});
+
             }
         }
     });
@@ -141,6 +143,8 @@ $(document).ready(function(){
                     $("#URT_SRC_ta_reasontermination").hide();
                     $("#URT_SRC_btn_termination").hide();
                     $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
+                    $("#filetableuploads tr").remove();
+                    $('#attachafile').text('Attach a file');
                 }
                 if(success_flag==0){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
@@ -157,26 +161,12 @@ $(document).ready(function(){
                     var fileid=msg_alert[3];
                     var msg= js_errormsg_array[10].replace("[SSID]",fileid)
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
-                    $("#URT_SRC_lbl_datepickertermination").hide();
-                    $("#URT_SRC_lb_loginterminate").hide();
-                    $("#URT_SRC_lbl_loginterminate").hide();
-                    $("#URT_SRC_tb_datepickertermination").hide();
-                    $("#URT_SRC_lbl_reasontermination").hide();
-                    $("#URT_SRC_ta_reasontermination").hide();
-                    $("#URT_SRC_btn_termination").hide();
-                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
+
                 }
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
-                    var msg= js_errormsg_array[10];
+                    var msg= js_errormsg_array[9];
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
-                    $("#URT_SRC_lbl_datepickertermination").hide();
-                    $("#URT_SRC_lb_loginterminate").hide();
-                    $("#URT_SRC_lbl_loginterminate").hide();
-                    $("#URT_SRC_tb_datepickertermination").hide();
-                    $("#URT_SRC_lbl_reasontermination").hide();
-                    $("#URT_SRC_ta_reasontermination").hide();
-                    $("#URT_SRC_btn_termination").hide();
-                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
+
                 }
             }
         }
@@ -204,27 +194,27 @@ $(document).ready(function(){
     $(document).on('click','#URT_SRC_btn_rejoin',function(){
         var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
-//        //Removing fakepath in all files
-//        var filearray=[];
-//        for(var i=0;i<25;i++)
-//        {
-//            var data=$('#upload_filename'+i).val();
-//            if(data!='' && data!=undefined)
-//            {
-//                data=(data.toString()).replace("C:\\fakepath\\", "");
-//                filearray.push(data);
-//            }
-//        }
-//        var filenames='';
-//        for(var j=0;j<filearray.length;j++)
-//        {
-//            if(j==0){filenames=filearray[j];}
-//            else
-//            {filenames=filenames+','+filearray[j];}
-//        }
-//        //End Removing fakepath in all files
+        //Removing fakepath in all files
+        var filearray=[];
+        for(var i=0;i<25;i++)
+        {
+            var data=$('#upload_filename'+i).val();
+            if(data!='' && data!=undefined)
+            {
+                data=(data.toString()).replace("C:\\fakepath\\", "");
+                filearray.push(data);
+            }
+        }
+        var filenames='';
+        for(var j=0;j<filearray.length;j++)
+        {
+            if(j==0){filenames=filearray[j];}
+            else
+            {filenames=filenames+','+filearray[j];}
+        }
+        //End Removing fakepath in all files
         var login_id=$("#URT_SRC_lb_loginrejoin").val();
         var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
         var formElement = document.getElementById("URT_SRC_form_terminatesearchupdate");
@@ -237,6 +227,8 @@ $(document).ready(function(){
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
                 var cal_flag=msg_alert[2];
+                var file_flag=msg_alert[4];
+                var folder_id=msg_alert[5];
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1)){
                     var loggin=$("#URT_SRC_lb_loginrejoin").val();
                     var msg=js_errormsg_array[2].toString().replace("[LOGIN ID]",URT_loginid_val);
@@ -265,10 +257,10 @@ $(document).ready(function(){
                     $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
                     $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
                     $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
-//                    $("#filetableuploads tr").remove();
-//                    $('#attachafile').text('Attach a file');
+                    $("#filetableuploads tr").remove();
+                    $('#attachafile').text('Attach a file');
                 }
-                if(success_flag==0){
+                else if(success_flag==0){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
                     $("#URT_SRC_lbl_datepickerrejoin").hide();
                     $("#URT_SRC_lbl_loginrejoin").show();
@@ -295,74 +287,80 @@ $(document).ready(function(){
                     $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
                     $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
                 }
-                if((success_flag==1)&&(ss_flag==0)){
+                else if((success_flag==1)&&(ss_flag==0)){
                     var fileid=msg_alert[3];
                     var msg= js_errormsg_array[10].replace("[SSID]",fileid)
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-                    $("#URT_SRC_lbl_datepickerrejoin").hide();
-                    $("#URT_SRC_lbl_loginrejoin").show();
-                    $("#URT_SRC_tble_roles").hide();
-                    $('#URSRC_table_employeetbl').hide();
-                    $("#URT_SRC_lb_loginupdate").hide();
-                    $("#URT_SRC_tb_datepickerrejoin").hide();
-                    $("#URT_SRC_btn_rejoin").hide();
-                    $('#URT_SRC_lbl_loginupdate').hide();
-                    $('#URT_SRC_lbl_datepickerupdate').hide();
-                    $('#URT_SRC_tb_datepickerupdate').hide();
-                    $('#URT_SRC_lbl_reasonupdate').hide();
-                    $('#URT_SRC_ta_reasonupdate').hide();
-                    $('#URT_SRC_btn_update').hide();
-                    $('#URT_SRC_radio_selectrejoin').hide();
-                    $('#URT_SRC_radio_selectsearchupdate').hide()
-                    $('#URT_SRC_lb_loginrejoin').hide();
-                    $('#URT_SRC_lbl_loginrejoin').hide();
-                    $('#URT_SRC_lbl_selectsearchupdate').hide();
-                    $('#URT_SRC_lbl_selectrejoin').hide();
-                    $('#URT_SRC_lbl_selectoption').hide();
-                    $("#URSRC_lbl_emptype").hide();
-                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
-                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
-                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
+//                    $("#URT_SRC_lbl_datepickerrejoin").hide();
+//                    $("#URT_SRC_lbl_loginrejoin").show();
+//                    $("#URT_SRC_tble_roles").hide();
+//                    $('#URSRC_table_employeetbl').hide();
+//                    $("#URT_SRC_lb_loginupdate").hide();
+//                    $("#URT_SRC_tb_datepickerrejoin").hide();
+//                    $("#URT_SRC_btn_rejoin").hide();
+//                    $('#URT_SRC_lbl_loginupdate').hide();
+//                    $('#URT_SRC_lbl_datepickerupdate').hide();
+//                    $('#URT_SRC_tb_datepickerupdate').hide();
+//                    $('#URT_SRC_lbl_reasonupdate').hide();
+//                    $('#URT_SRC_ta_reasonupdate').hide();
+//                    $('#URT_SRC_btn_update').hide();
+//                    $('#URT_SRC_radio_selectrejoin').hide();
+//                    $('#URT_SRC_radio_selectsearchupdate').hide()
+//                    $('#URT_SRC_lb_loginrejoin').hide();
+//                    $('#URT_SRC_lbl_loginrejoin').hide();
+//                    $('#URT_SRC_lbl_selectsearchupdate').hide();
+//                    $('#URT_SRC_lbl_selectrejoin').hide();
+//                    $('#URT_SRC_lbl_selectoption').hide();
+//                    $("#URSRC_lbl_emptype").hide();
+//                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
+//                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
+//                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
                 }
-                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
-                    var msg= js_errormsg_array[10];
+                else if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
+
+                    var msg=js_errormsg_array[11].replace("[FID]",folder_id);
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg ,position:{top:150,left:500}}});
+
+                }
+                else if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
+                    var msg= js_errormsg_array[9];
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-                    $("#URT_SRC_lbl_datepickerrejoin").hide();
-                    $("#URT_SRC_lbl_loginrejoin").show();
-                    $("#URT_SRC_tble_roles").hide();
-                    $('#URSRC_table_employeetbl').hide();
-                    $("#URT_SRC_lb_loginupdate").hide();
-                    $("#URT_SRC_tb_datepickerrejoin").hide();
-                    $("#URT_SRC_btn_rejoin").hide();
-                    $('#URT_SRC_lbl_loginupdate').hide();
-                    $('#URT_SRC_lbl_datepickerupdate').hide();
-                    $('#URT_SRC_tb_datepickerupdate').hide();
-                    $('#URT_SRC_lbl_reasonupdate').hide();
-                    $('#URT_SRC_ta_reasonupdate').hide();
-                    $('#URT_SRC_btn_update').hide();
-                    $('#URT_SRC_radio_selectrejoin').hide();
-                    $('#URT_SRC_radio_selectsearchupdate').hide()
-                    $('#URT_SRC_lb_loginrejoin').hide();
-                    $('#URT_SRC_lbl_loginrejoin').hide();
-                    $('#URT_SRC_lbl_selectsearchupdate').hide();
-                    $('#URT_SRC_lbl_selectrejoin').hide();
-                    $('#URT_SRC_lbl_selectoption').hide();
-                    $("#URSRC_lbl_emptype").hide();
-                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);;
-                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
-                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
+//                    $("#URT_SRC_lbl_datepickerrejoin").hide();
+//                    $("#URT_SRC_lbl_loginrejoin").show();
+//                    $("#URT_SRC_tble_roles").hide();
+//                    $('#URSRC_table_employeetbl').hide();
+//                    $("#URT_SRC_lb_loginupdate").hide();
+//                    $("#URT_SRC_tb_datepickerrejoin").hide();
+//                    $("#URT_SRC_btn_rejoin").hide();
+//                    $('#URT_SRC_lbl_loginupdate').hide();
+//                    $('#URT_SRC_lbl_datepickerupdate').hide();
+//                    $('#URT_SRC_tb_datepickerupdate').hide();
+//                    $('#URT_SRC_lbl_reasonupdate').hide();
+//                    $('#URT_SRC_ta_reasonupdate').hide();
+//                    $('#URT_SRC_btn_update').hide();
+//                    $('#URT_SRC_radio_selectrejoin').hide();
+//                    $('#URT_SRC_radio_selectsearchupdate').hide()
+//                    $('#URT_SRC_lb_loginrejoin').hide();
+//                    $('#URT_SRC_lbl_loginrejoin').hide();
+//                    $('#URT_SRC_lbl_selectsearchupdate').hide();
+//                    $('#URT_SRC_lbl_selectrejoin').hide();
+//                    $('#URT_SRC_lbl_selectoption').hide();
+//                    $("#URSRC_lbl_emptype").hide();
+//                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);;
+//                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
+//                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
                 }
             }
         }
         var option='REJOIN';
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?option="+option+"&login_id="+login_id,true);
+        xmlhttp.open("POST","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?option="+option+"&login_id="+login_id+"&filearray="+filenames,true);
         xmlhttp.send(new FormData(formElement));
 
     });
     $(document).on('click','#URT_SRC_btn_update',function(){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var URT_SRC_loggin=$("#URT_SRC_lb_loginupdate").val();
         var URT_SRC_empname_upd=$("#URT_SRC_lb_loginupdate option:selected").text();
@@ -414,7 +412,7 @@ $(document).ready(function(){
         $('#URT_SRC_lbl_recordversion').hide();
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var URT_SRC_loggin=$(this).val();
         var URT_SRC_empname_upd=$("#URT_SRC_lb_loginupdate option:selected").text();
@@ -491,7 +489,7 @@ $(document).ready(function(){
         if(recver!='SELECT'){
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -535,7 +533,7 @@ $(document).ready(function(){
         $('#URT_SRC_errdate').hide();
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var URT_SRC_loggin=$(this).val();
         if(URT_SRC_loggin !=""){
@@ -563,7 +561,7 @@ $(document).ready(function(){
     $('#URT_SRC_tb_datepickertermination').change(function(){
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var URT_SRC_loggin=$('#URT_SRC_lb_loginterminate').val();
         var date_value=$('#URT_SRC_tb_datepickertermination').val();
@@ -650,7 +648,7 @@ $(document).ready(function(){
             $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
             var newPos= adjustPosition($(this).position(),100,270);
             resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","276px").show();
+            $('.maskpanel',window.parent.document).css("height","297px").show();
             $('.preloader').show();
             var URT_SRC_loggin=$(this).val();
             if(URT_loginid_val !=""){
@@ -707,7 +705,8 @@ $(document).ready(function(){
                         $('#URSRC_tb_permobile').val(mobile);
                         var emp_kinname=kinname.length;
                         $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
-                        $('#URSRC_tb_relationhd').val(relationhood);
+                        var emp_relationhood=relationhood.length;
+                        $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+2);
                         $('#URSRC_tb_mobile').val(altmobile);
                         var emp_bankname=bankname.length;
                         $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
@@ -717,10 +716,13 @@ $(document).ready(function(){
                         $('#URSRC_tb_accntname').val(accountname).attr("size",emp_accountname+2);
                         var emp_accountno=accountno.length;
                         $('#URSRC_tb_accntno').val(accountno).attr("size",emp_accountno+2);
-                        $('#URSRC_tb_ifsccode').val(ifsccode);
-                        $('#URSRC_tb_accntyp').val(accountype);
+                        var emp_ifsccode=ifsccode.length;
+                        $('#URSRC_tb_ifsccode').val(ifsccode).attr("size",emp_ifsccode+2);
+                        var emp_accountype=accountype.length;
+                        $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
                         $('#URSRC_ta_brnchaddr').val(branchaddr);
-                        $('#URSRC_tb_laptopno').val(laptop);
+                        var emp_laptop=laptop.length;
+                        $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
                         var emp_cahrgerno=chargerno.length;
                         $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
                         $('#URSRC_ta_comments').val(comments);
@@ -767,7 +769,8 @@ $(document).ready(function(){
                         if(aadharno!=null)
                         {
                             $('#URSRC_chk_aadharno').attr('checked',true);
-                            $('#URSRC_tb_aadharno').val(aadharno).show();
+                            var emp_aadharno=aadharno.length;
+                            $('#URSRC_tb_aadharno').val(aadharno).show().attr("size",emp_aadharno);
                         }
                         else
                         {
@@ -777,7 +780,8 @@ $(document).ready(function(){
                         if(passportno!=null)
                         {
                             $('#URSRC_chk_passportno').attr('checked',true);
-                            $('#URSRC_tb_passportno').val(passportno).show();
+                            var emp_passportno=passportno.length;
+                            $('#URSRC_tb_passportno').val(passportno).show().attr("size",emp_passportno);
                         }
                         else
                         {
@@ -787,7 +791,8 @@ $(document).ready(function(){
                         if(votersid!=null)
                         {
                             $('#URSRC_chk_votersid').attr('checked',true);
-                            $('#URSRC_tb_votersid').val(votersid).show();
+                            var emp_votersid=votersid.length;
+                            $('#URSRC_tb_votersid').val(votersid).show().attr("size",emp_votersid);
                         }
                         else
                         {
@@ -834,7 +839,7 @@ $(document).ready(function(){
         err_flag=0;
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $("#URT_SRC_lbl_datepickertermination").hide();
         $("#URT_SRC_tb_datepickertermination").hide();
@@ -850,7 +855,6 @@ $(document).ready(function(){
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
                 $('.preloader').hide();
-//                alert(xmlhttp.responseText)
                 var loginid_array=JSON.parse(xmlhttp.responseText);
                 if(loginid_array.length!=0){
                     var URT_SRC_loginid_options='<option>SELECT</option>'
@@ -883,7 +887,7 @@ $(document).ready(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         var radio_value_loginidsearch=$(this).val();
         $('#URT_SRC_lb_recordversion').hide();
@@ -919,7 +923,7 @@ $(document).ready(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
         var newPos= adjustPosition($(this).position(),100,270);
         resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
+        $('.maskpanel',window.parent.document).css("height","297px").show();
         $('.preloader').show();
         $('#URT_SRC_lbl_datepickerupdate').hide();
         $('#URT_SRC_tb_datepickerupdate').hide();
@@ -1236,7 +1240,7 @@ $(document).ready(function(){
             </select></td></tr>
 </table>
 <tr> <td> <table id="URT_SRC_tble_roles"> </table></td></tr>
-<tr> <table><td> <label name="URT_SRC_lbl_ndatepickerrejoin" id="URT_SRC_lbl_datepickerrejoin" class=" srctitle" hidden> SELECT A JOIN DATE <em>*</em> </label> </td>
+<tr> <table><td> <label name="URT_SRC_lbl_ndatepickerrejoin" id="URT_SRC_lbl_datepickerrejoin" class=" srctitle" hidden> SELECT A REJOIN DATE <em>*</em> </label> </td>
         <td width="185"> <input type="text" name="URT_SRC_tb_ndatepickerrejoin" id="URT_SRC_tb_datepickerrejoin" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" style="width:75px;" hidden></td></table></tr>
 <!--EMPLOYEE DETAILS-->
 <table id="URSRC_table_employeetbl" hidden>
@@ -1384,22 +1388,22 @@ $(document).ready(function(){
             <label name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label></td>
         <td><textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea></td>
     </tr>
-<!--    <tr>-->
-<!--        <td> </td>-->
-<!--        <td>-->
-<!--            <table ID="filetableuploads">-->
-<!---->
-<!--            </table>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td><label></label></td>-->
-<!--        <td>-->
-<!--                    <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">-->
-<!--                    <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>-->
-<!--                    </span>-->
-<!--        </td>-->
-<!--    </tr>-->
+    <tr>
+        <td> </td>
+        <td>
+            <table ID="filetableuploads">
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td><label></label></td>
+        <td>
+                        <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
+                        <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
+                        </span>
+        </td>
+    </tr>
 </table>
 <table>
     <!--EMPL DETAILS-->

@@ -71,7 +71,7 @@ if($month_end==$current_date){
     $row=mysqli_num_rows($select_data_rs);
     $x=$row;
     $values_array=array();
-    $message='<html><body>'.'<br>'.'<b>'.$mail_subject.'</b></h><br>'.'<br>'.'<br>'.'<h> '.$newphrase.'</h>'.'<br>'.'<table width=900 colspan=3px cellpadding=3px >'
+    $message='<html><body>'.'<br>'.'<b>'.$mail_subject.'</b></h><br>'.'<br>'.'<br>'.'<h> '.$newphrase.'</h>'.'<br>'.'<table width=720 colspan=3px cellpadding=3px >'
         . '<th><tr style="color:white;" bgcolor="#6495ed" align="center" height=2px >'
         . '<td align="center" style="border: 1px solid black;color:white;"><b>EMPLOYEE NAME</b></td>'
         . '<td align="center" width=90 nowrap style="border: 1px solid black;color:white;"><b>NO OF PRESENT</b></td>'

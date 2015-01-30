@@ -6,7 +6,7 @@ include "COMMON.php";
 
 if($_REQUEST["option"]=="search_option"){
     $loginid=get_active_emp_id();
-    $err_msg=get_error_msg('18,103,104,105');
+    $err_msg=get_error_msg('18,103,104,105,83');
     $select_query="SELECT * FROM REPORT_CONFIGURATION WHERE RC_ID IN (1,2,6) ORDER BY RC_DATA";
     $result=mysqli_query($con,$select_query);
 

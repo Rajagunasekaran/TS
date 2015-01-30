@@ -16,6 +16,18 @@ handlers:
 - url: /image
   static_dir: image
 
+- url: /lib
+  static_dir: lib
+
+- url: /plugins
+  static_dir: plugins
+
+- url: /wpaint
+  static_dir: wpaint
+
+- url: /jqScribble-master
+  static_dir: jqScribble-master
+
 - url: /FORM_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do
   script: FORM_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php
 
@@ -226,6 +238,13 @@ handlers:
 
 - url: /DB_REPORT_CLOCK_IN_OUT_DETAILS.do
   script: DB_REPORT_CLOCK_IN_OUT_DETAILS.php
+
+
+- url: /DB_EMPLOYEE_DETAILS.do
+  script: DB_EMPLOYEE_DETAILS.php
+
+- url: /FORM_EMPLOYEE_DETAILS.do
+  script: FORM_EMPLOYEE_DETAILS.php
 
 - url: /COMMON_PDF.do
   script: COMMON_PDF.php
