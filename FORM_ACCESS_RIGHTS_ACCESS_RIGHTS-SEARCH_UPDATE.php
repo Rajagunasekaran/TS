@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_SEARCH_UPDATE*********************************************//
 //DONE BY:SASIKALA
+//ver 0.07 DESC:updated preloader position and attach file
 //ver 0.06 DESC:changed text box id while change login id and added real escapt for branchadress-safi
 //VER 0.05  DESC:updated login creation/updation  validation part
 //VER 0.04 SD:2/12/14 ED:2/12/2014 TRACKER NO:74 DESC:ISSUE CORRECTED IN COMMENT NO:123
