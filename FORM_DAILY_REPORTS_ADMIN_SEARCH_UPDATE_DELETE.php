@@ -182,10 +182,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
         var ure_after_mrg;
-        var newPos= adjustPosition($('#ASRC_UPD_DEL_lbl_btwnrange').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $("#ASRC_UPD_DEL_btn_allsearch").attr("disabled", "disabled");
         $('section').html('')
         $('#ASRC_UPD_DEL_div_tablecontainer').hide();
@@ -195,8 +192,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array!=''){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -531,17 +527,13 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($('#ASRC_UPD_DEL_lb_loginid').position(),0,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var min_date;
             var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var finaldate=JSON.parse(xmlhttp.responseText);
                     min_date=finaldate[0];
                     var max_date=finaldate[1];
@@ -617,10 +609,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_btn_pdf').hide();
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
-        var newPos= adjustPosition($('#ASRC_UPD_DEL_lbl_allactveemp').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         flextablerange()
         $("#ASRC_UPD_DEL_btn_search").attr("disabled", "disabled");
         $("#ASRC_UPD_DEL_btn_del").attr("disabled", "disabled");
@@ -640,8 +629,7 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 values_array=JSON.parse(xmlhttp.responseText);
                 if(values_array.length!=0){
                     var sd=err_msg[11].toString().replace("[LOGINID]",$("#ASRC_UPD_DEL_lb_loginid option:selected").text());
@@ -815,16 +803,12 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR DELETE BUTTON
     $(document).on('click','#ASRC_UPD_DEL_btn_del',function(){
-        var newPos= adjustPosition($(this).position(),-140,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var delid=$("input[name=ASRC_UPD_DEL_rd_flxtbl]:checked").val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var delete_msg=xmlhttp.responseText;
                 if(delete_msg==1)
                 {
@@ -1214,17 +1198,13 @@ $(document).ready(function(){
 
         var reportdate=$('#ASRC_UPD_DEL_ta_reportdate').val();
         if(reportdate!=date){
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var msgalert=xmlhttp.responseText;
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     if(msgalert==1)
                     {
                         err_flag=1;
@@ -1508,16 +1488,12 @@ $(document).ready(function(){
 
     //FUNCTION FOR UPDATE BUTTON
     $(document).on('click','#ASRC_UPD_DEL_btn_submit',function(){
-        var newPos= adjustPosition($(this).position(),-140,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("ASRC_UPD_DEL_form_adminsearchupdate");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
@@ -1727,10 +1703,7 @@ $(document).ready(function(){
         $('#ASRC_UPD_btn_pdf').hide();
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
-        var newPos= adjustPosition($('#option').position(),30,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $('#ASRC_UPD_DEL_od_btn').attr("disabled","disabled");
         $('#ASRC_UPD_DEL_tbl_ondutyhtmltable').show();
         ondutyflextable()
@@ -1742,8 +1715,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "fast");
@@ -1841,16 +1813,12 @@ $(document).ready(function(){
     });
     // CLICK FUNCTIO ONDUTY UPDATE BUTTON
     $('#ASRC_UPD_DEL_odsubmit').click(function(){
-        var newPos= adjustPosition($('#ASRC_UPD_DEL_tb_oddte').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("ASRC_UPD_DEL_form_adminsearchupdate");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var msg_alert=xmlhttp.responseText;
                 $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ONDUTY SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
                 ondutyflextable()

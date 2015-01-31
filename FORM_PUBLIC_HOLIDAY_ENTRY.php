@@ -43,16 +43,12 @@ include "HEADER.php";
         });
         //CLICK FUNCTION FOR SAVE BUTTON
         $(document).on('click','#PH_ENTRY_btn_save',function(){
-            var newPos= adjustPosition($('#PH_ENTRY_tb_gid').position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var formElement = document.getElementById("PH_entry_form");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var msg_alert_array=JSON.parse(xmlhttp.responseText);
                     var valid_ss=msg_alert_array[2];
                     var ph_date_already_exixst=msg_alert_array[0];

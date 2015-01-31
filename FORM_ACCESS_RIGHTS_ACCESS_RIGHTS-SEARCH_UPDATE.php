@@ -294,10 +294,7 @@ $(document).ready(function(){
     var basicmenurolesresult=[];
     //WEHN BASIC ROLE CLICK IN BASIC MENU CREATION AND SEARCH/UPDATE FORM
     $(document).on("click",'.URSRC_class_basic', function (){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         $('#URSRC_btn_submitbutton').hide();
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('input[type=checkbox]').attr('checked', false);
@@ -312,8 +309,7 @@ $(document).ready(function(){
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader',window.parent.document).hide();
                     if($("input[name=URSRC_mainradiobutton]:checked").val()=="BASIC ROLE MENU CREATION"){
                         $('#URSRC_lbl_basicrole_err').hide();
                         $('#URSRC_tble_basicroles_chk').show();
@@ -321,8 +317,7 @@ $(document).ready(function(){
                         URSRC_loadmenu_basicrole()
                     }
                     else{
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader',window.parent.document).hide();
                         var msg=URSRC_errorAarray[16].toString().replace("[NAME]",$("input[name=URSRC_radio_basicroles1]:checked").val())
                         $('#URSRC_lbl_basicrole_err').text(msg).show();
                         $('#URSRC_tble_basicroles_chk').hide()
@@ -335,8 +330,7 @@ $(document).ready(function(){
                     if($("input[name=URSRC_mainradiobutton]:checked").val()=="BASIC ROLE MENU CREATION")
                     {
                         $('#URSRC_lbl_basicrole_err').text(URSRC_errorAarray[13]).show()
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader',window.parent.document).hide();
                         $('#URSRC_tble_basicroles_chk').hide()
                         $('#URSRC_tble_menu').hide();
                         $('#URSRC_tble_folder').hide();
@@ -404,10 +398,7 @@ $(document).ready(function(){
     $(document).on('blur','#URSRC_tb_customrole',function(){
         var URSRC_roleidval=$(this).val();
         if(URSRC_roleidval!=''){
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader',window.parent.document).show();
             $('#URSRC_tble_roles').hide()
             $('#URSRC_tble_menu').hide();
             $('#URSRC_tble_folder').hide();
@@ -417,8 +408,7 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader',window.parent.document).hide();
                     var msgalert=JSON.parse(xmlhttp.responseText);//
                     if(msgalert==0)
                     {
@@ -567,8 +557,7 @@ $(document).ready(function(){
             if ((atpos<1 || dotpos<atpos+2 || dotpos+2>=URSRC_login_id.length)||(/^[@a-zA-Z0-9-\\.]*$/.test(URSRC_login_id) == false))
             {
                 error_valid='invalid';
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader',window.parent.document).hide();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                     $("#URSRC_lbl_email_err").text(URSRC_errorAarray[2]).show();
                     $('#URSRC_tb_loginid').addClass("invalid")
@@ -583,10 +572,7 @@ $(document).ready(function(){
             else
             {
                 error_valid='valid';
-                var newPos= adjustPosition($('#URSRC_tb_loginid').position(),100,270);
-                resetPreloader(newPos);
-                $('.maskpanel',window.parent.document).css("height","297px").show();
-                $('.preloader').show();
+                $('.preloader',window.parent.document).show();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                     $("#URSRC_lbl_email_err").hide();
                     $('#URSRC_tb_loginid').removeClass("invalid")
@@ -607,8 +593,7 @@ $(document).ready(function(){
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                            $('.preloader').hide();
+                            $('.preloader',window.parent.document).hide();
                             var msgalert=JSON.parse(xmlhttp.responseText);
                             var LoginId_exist=msgalert[0];
                             var URSRC_role_array=msgalert[1];
@@ -677,8 +662,7 @@ $(document).ready(function(){
                 }
                 else{
                     error_ext='invalid';
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader',window.parent.document).hide();
                     if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                         $('#URSRC_tble_rolecreation').show()
                         $('#URSRC_lbl_email_err').text(URSRC_errorAarray[17]).show()
@@ -695,8 +679,7 @@ $(document).ready(function(){
             loginbuttonvalidation();
         }
         else{
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader',window.parent.document).hide();
             if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                 $('#URSRC_tble_rolecreation tr').remove().hide();
                 $('#URSRC_lbl_joindate').hide();
@@ -825,10 +808,7 @@ $(document).ready(function(){
     });
     //LOGIN SEARCH/UPDATE CLICK FUNCTION
     $('#URSRC_radio_loginsearchupdate').click(function(){
-        var newPos= adjustPosition($(this).position(),-100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         flag=0;
         exist_flag=1;
         error_valid='valid';
@@ -885,8 +865,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader',window.parent.document).hide();
                 var loginid_array=JSON.parse(xmlhttp.responseText);
                 if(loginid_array.length!=0){
                     var URSRC_loginid_options='<option>SELECT</option>'
@@ -913,10 +892,7 @@ $(document).ready(function(){
     //LOGIN SEARCH ND UPDATE FOR LOGIN ID CHANGE FUNCTION
     $('#URSRC_lb_selectloginid').change(function(){
         $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         exist_flag=1;
         error_valid='valid';
         error_ext='valid';
@@ -935,8 +911,7 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader',window.parent.document).hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     var join_date=values_array[0][0].joindate;
                     var rc_name=values_array[0][0].rcname;
@@ -1128,8 +1103,7 @@ $(document).ready(function(){
             xmlhttp.send();
         }
         else{
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader',window.parent.document).hide();
             $('#URSRC_tble_rolecreation').hide();
             $('#URSRC_tble_rolecreation tr').remove();
             $('#URSRC_lbl_joindate').hide();
@@ -1148,10 +1122,7 @@ $(document).ready(function(){
     });
     //VALIDATION FOR UPDATE BUTTON LOGIN SEARCH ND UPDATE
     $(document).on("click",'#URSRC_submitupdate ', function (){
-        var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         //Removing fakepath in all files
         var filearray=[];
         for(var i=0;i<25;i++)
@@ -1176,8 +1147,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader',window.parent.document).hide();
                 var msg_alert=JSON.parse(xmlhttp.responseText);
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
@@ -1278,10 +1248,7 @@ $(document).ready(function(){
     });
     //VALIDATION FOR CREATE BUTTON FOR LOGIN CREATION ENTRY
     $(document).on("click",'#URSRC_btn_login_submitbutton ', function (){
-        var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         //Removing fakepath in all files
         var filearray=[];
         for(var i=0;i<25;i++)
@@ -1306,8 +1273,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader',window.parent.document).hide();
                 var msg_alert=JSON.parse(xmlhttp.responseText);
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
@@ -1383,16 +1349,12 @@ $(document).ready(function(){
     });
     //FUNCTION TO CLICK BASIC ROLE
     $(document).on("click",'.URSRC_class_basicroles', function (){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         var radio_value=$(this).val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader',window.parent.document).hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
                 URSRC_menuname=values_array[0];
                 URSRC_submenu=values_array[1];
@@ -1406,8 +1368,7 @@ $(document).ready(function(){
     });
     //COMMON TREE VIEW FUNCTION
     function URSRC_tree_view(values_array,URSRC_checked_mpid){
-        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-        $('.preloader').hide();
+        $('.preloader',window.parent.document).hide();
         $('#URSRC_btn_submitbutton').attr("disabled","disabled");
         $('#URSRC_tble_menu').replaceWith('<table id="URSRC_tble_menu"  ></table>')
         var count=0;
@@ -1648,18 +1609,14 @@ $(document).ready(function(){
     });
     //Basic Role/Search&update/Role Creation and Update  button click
     $(document).on('click','#URSRC_btn_submitbutton',function(){
-        var newPos= adjustPosition($(this).position(),-100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
         //ROLE CREATION SAVE PART
         var formElement = document.getElementById("URE_attendanceentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader',window.parent.document).hide();
                 var msg_alert=xmlhttp.responseText;
                 if(URSRC_radio_button_select_value=="ROLE CREATION"){
                     $('#URSRC_tble_menu').hide();
@@ -1761,10 +1718,7 @@ $(document).ready(function(){
         flag=0;
         var radio_value_rolesearch=$(this).val();
         $('#URSRC_lbl_header').text("ROLE SEARCH/UPDATE").show()
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         $('#URSRC_btn_submitbutton').val('UPDATE').hide();
         $('#URSRC_tble_role').hide();
         $('#URSRC_tble_menu').hide();
@@ -1799,8 +1753,7 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var values_array_rcname=JSON.parse(xmlhttp.responseText);
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader',window.parent.document).hide();
                 if(values_array_rcname.length!=0){
                     var URSRC_customerole_options='<option>SELECT</option>'
                     for(var l=0;l<values_array_rcname.length;l++){
@@ -1832,16 +1785,12 @@ $(document).ready(function(){
     $('#URSRC_lb_selectrole').change(function(){
         var URSRC_lbrole_srchndupdate=$('#URSRC_lb_selectrole').val();
         if($(this).val()!='SELECT'){
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader',window.parent.document).show();
             //FUNCTION TO LOAD SELECTED ROLE DETAILS
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader',window.parent.document).hide();
                     values_array_rcname=JSON.parse(xmlhttp.responseText);
                     var URSRC_lb_radiovalrolesearch=values_array_rcname[0];
                     URSRC_checked_mpid=values_array_rcname[1];

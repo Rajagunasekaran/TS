@@ -58,15 +58,11 @@ include "HEADER.php";
             $('#EMPSRC_UPD_lbl_txtselectproj').hide();
             $('#EMPSRC_UPD_tble_frstsel_projectlistbx').html('');
             //PRELOADER ADJUST FUNCTION
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show()
             EMPSRC_UPD_empname=$("#EMPSRC_UPD_lb_loginid option:selected").text();
             if(EMPSRC_UPD_empname=='SELECT')
             {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide()
                 $('#EMPSRC_UPD_btn_update').hide();
                 $('#EMPSRC_UPD_btn_reset').hide();
                 $('#EMPSRC_UPD_tble_frstsel_projectlistbx').hide();
@@ -78,8 +74,7 @@ include "HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').show();
+                    $('.preloader', window.parent.document).hide()
                     var values_array=JSON.parse(xmlhttp.responseText);
             EMPSRC_UPD_proj_array=values_array[0];
             EMPSRC_UPD_proj_id=values_array[1];
@@ -95,8 +90,7 @@ include "HEADER.php";
                         }
                     }
                 }
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide()
                 $('#EMPSRC_UPD_lb_loginid').show();
                 $('#EMPSRC_UPD_lbl_loginid').show();
                 $('#EMPSRC_UPD_btn_update').attr("disabled","disabled").show();
@@ -142,10 +136,7 @@ include "HEADER.php";
         });
         //CLICK EVENT FOR UPDATE BUTTON
         $(document).on('click','#EMPSRC_UPD_btn_update',function(){
-            var newPos= adjustPosition($('#EMPSRC_UPD_lbl_txtselectproj').position(),100,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show()
             var formElement = document.getElementById("EMPSRC_UPD_form_employeename");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -153,16 +144,14 @@ include "HEADER.php";
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide()
                         var msg=err_msg_array[2].replace("[LOGIN ID]",EMPSRC_UPD_empname);
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
                         EMPSRC_UPD_rset()
                     }
                     else
                     {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide()
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:err_msg_array[0],position:{top:150,left:500}}});
                     }
                 }

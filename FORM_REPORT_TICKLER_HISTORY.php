@@ -87,10 +87,7 @@ include "HEADER.php";
         });
 // CLICK EVENT FOR SEARCH BUTTON
         $(document).on('click','#TH_btn_search',function(){
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             flextable()
             $('#TH_btn_search').attr("disabled","disabled");
         });
@@ -112,8 +109,7 @@ include "HEADER.php";
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var values_array=JSON.parse(xmlhttp.responseText);
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     if(values_array.length!=0)
                     {
                         $("html, body").animate({ scrollTop: $(document).height() }, "fast");

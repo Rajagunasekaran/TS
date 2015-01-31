@@ -162,10 +162,7 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($('#option').position(),80,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var loginid=$('#ARE_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -174,8 +171,7 @@ $(document).ready(function(){
                     var final_array=JSON.parse(xmlhttp.responseText);
                     mindate=final_array[0];
                     project_array=final_array[1];
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     if(project_array.length==0){
 
                         var msg=err_msg[10].replace('[LOGIN ID]',$("#ARE_lb_loginid option:selected").text());
@@ -224,10 +220,7 @@ $(document).ready(function(){
     // CHANGE EVENT FOR DATE
     $(document).on('change','#ARE_tb_date',function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
-        var newPos= adjustPosition($('#option').position(),100,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $('#ARE_lbl_checkmsg').hide();
         var reportdate=$('#ARE_tb_date').val();
         var loginid=$('#ARE_lb_loginid').val();
@@ -235,8 +228,7 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var msgalert=xmlhttp.responseText;
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 if(msgalert==1)
                 {
                     var msg=err_msg[3].toString().replace("[DATE]",reportdate)
@@ -283,17 +275,13 @@ $(document).ready(function(){
         }
         else if($('#ARE_lb_attendance').val()=='1')
         {
-            var newPos= adjustPosition($('#ARE_lbl_sinentry').position(),70,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var reportdate=$('#ARE_tb_date').val();
             var loginid=$('#ARE_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                     var response=JSON.parse(xmlhttp.responseText);
                     if((response[0]==1) && (response[1]==0))
@@ -470,17 +458,13 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($('#ARE_tb_date').position(),20,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var reportdate=$('#ARE_tb_date').val();
             var loginid=$('#ARE_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                     var response=JSON.parse(xmlhttp.responseText);
                     if((response[0]==1) && (response[1]==0))
@@ -663,17 +647,13 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR SAVE BUTTON
     $(document).on('click','#ARE_btn_submit',function(){
-        var newPos= adjustPosition($(this).position(),-130,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("ARE_form_adminreportentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var msg_alert=xmlhttp.responseText;
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 if(msg_alert==1){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
                     $('#ARE_lbl_dte').hide();
@@ -887,18 +867,14 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($('#option').position(),100,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var loginid=$('#ARE_lb_lgnid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 
                     var mindate=xmlhttp.responseText;
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     $('#ARE_tb_sdate').datepicker("option","minDate",mindate);
                     var max_date=new Date();
                     var month=max_date.getMonth()+1;
@@ -949,15 +925,11 @@ $(document).ready(function(){
         var todate=$('#ARE_tb_edate').val();
         if(fromdate!='' && todate!='')
         {
-            var newPos= adjustPosition($('#ARE_lbl_mulentry').position(),100,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var date_array=JSON.parse(xmlhttp.responseText);
                     var error_date='';
                     for(var i=0;i<date_array.length;i++){
@@ -1012,17 +984,13 @@ $(document).ready(function(){
     });
     //CLICK EVENT FOR MULTIPLEDAY SAVE BUTTON
     $('#ARE_btn_save').click(function(){
-        var newPos= adjustPosition($('#ARE_lb_attdnce').position(),100,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("ARE_form_adminreportentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var msg_alert=xmlhttp.responseText;
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 if(msg_alert==1){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
                     ARE_mulclear()
@@ -1086,17 +1054,13 @@ $(document).ready(function(){
     //CHANGE EVENT ONDUTY ENTRY DATE FUNCTION
     $('#ARE_tb_dte').change(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-        var newPos= adjustPosition($('#option').position(),70,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var reportdate=$('#ARE_tb_dte').val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var msgalert=xmlhttp.responseText;
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 if(msgalert==1)
                 {
                     var msg=err_msg[3].toString().replace("[DATE]",reportdate);
@@ -1119,17 +1083,13 @@ $(document).ready(function(){
     });
 // CLICK EVENT ONDUTY SAVE BUTTON
     $('#ARE_btn_odsubmit').click(function(){
-        var newPos= adjustPosition($('#ARE_tb_dte').position(),100,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("ARE_form_adminreportentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var msg_alert=xmlhttp.responseText;
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ONDUTY ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
                 $('#ARE_tb_dte').val('');
                 $('#ARE_ta_des').val('');

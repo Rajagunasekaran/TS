@@ -249,10 +249,7 @@ $(document).ready(function(){
     }
 //CLICK EVENT FOR SUBMIT BUTTON
     $(document).on('click','#AWRE_SRC_btn_submit',function(){
-        var newPos= adjustPosition($('#AWRE_SRC_ta_enterreport').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("AWRE_SRC_form_reportentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -273,8 +270,7 @@ $(document).ready(function(){
                 {
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:150,left:520}}});
                 }
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
             }
         }
         var option='SUBMIT';

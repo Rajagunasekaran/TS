@@ -265,10 +265,7 @@ $(document).ready(function(){
     //CLICK FUNCTON FOR SUBMIT BUTTON
     $(document).on('click','#USR_SITE_btn_submitbutton',function(){
 //        $('.preloader', window.parent.document).show();
-        var newPos= adjustPosition($(this).position(),-100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("USR_SITE_form_user");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -279,15 +276,13 @@ $(document).ready(function(){
                     if($('#USR_SITE_btn_submitbutton').val()=='REVOKE ACCESS')
                     {
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[0],position:{top:150,left:500}}});
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         USR_SITE_clear()
                     }
                     else
                     {
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[1],position:{top:150,left:500}}});
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         USR_SITE_clear()
                     }
                 }

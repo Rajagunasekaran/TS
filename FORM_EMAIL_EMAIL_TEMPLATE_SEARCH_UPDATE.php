@@ -78,18 +78,14 @@ $(document).ready(function(){
     //CHANGE FUNCTION FOR SCRIPTNAME
     $('#ET_SRC_UPD_DEL_lb_scriptname').change(function()
     {
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $('#ET_SRC_UPD_DEL_div_headernodata').hide();
         ET_SRC_UPD_DEL_name=$('#ET_SRC_UPD_DEL_lb_scriptname').find('option:selected').text();
         $('#ET_SRC_UPD_DEL_div_header').hide();
         var ET_SRC_UPD_DEL_scriptname = $("#ET_SRC_UPD_DEL_lb_scriptname").val();
         if(ET_SRC_UPD_DEL_scriptname=='SELECT')
         {
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#ET_SRC_UPD_DEL_tble_htmltable').hide();
             $('#ET_SRC_UPD_DEL_div_header').hide();
             $('#ET_SRC_UPD_DEL_div_headernodata').hide();
@@ -107,8 +103,7 @@ $(document).ready(function(){
     });
     //RESPONSE FUNCTION FOR FLEXTABLE SHOWING
     function ET_SRC_UPD_DEL_srch_result(){
-        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-        $('.preloader').hide();
+        $('.preloader', window.parent.document).hide();
         var formElement = document.getElementById("ET_SRC_UPD_DEL_form_emailtemplate");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -139,8 +134,7 @@ $(document).ready(function(){
                     $('#ET_SRC_UPD_DEL_div_table').hide();
                     $('#ET_SRC_UPD_DEL_div_headernodata').text(ET_SRC_UPD_DEL_errorMsg_array[1]).show();
                     $('#ET_SRC_UPD_DEL_tble_htmltable').hide();
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                 }
             }
         }
@@ -200,10 +194,7 @@ $(document).ready(function(){
     //CLICK EVENT FUCNTION FOR UPDATE
     $('#ET_SRC_UPD_DEL_btn_update').click(function()
     {
-        var newPos= adjustPosition($('#ET_SRC_UPD_DEL_ta_updbody').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var ET_SRC_UPD_DEL_scriptname=$('#ET_SRC_UPD_DEL_lb_scriptname').val();
         var ET_SRC_UPD_DEL_datasubject=$('#ET_SRC_UPD_DEL_ta_updsubject').val();
         var ET_SRC_UPD_DEL_databody=$('#ET_SRC_UPD_DEL_ta_updbody').val();
@@ -224,8 +215,7 @@ $(document).ready(function(){
                     //MESSAGE BOX FOR NOT UPDATED
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE SEARCH/UPDATE",msgcontent:ET_SRC_UPD_DEL_errorMsg_array[0],position:{top:150,left:500}}});
                 }
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
             }
         }
         var choice="EMAIL_TEMPLATE_UPDATE"

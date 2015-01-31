@@ -173,10 +173,7 @@ $(document).ready(function(){
         $('#USRC_UPD_btn_pdf').hide();
         $('#USRC_UPD_div_tablecontainer').hide();
         $('section').html('');
-        var newPos= adjustPosition($(this).position(),-50,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         flextable()
         $("#USRC_UPD_btn_search").attr("disabled", "disabled");
     });
@@ -201,8 +198,7 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 values_array=JSON.parse(xmlhttp.responseText);
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 if(values_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                     //HEADER ERR MSG
@@ -596,16 +592,12 @@ $(document).ready(function(){
     $(document).on('change ','#USRC_UPD_tb_date',function(){
         var reportdate=$('#USRC_UPD_tb_date').val();
         if(date!=reportdate){
-            var newPos= adjustPosition($(this).position(),70,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var msgalert=xmlhttp.responseText;
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     if(msgalert==1)
                     {
                         err_flag=1;
@@ -981,16 +973,12 @@ $(document).ready(function(){
     }
     // CHANGE EVENT FOR UPDATE BUTTON
     $(document).on('click','#USRC_UPD_btn_submit',function(){
-        var newPos= adjustPosition($(this).position(),-70,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("USRC_UPD_form_usersearchupdate");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {

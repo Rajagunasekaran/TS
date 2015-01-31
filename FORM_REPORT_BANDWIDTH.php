@@ -103,10 +103,7 @@ $(document).ready(function(){
         //BANDWIDTH BY MONTH
         else if(option=='11')
         {
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             //FUNCTION FOR SETTING MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -115,8 +112,7 @@ $(document).ready(function(){
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                 }
                 //DATE PICKER FUNCTION START
                 $('#REP_BND_db_selectmnth').datepicker( {
@@ -291,16 +287,12 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($('#REP_BND_rd_nonemp').position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             //FUNCTION FOR SETTINF MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
@@ -388,15 +380,11 @@ $(document).ready(function(){
         $('#REP_BND_btn_search').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnths').val();
         var REP_BND_loginid=$('#REP_BND_lb_loginid').val();
-        var newPos= adjustPosition($('#REP_BND_rd_nonemp').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var REP_BND_actnon_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_actnon_values[0]!=null)
                 {
@@ -485,15 +473,11 @@ $(document).ready(function(){
         $('#REP_BND_btn_emp_pdf').hide();
         $('#REP_BND_btn_mysearch').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnth').val();
-        var newPos= adjustPosition($('#REP_BND_db_selectmnth').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var REP_BND_monthyr_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_monthyr_values[0]!='' && REP_BND_monthyr_values[0]!=null)
                 {

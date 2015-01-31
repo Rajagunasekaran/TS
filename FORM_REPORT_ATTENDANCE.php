@@ -64,10 +64,7 @@ $(document).ready(function(){
     xmlhttp.send();
     //CHANGE FUNCTION FOR LOGIN ID LIST BX
     $(document).on('change','#REP_lb_loginid',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('#REP_tablecontainer').hide();
@@ -79,8 +76,7 @@ $(document).ready(function(){
         var loginid=$('#REP_lb_loginid').val();
         $('#REP_date').val("");
         if(loginid=="SELECT"){
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -96,8 +92,7 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var finaldate=JSON.parse(xmlhttp.responseText);
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var min_date=finaldate[0];
                     var max_date=finaldate[1];
 
@@ -173,10 +168,7 @@ $(document).ready(function(){
     });
     //CHANGE FUNCTION FOR ATTENDANCE LISTBX
     $(document).on('change','#REP_lb_attendance',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $('#REP_tablecontainer').hide();
         $('#REP_btn_search').hide();
         $('#REP_lbl_dte').show();
@@ -192,8 +184,7 @@ $(document).ready(function(){
         $('#REP_tble_absent_count').html('');
         var option=$('#REP_lb_attendance').val();
         if(option=="1"){
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#REP_lb_loginid').show();
             $('#REP_lbl_loginid').show();
             $('#REP_lbl_dte').hide();
@@ -201,8 +192,7 @@ $(document).ready(function(){
             $('#REP_btn_search').hide();
         }
         if(option=="SELECT"){
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -213,8 +203,7 @@ $(document).ready(function(){
             $('#REP_btn_att_pdf').hide();
         }
         if(option=='6' || option=='2'){
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#REP_btn_search').attr("disabled","disabled").show();
             //DATE PICKER FUNCTION
             $('.date-pickers').datepicker( {
@@ -268,10 +257,7 @@ $(document).ready(function(){
     var allvalues_array;
     //CHANGE FUNCTION FOR DATE BX
     $(document).on('click','#REP_btn_search',function(){
-        var newPos= adjustPosition($('#REP_lb_loginid').position(),100,270);
-        resetPreloader(newPos);
-         $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('section').html('');
@@ -286,8 +272,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");

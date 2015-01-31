@@ -126,10 +126,7 @@ $(document).ready(function(){
     var pre_tds;
     //FUNCTION FOR DATATABLE
     function showTable(){
-        var newPos= adjustPosition($('#AWSU_lbl_title').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $("#AWSU_btn_search").attr("disabled", "disabled");
         $('#AWSU_nodata_startenddate').hide();
         var values_array=[];
@@ -152,8 +149,7 @@ $(document).ready(function(){
                 values_array=JSON.parse(response);
                 if(values_array)
                 {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var AWSU_tableheader='<table id="AWSU_tble_adminweeklysearchupdate" border="1" class="display"  cellspacing="0" width="1300" ><thead bgcolor="#6495ed" style="color:white"><tr class="head"><th style="min-width:180px;"  class="uk-week-column" nowrap >WEEK</th><th style="width:1500px">WEEKLY REPORT</th><th>USERSTAMP</th><th sstyle="min-width:150px;" class="uk-timestp-column" nowrap>TIMESTAMP</th><th style="width:50px;">EDIT</th></tr></thead><tbody>';
                     for(var j=0;j<values_array.length;j++)
                     {
@@ -180,8 +176,7 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var sd=js_errormsg_array[1].toString().replace("[SDATE]",startdates);
                     var msg=sd.toString().replace("[EDATE]",enddates);
                     $('#AWSU_nodata_startenddate').text(msg).show();
@@ -345,10 +340,7 @@ $(document).ready(function(){
     });
 // CLICK EVENT FOR UPDATE BUTTON
     $('section').on('click','.AWSU_btn_update',function(){
-        var newPos= adjustPosition($('#AWSU_lbl_title').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $('textarea').height(50).width(60);
         var edittrid = $(this).parent().parent().attr('id');
         var AWSU_tb_report = $('#AWSU_tb_report').val();
@@ -370,8 +362,7 @@ $(document).ready(function(){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
                     showTable();
                 }
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
             }
         });
     });
@@ -441,7 +432,7 @@ $(document).ready(function(){
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN WEEKLY SEARCH/UPDATE</h3><p></div></div>
-    <div class="container">
+
         <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="content">
             <table>
                 <tr>
@@ -463,7 +454,7 @@ $(document).ready(function(){
                 <section>
                 </section>
             </div>
-    </div>
+
     </form>
 </div>
 </body>

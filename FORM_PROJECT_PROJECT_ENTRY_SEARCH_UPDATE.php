@@ -78,15 +78,11 @@ $(document).ready(function(){
     $(document).on("change blur",'#projectname',function(){
         var checkproject_name=$(this).val();
         if(checkproject_name!=''){
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var check_array=JSON.parse(xmlhttp.responseText);
                     if(check_array[0]==1){
                         $("#PE_btn_update").attr("disabled", "disabled");
@@ -135,15 +131,11 @@ $(document).ready(function(){
         var checkproject_name=($(this).val()).trim();
         if(checkproject_name!=''){
             $('#PE_tb_prjectname').val(checkproject_name.toUpperCase())
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var check_array=JSON.parse(xmlhttp.responseText);
 //                    var desc=check_array[1];
                     var min_enddate=check_array[1];
@@ -224,16 +216,12 @@ $(document).ready(function(){
     }
 // CLICK EVENT FOR SAVE BUTTON
     $(document).on('click','#PE_btn_save',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var formElement = document.getElementById("PE_form_projectentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var msg_alert=xmlhttp.responseText;
 
                 if(msg_alert==1)
@@ -478,15 +466,11 @@ $(document).ready(function(){
         var checkproject_name=$('#projectname').val();
         var rec_ver=$('#recver').val();
         if(checkproject_name!=''){
-            var newPos= adjustPosition($('#demoajax').position(),100,1000);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var check_array=(xmlhttp.responseText);
                     if(check_array==1){
                         $('#std').prop('disabled','disabled');
@@ -504,10 +488,7 @@ $(document).ready(function(){
     });
 // CLICK EVENT FOR UPDATE BUTTON
     $('section').on('click','.ajaxupdate',function(){
-        var newPos= adjustPosition($('#demoajax').position(),100,1000);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var edittrid = $(this).parent().parent().attr('id');
         var combineid = $(this).parent().parent().attr('id');
         var combineid_split=combineid.split('_');
@@ -525,8 +506,7 @@ $(document).ready(function(){
             data:data,
             cache: false,
             success: function(response){
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 if(response==1){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3],position:{top:150,left:520}}});
                     showTable()
@@ -565,7 +545,7 @@ $(document).ready(function(){
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="newtitle" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>PROJECT ENTRY/SEARCH/UPDATE</h3><p></div></div>
-    <div class="container">
+
         <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="newcontent">
             <table id="PE_tble_projectentry">
                 <tr>
@@ -604,7 +584,6 @@ $(document).ready(function(){
                 </section>
             </div>
         </form>
-    </div>
 </div>
 </body>
 <!--BODY TAG END-->

@@ -66,17 +66,13 @@ include "HEADER.php";
         $('#EMP_ENTRY_lb_loginid').change(function(){
             $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             //PRELOADER ADJUST FUNCTION
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             $('input:checkbox[id=checkbox]').attr('checked',false);
             $('#checkbox').attr('checked',false);
             EMP_ENTRY_empname=$("#EMP_ENTRY_lb_loginid option:selected").text();
             if(EMP_ENTRY_empname=="SELECT")
             {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 $('#EMP_ENTRY_btn_save').hide();
                 $('#EMP_ENTRY_btn_reset').hide();
                 $('#EMP_ENTRY_tble_frstsel_projectlistbx').hide();
@@ -86,8 +82,7 @@ include "HEADER.php";
             else
             {
                 projectlist();
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 $('#EMP_ENTRY_lb_loginid').show();
                 $('#EMP_ENTRY_lbl_loginid').show();
                 $('#EMP_ENTRY_btn_save').attr("disabled","disabled").show();
@@ -128,10 +123,7 @@ include "HEADER.php";
         //CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#EMP_ENTRY_btn_save',function(){
             //PRELOADER ADJUST FUNCTION
-            var newPos= adjustPosition($('#EMP_ENTRY_lbl_txtselectproj').position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var loginid=$("#EMP_ENTRY_lb_loginid option:selected").text();
             var formElement = document.getElementById("EMP_ENTRY_form_employeename");
             var xmlhttp=new XMLHttpRequest();
@@ -140,8 +132,7 @@ include "HEADER.php";
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         var msg=err_msg_array[2].replace("[LOGINID]",loginid);
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:msg,position:{top:150,left:500}}});
                         EMP_ENTRY_rset()
@@ -149,8 +140,7 @@ include "HEADER.php";
                     }
                     else
                     {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:err_msg_array[0],position:{top:150,left:500}}});
                     }
                 }

@@ -326,10 +326,7 @@ $(document).ready(function(){
         }
         else
         {
-            var newPos= adjustPosition($('#REP_chk_rd_nonemp').position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             //DATE PICKER FUNCTION
             $('.REP_datepicker').datepicker(
                 {
@@ -345,8 +342,7 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     daterange_val=JSON.parse(xmlhttp.responseText);
                     var REV_start_dates=daterange_val[0];
                     var REV_end_dates=daterange_val[1];
@@ -413,10 +409,7 @@ $(document).ready(function(){
     var allvalues_array;
     //CLICK FUNCTION FOR ALL ACTIVE DATE BX
     $(document).on('click','#REP_btn_date',function(){
-        var newPos= adjustPosition($('#REP_chk_rd_allactveemp').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $("#REP_btn_date").attr("disabled","disabled");
         $('#REP_tablecontainer').hide();
         $('#REP_tble_allactive_count').hide();
@@ -426,8 +419,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -492,10 +484,7 @@ $(document).ready(function(){
     var allvalues_array;
     //CLICK  FUNCTION FOR DATE BX
     $(document).on('click','#REP_btn_searchdaterange',function(){
-        var newPos= adjustPosition($('#REP_lb_loginid').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $("#REP_btn_searchdaterange").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('section').html('');
@@ -507,8 +496,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");

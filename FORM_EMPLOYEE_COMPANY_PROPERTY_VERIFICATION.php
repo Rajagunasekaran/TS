@@ -56,8 +56,7 @@ include "HEADER.php";
                     loginid=response;
                     if(loginid!=0)
                     {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         $('#CPVD_lbl_loginid').show();
                         $('#CPVD_lb_loginid').html(loginid).show();
                     }
@@ -71,10 +70,7 @@ include "HEADER.php";
         var CPVD_laptop_no=[];
         //CHANGE FUNCTION FOR LOGIN ID
         $(document).on('change','#CPVD_lb_loginid',function(){
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             $('#CPVD_ta_reason').val('');
             $("#CPVD_btn_send").attr("disabled", "disabled");
             var CPVD_lb_loginid=$('#CPVD_lb_loginid').val();
@@ -109,8 +105,7 @@ include "HEADER.php";
             }
             else
             {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 $('#CPVD_lbl_reason').hide();
                 $('#CPVD_ta_reason').hide();
                 $('#CPVD_lbl_laptopno').hide();
@@ -121,13 +116,11 @@ include "HEADER.php";
                 $('#CPVD_lb_chckdby').hide();
                 $('#CPVD_btns_sendreset').hide();
             }
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
         });
         //BLUR FUNCTION FOR TRIM REASON
         $("#CPVD_ta_reason").blur(function(){
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#CPVD_ta_reason').val($('#CPVD_ta_reason').val().toUpperCase())
             var trimfunc=($('#CPVD_ta_reason').val()).trim()
             $('#CPVD_ta_reason').val(trimfunc)
@@ -151,10 +144,7 @@ include "HEADER.php";
         });
         //CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#CPVD_btn_send',function(){
-            var newPos= adjustPosition($('#CPVD_ta_reason').position(),100,270);
-            resetPreloader(newPos);
-             $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var formElement = document.getElementById("CPVD_form_cmpnypropverfictn");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -162,16 +152,14 @@ include "HEADER.php";
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0],position:{top:150,left:530}}});
                         CPVD_rset()
                         showTable()
                     }
                     else
                     {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1],position:{top:150,left:530}}});
                     }
                 }

@@ -62,16 +62,14 @@ include "HEADER.php";
         });
         //BLUR FUNCTION FOR TRIM SUBJECT
         $("#ET_ENTRY_ta_subject").blur(function(){
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#ET_ENTRY_ta_subject').val($('#ET_ENTRY_ta_subject').val().toUpperCase())
             var trimfunc=($('#ET_ENTRY_ta_subject').val()).trim()
             $('#ET_ENTRY_ta_subject').val(trimfunc)
         });
 //BLUR FUNCTION FOR TRIM BODY
         $("#ET_ENTRY_ta_body").blur(function(){
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#ET_ENTRY_ta_body').val($('#ET_ENTRY_ta_body').val().toUpperCase())
             var trimfunc=($('#ET_ENTRY_ta_body').val()).trim()
             $('#ET_ENTRY_ta_body').val(trimfunc)
@@ -103,8 +101,7 @@ include "HEADER.php";
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         var ET_ENTRY_response=JSON.parse(xmlhttp.responseText);
                         var ET_ENTRY_chkinput=ET_ENTRY_response;
                         if(ET_ENTRY_chkinput==0)
@@ -127,8 +124,7 @@ include "HEADER.php";
                         }
                         else if(ET_ENTRY_chkinput==1)
                         {
-                            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                            $('.preloader').hide();
+                            $('.preloader', window.parent.document).hide();
                             $('#ET_ENTRY_lbl_validid').show();
                             $('#ET_ENTRY_lbl_validid').text(ET_ENTRY_errormsg[2]);
                             $("#ET_ENTRY_tb_scriptname").addClass('invalid');
@@ -144,10 +140,7 @@ include "HEADER.php";
         //CLICK EVENT FOR SAVE BUTTON
         $('#ET_ENTRY_btn_save').click(function()
         {
-            var newPos= adjustPosition($('#ET_ENTRY_ta_body').position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             $("#ET_ENTRY_hidden_chkvalid").val("SAVE")//SET SAVE FUNCTION VALUE
             var ET_ENTRY_scriptname=$('#ET_ENTRY_tb_scriptname').val();
             if($('#ET_ENTRY_form_template')!="")
@@ -158,8 +151,7 @@ include "HEADER.php";
         //SUCCESS FUNCTIOIN FOR SAVE
         function ET_ENTRY_save_resultsuccess()
         {
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var formElement = document.getElementById("ET_ENTRY_form_template");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -178,8 +170,7 @@ include "HEADER.php";
                         //MESSAGE BOX FOR NOT SAVED
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE ENTRY",msgcontent:ET_ENTRY_errormsg[0],position:{top:150,left:500}}});
                     }
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                 }
             }
             var choice="ET_ENTRY_insert"

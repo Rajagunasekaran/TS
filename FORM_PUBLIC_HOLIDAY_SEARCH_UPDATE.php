@@ -63,10 +63,7 @@ $(document).ready(function(){
     var values_array=[];
     var id;
     $(document).on('change','#PH_SRC_UPD_lb_yr',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $('#tablecontainer').hide();
         $('#PH_SRC_UPD_tble_htmltable').html('');
         $('section').html('');
@@ -87,8 +84,7 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     values_arraystotal=JSON.parse(xmlhttp.responseText);
                     values_array=values_arraystotal[0];
                     if(values_array.length!=0)
@@ -127,8 +123,7 @@ $(document).ready(function(){
                         $('#PH_SRC_UPD_tble_htmltable').html('');
 
                     }
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                 }
             }
             $('#tablecontainer').show();
@@ -139,8 +134,7 @@ $(document).ready(function(){
         }
         else
         {
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
             $('#PH_SRC_UPD_updateform').hide();
             $('#PH_SRC_UPD_btn_search').hide();
             $('#tablecontainer').hide();
@@ -210,10 +204,7 @@ $(document).ready(function(){
     //CLICK EVENT FUCNTION FOR UPDATE
     $('#PH_SRC_UPD_btn_update').click(function()
     {
-        var newPos= adjustPosition($('#PH_SRC_UPD_tb_des').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var PH_SRC_UPD_date=$('#PH_SRC_UPD_tb_date').val();
         var PH_SRC_UPD_des=$('#PH_SRC_UPD_tb_des').val();
         var formElement = document.getElementById("PH_SRC_UPD_form");
@@ -234,8 +225,7 @@ $(document).ready(function(){
                     //MESSAGE BOX FOR NOT UPDATED
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
                 }
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
             }
         }
         var choice="PROJECT_DETAILS_UPDATE"
@@ -245,17 +235,13 @@ $(document).ready(function(){
     //CLICK EVENT FUCNTION FOR RESET
     $('#PH_SRC_UPD_btn_reset').click(function()
     {
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         PH_SRC_UPD_detailrset()
     });
 //RESET ALL THE ELEMENT//
     function PH_SRC_UPD_detailrset()
     {
-        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-        $('.preloader').hide();
+        $('.preloader', window.parent.document).hide();
         $('#PH_SRC_UPD_tb_date').val('');
         $('#PH_SRC_UPD_tb_des').val('');
         $("#PH_SRC_UPD_btn_update").attr("disabled","disabled");

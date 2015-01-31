@@ -358,18 +358,14 @@ $(document).ready(function(){
 
     });
     $(document).on('click','#URT_SRC_btn_update',function(){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var URT_SRC_loggin=$("#URT_SRC_lb_loginupdate").val();
         var URT_SRC_empname_upd=$("#URT_SRC_lb_loginupdate option:selected").text();
         var formElement = document.getElementById("URT_SRC_form_terminatesearchupdate");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1){
                     var loggin=$("#URT_SRC_lb_loginupdate").val();
@@ -410,10 +406,7 @@ $(document).ready(function(){
     $('#URT_SRC_lb_loginupdate').change(function(){
         $('#URT_SRC_lb_recordversion').hide();
         $('#URT_SRC_lbl_recordversion').hide();
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var URT_SRC_loggin=$(this).val();
         var URT_SRC_empname_upd=$("#URT_SRC_lb_loginupdate option:selected").text();
         var recver_array=[];
@@ -423,8 +416,7 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     var rec_ver='<option value="SELECT">SELECT</option>';
                     recver_array=(values_array.recver);
@@ -462,8 +454,7 @@ $(document).ready(function(){
                     }
                 }
             }
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
         }
         else
         {
@@ -474,8 +465,7 @@ $(document).ready(function(){
             $('#URT_SRC_btn_update').hide();
             $('#URT_SRC_lb_recordversion').hide();
             $('#URT_SRC_lbl_recordversion').hide();
-            $('.maskpanel',window.parent.document).removeAttr('style').hide();
-            $('.preloader').hide();
+            $('.preloader', window.parent.document).hide();
         }
         var option='FETCH';
         xmlhttp.open("GET","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?URT_SRC_loggin="+URT_SRC_loggin+"&option="+option,true);
@@ -487,15 +477,11 @@ $(document).ready(function(){
         var recver= $('#URT_SRC_lb_recordversion').val();
         var URT_SRC_loggin=$('#URT_SRC_lb_loginupdate').val();
         if(recver!='SELECT'){
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     var min_date=values_array.enddate;
                     var mindate=min_date.toString().split('-');
@@ -531,17 +517,13 @@ $(document).ready(function(){
     //CHANGE FUNCTION FOR LOGIN TERMINATE FORM
     $('#URT_SRC_lb_loginterminate').change(function(){
         $('#URT_SRC_errdate').hide();
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var URT_SRC_loggin=$(this).val();
         if(URT_SRC_loggin !=""){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                    $('.preloader').hide();
+                    $('.preloader', window.parent.document).hide();
                     var min_date=(xmlhttp.responseText);
                     var mindate=min_date.toString().split('-');
                     var month=mindate[1]-1;
@@ -559,17 +541,13 @@ $(document).ready(function(){
     });
     var err_flag=0;
     $('#URT_SRC_tb_datepickertermination').change(function(){
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var URT_SRC_loggin=$('#URT_SRC_lb_loginterminate').val();
         var date_value=$('#URT_SRC_tb_datepickertermination').val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var final_value=xmlhttp.responseText;
                 if(final_value!=''){
                     err_flag=1;
@@ -646,18 +624,14 @@ $(document).ready(function(){
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
             $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
-            var newPos= adjustPosition($(this).position(),100,270);
-            resetPreloader(newPos);
-            $('.maskpanel',window.parent.document).css("height","297px").show();
-            $('.preloader').show();
+            $('.preloader', window.parent.document).show();
             var URT_SRC_loggin=$(this).val();
             if(URT_loginid_val !=""){
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                        $('.preloader').hide();
+                        $('.preloader', window.parent.document).hide();
                         var values_array=JSON.parse(xmlhttp.responseText);
                         var min_date=values_array[0][1];
                         var firstname=values_array[0][0].firstname;
@@ -837,10 +811,7 @@ $(document).ready(function(){
     //CLICK FUNCTION FOR LOGIN TERMINATION RADIO BTN
     $('#URT_SRC_radio_logintermination').click(function(){
         err_flag=0;
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $("#URT_SRC_lbl_datepickertermination").hide();
         $("#URT_SRC_tb_datepickertermination").hide();
         $("#URT_SRC_lbl_reasontermination").hide();
@@ -853,8 +824,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var loginid_array=JSON.parse(xmlhttp.responseText);
                 if(loginid_array.length!=0){
                     var URT_SRC_loginid_options='<option>SELECT</option>'
@@ -885,18 +855,14 @@ $(document).ready(function(){
         $('#URSRC_lb_selectemptype').hide();
         $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         var radio_value_loginidsearch=$(this).val();
         $('#URT_SRC_lb_recordversion').hide();
         $('#URT_SRC_lbl_recordversion').hide();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var loginid_array=JSON.parse(xmlhttp.responseText);
                 if(loginid_array.length!=0){
                     var URT_SRC_loginid_options='<option>SELECT</option>'
@@ -921,10 +887,7 @@ $(document).ready(function(){
     //CLICK FUNCTION FOR RADIO SEARCH ND UPDATE BTN
     $('#URT_SRC_radio_selectsearchupdate').click(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-        var newPos= adjustPosition($(this).position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+        $('.preloader', window.parent.document).show();
         $('#URT_SRC_lbl_datepickerupdate').hide();
         $('#URT_SRC_tb_datepickerupdate').hide();
         $('#URT_SRC_lbl_reasonupdate').hide();
@@ -936,8 +899,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+                $('.preloader', window.parent.document).hide();
                 var loginid_array=JSON.parse(xmlhttp.responseText);
                 if(loginid_array.length!=0){
                     var URT_SRC_loginid_options='<option>SELECT</option>'
