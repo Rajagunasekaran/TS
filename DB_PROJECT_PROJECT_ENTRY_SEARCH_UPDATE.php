@@ -106,8 +106,13 @@ if(isset($_REQUEST))
             $pro_auto[]=$row["PD_PROJECT_NAME"];
         }
         $erro_msg=get_error_msg('62,63,79,80,81,83,99');
+        $project_result=mysqli_query($con,"select PC_ID,PC_DATA from PROJECT_CONFIGURATION");
+        $get_project_status_array=array();
+        while($row=mysqli_fetch_array($project_result)){
+            $get_project_status_array[]=array($row["PC_ID"],$row["PC_DATA"]);
+        }
         $comp_startdate=get_company_start_date();
-        $values=array($pro_auto,$erro_msg,$comp_startdate);
+        $values=array($pro_auto,$erro_msg,$comp_startdate,$get_project_status_array);
         $drop_view=mysqli_query($con,'drop view if exists VW_PROJECT');
         echo json_encode($values);
     }

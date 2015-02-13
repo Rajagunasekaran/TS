@@ -484,6 +484,7 @@ if(isset($_REQUEST))
                 $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loggin,'<b>'.$URSRC_designation.'</b>');
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                 $cc_array=get_active_login_id();
+//                $cc_array=['safiyullah.mohideen@ssomens.com'];
                 $intro_mail_options = [
                     "sender" =>$admin,
                     "to" => $cc_array,
@@ -725,12 +726,10 @@ function insertFile($service, $title, $description, $parentId,$mimeType,$uploadf
 
         $fileid = $createdFile->getId();
 
-
     }
     catch (Exception $e)
     {
         $file_flag=0;
-//        echo "An error occurred: " . $e->getMessage();
 
     }
     return $fileid;

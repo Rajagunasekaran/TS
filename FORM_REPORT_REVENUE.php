@@ -1110,6 +1110,7 @@ $(document).ready(function(){
                 var projectvalues=JSON.parse(xmlhttp.responseText);
                 if(projectvalues)
                 {
+                    $('.preloader',window.parent.document).hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(REV_project_recver.length>1)
                     {
@@ -1140,11 +1141,12 @@ $(document).ready(function(){
                 }
                 else
                 {
+                    $('.preloader',window.parent.document).hide();
                     var sd=err_msg_array[3].toString().replace("[NAME]",REV_projectname);
                     $('#REV_nodata_pdflextble').text(sd).show();
                     $('#REV_div_projecttotal').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+
             }
         }
         $('#REV_div_projecttotal').show();
@@ -1175,6 +1177,7 @@ $(document).ready(function(){
                 loginidvalues=JSON.parse(xmlhttp.responseText);
                 if(loginidvalues)
                 {
+                    $('.preloader', window.parent.document).hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(seacrhby_prjct=='project')
                     {
@@ -1246,11 +1249,12 @@ $(document).ready(function(){
                 }
                 else
                 {
+                    $('.preloader', window.parent.document).hide();
                     var sd=err_msg_array[2].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                     $('#REV_nodata_loginid').text(sd).show();
                     $('#REV_div_loginid').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+
             }
         }
         $('#REV_div_loginid').show();
@@ -1281,6 +1285,7 @@ $(document).ready(function(){
                 loginidvalues=JSON.parse(xmlhttp.responseText);
                 if(loginidvalues)
                 {
+                    $('.preloader', window.parent.document).hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(seacrhby_prjct=='project')
                     {
@@ -1362,6 +1367,7 @@ $(document).ready(function(){
                 }
                 else
                 {
+                    $('.preloader', window.parent.document).hide();
                     var sd=err_msg_array[1].toString().replace("[SDATE]",REV_start_datevalue);
                     var msg=sd.toString().replace("[EDATE]",REV_end_datevalue);
                     $('#REV_nodata_startenddate').text(msg).show();
@@ -1371,7 +1377,7 @@ $(document).ready(function(){
                     $('#REV_lbl_empday').hide();
                     $('#REV_btn_emp_pdf').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+
             }
         }
         $('#REV_div_nonactve_dterange').show();
@@ -1397,6 +1403,7 @@ $(document).ready(function(){
                 var projectvalues=JSON.parse(xmlhttp.responseText);
                 if(projectvalues)
                 {
+                    $('.preloader', window.parent.document).hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(REV_project_recver.length>1)
                     {
@@ -1429,6 +1436,7 @@ $(document).ready(function(){
                 }
                 else
                 {
+                    $('.preloader', window.parent.document).hide();
                     var sd=err_msg_array[1].toString().replace("[SDATE]",REV_start_datevalue);
                     var msg=sd.toString().replace("[EDATE]",REV_end_datevalue);
                     $('#REV_nodata_staenddate').text(msg).show();
@@ -1438,7 +1446,7 @@ $(document).ready(function(){
                     $('#REV_btn_emp_pdf').hide();
                     $('#REV_lbl_eachproject_empday').hide();
                 }
-                $('.preloader', window.parent.document).hide();
+
             }
         }
         $('#REV_div_projecttotal_dtebyrange').show();

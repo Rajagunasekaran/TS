@@ -462,7 +462,7 @@ $(document).ready(function(){
                         "pageLength": 10,
                         "sPaginationType":"full_numbers"
                     });
-                    $('#REP_tablecontainer').show();
+
                 }
                 else
                 {
@@ -477,6 +477,7 @@ $(document).ready(function(){
                 }
             }
         }
+        $('#REP_tablecontainer').show();
         var option="ALL_ACTIVE_RANGE";
         xmlhttp.open("GET","DB_REPORT_CLOCK_IN_OUT_DETAILS.do?option="+option+"&date="+date+"&loginid="+loginid);
         xmlhttp.send();
@@ -696,8 +697,8 @@ $(document).ready(function(){
             <tr>
                 <input type="button" id="REP_btn_pdfs" class="btnpdf" value="PDF"></tr>
             <div class="container" id="REP_tablecontainer" style="width:500px;" hidden>
-                <sectionid style="width:500px;">
-                </sectionid>
+                <sectionid style="width:1000px;">
+                </sectionid >
             </div>
     </form>
 </div>

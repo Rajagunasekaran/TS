@@ -70,40 +70,40 @@ include "HEADER.php";
                 $('#EMPSRC_UPD_lbl_txtselectproj').hide();
             }
             else{
-            var formElement = document.getElementById("EMPSRC_UPD_form_employeename");
-            var xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide()
-                    var values_array=JSON.parse(xmlhttp.responseText);
-            EMPSRC_UPD_proj_array=values_array[0];
-            EMPSRC_UPD_proj_id=values_array[1];
-                var project_list;
-                for (var i=0;i<EMPSRC_UPD_proj_array.length;i++) {
-                    project_list += '<tr><td><input type="checkbox" id="' + EMPSRC_UPD_proj_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + EMPSRC_UPD_proj_array[i][1] + '" >' + EMPSRC_UPD_proj_array[i][0] + '-'+EMPSRC_UPD_proj_array[i][2] + '</td></tr>';
-                }
-                $('#EMPSRC_UPD_tble_frstsel_projectlistbx').append(project_list);
-                for(var i=0;i<EMPSRC_UPD_proj_array.length;i++){
-                    for(var j=0;j<EMPSRC_UPD_proj_id.length;j++){
-                        if(EMPSRC_UPD_proj_id[j][1]==EMPSRC_UPD_proj_array[i][1]){
-                            $("#" + EMPSRC_UPD_proj_array[i][1]+'p').prop( "checked", true );
+                var formElement = document.getElementById("EMPSRC_UPD_form_employeename");
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.onreadystatechange=function() {
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                        $('.preloader', window.parent.document).hide()
+                        var values_array=JSON.parse(xmlhttp.responseText);
+                        EMPSRC_UPD_proj_array=values_array[0];
+                        EMPSRC_UPD_proj_id=values_array[1];
+                        var project_list;
+                        for (var i=0;i<EMPSRC_UPD_proj_array.length;i++) {
+                            project_list += '<tr><td><input type="checkbox" id="' + EMPSRC_UPD_proj_array[i][1] +'p'+ '" class="update_validate" name="checkbox[]" value="' + EMPSRC_UPD_proj_array[i][1] + '" >' + EMPSRC_UPD_proj_array[i][0] + '-'+EMPSRC_UPD_proj_array[i][2] + '</td></tr>';
                         }
+                        $('#EMPSRC_UPD_tble_frstsel_projectlistbx').append(project_list);
+                        for(var i=0;i<EMPSRC_UPD_proj_array.length;i++){
+                            for(var j=0;j<EMPSRC_UPD_proj_id.length;j++){
+                                if(EMPSRC_UPD_proj_id[j][1]==EMPSRC_UPD_proj_array[i][1]){
+                                    $("#" + EMPSRC_UPD_proj_array[i][1]+'p').prop( "checked", true );
+                                }
+                            }
+                        }
+                        $('.preloader', window.parent.document).hide()
+                        $('#EMPSRC_UPD_lb_loginid').show();
+                        $('#EMPSRC_UPD_lbl_loginid').show();
+                        $('#EMPSRC_UPD_btn_update').attr("disabled","disabled").show();
+                        $('#EMPSRC_UPD_btn_reset').show();
+                        $('#checkbox').attr('checked',false).show();
+                        $('#EMPSRC_UPD_tble_projectlistbx').show();
+                        $('#EMPSRC_UPD_lbl_txtselectproj').show();
+                        $('#EMPSRC_UPD_tble_frstsel_projectlistbx').show();
                     }
                 }
-                    $('.preloader', window.parent.document).hide()
-                $('#EMPSRC_UPD_lb_loginid').show();
-                $('#EMPSRC_UPD_lbl_loginid').show();
-                $('#EMPSRC_UPD_btn_update').attr("disabled","disabled").show();
-                $('#EMPSRC_UPD_btn_reset').show();
-                $('#checkbox').attr('checked',false).show();
-                $('#EMPSRC_UPD_tble_projectlistbx').show();
-                $('#EMPSRC_UPD_lbl_txtselectproj').show();
-                $('#EMPSRC_UPD_tble_frstsel_projectlistbx').show();
-            }
-          }
-            var choice="PROJECT_NAME"
-            xmlhttp.open("POST","DB_EMPLOYEE_PROJECT_SEARCH_UPDATE.do?option="+choice,true);
-            xmlhttp.send(new FormData(formElement));
+                var choice="PROJECT_NAME"
+                xmlhttp.open("POST","DB_EMPLOYEE_PROJECT_SEARCH_UPDATE.do?option="+choice,true);
+                xmlhttp.send(new FormData(formElement));
             }
         });
         //CLICK EVENT FUCNTION FOR RESET
@@ -183,10 +183,10 @@ include "HEADER.php";
                 </tr>
             </table>
             <table>
-            <tr>
-                <td  width="150" align="right"><input type="button" class="btn" name="EMPSRC_UPD_btn_update" id="EMPSRC_UPD_btn_update"   value="UPDATE" disabled hidden></td>
-                <td align="left"><input type="button" class="btn" name="EMPSRC_UPD_btn_reset" id="EMPSRC_UPD_btn_reset"  value="RESET" hidden></td>
-            </tr>
+                <tr>
+                    <td  width="150" align="right"><input type="button" class="btn" name="EMPSRC_UPD_btn_update" id="EMPSRC_UPD_btn_update"   value="UPDATE" disabled hidden></td>
+                    <td align="left"><input type="button" class="btn" name="EMPSRC_UPD_btn_reset" id="EMPSRC_UPD_btn_reset"  value="RESET" hidden></td>
+                </tr>
             </table>
         </table>
     </form>

@@ -134,7 +134,7 @@ $(document).ready(function(){
                         $(".date-pickers").datepicker("option","minDate", new Date(min_date));
                         $(".date-pickers").datepicker("option","maxDate", new Date(max_date));}
                     else{
-                    $('#REP_lbl_error').text(err_msg_array[1]).show();
+                        $('#REP_lbl_error').text(err_msg_array[1]).show();
                         $('#REP_lbl_dte').hide();
                         $('#REP_date').hide();
                         $('#REP_btn_search').hide();
@@ -433,7 +433,7 @@ $(document).ready(function(){
             </tr>
         </table>
         <div>
-<!--            <label id="error" class="errormsg" hideen></label>-->
+            <!--            <label id="error" class="errormsg" hideen></label>-->
             <label id="src_lbl_error" class="srctitle"></label>
         </div>
         <div>

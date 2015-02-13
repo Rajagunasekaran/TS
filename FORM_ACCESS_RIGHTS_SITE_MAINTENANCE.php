@@ -15,6 +15,7 @@ var USR_SITE_checked_mpid=[];
 var USR_SITE_errorAarray=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
+    $('#USR_SITE_btn_submitbutton').attr("disabled", "disabled");
     $('.preloader', window.parent.document).show();
     var USR_SITE_menuname=[];
     var USR_SITE_submenu=[];
@@ -140,8 +141,20 @@ $(document).ready(function(){
         {
             $('#USR_SITE_btn_submitbutton').val('REVOKE ACCESS');
         }
-        $('#USR_SITE_btn_submitbutton').show();
+        $('#USR_SITE_btn_submitbutton').attr("disabled", "disabled").show();
     }
+    //BTN VALIDATION
+    $(document).on("click",'.tree', function (){
+        if($("input[name=menu]").is(":checked")==true)
+        {
+            $('#USR_SITE_btn_submitbutton').removeAttr("disabled", "disabled");
+        }
+        else
+        {
+            $('#USR_SITE_btn_submitbutton').removeAttr("disabled", "disabled");
+        }
+    });
+
     //TREE VIEW EXPANDING
     $(document).on("click",'.exp,.collapse', function (){
         var button_id=$(this).attr("id")
@@ -264,8 +277,8 @@ $(document).ready(function(){
     });
     //CLICK FUNCTON FOR SUBMIT BUTTON
     $(document).on('click','#USR_SITE_btn_submitbutton',function(){
-//        $('.preloader', window.parent.document).show();
         $('.preloader', window.parent.document).show();
+
         var formElement = document.getElementById("USR_SITE_form_user");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -277,12 +290,14 @@ $(document).ready(function(){
                     {
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[0],position:{top:150,left:500}}});
                         $('.preloader', window.parent.document).hide();
+
                         USR_SITE_clear()
                     }
                     else
                     {
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[1],position:{top:150,left:500}}});
                         $('.preloader', window.parent.document).hide();
+
                         USR_SITE_clear()
                     }
                 }
@@ -321,7 +336,7 @@ $(document).ready(function(){
     <form class="content" name="USR_SITE_form_user" id="USR_SITE_form_user">
         <table id="USR_SITE_tble_menu" hidden>
         </table>
-        <input align="right" type="button" class="maxbtn" name="USR_SITE_btn_submitbutton" id="USR_SITE_btn_submitbutton" style="width:190px">
+        <input align="right" type="button" class="maxbtn" name="USR_SITE_btn_submitbutton" id="USR_SITE_btn_submitbutton" disabled style="width:190px">
     </form>
 </div>
 </body>

@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ADMIN WEEKLY SEARCH/UPDATE******************************************//
 //DONE BY:LALITHA
+//0.06-SD:30/01/2014 ED:31/01/2014,TRACKER NO:74,Changed date picker validation
 //0.05-SD:29/12/2014 ED:30/12/2014,TRACKER NO:74,Changed date picker nd validation,Preloader position
 //0.04-SD:19/12/2014 ED:19/12/2014,TRACKER NO:74,Updated sorting function for date nd timestamp,Showned flex tble order by data()
 //DONE BY:SASIKALA
@@ -70,6 +71,12 @@ $(document).ready(function(){
     var js_errormsg_array=[];
     var AWSU_weekly_mindate=[];
     var AWSU_weekly_maxdate=[];
+    var AWSU_weekly_month_enddate=[];
+    var AWSU_weeklyS_month_enddate;
+    var max_date;
+    var min_date;
+    var date_day;
+    var date_min_day;
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -78,27 +85,75 @@ $(document).ready(function(){
             js_errormsg_array=value_array[0];
             AWSU_weekly_mindate=value_array[1];
             AWSU_weekly_maxdate=value_array[2];
-            if(AWSU_weekly_mindate=='01-01-1970')
+            AWSU_weekly_month_enddate=value_array[3];
+            if(AWSU_weekly_mindate=='1970-01-01' || AWSU_weekly_mindate==null)
             {
                 $('#PE_form_projectentry').replaceWith('<p><label class="errormsg">'+ js_errormsg_array[3] +'</label></p>');
             }
             else
             {
+                //MIN DATE CALCULATION
+                var full_min_date=new Date(AWSU_weekly_mindate);
+                date_min_day=full_min_date.getDate();
+                if(date_min_day>7)
+                {
+                    var mod_min=Math.floor(date_min_day%7);
+                    if(mod_min==0)
+                    {
+                        var final_min=date_min_day-7;
+                    }
+                    else
+                    {
+                        var final_min=date_min_day - mod_min
+
+                    }
+                    min_date=final_min+1;
+                }
+                else
+                {
+                    min_date=1;
+                }
+                //MAX DATE CALCULATION
+                var full_date=new Date(AWSU_weekly_maxdate);
+                date_day=full_date.getDate();
+                if(date_day>7)
+                {
+                    var mod=Math.floor(date_day%7);
+                    if(mod==0)
+                    {
+                        var final=0;
+                    }
+                    else
+                    {
+                        var final=7 - mod;
+                    }
+                    max_date=date_day + final
+                }
+                else
+                {
+                    var date_max=7-date_day
+                    max_date=date_day+date_max
+                }
+                if(max_date>28)
+                {
+                    max_date=AWSU_weekly_month_enddate
+                }
                 //SET MIN ND MAX DATE FUNCTION FRO START ND END DATE
                 var PE_startdate=AWSU_weekly_mindate.split('-');
-                var day=PE_startdate[0];
+                var day=min_date;
                 var month=PE_startdate[1];
-                var year=PE_startdate[2];
+                var year=PE_startdate[0];
                 PE_startdate=new Date(year,month-1,day);
                 var date = new Date( Date.parse( PE_startdate ));
                 date.setDate( date.getDate()  );
                 var PE_enddate = date.toDateString();
                 PE_enddate = new Date( Date.parse( PE_enddate ));
                 $('.mindate').datepicker("option","minDate",PE_enddate);
+
                 var PE_maxdate=AWSU_weekly_maxdate.split('-');
-                var day=PE_maxdate[0];
+                var day=max_date;
                 var month=PE_maxdate[1];
-                var year=PE_maxdate[2];
+                var year=PE_maxdate[0];
                 PE_maxdate=new Date(year,month-1,day);
                 var date = new Date( Date.parse( PE_maxdate ));
                 date.setDate( date.getDate()  );
@@ -125,6 +180,42 @@ $(document).ready(function(){
     var cancel = "<input type='button' class='AWSU_btn_cancel btn' value='Cancel'>";
     var pre_tds;
     //FUNCTION FOR DATATABLE
+    function monthstartdate(date)
+    {
+        var curr = new Date(date);
+        var first = curr.getDate() - curr.getDay();
+        var last = first + 6;
+        var firstday = new Date(curr.setDate(first));
+        return firstday
+    }
+    function monthenddate(date)
+    {
+        var curr = new Date(date);
+        var first = curr.getDate() - curr.getDay();
+        var last = first + 6;
+        var lastday = new Date(curr.setDate(last));
+        return lastday
+    }
+    function datesplit(date)
+    {
+        var newdate=date.split(' ');
+        var day=newdate[0];
+        var month=newdate[1];
+        var year=newdate[2];
+        var res = month.substr(0, 3);
+        var convert_date=day+'-'+res+'-'+year;
+        return convert_date;
+    }
+    function dateformatchange(ipdate)
+    {
+        var date=new Date(ipdate);
+        var day=date.getDate();
+        var month=date.getMonth()+1;
+        var year=date.getFullYear();
+        var returndate=year+'-'+month+'-'+day;
+        return returndate;
+    }
+    //FUNCTION FOR FLEX TABLE
     function showTable(){
         $('.preloader', window.parent.document).show();
         $("#AWSU_btn_search").attr("disabled", "disabled");
@@ -132,12 +223,19 @@ $(document).ready(function(){
         var values_array=[];
         var startdate=$('#AWSU_tb_strtdtes').val();
         var enddate =$('#AWSU_tb_enddtes').val();
+
         var startdates=$('#AWSU_tb_strtdte').val();
+        var newsddate=datesplit(startdate);
+        var finalsddate= monthstartdate(newsddate);
+        finalsddate=dateformatchange(finalsddate);
         var enddates =$('#AWSU_tb_enddte').val();
+        var neweddate=datesplit(enddate);
+        var finaleddate= monthenddate(neweddate);
+        finaleddate=dateformatchange(finaleddate)
         var title=js_errormsg_array[4].toString().replace("[STARTDATE]",startdates);
         var titlemsg=title.toString().replace("[ENDDATE]",enddates);
         pdfmsg=titlemsg;
-        data ="&startdate="+startdate+"&enddate="+enddate+"&option=showData";
+        data ="&startdate="+finalsddate+"&enddate="+finaleddate+"&option=showData";
         $.ajax({
             url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
             type:"POST",
@@ -243,7 +341,7 @@ $(document).ready(function(){
         $('#'+edittrid).html(tdstr);
         var str = $(tds[1]).html();
         var regex = /<br\s*[\/]?>/gi;
-        $("#AWSU_tb_report").html(str.replace(regex,"\n"));
+        $("#AWSU_tb_report").html(str.replace(regex, "\n"));
     });
     //FUNCTION FOR DATE TO WEEK CONVERSION
     function GetWeekInMonths(date)
@@ -432,7 +530,7 @@ $(document).ready(function(){
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN WEEKLY SEARCH/UPDATE</h3><p></div></div>
-
+    <div class="container">
         <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="content">
             <table>
                 <tr>
@@ -443,7 +541,7 @@ $(document).ready(function(){
                 <tr>
                     <td width="150"><label name="AWSU_lbl_enddte" id="AWSU_lbl_enddte" >END DATE<em>*</em></label></td>
                     <td><input type="text" name="AWSU_tb_enddte" id="AWSU_tb_enddte" class="mindate maxdate valid datemandtry" style="width:160px;"></td><br>
-                    <td><input type="text" name="AWSU_tb_enddtes" id="AWSU_tb_enddtes" class="AWSU_tb_datepicker" style="width:170px;" hidden></td><br>
+                    <td><input type="text" name="AWSU_tb_enddtes" id="AWSU_tb_enddtes" class="AWSU_tb_datepicker" style="width:170px;" hidden ></td><br>
                 </tr>
                 <td><input type="button" class="btn"  id="AWSU_btn_search" value="SEARCH" disabled></td><br>
             </table>
@@ -454,7 +552,7 @@ $(document).ready(function(){
                 <section>
                 </section>
             </div>
-
+    </div>
     </form>
 </div>
 </body>

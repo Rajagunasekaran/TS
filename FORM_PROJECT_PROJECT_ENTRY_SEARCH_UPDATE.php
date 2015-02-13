@@ -56,6 +56,7 @@ $(document).ready(function(){
     //AUTOCOMPLETE TEXT
     var error_message=[];
     var comp_start_date;
+    var project_status=[];
     function get_Values(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -65,6 +66,7 @@ $(document).ready(function(){
                 var proj_auto=values[0];
                 error_message=values[1];
                 comp_start_date=values[2];
+                project_status=values[3];
                 CACS_VIEW_customername=proj_auto;
             }
         }
@@ -155,7 +157,7 @@ $(document).ready(function(){
                             var max_date = new Date(year,month,date);
                             $('#PE_tb_sdate').datepicker("option","maxDate",max_date);
 //                            $('#PE_ta_prjdescrptn').val(desc);
-                            $('#PE_tb_status').val('REOPEN');
+                            $('#PE_tb_status').val(project_status[1][1]);
                             $('#PE_lbl_erromsg').hide();
                             $('#PE_ta_prjdescrptn').val(check_array[2]);
                             count=1;
@@ -172,7 +174,7 @@ $(document).ready(function(){
                         else
                         {
                             $('#PE_lbl_erromsg').hide();
-                            $('#PE_tb_status').val('STARTED').show();
+                            $('#PE_tb_status').val(project_status[0][1]).show();
                             validation();
                         }
                     }
@@ -375,19 +377,36 @@ $(document).ready(function(){
         tdstr += "<td><input type='text' id='projectname' name='projectname'  class='autosize enable' style='font-weight:bold;' value='"+($(tds[0]).html()).trim()+"'></td>";
         tdstr += "<td><textarea id='projectdes' name='projectdes'  class='enable' value='"+$(tds[1]).html()+"'></textarea></td>";
         tdstr += "<td><input type='text' id='recver' name='recver' style='width:25px';  value='"+$(tds[2]).html()+"' readonly></td>";
-        if($(tds[3]).html()=='STARTED'||$(tds[3]).html()=='REOPEN'){
-            tdstr+="<td><select id='status' name='status' class='enable'><option value="+$(tds[3]).html()+">"+$(tds[3]).html()+"</option><option value='CLOSED'>CLOSED</option></select></td>";
-        }
-        else if($(tds[3]).html()=='CLOSED'){
-            tdstr+="<td><select id='status' name='status' class='enable'><option value="+$(tds[3]).html()+">"+$(tds[3]).html()+"</option><option value='STARTED'>STARTED</option></select></td>";
-        }
+//        if($(tds[3]).html()=='STARTED'||$(tds[3]).html()=='REOPEN'){
+//            tdstr+="<td><select id='status' name='status' class='enable'><option value="+$(tds[3]).html()+">"+$(tds[3]).html()+"</option><option value='CLOSED'>CLOSED</option></select></td>";
+//        }
+//        else if($(tds[3]).html()=='CLOSED'){
+//            tdstr+="<td><select id='status' name='status' class='enable'><option value="+$(tds[3]).html()+">"+$(tds[3]).html()+"</option><option value='STARTED'>STARTED</option></select></td>";
+//        }
+        tdstr+="<td><select id='status' name='status' class='enable'></select></td>";
         tdstr+="<td nowrap><input type='text' id='std' name='start_date' style='width:75px'; class='PE_tb_edatedatepicker  enable datemandtry ' value='"+$(tds[4]).html()+"'></td>";
         tdstr+="<td nowrap><input type='text' name='end_date' id='PE_tb_enddate' style='width:75px'; class='PE_tb_edatedatepicker enable datemandtry' value='"+$(tds[5]).html()+"' ></td>";
         tdstr+="<td>"+$(tds[6]).html()+"</td>";
         tdstr+="<td nowrap>"+$(tds[7]).html()+"</td>";
         tdstr+="<td>"+updatebutton +" " + cancel+"</td>";
         $('#'+combineid).html(tdstr);
-        $('#projectdes').val($(tds[1]).html())
+        $('#projectdes').val($(tds[1]).html());
+        var status='';
+        if($(tds[3]).html()==project_status[0][1]||$(tds[3]).html()==project_status[1][1]){
+            for (var i=0;i<project_status.length;i++) {
+                if(project_status[i][0]==1||project_status[i][0]==2)continue;
+                status += '<option value="' + project_status[i][1] + '">' + project_status[i][1] + '</option>';
+            }
+        }
+        else if($(tds[3]).html()==project_status[2][1]){
+            for (var i=0;i<project_status.length;i++) {
+                if(project_status[i][0]==2|| project_status[i][0]==3)continue;
+                status += '<option value="' + project_status[i][1] + '">' + project_status[i][1] + '</option>';
+            }
+        }
+        status+='<option value="' + $(tds[3]).html() + '">' +$(tds[3]).html()+ '</option>'
+        $('#status').html(status);
+        $('#status').val($(tds[3]).html());
         $('.PE_tb_edatedatepicker').datepicker({
             dateFormat:"dd-mm-yy",
             changeYear: true,
@@ -546,44 +565,44 @@ $(document).ready(function(){
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="newtitle" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>PROJECT ENTRY/SEARCH/UPDATE</h3><p></div></div>
 
-        <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="newcontent">
-            <table id="PE_tble_projectentry">
-                <tr>
-                    <td><label name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label></td>
-                    <td><input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label></td>
-                </tr>
-                <tr>
-                    <td><label name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label></td>
-                    <td><textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  valid"  ></textarea></td>
-                </tr>
-                <tr>
-                    <td><label name="PE_lbl_status" id="PE_lbl_status" >STATUS<em>*</em></label></td>
-                    <td><input type="text" id="PE_tb_status" name="PE_tb_status" style="width:100px;" class="valid" readonly></td>
-                </tr>
-                <tr>
-                    <td><label name="PE_lbl_sdate" id="PE_lbl_sdate" >START DATE<em>*</em></label></td>
-                    <td><input type="text" name="PE_tb_sdate" id="PE_tb_sdate" style="width:75px;" class="PE_tb_sdatedatepicker valid datemandtry "></td>
-                </tr>
-                <tr>
-                    <td><label name="PE_lbl_edate" id="PE_lbl_edate" >END DATE<em>*</em></label></td>
-                    <td><input type="text" name="PE_tb_edate" id="PE_tb_edate" style="width:75px;" class="PE_tb_edatedatepicker valid datemandtry"></td>
-                </tr>
-                <tr>
-                    <td align="left"><input type="button" class="btn" name="PE_btn_save" id="PE_btn_save"  value="SAVE" disabled></td>
-                </tr>
-            </table>
-            <div>
-                <label class="errormsg" id="PE_nodataerrormsg" hidden></label>
-            </div>
-            <div>
-                <label class="srctitle" id="PE_lbl_title" hidden></label>
-            </div>
-            <div><input type="button" id="PE_btn_pdf" class="btnpdf" value="PDF"></div>
-            <div class="container" id="tablecontainer" hidden>
-                <section>
-                </section>
-            </div>
-        </form>
+    <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="newcontent">
+        <table id="PE_tble_projectentry">
+            <tr>
+                <td><label name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label></td>
+                <td><input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label></td>
+            </tr>
+            <tr>
+                <td><label name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label></td>
+                <td><textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  valid"  ></textarea></td>
+            </tr>
+            <tr>
+                <td><label name="PE_lbl_status" id="PE_lbl_status" >STATUS<em>*</em></label></td>
+                <td><input type="text" id="PE_tb_status" name="PE_tb_status" style="width:100px;" class="valid" readonly></td>
+            </tr>
+            <tr>
+                <td><label name="PE_lbl_sdate" id="PE_lbl_sdate" >START DATE<em>*</em></label></td>
+                <td><input type="text" name="PE_tb_sdate" id="PE_tb_sdate" style="width:75px;" class="PE_tb_sdatedatepicker valid datemandtry "></td>
+            </tr>
+            <tr>
+                <td><label name="PE_lbl_edate" id="PE_lbl_edate" >END DATE<em>*</em></label></td>
+                <td><input type="text" name="PE_tb_edate" id="PE_tb_edate" style="width:75px;" class="PE_tb_edatedatepicker valid datemandtry"></td>
+            </tr>
+            <tr>
+                <td align="left"><input type="button" class="btn" name="PE_btn_save" id="PE_btn_save"  value="SAVE" disabled></td>
+            </tr>
+        </table>
+        <div>
+            <label class="errormsg" id="PE_nodataerrormsg" hidden></label>
+        </div>
+        <div>
+            <label class="srctitle" id="PE_lbl_title" hidden></label>
+        </div>
+        <div><input type="button" id="PE_btn_pdf" class="btnpdf" value="PDF"></div>
+        <div class="container" id="tablecontainer" hidden>
+            <section>
+            </section>
+        </div>
+    </form>
 </div>
 </body>
 <!--BODY TAG END-->

@@ -483,6 +483,8 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $URSRC_passportno=$_POST['URSRC_tb_passportno'];
         $URSRC_voterid=$_POST['URSRC_tb_votersid'];
         $URSRC_comment=$_POST['URSRC_ta_comments'];
+        $URSRC_comment= $con->real_escape_string($URSRC_comment);
+
         $URSRC_bag=$_POST['URSRC_chk_bag'];
         if($URSRC_bag=='on')
         {
@@ -780,6 +782,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
                     $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                     $cc_array=get_active_login_id();
+//                    $cc_array=['safiyullah.mohideen@ssomens.com'];
 
                     $intro_mail_options = [
                         "sender" =>$admin,

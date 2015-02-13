@@ -187,7 +187,7 @@ if(($flag==3)||($flag==5)||($flag==19)||($flag==6)||($flag==7)||($flag==8)||($fl
     mysqli_query($con,$drop_query);
 //GENERATE PDF
 $pageWidth=$arrTableWidth[$flag]/4;
-
+//set_time_limit(0);
 $mpdf=new mPDF('utf-8', array($pageWidth,236));
 $mpdf->SetHTMLHeader('<h3><div style="text-align: center; font-weight: bold;">'.$_GET['title'].'</div></h3>', 'O', true);
 $mpdf->SetHTMLFooter('<div style="text-align: center;">{PAGENO}</div>');

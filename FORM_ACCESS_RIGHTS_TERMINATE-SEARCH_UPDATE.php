@@ -45,7 +45,7 @@ $(document).ready(function(){
             else
             {
                 reset_field($('#upload_filename'+i));
-                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[12],position:{top:1800,left:550}}});
+                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[12],position:{top:1800,left:550}}});
 
             }
         }
@@ -114,10 +114,8 @@ $(document).ready(function(){
     //END VALIDATION PART
     //CLICK FUNCTION FOR TERMINATION BTN
     $(document).on('click','#URT_SRC_btn_termination',function(){
-        var newPos= adjustPosition($("#URT_SRC_lb_loginterminate").position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","276px").show();
-        $('.preloader').show();
+
+        $('.preloader',window.parent.document).show();
         var URT_SRC_empname=$("#URT_SRC_lb_loginterminate option:selected").text();
         var URT_loginid=$('#URT_SRC_lb_loginrejoin').val();
         var loggin=$("#URT_SRC_lb_loginterminate").val();
@@ -125,9 +123,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
-//                alert(xmlhttp.responseText);
+                $('.preloader',window.parent.document).hide();
                 var msg_alert=JSON.parse(xmlhttp.responseText);
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
@@ -192,10 +188,8 @@ $(document).ready(function(){
 //END DATE PICKER FUNCTION
     //CLICK FUNCTION FOR REJOIN BTN
     $(document).on('click','#URT_SRC_btn_rejoin',function(){
-        var newPos= adjustPosition($('#URSRC_ta_comments').position(),100,270);
-        resetPreloader(newPos);
-        $('.maskpanel',window.parent.document).css("height","297px").show();
-        $('.preloader').show();
+
+        $('.preloader',window.parent.document).show();
         //Removing fakepath in all files
         var filearray=[];
         for(var i=0;i<25;i++)
@@ -221,8 +215,8 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader').hide();
+
+                $('.preloader',window.parent.document).hide();
                 var msg_alert=JSON.parse(xmlhttp.responseText);
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
@@ -695,10 +689,14 @@ $(document).ready(function(){
                         var emp_accountype=accountype.length;
                         $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
                         $('#URSRC_ta_brnchaddr').val(branchaddr);
+                        if(laptop!=null){
                         var emp_laptop=laptop.length;
                         $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+                        }
+                        if(chargerno!=null){
                         var emp_cahrgerno=chargerno.length;
                         $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
+                        }
                         $('#URSRC_ta_comments').val(comments);
                         if(bag=='X')
                         {
@@ -1272,7 +1270,7 @@ $(document).ready(function(){
     <tr>
         <td width="175">
             <label name="URSRC_lbl_accntno" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix alphanumericuppercse login_submitvalidate" ></td>
+        <td><input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" ></td>
     </tr>
     <tr>
         <td width="175">

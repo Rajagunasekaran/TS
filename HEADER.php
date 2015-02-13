@@ -7,6 +7,8 @@
     <!--TO SUPPORT JQUERY UI FUNCTIONALITIES-->
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+
     <!--TO SUPPORT JQUERY LIB VALIDATION-->
     <script src="jquery/JQuery.js"></script>
     <link rel="stylesheet" type="text/css" href="/CSS/StyleSheet.css">

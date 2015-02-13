@@ -172,10 +172,10 @@ include "HEADER.php";
                 </tr>
             </table>
             <table>
-            <tr>
-                <td  width="150" align="right"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled="" hidden></td>
-                <td align="left"><input type="button" class="btn" name="EMP_ENTRY_btn_reset" id="EMP_ENTRY_btn_reset"  value="RESET" hidden></td>
-            </tr>
+                <tr>
+                    <td  width="150" align="right"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled="" hidden></td>
+                    <td align="left"><input type="button" class="btn" name="EMP_ENTRY_btn_reset" id="EMP_ENTRY_btn_reset"  value="RESET" hidden></td>
+                </tr>
             </table>
         </table>
     </form>

@@ -52,7 +52,7 @@ $(document).ready(function(){
             }
             else
             {
-     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[31],position:{top:1800,left:550}}});
+                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[31],position:{top:1800,left:550}}});
                 reset_field($('#upload_filename'+i));
             }
         }
@@ -1009,10 +1009,14 @@ $(document).ready(function(){
                     var emp_accountype=accountype.length;
                     $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
                     $('#URSRC_ta_brnchaddr').val(branchaddr);
+                    if(laptop!=null){
                     var emp_laptop=laptop.length;
                     $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+                    }
+                    if(chargerno!=null){
                     var emp_cahrgerno=chargerno.length;
                     $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
+                    }
                     if(bag=='X')
                     {
                         $('#URSRC_chk_bag').attr('checked',true);
@@ -2033,7 +2037,7 @@ $(document).ready(function(){
     <tr>
         <td width="175">
             <label name="URSRC_lbl_accntno" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix alphanumericuppercse login_submitvalidate" ></td>
+        <td><input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" ></td>
     </tr>
     <tr>
         <td width="175">

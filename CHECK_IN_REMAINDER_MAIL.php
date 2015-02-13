@@ -43,6 +43,10 @@ if($Current_day!='Sunday'){
         $array_length=count($remainder_array);
         for($i=0;$i<$array_length;$i++){
             $names=$remainder_array[$i];
+            $check_emp="SELECT ULD_ID from USER_ADMIN_REPORT_DETAILS where UARD_DATE='$currentdate' and ULD_ID=(SELECT ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$names')";
+            $sql=mysqli_query($con,$check_emp);
+            $row=mysqli_num_rows($sql);
+            if($row==0){
             $select_empname="SELECT EMPLOYEE_NAME from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_LOGINID='$names' ";
             $select_emp_name=mysqli_query($con,$select_empname);
             if($row=mysqli_fetch_array($select_emp_name)){
@@ -62,6 +66,7 @@ if($Current_day!='Sunday'){
             } catch (\InvalidArgumentException $e) {
                 echo $e;
             }
+        }
         }
     }
 }

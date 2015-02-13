@@ -237,7 +237,7 @@ if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
     while($row=mysqli_fetch_array($role_result)){
         $get_role_array[]=array($row["RC_ID"],$row["RC_NAME"]);
     }
-    $emp_type=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION where URC_ID in (6,7,8) ");
+    $emp_type=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION where CGN_ID =10 ");
     $get_emptype_array=array();
     while($row=mysqli_fetch_array($emp_type)){
         $get_emptype_array[]=$row["URC_DATA"];
@@ -268,7 +268,7 @@ if($_REQUEST["option"]=="ACCESS_RIGHTS_SEARCH_UPDATE")
     while($row=mysqli_fetch_array($project_result)){
         $get_project_array[]=$row["URC_DATA"];
     }
-    $emp_type=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION where URC_ID in (6,7,8) ");
+    $emp_type=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION where CGN_ID =10 ");
     $get_emptype_array=array();
     while($row=mysqli_fetch_array($emp_type)){
         $get_emptype_array[]=$row["URC_DATA"];
@@ -324,15 +324,24 @@ if($_REQUEST['option']=="ADMIN WEEKLY REPORT SEARCH UPDATE"){
     $admin_weekly_mindate=mysqli_query($con,"SELECT MIN(AWRD_DATE) as AWRD_DATE FROM ADMIN_WEEKLY_REPORT_DETAILS");
     while($row=mysqli_fetch_array($admin_weekly_mindate)){
         $admin_searchmin_date_value=$row["AWRD_DATE"];
-        $min_date = date('d-m-Y',strtotime($admin_searchmin_date_value));
+//        $min_date = date('d-m-Y',strtotime($admin_searchmin_date_value));
+        $min_date = date('Y-m-d',strtotime($admin_searchmin_date_value));
     }
     $admin_weekly_maxdate=mysqli_query($con,"SELECT MAX(AWRD_DATE) as AWRD_DATE FROM ADMIN_WEEKLY_REPORT_DETAILS");
     while($row=mysqli_fetch_array($admin_weekly_maxdate)){
         $admin_searchmin_date_value=$row["AWRD_DATE"];
-        $max_date = date('d-m-Y',strtotime($admin_searchmin_date_value));
+//        $max_date = date('d-m-Y',strtotime($admin_searchmin_date_value));
+        $max_date = date('Y-m-d',strtotime($admin_searchmin_date_value));
+
+        date_default_timezone_set('Asia/Kolkata');
+        $a_date = $admin_searchmin_date_value;
+        $date = new DateTime($a_date);
+        $date->modify('last day of this month');
+        $date=$date->format('d');
     }
-    $value_array=array($errormsg_array,$min_date,$max_date);
+    $value_array=array($errormsg_array,$min_date,$max_date,$date);
     echo JSON_ENCODE($value_array);
+
 }
 if($_REQUEST['option']=="ADMIN WEEKLY REPORT ENTRY"){
     $str='3,7,84';
