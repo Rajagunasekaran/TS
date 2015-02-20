@@ -249,6 +249,8 @@ handlers:
 - url: /COMMON_PDF.do
   script: COMMON_PDF.php
 
+- url: /REPORT_CLOCK_OUT_MISSED_MAIL
+  script: REPORT_CLOCK_OUT_MISSED_MAIL.php
 
 
 - url: .*

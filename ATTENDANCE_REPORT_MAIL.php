@@ -17,7 +17,7 @@ include "CONNECTION.php";
 include "CONFIG.php";
 $month_end = date('Y-m-d',strtotime('first day of this month'));
 $current_date=date('Y-m-d');
-if($month_end!=$current_date){
+if($month_end==$current_date){
     $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
     $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
     $admin_rs=mysqli_query($con,$select_admin);
