@@ -341,19 +341,23 @@ if(isset($_REQUEST)){
 
                 $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                 $final_message=$final_message.'<br>'.$newphrase;
-                $mail_options = [
-                    "sender" =>$admin,
-                    "to" => $loginid,
-                    "cc"=> $admin,
-                    "subject" => $mail_subject,
-                    "htmlBody" => $final_message
-                ];
+                //SENDING MAIL OPTIONS
+                $name = $mail_subject;
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($loginid);
+                $message1->addCc($admin);
+                $message1->setSubject($mail_subject);
+                $message1->setHtmlBody($final_message);
+
                 try {
-                    $message = new Message($mail_options);
-                    $message->send();
+                    $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
+
+
                 $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                 $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                 if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -370,18 +374,21 @@ if(isset($_REQUEST)){
                 $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                 $cc_array=get_active_login_id();
-                $intro_mail_options = [
-                    "sender" =>$admin,
-                    "to" => $cc_array,
-                    "subject" => $intro_mail_subject,
-                    "htmlBody" => $intro_message
-                ];
+                //SENDING MAIL OPTIONS
+                $name = $intro_mail_subject;
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($cc_array);
+                $message1->setSubject($intro_mail_subject);
+                $message1->setHtmlBody($intro_message);
                 try {
-                    $message1 = new Message($intro_mail_options);
                     $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
+
+
             }
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
         }
@@ -753,19 +760,22 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
                     $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                     $final_message=$final_message.'<br>'.$newphrase;
-                    $mail_options = [
-                        "sender" =>$admin,
-                        "to" => $loginid,
-                        "cc"=> $admin,
-                        "subject" => $mail_subject,
-                        "htmlBody" => $final_message
-                    ];
+                    //SENDING MAIL OPTIONS
+                    $name = $mail_subject;
+                    $from = $admin;
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo($loginid);
+                    $message1->addCc($admin);
+                    $message1->setSubject($mail_subject);
+                    $message1->setHtmlBody($final_message);
                     try {
-                        $message = new Message($mail_options);
-                        $message->send();
+                        $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
+
+
                     $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                     $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                     if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -783,19 +793,21 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                     $cc_array=get_active_login_id();
 //                    $cc_array=['safiyullah.mohideen@ssomens.com'];
+                    //SENDING MAIL OPTIONS
+                    $name = $intro_mail_subject;
+                    $from = $admin;
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo($cc_array);
+                    $message1->setSubject($intro_mail_subject);
+                    $message1->setHtmlBody($intro_message);
 
-                    $intro_mail_options = [
-                        "sender" =>$admin,
-                        "to" => $cc_array,
-                        "subject" => $intro_mail_subject,
-                        "htmlBody" => $intro_message
-                    ];
                     try {
-                        $message1 = new Message($intro_mail_options);
                         $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
+
 
                 }
             }

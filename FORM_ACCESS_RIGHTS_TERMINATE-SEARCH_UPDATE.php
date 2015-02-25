@@ -155,7 +155,7 @@ $(document).ready(function(){
                 }
                 if((success_flag==1)&&(ss_flag==0)){
                     var fileid=msg_alert[3];
-                    var msg= js_errormsg_array[10].replace("[SSID]",fileid)
+                    var msg= js_errormsg_array[8].replace("[SSID]",fileid)
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
 
                 }
@@ -283,32 +283,9 @@ $(document).ready(function(){
                 }
                 else if((success_flag==1)&&(ss_flag==0)){
                     var fileid=msg_alert[3];
-                    var msg= js_errormsg_array[10].replace("[SSID]",fileid)
+                    var msg= js_errormsg_array[8].replace("[SSID]",fileid)
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-//                    $("#URT_SRC_lbl_datepickerrejoin").hide();
-//                    $("#URT_SRC_lbl_loginrejoin").show();
-//                    $("#URT_SRC_tble_roles").hide();
-//                    $('#URSRC_table_employeetbl').hide();
-//                    $("#URT_SRC_lb_loginupdate").hide();
-//                    $("#URT_SRC_tb_datepickerrejoin").hide();
-//                    $("#URT_SRC_btn_rejoin").hide();
-//                    $('#URT_SRC_lbl_loginupdate').hide();
-//                    $('#URT_SRC_lbl_datepickerupdate').hide();
-//                    $('#URT_SRC_tb_datepickerupdate').hide();
-//                    $('#URT_SRC_lbl_reasonupdate').hide();
-//                    $('#URT_SRC_ta_reasonupdate').hide();
-//                    $('#URT_SRC_btn_update').hide();
-//                    $('#URT_SRC_radio_selectrejoin').hide();
-//                    $('#URT_SRC_radio_selectsearchupdate').hide()
-//                    $('#URT_SRC_lb_loginrejoin').hide();
-//                    $('#URT_SRC_lbl_loginrejoin').hide();
-//                    $('#URT_SRC_lbl_selectsearchupdate').hide();
-//                    $('#URT_SRC_lbl_selectrejoin').hide();
-//                    $('#URT_SRC_lbl_selectoption').hide();
-//                    $("#URSRC_lbl_emptype").hide();
-//                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
-//                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
-//                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
+
                 }
                 else if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
 
@@ -319,30 +296,7 @@ $(document).ready(function(){
                 else if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
                     var msg= js_errormsg_array[9];
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-//                    $("#URT_SRC_lbl_datepickerrejoin").hide();
-//                    $("#URT_SRC_lbl_loginrejoin").show();
-//                    $("#URT_SRC_tble_roles").hide();
-//                    $('#URSRC_table_employeetbl').hide();
-//                    $("#URT_SRC_lb_loginupdate").hide();
-//                    $("#URT_SRC_tb_datepickerrejoin").hide();
-//                    $("#URT_SRC_btn_rejoin").hide();
-//                    $('#URT_SRC_lbl_loginupdate').hide();
-//                    $('#URT_SRC_lbl_datepickerupdate').hide();
-//                    $('#URT_SRC_tb_datepickerupdate').hide();
-//                    $('#URT_SRC_lbl_reasonupdate').hide();
-//                    $('#URT_SRC_ta_reasonupdate').hide();
-//                    $('#URT_SRC_btn_update').hide();
-//                    $('#URT_SRC_radio_selectrejoin').hide();
-//                    $('#URT_SRC_radio_selectsearchupdate').hide()
-//                    $('#URT_SRC_lb_loginrejoin').hide();
-//                    $('#URT_SRC_lbl_loginrejoin').hide();
-//                    $('#URT_SRC_lbl_selectsearchupdate').hide();
-//                    $('#URT_SRC_lbl_selectrejoin').hide();
-//                    $('#URT_SRC_lbl_selectoption').hide();
-//                    $("#URSRC_lbl_emptype").hide();
-//                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);;
-//                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
-//                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
+
                 }
             }
         }

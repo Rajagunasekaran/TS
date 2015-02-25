@@ -44,19 +44,23 @@ if($temp_table_name!=''){
             $message1=$message1."<tr><td>".$droptablename."</td></tr>";
 
         }
-                $mail_options = [
-            "sender" => $admin,
-            "to" => $admin,
-             "cc"=> $sadmin,
-            "subject" => $mail_subject,
-            "htmlBody" => $message1
-        ];
+
+        //SENDING MAIL OPTIONS
+        $name = 'LIST OF TEMPORARY TABLE';
+        $from = $admin;
+        $message = new Message();
+        $message->setSender($name.'<'.$from.'>');
+        $message->addTo($admin);
+        $message->addCc($sadmin);
+        $message->setSubject($mail_subject);
+        $message->setHtmlBody($message1);
+
         try {
-            $message = new Message($mail_options);
             $message->send();
         } catch (\InvalidArgumentException $e) {
             echo $e;
         }
+
     }
     $drop_query="DROP TABLE $temp_table_name ";
     mysqli_query($con,$drop_query);

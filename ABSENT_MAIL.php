@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ABSENT MAIL TRIGGER *************************************//
+//DONE BY:LALITHA
+//VER 0.05-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //DONE BY:RAJA
 //VER 0.04-SD:09/01/2015 ED:09/01/2015, TRACKER NO:74,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME
 //DONE BY:SAFIYULLAH
@@ -62,15 +64,17 @@ if($Current_day!='Sunday'){
                     $message1=$message1."<tr><td>".$row['EMPLOYEE_NAME']."</td><td align=center>".$row['REPORT_DATE']."</td></tr>";
                 }
                 echo "</table>";
-                $mail_options = [
-                    "sender" => $admin,
-                    "to" => $admin,
-                    "cc"=>$sadmin,
-                    "subject" => $mail_subject,
-                    "htmlBody" =>$message1
-                ];
+                //SENDING MAIL OPTIONS
+                $name = 'REPORT ENTRY MISSED';
+                $from = $admin;
+                $message = new Message();
+                $message->setSender($name.'<'.$from.'>');
+                $message->addTo($admin);
+                $message->addCc($sadmin);
+                $message->setSubject($mail_subject);
+                $message->setHtmlBody($message1);
+
                 try {
-                    $message = new Message($mail_options);
                     $message->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;

@@ -16,7 +16,7 @@ if(isset($_REQUEST)){
         // GET ERR MSG
         $CONFIG_ENTRY_errmsg=get_error_msg('71,127,130,131');
         // CONFIGURATION LIST
-        $CONFIG_ENTRY_mod = mysqli_query($con,"SELECT * FROM CONFIGURATION_PROFILE ORDER BY CNP_DATA");
+        $CONFIG_ENTRY_mod = mysqli_query($con,"SELECT  DISTINCT CP.CNP_ID,CP.CNP_DATA FROM CONFIGURATION_PROFILE CP,CONFIGURATION C WHERE CP.CNP_ID=C.CNP_ID AND (C.CGN_NON_IP_FLAG is null) ORDER BY CP.CNP_DATA");
         $CONFIG_ENTRY_arr_mod=array();
         while($row=mysqli_fetch_array($CONFIG_ENTRY_mod)){
             $CONFIG_ENTRY_arr_mod[]=array($row[0],$row[1]);

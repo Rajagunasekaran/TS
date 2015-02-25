@@ -2,6 +2,7 @@
 //*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_TERMINATE_SEARCH_UPDATE*********************************************//
 //DONE BY:LALITHA
+//VER 0.07-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //ver 0.06 SD:08/01/2015 ED:10/01/2015 tracker no :74,Merged Employee details in design part nd mail part also,Added Attach File Html Code nd file Upload Script,Changed validation,Replaced Login id as Employee name,Updated auto focus
 //ver 0.05 SD:30/12/2014 ED:31/12/2014 tracker no :74,Updated preloader nd message box position
 //done by :safi
@@ -455,19 +456,22 @@ if(isset($_REQUEST))
                 $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                 $final_message=$final_message.'<br>'.$newphrase;
 
-                $mail_options = [
-                    "sender" =>$admin,
-                    "to" => $loggin,
-                    "cc"=> $admin,
-                    "subject" => $mail_subject,
-                    "htmlBody" => $final_message
-                ];
+                //SENDING MAIL OPTIONS
+                $name = 'REJOIN';
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($loggin);
+                $message1->addCc($admin);
+                $message1->setSubject($mail_subject);
+                $message1->setHtmlBody($final_message);
+
                 try {
-                    $message = new Message($mail_options);
-                    $message->send();
+                    $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
+
                 $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                 $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                 if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -485,14 +489,16 @@ if(isset($_REQUEST))
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                 $cc_array=get_active_login_id();
 //                $cc_array=['safiyullah.mohideen@ssomens.com'];
-                $intro_mail_options = [
-                    "sender" =>$admin,
-                    "to" => $cc_array,
-                    "subject" => $intro_mail_subject,
-                    "htmlBody" => $intro_message
-                ];
+                //SENDING MAIL OPTIONS
+                $name = 'REJOIN';
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($cc_array);
+                $message1->setSubject($intro_mail_subject);
+                $message1->setHtmlBody($intro_message);
+
                 try {
-                    $message1 = new Message($intro_mail_options);
                     $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;

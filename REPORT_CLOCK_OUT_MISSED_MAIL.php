@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************REPORT CLOCK OUT MISSED MAIL TRIGGER *************************************//
 //DONE BY:LALITHA
+//VER 0.02-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //VER 0.01-INITIAL VERSION, SD:18/02/2015 ED:18/02/2015,TRACKER NO:74
 //*********************************************************************************************************//-->
 <?php
@@ -32,16 +33,19 @@ $spladminname=$admin_name.'/'.$sadmin_name;
 $spladminname=strtoupper($spladminname);
 $sub=str_replace("[SADMIN]","$spladminname",$body);
 $mail_subject=str_replace("[DATE]",date("d/m/Y"),$mail_subject);
-$message='<html><body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=470 ><thead  bgcolor=#6495ed style=color:white><tr  align="center"  height=2px ><td width=260><b>EMPLOYEE NAME</b></td><td width=200><b>REPORT</b></td></tr></thead>';
-$query="SELECT EMPLOYEE_NAME, DATE_FORMAT(CURDATE(),'%W-%d-%M-%Y')AS REPORT_DATE FROM VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS VW,EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD WHERE ECIOD_DATE='$currentdate' AND ECIOD_CHECK_OUT_TIME IS NULL AND ECIOD.ULD_ID=VW.ULD_ID";
-
-
-$sql=mysqli_query($con,$query);
-$row=mysqli_num_rows($sql);
-
+$message='<html><body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=470 ><thead  bgcolor=#6495ed style=color:white><tr  align="center"  height=2px ><td width=260><b>EMPLOYEE NAME</b></td><td width=200><b>REPORT DATE</b></td></tr></thead>';
+//$query="SELECT EMPLOYEE_NAME, DATE_FORMAT(CURDATE(),'%W-%d-%M-%Y')AS REPORT_DATE FROM VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS VW,EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD WHERE ECIOD_DATE='$currentdate' AND ECIOD_CHECK_OUT_TIME IS NULL AND ECIOD.ULD_ID=VW.ULD_ID ORDER BY EMPLOYEE_NAME";
+$result = $con->query("CALL SP_TS_CLOCK_OUT_MISSED_DETAILS('$admin',@TEMP_CLOCK_OUT_MISSED_DETAILS)");
+if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+$select = $con->query('SELECT @TEMP_CLOCK_OUT_MISSED_DETAILS');
+$result = $select->fetch_assoc();
+$temp_table_name= $result['@TEMP_CLOCK_OUT_MISSED_DETAILS'];
+$select_data="select * from $temp_table_name ORDER BY EMPLOYEE_NAME ";
+$select_data_rs=mysqli_query($con,$select_data);
+$row=mysqli_num_rows($select_data_rs);
 $x=$row;
 if($x>0){
-    while($row=mysqli_fetch_array($sql)){
+    while($row=mysqli_fetch_array($select_data_rs)){
         $adm_employeename=$row["EMPLOYEE_NAME"];
         $adm_date=$row["REPORT_DATE"];
 
@@ -49,20 +53,24 @@ if($x>0){
     }
     $message=$message."</table></body></html>";
     $REP_subject_date=$mail_subject;
-//    echo $message;
-//    echo $REP_subject_date;
 
-    $mail_options = [
-        "sender" =>$admin,
-        "to" => $admin,
-        "cc"=>$sadmin,
-        "subject" => $REP_subject_date,
-        "htmlBody" => $message
-    ];
+//SENDING MAIL OPTIONS
+    $name = $mail_subject;
+    $from = $admin;
+    $message1 = new Message();
+    $message1->setSender($name.'<'.$from.'>');
+    $message1->addTo($admin);
+    $message1->addCc($sadmin);
+    $message1->setSubject($REP_subject_date);
+    $message1->setHtmlBody($message);
+
     try {
-        $message = new Message($mail_options);
-        $message->send();
+        $message1->send();
     } catch (\InvalidArgumentException $e) {
         echo $e;
     }
 }
+
+$drop_query="DROP TABLE $temp_table_name ";
+mysqli_query($con,$drop_query);
+

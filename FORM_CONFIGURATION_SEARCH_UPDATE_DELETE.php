@@ -8,7 +8,7 @@
 //DONE BY:SARADAMBAL
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
-<?php
+<?PHP
 include "HEADER.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -74,6 +74,7 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $('.preloader',window.parent.document).hide();
+//                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:xmlhttp.responseText,position:{top:150,left:530}}});
                 var CONFIG_SRCH_UPD_values=JSON.parse(xmlhttp.responseText);
                 $('section').html(CONFIG_SRCH_UPD_values);
                 var oTable= $('#CONFIG_SRCH_UPD_tble_config').DataTable( {
@@ -112,14 +113,25 @@ $(document).ready(function(){
     });
 //EDIT CLICK FUNCTION FOR UPDATE FORM
     $(document).on('click','.edit',function(){
-        $(this).val('UPDATE').addClass('update').removeClass('edit');$(this).next().val('CANCEL').addClass('cancel').removeClass('delete');
+// $(this).val('UPDATE').addClass('update').removeClass('edit');$(this).next().val('CANCEL').addClass('cancel').removeClass('delete');//after
+        if($(this).hasClass( "deletion" )==true)
+        {
+            $(this).val('UPDATE').addClass('update').removeClass('edit');$(this).next().val('CANCEL').addClass('cancel').removeClass('delete');
+        }
+        else
+        {
+            $(this).val('UPDATE').addClass('update').removeClass('edit');$(this).next().val('CANCEL').addClass('cancl');
+        }
         $(this).attr("disabled","disabled");
         $('.edit').attr("disabled","disabled");
+        $('.cancel').attr("disabled","disabled");
+        $('.cancl').attr("disabled","disabled");
+        $('.delete').attr("disabled","disabled");
+        $(this).next().removeAttr("disabled","disabled");
         var edittrid=$(this).parent().parent().attr('id');
         var tds = $('#'+edittrid).children('td');
         var td=$(tds[0]).attr('id');
         pre_tds = $(tds[0]).html();
-
         var tdstr = '';
         var final_data_length=($(tds[0]).html()).length;
         if(($('#CONFIG_SRCH_UPD_lb_type').val()=='7') || ($('#CONFIG_SRCH_UPD_lb_type').val()=='10'))
@@ -142,13 +154,36 @@ $(document).ready(function(){
     });
     //CLICK EVENT FOR CANCEL BUTTON
     $(document).on("click",'.cancel', function (){
-        $(this).val('DELETE').addClass('delete');
-        $(this).prev().val('EDIT').addClass('edit').removeClass('update');
-        $('.edit').removeAttr("disabled");
-        var edittrid = $(this).parent().parent().attr('id');
-        var tds = $('#'+edittrid).children('td');
-        var td=$(tds[0]).attr('id');
-        $('#'+td).html(pre_tds);
+        if(pre_tds!='')
+        {
+            $(this).val('DELETE').addClass('delete');
+            $(this).prev().val('EDIT').addClass('edit').removeClass('update');
+            $('.edit').removeAttr("disabled");//after
+            $('.cancel').removeAttr("disabled","disabled");
+            $('.cancl').removeAttr("disabled","disabled");
+            $('.delete').removeAttr("disabled","disabled");//after
+            var edittrid = $(this).parent().parent().attr('id');
+            var tds = $('#'+edittrid).children('td');
+            var td=$(tds[0]).attr('id');
+            $('#'+td).html(pre_tds);
+        }
+        pre_tds='';
+    });
+    //CLICK EVENT FOR DB CANCEL BUTTON
+    $(document).on("click",'.cancl', function (){
+        if(pre_tds!='')
+        {
+            $(this).prev().val('EDIT').addClass('edit').removeClass('update');
+            $('.edit').removeAttr("disabled");//after
+            $('.cancel').removeAttr("disabled","disabled");
+            $('.cancl').removeAttr("disabled","disabled");
+            $('.delete').removeAttr("disabled","disabled");//after
+            var edittrid = $(this).parent().parent().attr('id');
+            var tds = $('#'+edittrid).children('td');
+            var td=$(tds[0]).attr('id');
+            $('#'+td).html(pre_tds);
+        }
+        pre_tds='';
     });
     var CONFIG_flag_upd;
     //CLICK EVENT FOR BUTTON UPDATE

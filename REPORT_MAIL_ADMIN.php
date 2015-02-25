@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************REPORT MAIL ADMIN TRIGGER *************************************//
+//DONE BY:LALITHA
+//VER 0.05-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //DONE BY:RAJA
 //VER 0.04-SD:09/01/2015 ED:09/01/2015, TRACKER NO:175,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME
 //DONE BY:SAFIYULLAH
@@ -98,19 +100,23 @@ if($Current_day!='Sunday'){
             $message=$message. "<tr><td>".$emp_name."</td><td align=center>".date('l jS F Y ',strtotime($emp_date))."</td></tr>";
         }
         if($num_count>0){
-            $mail_options = [
-                "sender" => $admin,
-                "to" => $sadmin,
-                "cc"=>$admin,
-                "subject" => $mail_subject,
-                "htmlBody" => $message
-            ];
+
+            //SENDING MAIL OPTIONS
+            $name = $mail_subject;
+            $from = $admin;
+            $message1 = new Message();
+            $message1->setSender($name.'<'.$from.'>');
+            $message1->addTo($sadmin);
+            $message1->addCc($admin);
+            $message1->setSubject($mail_subject);
+            $message1->setHtmlBody($message);
+
             try {
-                $message = new Message($mail_options);
-                $message->send();
+                $message1->send();
             } catch (\InvalidArgumentException $e) {
                 echo $e;
             }
+
         }
     }
 }

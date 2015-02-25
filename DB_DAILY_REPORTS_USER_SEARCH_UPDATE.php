@@ -330,16 +330,19 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 }
                 $sub=str_replace("[LOGINID]","$loginid",$body);
                 $sub=$sub.'<br>';
-                $mail_options = [
-                    "sender" => $admin,
-                    "to" => $admin,
-                    "cc" => $sadmin,
-                    "subject" => $mail_subject,
-                    "htmlBody" => $sub.$values
-                ];
+
+                //SENDING MAIL OPTIONS
+                $name = $mail_subject;
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($admin);
+                $message1->addCc($sadmin);
+                $message1->setSubject($mail_subject);
+                $message1->setHtmlBody($sub.$values);
+
                 try {
-                    $message = new Message($mail_options);
-                    $message->send();
+                    $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }

@@ -1,5 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************CHECK IN REMAINDER MAIL TRIGGER *************************************//
+
+//DONE BY:LALITHA
+//VER 0.03-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //DONE BY:RAJA
 //VER 0.02-SD:08/01/2015 ED:08/01/2015, TRACKER NO:175,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME
 //DONE BY:RAJA
@@ -54,18 +57,22 @@ if($Current_day!='Sunday'){
             }
             $bodyscript=str_replace("[MAILID_USERNAME]","$empname",$body);
             $message_body=str_replace("[DATE]",date('l jS F Y '),$bodyscript);
-            $mail_options = [
-                "sender" => $admin,
-                "to" => $names,
-                "subject" => $mail_subject,
-                "textBody" => $message_body
-            ];
-            try {
-                $message = new Message($mail_options);
-                $message->send();
-            } catch (\InvalidArgumentException $e) {
-                echo $e;
-            }
+                //SENDING MAIL OPTIONS
+                $name = $mail_subject;
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($names);
+                $message1->setSubject($mail_subject);
+                $message1->setHtmlBody($message_body);
+
+                try {
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
+
+
         }
         }
     }

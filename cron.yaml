@@ -68,6 +68,5 @@ cron:
 
 - description: scrape xml
   url: /REPORT_CLOCK_OUT_MISSED_MAIL
-  schedule: every day 21:00
+  schedule: every day 23:58
   timezone: Asia/Kolkata
-

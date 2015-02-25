@@ -19,6 +19,10 @@ if($flag==19){
     $inputValTwo = $con->real_escape_string($inputValTwo);
     $inputValTwo = date("Y-m-d",strtotime($inputValTwo));
 }
+if($flag==27){
+    $inputValOne=date('Y-m-01', strtotime($inputValOne));
+    $inputValTwo=date('Y-m-t', strtotime($inputValOne));
+}
 $arrcall=array(3=>"CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA((select ULD_ID from VW_TS_ALL_EMPLOYEE_DETAILS where EMPLOYEE_NAME='$inputValOne'),'$USERSTAMP',@TEMP_TABLE)",
     5=>"CALL SP_REVENUE_BY_PROJECT_NAME('1','$inputValOne','$inputValTwo',$REV_startdate,$REV_enddate,'$USERSTAMP',@TEMP_TABLE,@NO_OF_DAYS_WORKED,@NO_OF_HOURS)",
     6=>"CALL SP_PROJECT_REVENUE_BY_EMPLOYEE('1','$inputValOne','$inputValTwo','$inputValThree',$REV_startdate,$REV_enddate,'$USERSTAMP',@TEMP_TABLE,@NO_OF_DAYS_WORKED,@T_DAYS,@T_HRS,@T_MIN)",
@@ -31,8 +35,9 @@ $arrcall=array(3=>"CALL SP_TS_USER_ADMIN_REPORT_DETAILS_TICKLER_DATA((select ULD
     13=>"CALL SP_TS_REPORT_COUNT_ABSENT_FLAG('$inputValOne','$USERSTAMP',@TEMP_TABLE)",
     14=>"CALL SP_TS_REPORT_BANDWIDTH_CALCULATION('$inputValOne',$REP_BND_loginid,'$USERSTAMP',@TEMP_TABLE)",
     15=>"CALL SP_TS_REPORT_BANDWIDTH_CALCULATION('$inputValOne','$inputValTwo','$USERSTAMP',@TEMP_TABLE)",
-    19=>"CALL SP_TS_CALCULATE_TOTAL_NO_OF_WEEKS('$inputValOne','$inputValTwo','$USERSTAMP',@TEMP_TABLE)");
-
+    19=>"CALL SP_TS_CALCULATE_TOTAL_NO_OF_WEEKS('$inputValOne','$inputValTwo','$USERSTAMP',@TEMP_TABLE)",
+    26=>"CALL SP_TS_REPORT_COUNT_CLOCKOUT_MISSED('$inputValOne','$USERSTAMP',@TEMP_TABLE)");
+//    27=>"SELECT DATE_FORMAT(ECIOD_DATE,'%d-%m-%Y') AS ECIOD_DATE FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE  ECIOD_DATE BETWEEN '$inputValOne' AND '$inputValTwo' AND ECIOD_FLAG='X' AND ULD_ID='inputValThree'");
 //APPEND TABLE HEADER
 $arrHeader=array(1=>array('EMPLOYEE NAME','ROLE','REC VER','JOIN DATE','TERMINATION DATE','REASON OF TERMINATION','EMP TYPE','USERSTAMP','TIMESTAMP'),
     3=>array('HISTORY','USERSTAMP','TIMESTAMP'),
@@ -46,8 +51,9 @@ $arrHeader=array(1=>array('EMPLOYEE NAME','ROLE','REC VER','JOIN DATE','TERMINAT
     18=>array('DATE','REPORT','TIMESTAMP'),19=>array('WEEK','WEEKLY REPORT','USERSTAMP','TIMESTAMP'),
     20=>array('DATE','DESCRIPTION','USERSTAMP','TIMESTAMP'),21=>array('EMPLOYEE NAME','REPORT','LOCATION','USERSTAMP','TIMESTAMP'),
     22=>array('DATE','REPORT','LOCATION','USERSTAMP','TIMESTAMP'),23=>array('EMPLOYEE NAME','CLOCK IN','CLOCK IN LOCATION','CLOCK OUT','CLOCK OUT LOCATION'),24=>array('DATE','CLOCK IN','CLOCK IN LOCATION','CLOCK OUT','CLOCK OUT LOCATION'),
-25=>array('EMPLOYEE NAME','DATE OF BIRTH','DESIGNATION','MOBILE NO','NEXT KIN NAME','RELATION HOOD','ALT MOBILE NO','BANK NAME','BRANCH NAME','ACCOUNT NAME','ACCOUNT NO','IFSC CODE','ACCOUNT TYPE','BRANCH ADDRESS','AADHAAR NO','PASSPORT NO','VOTER ID','COMMENTS','LAPTOP NO','CHARGER NO','LAPTOP BAG','MOUSE','DOOR ACCESS','ID CARD','HEAD SET','USERSTAMP','TIMESTAMP'));
-
+    25=>array('EMPLOYEE NAME','DATE OF BIRTH','DESIGNATION','MOBILE NO','NEXT KIN NAME','RELATION HOOD','ALT MOBILE NO','BANK NAME','BRANCH NAME','ACCOUNT NAME','ACCOUNT NO','IFSC CODE','ACCOUNT TYPE','BRANCH ADDRESS','AADHAAR NO','PASSPORT NO','VOTER ID','COMMENTS','LAPTOP NO','CHARGER NO','LAPTOP BAG','MOUSE','DOOR ACCESS','ID CARD','HEAD SET','USERSTAMP','TIMESTAMP'),
+    26=>array('EMPLOYEE NAME','TOTAL COUNTS'),
+    27=>array('CLOCK OUT MISSED DATE'));
 //TABLE HEADER WIDTH
 $arrHeaderWidth=array(1=>array(20,20,20,150,20,20,20,20,20),
     3=>array(400,180,180),
@@ -56,13 +62,13 @@ $arrHeaderWidth=array(1=>array(20,20,20,150,20,20,20,20,20),
     6=>array(200,60,60,60),7=>array(100,60,60,60),8=>array(100,60,60,60),9=>array(100,60,60,60),9=>array(100,60,60,60),10=>array(100,60,60,60)
 ,11=>array(100,100,100,100,100),12=>array(200,100,100,100,100),13=>array(200,60),14=>array(200,60),15=>array(200,60),16=>array(60,160,160,160),
     17=>array(180,200,60,80,80,80,180,130),18=>array(80,300,180),19=>array(130,450,180,140),20=>array(80,300,180,180),21=>array(220,610,180,180,145),22=>array(85,610,180,180,145),
-    23=>array(200,100,200,100,200),24=>array(80,100,200,100,200),
+    23=>array(200,100,200,100,200),24=>array(80,100,200,100,200),26=>array(200,60),27=>array(30),
     25=>array(30,10,20,10,10,10,10,10,20,20,30,20,10,40,5,5,5,5,10,30,5,5,5,5,5,20,10));
 //TABLE WIDTH
 
-$arrTableWidth=array(1=>1500,3=>1800,4=>600,5=>700,6=>700,7=>700,8=>800,9=>700,9=>700,10=>700,11=>800,12=>800,13=>700,14=>700,15=>700,16=>1000,17=>1400,18=>1200,19=>1300,20=>800,21=>1900,22=>1700,23=>1500,24=>1500,25=>3200);
+$arrTableWidth=array(1=>1500,3=>1800,4=>600,5=>700,6=>700,7=>700,8=>800,9=>700,9=>700,10=>700,11=>800,12=>800,13=>700,14=>700,15=>700,16=>1000,17=>1400,18=>1200,19=>1300,20=>800,21=>1900,22=>1700,23=>1500,24=>1500,25=>3200,26=>500,27=>200);
 //script to execute call query
-if(($flag==3)||($flag==5)||($flag==6)||($flag==19)||($flag==7)||($flag==8)||($flag==9)||($flag==10)||($flag==11)||($flag==12)||($flag==13)||($flag==14)||($flag==15)){
+if(($flag==3)||($flag==5)||($flag==6)||($flag==19)||($flag==7)||($flag==8)||($flag==9)||($flag==10)||($flag==11)||($flag==12)||($flag==13)||($flag==26)||($flag==14)||($flag==15)){
     $result = $con->query($arrcall[$flag]);
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query("SELECT @TEMP_TABLE");
@@ -100,14 +106,22 @@ $arrQuery=array( 1=>"SELECT AE.EMPLOYEE_NAME,RC.RC_NAME,UA.UA_REC_VER,DATE_FORMA
          LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=UARD.UARD_PM_SESSION LEFT JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID=UARD.UARD_USERSTAMP_ID LEFT JOIN USER_LOGIN_DETAILS I ON I.ULD_ID=UARD.ULD_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION J ON J.CIORL_ID=UARD.CIORL_ID where UARD_DATE BETWEEN '$inputValTwo' AND '$inputValThree' AND UARD.ULD_ID=$inputValOne ORDER BY UARD.UARD_DATE",
     23=>"SELECT CONCAT(EMP.EMP_FIRST_NAME,' ',EMP.EMP_LAST_NAME) AS EMPLOYEE_NAME,ECIOD.ECIOD_CHECK_IN_TIME,CIORL_IN.CIORL_LOCATION AS ECIOD_CHECK_IN_LOCATION,ECIOD.ECIOD_CHECK_OUT_TIME,CIORL_OUT.CIORL_LOCATION AS ECIOD_CHECK_OUT_LOCATION FROM EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD LEFT JOIN EMPLOYEE_DETAILS EMP on EMP.ULD_ID=ECIOD.ULD_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_IN ON  ECIOD.ECIOD_CHECK_IN_LOCATION=CIORL_IN.CIORL_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_OUT ON ECIOD.ECIOD_CHECK_OUT_LOCATION=CIORL_OUT.CIORL_ID  WHERE ECIOD.ECIOD_DATE='$inputValFour'",
     24=>"SELECT DATE_FORMAT(ECIOD.ECIOD_DATE,'%d-%m-%Y') AS ECIOD_DATE,ECIOD.ECIOD_CHECK_IN_TIME,CIORL_IN.CIORL_LOCATION AS ECIOD_CHECK_IN_LOCATION ,ECIOD.ECIOD_CHECK_OUT_TIME,CIORL_OUT.CIORL_LOCATION AS ECIOD_CHECK_OUT_LOCATION FROM EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_IN ON  ECIOD.ECIOD_CHECK_IN_LOCATION=CIORL_IN.CIORL_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_OUT ON ECIOD.ECIOD_CHECK_OUT_LOCATION=CIORL_OUT.CIORL_ID  WHERE ECIOD.ECIOD_DATE BETWEEN '$inputValOne' AND '$inputValTwo' AND ECIOD.ULD_ID='$inputValThree'",
+    26=>"SELECT UNAME,CLOCKOUT_MISSED_COUNT from $temp_table  WHERE UNAME IS NOT NULL order by UNAME",
+    27=>"SELECT DATE_FORMAT(ECIOD_DATE,'%d-%m-%Y') AS ECIOD_DATE FROM EMPLOYEE_CHECK_IN_OUT_DETAILS WHERE  ECIOD_DATE BETWEEN '$inputValOne' AND '$inputValTwo' AND ECIOD_FLAG='X' AND ULD_ID='$inputValThree'",
     25=>"SELECT AE.EMPLOYEE_NAME,DATE_FORMAT(ED.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,ED.EMP_DESIGNATION,ED.EMP_MOBILE_NUMBER,ED.EMP_NEXT_KIN_NAME,ED.EMP_RELATIONHOOD,ED.EMP_ALT_MOBILE_NO,ED.EMP_BANK_NAME,ED.EMP_BRANCH_NAME,ED.EMP_ACCOUNT_NAME,ED.EMP_ACCOUNT_NO,ED.EMP_IFSC_CODE,ED.EMP_ACCOUNT_TYPE,ED.EMP_BRANCH_ADDRESS,ED.EMP_AADHAAR_NO,ED.EMP_PASSPORT_NO,ED.EMP_VOTER_ID,ED.EMP_COMMENTS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_USERSTAMP,DATE_FORMAT(CONVERT_TZ(ED.EMP_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T') AS EMP_TIMESTAMP FROM USER_LOGIN_DETAILS ULD, EMPLOYEE_DETAILS ED LEFT JOIN COMPANY_PROPERTIES_DETAILS CPD ON ED.EMP_ID=CPD.EMP_ID, VW_TS_ALL_EMPLOYEE_DETAILS AE WHERE  ED.ULD_ID = ULD.ULD_ID AND ED.ULD_ID = AE.ULD_ID GROUP BY ED.EMP_ID ORDER BY AE.EMPLOYEE_NAME");
 
 //start to fetch select query
 $stmtExecute= mysqli_query($con,$arrQuery[$flag]);
 $ure_values=array();
 $final_values=array();
-$appendTable="<br><br><table border=1 style='border-collapse: collapse' width='".$arrTableWidth[$flag]."px'><sethtmlpageheader name='header' page='all' value='on' show-this-page='1'/><thead><tr>";
+if($flag==27){
+$appendTable="<br><br><table border=1 style='border-collapse: collapse' align='center'  width='".$arrTableWidth[$flag]."px'><sethtmlpageheader name='header' page='all' value='on' show-this-page='1'/><thead><tr>";
+}
+else{
+$appendTable="<br><br><table border=1 style='border-collapse: collapse'  width='".$arrTableWidth[$flag]."px'><sethtmlpageheader name='header' page='all' value='on' show-this-page='1'/><thead><tr>";
+}
 $arrHeaderLength = count($arrHeader[$flag]);
+
 for($h = 0; $h < $arrHeaderLength; $h++) {
     $appendTable .="<td align='center' color='white' bgcolor='#6495ed' width='".$arrHeaderWidth[$flag][$h]."px'>".$arrHeader[$flag][$h]."</td >";
 }
@@ -181,12 +195,16 @@ while($row=mysqli_fetch_array($stmtExecute)){
     $appendTable .='</tr>';
 }
 $appendTable .='</tbody></table>';
+
 //DROP TEMP TABLE
 $drop_query="DROP TABLE $temp_table ";
-if(($flag==3)||($flag==5)||($flag==19)||($flag==6)||($flag==7)||($flag==8)||($flag==9)||($flag==10)||($flag==11)||($flag==12)||($flag==13)||($flag==14)||($flag==15))
+if(($flag==3)||($flag==5)||($flag==19)||($flag==6)||($flag==7)||($flag==8)||($flag==9)||($flag==10)||($flag==11)||($flag==12)||($flag==13)||($flag==26)||($flag==14)||($flag==15))
     mysqli_query($con,$drop_query);
 //GENERATE PDF
 $pageWidth=$arrTableWidth[$flag]/4;
+if($flag=27)
+    $pageWidth=130;
+
 //set_time_limit(0);
 $mpdf=new mPDF('utf-8', array($pageWidth,236));
 $mpdf->SetHTMLHeader('<h3><div style="text-align: center; font-weight: bold;">'.$_GET['title'].'</div></h3>', 'O', true);
@@ -215,4 +233,6 @@ $outputpdf=$mpdf->Output($_GET['title'].'.pdf','d');
 22******ADMIN REPORT S/U-- ALL EMPLOYEE
 23******CLOCK IN FOR EMPLOYEE DATE RANGE
 24******CLOCK IN FOR ALL EMPLOYEEFDGFDG
+26******CLOCK OUT MISSED BY MONTH
+27******CLOCK OUT MISSED BY employee
 -->

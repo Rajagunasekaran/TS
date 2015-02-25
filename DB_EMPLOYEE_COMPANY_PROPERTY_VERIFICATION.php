@@ -2,6 +2,7 @@
 //*******************************************FILE DESCRIPTION*************************************************//
 //***********************************************COMPANY PROPERTY VERFICATION*******************************//
 //DONE BY:LALITHA
+//VER 0.04-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //VER 0.03 SD:09/12/2014 ED:08/12/2014,TRACKER NO:74,Changed preloader position,login id changed to emp name in mail part
 //VER 0.02 SD:06/12/2014 ED:08/12/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
@@ -127,19 +128,23 @@ if(isset($_REQUEST)){
             $replace= array("[SADMIN]", "[NAME]","[CHECKEDBYID]","[LAPNO]","[CHARGERNO]","[COMMENTS]");
             $str_replaced  = array($spladminname,$CPVD_emp_name, $CPVD_checkedby_empname,$CPVD_lap_no,$CPVD_charger_no,$comment_msg);
             $main_body = str_replace($replace, $str_replaced, $email_body);
-            $mail_options = [
-                "sender" => $admin,
-                "to" => $admin,
-                "cc" => $sadmin,
-                "subject" => $mail_subject,
-                "htmlBody" => $main_body
-            ];
+
+            //SENDING MAIL OPTIONS
+            $name = $mail_subject;
+            $from = $admin;
+            $message = new Message();
+            $message->setSender($name.'<'.$from.'>');
+            $message->addTo($admin);
+            $message->addCc($sadmin);
+            $message->setSubject($mail_subject);
+            $message->setHtmlBody($main_body);
+
             try {
-                $message = new Message($mail_options);
                 $message->send();
             } catch (\InvalidArgumentException $e) {
                 echo $e;
             }
+
         }
         echo $flag;
     }

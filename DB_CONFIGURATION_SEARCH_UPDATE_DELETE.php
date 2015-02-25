@@ -3,8 +3,11 @@
 //*********************************************************************************************************//-->
 //*******************************************FILE DESCRIPTION*********************************************//
 //****************************************CONFIGURATION SEARCH/UPDATE/DELETE*************************************************//
+//DONE BY:LALITHA
+//VER 0.03-SD:07/02/2015 ED:07/02/2015,TRACKER NO:74,Updated alphabets fr project details nd Changed validation
+//VER 0.02-SD:19/01/2015 ED:19/01/2015,TRACKER NO:74,Added Deletion part nd Checked sp,Added err msgs,Fixed width,Changed query fr flex tble nd Updation part,Hide the errmsgs nd dt
 //DONE BY:SARADAMBAL
-//VER 0.04-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
+//VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 
 set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
@@ -23,11 +26,9 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_load_mod")
     {
         // GET ERR MSG
-//        $CONFIG_SRCH_UPD_errmsg=get_error_msg('17,126,127,128,129,131,125,113,132');
-                $CONFIG_SRCH_UPD_errmsg=get_error_msg('17,60,113,125,126,127,128,129,131,132');
-
+        $CONFIG_SRCH_UPD_errmsg=get_error_msg('17,60,113,125,126,127,128,129,131,132');
         // CONFIGURATION LIST
-        $CONFIG_SRCH_UPD_mod = mysqli_query($con,"SELECT * FROM CONFIGURATION_PROFILE ORDER BY CNP_DATA");
+        $CONFIG_SRCH_UPD_mod = mysqli_query($con,"SELECT  DISTINCT CP.CNP_ID,CP.CNP_DATA FROM CONFIGURATION_PROFILE CP,CONFIGURATION C WHERE CP.CNP_ID=C.CNP_ID AND (C.CGN_NON_IP_FLAG is null) ORDER BY CP.CNP_DATA");
         $CONFIG_SRCH_UPD_arr_mod=array();
         while($row=mysqli_fetch_array($CONFIG_SRCH_UPD_mod)){
             $CONFIG_SRCH_UPD_arr_mod[]=array($row[0],$row[1]);
@@ -54,7 +55,9 @@ if(isset($_REQUEST)){
         $CONFIG_SRCH_UPD_type=$_REQUEST['CONFIG_SRCH_UPD_lb_type'];
         $arrTableWidth=array(3=>1400,2=>1400,4=>1400,5=>1400);
         $arrHeaderWidth=array(3=>array(500),5=>array(100));
-        $CONFIG_SRCH_UPD_arr_data=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA","DT.AC_ID,DT.AC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.AC_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T')"),5=>array("PROJECT_CONFIGURATION","PC_DATA","DT.PC_ID,DT.PC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.PC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),2=>array("REPORT_CONFIGURATION","RC_DATA","DT.RC_ID,DT.RC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.RC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA","DT.URC_ID,DT.URC_DATA,DT.URC_USERSTAMP,DATE_FORMAT(CONVERT_TZ(DT.URC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"));
+        $CONFIG_SRCH_UPD_arr_data=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA","DT.AC_ID,DT.AC_DATA,DT.AC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.AC_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T')"),5=>array("PROJECT_CONFIGURATION","PC_DATA","DT.PC_ID,DT.PC_DATA,DT.PC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.PC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),2=>array("REPORT_CONFIGURATION","RC_DATA","DT.RC_ID,DT.RC_DATA,DT.RC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.RC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA","DT.URC_ID,DT.URC_DATA,DT.URC_INITIALIZE_FLAG,DT.URC_USERSTAMP,DATE_FORMAT(CONVERT_TZ(DT.URC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"));
+//        echo "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP WHERE  CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC";
+//        echo "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP,USER_LOGIN_DETAILS ULD WHERE  ULD.ULD_ID=DT.ULD_ID AND CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC";
         if($flag==3)
         {
             $CONFIG_SRCH_UPD_sql_data = mysqli_query($con, "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP WHERE  CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC");
@@ -65,10 +68,17 @@ if(isset($_REQUEST)){
         $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult' width='".$arrTableWidth[$flag]."px'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th width=250>USERSTAMP</th><th width=220>TIMESTAMP</th><th width=250>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
         while($row=mysqli_fetch_array($CONFIG_SRCH_UPD_sql_data)){
             $appendTable .='<tr  id='.$row[0].'><td id='.'CONFIG_'.$row[0].'>'.$row[1].'</td>';
-            for($x = 2; $x < 4; $x++) {
+            for($x = 3; $x < 5; $x++) {
                 $appendTable .="<td width='".$arrHeaderWidth[$flag][$x]."px'  >".$row[$x]."</td>";
             }
-            $appendTable .='<td align="center"><input type="button"  id="edit" class="edit btn" value="EDIT"><input type="button"  id="cancel" class="delete btn" value="DELETE"></td></tr>';
+            if($row[2]=='X')
+            {
+                $deleteoption='<input type="button"  id="edit" class="edit btn nondelete" value="EDIT"><input type="button"  id="cancl" class="cancl btn" value="CANCEL">';
+            }
+            else{
+                $deleteoption='<input type="button"  id="edit" class="edit btn deletion" value="EDIT"><input type="button"  id="cancel" class="delete btn" value="DELETE">';
+            }
+            $appendTable .='<td align="center">'.$deleteoption.'</td></tr>';
         }
         $appendTable .='</tbody></table>';
         echo JSON_ENCODE($appendTable);
@@ -80,7 +90,6 @@ if(isset($_REQUEST)){
         $flag=$_REQUEST['CONFIG_SRCH_UPD_lb_module'];
         $CONFIG_SRCH_UPD_data=$_REQUEST['CONFIG_SRCH_UPD_tb_data'];
         $CONFIG_SRCH_UPD_type=$_REQUEST['CONFIG_SRCH_UPD_lb_type'];
-//        echo $CONFIG_SRCH_UPD_type;
         $CONFIG_SRCH_UPD_id=$_REQUEST['CONFIG_SRCH_UPD_id'];
         $CONFIG_SRCH_UPD_arr_config=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA"),5=>array("PROJECT_CONFIGURATION","PC_DATA"),2=>array("REPORT_CONFIGURATION","RC_DATA"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA"));
         $sql1= "SELECT ".$CONFIG_SRCH_UPD_arr_config[$flag][1]." FROM ".$CONFIG_SRCH_UPD_arr_config[$flag][0]." CCN WHERE CCN.CGN_ID=(SELECT C.CGN_ID FROM CONFIGURATION C WHERE C.CGN_ID='$CONFIG_SRCH_UPD_type') AND ".$CONFIG_SRCH_UPD_arr_config[$flag][1]."='$CONFIG_SRCH_UPD_data'";
@@ -97,82 +106,71 @@ if(isset($_REQUEST)){
         $refresh_token= $Refresh_Token;
         $drive->refreshToken($refresh_token);
         $service = new Google_Service_Drive($drive);
-
-        //SERVICE
+//        //SERVICE
         $select_document_owner=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=14");
         if($row=mysqli_fetch_array($select_document_owner)){
             $ss_document_owner=$row["URC_DATA"];
         }
-
-if($CONFIG_SRCH_UPD_type==13){
-
-    $service = new Google_Service_Calendar($drive);
-    try{
-    $acl = $service->acl->listAcl($CONFIG_SRCH_UPD_data);
-        $ff=1;
-    }
-    catch (Exception $e){
-        $ff=0;
-    }
-    if($ff==1){
-
-        $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
-        if($row=mysqli_fetch_array($select_calenderid)){
-            $oldcalenderid=$row["URC_DATA"];
-        }
-        try{
-        $acl = $service->acl->listAcl($oldcalenderid);
-          foreach ($acl->getItems() as $rule) {
-
-              $emailadrress[]=$rule->id;
-              $role[]=$rule->role;
-           }
-        }
-        catch (Exception $e){
-            $ff=0;
-        }
-
-        for($x=0;$x<=count($emailadrress);$x++){
-
-            if($role[$x]=='reader'){
-        $email=explode(":", $emailadrress[$x]);
-        $email=$email[1];
-                $rule = new Google_Service_Calendar_AclRule();
-                $scope = new Google_Service_Calendar_AclRuleScope();
-                $scope->setType("user");
-                $scope->setValue($email);
-                $rule->setScope($scope);
-                $rule->setRole("none");
+//SHARING FUNCTION PART
+        if($CONFIG_SRCH_UPD_type==13){
+            $service = new Google_Service_Calendar($drive);
+            try{
+                $acl = $service->acl->listAcl($CONFIG_SRCH_UPD_data);
+                $ff=1;
+            }
+            catch (Exception $e){
+                $ff=0;
+            }
+            if($ff==1){
+                $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
+                if($row=mysqli_fetch_array($select_calenderid)){
+                    $oldcalenderid=$row["URC_DATA"];
+                }
                 try{
-                $createdRule = $service->acl->insert($oldcalenderid, $rule);
-                }
-                catch(Exception $e){
+                    $acl = $service->acl->listAcl($oldcalenderid);
+                    foreach ($acl->getItems() as $rule) {
 
-                    echo $e;
+                        $emailadrress[]=$rule->id;
+                        $role[]=$rule->role;
+                    }
+                }
+                catch (Exception $e){
+                    $ff=0;
+                }
+                for($x=0;$x<=count($emailadrress);$x++){
+                    if($role[$x]=='reader'){
+                        $email=explode(":", $emailadrress[$x]);
+                        $email=$email[1];
+                        $rule = new Google_Service_Calendar_AclRule();
+                        $scope = new Google_Service_Calendar_AclRuleScope();
+                        $scope->setType("user");
+                        $scope->setValue($email);
+                        $rule->setScope($scope);
+                        $rule->setRole("none");
+                        try{
+                            $createdRule = $service->acl->insert($oldcalenderid, $rule);
+                        }
+                        catch(Exception $e){
+                            echo $e;
+                        }
+                    }
+                }
+                for($x=0;$x<=count($emailadrress);$x++){
+                    if($role[$x]=='reader'){
+                        $email=explode(":",$emailadrress[$x]);
+                        $email=$email[1];
+                        $rule = new Google_Service_Calendar_AclRule();
+                        $scope = new Google_Service_Calendar_AclRuleScope();
+                        $scope->setType("user");
+                        $scope->setValue($email);
+                        $rule->setScope($scope);
+                        $rule->setRole($role[$x]);
+                        $createdRule = $service->acl->insert($CONFIG_SRCH_UPD_data, $rule);
+                    }
                 }
             }
         }
-
-        for($x=0;$x<=count($emailadrress);$x++){
-            if($role[$x]=='reader'){
-                $email=explode(":",$emailadrress[$x]);
-                $email=$email[1];
-                $rule = new Google_Service_Calendar_AclRule();
-                $scope = new Google_Service_Calendar_AclRuleScope();
-                $scope->setType("user");
-                $scope->setValue($email);
-                $rule->setScope($scope);
-                $rule->setRole($role[$x]);
-                    $createdRule = $service->acl->insert($CONFIG_SRCH_UPD_data, $rule);
-
-
-            }
-        }
-    }
-}
         //url id
-
-
         if($CONFIG_SRCH_UPD_type==9)
         {
             $new_url=$CONFIG_SRCH_UPD_data;
@@ -188,60 +186,52 @@ if($CONFIG_SRCH_UPD_type==13){
             catch (Exception $e) {
                 $ff=0;
             }
-//            $new_fileId=$new_fileId->getId();
             if($ff==1){
-            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=5");
-            if($row=mysqli_fetch_array($select_fileid)){
-                $ss_fileid=$row["URC_DATA"];
-            }
-            $url=$ss_fileid;
-            if($url!=null){
-                $url_id =explode("/", $url);
-                $fileId=$url_id[7];
-                $file_id=$fileId;
-            }
-            try {
-                $permissions = $service->permissions->listPermissions($fileId);
-                $return_value= $permissions->getItems();
-            } catch (Exception $e) {
-                $ff=0;
-            }
-            $permission_id=array();
-//print_r($return_value);
-            foreach ($return_value as $key => $value) {
-
-                $permission_id[]=$value->id;
-                $emailadrress[]=$value->emailAddress;
-                $role_array[]=$value->role;
+                $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=5");
+                if($row=mysqli_fetch_array($select_fileid)){
+                    $ss_fileid=$row["URC_DATA"];
+                }
+                $url=$ss_fileid;
+                if($url!=null){
+                    $url_id =explode("/", $url);
+                    $fileId=$url_id[7];
+                    $file_id=$fileId;
+                }
+                try {
+                    $permissions = $service->permissions->listPermissions($fileId);
+                    $return_value= $permissions->getItems();
+                } catch (Exception $e) {
+                    $ff=0;
+                }
+                $permission_id=array();
+                foreach ($return_value as $key => $value) {
+                    $permission_id[]=$value->id;
+                    $emailadrress[]=$value->emailAddress;
+                    $role_array[]=$value->role;
 //    $value->
-            }
-//print_r($permission_id);
+                }
                 for($y=0;$y<=count($permission_id);$y++){
-            if($permission_id!=''){
-                if($permission_id[$y]!=''){
-                    try {
-                        if($role_array[$y]!='owner'){
-                            $service->permissions->delete($fileId, $permission_id[$y]);
-                            $ff=1;
+                    if($permission_id!=''){
+                        if($permission_id[$y]!=''){
+                            try {
+                                if($role_array[$y]!='owner'){
+                                    $service->permissions->delete($fileId, $permission_id[$y]);
+                                    $ff=1;
+                                }
+                            } catch (Exception $e) {
+                                $ff=0;
+                            }
                         }
-                    } catch (Exception $e) {
-                        $ff=0;
                     }
                 }
-            }
-                }
-            for($k=0;$k<=count($emailadrress);$k++)
-            {
-
-                if($role_array[$k]!='owner')
+                for($k=0;$k<=count($emailadrress);$k++)
+                {
+//                    if($role_array[$k]!='owner')
                     shareDocument($service,$emailadrress[$k],$role_array[$k],$new_fileId);
-
-            }
-                shareDocument($service,$ss_document_owner,'owner',$new_fileId);
-
+                }
+//                shareDocument($service,$ss_document_owner,'owner',$new_fileId);
             }
         }
-//        echo $ss_flag;
         //file id
         if($CONFIG_SRCH_UPD_type==12||$CONFIG_SRCH_UPD_type==17 )
         {
@@ -249,68 +239,61 @@ if($CONFIG_SRCH_UPD_type==13){
             try{
                 $file = $service->files->get($CONFIG_SRCH_UPD_data);
                 $url_link=$file->getDefaultOpenWithLink();
-               $ff=1;
+                $ff=1;
             }
             catch (Exception $e) {
-               $ff=0;
-            }
-           if($ff==1){
-               if($CONFIG_SRCH_UPD_type==12){
-            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
-            if($row=mysqli_fetch_array($select_fileid)){
-                $ss_fileid=$row["URC_DATA"];
-            }
-               }
-               else if($CONFIG_SRCH_UPD_type==17){
-                   $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
-                   if($row=mysqli_fetch_array($select_fileid)){
-                       $ss_fileid=$row["URC_DATA"];
-                   }
-
-
-               }
-            $fileId=$ss_fileid;
-               $file_id=$fileId;
-            try {
-                $permissions = $service->permissions->listPermissions($fileId);
-                $return_value= $permissions->getItems();
-            } catch (Exception $e) {
                 $ff=0;
             }
-            $permission_id=array();
-               $emailadrress=array();
-               $role_array=array();
-
-//print_r($return_value);
-            foreach ($return_value as $key => $value) {
-
-                $permission_id[]=$value->id;
-                $emailadrress[]=$value->emailAddress;
-                $role_array[]=$value->role;
-
-//    $value->
-            }
-            for($y=0;$y<=count($permission_id);$y++){
-            if($permission_id[$y]!=''){
-                try {
-                    if($role_array[$y]!='owner'){
-                    $service->permissions->delete($fileId, $permission_id[$y]);
-                        $ff=1;
+            if($ff==1){
+                if($CONFIG_SRCH_UPD_type==12){
+                    $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
+                    if($row=mysqli_fetch_array($select_fileid)){
+                        $ss_fileid=$row["URC_DATA"];
                     }
+                }
+                else if($CONFIG_SRCH_UPD_type==17){
+                    $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
+                    if($row=mysqli_fetch_array($select_fileid)){
+                        $ss_fileid=$row["URC_DATA"];
+                    }
+                }
+                $fileId=$ss_fileid;
+                $file_id=$fileId;
+                try {
+                    $permissions = $service->permissions->listPermissions($fileId);
+                    $return_value= $permissions->getItems();
                 } catch (Exception $e) {
                     $ff=0;
                 }
-            }
-           }
-            for($k=0;$k<=count($emailadrress);$k++)
-            {
-                if($role_array[$k]!='owner')
-                shareDocument($service,$emailadrress[$k],$role_array[$k],$CONFIG_SRCH_UPD_data);
+                $permission_id=array();
+                $emailadrress=array();
+                $role_array=array();
+                foreach ($return_value as $key => $value) {
+                    $permission_id[]=$value->id;
+                    $emailadrress[]=$value->emailAddress;
+                    $role_array[]=$value->role;
+//    $value->
+                }
+                for($y=0;$y<=count($permission_id);$y++){
+                    if($permission_id[$y]!=''){
+                        try {
+                            if($role_array[$y]!='owner'){
+                                $service->permissions->delete($fileId, $permission_id[$y]);
+                                $ff=1;
+                            }
+                        } catch (Exception $e) {
+                            $ff=0;
+                        }
+                    }
+                }
+                for($k=0;$k<=count($emailadrress);$k++)
+                {
+//                    if($role_array[$k]!='owner')
+                    shareDocument($service,$emailadrress[$k],$role_array[$k],$CONFIG_SRCH_UPD_data);
 
+                }
+//                shareDocument($service,$ss_document_owner,'owner',$CONFIG_SRCH_UPD_data);
             }
-               shareDocument($service,$ss_document_owner,'owner',$CONFIG_SRCH_UPD_data);
-
-        }
         }
         //COMMON
         if($row=mysqli_fetch_array($CONFIG_SRCH_UPD_type1)){
@@ -321,8 +304,8 @@ if($CONFIG_SRCH_UPD_type==13){
         if($flag==3){
             if((($ff==1)&&($CONFIG_SRCH_UPD_type==12))){
 
-            $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
-            $sql1="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$url_link',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=5";
+                $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
+                $sql1="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$url_link',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=5";
             }
             else if((($CONFIG_SRCH_UPD_type==9)&&($ff==1) )){
                 $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
@@ -342,49 +325,46 @@ if($CONFIG_SRCH_UPD_type==13){
             else if($CONFIG_SRCH_UPD_type!=12 || $CONFIG_SRCH_UPD_type!=9 ||$CONFIG_SRCH_UPD_type!=17 || $CONFIG_SRCH_UPD_type!=13){
 
                 $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
-
             }
         }
         else{
             $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."=(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP') WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
         }
-
         if($ff==1){
-        if($CONFIG_SRCH_UPD_save!=2){
-            if (!mysqli_query($con,$sql)) {
-                die('Error: ' . mysqli_error($con));
-                $CONFIG_SRCH_UPD_save=4;
-            }
-            else{
-                $CONFIG_SRCH_UPD_save=1;
-            }
-            if($CONFIG_SRCH_UPD_type==12||$CONFIG_SRCH_UPD_type==9){
-                if (!mysqli_query($con,$sql1)) {
+            if($CONFIG_SRCH_UPD_save!=2){
+                if (!mysqli_query($con,$sql)) {
                     die('Error: ' . mysqli_error($con));
+                    $CONFIG_SRCH_UPD_save=4;
                 }
+                else{
+                    $CONFIG_SRCH_UPD_save=1;
+                }
+                if($CONFIG_SRCH_UPD_type==12||$CONFIG_SRCH_UPD_type==9){
+                    if (!mysqli_query($con,$sql1)) {
+                        die('Error: ' . mysqli_error($con));
+                    }
+                }
+                $con->commit();
             }
-            $con->commit();
         }
-}
         $final_array=[$CONFIG_SRCH_UPD_save,$ff,$file_id];
         echo json_encode($final_array);
     }
-
     //UPDATE DATA FOR EMAIL TEMPLATE TABLE
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_delete"){
         $flag=$_REQUEST['CONFIG_SRCH_UPD_lb_module'];
         $CONFIG_SRCH_UPD_data=$_REQUEST['CONFIG_SRCH_UPD_tb_data'];
         $CONFIG_SRCH_UPD_id=$_REQUEST['CONFIG_SRCH_UPD_id'];
         $CONFIG_SRCH_UPD_arr_delete_data=array(4=>array(17,"AC_DATA","DT.AC_ID,DT.AC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.AC_TIMESTAMP,'%d-%m-%Y %T')"),5=>array(22,"PC_DATA","DT.PC_ID,DT.PC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.PC_TIMESTAMP,'%d-%m-%Y %T')"),2=>array(16,"RC_DATA","DT.RC_ID,DT.RC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.RC_TIMESTAMP,'%d-%m-%Y %T')"),3=>array(15,"URC_DATA","DT.URC_ID,DT.AC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.URC_TIMESTAMP,'%d-%m-%Y %T')"));
-        $flag_result=1;
-        if(($flag==3) ||( $flag==4) ||($flag==5))
-        {
-            $result = $con->query("CALL SP_TS_CONFIG_CHECK_TRANSACTION(".$CONFIG_SRCH_UPD_arr_delete_data[$flag][0].",$CONFIG_SRCH_UPD_id,@CONFIGDELETE_FLAG)");
-            if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
-            $select = $con->query('SELECT @CONFIGDELETE_FLAG');
-            $result = $select->fetch_assoc();
-            $flag_result= $result['@CONFIGDELETE_FLAG'];
-        }
+//        $flag_result=1;
+//        if(($flag==3) ||( $flag==4) ||($flag==5))
+//        {
+        $result = $con->query("CALL SP_TS_CONFIG_CHECK_TRANSACTION(".$CONFIG_SRCH_UPD_arr_delete_data[$flag][0].",$CONFIG_SRCH_UPD_id,@CONFIGDELETE_FLAG)");
+        if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+        $select = $con->query('SELECT @CONFIGDELETE_FLAG');
+        $result = $select->fetch_assoc();
+        $flag_result= $result['@CONFIGDELETE_FLAG'];
+//        }
         if($flag_result==1){
             $CONFIG_SRCH_UPD_arr_delete_data=array(4=>array(17,"AC_DATA","DT.AC_ID,DT.AC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.AC_TIMESTAMP,'%d-%m-%Y %T')"),5=>array(22,"PC_DATA","DT.PC_ID,DT.PC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.PC_TIMESTAMP,'%d-%m-%Y %T')"),2=>array(16,"RC_DATA","DT.RC_ID,DT.RC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.RC_TIMESTAMP,'%d-%m-%Y %T')"),3=>array(15,"URC_DATA","DT.URC_ID,DT.AC_DATA,ULD.ULD_LOGINID,DATE_FORMAT(DT.URC_TIMESTAMP,'%d-%m-%Y %T')"));
             $result = $con->query("CALL SP_TS_SINGLE_TABLE_ROW_DELETION(".$CONFIG_SRCH_UPD_arr_delete_data[$flag][0].",$CONFIG_SRCH_UPD_id,'$USERSTAMP',@CONFIGDELETE_FLAG)");
@@ -392,7 +372,7 @@ if($CONFIG_SRCH_UPD_type==13){
             $select = $con->query('SELECT @CONFIGDELETE_FLAG');
             $result = $select->fetch_assoc();
             $flag1= $result['@CONFIGDELETE_FLAG'];
-
+//
         }
         echo $flag1;
     }
@@ -412,10 +392,8 @@ if($CONFIG_SRCH_UPD_type==13){
         echo $CONFIG_SRCH_UPD_data_flag;
     }
 }
-
+//FUNCTION FOR SHARING DOCUMENT
 function shareDocument($service,$emailadrress,$role_array,$CONFIG_SRCH_UPD_data){
-
-
     $value=$emailadrress;
     $type='user';
     $role=$role_array;

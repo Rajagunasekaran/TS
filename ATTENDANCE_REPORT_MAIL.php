@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ATTENDANCE REPORT MAIL TRIGGER *************************************//
+//DONE BY:LALITHA
+//VER 0.04-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //DONE BY:RAJA
 //VER 0.03-SD:09/01/2015 ED:09/01/2015, TRACKER NO:74,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME
 //VER 0.02-SD:01/12/2014,ED:01/12/2014,TRACKER NO:74, DESC:removed getuserstamp function.and updated script to run every first day of month,to get details of previous month.
@@ -123,14 +125,18 @@ if($month_end==$current_date){
     $outputpdf=$mpdf->Output('SSOMENS TS REPORT ' .$month_year. '.pdf','s');
     ob_end_clean();
     $FILENAME='SSOMENS TS REPORT ' .$month_year. '.pdf';
+    //SENDING MAIL OPTIONS
+    $name = 'ALL EMPLOYEE(S) ATTENDANCE REPORT';
+    $from = $admin;
     $message1 = new Message();
-    $message1->setSender($admin);
+    $message1->setSender($name.'<'.$from.'>');
     $message1->addTo($admin);
     $message1->addCc($sadmin);
     $message1->setSubject($mail_subject);
     $message1->setHtmlBody($message);
     $message1->addAttachment($FILENAME,$outputpdf);
     $message1->send();
+
 }
 
 

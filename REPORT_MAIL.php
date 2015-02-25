@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************REPORT MAIL TRIGGER *************************************//
 //DONE BY:LALITHA
+//VER 1.0-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //VER 0.09-SD:19/02/2015 ED:19/02/2015, TRACKER NO:74,DESC:Fixed width fr all headers
 //DONE BY:SAFI
 //VER 0.08,SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,DESC:ADDED GEOLOCATION AND LOGINID CHANGED AS EMPLOYEE NAME
@@ -43,11 +44,11 @@ $spladminname=$admin_name.'/'.$sadmin_name;
 $spladminname=strtoupper($spladminname);
 $sub=str_replace("[SADMIN]","$spladminname",$body);
 $sub=str_replace("[DATE]",date("d-m-Y"),$sub);
-$message='<html><body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=1700 ><thead  bgcolor=#6495ed style=color:white><tr  align="center"  height=2px ><td width=260><b>EMPLOYEE NAME</b></td><td width=1000><b>REPORT</b></td><td width=50 nowrap><b>CLOCK IN TIME</b></td><td width=560 nowrap><b>CLOCK IN LOCATION</b></td> <td width=60 nowrap><b>CLOCK OUT TIME</b></td><td width=260 nowrap><b>CLOCK OUT LOCATION</b></td><td  width=260 nowrap><b>REPORT LOCATION</b></td><td width=260><b>USERSTAMP</b></td><td width=150 nowrap><b>TIMESTAMP</b></td></tr></thead>';
+$message='<html><body>'.'<br>'.'<h> '.$sub.'</h>'.'<br>'.'<br>'.'<table border=1  width=1700 ><thead  bgcolor=#6495ed style=color:white><tr  align="center"  height=2px ><td width=260><b>EMPLOYEE NAME</b></td><td width=1000><b>REPORT</b></td><td width=50 nowrap><b>CLOCK IN TIME</b></td><td width=260 nowrap><b>CLOCK IN LOCATION</b></td> <td width=60 nowrap><b>CLOCK OUT TIME</b></td><td width=260 nowrap><b>CLOCK OUT LOCATION</b></td><td  width=260 nowrap><b>REPORT LOCATION</b></td><td width=260><b>USERSTAMP</b></td><td width=150 nowrap><b>TIMESTAMP</b></td></tr></thead>';
 $query="SELECT DISTINCT  EMP.EMPLOYEE_NAME AS EMPLOYEE_NAME, ECIOD.ECIOD_CHECK_IN_TIME, CIORL_IN.CIORL_LOCATION as ECIOD_CHECK_IN_LOCATION,ECIOD.ECIOD_CHECK_OUT_TIME, CIORL_OUT.CIORL_LOCATION as ECIOD_CHECK_OUT_LOCATION,AC.AC_DATA,A.UARD_REPORT,A.UARD_REASON,A.ABSENT_FLAG,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,B.ULD_LOGINID,R_LOCATION.CIORL_LOCATION AS REPORT_LOCATION,
         C.ULD_LOGINID AS USERSTAMP,DATE_FORMAT(CONVERT_TZ(A.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP FROM USER_ADMIN_REPORT_DETAILS A INNER JOIN USER_LOGIN_DETAILS B ON A.ULD_ID=B.ULD_ID   JOIN VW_TS_ALL_EMPLOYEE_DETAILS EMP on EMP.ULD_ID=A.ULD_ID INNER JOIN USER_LOGIN_DETAILS C ON A.UARD_USERSTAMP_ID=C.ULD_ID
         LEFT JOIN EMPLOYEE_CHECK_IN_OUT_DETAILS ECIOD ON ECIOD.ULD_ID = B.ULD_ID AND A.ULD_ID = ECIOD.ULD_ID AND A.UARD_DATE=ECIOD.ECIOD_DATE INNER JOIN USER_ACCESS D LEFT JOIN ATTENDANCE_CONFIGURATION AC ON A.UARD_PERMISSION=AC.AC_ID LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=A.UARD_AM_SESSION LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_IN ON ECIOD.ECIOD_CHECK_IN_LOCATION=CIORL_IN.CIORL_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION CIORL_OUT ON ECIOD.ECIOD_CHECK_OUT_LOCATION=CIORL_OUT.CIORL_ID LEFT JOIN CLOCK_IN_OUT_REPORT_LOCATION R_LOCATION ON A.CIORL_ID = R_LOCATION.CIORL_ID
-        LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION WHERE A.UARD_DATE='$currentdate' AND D.UA_TERMINATE IS NULL ORDER BY ULD_LOGINID ";
+        LEFT JOIN ATTENDANCE_CONFIGURATION H ON H.AC_ID=A.UARD_PM_SESSION WHERE A.UARD_DATE='$currentdate' AND D.UA_TERMINATE IS NULL ORDER BY EMPLOYEE_NAME ";
 $sql=mysqli_query($con,$query);
 $row=mysqli_num_rows($sql);
 $x=$row;
@@ -126,17 +127,19 @@ if($x>0){
     $message=$message."</table></body></html>";
     $REP_subject_date=$mail_subject.' - '.date("d/m/Y");
     //SENDING MAIL OPTIONS
-    $mail_options = [
-        "sender" =>$admin,
-        "to" =>$admin,
-        "cc"=>$sadmin,
-        "subject" => $REP_subject_date,
-        "htmlBody" => $message
-    ];
+    $name = $mail_subject;
+    $from = $admin;
+    $message1 = new Message();
+    $message1->setSender($name.'<'.$from.'>');
+    $message1->addTo($admin);
+    $message1->addCc($sadmin);
+    $message1->setSubject($REP_subject_date);
+    $message1->setHtmlBody($message);
+
     try {
-        $message = new Message($mail_options);
-        $message->send();
+        $message1->send();
     } catch (\InvalidArgumentException $e) {
         echo $e;
     }
+
 }

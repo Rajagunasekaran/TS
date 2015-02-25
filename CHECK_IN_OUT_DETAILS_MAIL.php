@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************CHECK IN/OUT DETAILS MAIL TRIGGER *************************************//
+//DONE BY:LALITHA
+//VER 0.03-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //DONE BY:RAJA
 //VER 0.02-SD:08/01/2015 ED:08/01/2015, TRACKER NO:175,DESC:CHANGED LOGIN ID AS EMPLOYEE NAME, DISPLAYED REPORT LOCATION INSTEAD OF LOCATION ID
 //DONE BY:RAJA
@@ -74,12 +76,16 @@ if($month_sdate==$current_date){
     $outputpdf=$mpdf->Output('CLOCK IN/OUT DETAILS ' .$month_year. '.pdf','S');
     ob_end_clean();
     $FILENAME='CLOCK IN/OUT DETAILS ' .$month_year. '.pdf';
+    //SENDING MAIL OPTIONS
+    $name = 'CLOCK IN/OUT DETAILS';
+    $from = $admin;
     $message1 = new Message();
-    $message1->setSender($admin);
+    $message1->setSender($name.'<'.$from.'>');
     $message1->addTo($admin);
     $message1->addCc($sadmin);
     $message1->setSubject($mail_subject);
     $message1->setHtmlBody($sub);
     $message1->addAttachment($FILENAME,$outputpdf);
     $message1->send();
+
 }
