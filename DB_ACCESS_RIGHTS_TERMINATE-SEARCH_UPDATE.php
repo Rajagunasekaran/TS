@@ -2,6 +2,7 @@
 //*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_TERMINATE_SEARCH_UPDATE*********************************************//
 //DONE BY:LALITHA
+//VER 0.08-SD:10/03/2015 ED:10/03/2015, TRACKER NO:74,DESC:Updated Not applicable for non mandatory fields.
 //VER 0.07-SD:25/02/2015 ED:25/02/2015, TRACKER NO:74,DESC:updated display name
 //ver 0.06 SD:08/01/2015 ED:10/01/2015 tracker no :74,Merged Employee details in design part nd mail part also,Added Attach File Html Code nd file Upload Script,Changed validation,Replaced Login id as Employee name,Updated auto focus
 //ver 0.05 SD:30/12/2014 ED:31/12/2014 tracker no :74,Updated preloader nd message box position
@@ -438,6 +439,46 @@ if(isset($_REQUEST))
                     $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
                     $body=$row["ETD_EMAIL_BODY"];
                 }
+                //not aplicable
+                if($URSRC_laptopno=='')
+                {
+                    $URSRC_laptopno="N/A";
+                }
+                else{
+                    $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                }
+                if($URSRC_chrgrno=='')
+                {
+                    $URSRC_chrgrno="N/A";
+                }
+                else{
+                    $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+                }
+                if($URSRC_chk_aadharno=='on')
+                {
+                    $URSRC_aadharno;
+                }
+                else
+                {
+                    $URSRC_aadharno="N/A";
+                }
+                if($URSRC_chk_passportno=='on')
+                {
+                    $URSRC_passportno;
+                }
+                else
+                {
+                    $URSRC_passportno="N/A";
+                }
+                if($URSRC_chk_votersid=='on')
+                {
+                    $URSRC_voterid;
+                }
+                else
+                {
+                    $URSRC_voterid="N/A";
+                }
+                //not applicable
 //STRING REPLACE FUNCTION
                 $emp_email_body;
                 $body_msg =explode("^", $body);
@@ -463,7 +504,7 @@ if(isset($_REQUEST))
                 $message1->setSender($name.'<'.$from.'>');
                 $message1->addTo($loggin);
                 $message1->addCc($admin);
-                $message1->setSubject($mail_subject);
+                $message1->setSubject($mail_subject1);
                 $message1->setHtmlBody($final_message);
 
                 try {

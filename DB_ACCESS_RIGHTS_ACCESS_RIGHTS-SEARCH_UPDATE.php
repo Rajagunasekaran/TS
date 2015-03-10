@@ -324,7 +324,47 @@ if(isset($_REQUEST)){
                     $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
                     $body=$row["ETD_EMAIL_BODY"];
                 }
-//STRING REPLACE FUNCTION
+                //not aplicable
+                if($URSRC_laptopno=='')
+                {
+                    $URSRC_laptopno="N/A";
+                }
+                else{
+                    $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                }
+                if($URSRC_chrgrno=='')
+                {
+                    $URSRC_chrgrno="N/A";
+                }
+                else{
+                    $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+                }
+                if($URSRC_chkaadharno=='on')
+                {
+                    $URSRC_aadharno;
+                }
+                else
+                {
+                    $URSRC_aadharno="N/A";
+                }
+                if($URSRC_chkpassportno=='on')
+                {
+                    $URSRC_passportno;
+                }
+                else
+                {
+                    $URSRC_passportno="N/A";
+                }
+                if($URSCR_chkvoterid=='on')
+                {
+                    $URSRC_voterid;
+                }
+                else
+                {
+                    $URSRC_voterid="N/A";
+                }
+                //not applicable
+          //STRING REPLACE FUNCTION
                 $emp_email_body;
                 $body_msg =explode("^", $body);
                 $length=count($body_msg);
@@ -593,7 +633,16 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
         if($flag==1){
+            if($lastdate!=$finaldate){
 
+                $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
+                $updatemailflag=1;
+                if($cal_flag==0){
+                    $updatemailflag=0;
+                    $con->rollback();
+                }
+
+            }
             $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
             if($row=mysqli_fetch_array($select_folderid)){
                 $folderid=$row["URC_DATA"];
@@ -612,18 +661,20 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             if($row=mysqli_fetch_array($select_fileid)){
                 $ss_fileid=$row["URC_DATA"];
             }
-
+//COMMON FUNCTION FOR GEETING ADMIN FROM ID
+            $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
+            $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
+            $admin_rs=mysqli_query($con,$select_admin);
+            $sadmin_rs=mysqli_query($con,$select_sadmin);
+            if($row=mysqli_fetch_array($admin_rs)){
+                $admin=$row["ULD_LOGINID"];//get admin
+            }
+            if($row=mysqli_fetch_array($sadmin_rs)){
+                $sadmin=$row["ULD_LOGINID"];//get super admin
+            }
+            //END
             if($oldloginid!=$loginid){
-                $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
-                $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
-                $admin_rs=mysqli_query($con,$select_admin);
-                $sadmin_rs=mysqli_query($con,$select_sadmin);
-                if($row=mysqli_fetch_array($admin_rs)){
-                    $admin=$row["ULD_LOGINID"];//get admin
-                }
-                if($row=mysqli_fetch_array($sadmin_rs)){
-                    $sadmin=$row["ULD_LOGINID"];//get super admin
-                }
+
                 $select_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=4");
                 if($row=mysqli_fetch_array($select_link)){
                     $site_link=$row["URC_DATA"];
@@ -744,6 +795,46 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                         $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
                         $body=$row["ETD_EMAIL_BODY"];
                     }
+                    //not aplicable
+                    if($URSRC_laptopno=='')
+                    {
+                        $URSRC_laptopno="N/A";
+                    }
+                    else{
+                        $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                    }
+                    if($URSRC_chrgrno=='')
+                    {
+                        $URSRC_chrgrno="N/A";
+                    }
+                    else{
+                        $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+                    }
+                    if($URSRC_chkaadharno=='on')
+                    {
+                        $URSRC_aadharno;
+                    }
+                    else
+                    {
+                        $URSRC_aadharno="N/A";
+                    }
+                    if($URSRC_chkpassportno=='on')
+                    {
+                        $URSRC_passportno;
+                    }
+                    else
+                    {
+                        $URSRC_passportno="N/A";
+                    }
+                    if($URSCR_chkvoterid=='on')
+                    {
+                        $URSRC_voterid;
+                    }
+                    else
+                    {
+                        $URSRC_voterid="N/A";
+                    }
+                    //not applicable
 //STRING REPLACE FUNCTION
                     $emp_email_body;
                     $body_msg =explode("^", $body);
@@ -761,13 +852,13 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                     $final_message=$final_message.'<br>'.$newphrase;
                     //SENDING MAIL OPTIONS
-                    $name = $mail_subject;
+                    $name = $mail_subject1;
                     $from = $admin;
                     $message1 = new Message();
                     $message1->setSender($name.'<'.$from.'>');
                     $message1->addTo($loginid);
                     $message1->addCc($admin);
-                    $message1->setSubject($mail_subject);
+                    $message1->setSubject($mail_subject1);
                     $message1->setHtmlBody($final_message);
                     try {
                         $message1->send();
@@ -845,17 +936,109 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                         }
                     }
                 }
-            }
-            if($lastdate!=$finaldate){
 
-                $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
-
-                if($cal_flag==0){
-
-                    $con->rollback();
+                //UPDATE PART SENDING MAIL
+                $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=16";
+                $select_template_rs=mysqli_query($con,$select_template);
+                if($row=mysqli_fetch_array($select_template_rs)){
+                    $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
+                    $body=$row["ETD_EMAIL_BODY"];
                 }
+                //not aplicable
+                if($URSRC_laptopno=='')
+                {
+                    $URSRC_laptopno="N/A";
+                }
+                else{
+                    $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                }
+                if($URSRC_chrgrno=='')
+                {
+                    $URSRC_chrgrno="N/A";
+                }
+                else{
+                    $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+                }
+                if($URSRC_chkaadharno=='on')
+                {
+                    $URSRC_aadharno;
+                }
+                else
+                {
+                    $URSRC_aadharno="N/A";
+                }
+                if($URSRC_chkpassportno=='on')
+                {
+                    $URSRC_passportno;
+                }
+                else
+                {
+                    $URSRC_passportno="N/A";
+                }
+                if($URSCR_chkvoterid=='on')
+                {
+                    $URSRC_voterid;
+                }
+                else
+                {
+                    $URSRC_voterid="N/A";
+                }
+                //not applicable
+               //STRING REPLACE FUNCTION
+                $emp_email_body;
+                $body_msg =explode("^", $body);
+                $length=count($body_msg);
+                for($i=0;$i<$length;$i++){
+                    $emp_email_body.=$body_msg[$i].'<br><br>';
+                }
+                $comment =explode("\n", $URSRC_branchaddr1);
+                $commnet_length=count($comment);
+                for($i=0;$i<$commnet_length;$i++){
+                    $comment_msg.=$comment[$i].'<br>';
+                }
+                $replace= array("[LOGINID]", "[FNAME]","[LNAME]", "[DOB]", "[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
+                $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
+                $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
+                $final_message=$final_message.'<br>'.$newphrase;
+                //SENDING MAIL OPTIONS
+                if(($lastdate!=$finaldate) && ($updatemailflag==1)){
 
+                $name = $mail_subject1;
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($loginid);
+                $message1->addCc($admin);
+                $message1->setSubject($mail_subject1);
+                $message1->setHtmlBody($final_message);
+                try {
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
+                }
+                else if(($updatemailflag==0) && ($lastdate!=$finaldate)){
+                    $cal_flag=0;
+                }
+                else{
+                    if($lastdate==$finaldate){
+                        $cal_flag=1;
+                    $name = $mail_subject1;
+                    $from = $admin;
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo($loginid);
+                    $message1->addCc($admin);
+                    $message1->setSubject($mail_subject1);
+                    $message1->setHtmlBody($final_message);
+                    try {
+                        $message1->send();
+                    } catch (\InvalidArgumentException $e) {
+                        echo $e;
+                    }}
+                }
             }
+
             $flag_array=[$flag,$ss_flag,$cal_flag,$ss_fileid,$file_flag,$folderid];
         }
         else{
