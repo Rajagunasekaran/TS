@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_TERMINATE_SEARCH_UPDATE*********************************************//
+//DONE BY:PUNI
+//ver 0.08 DESC:CHANGED SCRIPT TO UPLOAD FILE IN DRIVE -REJOIN FORM-CHANGED SUBMIT BUTTON VALIDATION,SHOW ERR WITH DUPLICATE FILE NAME BY USER,MAX 4 FILES,FILE SIZE 10 MB,CREATED FOLDER IN DRIVE IF NOT EXISTS ELSE SHOW ERROR MSG
 //DONE BY:LALITHA
 //ver 0.06 SD:08/01/2015 ED:10/01/2015 tracker no :74,Merged Employee details in design part nd mail part also,Added Attach File Html Code nd file Upload Script,Changed validation,Replaced Login id as Employee name,Updated auto focus
 //ver 0.05 SD:30/12/2014 ED:31/12/2014 tracker no :74,Updated preloader nd message box position
@@ -15,6 +17,7 @@ include "HEADER.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
+var  button_vflag=1;
 //START READY FUNCTION
 $(document).ready(function(){
     $('.preloader', window.parent.document).show();
@@ -22,6 +25,69 @@ $(document).ready(function(){
     //reomve file upload row
     $(document).on('click', 'button.removebutton', function () {
         $(this).closest('tr').remove();
+        ValidateSubmitbutton()
+        return false;
+    });
+    //file extension validation
+    $(document).on("change",'.fileextensionchk', function (){
+        ValidateSubmitbutton()
+    });
+    //file extension validation
+    function ValidateSubmitbutton()
+    {
+        button_vflag=1;
+        $("input[type=file].fileextensionchk").each(function(){
+            var currentid=$(this).attr("id");
+            if($(this).val()!="")
+            {
+                var datasplit=$(this).val().split('.');
+                var ext=datasplit[1].toUpperCase();//(this.files[0].type).toString().toUpperCase();
+                if(ext!='PDF'&& ext!='JPG'&& ext!='PNG' && ext!='JPEG')
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[12],position:{top:1800,left:550}}});
+                    button_vflag=0;
+                    $('#attachprompt').hide();
+                }
+                var filesize=$("#"+$(this).attr("id"))[0].files[0].size;//(this.files[0].size);
+                var maxfilesize=1048576*10;
+                if(filesize>maxfilesize)
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[15],position:{top:1800,left:550}}});
+                    button_vflag=0;
+                    reset_field($('#'+$(this).attr("id")));
+                    $('#attachprompt').hide();
+                }
+                var filename=[];
+                $("div.fileextensionchk").each(function(){
+                    filename.push($(this).text());
+                });
+
+                $("input[type=file].fileextensionchk").each(function(){
+
+                    if(currentid!=$(this).attr("id"))
+                        if($(this).val()!="")
+                        {
+                            filename.push($("#"+$(this).attr("id"))[0].files[0].name);
+                        }
+                });
+
+                if($.inArray( $("#"+$(this).attr("id"))[0].files[0].name, filename )!=-1)
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[14],position:{top:1800,left:550}}});
+                    button_vflag=0;
+                    reset_field($('#'+$(this).attr("id")));
+                    $('#attachprompt').hide();
+
+                }
+            }
+            else
+            {
+                button_vflag=0;
+                $('#attachprompt').hide();
+            }
+
+        });
+        URT_SRC_validation();
         var rowCount = $('#filetableuploads tr').length;
         if(rowCount!=0)
         {
@@ -31,25 +97,16 @@ $(document).ready(function(){
         {
             $('#attachafile').text('Attach a file');
         }
-        return false;
-    });
-    //file extension validation
-    $(document).on("change",'.fileextensionchk', function (){
-        for(var i=0;i<25;i++)
+        if(rowCount==4)
         {
-            var data= $('#upload_filename'+i).val();
-            var datasplit=data.split('.');
-            var ext=datasplit[1].toUpperCase();
-            if(ext=='PDF'|| ext=='JPG'|| ext=='PNG' || ext=='JPEG' || data==undefined || data=="")
-            {}
-            else
-            {
-                reset_field($('#upload_filename'+i));
-                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[12],position:{top:1800,left:550}}});
-
-            }
+            $('#attachprompt').hide();
         }
-    });
+        else
+        {
+            if(button_vflag==1)
+                $('#attachprompt').show();
+        }
+    }
     //file upload reset
     function reset_field(e) {
         e.wrap('<form>').parent('form').trigger('reset');
@@ -57,19 +114,12 @@ $(document).ready(function(){
     }
     //add file upload row
     $(document).on("click",'#attachprompt', function (){
+        button_vflag=0;
         var tablerowCount = $('#filetableuploads tr').length;
         var uploadfileid="upload_filename"+tablerowCount;
-        var appendfile='<tr><td ><input type="file" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></td></tr></br>';
+        var appendfile='<tr><td ><input type="file" name="UTERM_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></td></tr></br>';
         $('#filetableuploads').append(appendfile);
-        var rowCount = $('#filetableuploads tr').length;
-        if(rowCount!=0)
-        {
-            $('#attachafile').text('Attach another file');
-        }
-        else
-        {
-            $('#attachafile').text('Attach a file');
-        }
+        ValidateSubmitbutton();
     });
     //GLOBAL DECLARATION
     var URT_SRC_terminate_array=[];
@@ -91,7 +141,7 @@ $(document).ready(function(){
                     var temp='SELECT ROLE ACCESS<em>*</em>'
                 else
                     var temp=''
-                URT_SRC_radio_role+='<tr ><td><label class="srctitle">'+temp+'</label></td><td width="195"><input type="radio" name="URT_SRC_radio_nrole" id='+id1+' value='+value+' class="URT_SRC_radio_clsrole"  />' + URT_SRC_terminate_array[i][1] + '</td></tr>';
+                URT_SRC_radio_role+='<tr ><td><label id="URT_lbl_dbroles" class="srctitle">'+temp+'</label></td><td width="195"><input type="radio" name="URT_SRC_radio_nrole" id='+id1+' value='+value+' class="URT_SRC_radio_clsrole"  />' + URT_SRC_terminate_array[i][1] + '</td></tr>';
             }
             $('#URT_SRC_tble_roles').html(URT_SRC_radio_role);
             var emp_type='<option value="SELECT">SELECT</option>';
@@ -111,6 +161,7 @@ $(document).ready(function(){
     $(".accntno").doValidation({rule:'numbersonly',prop:{leadzero:true}});
     $(".alphanumeric").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:false,autosize:true}});
     $(".alphanumericuppercse").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
+    $(".autosizealph").doValidation({rule:'alphabets',prop:{whitespace:true,autosize:true}});
     //END VALIDATION PART
     //CLICK FUNCTION FOR TERMINATION BTN
     $(document).on('click','#URT_SRC_btn_termination',function(){
@@ -187,123 +238,120 @@ $(document).ready(function(){
     $('#URSRC_tb_dob').datepicker("option","maxDate",pass_changedmonth);
 //END DATE PICKER FUNCTION
     //CLICK FUNCTION FOR REJOIN BTN
-    $(document).on('click','#URT_SRC_btn_rejoin',function(){
-
+    $('form').submit(function (e){
+        e.preventDefault();
+        var URSRC_submitbtnvalue= $(this).find("input[type=submit]:focus").val();
         $('.preloader',window.parent.document).show();
-        //Removing fakepath in all files
-        var filearray=[];
-        for(var i=0;i<25;i++)
+        if(URSRC_submitbtnvalue=="REJOIN")
         {
-            var data=$('#upload_filename'+i).val();
-            if(data!='' && data!=undefined)
-            {
-                data=(data.toString()).replace("C:\\fakepath\\", "");
-                filearray.push(data);
-            }
+            var login_id=$("#URT_SRC_lb_loginrejoin").val();
+            var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
+            var formElement = document.getElementById("URT_SRC_form_terminatesearchupdate");
+            $.ajax({
+                type: 'POST',
+                url: "DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do",
+                data: new FormData(this),
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,
+                success: function(data)
+                {
+                    $('.preloader',window.parent.document).hide();
+                    if(data.match("Error:Folder id Not present"))
+                    {
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[13],position:{top:150,left:550}}});
+                    }
+                    else if(data.toLowerCase().match("error")){
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:data ,position:{top:150,left:500}}});
+                    }
+                    var msg_alert=JSON.parse(data);
+                    var success_flag=msg_alert[0];
+                    var ss_flag=msg_alert[1];
+                    var cal_flag=msg_alert[2];
+                    var file_flag=msg_alert[4];
+                    var folder_id=msg_alert[5];
+                    if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1)){
+                        var loggin=$("#URT_SRC_lb_loginrejoin").val();
+                        var msg=js_errormsg_array[2].toString().replace("[LOGIN ID]",URT_loginid_val);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
+                        $("#URT_SRC_lbl_datepickerrejoin").hide();
+                        $("#URT_SRC_lbl_loginrejoin").show();
+                        $("#URT_SRC_tble_roles").hide();
+                        $('#URSRC_table_employeetbl').hide();
+                        $("#URT_SRC_lb_loginupdate").hide();
+                        $("#URT_SRC_tb_datepickerrejoin").hide();
+                        $("#URT_SRC_btn_rejoin").hide();
+                        $('#URT_SRC_lbl_loginupdate').hide();
+                        $('#URT_SRC_lbl_datepickerupdate').hide();
+                        $('#URT_SRC_tb_datepickerupdate').hide();
+                        $('#URT_SRC_lbl_reasonupdate').hide();
+                        $('#URT_SRC_ta_reasonupdate').hide();
+                        $('#URT_SRC_btn_update').hide();
+                        $('#URT_SRC_radio_selectrejoin').hide();
+                        $('#URT_SRC_radio_selectsearchupdate').hide()
+                        $('#URT_SRC_lb_loginrejoin').hide();
+                        $('#URT_SRC_lbl_loginrejoin').hide();
+                        $('#URT_SRC_lbl_selectsearchupdate').hide();
+                        $('#URT_SRC_lbl_selectrejoin').hide();
+                        $('#URT_SRC_lbl_selectoption').hide();
+                        $("#URSRC_lbl_emptype").hide();
+                        $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
+                        $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
+                        $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
+                        $("#filetableuploads tr").remove();
+                        $('#attachafile').text('Attach a file');
+                    }
+                    else if(success_flag==0){
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
+                        $("#URT_SRC_lbl_datepickerrejoin").hide();
+                        $("#URT_SRC_lbl_loginrejoin").show();
+                        $("#URT_SRC_tble_roles").hide();
+                        $('#URSRC_table_employeetbl').hide();
+                        $("#URT_SRC_lb_loginupdate").hide();
+                        $("#URT_SRC_tb_datepickerrejoin").hide();
+                        $("#URT_SRC_btn_rejoin").hide();
+                        $('#URT_SRC_lbl_loginupdate').hide();
+                        $('#URT_SRC_lbl_datepickerupdate').hide();
+                        $('#URT_SRC_tb_datepickerupdate').hide();
+                        $('#URT_SRC_lbl_reasonupdate').hide();
+                        $('#URT_SRC_ta_reasonupdate').hide();
+                        $('#URT_SRC_btn_update').hide();
+                        $('#URT_SRC_radio_selectrejoin').hide();
+                        $('#URT_SRC_radio_selectsearchupdate').hide()
+                        $('#URT_SRC_lb_loginrejoin').hide();
+                        $('#URT_SRC_lbl_loginrejoin').hide();
+                        $('#URT_SRC_lbl_selectsearchupdate').hide();
+                        $('#URT_SRC_lbl_selectrejoin').hide();
+                        $('#URT_SRC_lbl_selectoption').hide();
+                        $("#URSRC_lbl_emptype").hide();
+                        $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
+                        $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
+                        $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
+                    }
+                    else if((success_flag==1)&&(ss_flag==0)){
+                        var fileid=msg_alert[3];
+                        var msg= js_errormsg_array[8].replace("[SSID]",fileid)
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
+
+                    }
+                    else if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
+
+                        var msg=js_errormsg_array[11].replace("[FID]",folder_id);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg ,position:{top:150,left:500}}});
+
+                    }
+                    else if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
+                        var msg= js_errormsg_array[9];
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
+
+                    }
+                },
+                error: function(data){
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:JSON.stringify(data),position:{top:150,left:550}}});
+                }
+
+            });
         }
-        var filenames='';
-        for(var j=0;j<filearray.length;j++)
-        {
-            if(j==0){filenames=filearray[j];}
-            else
-            {filenames=filenames+','+filearray[j];}
-        }
-        //End Removing fakepath in all files
-        var login_id=$("#URT_SRC_lb_loginrejoin").val();
-        var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
-        var formElement = document.getElementById("URT_SRC_form_terminatesearchupdate");
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-
-                $('.preloader',window.parent.document).hide();
-                var msg_alert=JSON.parse(xmlhttp.responseText);
-                var success_flag=msg_alert[0];
-                var ss_flag=msg_alert[1];
-                var cal_flag=msg_alert[2];
-                var file_flag=msg_alert[4];
-                var folder_id=msg_alert[5];
-                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1)){
-                    var loggin=$("#URT_SRC_lb_loginrejoin").val();
-                    var msg=js_errormsg_array[2].toString().replace("[LOGIN ID]",URT_loginid_val);
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-                    $("#URT_SRC_lbl_datepickerrejoin").hide();
-                    $("#URT_SRC_lbl_loginrejoin").show();
-                    $("#URT_SRC_tble_roles").hide();
-                    $('#URSRC_table_employeetbl').hide();
-                    $("#URT_SRC_lb_loginupdate").hide();
-                    $("#URT_SRC_tb_datepickerrejoin").hide();
-                    $("#URT_SRC_btn_rejoin").hide();
-                    $('#URT_SRC_lbl_loginupdate').hide();
-                    $('#URT_SRC_lbl_datepickerupdate').hide();
-                    $('#URT_SRC_tb_datepickerupdate').hide();
-                    $('#URT_SRC_lbl_reasonupdate').hide();
-                    $('#URT_SRC_ta_reasonupdate').hide();
-                    $('#URT_SRC_btn_update').hide();
-                    $('#URT_SRC_radio_selectrejoin').hide();
-                    $('#URT_SRC_radio_selectsearchupdate').hide()
-                    $('#URT_SRC_lb_loginrejoin').hide();
-                    $('#URT_SRC_lbl_loginrejoin').hide();
-                    $('#URT_SRC_lbl_selectsearchupdate').hide();
-                    $('#URT_SRC_lbl_selectrejoin').hide();
-                    $('#URT_SRC_lbl_selectoption').hide();
-                    $("#URSRC_lbl_emptype").hide();
-                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
-                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
-                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
-                    $("#filetableuploads tr").remove();
-                    $('#attachafile').text('Attach a file');
-                }
-                else if(success_flag==0){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
-                    $("#URT_SRC_lbl_datepickerrejoin").hide();
-                    $("#URT_SRC_lbl_loginrejoin").show();
-                    $("#URT_SRC_tble_roles").hide();
-                    $('#URSRC_table_employeetbl').hide();
-                    $("#URT_SRC_lb_loginupdate").hide();
-                    $("#URT_SRC_tb_datepickerrejoin").hide();
-                    $("#URT_SRC_btn_rejoin").hide();
-                    $('#URT_SRC_lbl_loginupdate').hide();
-                    $('#URT_SRC_lbl_datepickerupdate').hide();
-                    $('#URT_SRC_tb_datepickerupdate').hide();
-                    $('#URT_SRC_lbl_reasonupdate').hide();
-                    $('#URT_SRC_ta_reasonupdate').hide();
-                    $('#URT_SRC_btn_update').hide();
-                    $('#URT_SRC_radio_selectrejoin').hide();
-                    $('#URT_SRC_radio_selectsearchupdate').hide()
-                    $('#URT_SRC_lb_loginrejoin').hide();
-                    $('#URT_SRC_lbl_loginrejoin').hide();
-                    $('#URT_SRC_lbl_selectsearchupdate').hide();
-                    $('#URT_SRC_lbl_selectrejoin').hide();
-                    $('#URT_SRC_lbl_selectoption').hide();
-                    $("#URSRC_lbl_emptype").hide();
-                    $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
-                    $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
-                    $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
-                }
-                else if((success_flag==1)&&(ss_flag==0)){
-                    var fileid=msg_alert[3];
-                    var msg= js_errormsg_array[8].replace("[SSID]",fileid)
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-
-                }
-                else if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
-
-                    var msg=js_errormsg_array[11].replace("[FID]",folder_id);
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg ,position:{top:150,left:500}}});
-
-                }
-                else if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
-                    var msg= js_errormsg_array[9];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-
-                }
-            }
-        }
-        var option='REJOIN';
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?option="+option+"&login_id="+login_id+"&filearray="+filenames,true);
-        xmlhttp.send(new FormData(formElement));
-
     });
     $(document).on('click','#URT_SRC_btn_update',function(){
         $('.preloader', window.parent.document).show();
@@ -519,7 +567,21 @@ $(document).ready(function(){
     });
     //CHANGE FUNCTION FOR REJOIN LOGIN ID LISTBX
     $('#URT_SRC_lb_loginrejoin').change(function(){
+        $("#filetableuploads tr").remove();
+        $('#attachprompt').show();
         var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
+        ///
+        $('#URSRC_lbl_login_role').hide();
+        $('#URT_SRC_lbl_datepickerrejoin').hide();
+        $('#URT_SRC_tb_datepickerrejoin').hide();
+        $('#URSRC_lbl_emptype').hide();
+        $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
+        $('#URSRC_table_employeetbl').hide();
+        $('#URSRC_table_others').hide();
+        $('#URT_lbl_dbroles').hide();
+        $('#URT_SRC_tble_roles').hide();
+        $('#URT_SRC_btn_rejoin').hide();
+        ///
         if(URT_loginid_val=='SELECT')
         {
             $("#URT_SRC_tble_roles").hide();
@@ -533,45 +595,6 @@ $(document).ready(function(){
         }
         else
         {
-            $("#URT_SRC_tble_roles").show();
-            $('#URSRC_table_employeetbl').show();
-            $("#URT_SRC_tb_datepickerrejoin").val('').show();
-            $("#URT_SRC_lbl_datepickerrejoin").show();
-            $("#URT_SRC_btn_rejoin").show();
-            $("#URSRC_lbl_emptype").show();
-            $('#URSRC_lb_selectemptype').show();
-            $('#URSRC_tb_firstname').val('');
-            $('#URSRC_tb_lastname').val('');
-            $('#URSRC_tb_dob').val('');
-            $('#URSRC_tb_designation').val('');
-            $('#URSRC_tb_permobile').val('');
-            $('#URSRC_tb_kinname').val('');
-            $('#URSRC_tb_relationhd').val('');
-            $('#URSRC_tb_mobile').val('');
-            $('#URSRC_tb_bnkname').val('');
-            $('#URSRC_tb_brnchname').val('');
-            $('#URSRC_tb_accntname').val('');
-            $('#URSRC_tb_accntno').val('');
-            $('#URSRC_tb_ifsccode').val('');
-            $('#URSRC_tb_accntyp').val('');
-            $('#URSRC_ta_brnchaddr').val('');
-            $('#URSRC_tb_laptopno').val('');
-            $('#URSRC_tb_chargerno').val('');
-            $('#URSRC_ta_comments').val('');
-            $('#URSRC_tb_aadharno').val('').hide();
-            $('#URSRC_tb_passportno').val('').hide();
-            $('#URSRC_tb_votersid').val('').hide();
-            $("input[name=URSRC_chk_bag]:checked").attr('checked',false);
-            $("input[name=URSRC_chk_mouse]:checked").attr('checked',false);
-            $("input[name=URSRC_chk_dracess]:checked").attr('checked',false);
-            $("input[name=URSRC_chk_idcrd]:checked").attr('checked',false);
-            $("input[name=URSRC_chk_headset]:checked").attr('checked',false);
-            $("input[name=URSRC_chk_aadharno]:checked").attr('checked',false);
-            $("input[name=URSRC_chk_passportno]:checked").attr('checked',false);
-            $("input[name=URSRC_chk_votersid]:checked").attr('checked',false);
-            $('#URSRC_lbl_validnumber').hide();
-            $('#URSRC_lbl_validnumber1').hide();
-            $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
             $('.preloader', window.parent.document).show();
             var URT_SRC_loggin=$(this).val();
             if(URT_loginid_val !=""){
@@ -580,150 +603,226 @@ $(document).ready(function(){
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         $('.preloader', window.parent.document).hide();
-                        var values_array=JSON.parse(xmlhttp.responseText);
-                        var min_date=values_array[0][1];
-                        var firstname=values_array[0][0].firstname;
-                        var lastname=values_array[0][0].lastname;
-                        var dob=values_array[0][0].dob;
-                        var designation=values_array[0][0].designation;
-                        var mobile=values_array[0][0].mobile;
-                        var kinname=values_array[0][0].kinname;
-                        var relationhood=values_array[0][0].relationhood;
-                        var altmobile=values_array[0][0].altmobile;
-                        var laptop=values_array[0][0].laptop;
-                        var chargerno=values_array[0][0].chargerno;
-                        var bag=values_array[0][0].bag;
-                        var mouse=values_array[0][0].mouse;
-                        var dooraccess=values_array[0][0].dooraccess;
-                        var idcard=values_array[0][0].idcard;
-                        var headset=values_array[0][0].headset;
-                        var bankname=values_array[0][0].bankname;
-                        var branchname=values_array[0][0].branchname;
-                        var accountname=values_array[0][0].accountname;
-                        var accountno=values_array[0][0].accountno;
-                        var ifsccode=values_array[0][0].ifsccode;
-                        var accountype=values_array[0][0].accountype;
-                        var branchaddr=values_array[0][0].branchaddress;
-                        var aadharno=values_array[0][0].URSRC_aadhar;
-                        var passportno=values_array[0][0].URSRC_passport;
-                        var votersid=values_array[0][0].URSRC_voterid;
-                        var comments=values_array[0][0].URSRC_comments;
-                        var mindate=min_date.toString().split('-');
-                        var month=mindate[1]-1;
-                        var year=mindate[2];
-                        var date=parseInt(mindate[0])+1;
-                        var minimumdate = new Date(year,month,date);
-                        $('#URT_SRC_tb_datepickerrejoin').datepicker("option","minDate",minimumdate);
-                        $('#URT_SRC_tb_datepickerrejoin').datepicker("option","maxDate",new Date());
-                        $('#URSRC_table_employeetbl').show();
-                        $('#URSRC_table_others').show();
-                        var emp_firstname=firstname.length;
-                        $('#URSRC_tb_firstname').val(firstname).attr("size",emp_firstname+3);
-                        var emp_lastname=lastname.length;
-                        $('#URSRC_tb_lastname').val(lastname).attr("size",emp_lastname+3);
-                        $('#URSRC_tb_dob').val(dob);
-                        var emp_designation=designation.length;
-                        $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
-                        $('#URSRC_tb_permobile').val(mobile);
-                        var emp_kinname=kinname.length;
-                        $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
-                        var emp_relationhood=relationhood.length;
-                        $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+2);
-                        $('#URSRC_tb_mobile').val(altmobile);
-                        var emp_bankname=bankname.length;
-                        $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
-                        var emp_branchname=branchname.length;
-                        $('#URSRC_tb_brnchname').val(branchname).attr("size",emp_branchname+3);
-                        var emp_accountname=accountname.length;
-                        $('#URSRC_tb_accntname').val(accountname).attr("size",emp_accountname+2);
-                        var emp_accountno=accountno.length;
-                        $('#URSRC_tb_accntno').val(accountno).attr("size",emp_accountno+2);
-                        var emp_ifsccode=ifsccode.length;
-                        $('#URSRC_tb_ifsccode').val(ifsccode).attr("size",emp_ifsccode+2);
-                        var emp_accountype=accountype.length;
-                        $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
-                        $('#URSRC_ta_brnchaddr').val(branchaddr);
-                        if(laptop!=null){
-                        var emp_laptop=laptop.length;
-                        $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+                        if(xmlhttp.responseText.match("Error:Folder id Not present")){
+                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[13] ,position:{top:150,left:500}}});
+
                         }
-                        if(chargerno!=null){
-                        var emp_cahrgerno=chargerno.length;
-                        $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
-                        }
-                        $('#URSRC_ta_comments').val(comments);
-                        if(bag=='X')
-                        {
-                            $('#URSRC_chk_bag').attr('checked',true);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_bag').attr('checked',false);
-                        }
-                        if(mouse=='X')
-                        {
-                            $('#URSRC_chk_mouse').attr('checked',true);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_mouse').attr('checked',false);
-                        }
-                        if(dooraccess=='X')
-                        {
-                            $('#URSRC_chk_dracess').attr('checked',true);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_dracess').attr('checked',false);
-                        }
-                        if(idcard=='X')
-                        {
-                            $('#URSRC_chk_idcrd').attr('checked',true);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_idcrd').attr('checked',false);
-                        }
-                        if(headset=='X')
-                        {
-                            $('#URSRC_chk_headset').attr('checked',true);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_headset').attr('checked',false);
-                        }
-                        if(aadharno!=null)
-                        {
-                            $('#URSRC_chk_aadharno').attr('checked',true);
-                            var emp_aadharno=aadharno.length;
-                            $('#URSRC_tb_aadharno').val(aadharno).show().attr("size",emp_aadharno);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_aadharno').attr('checked',false);
+                        else{
+                            $('#URSRC_lbl_login_role').show();
+                            $('#URT_SRC_lbl_datepickerrejoin').show();
+                            $('#URT_SRC_tb_datepickerrejoin').show();
+                            $('#URSRC_lbl_emptype').show();
+                            $('#URSRC_lb_selectemptype').show();
+                            $('#URSRC_table_employeetbl').show();
+                            $('#URSRC_table_others').show();
+                            $('#URT_lbl_dbroles').show();
+                            $('#URT_SRC_tble_roles').show();
+                            $("#URT_SRC_tble_roles").show();
+                            $('#URSRC_table_employeetbl').show();
+                            $("#URT_SRC_tb_datepickerrejoin").val('').show();
+                            $("#URT_SRC_lbl_datepickerrejoin").show();
+                            $("#URT_SRC_btn_rejoin").show();
+                            $("#URSRC_lbl_emptype").show();
+                            $('#URSRC_lb_selectemptype').show();
+                            $('#URSRC_tb_firstname').val('');
+                            $('#URSRC_tb_lastname').val('');
+                            $('#URSRC_tb_dob').val('');
+                            $('#URSRC_tb_designation').val('');
+                            $('#URSRC_tb_permobile').val('');
+                            $('#URSRC_tb_kinname').val('');
+                            $('#URSRC_tb_relationhd').val('');
+                            $('#URSRC_tb_mobile').val('');
+                            $('#URSRC_tb_bnkname').val('');
+                            $('#URSRC_tb_brnchname').val('');
+                            $('#URSRC_tb_accntname').val('');
+                            $('#URSRC_tb_accntno').val('');
+                            $('#URSRC_tb_ifsccode').val('');
+                            $('#URSRC_tb_accntyp').val('');
+                            $('#URSRC_ta_brnchaddr').val('');
+                            $('#URSRC_tb_laptopno').val('');
+                            $('#URSRC_tb_chargerno').val('');
+                            $('#URSRC_ta_comments').val('');
                             $('#URSRC_tb_aadharno').val('').hide();
-                        }
-                        if(passportno!=null)
-                        {
-                            $('#URSRC_chk_passportno').attr('checked',true);
-                            var emp_passportno=passportno.length;
-                            $('#URSRC_tb_passportno').val(passportno).show().attr("size",emp_passportno);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_passportno').attr('checked',false);
                             $('#URSRC_tb_passportno').val('').hide();
-                        }
-                        if(votersid!=null)
-                        {
-                            $('#URSRC_chk_votersid').attr('checked',true);
-                            var emp_votersid=votersid.length;
-                            $('#URSRC_tb_votersid').val(votersid).show().attr("size",emp_votersid);
-                        }
-                        else
-                        {
-                            $('#URSRC_chk_votersid').attr('checked',false);
                             $('#URSRC_tb_votersid').val('').hide();
+                            $("input[name=URSRC_chk_bag]:checked").attr('checked',false);
+                            $("input[name=URSRC_chk_mouse]:checked").attr('checked',false);
+                            $("input[name=URSRC_chk_dracess]:checked").attr('checked',false);
+                            $("input[name=URSRC_chk_idcrd]:checked").attr('checked',false);
+                            $("input[name=URSRC_chk_headset]:checked").attr('checked',false);
+                            $("input[name=URSRC_chk_aadharno]:checked").attr('checked',false);
+                            $("input[name=URSRC_chk_passportno]:checked").attr('checked',false);
+                            $("input[name=URSRC_chk_votersid]:checked").attr('checked',false);
+                            $('#URSRC_lbl_validnumber').hide();
+                            $('#URSRC_lbl_validnumber1').hide();
+                            $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
+                            var values_array=JSON.parse(xmlhttp.responseText);
+                            var min_date=values_array[0][1];
+                            var firstname=values_array[0][0].firstname;
+                            var lastname=values_array[0][0].lastname;
+                            var dob=values_array[0][0].dob;
+                            var designation=values_array[0][0].designation;
+                            var mobile=values_array[0][0].mobile;
+                            var kinname=values_array[0][0].kinname;
+                            var relationhood=values_array[0][0].relationhood;
+                            var altmobile=values_array[0][0].altmobile;
+                            var laptop=values_array[0][0].laptop;
+                            var chargerno=values_array[0][0].chargerno;
+                            var bag=values_array[0][0].bag;
+                            var mouse=values_array[0][0].mouse;
+                            var dooraccess=values_array[0][0].dooraccess;
+                            var idcard=values_array[0][0].idcard;
+                            var headset=values_array[0][0].headset;
+                            var bankname=values_array[0][0].bankname;
+                            var branchname=values_array[0][0].branchname;
+                            var accountname=values_array[0][0].accountname;
+                            var accountno=values_array[0][0].accountno;
+                            var ifsccode=values_array[0][0].ifsccode;
+                            var accountype=values_array[0][0].accountype;
+                            var branchaddr=values_array[0][0].branchaddress;
+                            var aadharno=values_array[0][0].URSRC_aadhar;
+                            var passportno=values_array[0][0].URSRC_passport;
+                            var votersid=values_array[0][0].URSRC_voterid;
+                            var comments=values_array[0][0].URSRC_comments;
+                            var mindate=min_date.toString().split('-');
+                            var month=mindate[1]-1;
+                            var year=mindate[2];
+                            var date=parseInt(mindate[0])+1;
+                            var minimumdate = new Date(year,month,date);
+                            //load old files start
+                            for(var f=0;f<values_array[0][3].length;f++)
+                            {
+                                var tablerowCount = $('#filetableuploads tr').length;
+                                var uploadfileid="upload_filename"+tablerowCount;
+                                var uploadfilename="filename"+tablerowCount;
+                                var appendfile='<tr><td ><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
+                                $('#filetableuploads').append(appendfile);
+                            }
+                            if(values_array[0][2].length>0)
+                            {
+                                $('#attachafile').text('Attach another file');
+                            }
+                            else
+                            {
+                                $('#attachafile').text('Attach a file');
+                            }
+                            if(values_array[0][2].length==4)
+                            {
+                                $('#attachprompt').hide();
+                            }
+                            //load old files end
+                            $('#URT_SRC_tb_datepickerrejoin').datepicker("option","minDate",minimumdate);
+                            $('#URT_SRC_tb_datepickerrejoin').datepicker("option","maxDate",new Date());
+                            $('#URSRC_table_employeetbl').show();
+                            $('#URSRC_table_others').show();
+                            var emp_firstname=firstname.length;
+                            $('#URSRC_tb_firstname').val(firstname).attr("size",emp_firstname+3);
+                            var emp_lastname=lastname.length;
+                            $('#URSRC_tb_lastname').val(lastname).attr("size",emp_lastname+3);
+                            $('#URSRC_tb_dob').val(dob);
+                            var emp_designation=designation.length;
+                            $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
+                            $('#URSRC_tb_permobile').val(mobile);
+                            var emp_kinname=kinname.length;
+                            $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
+                            var emp_relationhood=relationhood.length;
+                            $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+2);
+                            $('#URSRC_tb_mobile').val(altmobile);
+                            var emp_bankname=bankname.length;
+                            $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
+                            var emp_branchname=branchname.length;
+                            $('#URSRC_tb_brnchname').val(branchname).attr("size",emp_branchname+3);
+                            var emp_accountname=accountname.length;
+                            $('#URSRC_tb_accntname').val(accountname).attr("size",emp_accountname+2);
+                            var emp_accountno=accountno.length;
+                            $('#URSRC_tb_accntno').val(accountno).attr("size",emp_accountno+2);
+                            var emp_ifsccode=ifsccode.length;
+                            $('#URSRC_tb_ifsccode').val(ifsccode).attr("size",emp_ifsccode+2);
+                            var emp_accountype=accountype.length;
+                            $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
+                            $('#URSRC_ta_brnchaddr').val(branchaddr);
+                            if(laptop!=null){
+                                var emp_laptop=laptop.length;
+                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+                            }
+                            if(chargerno!=null){
+                                var emp_cahrgerno=chargerno.length;
+                                $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
+                            }
+                            $('#URSRC_ta_comments').val(comments);
+                            if(bag=='X')
+                            {
+                                $('#URSRC_chk_bag').attr('checked',true);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_bag').attr('checked',false);
+                            }
+                            if(mouse=='X')
+                            {
+                                $('#URSRC_chk_mouse').attr('checked',true);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_mouse').attr('checked',false);
+                            }
+                            if(dooraccess=='X')
+                            {
+                                $('#URSRC_chk_dracess').attr('checked',true);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_dracess').attr('checked',false);
+                            }
+                            if(idcard=='X')
+                            {
+                                $('#URSRC_chk_idcrd').attr('checked',true);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_idcrd').attr('checked',false);
+                            }
+                            if(headset=='X')
+                            {
+                                $('#URSRC_chk_headset').attr('checked',true);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_headset').attr('checked',false);
+                            }
+                            if(aadharno!=null)
+                            {
+                                $('#URSRC_chk_aadharno').attr('checked',true);
+                                var emp_aadharno=aadharno.length;
+                                $('#URSRC_tb_aadharno').val(aadharno).show().attr("size",emp_aadharno);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_aadharno').attr('checked',false);
+                                $('#URSRC_tb_aadharno').val('').hide();
+                            }
+                            if(passportno!=null)
+                            {
+                                $('#URSRC_chk_passportno').attr('checked',true);
+                                var emp_passportno=passportno.length;
+                                $('#URSRC_tb_passportno').val(passportno).show().attr("size",emp_passportno);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_passportno').attr('checked',false);
+                                $('#URSRC_tb_passportno').val('').hide();
+                            }
+                            if(votersid!=null)
+                            {
+                                $('#URSRC_chk_votersid').attr('checked',true);
+                                var emp_votersid=votersid.length;
+                                $('#URSRC_tb_votersid').val(votersid).show().attr("size",emp_votersid);
+                            }
+                            else
+                            {
+                                $('#URSRC_chk_votersid').attr('checked',false);
+                                $('#URSRC_tb_votersid').val('').hide();
+                            }
                         }
                     }
                 }
@@ -1000,6 +1099,7 @@ $(document).ready(function(){
         $('#URT_SRC_lb_loginupdate').show();
     });
     $('#URT_SRC_radio_selectrejoin').change(function(){
+        button_vflag=1;
         $("#URT_SRC_lbl_datepickerrejoin").hide();
         $("#URT_SRC_lbl_loginrejoin").show();
         $("#URT_SRC_tble_roles").hide();
@@ -1071,7 +1171,7 @@ $(document).ready(function(){
             var URT_SRC_votersidno=$('#URSRC_tb_votersid').val();
             if(Selectedsearchradiooption=='URT_SRC_radio_valuerejoin')
             {
-                if(($("#URT_SRC_lbl_loginupdate").val()!='SELECT') &&($('#URSRC_lb_selectemptype').val()!='SELECT') && ($("#URT_SRC_tb_datepickerrejoin").val()!="")&& ($("input[name=URT_SRC_radio_nrole]").is(":checked")==true)&&(URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
+                if(button_vflag==1&&($("#URT_SRC_lbl_loginupdate").val()!='SELECT') &&($('#URSRC_lb_selectemptype').val()!='SELECT') && ($("#URT_SRC_tb_datepickerrejoin").val()!="")&& ($("input[name=URT_SRC_radio_nrole]").is(":checked")==true)&&(URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
                 {
                     $("#URT_SRC_btn_rejoin").removeAttr("disabled");
                     if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)){
@@ -1125,7 +1225,7 @@ $(document).ready(function(){
 <div class="wrapper">
 <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
 <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3><p></div></div>
-<form id="URT_SRC_form_terminatesearchupdate"  class ='content'>
+<form id="URT_SRC_form_terminatesearchupdate"  class ='content' method="post" enctype="multipart/form-data">
 <table>
 <tr> <td> <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination"  value="URT_SRC_radio_valuelogintermination" ><label name="URT_SRC_lbl_nlogintermination" id="URT_SRC_lbl_logintermination" hidden>LOGIN TERMINATION</label></td> </tr>
 <tr> <td> <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" ><label name="URT_SRC_lbl_nloginsearchupdate" id="URT_SRC_lbl_loginsearchupdate"  hidden>SEARCH/UPDATE</label></td></tr>
@@ -1321,7 +1421,7 @@ $(document).ready(function(){
 </table>
 <table>
     <!--EMPL DETAILS-->
-    <tr> <td> <input type="button" value="REJOIN" id="URT_SRC_btn_rejoin" class="btn"  hidden> </td></tr>
+    <tr> <td> <input type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden> </td></tr>
     <!--terminate updation-->
     <tr> <td> <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="srctitle " hidden>LOGIN ID<em>*</em> </label></td></tr>
     <tr> <td> <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" hidden> <option>SELECT</option></select>

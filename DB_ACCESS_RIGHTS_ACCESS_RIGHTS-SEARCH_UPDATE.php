@@ -9,10 +9,10 @@ include "COMMON.php";
 include "GET_USERSTAMP.php";
 include "CONFIG.php";
 use google\appengine\api\mail\Message;
-error_reporting(0);
+//error_reporting(0);
+error_reporting(E_ERROR | E_PARSE);
 if(isset($_REQUEST)){
     $USERSTAMP=$UserStamp;
-
     global $con;
     //ALREADY EXISTS FUNCTION FOR LOGIN ID
     if($_REQUEST['option']=="check_login_id"){
@@ -40,11 +40,12 @@ if(isset($_REQUEST)){
         echo json_encode($URSRC_final_array);
     }
 //LOGIN CREWTION SAVE PART
-    if($_REQUEST['option']=="loginsave")
+//    if($_REQUEST['option']=="loginsave")
+    if ($_POST['SAVE']=="CREATE")
     {
         $loginid=$_POST['URSRC_tb_loginid'];
         $emp_type=$_POST['URSRC_lb_selectemptype'];
-        $role_accessradiovalue = $_REQUEST['radio_checked'];
+        $role_accessradiovalue =$_POST['roles1'];//$_REQUEST['radio_checked'];
         $final_radioval=str_replace("_"," ",$role_accessradiovalue);
         $date=$_POST['URSRC_tb_joindate'];
         $finaldate = date('Y-m-d',strtotime($date));
@@ -159,7 +160,6 @@ if(isset($_REQUEST)){
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
-
         if($flag==1){
 
             $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
@@ -172,6 +172,7 @@ if(isset($_REQUEST)){
             if($row=mysqli_fetch_array($sadmin_rs)){
                 $sadmin=$row["ULD_LOGINID"];//get super admin
             }
+            $cclist=array($admin,$sadmin);
             $select_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=4");
             if($row=mysqli_fetch_array($select_link)){
                 $site_link=$row["URC_DATA"];
@@ -247,50 +248,49 @@ if(isset($_REQUEST)){
             while($row=mysqli_fetch_array($uld_id)){
                 $URSC_uld_id=$row["ULD_ID"];
             }
+//            echo "uldid".$URSC_uld_id.$URSRC_firstname.' '.$URSRC_lastname.$URSC_uld_id;
             if($ss_flag==1){
-
-                //File upload function
-                $filesarray=$_REQUEST['filearray'];
-                if($filesarray!='')
+                $upload_flag=0;
+                $file_array=array();
+                $new_empfolderid=UploadEmployeeFiles("login_creation",$loginid);
+                //end create folder
+                if(!empty($_FILES))
                 {
-                    $file_array=array();
-                    $allfilearray=(explode(",",$filesarray));
-                    foreach ($allfilearray as $value)
-                    {
-                        $uploadfilename=$value;
-                        $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-                        $extension =(explode(".",$uploadfilename));
-                        if($extension[1]=='pdf'){$mimeType='application/pdf';}
-                        if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-                        if($extension[1]=='png'){$mimeType='image/png';}
-                        $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
+                    foreach($_FILES['UPD_uploaded_files']['name'] as $idx => $name) {
+                        if($name=="")continue;
+                        $upload_flag=1;
+                        $ufilename=$name;
+                        $ufiletempname=$_FILES['UPD_uploaded_files']['tmp_name'][$idx];
+                        $ufiletype=$_FILES['UPD_uploaded_files']['type'][$idx];
+                        $file_id_value =insertFile($service,$ufilename,'PersonalDetails',$new_empfolderid,$ufiletype,$ufiletempname);
                         if($file_id_value!=''){
-                        array_push($file_array,$file_id_value);
+                            array_push($file_array,$file_id_value);
                         }
-                    }
-                    if(count($file_array)==0){
-                        $file_flag=0;
-                        URSRC_unshare_document($loginid,$fileId);
-                        $con->rollback();
 
                     }
                 }
-            }
-
-
-            if($filesarray!=''){
-            if((count($file_array)>0) && ($ss_flag==1)){
-                $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
-                $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
-                if($cal_flag==0){
+                if($upload_flag==1&&count($file_array)==0){
+                    $file_flag=0;
                     URSRC_unshare_document($loginid,$fileId);
-                    for($i=0;$i<count($file_array);$i++){
-                        delete_file($service,$file_array[$i]);
-
-                    }
                     $con->rollback();
                 }
+                //end of file upload
             }
+
+            if($upload_flag==1){
+                if((count($file_array)>0) && ($ss_flag==1)){
+                    $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$finaldate,$calenderid,'JOIN DATE');
+                    $cal_flag= URSRC_calendar_create($URSRC_firstname,$URSC_uld_id,$URSRC_finaldob,$calenderid,'BIRTH DAY');
+                    if($cal_flag==0){
+                        URSRC_unshare_document($loginid,$fileId);
+                        for($i=0;$i<count($file_array);$i++){
+                            delete_file($service,$file_array[$i]);
+
+                        }
+                        delete_file($service,$new_empfolderid);
+                        $con->rollback();
+                    }
+                }
             }
             else{
 
@@ -364,7 +364,7 @@ if(isset($_REQUEST)){
                     $URSRC_voterid="N/A";
                 }
                 //not applicable
-          //STRING REPLACE FUNCTION
+                //STRING REPLACE FUNCTION
                 $emp_email_body;
                 $body_msg =explode("^", $body);
                 $length=count($body_msg);
@@ -384,20 +384,17 @@ if(isset($_REQUEST)){
                 //SENDING MAIL OPTIONS
                 $name = $mail_subject;
                 $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($loginid);
-                $message1->addCc($admin);
-                $message1->setSubject($mail_subject);
-                $message1->setHtmlBody($final_message);
-
                 try {
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo($loginid);
+                    $message1->addCc($cclist);
+                    $message1->setSubject($mail_subject);
+                    $message1->setHtmlBody($final_message);
                     $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
-
-
                 $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                 $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                 if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -414,21 +411,21 @@ if(isset($_REQUEST)){
                 $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                 $cc_array=get_active_login_id();
+//                $cc_array=['punitha.shanmugam@ssomens.com'];
                 //SENDING MAIL OPTIONS
-                $name = $intro_mail_subject;
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($cc_array);
-                $message1->setSubject($intro_mail_subject);
-                $message1->setHtmlBody($intro_message);
                 try {
+                    $name = $intro_mail_subject;
+                    $from = $admin;
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo($cc_array);
+                    $message1->addCc($sadmin);
+                    $message1->setSubject($intro_mail_subject);
+                    $message1->setHtmlBody($intro_message);
                     $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
-
-
             }
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
         }
@@ -436,17 +433,16 @@ if(isset($_REQUEST)){
 
             $flag_array=[$flag];
         }
-
-
         $con->commit();
-
-
         echo json_encode($flag_array);
     }
+
     //FETCHING LOGIN DETAILS
     if($_REQUEST['option']=="loginfetch")
     {
         $loginid_result = $_REQUEST['URSRC_login_id'];
+        $emp_uploadfilelist=array();
+        $emp_uploadfilelist=UploadEmployeeFiles("login_fetch",$loginid_result);
         $loginsearch_fetchingdata= mysqli_query($con," SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
 FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD_LOGINID='$loginid_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD_LOGINID='$loginid_result' and UA_JOIN is not null) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         $URSRC_values=array();
@@ -486,12 +482,9 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $URSRC_passportno=$row['EMP_PASSPORT_NO'];
             $URSRC_voterid=$row['EMP_VOTER_ID'];
             $URSRC_comment=$row['EMP_COMMENTS'];
-
             $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'aadharno'=>$URSRC_aadharno,'passportno'=>$URSRC_passportno,'voterid'=>$URSRC_voterid,'comment'=>$URSRC_comment];
-
-
         }
-        $URSRC_values[]=array($final_values,$get_rolecreation_array);
+        $URSRC_values[]=array($final_values,$get_rolecreation_array,$emp_uploadfilelist[0],$emp_uploadfilelist[1],$emp_uploadfilelist[2]);
         echo json_encode($URSRC_values);
     }
     if($_REQUEST['option']=="login_db"){
@@ -499,8 +492,12 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         echo json_encode($active_emp);
     }
 //LOGIN CREATION UPATE FORM
-    if($_REQUEST['option']=="loginupdate")
+//    if($_REQUEST['option']=="loginupdate")
+    if ($_POST['URSRC_submitupdate']=="UPDATE")
     {
+
+        $user_filelist=array();
+        $user_filelist=$_POST['uploadfilelist'];
         $rolename=$_POST['roles1'];
         $rolename=str_replace("_"," ",$rolename);
         $joindate=$_POST['URSRC_tb_joindate'];
@@ -633,15 +630,14 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
         if($flag==1){
+            $cal_flag=1;
             if($lastdate!=$finaldate){
-
                 $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
                 $updatemailflag=1;
                 if($cal_flag==0){
                     $updatemailflag=0;
                     $con->rollback();
                 }
-
             }
             $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
             if($row=mysqli_fetch_array($select_folderid)){
@@ -666,12 +662,14 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
             $admin_rs=mysqli_query($con,$select_admin);
             $sadmin_rs=mysqli_query($con,$select_sadmin);
-            if($row=mysqli_fetch_array($admin_rs)){
+//            $admin=array();
+            while($row=mysqli_fetch_array($admin_rs)){
                 $admin=$row["ULD_LOGINID"];//get admin
             }
             if($row=mysqli_fetch_array($sadmin_rs)){
                 $sadmin=$row["ULD_LOGINID"];//get super admin
             }
+            $cclist=array($admin,$sadmin);
             //END
             if($oldloginid!=$loginid){
 
@@ -724,55 +722,87 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $con->rollback();
                 }
                 if($ss_flag==1){
-
+                    $upload_flag=0;
                     //File upload function
-                    $filesarray=$_REQUEST['filearray'];
-                    if($filesarray!='')
-                    {
-                        $file_array=array();
-                        $allfilearray=(explode(",",$filesarray));
-                        foreach ($allfilearray as $value)
+                    $file_array=array();
+
+//                    for($iv=0;i<count($user_filelist);$iv++)
+//                    {
+//                        echo $user_filelist[$iv];
+//                        removeFilepermission($service,$user_filelist[$iv]);
+//                    }
+                    if($cal_flag==1){
+                        $new_empfolderid=UploadEmployeeFiles("login_update",$loginid);
+                        if($new_empfolderid==""){
+                            URSRC_unshare_document($loginid,$fileId);
+                            $con->rollback();
+                            echo "Error:Folder id Not present";
+                            exit;}
+                        $removedfilelist= trashFile($new_empfolderid,$user_filelist);
+                        if(!empty($_FILES))
                         {
-                            $uploadfilename=$value;
-                            $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-                            $extension =(explode(".",$uploadfilename));
-                            if($extension[1]=='pdf'){$mimeType='application/pdf';}
-                            if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-                            if($extension[1]=='png'){$mimeType='image/png';}
-                            $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
-                            if($file_id_value!=''){
-                                array_push($file_array,$file_id_value);
+                            foreach($_FILES['UPD_uploaded_files']['name'] as $idx => $name) {
+                                if($name=="")continue;
+                                $upload_flag=1;
+                                $ufilename=$name;
+                                $ufiletempname=$_FILES['UPD_uploaded_files']['tmp_name'][$idx];
+                                $ufiletype=$_FILES['UPD_uploaded_files']['type'][$idx];
+                                $drive = new Google_Client();
+                                $drive->setClientId($ClientId);
+                                $drive->setClientSecret($ClientSecret);
+                                $drive->setRedirectUri($RedirectUri);
+                                $drive->setScopes(array($DriveScopes,$CalenderScopes));
+                                $drive->setAccessType('online');
+                                $authUrl = $drive->createAuthUrl();
+                                $access_token=$drive->getAccessToken();
+                                $refresh_token=$Refresh_Token;
+                                $drive->refreshToken($refresh_token);
+                                $service = new Google_Service_Drive($drive);
+                                $file_id_value =insertFile($service,$ufilename,'PersonalDetails',$new_empfolderid,$ufiletype,$ufiletempname);
+                                if($file_id_value!=''){
+                                    array_push($file_array,$file_id_value);
+                                }
                             }
                         }
-                        if(count($file_array)==0){
+                        if($upload_flag==1&&count($file_array)==0){
                             $file_flag=0;
                             URSRC_unshare_document($loginid,$fileId);
                             $con->rollback();
-
                         }
                     }
+
                     //End of File Uploads
                 }
-                if($filesarray!=''){
-                if(($ss_flag==1) && (count($file_array)>0)){
-                    $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
-                    if($cal_flag==0){
-                        URSRC_unshare_document($loginid,$fileId);
-                        for($i=0;$i<count($file_array);$i++){
-                            delete_file($service,$file_array[$i]);
 
+                if($upload_flag==1){
+                    if(($ss_flag==1) && (count($file_array)>0)){
+//                    $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
+                        if($cal_flag==0){
+                            URSRC_unshare_document($loginid,$fileId);
+//                        $new_empfolderid=UploadEmployeeFiles("login_update",$loginid);
+//                        for($i=0;$i<count($file_array);$i++){
+//                            delete_file($service,$file_array[$i]);
+//
+//                        }
+                            $con->rollback();
+//                        $login_empid=getEmpfolderName($loginid);
+//                        renamefile($service,$login_empid,$new_empfolderid);
+//                        for($v=0;$v<count($removedfilelist);$v++)
+//                        {
+//                            restoreFile($service,$removedfilelist[$v]);
+//                        }
                         }
-                        $con->rollback();
                     }
-                }
                 }
                 else{
 
                     if(($ss_flag==1)){
-                        $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
+//                        $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
                         if($cal_flag==0){
                             URSRC_unshare_document($loginid,$fileId);
                             $con->rollback();
+//                            $login_empid=getEmpfolderName($loginid);
+//                            renamefile($service,$login_empid,$new_empfolderid);
                         }
 
                     }
@@ -854,19 +884,17 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     //SENDING MAIL OPTIONS
                     $name = $mail_subject1;
                     $from = $admin;
-                    $message1 = new Message();
-                    $message1->setSender($name.'<'.$from.'>');
-                    $message1->addTo($loginid);
-                    $message1->addCc($admin);
-                    $message1->setSubject($mail_subject1);
-                    $message1->setHtmlBody($final_message);
                     try {
+                        $message1 = new Message();
+                        $message1->setSender($name.'<'.$from.'>');
+                        $message1->addTo($loginid);
+                        $message1->addCc($cclist);
+                        $message1->setSubject($mail_subject1);
+                        $message1->setHtmlBody($final_message);
                         $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
-
-
                     $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                     $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                     if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -883,17 +911,17 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loginid,'<b>'.$URSRC_designation.'</b>');
                     $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                     $cc_array=get_active_login_id();
-//                    $cc_array=['safiyullah.mohideen@ssomens.com'];
+//                    $cc_array=['punitha.shanmugam@ssomens.com'];
                     //SENDING MAIL OPTIONS
                     $name = $intro_mail_subject;
                     $from = $admin;
-                    $message1 = new Message();
-                    $message1->setSender($name.'<'.$from.'>');
-                    $message1->addTo($cc_array);
-                    $message1->setSubject($intro_mail_subject);
-                    $message1->setHtmlBody($intro_message);
-
                     try {
+                        $message1 = new Message();
+                        $message1->setSender($name.'<'.$from.'>');
+                        $message1->addTo($cc_array);
+                        $message1->addCc($sadmin);
+                        $message1->setSubject($intro_mail_subject);
+                        $message1->setHtmlBody($intro_message);
                         $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
@@ -904,39 +932,54 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             }
             else{
                 $ss_flag=1;
-                $cal_flag=1;
-                //File upload function
-                $filesarray=$_REQUEST['filearray'];
-                if($filesarray!='')
+                if($cal_flag!=0)
                 {
-                    $drive = new Google_Client();
-                    $drive->setClientId($ClientId);
-                    $drive->setClientSecret($ClientSecret);
-                    $drive->setRedirectUri($RedirectUri);
-                    $drive->setScopes(array($DriveScopes,$CalenderScopes));
-                    $drive->setAccessType('online');
-                    $authUrl = $drive->createAuthUrl();
-                    $refresh_token= $Refresh_Token;
-                    $drive->refreshToken($refresh_token);
-                    $service = new Google_Service_Drive($drive);
+                    $cal_flag=1;
+                }
+                if($cal_flag==1)
+                {
+                    //File upload function
                     $file_array=array();
-                    $allfilearray=(explode(",",$filesarray));
-                    foreach ($allfilearray as $value)
+                    $new_empfolderid=UploadEmployeeFiles("login_update",$loginid);
+                    if($new_empfolderid==""){
+                        URSRC_unshare_document($loginid,$fileId);
+                        $con->rollback();
+                        echo "Error:Folder id Not present";
+                        exit;}
+                    $removedfilelist=trashFile($new_empfolderid,$user_filelist);
+                    if(!empty($_FILES))
                     {
-                        $uploadfilename=$value;
-                        $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-                        $extension =(explode(".",$uploadfilename));
-                        if($extension[1]=='pdf'){$mimeType='application/pdf';}
-                        if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-                        if($extension[1]=='png'){$mimeType='image/png';}
-
-                        $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
-                        if($file_id_value!=''){
-                            array_push($file_array,$file_id_value);
+                        foreach($_FILES['UPD_uploaded_files']['name'] as $idx => $name) {
+                            if($name=="")continue;
+                            $upload_flag=1;
+                            $ufilename=$name;
+                            $ufiletempname=$_FILES['UPD_uploaded_files']['tmp_name'][$idx];
+                            $ufiletype=$_FILES['UPD_uploaded_files']['type'][$idx];
+                            $drive = new Google_Client();
+                            $drive->setClientId($ClientId);
+                            $drive->setClientSecret($ClientSecret);
+                            $drive->setRedirectUri($RedirectUri);
+                            $drive->setScopes(array($DriveScopes,$CalenderScopes));
+                            $drive->setAccessType('online');
+                            $authUrl = $drive->createAuthUrl();
+                            $access_token=$drive->getAccessToken();
+                            $refresh_token=$Refresh_Token;
+                            $drive->refreshToken($refresh_token);
+                            $service = new Google_Service_Drive($drive);
+                            $file_id_value =insertFile($service,$ufilename,'PersonalDetails',$new_empfolderid,$ufiletype,$ufiletempname);
+                            if($file_id_value!=''){
+                                array_push($file_array,$file_id_value);
+                            }
                         }
                     }
                 }
-
+                if($upload_flag==1&&count($file_array)==0){
+                    $file_flag=0;
+                    URSRC_unshare_document($loginid,$fileId);
+                    $con->rollback();
+                    $login_empid=getEmpfolderName($loginid);
+                    renamefile($service,$login_empid,$new_empfolderid);
+                }
                 //UPDATE PART SENDING MAIL
                 $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=16";
                 $select_template_rs=mysqli_query($con,$select_template);
@@ -984,7 +1027,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     $URSRC_voterid="N/A";
                 }
                 //not applicable
-               //STRING REPLACE FUNCTION
+                //STRING REPLACE FUNCTION
                 $emp_email_body;
                 $body_msg =explode("^", $body);
                 $length=count($body_msg);
@@ -1003,19 +1046,19 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                 //SENDING MAIL OPTIONS
                 if(($lastdate!=$finaldate) && ($updatemailflag==1)){
 
-                $name = $mail_subject1;
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($loginid);
-                $message1->addCc($admin);
-                $message1->setSubject($mail_subject1);
-                $message1->setHtmlBody($final_message);
-                try {
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+                    $name = $mail_subject1;
+                    $from = $admin;
+                    try {
+                        $message1 = new Message();
+                        $message1->setSender($name.'<'.$from.'>');
+                        $message1->addTo($loginid);
+                        $message1->addCc($cclist);
+                        $message1->setSubject($mail_subject1);
+                        $message1->setHtmlBody($final_message);
+                        $message1->send();
+                    } catch (\InvalidArgumentException $e) {
+                        echo $e;
+                    }
                 }
                 else if(($updatemailflag==0) && ($lastdate!=$finaldate)){
                     $cal_flag=0;
@@ -1023,19 +1066,20 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                 else{
                     if($lastdate==$finaldate){
                         $cal_flag=1;
-                    $name = $mail_subject1;
-                    $from = $admin;
-                    $message1 = new Message();
-                    $message1->setSender($name.'<'.$from.'>');
-                    $message1->addTo($loginid);
-                    $message1->addCc($admin);
-                    $message1->setSubject($mail_subject1);
-                    $message1->setHtmlBody($final_message);
-                    try {
-                        $message1->send();
-                    } catch (\InvalidArgumentException $e) {
-                        echo $e;
-                    }}
+
+                        $name = $mail_subject1;
+                        $from = $admin;
+                        try {
+                            $message1 = new Message();
+                            $message1->setSender($name.'<'.$from.'>');
+                            $message1->addTo($loginid);
+                            $message1->addCc($cclist);
+                            $message1->setSubject($mail_subject1);
+                            $message1->setHtmlBody($final_message);
+                            $message1->send();
+                        } catch (\InvalidArgumentException $e) {
+                            echo $e;
+                        }}
                 }
             }
 
@@ -1347,7 +1391,6 @@ function URSRC_calendar_create($loginid_name,$URSC_uld_id,$finaldate,$calenderid
 }
 function URSRC_delete_create_calendarevent($ULD_id,$loginid_name,$finaldate){
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
-
     $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
     if($row=mysqli_fetch_array($select_calenderid)){
         $calenderid=$row["URC_DATA"];

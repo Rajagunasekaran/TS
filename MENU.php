@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************MENU*********************************************//
+//DONE BY:PUNI
+//VER 0.06,SD:16/04/2015 ED:16/04/2015,DESC:VALIDATED CLOCK IN/OUT BUTTON BASED ON THE IP ADDRESS FROM DB,ADDED PRELOADER IN CLOCK IN /OUT BUTTON
 //DONE BY:SAFI
 //VER 0.05,SD:06/01/2015 ED:06/01/2015,TRACKER NO 74,DESC:VALIDATION DONE FOR CLOCK OUT FUNCTION
 //DONE BY:SASIKALA
@@ -19,6 +21,7 @@ var ErrorControl ={MsgBox:'false'}
 var MenuPage=1;
 var SubPage=2;
 var address='';
+var ipcheckflag= 1,geoflag=0;
 function CheckPageStatus(){
     if(MenuPage!=1 && SubPage!=1)
         $(".preloader").hide();
@@ -53,7 +56,6 @@ function updateClock ( )
 }
 
 $(document).ready(function(){
-
     $(".preloader").show();
     $('#checkin').attr("disabled","disabled");
     function displayLocation(latitude,longitude){
@@ -67,8 +69,13 @@ $(document).ready(function(){
             if(request.readyState == 4 && request.status == 200){
                 var data = JSON.parse(request.responseText);
                 address = data.results[0];
+//                alert(ipcheckflag)
                 $('#location').text(address.formatted_address);
-                $('#checkin').removeAttr("disabled");
+                geoflag=1;
+                if(ipcheckflag==1)
+                {
+                    $('#checkin').removeAttr("disabled");
+                }
                 $('#errmsg').hide();
 
             }
@@ -141,18 +148,21 @@ $(document).ready(function(){
     var checkouttime;
     var checkinerrormsg=[];
 
+
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
 
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             $(".preloader").hide();
+//            alert(geoflag)
+//            alert(xmlhttp.responseText)
             var value_array=JSON.parse(xmlhttp.responseText);
-
             all_menu_array= value_array[0];
             checkintime=value_array[1];
             checkinerrormsg=value_array[2];
             checkouttime=value_array[4];
-
+            ipcheckflag=value_array[6];
+//            alert(ipcheckflag)
             if($('#location').text()==""){
                 $('#errmsg').text(checkinerrormsg[2]).show();
             }
@@ -165,29 +175,29 @@ $(document).ready(function(){
                 ACRMENU_getallmenu_result(all_menu_array)
                 var login_id_role=value_array[5];
                 if(login_id_role!='SUPER ADMIN'){
-                if(checkintime==null && checkouttime==null )
-                {
-                    $('#liveclock').show();
-                    $('#checkin').val('CLOCK IN').show();
-                    $('#clockmsg').hide();
-                    $('#buttondiv').removeAttr('style');
+                    if(checkintime==null && checkouttime==null )
+                    {
+                        $('#liveclock').show();
+                        $('#checkin').val('CLOCK IN').show();
+                        $('#clockmsg').hide();
+                        $('#buttondiv').removeAttr('style');
 
-                }
-                else if(checkouttime==null){
-                    $('#buttondiv').removeAttr('style');
-                    $('#liveclock').show();
-                    $('#checkin').val("CLOCK OUT").show();
-                    var msg=checkinerrormsg[1].toString().replace("[TIME]",checkintime);
-                    $('#clockmsg').text(msg).show();
-                }
-                else {
+                    }
+                    else if(checkouttime==null){
+                        $('#buttondiv').removeAttr('style');
+                        $('#liveclock').show();
+                        $('#checkin').val("CLOCK OUT").show();
+                        var msg=checkinerrormsg[1].toString().replace("[TIME]",checkintime);
+                        $('#clockmsg').text(msg).show();
+                    }
+                    else {
 
-                    $('#buttondiv').css('display','none');
-                    $('#liveclock').hide();
-                    $('#checkin').hide();
-                    var msg=checkinerrormsg[1].toString().replace("[TIME]",checkintime);
-                    $('#clockmsg').text(msg).show();
-                }
+                        $('#buttondiv').css('display','none');
+                        $('#liveclock').hide();
+                        $('#checkin').hide();
+                        var msg=checkinerrormsg[1].toString().replace("[TIME]",checkintime);
+                        $('#clockmsg').text(msg).show();
+                    }
                 }
                 else{
                     $('#buttondiv').css('display','none');
@@ -208,12 +218,21 @@ $(document).ready(function(){
                 $('#checkin').hide();
                 $('#clockmsg').hide();
             }
-
+            if(ipcheckflag==0||geoflag==0)
+            {
+                $('#checkin').attr("disabled","disabled");
+            }
+            else
+            {
+                $('#checkin').removeAttr("disabled");
+            }
         }
 
     }
     var option="MENU";
+//    xmlhttp.open("POST","DB_MENU.do?option="+option,true);
     xmlhttp.open("POST","DB_MENU.do?option="+option,true);
+
     xmlhttp.send();
 
     $(document).on('click','.messageconfirm',function(){
@@ -248,6 +267,8 @@ $(document).ready(function(){
             var main='mainmenu'+i
             var submen='submenu'+i;
             var filename=filelist[count]+'.do';
+//            var filename=filelist[count]+'.php';
+
             if(ARCMENU_first_submenu.length==0)
             {
                 mainmenuItem='<li class="active"><a data-pageurl="'+filename+' href="'+filename+'" id="'+ACRMENU_mainmenu[i]+'" target="iframe_a"  >'+ACRMENU_mainmenu[i]+'</a></li>'
@@ -271,11 +292,15 @@ $(document).ready(function(){
                         {
                             if(script_flag[count]!='X'){
                                 var file_name=filelist[count]+'.do';
+//                                var file_name=filelist[count]+'.php';
+
 
                             }
                             else{
 
                                 var file_name='ERROR_PAGE.do'
+//                                var file_name='ERROR_PAGE.php'
+
                             }
                             submenuItem='<li class="active"><a data-pageurl="'+file_name+'" href="'+file_name+'"   id="'+ACRMENU_mainmenu[i]+'" class=" btnclass"   >'+ARCMENU_first_submenu[j][k]+'</a></li></ul>'
                         }
@@ -289,10 +314,14 @@ $(document).ready(function(){
                             if(script_flag[count][m]!='X'){
 //                                    var file_name=filelist[count][m]
                                 var file_name=filelist[count][m]+'.do';
+//                                var file_name=filelist[count][m]+'.php';
+
 
                             }
                             else{
                                 var file_name='ERROR_PAGE.do'
+//                                var file_name='ERROR_PAGE.php'
+
                             }
                             sub_submenuItem='<li class="active"><a data-pageurl="'+file_name+'" href="'+file_name+'"   id="'+ARCMENU_first_submenu[j][k]+'" class=" btnclass"     >'+ARCMENU_second_submenu[count][m]+'</a></li>'
                             $("."+sub_submenu).append(sub_submenuItem);
@@ -314,6 +343,7 @@ $(document).ready(function(){
 //        resetPreloader(newPos);
 //        $('.maskpanel',window.parent.document).css("height","276px").show();
 //        $('.preloader').show();
+        $('.preloader',window.parent.document).show();
         var locationaddress=address.formatted_address;
         var button_value=$('#checkin').val();
         var currentTime = new Date ();
@@ -331,7 +361,7 @@ $(document).ready(function(){
                         var msg=checkinerrormsg[1].toString().replace("[TIME]",response[1]);
                         $('#clockmsg').text(msg).show();
                         $('#liveclock').show();
-                        $('#checkin').val("CLOCK OUT").show();
+                        $('#checkin').val("CLOCK OUT").show();;
                         $('#buttondiv').removeAttr('style');
 
 
@@ -351,11 +381,13 @@ $(document).ready(function(){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
 //                    }
                 }
+                $('.preloader',window.parent.document).hide();
             }
 
         }
         var option="CLOCK";
-        xmlhttp.open("POST","DB_MENU.do?option="+option+"&location="+locationaddress+"&btn_value="+button_value);
+        xmlhttp.open("POST","DB_MENU.do" +
+            "?option="+option+"&location="+locationaddress+"&btn_value="+button_value);
         xmlhttp.send();
     });
 });

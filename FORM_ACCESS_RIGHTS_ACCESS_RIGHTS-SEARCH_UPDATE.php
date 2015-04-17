@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_SEARCH_UPDATE*********************************************//
+//DONE BY:PUNI
+//ver 0.08 DESC:CHANGED SCRIPT TO UPLOAD FILE IN DRIVE -LOGIN CREATION N UPDATTION-CHANGED SUBMIT BUTTON VALIDATION,SHOW ERR WITH DUPLICATE FILE NAME BY USER,MAX 4 FILES,FILE SIZE 10 MB,CREATED FOLDER IN DRIVE IF NOT EXISTS ELSE SHOW ERROR MSG
 //DONE BY:SASIKALA
 //ver 0.07 DESC:updated preloader position and attach file
 //ver 0.06 DESC:changed text box id while change login id and added real escapt for branchadress-safi
@@ -17,13 +19,94 @@ include "HEADER.php";
 
 <!--SCRIPT TAG START-->
 <script>
+
+var button_vflag=1;
+
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
     $('.preloader',window.parent.document).show();
-    //reomve file upload row
-    $(document).on('click', 'button.removebutton', function () {
 
+    //reomve file upload row
+//    FUNCTION TO GET DIFFERENCE ARRAY
+    function getDifferenceArray(outfilearray,infilearray)
+    {
+        var j=0;
+        var URSRC_new_diff_array=[];
+        for(var i=0; i<=infilearray.length-1;i++)
+        {
+            if(outfilearray.indexOf(infilearray[i])==-1)
+            {
+                URSRC_new_diff_array[j]=infilearray[i];
+                j++;
+            }
+        }
+        return URSRC_new_diff_array;
+    }
+    $(document).on('click', 'button.removebutton', function () {
         $(this).closest('tr').remove();
+        ValidateSubmitbutton()
+        return false;
+    });
+    //file extension validation
+    function ValidateSubmitbutton()
+    {
+        button_vflag=1;
+        $("input[type=file].fileextensionchk").each(function(){
+            var currentid=$(this).attr("id");
+
+            if($(this).val()!="")
+            {
+                var datasplit=$(this).val().split('.');
+                var ext=datasplit[1].toUpperCase();//(this.files[0].type).toString().toUpperCase();
+                if(ext!='PDF'&& ext!='JPG'&& ext!='PNG' && ext!='JPEG')
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[31],position:{top:1800,left:550}}});
+                    button_vflag=0;
+                    $('#attachprompt').hide();
+                }
+                var filesize=$("#"+$(this).attr("id"))[0].files[0].size;//(this.files[0].size);
+                var maxfilesize=1048576*10;
+
+                if(filesize>maxfilesize)
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[34],position:{top:1800,left:550}}});
+                    button_vflag=0;
+                    reset_field($('#'+$(this).attr("id")));
+                    $('#attachprompt').hide();
+                }
+                var filename=[];
+                $("div.fileextensionchk").each(function(){
+                    filename.push($(this).text());
+                });
+
+                $("input[type=file].fileextensionchk").each(function(){
+
+                    if(currentid!=$(this).attr("id"))
+                        if($(this).val()!="")
+                        {
+                            filename.push($("#"+$(this).attr("id"))[0].files[0].name);
+                        }
+                });
+
+                if($.inArray( $("#"+$(this).attr("id"))[0].files[0].name, filename )!=-1)
+                {
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[33],position:{top:1800,left:550}}});
+                    button_vflag=0;
+                    reset_field($('#'+$(this).attr("id")));
+                    $('#attachprompt').hide();
+
+                }
+
+            }
+            else
+            {
+                button_vflag=0;
+                $('#attachprompt').hide();
+            }
+
+
+        });
+        loginbuttonvalidation();
         var rowCount = $('#filetableuploads tr').length;
         if(rowCount!=0)
         {
@@ -33,51 +116,35 @@ $(document).ready(function(){
         {
             $('#attachafile').text('Attach a file');
         }
-        return false;
+        if(rowCount==4)
+        {
+            $('#attachprompt').hide();
+        }
+        else
+        {
+            if(button_vflag==1)
+                $('#attachprompt').show();
+        }
+    }
+    $(document).on("change",'.fileextensionchk', function (){
+        ValidateSubmitbutton()
     });
 
-    //file extension validation
-    $(document).on("change",'.fileextensionchk', function (){
-        for(var i=0;i<25;i++)
-        {
-            var data= $('#upload_filename'+i).val();
-            var datasplit=data.split('.');
-            var old_loginid=$('#URSRC_lb_selectloginid').val();
-            var ext=datasplit[1].toUpperCase();
-            if(ext=='PDF'|| ext=='JPG'|| ext=='PNG' || ext=='JPEG' || data==undefined || data=="")
-            {
-//                $('#attach_error').hide();
-//                URSRC_login_validate(old_loginid);
-                loginbuttonvalidation();
-            }
-            else
-            {
-                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[31],position:{top:1800,left:550}}});
-                reset_field($('#upload_filename'+i));
-            }
-        }
-    });
     //file upload reset
     function reset_field(e) {
         e.wrap('<form>').parent('form').trigger('reset');
         e.unwrap();
     }
-
+    var filerowcount=0;
     //add file upload row
     $(document).on("click",'#attachprompt', function (){
+        button_vflag=0;
         var tablerowCount = $('#filetableuploads tr').length;
-        var uploadfileid="upload_filename"+tablerowCount;
-        var appendfile='<tr><td ><input type="file" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
+        filerowcount=filerowcount+1;
+        var uploadfileid="upload_filename"+filerowcount;
+        var appendfile='<tr><td ><input type="file" name="UPD_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
         $('#filetableuploads').append(appendfile);
-        var rowCount = $('#filetableuploads tr').length;
-        if(rowCount!=0)
-        {
-            $('#attachafile').text('Attach another file');
-        }
-        else
-        {
-            $('#attachafile').text('Attach a file');
-        }
+        ValidateSubmitbutton()
     });
 
     var URSRC_menuname=[];
@@ -429,9 +496,11 @@ $(document).ready(function(){
     });
     //LOGIN CREATION CLICK FUNCTION
     $('#URSRC_radio_logincreation').click(function(){
+        $('#attachprompt').show();
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         flag=0;
         exist_flag=1;
+        button_vflag=1;
         error_valid='valid';
         error_ext='valid';
         $('#URSRC_lbl_header').text("LOGIN CREATION").show()
@@ -726,9 +795,10 @@ $(document).ready(function(){
             var URSRC_aadharno=$('#URSRC_tb_aadharno').val();
             var URSRC_passportno=$('#URSRC_tb_passportno').val();
             var URSRC_voterid=$('#URSRC_tb_votersid').val();
-            if((login_id!="")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
+            if(button_vflag==1&&(login_id!="")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
             {
                 $("#URSRC_btn_login_submitbutton").removeAttr("disabled")
+//                $('#attachprompt').show();
 
                 if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true))
                 {
@@ -767,8 +837,9 @@ $(document).ready(function(){
             var URSRC_aadharno=$('#URSRC_tb_aadharno').val();
             var URSRC_passportno=$('#URSRC_tb_passportno').val();
             var URSRC_voterid=$('#URSRC_tb_votersid').val();
-            if((login_id!="SELECT")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(updatedloginid!='')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="")){
+            if(button_vflag==1&&(login_id!="SELECT")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(updatedloginid!='')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="")){
                 $("#URSRC_submitupdate").removeAttr("disabled")
+//                $('#attachprompt').show();
                 if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true))
                 {
                     if((URSRC_aadharno=='' && $("input[name=URSRC_chk_aadharno]").is(":checked")==true) ||(URSRC_passportno=='' && $("input[name=URSRC_chk_passportno]").is(":checked")==true)||(URSRC_voterid=='' && $("input[name=URSRC_chk_votersid]").is(":checked")==true))
@@ -784,7 +855,7 @@ $(document).ready(function(){
     }
 
     //Login Submit button validation
-    $(document).on("blur change",'.login_submitvalidate ', function (){
+    $(document).on("blur change",'.login_submitvalidate', function (){
         loginbuttonvalidation();
     });
     //BLUR FUNCTION FOR MOBILE NUMBER VALIDATION
@@ -808,6 +879,7 @@ $(document).ready(function(){
     });
     //LOGIN SEARCH/UPDATE CLICK FUNCTION
     $('#URSRC_radio_loginsearchupdate').click(function(){
+        button_vflag=1;
         $('.preloader',window.parent.document).show();
         flag=0;
         exist_flag=1;
@@ -891,6 +963,8 @@ $(document).ready(function(){
     });
     //LOGIN SEARCH ND UPDATE FOR LOGIN ID CHANGE FUNCTION
     $('#URSRC_lb_selectloginid').change(function(){
+        $('#attachprompt').show();
+        $("#filetableuploads tr").remove();
         $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
         $('.preloader',window.parent.document).show();
         exist_flag=1;
@@ -912,7 +986,40 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     $('.preloader',window.parent.document).hide();
+                    if(xmlhttp.responseText.match("Error:Folder id Not present")){
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:150,left:500}}});
+                        $('#URSRC_lbl_login_role').hide();
+                        $('#URSRC_lbl_joindate').hide();
+                        $('#URSRC_tb_joindate').hide();
+                        $('#URSRC_lbl_emptype').hide();
+                        $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
+                        $('#URSRC_table_employeetbl').hide();
+                        $('#URSRC_table_others').hide();
+                        $('#URSRC_tb_loginidupd').hide();
+                        $('#URSRC_tble_rolecreation').hide();
+                        $('#URSRC_lbl_loginidupd').hide();
+                    }
                     var values_array=JSON.parse(xmlhttp.responseText);
+                    for(var f=0;f<values_array[0][3].length;f++)
+                    {
+                        var tablerowCount = $('#filetableuploads tr').length;
+                        var uploadfileid="upload_filename"+tablerowCount;
+                        var uploadfilename="filename"+tablerowCount;
+                        var appendfile='<tr><td ><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
+                        $('#filetableuploads').append(appendfile);
+                    }
+                    if(values_array[0][2].length>0)
+                    {
+                        $('#attachafile').text('Attach another file');
+                    }
+                    else
+                    {
+                        $('#attachafile').text('Attach a file');
+                    }
+                    if(values_array[0][2].length==4)
+                    {
+                        $('#attachprompt').hide();
+                    }
                     var join_date=values_array[0][0].joindate;
                     var rc_name=values_array[0][0].rcname;
                     var emp_type=values_array[0][0].emp_type;
@@ -1010,12 +1117,12 @@ $(document).ready(function(){
                     $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
                     $('#URSRC_ta_brnchaddr').val(branchaddr);
                     if(laptop!=null){
-                    var emp_laptop=laptop.length;
-                    $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+                        var emp_laptop=laptop.length;
+                        $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
                     }
                     if(chargerno!=null){
-                    var emp_cahrgerno=chargerno.length;
-                    $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
+                        var emp_cahrgerno=chargerno.length;
+                        $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+1);
                     }
                     if(bag=='X')
                     {
@@ -1099,7 +1206,7 @@ $(document).ready(function(){
                         $('#URSRC_ta_comments').val('').show();
                     }
 
-                    $('<tr><td align="left"><input type="button"  class="btn" name="URSRC_submitupdate" id="URSRC_submitupdate"  value="UPDATE" disabled></td></tr>').appendTo($("#URSRC_btn_update"));
+                    $('<tr><td align="left"><input type=submit  class="btn" name="URSRC_submitupdate" id="URSRC_submitupdate"  value="UPDATE" disabled></td></tr>').appendTo($("#URSRC_btn_update"));
                 }
             }
             var choice="loginfetch"
@@ -1125,231 +1232,210 @@ $(document).ready(function(){
         }
     });
     //VALIDATION FOR UPDATE BUTTON LOGIN SEARCH ND UPDATE
-    $(document).on("click",'#URSRC_submitupdate ', function (){
-        $('.preloader',window.parent.document).show();
-        //Removing fakepath in all files
-        var filearray=[];
-        for(var i=0;i<25;i++)
+    $('form').submit(function (e){
+        e.preventDefault();
+        var URSRC_submitbtnvalue= $(this).find("input[type=submit]:focus").val();
+        if(URSRC_submitbtnvalue=="CREATE")
         {
-            var data=$('#upload_filename'+i).val();
-            if(data!='' && data!=undefined)
-            {
-                data=(data.toString()).replace("C:\\fakepath\\", "");
-                filearray.push(data);
-            }
-        }
-        var filenames='';
-        for(var j=0;j<filearray.length;j++)
-        {
-            if(j==0){filenames=filearray[j];}
-            else
-            {filenames=filenames+','+filearray[j];}
-        }
-        //End Removing fakepath in all files
-        var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
-        var formElement = document.getElementById("URE_attendanceentry");
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader',window.parent.document).hide();
-                var msg_alert=JSON.parse(xmlhttp.responseText);
-                var success_flag=msg_alert[0];
-                var ss_flag=msg_alert[1];
-                var cal_flag=msg_alert[2];
-                var file_flag=msg_alert[4];
-                var folderid=msg_alert[5];
-                var name=$('#URSRC_tb_loginid').val();
-                $('#URSRC_tb_joindate').hide();
-                $('#URSRC_lbl_joindate').hide()
-                $('#URSRC_lbl_emptype').hide();
-                $('#URSRC_lb_selectemptype').prop('selectedIndex',0).hide();
-                $('#URSRC_tble_rolecreation').hide();
-                $('#URSRC_tb_loginidupd').hide();
-                $('#URSRC_lbl_loginidupd').hide();
-                $('#URSRC_lb_selectloginid').prop('selectedIndex',0);
-                $('#URSRC_btn_login_submitbutton').hide()
-                var msg=URSRC_errorAarray[8].replace("[NAME]",name)
-                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
+            $('.preloader',window.parent.document).show();
+            var radio_checked=$("input[name=roles1]:checked" ).val()
+            $.ajax({
+                type: 'POST',
+                url: "DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do",
+                data: new FormData(this),
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,
+                success: function(data)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
-                    $('#URSRC_submitupdate').hide();
-                    $('#URSRC_lb_selectloginid').hide();
-                    $('#URSRC_lbl_loginid').hide();
-                    $('#URSRC_lbl_joindate').hide();
-                    $('#URSRC_tb_joindate').hide();
-                    $('#URSRC_tble_rolecreation').hide();
-                    $('#URSRC_lbl_header').hide()
-                    $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
-                    $('#URSRC_table_employeetbl').hide();
-                    $('#URSRC_lbl_selectloginid').hide();
-                    $("#filetableuploads tr").remove();
-                    $('#attachafile').text('Attach a file');
-                }
-                if(success_flag==0){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
-                    $('#URSRC_submitupdate').hide();
-                    $('#URSRC_lb_selectloginid').hide();
-                    $('#URSRC_lbl_loginid').hide();
-                    $('#URSRC_lbl_joindate').hide();
-                    $('#URSRC_tb_joindate').hide();
-                    $('#URSRC_tble_rolecreation').hide();
-                    $('#URSRC_lbl_header').hide()
-                    $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
-                    $('#URSRC_table_employeetbl').hide();
-                    $('#URSRC_lbl_selectloginid').hide();
-                }
-                if((success_flag==1)&&(ss_flag==0)){
-
-                    var fileid=msg_alert[3];
-                    var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
-
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-                    $('#URSRC_submitupdate').hide();
-                    $('#URSRC_lb_selectloginid').hide();
-                    $('#URSRC_lbl_loginid').hide();
-                    $('#URSRC_lbl_joindate').hide();
-                    $('#URSRC_tb_joindate').hide();
-                    $('#URSRC_tble_rolecreation').hide();
-                    $('#URSRC_lbl_header').hide()
-                    $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
-                    $('#URSRC_table_employeetbl').hide();
-                    $('#URSRC_lbl_selectloginid').hide();
-                }
-                if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
-                    var folderid=msg_alert[5];
-                    var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-
-
-
-                }
-                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
-                {
-
-//                    var fileid=msg_alert[3];
-                    var msg= URSRC_errorAarray[29];
-
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-                    $('#URSRC_submitupdate').hide();
-                    $('#URSRC_lb_selectloginid').hide();
-                    $('#URSRC_lbl_loginid').hide();
-                    $('#URSRC_lbl_joindate').hide();
-                    $('#URSRC_tb_joindate').hide();
-                    $('#URSRC_tble_rolecreation').hide();
-                    $('#URSRC_lbl_header').hide()
-                    $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
-                    $('#URSRC_table_employeetbl').hide();
-                    $('#URSRC_lbl_selectloginid').hide();
-
-
-
-                }
-            }
-        }
-        var choice="loginupdate"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice+"&filearray="+filenames,true);
-        xmlhttp.send(new FormData(formElement));
-    });
-    //VALIDATION FOR CREATE BUTTON FOR LOGIN CREATION ENTRY
-    $(document).on("click",'#URSRC_btn_login_submitbutton ', function (){
-        $('.preloader',window.parent.document).show();
-        //Removing fakepath in all files
-        var filearray=[];
-        for(var i=0;i<25;i++)
-        {
-            var data=$('#upload_filename'+i).val();
-            if(data!='' && data!=undefined)
-            {
-                data=(data.toString()).replace("C:\\fakepath\\", "");
-                filearray.push(data);
-            }
-        }
-        var filenames='';
-        for(var j=0;j<filearray.length;j++)
-        {
-            if(j==0){filenames=filearray[j];}
-            else
-            {filenames=filenames+','+filearray[j];}
-        }
-        //End Removing fakepath in all files
-        var radio_checked=$("input[name=roles1]:checked" ).val()
-        var formElement = document.getElementById("URE_attendanceentry");
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader',window.parent.document).hide();
-                var msg_alert=JSON.parse(xmlhttp.responseText);
-                var success_flag=msg_alert[0];
-                var ss_flag=msg_alert[1];
-                var cal_flag=msg_alert[2];
-                var file_flag=msg_alert[4];
-                var name=$('#URSRC_tb_loginid').val();
-                var msg=URSRC_errorAarray[7].replace("[NAME]",name)
-                var finalmsg=msg.replace("[NAME]",name)
-                $('#URSRC_lbl_header').hide();
-                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
-                {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
-                    $('#URSRC_tble_login').hide();
-                    $('#URSRC_tble_rolesearch').hide();
-                    $('#URSRC_tb_joindate').val("");
-                    $('#URSRC_table_employeetbl').hide();
-                    $('#URSRC_lbl_joindate').hide();
-                    $('#URSRC_tb_joindate').hide();
-                    $('#URSRC_tb_loginid').hide();
-                    $('#URSRC_tble_rolecreation').hide();
-                    $('#URSRC_tb_loginid').hide();
-                    $('#URSRC_lbl_loginid').hide();
-                    $('#URSRC_lbl_header').hide();
-                    $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
-                    $('#URSRC_btn_login_submitbutton').hide();
-                    $('#URSRC_btn_submitbutton').hide();
-                    $('#URSRC_tb_loginid').prop("size","20");
-                    $('#URSRC_tb_loginid').val('');
-                    $("#URSRC_btn_login_submitbutton").attr("disabled", "disabled");
-                    $('#URSRC_tb_joindate').val("");
-                    $('#URSRC_tb_loginid').val("");
-                    $('input[name=URSRC_mainradiobutton]:checked').attr('checked',false);
-                    $("#filetableuploads tr").remove();
-                    $('#attachafile').text('Attach a file');
-                }
-                if(success_flag==0)
-                {
+                    if(data.toLowerCase().match("error")){
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:150,left:500}}});
+                    }
+                    $('.preloader',window.parent.document).hide();
+                    var msg_alert=JSON.parse(data);
+                    var success_flag=msg_alert[0];
+                    var ss_flag=msg_alert[1];
+                    var cal_flag=msg_alert[2];
+                    var file_flag=msg_alert[4];
                     var name=$('#URSRC_tb_loginid').val();
-                    var msg=URSRC_errorAarray[27].replace("[NAME]",name)
+                    var msg=URSRC_errorAarray[7].replace("[NAME]",name)
                     var finalmsg=msg.replace("[NAME]",name)
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
+                    $('#URSRC_lbl_header').hide();
+                    if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
+                    {
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
+                        $('#URSRC_tble_login').hide();
+                        $('#URSRC_tble_rolesearch').hide();
+                        $('#URSRC_tb_joindate').val("");
+                        $('#URSRC_table_employeetbl').hide();
+                        $('#URSRC_lbl_joindate').hide();
+                        $('#URSRC_tb_joindate').hide();
+                        $('#URSRC_tb_loginid').hide();
+                        $('#URSRC_tble_rolecreation').hide();
+                        $('#URSRC_tb_loginid').hide();
+                        $('#URSRC_lbl_loginid').hide();
+                        $('#URSRC_lbl_header').hide();
+                        $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
+                        $('#URSRC_btn_login_submitbutton').hide();
+                        $('#URSRC_btn_submitbutton').hide();
+                        $('#URSRC_tb_loginid').prop("size","20");
+                        $('#URSRC_tb_loginid').val('');
+                        $("#URSRC_btn_login_submitbutton").attr("disabled", "disabled");
+                        $('#URSRC_tb_joindate').val("");
+                        $('#URSRC_tb_loginid').val("");
+                        $('input[name=URSRC_mainradiobutton]:checked').attr('checked',false);
+                        $("#filetableuploads tr").remove();
+                        $('#attachafile').text('Attach a file');
+                    }
+                    if(success_flag==0)
+                    {
+                        var name=$('#URSRC_tb_loginid').val();
+                        var msg=URSRC_errorAarray[27].replace("[NAME]",name)
+                        var finalmsg=msg.replace("[NAME]",name)
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
+
+                    }
+                    if((success_flag==1)&&(ss_flag==0))
+                    {
+                        var fileid=msg_alert[3];
+                        var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+
+                    }
+                    if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
+                        var folderid=msg_alert[5];
+                        var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+
+                    }
+                    if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
+                    {
+                        var fileid=msg_alert[3];
+                        var msg= URSRC_errorAarray[29];
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+
+                    }
+
+                },
+                error: function(data){
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:JSON.stringify(data) ,position:{top:150,left:500}}});
 
                 }
-                if((success_flag==1)&&(ss_flag==0))
-                {
-                    var fileid=msg_alert[3];
-                    var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
 
-                }
-                if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
-                    var folderid=msg_alert[5];
-                    var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-
-
-
-                }
-                if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
-                {
-                    var fileid=msg_alert[3];
-                    var msg= URSRC_errorAarray[29];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-
-                }
-
-
-            }
+            });
         }
-        var choice="loginsave"
-        xmlhttp.open("POST","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_checked="+radio_checked+"&option="+choice+"&filearray="+filenames,true);
-        xmlhttp.send(new FormData(formElement));
+        if(URSRC_submitbtnvalue=="UPDATE")
+        {
+            $('.preloader',window.parent.document).show();
+            var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
+            $.ajax({
+                type: 'POST',
+                url: "DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do",
+                data: new FormData(this),
+                contentType: false,       // The content type used when sending data to the server.
+                cache: false,             // To unable request pages to be cached
+                processData:false,
+                success: function(data)
+                {
+                    if(data.match("Error:Folder id Not present")){
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:150,left:500}}});
+                    }
+                    else if(data.toLowerCase().match("error")){
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:150,left:500}}});
+                    }
+                    $('.preloader',window.parent.document).hide();
+                    var msg_alert=JSON.parse(data);
+                    var success_flag=msg_alert[0];
+                    var ss_flag=msg_alert[1];
+                    var cal_flag=msg_alert[2];
+                    var file_flag=msg_alert[4];
+                    var folderid=msg_alert[5];
+                    var name=$('#URSRC_tb_loginid').val();
+                    $('#URSRC_tb_joindate').hide();
+                    $('#URSRC_lbl_joindate').hide()
+                    $('#URSRC_lbl_emptype').hide();
+                    $('#URSRC_lb_selectemptype').prop('selectedIndex',0).hide();
+                    $('#URSRC_tble_rolecreation').hide();
+                    $('#URSRC_tb_loginidupd').hide();
+                    $('#URSRC_lbl_loginidupd').hide();
+                    $('#URSRC_lb_selectloginid').prop('selectedIndex',0);
+                    $('#URSRC_btn_login_submitbutton').hide()
+                    var msg=URSRC_errorAarray[8].replace("[NAME]",name)
+                    if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
+                    {
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+                        $('#URSRC_submitupdate').hide();
+                        $('#URSRC_lb_selectloginid').hide();
+                        $('#URSRC_lbl_loginid').hide();
+                        $('#URSRC_lbl_joindate').hide();
+                        $('#URSRC_tb_joindate').hide();
+                        $('#URSRC_tble_rolecreation').hide();
+                        $('#URSRC_lbl_header').hide()
+                        $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
+                        $('#URSRC_table_employeetbl').hide();
+                        $('#URSRC_lbl_selectloginid').hide();
+                        $("#filetableuploads tr").remove();
+                        $('#attachafile').text('Attach a file');
+                    }
+                    if(success_flag==0){
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
+                        $('#URSRC_submitupdate').hide();
+                        $('#URSRC_lb_selectloginid').hide();
+                        $('#URSRC_lbl_loginid').hide();
+                        $('#URSRC_lbl_joindate').hide();
+                        $('#URSRC_tb_joindate').hide();
+                        $('#URSRC_tble_rolecreation').hide();
+                        $('#URSRC_lbl_header').hide()
+                        $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
+                        $('#URSRC_table_employeetbl').hide();
+                        $('#URSRC_lbl_selectloginid').hide();
+                    }
+                    if((success_flag==1)&&(ss_flag==0)){
+
+                        var fileid=msg_alert[3];
+                        var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+                        $('#URSRC_submitupdate').hide();
+                        $('#URSRC_lb_selectloginid').hide();
+                        $('#URSRC_lbl_loginid').hide();
+                        $('#URSRC_lbl_joindate').hide();
+                        $('#URSRC_tb_joindate').hide();
+                        $('#URSRC_tble_rolecreation').hide();
+                        $('#URSRC_lbl_header').hide()
+                        $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
+                        $('#URSRC_table_employeetbl').hide();
+                        $('#URSRC_lbl_selectloginid').hide();
+                    }
+                    if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
+                        var folderid=msg_alert[5];
+                        var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+
+                    }
+                    if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
+                    {
+//                    var fileid=msg_alert[3];
+                        var msg= URSRC_errorAarray[29];
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+                        $('#URSRC_submitupdate').hide();
+                        $('#URSRC_lb_selectloginid').hide();
+                        $('#URSRC_lbl_loginid').hide();
+                        $('#URSRC_lbl_joindate').hide();
+                        $('#URSRC_tb_joindate').hide();
+                        $('#URSRC_tble_rolecreation').hide();
+                        $('#URSRC_lbl_header').hide()
+                        $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
+                        $('#URSRC_table_employeetbl').hide();
+                        $('#URSRC_lbl_selectloginid').hide();
+                    }
+                },
+                error: function(data){
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:JSON.stringify(data) ,position:{top:150,left:500}}});
+
+                }
+
+            });
+        }
     });
     //FUNCTION TO CLICK BASIC ROLE
     $(document).on("click",'.URSRC_class_basicroles', function (){
@@ -1879,7 +1965,7 @@ $(document).ready(function(){
 <div class="wrapper">
 <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
 <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3><p></div></div>
-<form  name="URE_attendanceentry" id="URE_attendanceentry" class="content">
+<form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
 <table id="URSRC_tble_main">
     <tr>
         <td><label name="USU_lbl_strtdte" id="USU_lbl_strtdte" class="srctitle">SELECT A OPTION</label>
@@ -2134,7 +2220,7 @@ $(document).ready(function(){
     </tr>
 </table>
 <tr>
-    <td ><input class="btn" type="button"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden /></td>
+    <td ><input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden /></td>
 </tr>
 <table id="URSRC_tble_rolesearch" hidden>
     <tr><td><label id="URSRC_lbl_norole_err" class="errormsg"></label></td>
@@ -2151,7 +2237,7 @@ $(document).ready(function(){
 <label id="URSRC_lbl_nodetails_err" class="errormsg"></label>
 <table id="URSRC_tble_menu" hidden ></table>
 <table id="URSRC_tble_folder" hidden></table>
-<input class="btn" type="button"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
+<input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
 </form>
 </div>
 </body>

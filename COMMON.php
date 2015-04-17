@@ -1,10 +1,11 @@
 <?php
-error_reporting(0);
+error_reporting(1);
 include "CONNECTION.php";
 include "GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;
 date_default_timezone_set('Asia/Kolkata');
 global $con;
+global $emp_uldid;
 function getTimezone()
 {
     return ("'+00:00','+05:30'");
@@ -230,7 +231,7 @@ function get_error_msg($str){
 
 
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
-    $str='9,10,11,12,13,14,56,70,113,114,116,132,133';
+    $str='9,10,11,12,13,14,56,70,113,114,116,132,133,136,137,138';
     $errormsg_array= get_error_msg($str);
     $role_result=mysqli_query($con,"SELECT  RC_NAME,RC_ID FROM ROLE_CREATION;");
     $get_role_array=array();
@@ -257,11 +258,240 @@ function get_roles(){
 
     return  $get_rolecreation_array;
 }
+function renamefile($service,$logincre_foldername,$emp_folderid)
+{
+    $file = $service->files->get($emp_folderid);
+    if($logincre_foldername!=$file->getTitle())
+    {
+        try {
+            $file = new Google_Service_Drive_DriveFile();
+            $file->setTitle($logincre_foldername);
+
+            $updatedFile = $service->files->patch($emp_folderid, $file, array(
+                'fields' => 'title'
+            ));
+
+            $emp_folderid=$updatedFile ->id;
+        } catch (Exception $e) {
+            echo "An error occurred: " . $e->getMessage();
+            exit;
+        }
+    }
+    return $emp_folderid;
+}
+function getEmpfolderName($loginidval){
+    global $con,$emp_uldid;
+    $loginid=$loginidval;
+    $login_idqry=mysqli_query($con,"SELECT ULD_ID,EMPLOYEE_NAME from VW_TS_ALL_EMPLOYEE_DETAILS where ULD_LOGINID='$loginid'");
+    $login_empid="";
+    while($row=mysqli_fetch_array($login_idqry)){
+        if(preg_match("/$row[0]/",$row[1]))
+        {
+            $login_empid=$row["EMPLOYEE_NAME"];
+        }
+        else
+        {
+            $login_empid=$row["EMPLOYEE_NAME"]." ".$row["ULD_ID"];
+        }
+        $emp_uldid=$row["ULD_ID"];
+    }
+    return $login_empid;
+}
+//function to remove permission for the file
+function removeFilepermission($service,$fileId)
+{
+    try {
+        $permissions = $service->permissions->listPermissions($fileId);
+        $return_value= $permissions->getItems();
+    } catch (Exception $e) {
+        echo "An error occurred: " . $e->getMessage();
+    }
+    foreach ($return_value as $key => $value) {
+        $permission_id=$value->id;
+        if($permission_id!=''){
+            try {
+                $service->permissions->delete($fileId, $permission_id);
+            } catch (Exception $e) {
+                echo "An error occurred: " . $e->getMessage();
+            }
+        }
+    }
+
+}
+//FUNCTION TO RESTORE FILE
+function restoreFile($service, $fileId) {
+    try {
+        return $service->files->untrash($fileId);
+    } catch (Exception $e) {
+        print "An error occurred: " . $e->getMessage();
+    }
+    return NULL;
+}
+//FUNCTION TO DELETE DRIVE FILE REMOVED VIA LOGIN UPDATE FORM
+function trashFile($folderid,$user_filelist) {
+    global $ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+
+    $drive = new Google_Client();
+    $drive->setClientId($ClientId);
+    $drive->setClientSecret($ClientSecret);
+    $drive->setRedirectUri($RedirectUri);
+    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+    $drive->setAccessType('online');
+    $authUrl = $drive->createAuthUrl();
+    $access_token=$drive->getAccessToken();
+    $refresh_token=$Refresh_Token;
+    $drive->refreshToken($refresh_token);
+    $service = new Google_Service_Drive($drive);
+    $emp_uploadfilenamelist=array();
+    $emp_uploadfileidlist=array();
+    $children1 = $service->children->listChildren($folderid);
+    $child_filearray=$children1->getItems();
+    foreach ($child_filearray as $child1) {
+        if($service->files->get($child1->getId())->getExplicitlyTrashed()==1)continue;
+        $emp_uploadfileidlist[]=$service->files->get($child1->getId())->id;
+        $emp_uploadfilenamelist[]=$service->files->get($child1->getId())->title;
+
+    }
+    sort($emp_uploadfileidlist);
+    if(count($user_filelist)>0)
+    {
+        sort($user_filelist);
+        $final_empfilelist=array_diff($emp_uploadfileidlist,$user_filelist);
+    }
+    else{
+        $final_empfilelist=$emp_uploadfileidlist;
+    }
+
+    $final_empfilelist1=array();
+    foreach ($final_empfilelist as $item) {
+        $final_empfilelist1[] = $item;
+    }
+
+    for($a=0;$a<count($final_empfilelist1);$a++)
+    {
+        try {
+            $service->files->trash($final_empfilelist1[$a]);
+        } catch (Exception $e) {
+            echo "An error occurred: " . $e->getMessage();
+        }
+        try {
+            $file = $service->files->get($final_empfilelist1[$a]);
+            $permissions = $service->permissions->listPermissions($final_empfilelist1[$a]);
+            $return_value= $permissions->getItems();
+        } catch (Exception $e) {
+            echo "An error occurred: " . $e->getMessage();
+        }
+        foreach ($return_value as $key => $value) {
+            if ($value->emailAddress!=$file->owners[0]["emailAddress"]){
+                $permission_id=$value->id;
+                if($permission_id!=''){
+                    try {
+                        $service->permissions->delete($final_empfilelist1[$a], $permission_id);
+                    } catch (Exception $e) {
+                        echo "An error occurred: " . $e->getMessage();
+                    }
+                }
+            }
+        }
+    }
+
+    return $final_empfilelist1;
+}
+
+//FUNCTION TO GET EMPLOYEE DRIVE FOLDER ID N UPLOADED FILE LIST IN DRIVE
+function UploadEmployeeFiles($formname,$loginid_result)
+{
+    global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token,$emp_uldid;
+    $loginid=$loginid_result;
+    $emp_uploadfilelist=array();
+    $login_empid=getEmpfolderName($loginid);
+    $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
+    if($row=mysqli_fetch_array($select_folderid)){
+        $folderid=$row["URC_DATA"];
+    }
+    $drive = new Google_Client();
+    $drive->setClientId($ClientId);
+    $drive->setClientSecret($ClientSecret);
+    $drive->setRedirectUri($RedirectUri);
+    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+    $drive->setAccessType('online');
+    $refresh_token=$Refresh_Token;
+    $drive->refreshToken($refresh_token);
+    $service = new Google_Service_Drive($drive);
+    $logincre_foldername=$login_empid;
+    $emp_folderid="";
+    $emp_uploadfilenamelist=array();
+    $emp_uploadfileidlist=array();
+
+    $children = $service->children->listChildren($folderid);
+    $root_filearray=$children->getItems();
+    foreach ($root_filearray as $child) {
+        if($service->files->get($child->getId())->getExplicitlyTrashed()==1)continue;
+        $rootfold_title=$service->files->get($child->getId())->title;
+        if(!preg_match("/$emp_uldid/",$rootfold_title))continue;
+        $emp_folderid=$service->files->get($child->getId())->id;
+        if($rootfold_title!=$login_empid)
+        {
+//        //rename folder for loging updation start
+            renamefile($service,$logincre_foldername,$emp_folderid);
+        }
+        //end
+        $emp_uploadfilenamelist=array();
+        $children1 = $service->children->listChildren($child->getId());
+        $child_filearray=$children1->getItems();
+        sort($child_filearray);
+        foreach ($child_filearray as $child1) {
+            if($service->files->get($child1->getId())->getExplicitlyTrashed()==1)continue;
+            $emp_uploadfilenamelist[]=$service->files->get($child1->getId())->title;
+        }
+        break;
+    }
+    sort($emp_uploadfilenamelist);
+    $emp_uploadfileidlist=array();
+    $emp_uploadfilelinklist=array();
+    for($f=0;$f<count($emp_uploadfilenamelist);$f++)
+    {
+        $children1 = $service->children->listChildren($emp_folderid);
+        $filearray1=$children1->getItems();
+        foreach ($filearray1 as $child1) {
+            if($service->files->get($child1->getId())->getExplicitlyTrashed()==1)continue;
+            if($service->files->get($child1->getId())->title==$emp_uploadfilenamelist[$f])
+            {
+                $emp_uploadfileidlist[]=$service->files->get($child1->getId())->id;
+                $emp_uploadfilelinklist[]=$service->files->get($child1->getId())->alternateLink;
+            }
+        }
+    }
+
+    if($emp_folderid==""&&($formname=="login_creation")){
+        $newFolder = new Google_Service_Drive_DriveFile();
+        $newFolder->setMimeType('application/vnd.google-apps.folder');
+        $newFolder->setTitle($logincre_foldername);
+        if ($folderid != null) {
+            $parent = new Google_Service_Drive_ParentReference();
+            $parent->setId($folderid);
+            $newFolder->setParents(array($parent));
+        }
+        try {
+            $folderData = $service->files->insert($newFolder);
+        } catch (Google_Service_Exception $e) {
+            echo 'Error while creating <br>Message: '.$e->getMessage();
+            die();
+        }
+        $emp_folderid=$folderData->id;
+    }
+    if($formname=="login_fetch")
+    {
+        if($emp_folderid==""){echo "Error:Folder id Not present";exit;}
+        $emp_uploadfiles=array($emp_uploadfileidlist,$emp_uploadfilenamelist,$emp_uploadfilelinklist);
+        return $emp_uploadfiles;
+    }
+    return $emp_folderid;
+}
 if($_REQUEST["option"]=="ACCESS_RIGHTS_SEARCH_UPDATE")
 {
-    $str='40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,1,2,69,70,71,72,95,113,114,132,133';
+    $str='40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,1,2,69,70,71,72,95,113,114,132,133,136,137,138';
     $URSRC_errmsg=get_error_msg($str);
-
     $get_rolecreation_array=get_roles();
     $project_result=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION where URC_ID in (1,2,3) ");
     $get_project_array=array();
@@ -304,7 +534,6 @@ if($_REQUEST["option"]=="ACCESS_RIGHTS_SEARCH_UPDATE")
     }
     $get_URSRC_basicrole_profile_array=array_values(array_unique($get_URSRC_basicrole_profile_array));
     $comp_startdate=get_company_start_date();
-
     $value_array=array($get_rolecreation_array,$get_project_array,$get_menuname_array,$get_URSRC_basicrole_profile_array,$URSRC_errmsg,$get_emptype_array,$comp_startdate);
     echo JSON_ENCODE($value_array);
 }

@@ -7,6 +7,13 @@ $USERSTAMP=$UserStamp;;
 if($_REQUEST['option']=="MENU")
 {
     mysqli_report(MYSQLI_REPORT_STRICT);
+    $user_ipaddress = $ip = getenv('HTTP_CLIENT_IP')?:
+        $user_ipaddress =     getenv('HTTP_X_FORWARDED_FOR')?:
+            $user_ipaddress =    getenv('HTTP_X_FORWARDED')?:
+                $user_ipaddress =    getenv('HTTP_FORWARDED_FOR')?:
+                    $user_ipaddress =   getenv('HTTP_FORWARDED')?:
+                        $user_ipaddress =    getenv('REMOTE_ADDR');
+    $ip_check_flag=0;
     try{
 
         $err_msg=get_error_msg('61,119,124');
@@ -16,7 +23,12 @@ if($_REQUEST['option']=="MENU")
         while($row=mysqli_fetch_array($select_loginid_role)){
             $login_id_role=$row["URC_DATA"];
         }
-
+        $id_add=mysqli_query($con,"select URC_DATA from USER_RIGHTS_CONFIGURATION where URC_ID=15");
+        while($row=mysqli_fetch_array($id_add)){
+            if(preg_match("/$user_ipaddress/",$row[0])){
+                $ip_check_flag=1;
+            }
+        }
         $main_menu_data= mysqli_query($con,"SELECT DISTINCT MP_MNAME FROM USER_LOGIN_DETAILS ULD,USER_ACCESS UA,USER_MENU_DETAILS UMP,MENU_PROFILE MP where ULD_LOGINID='$UserStamp' and UA.ULD_ID=ULD.ULD_ID and UA.RC_ID=UMP.RC_ID and MP.MP_ID=UMP.MP_ID AND UA.UA_TERMINATE IS NULL ORDER BY MP_MNAME ASC");
 
         $ure_values=array();
@@ -94,7 +106,7 @@ if($_REQUEST['option']=="MENU")
             $check_out_time=null;
 
         }
-        $allvalues=array($final_values,$checkintime,$err_msg,$date,$check_out_time,$login_id_role);
+        $allvalues=array($final_values,$checkintime,$err_msg,$date,$check_out_time,$login_id_role,$ip_check_flag);
 //    mysqli_close($con);
         echo JSON_ENCODE($allvalues);
     }
@@ -107,7 +119,6 @@ if($_REQUEST['option']=="MENU")
 }
 else if($_REQUEST['option']=='CLOCK')
 {
-
     global $con;
     $check_in_out_location=$_REQUEST['location'];
     $btn_value=$_REQUEST['btn_value'];
@@ -119,7 +130,6 @@ else if($_REQUEST['option']=='CLOCK')
         $ure_uld_id=$row["ULD_ID"];
     }
     if($btn_value=='CLOCK IN'){
-
         $result = $con->query("CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE('1','$ure_uld_id','$date','$checkintime','$check_in_out_location','$ure_uld_id',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');

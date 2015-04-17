@@ -23,6 +23,7 @@ include "CONNECTION.php";
 include "COMMON.php";
 include "GET_USERSTAMP.php";
 include "CONFIG.php";
+error_reporting(E_ERROR | E_PARSE);
 function getULD_ID_from_ULD_LOGINID1($ULD_LOGINID){
     global $con;
     $query="select ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID ='".$ULD_LOGINID."'";
@@ -109,6 +110,12 @@ if(isset($_REQUEST))
     else if($_REQUEST['option']=='GETENDDATE')
     {
         $loginid_result = $_REQUEST['URT_SRC_loggin'];
+        $emp_uploadfilelist=array();
+        $uld_id=mysqli_query($con,"select ULD_LOGINID from VW_TS_ALL_EMPLOYEE_DETAILS where ULD_ID='$loginid_result'");
+        while($row=mysqli_fetch_array($uld_id)){
+            $ure_loginid=$row["ULD_LOGINID"];
+        }
+        $emp_uploadfilelist=UploadEmployeeFiles("login_fetch",$ure_loginid);
         $query= "SELECT  DATE_FORMAT(UA_END_DATE,'%d-%m-%Y') as UA_END_DATE  FROM USER_ACCESS where UA_REC_VER=(select MAX(UA_REC_VER) as UA_REC_VER_MAX from USER_ACCESS where ULD_ID=$loginid_result AND UA_TERMINATE IS NOT NULL)AND ULD_ID=$loginid_result";
         $enddate_data= mysqli_query($con, $query);
         $URT_SRC_values=array();
@@ -148,7 +155,7 @@ if(isset($_REQUEST))
             $URSRC_comments=$row['EMP_COMMENTS'];
             $final_values=(object)['firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'URSRC_aadhar'=>$URSRC_aadhar,'URSRC_passport'=>$URSRC_passport,'URSRC_voterid'=>$URSRC_voterid,'URSRC_comments'=>$URSRC_comments];
         }
-        $URSRC_values[]=array($final_values,$mindate);
+        $URSRC_values[]=array($final_values,$mindate,$emp_uploadfilelist[0],$emp_uploadfilelist[1],$emp_uploadfilelist[2]);
         echo json_encode($URSRC_values);
     }
     else if($_REQUEST['option']=='GET_VALUE'){
@@ -184,11 +191,14 @@ if(isset($_REQUEST))
         }
         echo $flag;
     }
-    else if($_REQUEST['option']=='REJOIN')
+//    else if($_REQUEST['option']=='REJOIN')
+    else if ($_POST['URT_SRC_btn_rejoin']=="REJOIN")
     {
         $loggin=$_REQUEST['URT_SRC_lb_nloginrejoin'];
         $loggin_empty='';
-        $login_id=$_REQUEST['login_id'];
+        $user_filelist=array();
+        $user_filelist=$_POST['uploadfilelist'];
+        $login_id=$_REQUEST['URT_SRC_lb_nloginrejoin'];
         $role_access = $_REQUEST['URT_SRC_radio_nrole'];
         $final_radioval=str_replace("_"," ",$role_access);
         $date=$_REQUEST['URT_SRC_tb_ndatepickerrejoin'];
@@ -306,8 +316,8 @@ if(isset($_REQUEST))
             $URSRC_voterid='';
         }
         $con->autocommit(false);
-
-        $result = $con->query("CALL  SP_TS_LOGIN_CREATION_INSERT('2','$loggin_empty','$login_id','$final_radioval','$joindate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comments','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$userstamp',@success_flag)");
+//echo "CALL SP_TS_LOGIN_CREATION_INSERT('2','$loggin_empty','$login_id','$final_radioval','$joindate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comments','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$userstamp',@success_flag)";
+        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT('2','$loggin_empty','$login_id','$final_radioval','$joindate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comments','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$userstamp',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -328,6 +338,7 @@ if(isset($_REQUEST))
             if($row=mysqli_fetch_array($sadmin_rs)){
                 $sadmin=$row["ULD_LOGINID"];//get super admin
             }
+            $cclist=array($admin,$sadmin);
             $select_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=4");
             if($row=mysqli_fetch_array($select_link)){
                 $site_link=$row["URC_DATA"];
@@ -390,7 +401,7 @@ if(isset($_REQUEST))
             $refresh_token= $Refresh_Token;
             $drive->refreshToken($refresh_token);
             $service = new Google_Service_Drive($drive);
-            $return_array=URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN',$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid);
+            $return_array=URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN',$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid,$user_filelist);
 //           print_r($return_array);
 
             $ss_flag=$return_array[0];
@@ -398,21 +409,23 @@ if(isset($_REQUEST))
 
             $file_array=$return_array[3];
 //            echo $cal_flag.$ss_flag;
-             if($filesarray!=''){
+            if($filesarray!=''){
 
-            if(count($file_array)==0){
-                $file_flag=0;
-                $cal_flag=0;
-                URSRC_unshare_document($loggin,$fileId);
-                $con->rollback();
-
+                if(count($file_array)==0){
+                    $file_flag=0;
+                    $cal_flag=0;
+                    URSRC_unshare_document($loggin,$fileId);
+                    $con->rollback();
+                    $login_empid=getEmpfolderName($loggin);
+                    renamefile($service,$login_empid,$return_array[4]);
+                }
             }
-             }
 
             if($ss_flag==0){
 
                 $con->rollback();
-
+                $login_empid=getEmpfolderName($loggin);
+                renamefile($service,$login_empid,$return_array[4]);
             }
             if($cal_flag==0){
                 URSRC_unshare_document($loggin,$fileId);
@@ -420,6 +433,8 @@ if(isset($_REQUEST))
                     delete_file($service,$file_array[$i]);
                 }
                 $con->rollback();
+                $login_empid=getEmpfolderName($loggin);
+                renamefile($service,$login_empid,$return_array[4]);
             }
 //            echo $flag.$ss_flag.$cal_flag.$fileId.$file_flag.$folderid;
             if(($ss_flag==1)&&($cal_flag==1)){
@@ -500,14 +515,13 @@ if(isset($_REQUEST))
                 //SENDING MAIL OPTIONS
                 $name = 'REJOIN';
                 $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($loggin);
-                $message1->addCc($admin);
-                $message1->setSubject($mail_subject1);
-                $message1->setHtmlBody($final_message);
-
                 try {
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo($loggin);
+                    $message1->addCc($cclist);
+                    $message1->setSubject($mail_subject1);
+                    $message1->setHtmlBody($final_message);
                     $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
@@ -529,17 +543,17 @@ if(isset($_REQUEST))
                 $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loggin,'<b>'.$URSRC_designation.'</b>');
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                 $cc_array=get_active_login_id();
-//                $cc_array=['safiyullah.mohideen@ssomens.com'];
+//                $cc_array=['punitha.shanmugam@ssomens.com'];
                 //SENDING MAIL OPTIONS
                 $name = 'REJOIN';
                 $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($cc_array);
-                $message1->setSubject($intro_mail_subject);
-                $message1->setHtmlBody($intro_message);
-
                 try {
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo($cc_array);
+                    $message1->addCc($sadmin);
+                    $message1->setSubject($intro_mail_subject);
+                    $message1->setHtmlBody($intro_message);
                     $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
@@ -599,7 +613,7 @@ if(isset($_REQUEST))
             }
             $fileId=$ss_fileid;
 
-            $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE','','','','');
+            $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE','','','','',"");
             $ss_flag=$return_array[0];
             $cal_flag=$return_array[1];
             if($ss_flag==0){
@@ -648,7 +662,7 @@ function share_document($loggin,$fileId){
     }
 }
 //FUNCTION FOR CALENDAR CREATION
-function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$finaldate,$calenderid,$status,$form,$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid){
+function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$finaldate,$calenderid,$status,$form,$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid,$user_filelist){
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
     $drive = new Google_Client();
     $drive->setClientId($ClientId);
@@ -704,30 +718,44 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
         }
 
         if($ss_flag==1){
-            if($filesarray!='')
+            $upload_flag=0;
+            //File upload function
+            $file_array=array();
+            $new_empfolderid=UploadEmployeeFiles("login_update",$loggin);
+            if($new_empfolderid==""){$con->rollback();echo "Error:Folder id Not present";exit;}
+            if($user_filelist!="")
             {
-                $file_array=array();
-                $allfilearray=(explode(",",$filesarray));
-                foreach ($allfilearray as $value)
-                {
-                    $uploadfilename=$value;
-                    $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-                    $extension =(explode(".",$uploadfilename));
-                    if($extension[1]=='pdf'){$mimeType='application/pdf';}
-                    if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-                    if($extension[1]=='png'){$mimeType='image/png';}
-                    $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
+                $removedfilelist= trashFile($new_empfolderid,$user_filelist);
+            }
+            if(!empty($_FILES))
+            {
+                foreach($_FILES['UTERM_uploaded_files']['name'] as $idx => $name) {
+                    if($name=="")continue;
+                    $upload_flag=1;
+                    $ufilename=$name;
+                    $ufiletempname=$_FILES['UTERM_uploaded_files']['tmp_name'][$idx];
+                    $ufiletype=$_FILES['UTERM_uploaded_files']['type'][$idx];
+                    $drive = new Google_Client();
+                    $drive->setClientId($ClientId);
+                    $drive->setClientSecret($ClientSecret);
+                    $drive->setRedirectUri($RedirectUri);
+                    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+                    $drive->setAccessType('online');
+                    $refresh_token=$Refresh_Token;
+                    $drive->refreshToken($refresh_token);
+                    $service = new Google_Service_Drive($drive);
+                    $file_id_value =insertFile($service,$ufilename,'PersonalDetails',$new_empfolderid,$ufiletype,$ufiletempname);
                     if($file_id_value!=''){
                         array_push($file_array,$file_id_value);
                     }
                 }
                 $file_arraycount=count($file_array);
+
             }
-            else{
+            if($upload_flag==0){
                 $file_arraycount=1;
             }
         }
-
 
     }
     if($ss_flag==1 && $file_arraycount>0){
@@ -747,7 +775,7 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
             $cal_flag=0;
         }
     }
-    $flag_array=[$ss_flag,$cal_flag,$file_id_value,$file_array];
+    $flag_array=[$ss_flag,$cal_flag,$file_id_value,$file_array,$new_empfolderid];
     return $flag_array;
 }
 //File Upload Function Script
