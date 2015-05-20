@@ -14,6 +14,7 @@ if($_REQUEST['option']=="MENU")
                     $user_ipaddress =   getenv('HTTP_FORWARDED')?:
                         $user_ipaddress =    getenv('REMOTE_ADDR');
     $ip_check_flag=0;
+    $flag_wfh=null;
     try{
 
         $err_msg=get_error_msg('61,119,124');
@@ -23,12 +24,43 @@ if($_REQUEST['option']=="MENU")
         while($row=mysqli_fetch_array($select_loginid_role)){
             $login_id_role=$row["URC_DATA"];
         }
-        $id_add=mysqli_query($con,"select URC_DATA from USER_RIGHTS_CONFIGURATION where URC_ID=15");
-        while($row=mysqli_fetch_array($id_add)){
-            if(preg_match("/$user_ipaddress/",$row[0])){
+
+        $userstamp_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
+        while($row=mysqli_fetch_array($userstamp_id)){
+            $ADM_userstamp_id=$row["ULD_ID"];
+        }
+
+        $wfh_flag=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$ADM_userstamp_id");
+        $wfh_row=mysqli_num_rows($wfh_flag);
+        if($wfh_row>0)
+        {
+            if($row=mysqli_fetch_array($wfh_flag))
+            {
+                $flag_wfh=$row['WFHA_FLAG'];
+            }
+            if($flag_wfh=='X')
+            {
                 $ip_check_flag=1;
             }
         }
+
+        if($flag_wfh==null)
+        {
+            $id_add=mysqli_query($con,"select URC_DATA from USER_RIGHTS_CONFIGURATION where URC_ID=15");
+            while($row=mysqli_fetch_array($id_add)){
+                if(preg_match("/$user_ipaddress/",$row[0])){
+                    $ip_check_flag=1;
+                }
+            }
+        }
+
+
+//        $id_add=mysqli_query($con,"select URC_DATA from USER_RIGHTS_CONFIGURATION where URC_ID=15");
+//        while($row=mysqli_fetch_array($id_add)){
+//            if(preg_match("/$user_ipaddress/",$row[0])){
+//                $ip_check_flag=1;
+//            }
+//        }
         $main_menu_data= mysqli_query($con,"SELECT DISTINCT MP_MNAME FROM USER_LOGIN_DETAILS ULD,USER_ACCESS UA,USER_MENU_DETAILS UMP,MENU_PROFILE MP where ULD_LOGINID='$UserStamp' and UA.ULD_ID=ULD.ULD_ID and UA.RC_ID=UMP.RC_ID and MP.MP_ID=UMP.MP_ID AND UA.UA_TERMINATE IS NULL ORDER BY MP_MNAME ASC");
 
         $ure_values=array();
@@ -77,10 +109,7 @@ if($_REQUEST['option']=="MENU")
         $_SESSION['menus']=$final_values;
 
         $date=date('Y-m-d');
-        $userstamp_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
-        while($row=mysqli_fetch_array($userstamp_id)){
-            $ADM_userstamp_id=$row["ULD_ID"];
-        }
+
         $checkintime=mysqli_query($con,"select ECIOD_CHECK_IN_TIME from EMPLOYEE_CHECK_IN_OUT_DETAILS where ECIOD_DATE='$date' and ULD_ID='$ADM_userstamp_id'");
         $row=mysqli_num_rows($checkintime);
         if($row>0)

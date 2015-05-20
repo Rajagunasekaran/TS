@@ -94,14 +94,14 @@ $(document).ready(function(){
                         pdfmsg=msg;
                         $('#PH_SRC_UPD_nodate').text(msg).show();
                         $('#PH_SRC_UP_btn_pdf').show();
-                        var PH_SRC_UPD_table_header='<table id="PH_SRC_UPD_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:900px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:10px"></th><th class="uk-date-column" style="width:100px">DATE</th><th style="width:400px">DESCRIPTION</th><th style="width:100px">USERSTAMP</th><th class="uk-timestp-column" style="width:180px">TIMESTAMP</th></tr></thead><tbody>'
+                        var PH_SRC_UPD_table_header='<table id="PH_SRC_UPD_tble_htmltable" border="1"  cellspacing="0" class="srcresult"><thead  bgcolor="#6495ed" style="color:white"><tr><th></th><th class="uk-date-column" >DATE</th><th>DESCRIPTION</th><th>USERSTAMP</th><th class="uk-timestp-column" >TIMESTAMP</th></tr></thead><tbody>'
                         for(var j=0;j<values_array.length;j++){
                             var PH_SRC_UPD_date=values_array[j].PH_SRC_UPD_date;
                             var PH_SRC_UPD_desc=values_array[j].PH_SRC_UPD_descr;
                             var PH_SRC_UPD_userstamp=values_array[j].PH_SRC_UPD_userstamp;
                             var PH_SRC_UPD_timestamp=values_array[j].PH_SRC_UPD_timestamp;
                             id=values_array[j].id;
-                            PH_SRC_UPD_table_header+='<tr><td><input type="radio" name="EMPSRC_UPD_DEL_rd_flxtbl" class="EMPSRC_UPD_DEL_radio" id='+id+'  value='+id+' ></td><td  style="width:100px" align="center">'+PH_SRC_UPD_date+'</td><td style="width:400px">'+PH_SRC_UPD_desc+'</td><td style="width:100px">'+PH_SRC_UPD_userstamp+'</td><td style="width:180px">'+PH_SRC_UPD_timestamp+'</td></tr>';
+                            PH_SRC_UPD_table_header+='<tr><td><input type="radio" name="EMPSRC_UPD_DEL_rd_flxtbl" class="EMPSRC_UPD_DEL_radio" id='+id+'  value='+id+' ></td><td>'+PH_SRC_UPD_date+'</td><td>'+PH_SRC_UPD_desc+'</td><td>'+PH_SRC_UPD_userstamp+'</td><td>'+PH_SRC_UPD_timestamp+'</td></tr>';
                         }
                         PH_SRC_UPD_table_header+='</tbody></table>';
                         $('section').html(PH_SRC_UPD_table_header);
@@ -216,14 +216,16 @@ $(document).ready(function(){
                     $("#PH_SRC_UPD_updateform").hide();
                     $('#PH_SRC_UPD_btn_search').hide();
                     var msg=err_msg_array[0].replace("REPORT",'RECORD');
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+                    show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",msg,"success",false);
                     PH_SRC_UPD_detailrset()
                     flex_table();
                 }
                 else
                 {
                     //MESSAGE BOX FOR NOT UPDATED
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
+                    show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[2],"success",false);
                 }
                 $('.preloader', window.parent.document).hide();
             }
@@ -271,45 +273,47 @@ $(document).ready(function(){
 <body>
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>PUBLIC HOLIDAY SEARCH/UPDATE</h3><p></div></div>
+    <div class="title" id="fhead" ><center><h3>PUBLIC HOLIDAY SEARCH/UPDATE</h3><p></div></div>
     <form  name="PH_SRC_UPD_form" id="PH_SRC_UPD_form" class="content" >
-        <table id="PH_ENTRY_table" >
-            <td width="150"><label name="PH_SRC_UPD_lbl_yr" id="PH_SRC_UPD_lbl_yr" hidden>SELECT A YEAR<em>*</em></label></td>
-            <td width="150">
+        <div id="PH_ENTRY_table" >
+            <div class="row-fluid form-group">
+            <label name="PH_SRC_UPD_lbl_yr" class="col-sm-2" id="PH_SRC_UPD_lbl_yr" hidden>SELECT A YEAR<em>*</em></label>
+                <div class="col-sm-8">
                 <select id="PH_SRC_UPD_lb_yr" name="PH_SRC_UPD_lb_yr" hidden>
                 </select>
-            </td>
+            </div></div>
             <div><label id="PH_SRC_UPD_nodaterr" name="PH_SRC_UPD_nodaterr" class="errormsg"></label></div>
-        </table>
-        <table>
-            <br><div class="srctitle" name="PH_SRC_UPD_nodate" id="PH_SRC_UPD_nodate" hidden></div>
+        </div>
+
+            <div class="srctitle" name="PH_SRC_UPD_nodate" id="PH_SRC_UPD_nodate" hidden></div>
             <div><input type="button" id="PH_SRC_UP_btn_pdf" class="btnpdf" value="PDF"></div>
             <div><label id="UPH_SRC_UPD_lbl_header" name="UPH_SRC_UPD_lbl_header" class="errormsg"></label></div>
-            <div class="container">
-                <div class="container" id="tablecontainer" style="width:900px;" hidden>
-                    <section style="width:900px;">
+                <div  id="tablecontainer" style="max-width:800px;" class="table-responsive" hidden>
+                    <section>
                     </section>
                 </div>
             </div>
             <div><label id="PH_SRC_UPD_lbl_norole_err" name="PH_SRC_UPD_lbl_norole_err" class="errormsg"></label></div>
-        </table>
-        <tr>
-            <td><input class="btn" type="button" id="PH_SRC_UPD_btn_search" name="PH_SRC_UPD_btn_search" value="SEARCH" hidden /></td>
-        </tr>
-        <table id="PH_SRC_UPD_updateform" hidden>
-            <tr>
-                <td width="150"><label name="PH_SRC_UPD_lbl_dte" id="PH_SRC_UPD_lbl_dte">DATE</label></td>
-                <td><input type ="text" id="PH_SRC_UPD_tb_date" class='PH_SRC_UPD_tb_dates minmax proj datemandtry formshown update_validate' name="PH_SRC_UPD_tb_date" style="width:75px;"/></td>
-            </tr>
-            <tr>
-                <td width="150"><label name="PH_SRC_UPD_lbl_des" id="PH_SRC_UPD_lbl_des">DESCRIPTION</label></td>
-                <td><textarea rows="5" cols="100" name="PH_SRC_UPD_tb_des" id="PH_SRC_UPD_tb_des" class="validation uppercase maxlength"></textarea></td>
-            </tr>
-            <tr>
-                <td  align="right"><input class="btn" type="button"  id="PH_SRC_UPD_btn_update" name="SAVE" value="UPDATE" disabled hidden /></td>
-                <td align="left"><input type="button" class="btn" name="PH_SRC_UPD_btn_reset" id="PH_SRC_UPD_btn_reset" value="RESET"></td>
-            </tr>
-        </table>
+
+        <div class="row-fluid form-group">
+            <input class="btn" type="button" id="PH_SRC_UPD_btn_search" name="PH_SRC_UPD_btn_search" value="SEARCH" hidden />
+        </div>
+        <div id="PH_SRC_UPD_updateform" hidden>
+            <div class="row-fluid form-group">
+               <label name="PH_SRC_UPD_lbl_dte" class="col-sm-2"  id="PH_SRC_UPD_lbl_dte">DATE</label>
+                <div class="col-sm-8">
+               <input type ="text" id="PH_SRC_UPD_tb_date" class='PH_SRC_UPD_tb_dates minmax proj datemandtry formshown update_validate' name="PH_SRC_UPD_tb_date" style="width:75px;"/>
+            </div></div>
+            <div class="row-fluid form-group">
+                <label name="PH_SRC_UPD_lbl_des"  class="col-sm-2" id="PH_SRC_UPD_lbl_des">DESCRIPTION</label>
+                <div class="col-sm-8">
+               <textarea rows="5" cols="100" name="PH_SRC_UPD_tb_des" id="PH_SRC_UPD_tb_des" class="validation uppercase maxlength"></textarea>
+            </div></div>
+            <div>
+               <input class="btn" type="button"  id="PH_SRC_UPD_btn_update" name="SAVE" value="UPDATE" disabled hidden />
+            <input type="button" class="btn" name="PH_SRC_UPD_btn_reset" id="PH_SRC_UPD_btn_reset" value="RESET">
+           </div>
+        </div>
     </form>
 </div>
 </body>

@@ -6,7 +6,8 @@
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -153,14 +154,14 @@ include "HEADER.php";
                     if(msg_alert==1)
                     {
                         $('.preloader', window.parent.document).hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0],position:{top:150,left:530}}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
                         CPVD_rset()
                         showTable()
                     }
                     else
                     {
                         $('.preloader', window.parent.document).hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1],position:{top:150,left:530}}});
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1],position:{top:100,left:100}}});
                     }
                 }
             }
@@ -196,47 +197,55 @@ include "HEADER.php";
 </script>
 <!--BODY TAG START-->
 <body>
+<div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><div style="padding-left:500px; text-align:left;" ><p><h3>COMPANY PROPERTY VERIFICATION</h3><p></div></div>
+    <div class="title"><center><p><h3>COMPANY PROPERTY VERIFICATION</h3><p></center></div>
     <form   id="CPVD_form_cmpnypropverfictn" class="content" >
-        <table>
-            <tr>
-                <td><label name="CPVD_lbl_loginid" id="CPVD_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label></td>
-                <td><select name="CPVD_lb_loginid" id="CPVD_lb_loginid" hidden>
+        <div class="panel-body">
+            <fieldset>
+        <div class="row-fluid form-group">
+                <label name="CPVD_lbl_loginid" class="col-sm-2" id="CPVD_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
+            <div class="col-sm-8">
+                <select name="CPVD_lb_loginid" id="CPVD_lb_loginid" hidden>
                         <option>SELECT</option>
-                    </select></td>
-            </tr>
-            <td><div><label id="CPVD_lbl_nologinid" name="CPVD_lbl_nologinid" class="errormsg"></label></div></td>
-            <tr>
-                <td>
-                    <label name="CPVD_lbl_laptopno" id="CPVD_lbl_laptopno" hidden>LAPTOP NUMBER</label></td>
-                <td><input type="text" name="CPVD_tb_laptopno" id="CPVD_tb_laptopno" hidden maxlength='25' class="alphanumeric sizefix" readonly></td>
-            </tr>
-            <tr>
-                <td>
-                    <label name="CPVD_lbl_chargerno" id="CPVD_lbl_chargerno" hidden>CHARGER NUMBER</label></td>
-                <td><input type="text" name="CPVD_tb_chargerno" id="CPVD_tb_chargerno" maxlength='50' class="alphanumeric sizefix" hidden readonly></td>
-            </tr>
-            <tr>
-                <td><label name="CPVD_lbl_chckdby" id="CPVD_lbl_chckdby" hidden>CHECKED BY<em>*</em></label></td>
-                <td><select name="CPVD_lb_chckdby" id="CPVD_lb_chckdby" hidden>
+                    </select>
+            </div></div>
+           <div><label id="CPVD_lbl_nologinid" name="CPVD_lbl_nologinid" class="errormsg"></label></div>
+        <div class="row-fluid form-group">
+                    <label name="CPVD_lbl_laptopno"  class="col-sm-2" id="CPVD_lbl_laptopno" hidden>LAPTOP NUMBER</label>
+            <div class="col-sm-8">
+               <input type="text" name="CPVD_tb_laptopno" id="CPVD_tb_laptopno" hidden maxlength='25' class="alphanumeric sizefix" readonly>
+            </div></div>
+
+        <div class="row-fluid form-group">
+                  <label  name="CPVD_lbl_chargerno" class="col-sm-2" id="CPVD_lbl_chargerno" hidden>CHARGER NUMBER</label>
+            <div class="col-sm-8">
+            <input type="text" name="CPVD_tb_chargerno" id="CPVD_tb_chargerno" maxlength='25' class="alphanumeric sizefix" hidden readonly>
+            </div></div>
+        <div class="row-fluid form-group">
+                <label name="CPVD_lbl_chckdby" class="col-sm-2" id="CPVD_lbl_chckdby" hidden>CHECKED BY<em>*</em></label>
+            <div class="col-sm-8">
+               <select name="CPVD_lb_chckdby" id="CPVD_lb_chckdby" hidden>
                         <option>SELECT</option>
-                    </select></td>
-            </tr>
-            <tr>
-                <td><label name="CPVD_lbl_reason" id="CPVD_lbl_reason" hidden>COMMENTS<em>*</em></label></td>
-                <td><textarea rows="4" cols="50" name="CPVD_ta_reason" id="CPVD_ta_reason" hidden>
-                    </textarea></td>
-            </tr>
-            <table id="CPVD_btns_sendreset"   hidden>
-                <tr>
-                    <td width="150px" align="right"><input class="btn" type="button"  id="CPVD_btn_send" name="SAVE" value="SEND" disabled hidden /></td>
+                    </select>
+            </div></div>
+        <div class="row-fluid form-group">
+               <label name="CPVD_lbl_reason" class="col-sm-2"  id="CPVD_lbl_reason" hidden>COMMENTS<em>*</em></label>
+            <div class="col-sm-8">
+               <textarea rows="4" cols="50" name="CPVD_ta_reason" id="CPVD_ta_reason" hidden>
+                    </textarea>
+            </div></div>
+            <div id="CPVD_btns_sendreset"   hidden>
+                <div>
+                    <td width="150px" align="right"><input class="btn" type="button"  id="CPVD_btn_send" name="SAVE" value="SAVE" disabled hidden /></td>
                     <td align="left"><input type="button" class="btn" name="CPVD_btn_reset" id="CPVD_btn_reset" value="RESET"></td>
-                </tr>
-            </table>
-        </table>
+                </div>
+            </div>
+                </fieldset>
+            </div>
     </form>
+    </div>
 </div>
 </body>
 <!--BODY TAG END-->

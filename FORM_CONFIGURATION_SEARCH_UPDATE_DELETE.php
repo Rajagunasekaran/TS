@@ -9,7 +9,8 @@
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 <?PHP
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -56,7 +57,7 @@ $(document).ready(function(){
                         for (var i=0;i<CONFIG_SRCH_UPD_values.length;i++) {
                             CONFIG_SRCH_UPD_typ_opt += '<option value="' + CONFIG_SRCH_UPD_values[i][0] + '">' + CONFIG_SRCH_UPD_values[i][1] + '</option>';
                         }
-                        $('#CONFIG_SRCH_UPD_tr_type').append('<td><label>TYPE<em>*</em></label></td><td><select id="CONFIG_SRCH_UPD_lb_type" name="CONFIG_SRCH_UPD_lb_type"></select></td>')
+                        $('#CONFIG_SRCH_UPD_tr_type').append('<div class="row-fluid form-group"><label class="col-sm-3">TYPE<em>*</em></label><div class="col-sm-4"><select id="CONFIG_SRCH_UPD_lb_type" name="CONFIG_SRCH_UPD_lb_type"></select></div></div>')
                         $('#CONFIG_SRCH_UPD_lb_type').html(CONFIG_SRCH_UPD_typ_opt);
                     }
                 }
@@ -94,7 +95,7 @@ $(document).ready(function(){
                 if(CONFIG_flag_upd==1){
                     var errmsg=CONFIG_SRCH_UPD_errmsg[4].replace('[MODULE NAME]',$("#CONFIG_SRCH_UPD_lb_module option:selected").text());
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:errmsg,position:{top:150,left:530}}});}
-
+//                    show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
             }}
         var OPTION="CONFIG_SRCH_UPD_load_data";
         xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION,true);
@@ -209,11 +210,13 @@ $(document).ready(function(){
                 {
                     $('.preloader',window.parent.document).hide();
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:CONFIG_SRCH_UPD_errmsg[0],position:{top:150,left:530}}});
+//                    show_msgbox("CONFIGURATION ENTRY",CONFIG_SRCH_UPD_errmsg[0],"success",false);
                 }
                 if(CONFIG_SRCH_UPD_msg_alert==2){
                     $('.preloader',window.parent.document).hide();
                     $(".update").attr("disabled","disabled");
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:errmsg,position:{top:150,left:530}}});
+//                    show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
                 }
                 else if(CONFIG_SRCH_UPD_msg_alert!=0){
                     CONFIG_SRCH_UPD_fetch_configdata();
@@ -232,6 +235,7 @@ $(document).ready(function(){
 
                     }
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:msg,position:{top:150,left:530}}});
+//                    show_msgbox("CONFIGURATION ENTRY",msg,"success",false);
                 }
             }}
         var OPTION="CONFIG_SRCH_UPD_save";
@@ -253,11 +257,13 @@ $(document).ready(function(){
                 {
                     $(".delete").attr("disabled","disabled");
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[6].replace('[MODULE NAME]',$("#CONFIG_SRCH_UPD_lb_type option:selected").text()),position:{top:150,left:520}}});
+//                    show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[6],"success",false);
                     CONFIG_SRCH_UPD_fetch_configdata();
                 }
                 else
                 {
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[7],position:{top:150,left:520}}});
+//                    show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[7],"success",false);
                 }
                 $('.preloader',window.parent.document).hide();
             }
@@ -280,6 +286,7 @@ $(document).ready(function(){
                     if(xmlhttp.responseText==1){
                         $(".update").attr("disabled","disabled");
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[8].replace('[TYPE]',$("#CONFIG_SRCH_UPD_lb_type option:selected").text()),position:{top:150,left:500}}});
+//                        show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[8],"success",false);
                         $(this).addClass('invalid');}
                     else{
                         $(".update").removeAttr("disabled","disabled");
@@ -310,19 +317,29 @@ $(document).ready(function(){
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
+<div class="container-fluid">
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
     <div class="title" id="fhead"><div style="padding-left:500px; text-align:left;"><p><h3>CONFIGURATION SEARCH/UPDATE/DELETE</h3><p></div></div>
     <form class="content" name="CONFIG_SRCH_UPD_form" id="CONFIG_SRCH_UPD_form" autocomplete="off" >
-        <table><tr><td width="200px"> <label>MODULE NAME<em>*</em></label></td>
-                <td ><select id="CONFIG_SRCH_UPD_lb_module" name="CONFIG_SRCH_UPD_lb_module"></select></td><td><div id="CONFIG_SRCH_UPD_div_errMod" hidden class="errormsg"></div></td></tr>
-            <tr id="CONFIG_SRCH_UPD_tr_type"></tr>
-        </table>
-        <section></section>
+        <div class="panel-body">
+            <fieldset>
+        <div class="form-group">
+            <label class="col-sm-3">MODULE NAME<em>*</em></label>
+            <div class="col-sm-4">
+                <select id="CONFIG_SRCH_UPD_lb_module" name="CONFIG_SRCH_UPD_lb_module"></select>
+            </div></div>
+        <div id="CONFIG_SRCH_UPD_div_errMod" hidden class="errormsg"></div>
+        <br>
+        <div id="CONFIG_SRCH_UPD_tr_type"></div>
+        <div class="table-responsive">
+        <section style="max-width:500px;" ></section>
+        </div>
         <div><label id="CONFIG_SRCH_UPD_err_flex" name="CONFIG_SRCH_UPD_err_flex" class="errormsg" hidden></label></div>
-        <table>
-        </table>
+        </fieldset>
+            </div>
     </form>
+    </div>
 </div>
 </body>
 <!--BODY TAG END-->

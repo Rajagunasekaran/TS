@@ -12,7 +12,8 @@
 //VER 0.01-INITIAL VERSION, SD:06/10/2014 ED:08/10/2014,TRACKER NO:96
 //*********************************************************************************************************//-->
 <?php
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <script>
     //READY FUNCTION START
@@ -118,6 +119,7 @@ include "HEADER.php";
                         $('#TH_btn_pdf').show();
                         var TH_table_header='<table id="TH_tble_flextble" border="1"  cellspacing="0" class="srcresult" style="width:1200px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th  style="width:880px">HISTORY</th><th width="200">USERSTAMP</th><th width="120" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                         for(var i=0;i<values_array.length;i++){
+
                             var TH_tptype=values_array[i].tptype;
                             var TH_ttipdata=values_array[i].ttipdata;
                             var TH_oldvalue=values_array[i].oldvalue;
@@ -214,32 +216,36 @@ include "HEADER.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body>
+<div class="container-fluid">
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center">
                 <img src="image/Loading.gif"/></div></div></div>
-    <div class="title" id="fhead"><div style="padding-left:500px; text-align:left;"><p><h3>TICKLER HISTORY</h3><p></div></div>
+    <div class="title" id="fhead"><center><h3>TICKLER HISTORY</h3></center></div>
     <form class="content" name="TH_form_employeeid" id="TH_form_employeeid">
-        <table>
-            <table border=0>
-                <tr>
-                    <td><label name="TH_lbl_employeeid" id="TH_lbl_employeeid">EMPLOYEE NAME</label></td>
-                    <td><input type="text" class="autosize" name="TH_tb_empid" id="TH_tb_empid" style="width:300px"/></td><td><label id="TH_lbl_notmatch" name="TH_lbl_notmatch" class="errormsg" hidden></label></td>
-                <tr><td></td><td><input type="button" name="TH_btn_search" class='btn' value="SEARCH" id="TH_btn_search" disabled/></td><tr>
-            </table>
-            <tr>
-                <td><label id="TH_lbl_heading" name="TH_lbl_heading"  class="srctitle" hidden></label></td>
-                <td><label id="TH_lbl_nodata" name="TH_lbl_nodata"  class="errormsg" hidden></label></td><br><br>
+        <div class="panel-body">
+            <fieldset>
+            <div class="row-fluid form-group">
+                <label class="col-sm-3" name="TH_lbl_employeeid" id="TH_lbl_employeeid">EMPLOYEE NAME</label>
+                <div class="col-sm-4">
+                <input type="text" class="autosize" name="TH_tb_empid" id="TH_tb_empid" style="width:300px"/></div><label id="TH_lbl_notmatch" name="TH_lbl_notmatch" class="errormsg" hidden></label>
+            </div>
+        <div class="row-fluid form-group">
+            <input type="button" name="TH_btn_search" class='btn' value="SEARCH" id="TH_btn_search" disabled/>
+            </div>
+                <div>
+                <label id="TH_lbl_heading" name="TH_lbl_heading"  class="srctitle" hidden></label>
+                <label id="TH_lbl_nodata" name="TH_lbl_nodata"  class="errormsg" hidden></label><br>
                 <input type="button" id="TH_btn_pdf" class="btnpdf" value="PDF">
-            </tr>
-            <div id ="TH_div_flexdata_result" class="container" hidden>
+            </div>
+            <div id ="TH_div_flexdata_result"  class="table-responsive">
                 <section>
 
                 </section>
             </div>
-            </tr>
-
-        </table>
+                </fieldset>
+</div>
     </form>
+    </div>
 </div>
 </body>
 <!--BODY TAG END-->

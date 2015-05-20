@@ -33,13 +33,47 @@ if(isset($_REQUEST)){
         while($row=mysqli_fetch_array($rcname_result)){
             $get_rcname_array[]=$row["RC_NAME"];
         }
+        //RELATIONHOOD
+        $rname_result=mysqli_query($con,"SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID=22 ORDER BY URC_DATA");
+        $get_rname_array=array();
+        while($row=mysqli_fetch_array($rname_result)){
+            $get_rname_array[]=$row["URC_DATA"];
+        }
+        //LAPTOP NUMBER
+        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES  ORDER BY CP_LAPTOP_NUMBER");
+        $get_lname_array=array();
+        while($row=mysqli_fetch_array($lname_result)){
+            $get_lname_array[]=$row["CP_LAPTOP_NUMBER"];
+        }
+        //DESIGNATION
+        $rdesgn_result=mysqli_query($con,"SELECT * FROM EMPLOYEE_DESIGNATION ORDER BY ED_DESIGNATION");
+        $get_rdesgn_array=array();
+        while($row=mysqli_fetch_array($rdesgn_result)){
+            $get_rdesgn_array[]=$row["ED_DESIGNATION"];
+        }
+        //ACCOUNT TYPE
+        $acctype_result=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID=21 ORDER BY URC_DATA");
+        $get_acctype_array=array();
+        while($row=mysqli_fetch_array($acctype_result)){
+            $get_acctype_array[]=$row["URC_DATA"];
+        }
         $URSRC_final_array=array();
         $URSRC_role_array=array();
         $URSRC_role_array=$get_rcname_array;
-        $URSRC_final_array=array($URSRC_already_exist_flag,$URSRC_role_array);
+        $URSRC_final_array=array($URSRC_already_exist_flag,$URSRC_role_array,$get_rname_array,$get_lname_array,$get_rdesgn_array,$get_acctype_array);
         echo json_encode($URSRC_final_array);
     }
-//LOGIN CREWTION SAVE PART
+    //GETTING CHARGER NUMBER
+    if($_REQUEST['option']=="COMPANY_PROPERTY")
+    {
+        $URSRC_lb_laptopno=$_REQUEST['URSRC_lb_laptopno'];
+        $URSRC_cmpny_prop=mysqli_query($con,"SELECT CP_CHARGER_NUMBER FROM COMPANY_PROPERTIES WHERE CP_LAPTOP_NUMBER = '$URSRC_lb_laptopno'");
+        while($row=mysqli_fetch_array($URSRC_cmpny_prop)){
+            $URSRC_charger_no=$row["CP_CHARGER_NUMBER"];
+        }
+        echo ($URSRC_charger_no);
+    }
+//LOGIN CREATION SAVE PART
 //    if($_REQUEST['option']=="loginsave")
     if ($_POST['SAVE']=="CREATE")
     {
@@ -56,8 +90,12 @@ if(isset($_REQUEST)){
         $URSRC_designation=$_POST['URSRC_tb_designation'];
         $URSRC_Mobileno=$_POST['URSRC_tb_permobile'];
         $URSRC_kinname=$_POST['URSRC_tb_kinname'];
-        $URSRC_relationhd=$_POST['URSRC_tb_relationhd'];
+        $URSRC_relationhd=$_POST['URSRC_lb_selectrelationhd'];
         $URSRC_mobile=$_POST['URSRC_tb_mobile'];
+        $URSRC_Houseno=$_POST['URSRC_tb_houseno'];
+        $URSRC_Streetname=$_POST['URSRC_tb_strtname'];
+        $URSRC_Area=$_POST['URSRC_tb_area'];
+        $URSRC_Postalcode=$_POST['URSRC_tb_pstlcode'];
         $URSRC_bankname=$_POST['URSRC_tb_bnkname'];
         $URSRC_brancname=$_POST['URSRC_tb_brnchname'];
         $URSRC_acctname=$_POST['URSRC_tb_accntname'];
@@ -155,13 +193,15 @@ if(isset($_REQUEST)){
             $URSRC_voterid='';
         }
         $con->autocommit(false);
-        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP',@success_flag)");
+//        echo "CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)";
+//        exit;
+        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
+//        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
         if($flag==1){
-
             $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
             $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
             $admin_rs=mysqli_query($con,$select_admin);
@@ -208,7 +248,6 @@ if(isset($_REQUEST)){
                 $mail_subject=$row["ETD_EMAIL_SUBJECT"];
                 $body=$row["ETD_EMAIL_BODY"];
             }
-
             $drive = new Google_Client();
             $drive->setClientId($ClientId);
             $drive->setClientSecret($ClientSecret);
@@ -388,10 +427,10 @@ if(isset($_REQUEST)){
                     $message1 = new Message();
                     $message1->setSender($name.'<'.$from.'>');
                     $message1->addTo($loginid);
-                    $message1->addCc($cclist);
+//                    $message1->addCc($cclist);
                     $message1->setSubject($mail_subject);
                     $message1->setHtmlBody($final_message);
-                    $message1->send();
+//                    $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
@@ -422,7 +461,7 @@ if(isset($_REQUEST)){
                     $message1->addCc($sadmin);
                     $message1->setSubject($intro_mail_subject);
                     $message1->setHtmlBody($intro_message);
-                    $message1->send();
+//                    $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
@@ -443,8 +482,25 @@ if(isset($_REQUEST)){
         $loginid_result = $_REQUEST['URSRC_login_id'];
         $emp_uploadfilelist=array();
         $emp_uploadfilelist=UploadEmployeeFiles("login_fetch",$loginid_result);
-        $loginsearch_fetchingdata= mysqli_query($con," SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
-FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD_LOGINID='$loginid_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD_LOGINID='$loginid_result' and UA_JOIN is not null) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
+//        $loginsearch_fetchingdata= mysqli_query($con," SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD_LOGINID='$loginid_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD_LOGINID='$loginid_result' and UA_JOIN is not null) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
+//        echo "SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,ED.ED_DESIGNATION AS EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,URC2.URC_DATA AS EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_HOUSE_NO,EMP.EMP_STREET_NAME,EMP.EMP_AREA,EMP.EMP_PIN_CODE,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,URC3.URC_DATA AS EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP FROM COMPANY_PROPERTIES CP, EMPLOYEE_DETAILS EMP LEFT JOIN COMPANY_PROPERTIES_DETAILS CPD ON EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,USER_RIGHTS_CONFIGURATION URC2,USER_RIGHTS_CONFIGURATION URC3,ROLE_CREATION RC,EMPLOYEE_DESIGNATION ED WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID AND ULD.ULD_ID=UA.ULD_ID AND URC.URC_ID=RC.URC_ID AND RC.RC_ID=UA.RC_ID AND ED.ED_ID=EMP.EMP_DESIGNATION AND EMP.EMP_RELATIONHOOD=URC2.URC_ID AND EMP.EMP_ACCOUNT_TYPE=URC3.URC_ID AND CP.CP_ID = CPD.CP_ID AND ULD_LOGINID='$loginid_result' AND UA.UA_REC_VER=(SELECT MAX(UA_REC_VER) FROM USER_ACCESS UA,USER_LOGIN_DETAILS ULD WHERE ULD.ULD_ID=UA.ULD_ID AND ULD_LOGINID='$loginid_result' AND UA_JOIN IS NOT NULL) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME";
+        $loginsearch_fetchingdata= mysqli_query($con,"SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,
+DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,ED.ED_DESIGNATION AS EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,
+EMP.EMP_NEXT_KIN_NAME,URC2.URC_DATA AS EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_HOUSE_NO,
+EMP.EMP_STREET_NAME,EMP.EMP_AREA,EMP.EMP_PIN_CODE,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,
+EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,URC3.URC_DATA AS EMP_ACCOUNT_TYPE,
+EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,
+CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,
+CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
+FROM EMPLOYEE_DETAILS EMP LEFT JOIN COMPANY_PROPERTIES_DETAILS CPD ON EMP.EMP_ID=CPD.EMP_ID LEFT JOIN COMPANY_PROPERTIES CP ON CPD.CP_ID=CP.CP_ID,
+USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,
+USER_RIGHTS_CONFIGURATION URC2,USER_RIGHTS_CONFIGURATION URC3,ROLE_CREATION RC,
+EMPLOYEE_DESIGNATION ED WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID AND
+ULD.ULD_ID=UA.ULD_ID AND URC.URC_ID=RC.URC_ID AND RC.RC_ID=UA.RC_ID AND
+ED.ED_ID=EMP.EMP_DESIGNATION AND EMP.EMP_RELATIONHOOD=URC2.URC_ID AND
+EMP.EMP_ACCOUNT_TYPE=URC3.URC_ID AND ULD.ULD_LOGINID='$loginid_result' AND
+UA.UA_REC_VER=(SELECT MAX(UA_REC_VER) FROM USER_ACCESS UA,USER_LOGIN_DETAILS ULD WHERE ULD.ULD_ID=UA.ULD_ID AND ULD_LOGINID='$loginid_result' AND UA_JOIN IS NOT NULL)
+ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         $URSRC_values=array();
         $rolecreation_result = mysqli_query($con,"SELECT * FROM ROLE_CREATION");
         $get_rolecreation_array=array();
@@ -464,8 +520,12 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $URSRC_kinname=$row['EMP_NEXT_KIN_NAME'];
             $URSRC_relationhd=$row['EMP_RELATIONHOOD'];
             $URSRC_Mobileno=$row['EMP_ALT_MOBILE_NO'];
-            $URSRC_laptopno=$row['CPD_LAPTOP_NUMBER'];
-            $URSRC_chrgrno=$row['CPD_CHARGER_NUMBER'];
+            $URSRC_Houseno=$row['EMP_HOUSE_NO'];
+            $URSRC_Streetname=$row['EMP_STREET_NAME'];
+            $URSRC_Area=$row['EMP_AREA'];
+            $URSRC_Postalcode=$row['EMP_PIN_CODE'];
+            $URSRC_laptopno=$row['CP_LAPTOP_NUMBER'];
+            $URSRC_chrgrno=$row['CP_CHARGER_NUMBER'];
             $URSRC_bag=$row['CPD_LAPTOP_BAG'];
             $URSRC_mouse=$row['CPD_MOUSE'];
             $URSRC_dooracess=$row['CPD_DOOR_ACCESS'];
@@ -482,20 +542,47 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $URSRC_passportno=$row['EMP_PASSPORT_NO'];
             $URSRC_voterid=$row['EMP_VOTER_ID'];
             $URSRC_comment=$row['EMP_COMMENTS'];
-            $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'aadharno'=>$URSRC_aadharno,'passportno'=>$URSRC_passportno,'voterid'=>$URSRC_voterid,'comment'=>$URSRC_comment];
+            $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'Houseno'=>$URSRC_Houseno,'Streetname'=>$URSRC_Streetname,'Area'=>$URSRC_Area,'Postalcode'=>$URSRC_Postalcode,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'aadharno'=>$URSRC_aadharno,'passportno'=>$URSRC_passportno,'voterid'=>$URSRC_voterid,'comment'=>$URSRC_comment];
         }
         $URSRC_values[]=array($final_values,$get_rolecreation_array,$emp_uploadfilelist[0],$emp_uploadfilelist[1],$emp_uploadfilelist[2]);
         echo json_encode($URSRC_values);
     }
+
     if($_REQUEST['option']=="login_db"){
         $active_emp=get_active_emp_id();
-        echo json_encode($active_emp);
+
+        //RELATIONHOOD
+        $rname_result=mysqli_query($con,"SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID=22 ORDER BY URC_DATA");
+        $get_rname_array=array();
+        while($row=mysqli_fetch_array($rname_result)){
+            $get_rname_array[]=$row["URC_DATA"];
+        }
+        //LAPTOP NUMBER
+        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES  ORDER BY CP_LAPTOP_NUMBER");
+        $get_lname_array=array();
+        while($row=mysqli_fetch_array($lname_result)){
+            $get_lname_array[]=$row["CP_LAPTOP_NUMBER"];
+        }
+        //DESIGNATION
+        $rdesgn_result=mysqli_query($con,"SELECT * FROM EMPLOYEE_DESIGNATION ORDER BY ED_DESIGNATION");
+        $get_rdesgn_array=array();
+        while($row=mysqli_fetch_array($rdesgn_result)){
+            $get_rdesgn_array[]=$row["ED_DESIGNATION"];
+        }
+        //ACCOUNT TYPE
+        $acctype_result=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID=21 ORDER BY URC_DATA");
+        $get_acctype_array=array();
+        while($row=mysqli_fetch_array($acctype_result)){
+            $get_acctype_array[]=$row["URC_DATA"];
+        }
+        $final_array=array($active_emp,$get_rname_array,$get_lname_array,$get_rdesgn_array,$get_acctype_array);
+        echo json_encode($final_array);
     }
 //LOGIN CREATION UPATE FORM
 //    if($_REQUEST['option']=="loginupdate")
     if ($_POST['URSRC_submitupdate']=="UPDATE")
     {
-
+//        echo'echo1';
         $user_filelist=array();
         $user_filelist=$_POST['uploadfilelist'];
         $rolename=$_POST['roles1'];
@@ -513,6 +600,10 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
         $URSRC_kinname=$_POST['URSRC_tb_kinname'];
         $URSRC_relationhd=$_POST['URSRC_tb_relationhd'];
         $URSRC_mobile=$_POST['URSRC_tb_mobile'];
+        $URSRC_Houseno=$_POST['URSRC_tb_houseno'];
+        $URSRC_Streetname=$_POST['URSRC_tb_strtname'];
+        $URSRC_Area=$_POST['URSRC_tb_area'];
+        $URSRC_Postalcode=$_POST['URSRC_tb_pstlcode'];
         $URSRC_bankname=$_POST['URSRC_tb_bnkname'];
         $URSRC_brancname=$_POST['URSRC_tb_brnchname'];
         $URSRC_acctname=$_POST['URSRC_tb_accntname'];
@@ -624,12 +715,16 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             $lastdate=$row['UA_JOIN_DATE'];
         }
         $con->autocommit(false);
-        $result = $con->query("CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP',@success_flag)");
+//        echo "CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)";
+//exit;
+        $result = $con->query("CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
+//        echo $flag;
         if($flag==1){
+//            echo 'echo 1';
             $cal_flag=1;
             if($lastdate!=$finaldate){
                 $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
@@ -658,6 +753,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                 $ss_fileid=$row["URC_DATA"];
             }
 //COMMON FUNCTION FOR GEETING ADMIN FROM ID
+//            echo 'echo 2';
             $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
             $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
             $admin_rs=mysqli_query($con,$select_admin);
@@ -671,6 +767,8 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             }
             $cclist=array($admin,$sadmin);
             //END
+
+//            echo 'echo 3';
             if($oldloginid!=$loginid){
 
                 $select_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=4");
@@ -714,6 +812,8 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                 $newPermission->setType($type);
                 $newPermission->setRole($role);
                 $newPermission->setEmailAddress($email);
+
+//                echo 'ech 4';
                 try {
                     $service->permissions->insert($fileId, $newPermission);
                     $ss_flag=1;
@@ -773,7 +873,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
 
                     //End of File Uploads
                 }
-
+//echo 'echo 5';
                 if($upload_flag==1){
                     if(($ss_flag==1) && (count($file_array)>0)){
 //                    $cal_flag= URSRC_delete_create_calendarevent($ULD_id,$URSRC_firstname,$finaldate);
@@ -808,6 +908,8 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     }
 
                 }
+
+//                echo 'echo 6';
                 if(($ss_flag==1)&&($cal_flag==1)){
                     URSRC_unshare_document($oldloginid,$fileId);
                     $email_body;
@@ -866,6 +968,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     }
                     //not applicable
 //STRING REPLACE FUNCTION
+//                    echo 'echo 7';
                     $emp_email_body;
                     $body_msg =explode("^", $body);
                     $length=count($body_msg);
@@ -877,8 +980,8 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                     for($i=0;$i<$commnet_length;$i++){
                         $comment_msg.=$comment[$i].'<br>';
                     }
-                    $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
-                    $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
+                    $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[HOUSENO]","[STREETNAME]","[AREA]","[POSTALCODE]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
+                    $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Area,$URSRC_Postalcode,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
                     $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                     $final_message=$final_message.'<br>'.$newphrase;
                     //SENDING MAIL OPTIONS
@@ -891,7 +994,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                         $message1->addCc($cclist);
                         $message1->setSubject($mail_subject1);
                         $message1->setHtmlBody($final_message);
-                        $message1->send();
+//                        $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
@@ -922,7 +1025,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                         $message1->addCc($sadmin);
                         $message1->setSubject($intro_mail_subject);
                         $message1->setHtmlBody($intro_message);
-                        $message1->send();
+//                        $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
@@ -1039,8 +1142,8 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                 for($i=0;$i<$commnet_length;$i++){
                     $comment_msg.=$comment[$i].'<br>';
                 }
-                $replace= array("[LOGINID]", "[FNAME]","[LNAME]", "[DOB]", "[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
-                $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
+                $replace= array("[LOGINID]", "[FNAME]","[LNAME]", "[DOB]", "[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[HOUSENO]","[STREETNAME]","[AREA]","[POSTALCODE]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
+                $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Area,$URSRC_Postalcode,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
                 $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                 $final_message=$final_message.'<br>'.$newphrase;
                 //SENDING MAIL OPTIONS
@@ -1055,7 +1158,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                         $message1->addCc($cclist);
                         $message1->setSubject($mail_subject1);
                         $message1->setHtmlBody($final_message);
-                        $message1->send();
+//                        $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
@@ -1076,7 +1179,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
                             $message1->addCc($cclist);
                             $message1->setSubject($mail_subject1);
                             $message1->setHtmlBody($final_message);
-                            $message1->send();
+//                            $message1->send();
                         } catch (\InvalidArgumentException $e) {
                             echo $e;
                         }}
@@ -1084,6 +1187,7 @@ FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID
             }
 
             $flag_array=[$flag,$ss_flag,$cal_flag,$ss_fileid,$file_flag,$folderid];
+//            echo $flag_array;
         }
         else{
             $flag_array=[$flag];

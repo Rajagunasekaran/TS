@@ -14,7 +14,8 @@
 //*********************************************************************************************************//-->
 
 <?php
-include "HEADER.php";
+//include  "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 
 <!--SCRIPT TAG START-->
@@ -60,7 +61,8 @@ $(document).ready(function(){
                 var ext=datasplit[1].toUpperCase();//(this.files[0].type).toString().toUpperCase();
                 if(ext!='PDF'&& ext!='JPG'&& ext!='PNG' && ext!='JPEG')
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[31],position:{top:1800,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[31],position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[31],"success",false);
                     button_vflag=0;
                     $('#attachprompt').hide();
                 }
@@ -69,7 +71,8 @@ $(document).ready(function(){
 
                 if(filesize>maxfilesize)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[34],position:{top:1800,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[34],position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[34],"success",false);
                     button_vflag=0;
                     reset_field($('#'+$(this).attr("id")));
                     $('#attachprompt').hide();
@@ -90,7 +93,8 @@ $(document).ready(function(){
 
                 if($.inArray( $("#"+$(this).attr("id"))[0].files[0].name, filename )!=-1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[33],position:{top:1800,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[33],position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[33],"success",false);
                     button_vflag=0;
                     reset_field($('#'+$(this).attr("id")));
                     $('#attachprompt').hide();
@@ -166,37 +170,40 @@ $(document).ready(function(){
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             $('.preloader',window.parent.document).hide();
+//            alert(xmlhttp.responseText);
             var value_array=JSON.parse(xmlhttp.responseText);
             URSRC_rolecreation_array=value_array[0];
             URSRC_userrigths_array=value_array[1];
             URSRC_basicrole_profile_array=value_array[3];
             URSRC_errorAarray=value_array[4];
             URSRC_emptype_array=value_array[5];
+//            alert(URSRC_emptype_array+'array 5')
             URSRC_comp_sdate=value_array[6];
             var emp_type='<option value="SELECT">SELECT</option>';
             for(var k=0;k<URSRC_emptype_array.length;k++){
                 emp_type += '<option value="' + URSRC_emptype_array[k] + '">' + URSRC_emptype_array[k] + '</option>';
             }
+//            alert(emp_type)
             $('#URSRC_lb_selectemptype').html(emp_type);
 
-            var URSRC_basicrole_radio='<tr><td><label>SELECT BASIC ROLE</label></tr>'
-            var URSRC_basicroleprofile_radio='<tr><td><label>SELECT BASIC ROLE <em>*</em></label></tr>'
+            var URSRC_basicrole_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT BASIC ROLE</label></div>'
+            var URSRC_basicroleprofile_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT BASIC ROLE <em>*</em></label></div>'
             for(var j=0;j<URSRC_basicrole_profile_array.length;j++){
                 var basic_roleprofile_value=URSRC_basicrole_profile_array[j].replace(" ","_")
-                URSRC_basicroleprofile_radio+='<tr><td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="URSRC_cb_basicroles1[]" id='+basic_roleprofile_value+' value='+basic_roleprofile_value+' class="URSRC_class_basicroles_chk tree"/>'+URSRC_basicrole_profile_array[j]+'</td></tr>';
+                URSRC_basicroleprofile_radio+='<div class="row-fluid form-group col-sm-offset-2">&nbsp;&nbsp;&nbsp;<input type="checkbox" name="URSRC_cb_basicroles1[]" id='+basic_roleprofile_value+' value='+basic_roleprofile_value+' class="URSRC_class_basicroles_chk tree"/>'+URSRC_basicrole_profile_array[j]+'</div>';
 
             }
             $('#URSRC_tble_basicroles_chk').html(URSRC_basicroleprofile_radio);
             //BASIC ROLE ENTRY
             if(URSRC_userrigths_array.length!=0){
-                var URSRC_role_radio='<tr><td><label>SELECT ROLE ACCESS</label></tr>'
-                var URSRC_basicrole_radio='<tr><td><label>SELECT BASIC ROLE</label></tr>'
+                var URSRC_role_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT ROLE ACCESS</label></div>'
+                var URSRC_basicrole_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT BASIC ROLE</label></div>'
                 for (var i = 0; i < URSRC_userrigths_array.length; i++) {
                     var id="URSRC_tble_table"+i
                     var id1="URSRC_userrigths_array"+i;
                     var value=URSRC_userrigths_array[i].replace(" ","_")
-                    URSRC_role_radio+='  <tr ><td><input type="radio" name="basicroles" id='+id1+' value='+value+' class="URSRC_class_basicroles "  />' + URSRC_userrigths_array[i] + '</td></tr>';
-                    URSRC_basicrole_radio+='<tr><td><input type="radio" name="URSRC_radio_basicroles1" id='+value+i+' value='+value+' class="URSRC_class_basic"/>'+URSRC_userrigths_array[i]+'</td></tr>';
+                    URSRC_role_radio+='<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="basicroles" id='+id1+' value='+value+' class="URSRC_class_basicroles "  />' + URSRC_userrigths_array[i] + '</div>';
+                    URSRC_basicrole_radio+='<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="URSRC_radio_basicroles1" id='+value+i+' value='+value+' class="URSRC_class_basic"/>'+URSRC_userrigths_array[i]+'</div>';
                 }
                 $('#URSRC_tble_roles').html(URSRC_role_radio);
                 $('#URSRC_tble_basicroles').html(URSRC_basicrole_radio);
@@ -214,6 +221,10 @@ $(document).ready(function(){
     xmlhttp.open("GET","COMMON.do?option="+option);
     xmlhttp.send();
     //END BASIC ROLECREATION
+    //postalcode
+//    jQuery('.pstlcode').keyup(function () {
+//        this.value = this.value.replace(/[^0-9\.]/g,'');
+//    });
     //DATE PICKER FUNCTION
     $('.datepicker').datepicker({
         dateFormat:"dd-mm-yy",changeYear:true,changeMonth:true
@@ -232,6 +243,28 @@ $(document).ready(function(){
             yearRange: '1920:' + EMP_ENTRY_year + '',
             defaultDate: EMP_ENTRY_d
         });
+    $('#URSC_tb_strtname').keypress(function (e) {
+        var regex = new RegExp("^[a-z A-Z]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+    $('#URSC_tb_area').keypress(function (e) {
+        var regex = new RegExp("^[a-z A-Z]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
     var pass_changedmonth=new Date(EMP_ENTRY_d.setFullYear(EMP_ENTRY_year));
     $('#URSRC_tb_dob').datepicker("option","maxDate",pass_changedmonth);
 //END DATE PICKER FUNCTION
@@ -244,6 +277,7 @@ $(document).ready(function(){
     $("#URSRC_ENTRY_tb_mobile").doValidation({rule:'numbersonly',prop:{realpart:10,leadzero:true}});
     $("#URSRC_ENTRY_tb_permobile").doValidation({rule:'numbersonly',prop:{realpart:10,leadzero:true}});
     //emp
+    $(".pstlcode").doValidation({rule:'numbersonly',prop:{realpart:6,leadzero:true}});
     $(".mobileno").doValidation({rule:'numbersonly',prop:{realpart:10,leadzero:true}});
     $(".accntno").doValidation({rule:'numbersonly',prop:{leadzero:true}});
     $(".alphanumeric").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:false,autosize:true}});
@@ -662,10 +696,90 @@ $(document).ready(function(){
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                           alert(xmlhttp.responseText);
                             $('.preloader',window.parent.document).hide();
                             var msgalert=JSON.parse(xmlhttp.responseText);
                             var LoginId_exist=msgalert[0];
                             var URSRC_role_array=msgalert[1];
+                            var URSRC=msgalert[2];
+                            var URSRC_LAP=msgalert[3];
+//                            alert(' URSRC_LAP')
+//                            var URSRC_CHR=msgalert[4];
+                            var URSRC_des=msgalert[4];
+                            var URSRC_ACC=msgalert[5];
+//                            alert(URSRC_CHR)
+                            if(URSRC.length!=0)
+                            {
+                                var URSRC_array='<option value="SELECT">SELECT</option>';
+                                for(var k=0;k<URSRC.length;k++){
+//                              alert(k)
+                                    URSRC_array += '<option value="'+URSRC[k]+'">'+ URSRC[k]+'</option>';
+                                }
+//                     alert(URSRC_array);
+                                $('#URSRC_lb_selectrelationhd').html(URSRC_array);
+                            }
+                            else
+                            {
+//                                alert('no data aviable in relationhood ')
+                            }
+                            if( URSRC_LAP.length!=0)
+                            {
+                                var  URSRC_LAP_array='<option value="SELECT">SELECT</option>';
+                                for(var k=0;k< URSRC_LAP.length;k++){
+//                              alert(k)
+                                    URSRC_LAP_array += '<option value="'+ URSRC_LAP[k]+'">'+  URSRC_LAP[k]+'</option>';
+                                }
+//                     alert(URSRC_array);
+                                $('#URSRC_lb_selectlaptopno').html( URSRC_LAP_array);
+                            }
+                            else
+                            {
+//                                alert('no data aviable in laptopno')
+                            }
+//                            if( URSRC_CHR.length!=0)
+//                            {
+//                                var  URSRC_CHR_array='<option value="SELECT">SELECT</option>';
+//                                for(var k=0;k< URSRC_CHR.length;k++){
+////                              alert(URSRC_CHR);
+//                                    URSRC_CHR_array += '<option value="'+ URSRC_CHR[k]+'">'+  URSRC_CHR[k]+'</option>';
+//                                }
+////                     alert(URSRC_CHR_array);
+//                                $('#URSRC_lb_selectchargerno').html( URSRC_CHR_array);
+//                            }
+//                            else
+//                            {
+//                                alert('no data aviable in chargerno')
+//                            }
+                            if(URSRC_des.length!=0)
+                            {
+                                var URSRC_des_array='<option value="SELECT">SELECT</option>';
+                                for(var k=0;k<URSRC_des.length;k++){
+//                              alert(k)
+                                    URSRC_des_array += '<option value="'+URSRC_des[k]+'">'+ URSRC_des[k]+'</option>';
+                                }
+//                     alert(URSRC_array);
+                                $('#URSRC_tb_designation').html(URSRC_des_array);
+                            }
+                            else
+                            {
+//                                alert('no data avilable in desgn ')
+                            }
+
+                            if(URSRC_ACC.length!=0)
+                            {
+                                var URSRC_ACC_array='<option value="SELECT">SELECT</option>';
+                                for(var k=0;k<URSRC_ACC.length;k++){
+//                              alert(k)
+                                    URSRC_ACC_array += '<option value="'+URSRC_ACC[k]+'">'+ URSRC_ACC[k]+'</option>';
+                                }
+//                     alert(URSRC_array);
+                                $('#URSRC_tb_accntyp').html(URSRC_ACC_array);
+                            }
+                            else
+                            {
+//                                alert('no data aviable in account ')
+                            }
+
                             if(LoginId_exist==0)
                             {
                                 exist_flag=1;
@@ -678,12 +792,12 @@ $(document).ready(function(){
                                             var value=URSRC_role_array[i].replace(" ","_")
                                             var id1="URSRC_role_array"+i;
                                             if(i==0){
-                                                var URSRC_roles='<tr><td width="175"><label>SELECT ROLE ACCESS<em>*</em></label></td>'
-                                                URSRC_roles+= '<td><input type="radio" name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</td>';
+                                                var URSRC_roles='<div class="row-fluid form-group"><label class="col-sm-2">SELECT ROLE ACCESS<em>*</em></label></div>'
+                                                URSRC_roles+= '<div class="row-fluid form-group col-sm-offset-2" ><input type="radio" name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</div>';
                                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                                             }
                                             else{
-                                                URSRC_roles= '<tr><td width="175"></td><td><input type="radio" name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</td></tr>';
+                                                URSRC_roles= '<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</div>';
                                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                                             }
                                         }
@@ -785,6 +899,10 @@ $(document).ready(function(){
             var URSRC_kinname = $("#URSRC_tb_kinname").val();
             var URSRC_relationhd = $("#URSRC_tb_relationhd").val();
             var URSRC_mobile= $("#URSRC_tb_mobile").val();
+            var URSRC_Houseno=$("#URSC_tb_houseno").val();
+            var  URSRC_Streetname=$("#URSC_tb_strtname").val();
+            var URSRC_Area=$("#URSC_tb_area").val();
+            var URSRC_Postalcode=$("#URSRC_tb_pstlcode").val();
             var URSRC_bnkname =$("#URSRC_tb_bnkname").val();
             var URSRC_tb_brnname=$('#URSRC_tb_brnchname').val();
             var URSRC_accname =$("#URSRC_tb_accntname").val();
@@ -827,6 +945,10 @@ $(document).ready(function(){
             var URSRC_kinname = $("#URSRC_tb_kinname").val();
             var URSRC_relationhd = $("#URSRC_tb_relationhd").val();
             var URSRC_mobile= $("#URSRC_tb_mobile").val();
+            var URSRC_Houseno=$("#URSC_tb_houseno").val();
+            var  URSRC_Streetname=$("#URSC_tb_strtname").val();
+            var URSRC_Area=$("#URSC_tb_area").val();
+            var URSRC_Postalcode=$("#URSRC_tb_pstlcode").val();
             var URSRC_bnkname =$("#URSRC_tb_bnkname").val();
             var URSRC_tb_brnname=$('#URSRC_tb_brnchname').val();
             var URSRC_accname =$("#URSRC_tb_accntname").val();
@@ -878,7 +1000,12 @@ $(document).ready(function(){
         }
     });
     //LOGIN SEARCH/UPDATE CLICK FUNCTION
+    var relation;
+    var desgn;
+    var laptop;
+    var acc_type;
     $('#URSRC_radio_loginsearchupdate').click(function(){
+//        alert('asd');
         button_vflag=1;
         $('.preloader',window.parent.document).show();
         flag=0;
@@ -934,17 +1061,61 @@ $(document).ready(function(){
         var year=PE_startdate[2];
         PE_startdate=new Date(year,month-1,day);
         $('#URSRC_tb_joindate').datepicker("option","minDate",PE_startdate);
+//        alert('before db')
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                alert(xmlhttp.responseText);
                 $('.preloader',window.parent.document).hide();
+//              alert(JSON.stringify(xmlhttp.responseText+'stringfy'));
                 var loginid_array=JSON.parse(xmlhttp.responseText);
-                if(loginid_array.length!=0){
-                    var URSRC_loginid_options='<option>SELECT</option>'
-                    for(var l=0;l<loginid_array.length;l++){
-                        URSRC_loginid_options+= '<option value="' + loginid_array[l][2] + '">' + loginid_array[l][0]+ '</option>';
+                relation=loginid_array[1];
+                laptop=loginid_array[2];
+                desgn=loginid_array[3];
+                acc_type=loginid_array[4];
+                if(desgn.length!=0)
+                {
+                    var des='<option>SELECT</option>'
+                    for(var l=0;l<desgn.length;l++){
+                        des+= '<option value="' + desgn[l] + '">' + desgn[l]+ '</option>';
                     }
+                    $('#URSRC_tb_designation').html(des)
+                }
+                if(relation.length!=0)
+                {
+                    var rel='<option>SELECT</option>'
+                    for(var l=0;l<relation.length;l++){
+                        rel+= '<option value="' + relation[l] + '">' + relation[l]+ '</option>';
+                    }
+                    $('#URSRC_lb_selectrelationhd').html(rel)
+                }
+                if(laptop.length!=0)
+                {
+                    var ltp='<option>SELECT</option>'
+                    for(var l=0;l<laptop.length;l++){
+                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+                    }
+                    $('#URSRC_lb_selectlaptopno').html(ltp)
+                }
+                if(acc_type.length!=0)
+                {
+                    var acc='<option>SELECT</option>'
+                    for(var l=0;l<acc_type.length;l++){
+                        acc+= '<option value="' + acc_type[l] + '">' + acc_type[l]+ '</option>';
+                    }
+                    $('#URSRC_tb_accntyp').html(acc)
+                }
+//                alert(loginid_array[0][0])
+//                alert(loginid_array[0].length)
+                if(loginid_array[0].length!=0){
+
+                    var URSRC_loginid_options='<option>SELECT</option>'
+                    for(var l=0;l<loginid_array[0].length;l++){
+                        URSRC_loginid_options+= '<option value="' + loginid_array[0][l][2] + '">' + loginid_array[0][l][0]+ '</option>';
+                    }
+//                    alert(URSRC_loginid_options);
                     $('#URSRC_lb_selectloginid').html(URSRC_loginid_options);
+
                     $('#URSRC_lb_selectloginid').show().prop('selectedIndex',0);
                     $('#URSRC_tble_login').show();
                     $('#URSRC_lbl_selectloginid').show();
@@ -957,12 +1128,13 @@ $(document).ready(function(){
                 }
             }
         }
-        var choice="login_db"
+        var choice="login_db";
         xmlhttp.open("GET","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
         xmlhttp.send();
     });
     //LOGIN SEARCH ND UPDATE FOR LOGIN ID CHANGE FUNCTION
     $('#URSRC_lb_selectloginid').change(function(){
+//        alert('hhhh')
         $('#attachprompt').show();
         $("#filetableuploads tr").remove();
         $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
@@ -985,9 +1157,11 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                    alert(xmlhttp.responseText);
                     $('.preloader',window.parent.document).hide();
                     if(xmlhttp.responseText.match("Error:Folder id Not present")){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[32],"success",false);
                         $('#URSRC_lbl_login_role').hide();
                         $('#URSRC_lbl_joindate').hide();
                         $('#URSRC_tb_joindate').hide();
@@ -1000,6 +1174,7 @@ $(document).ready(function(){
                         $('#URSRC_lbl_loginidupd').hide();
                     }
                     var values_array=JSON.parse(xmlhttp.responseText);
+//                   alert(values_array[0][0]);
                     for(var f=0;f<values_array[0][3].length;f++)
                     {
                         var tablerowCount = $('#filetableuploads tr').length;
@@ -1031,6 +1206,10 @@ $(document).ready(function(){
                     var kinname=values_array[0][0].kinname;
                     var relationhood=values_array[0][0].relationhood;
                     var altmobile=values_array[0][0].altmobile;
+                    var Houseno=values_array[0][0].Houseno;
+                    var Streetname=values_array[0][0].Streetname;
+                    var Area=values_array[0][0].Area;
+                    var Postalcode=values_array[0][0].Postalcode;
                     var laptop=values_array[0][0].laptop;
                     var chargerno=values_array[0][0].chargerno;
                     var bag=values_array[0][0].bag;
@@ -1096,13 +1275,19 @@ $(document).ready(function(){
                     $('#URSRC_tb_lastname').val(lastname).attr("size",emp_lastname+3);
                     $('#URSRC_tb_dob').val(dob);
                     var emp_designation=designation.length;
-                    $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
+//                    $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
+                    $('#URSRC_tb_designation').val(designation);
                     $('#URSRC_tb_permobile').val(mobile);
                     var emp_kinname=kinname.length;
                     $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
                     var emp_relationhood=relationhood.length;
-                    $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+1);
+//                    $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+1);
+                    $('#URSRC_lb_selectrelationhd').val(relationhood);
                     $('#URSRC_tb_mobile').val(altmobile);
+                    $('#URSRC_tb_houseno').val(Houseno);
+                    $('#URSRC_tb_strtname').val(Streetname);
+                    $('#URSRC_tb_area').val(Area);
+                    $('#URSRC_tb_pstlcode').val(Postalcode);
                     var emp_bankname=bankname.length;
                     $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
                     var emp_branchname=branchname.length;
@@ -1114,11 +1299,14 @@ $(document).ready(function(){
                     var emp_ifsccode=ifsccode.length;
                     $('#URSRC_tb_ifsccode').val(ifsccode).attr("size",emp_ifsccode+2);
                     var emp_accountype=accountype.length;
-                    $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
+//                    $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
+//                    $("#URSRC_tb_accntyp option[value='" + accountype + "']").attr("selected", true");
+                    $('#URSRC_tb_accntyp').val(accountype);
                     $('#URSRC_ta_brnchaddr').val(branchaddr);
                     if(laptop!=null){
-                        var emp_laptop=laptop.length;
-                        $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+//                        var emp_laptop=laptop.length;
+                        $('#URSRC_lb_selectlaptopno').val(laptop);
+//                        $("#URSRC_tb_laptopno option[value='" + laptop + "']").attr("selected", true");
                     }
                     if(chargerno!=null){
                         var emp_cahrgerno=chargerno.length;
@@ -1248,8 +1436,10 @@ $(document).ready(function(){
                 processData:false,
                 success: function(data)
                 {
+//                    alert(data);
                     if(data.toLowerCase().match("error")){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
                     }
                     $('.preloader',window.parent.document).hide();
                     var msg_alert=JSON.parse(data);
@@ -1263,7 +1453,8 @@ $(document).ready(function(){
                     $('#URSRC_lbl_header').hide();
                     if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",finalmsg,"success",false);
                         $('#URSRC_tble_login').hide();
                         $('#URSRC_tble_rolesearch').hide();
                         $('#URSRC_tb_joindate').val("");
@@ -1292,34 +1483,34 @@ $(document).ready(function(){
                         var name=$('#URSRC_tb_loginid').val();
                         var msg=URSRC_errorAarray[27].replace("[NAME]",name)
                         var finalmsg=msg.replace("[NAME]",name)
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:150,left:500}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",finalmsg,"success",false);
                     }
                     if((success_flag==1)&&(ss_flag==0))
                     {
                         var fileid=msg_alert[3];
                         var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",msg,"success",false);
                     }
                     if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
                         var folderid=msg_alert[5];
                         var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",msg,"success",false);
                     }
                     if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
                     {
                         var fileid=msg_alert[3];
                         var msg= URSRC_errorAarray[29];
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",msg,"success",false);
                     }
 
                 },
                 error: function(data){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:JSON.stringify(data) ,position:{top:150,left:500}}});
-
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:JSON.stringify(data) ,position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",JSON.stringify(data),"success",false);
                 }
 
             });
@@ -1337,11 +1528,14 @@ $(document).ready(function(){
                 processData:false,
                 success: function(data)
                 {
+//                    alert(data);
                     if(data.match("Error:Folder id Not present")){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[32],"success",false);
                     }
                     else if(data.toLowerCase().match("error")){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
                     }
                     $('.preloader',window.parent.document).hide();
                     var msg_alert=JSON.parse(data);
@@ -1363,7 +1557,8 @@ $(document).ready(function(){
                     var msg=URSRC_errorAarray[8].replace("[NAME]",name)
                     if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",msg,"success",false);
                         $('#URSRC_submitupdate').hide();
                         $('#URSRC_lb_selectloginid').hide();
                         $('#URSRC_lbl_loginid').hide();
@@ -1378,7 +1573,8 @@ $(document).ready(function(){
                         $('#attachafile').text('Attach a file');
                     }
                     if(success_flag==0){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[18],"success",false);
                         $('#URSRC_submitupdate').hide();
                         $('#URSRC_lb_selectloginid').hide();
                         $('#URSRC_lbl_loginid').hide();
@@ -1394,7 +1590,8 @@ $(document).ready(function(){
 
                         var fileid=msg_alert[3];
                         var msg= URSRC_errorAarray[28].replace("[SSID]",fileid)
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",msg,"success",false);
                         $('#URSRC_submitupdate').hide();
                         $('#URSRC_lb_selectloginid').hide();
                         $('#URSRC_lbl_loginid').hide();
@@ -1409,14 +1606,15 @@ $(document).ready(function(){
                     if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
                         var folderid=msg_alert[5];
                         var msg=URSRC_errorAarray[30].replace("[FID]",folderid);
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",msg,"success",false);
                     }
                     if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0))
                     {
 //                    var fileid=msg_alert[3];
                         var msg= URSRC_errorAarray[29];
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:msg ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",msg,"success",false);
                         $('#URSRC_submitupdate').hide();
                         $('#URSRC_lb_selectloginid').hide();
                         $('#URSRC_lbl_loginid').hide();
@@ -1430,8 +1628,8 @@ $(document).ready(function(){
                     }
                 },
                 error: function(data){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:JSON.stringify(data) ,position:{top:150,left:500}}});
-
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:JSON.stringify(data) ,position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",JSON.stringify(data),"success",false);
                 }
 
             });
@@ -1469,7 +1667,7 @@ $(document).ready(function(){
         var URSRC_main_menu=URSRC_menuname
         var URSRC_sub_menu=URSRC_submenu
         var URSRC_sub_menu1=URSRC_subsubmenu
-        var URSRC_menu1='<label>MENU<em>*</em></label>'
+        var URSRC_menu1='<div class="row-fluid form-group"><label class="col-sm-2">MENU<em>*</em></label></div>'
         $('#URSRC_tble_menu').append(URSRC_menu1);
         var URSRC_menu=''
         for(var i=0;i<URSRC_main_menu.length;i++)
@@ -1550,12 +1748,15 @@ $(document).ready(function(){
         $('#URSRC_btn_submitbutton').show()
     }
     //TREE VIEW EXPANDING
-    $(document).on("click",'.exp,.collapse', function (){
+    $(document).on("click",'.exp,.collapse2', function (){
         var button_id=$(this).attr("id")
         var btnid=button_id.split("_");
         var menu_btnid=btnid[1]
+//        alert($(this).val())
         if($(this).val()=='+'){
-            $(this).replaceWith('<input type="button"   value="-" id='+button_id+'  height="3" width="3" class="collapse" />');
+//           alert('if');
+            $(this).val('-');
+//            $(this).replaceWith('<input type="button"   value="-" id='+button_id+'  height="3" width="3" class="collapse" />');
             if(btnid[0]=='folder'){
                 $('#subf'+menu_btnid).toggle("fold",100);
             }
@@ -1719,7 +1920,8 @@ $(document).ready(function(){
                     $('#URSRC_lbl_header').hide();
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[6] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[6] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[6],"success",false);
                         $('#URSRC_tble_menu').hide();
                         $('#URSRC_tble_folder').hide();
                         $('#URSRC_tble_roles').hide();
@@ -1731,7 +1933,8 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[18],"success",false);
                     }
                 }
                 if(URSRC_radio_button_select_value=="ROLE SEARCH UPDATE"){
@@ -1743,7 +1946,8 @@ $(document).ready(function(){
                     $('#URSRC_lb_selectrole').prop('selectedIndex',0);
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[9] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[9] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[9],"success",false);
                         $('#URSRC_tble_menu').hide();
                         $('#URSRC_tble_folder').hide();
                         $('#URSRC_tble_roles').hide();
@@ -1757,7 +1961,8 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[18],"success",false);
                     }
                 }
                 if(URSRC_radio_button_select_value=="BASIC ROLE MENU CREATION"){
@@ -1772,12 +1977,13 @@ $(document).ready(function(){
                     $('#URSRC_lbl_header').hide();
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[14] ,position:{top:150,left:500}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[14] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[14],"success",false);
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:100,left:100}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[18],"success",false);
                     }
                 }
                 if(URSRC_radio_button_select_value=="BASIC ROLE MENU SEARCH UPDATE"){
@@ -1791,10 +1997,12 @@ $(document).ready(function(){
                     $('#URSRC_tble_basicroles').hide();
                     $('input[name=URSRC_mainradiobutton]:checked').attr('checked',false);
                     if(msg_alert==1){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[15] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[15] ,position:{top:100,left:500}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[15],"success",false);
                     }
                     else{
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS-SEARCH/UPDATE",msgcontent:URSRC_errorAarray[18] ,position:{top:100,left:500}}});
+                        show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[18],"success",false);
                     }
                 }
             }
@@ -1885,16 +2093,16 @@ $(document).ready(function(){
                     var URSRC_lb_radiovalrolesearch=values_array_rcname[0];
                     URSRC_checked_mpid=values_array_rcname[1];
                     var URSRC_menu_fullarray=values_array_rcname[2];
-                    var URSRC_role_radio='<tr><td><label>SELECT A ROLE ACCESS</label></tr>'
+                    var URSRC_role_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT A ROLE ACCESS</label></div>'
                     $('#URSRC_rolesearch_roles').html(URSRC_role_radio);
                     for (var i = 0; i < URSRC_userrigths_array.length; i++) {
                         var id1="URSRC_userrigths_array"+i;
                         var value=URSRC_userrigths_array[i].replace(" ","_")
                         if(URSRC_userrigths_array[i]==URSRC_lb_radiovalrolesearch){
-                            URSRC_role_radio+=' <tr ><td><input type="radio" name="basicroles" id='+id1+' value='+value+' class=" URSRC_class_basicroles"  checked  />' + URSRC_userrigths_array[i] + '</td></tr>';
+                            URSRC_role_radio+='<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="basicroles" id='+id1+' value='+value+' class=" URSRC_class_basicroles"  checked  />' + URSRC_userrigths_array[i] + '</div>';
                         }
                         else{
-                            URSRC_role_radio+='<tr ><td><input type="radio" name="basicroles" id='+id1+' value='+value+' class=" URSRC_class_basicroles"   />' + URSRC_userrigths_array[i] + '</td></tr>';
+                            URSRC_role_radio+='<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="basicroles" id='+id1+' value='+value+' class=" URSRC_class_basicroles"   />' + URSRC_userrigths_array[i] + '</div>';
                         }
                     }
                     $('#URSRC_rolesearch_roles').html(URSRC_role_radio);
@@ -1956,289 +2164,367 @@ $(document).ready(function(){
     });
 
     $('#URSRC_btn_submitbutton').hide();
+
+    $(document).on('change','#URSRC_lb_selectlaptopno',function(){
+        $('.preloader', window.parent.document).show();
+        var URSRC_lb_laptopno=$('#URSRC_lb_selectlaptopno').find('option:selected').text();
+//        alert(URSRC_lb_laptopno)
+//        alert('URSRC_lb_loginid')
+        if(URSRC_lb_laptopno!='SELECT')
+        {
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    $('.preloader', window.parent.document).hide();
+//                                alert(xmlhttp.responseText)
+                    var value_array=(xmlhttp.responseText);
+                    $('#URSRC_tb_chargerno').val(value_array);
+
+                }
+            }
+            var option="COMPANY_PROPERTY";
+            xmlhttp.open("GET","DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+option+"&URSRC_lb_laptopno="+URSRC_lb_laptopno );
+            xmlhttp.send();
+        }
+//
+    });
 });
 //END DOCUMENT READY FUNCTION
 </script
     <!--SCRIPT TAG END-->
     <!--BODY TAG START-->
 <body>
+<div class="container-fluid">
 <div class="wrapper">
+
 <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-<div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3><p></div></div>
+<div class="title" id="fhead" ><center><p><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3><p></center></div>
 <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
-<table id="URSRC_tble_main">
-    <tr>
-        <td><label name="USU_lbl_strtdte" id="USU_lbl_strtdte" class="srctitle">SELECT A OPTION</label>
-            <input type="text" name="USU_tb_strtdte" id="USU_tb_strtdte" class="USU_date valid" hidden></td><br>
-    </tr>
-    <tr>
-        <td><input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenucreation' value='BASIC ROLE MENU CREATION'>BASIC ROLE MENU CREATION</td>
-    </tr>
-    <tr>
-        <td><input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenusearchupdate' value='BASIC ROLE MENU SEARCH UPDATE'>BASIC ROLE MENU SEARCH/UPDATE</td>
-    </tr>
-    <tr>
-        <td><input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolecreation' value='ROLE CREATION'>ROLE CREATION</td>
-    </tr>
-    <tr>
-        <td><input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolesearchupdate' value='ROLE SEARCH UPDATE'>ROLE SEARCH/UPDATE</td>
-    </tr>
-    <tr>
-        <td><input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_logincreation' value='LOGIN CREATION'>LOGIN CREATION</td>
-    </tr>
-    <tr>
-        <td><input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_loginsearchupdate' value='LOGIN SEARCH UPDATE'>LOGIN SEARCH/UPDATE</td>
-    </tr>
-    <tr>
-    </tr>
-    <tr><td><label id="URSRC_lbl_header" class="srctitle"></label>
-    </tr>
-</table >
-<table id="URSRC_tble_basicrolemenucreation" hidden>
-    <tr>
-        <td><table id="URSRC_tble_basicroles" hidden ></table>
-    </tr>
-    <tr>
-        <td><lable id="URSRC_lbl_basicrole_err" class="errormsg"></lable></tr>
-</table>
-<table id="URSRC_tble_basicrolemenusearch" hidden>
-    <tr>
-        <td><table id="URSRC_tble_search_basicroles" hidden ></table>
-    </tr>
-</table>
-<table id="URSRC_tble_basicroles_chk" hidden ></table>
-<table id="URSRC_tble_role" hidden>
-    <tr>
-        <td ><label>ROLE<em>*</em></label></td>
-    </tr>
-    <tr>
-        <td> <input type="text" name="URSRC_tb_customrole" id="URSRC_tb_customrole" maxlength="15" class="autosize" /></td><td><label id="URSRC_lbl_role_err" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td><table id="URSRC_tble_roles" hidden ></table>
-    </tr>
-    <tr>
-        <td><div ></div>
-    </tr>
-</table>
-<table id="URSRC_tble_login" hidden>
-    <tr><td><label id="URSRC_lbl_nologin_err" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td width="175"><label id="URSRC_lbl_loginid">LOGIN ID<em>*</em></label></td>
-        <td> <input type="text" name="URSRC_tb_loginid" id="URSRC_tb_loginid" class="login_submitvalidate URSRC_email_validate " hidden /></td><td><label id="URSRC_lbl_email_err" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td width="175"><label id="URSRC_lbl_selectloginid">EMPLOYEE NAME<em>*</em></label></td>
-        <td><select id='URSRC_lb_selectloginid' name="URSRC_lb_loginid" title="LOGIN ID" maxlength="40"   >
-                <option value='SELECT' selected="selected"> SELECT</option>
-            </select></td>
-    </tr>
-    <tr>
-        <td width="175" ><label id="URSRC_lbl_loginidupd">LOGIN ID<em>*</em></label></td>
-        <td> <input type="text" name="URSRC_tb_loginidupd" id="URSRC_tb_loginidupd" class="login_submitvalidate URSRC_email_validate " hidden /></td><td><label id="URSRC_lbl_email_errupd" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td width="175" ><label id="URSRC_lbl_emptype" hidden>SELECT EMPLOYEE TYPE <em>*</em></label></td>
-        <td><select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype"  maxlength="40" class="login_submitvalidate " hidden  >
-                <option value='SELECT' selected="selected"> SELECT</option>
-            </select></td>
-    </tr>
-    <tr>
-        <table id="URSRC_tble_rolecreation" hidden></table>
-    </tr>
-    <tr>
-        <table id="joindate">
-            <tr>
-                <td width="175"><label id="URSRC_lbl_joindate" hidden >SELECT A JOIN DATE<em>*</em></label></td>
-                <td> <input type="text" name="URSRC_tb_joindate" id="URSRC_tb_joindate" class="datepicker login_submitvalidate datemandtry" style="width:75px;" hidden  /></td>
-            </tr>
-        </table>
-    </tr>
-</table>
-<table id="URSRC_table_employeetbl" hidden>
-    <tr>
-        <td><label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_firstname" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_lastname" id="URSRC_lbl_lastname">LAST NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_dob" id="URSRC_lbl_dob">DATE OF BIRTH<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate" style="width:75px;"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_designation" id="URSRC_lbl_designation">DESIGNATION<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_designation" id="URSRC_tb_designation" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_permobile" id="URSRC_lbl_permobile">PERSONAL MOBILE<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate" style="width:75px" >
-            <label id="URSRC_lbl_validnumber" name="URSRC_lbl_validnumber" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_kinname" id="URSRC_lbl_kinname">NEXT KIN NAME<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_relationhd" id="URSRC_lbl_relationhd">RELATION HOOD<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_relationhd" id="URSRC_tb_relationhd" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_mobile" id="URSRC_lbl_mobile">MOBILE NO<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate" maxlength='10' style="width:75px">
-            <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td><label class="srctitle"  name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_bnkname" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_brnchname" id="URSRC_lbl_brnchname">BRANCH NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_accntname" id="URSRC_lbl_accntname">ACCOUNT NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_accntno" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_ifsccode" id="URSRC_lbl_ifsccode">IFSC CODE<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_accntyp" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" maxlength='15' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_brnchaddr" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label></td>
-        <td><textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea></td>
-    </tr>
-    <tr>
-        <td><label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label></td>
-        <td><input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='25' class="alphanumeric sizefix login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">CHARGER NO</label></td>
-        <td><input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='25' class="alphanumeric sizefix login_submitvalidate"></td>
-    </tr>
-    <tr><td></td><td>
-            <table id="URSRC_table_others" style="width:450px" hidden>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
-                        <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">LAPTOP BAG</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
-                        <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">MOUSE</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
-                        <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">DOOR ACCESS</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
-                        <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">ID CARD</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
-                        <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
-                        <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">AADHAAR NO</label></td><td><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate" hidden></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
-                        <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">PASSPORT NO</label></td><td><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate" hidden></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
-                        <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">VOTERS ID</label></td><td><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate" hidden></td>
-                </tr>
+<div class="panel-body">
+<fieldset>
+<div id="URSRC_tble_main">
+    <div class="row-fluid form-group">
+        <label name="USU_lbl_strtdte" id="USU_lbl_strtdte" class="srctitle col-sm-2">SELECT A OPTION</label>
+        <input type="text" name="USU_tb_strtdte" id="USU_tb_strtdte" class="USU_date valid" hidden>
+    </div>
+    <div class="row-fluid form-group">
+        <div class="radio">
+        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenucreation' value='BASIC ROLE MENU CREATION'>BASIC ROLE MENU CREATION
+    </div></div>
+    <div class="row-fluid form-group">
+        <div class="radio">
+        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenusearchupdate' value='BASIC ROLE MENU SEARCH UPDATE'>BASIC ROLE MENU SEARCH/UPDATE
+    </div></div>
+    <div class="row-fluid form-group">
+        <div class="radio">
+        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolecreation' value='ROLE CREATION'>ROLE CREATION
+    </div></div>
+    <div class="row-fluid form-group">
+        <div class="radio">
+        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolesearchupdate' value='ROLE SEARCH UPDATE'>ROLE SEARCH/UPDATE
+    </div></div>
+    <div class="row-fluid form-group">
+        <div class="radio">
+        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_logincreation' value='LOGIN CREATION'>LOGIN CREATION
+    </div></div>
+    <div class="row-fluid form-group">
+        <div class="radio">
+        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_loginsearchupdate' value='LOGIN SEARCH UPDATE'>LOGIN SEARCH/UPDATE
+    </div></div>
 
-            </table></td></tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label></td>
-        <td><textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea></td>
-    </tr>
-    <tr>
-        <td> </td>
-        <td>
-            <table ID="filetableuploads">
+    <label id="URSRC_lbl_header" class="srctitle"></label>
 
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td><label></label></td>
-        <td>
+</div>
+<div id="URSRC_tble_basicrolemenucreation" hidden>
+
+    <div id="URSRC_tble_basicroles" hidden ></div>
+
+    <lable id="URSRC_lbl_basicrole_err" class="errormsg"></lable>
+</div>
+<div id="URSRC_tble_basicrolemenusearch" hidden>
+
+    <div id="URSRC_tble_search_basicroles" hidden ></div>
+
+</div>
+<div id="URSRC_tble_basicroles_chk" hidden ></div>
+<div id="URSRC_tble_role" hidden>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2">ROLE<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="URSRC_tb_customrole" id="URSRC_tb_customrole" maxlength="15" class="autosize" /><label id="URSRC_lbl_role_err" class="errormsg"></label>
+        </div></div>
+
+    <div id="URSRC_tble_roles" hidden ></div>
+
+</div>
+<div id="URSRC_tble_login" hidden>
+    <label id="URSRC_lbl_nologin_err" class="errormsg"></label>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" id="URSRC_lbl_loginid">LOGIN ID<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="URSRC_tb_loginid" id="URSRC_tb_loginid" class="login_submitvalidate URSRC_email_validate " hidden /><label id="URSRC_lbl_email_err" class="errormsg"></label>
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" id="URSRC_lbl_selectloginid">EMPLOYEE NAME<em>*</em></label>
+        <div class="col-sm-4">
+            <select id='URSRC_lb_selectloginid' name="URSRC_lb_loginid" title="LOGIN ID" maxlength="40"   >
+                <option value='SELECT' selected="selected"> SELECT</option>
+            </select>
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" id="URSRC_lbl_loginidupd">LOGIN ID<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="URSRC_tb_loginidupd" id="URSRC_tb_loginidupd" class="login_submitvalidate URSRC_email_validate " hidden /><label id="URSRC_lbl_email_errupd" class="errormsg"></label>
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" id="URSRC_lbl_emptype" hidden>SELECT EMPLOYEE TYPE<em>*</em></label>
+        <div class="col-sm-4">
+            <select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype"  maxlength="40" class="login_submitvalidate " hidden  >
+                <option value='SELECT' selected="selected"> SELECT</option>
+            </select>
+        </div></div>
+
+    <div id="URSRC_tble_rolecreation" hidden></div>
+
+
+    <div id="joindate" class="row-fluid form-group" >
+
+        <label class="col-sm-2" id="URSRC_lbl_joindate" hidden >SELECT A JOIN DATE<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="URSRC_tb_joindate" id="URSRC_tb_joindate" class="datepicker login_submitvalidate datemandtry" style="width:75px;" hidden  />
+        </div></div>
+
+
+</div>
+<div id="URSRC_table_employeetbl" hidden>
+<div class="row-fluid form-group">
+    <label class="srctitle col-sm-2"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
+</div>
+<div class="row-fluid form-group">
+
+    <label class="col-sm-2" name="URSRC_lbl_firstname" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label>
+    <div class="col-sm-10">
+        <input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >
+    </div></div>
+<div class="row-fluid form-group">
+
+    <label class="col-sm-2" name="URSRC_lbl_lastname" id="URSRC_lbl_lastname">LAST NAME <em>*</em></label>
+    <div class="col-sm-10">
+        <input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+    </div></div>
+<div class="row-fluid form-group">
+
+    <label class="col-sm-2" name="URSRC_lbl_dob" id="URSRC_lbl_dob">DATE OF BIRTH<em>*</em></label>
+    <div class="col-sm-10">
+        <input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate" style="width:75px;">
+    </div></div>
+<div class="row-fluid form-group">
+
+    <label class="col-sm-2" name="URSRC_lbl_designation" id="URSRC_lbl_designation">DESIGNATION<em>*</em></label>
+    <div class="col-sm-4">
+        <select  name="URSRC_tb_designation" id="URSRC_tb_designation" class="alphanumericuppercse login_submitvalidate">
+            <option value='SELECT' selected="selected"> SELECT</option>
+        </select>
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_permobile" id="URSRC_lbl_permobile">PERSONAL MOBILE<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate" style="width:75px">
+
+        <label id="URSRC_lbl_validnumber" name="URSRC_lbl_validnumber" class="errormsg"></label>
+    </div></div>
+<div class="row-fluid form-group">
+
+    <label  class="col-sm-2" name="URSRC_lbl_kinname" id="URSRC_lbl_kinname">NEXT KIN NAME<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+    </div></div>
+<div class="row-fluid form-group">
+    <label  class="col-sm-2" id="URSRC_lbl_relationhd">RELATION HOOD <em>*</em></label>
+    <div class="col-sm-4">
+        <select id='URSRC_lb_selectrelationhd' name="URSRC_lb_selectrelationhd" class="relationhd_submitvalidate ">
+            <option value='SELECT' selected="selected"> SELECT</option>
+        </select>
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_mobile" id="URSRC_lbl_mobile">MOBILE NO<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate" maxlength='10' style="width:75px">
+        <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label>
+
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid login_submitvalidate"  maxlength='7' style="width:75px">
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_strtname" id="URSRC_lbl_strtname">STREET NAME<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_strtname" id="URSRC_tb_strtname" class="alphanumericuppercse sizefix login_submitvalidate">
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_area" id="URSRC_lbl_area">AREA<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_area" id="URSRC_tb_area" class="alphanumericuppercse sizefix login_submitvalidate">
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_pstlcode" id="URSRC_lbl_pstlccode">POSTAL CODE<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='8' class="sizefix pstlcode login_submitvalidate" style="width:75px">
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="srctitle col-sm-2"  name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
+</div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_bnkname" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_brnchname" id="URSRC_lbl_brnchname">BRANCH NAME <em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_accntname" id="URSRC_lbl_accntname">ACCOUNT NAME <em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_accntno" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" >
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_ifsccode" id="URSRC_lbl_ifsccode">IFSC CODE<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_accntyp" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label>
+    <div class="col-sm-4">
+        <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="alphanumericuppercse login_submitvalidate" >
+
+            <option value='SELECT' selected="selected"> SELECT</option>
+        </select>
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="URSRC_lbl_brnchaddr" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label>
+    <div class="col-sm-4">
+        <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea>
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="srctitle col-sm-2"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
+</div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label></td>
+    <div class="col-sm-4">
+        <select id='URSRC_lb_selectlaptopno' name="URSRC_lb_selectlaptopno"  maxlength="40" class="selectlaptopno_submitvalidate ">
+
+            <option value='SELECT' selected="selected"> SELECT</option>
+        </select>
+    </div></div>
+<div class="row-fluid form-group">
+    <label  class="col-sm-2" name="URSRC_lbl_chargerno" id="URSRC_lbl_chargerno">CHARGER NO</label>
+    <div class="col-sm-4">
+        <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate" readonly>
+    </div></div>
+
+
+<div id="URSRC_table_others" style="width:450px" hidden>
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox"  name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">LAPTOP BAG</label>
+    </div>
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">MOUSE</label>
+    </div>
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">DOOR ACCESS</label>
+    </div>
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">ID CARD</label>
+    </div>
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label>
+    </div>
+
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate" hidden>
+    </div>
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate" hidden>
+    </div>
+    <div class="row-fluid form-group col-sm-offset-7">
+        <div class="checkbox">
+        <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
+            </div>
+        <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">VOTERS ID</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate" hidden>
+    </div>
+
+
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
+        <div class="col-sm-offset-6">
+            <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea>
+        </div></div>
+
+    <div ID="filetableuploads">
+
+    </div>
+
+    <div>
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span>
-        </td>
-    </tr>
-</table>
-<tr>
+
+    </div>
+</div>
+<div>
     <td ><input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden /></td>
-</tr>
-<table id="URSRC_tble_rolesearch" hidden>
-    <tr><td><label id="URSRC_lbl_norole_err" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td ><lable id="URSRC_lbl_selectrole">SELECT A ROLE<em>*</em></lable></td></tr>
-    <tr>
-        <td><select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate' >
+</div>
+<div id="URSRC_tble_rolesearch" hidden>
+    <div><label id="URSRC_lbl_norole_err" class="errormsg"></label></div>
+    <div class="row-fluid form-group">
+        <lable class="col-sm-2" id="URSRC_lbl_selectrole">SELECT A ROLE<em>*</em></lable>
+        <select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate' >
+            <div class="col-sm-4">
                 <option value='SELECT' selected="selected"> SELECT</option>
-            </select></td></tr>
-    <tr><td><table id="URSRC_rolesearch_roles"></table></tr>
-</table>
-<table id="URSRC_btn_update"></table>
+        </select>
+    </div></div>
+<div id="URSRC_rolesearch_roles"></div>
+</div>
+<div id="URSRC_btn_update"></div>
 <label id="URSRC_lbl_nodetails_err" class="errormsg"></label>
-<table id="URSRC_tble_menu" hidden ></table>
-<table id="URSRC_tble_folder" hidden></table>
+<div id="URSRC_tble_menu" hidden ></div>
+<div id="URSRC_tble_folder" hidden></div>
 <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
+</div>
+                   </fieldset>
+<!--                                </div>-->
 </form>
+</div>
 </div>
 </body>
 <!--BODY TAG END-->

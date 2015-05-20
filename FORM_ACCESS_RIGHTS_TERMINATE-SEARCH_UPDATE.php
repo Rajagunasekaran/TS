@@ -13,7 +13,8 @@ done by :safi
 //*********************************************************************************************************//-->
 <?php
 include "COMMON.php";
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -44,7 +45,8 @@ $(document).ready(function(){
                 var ext=datasplit[1].toUpperCase();//(this.files[0].type).toString().toUpperCase();
                 if(ext!='PDF'&& ext!='JPG'&& ext!='PNG' && ext!='JPEG')
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[12],position:{top:1800,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[12],position:{top:100,left:100}}});
+                    show_msgbox("REJOIN",js_errormsg_array[12],"success",false);
                     button_vflag=0;
                     $('#attachprompt').hide();
                 }
@@ -52,7 +54,8 @@ $(document).ready(function(){
                 var maxfilesize=1048576*10;
                 if(filesize>maxfilesize)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[15],position:{top:1800,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[15],position:{top:100,left:100}}});
+                    show_msgbox("REJOIN",js_errormsg_array[15],"success",false);
                     button_vflag=0;
                     reset_field($('#'+$(this).attr("id")));
                     $('#attachprompt').hide();
@@ -73,7 +76,8 @@ $(document).ready(function(){
 
                 if($.inArray( $("#"+$(this).attr("id"))[0].files[0].name, filename )!=-1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[14],position:{top:1800,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[14],position:{top:100,left:100}}});
+                    show_msgbox("REJOIN",js_errormsg_array[14],"success",false);
                     button_vflag=0;
                     reset_field($('#'+$(this).attr("id")));
                     $('#attachprompt').hide();
@@ -121,6 +125,7 @@ $(document).ready(function(){
         $('#filetableuploads').append(appendfile);
         ValidateSubmitbutton();
     });
+
     //GLOBAL DECLARATION
     var URT_SRC_terminate_array=[];
     var js_errormsg_array=[];
@@ -129,8 +134,8 @@ $(document).ready(function(){
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             $('.preloader', window.parent.document).hide();
             var value_array=JSON.parse(xmlhttp.responseText);
-            URT_SRC_terminate_array=value_array[1];
             js_errormsg_array=value_array[0];
+            URT_SRC_terminate_array=value_array[1];
             var URSRC_emptype_array=value_array[2];
             var URT_SRC_radio_role='';
             for (var i=0;i<URT_SRC_terminate_array.length;i++) {
@@ -138,11 +143,12 @@ $(document).ready(function(){
                 var id1="URT_SRC_terminate_array"+i;
                 var value=URT_SRC_terminate_array[i][1].replace(" ","_")
                 if(i==0)
-                    var temp='SELECT ROLE ACCESS<em>*</em>'
+                    var temp='<lable>SELECT ROLE ACCESS<em>*</em></lable>';
                 else
-                    var temp=''
-                URT_SRC_radio_role+='<tr ><td><label id="URT_lbl_dbroles" class="srctitle">'+temp+'</label></td><td width="195"><input type="radio" name="URT_SRC_radio_nrole" id='+id1+' value='+value+' class="URT_SRC_radio_clsrole"  />' + URT_SRC_terminate_array[i][1] + '</td></tr>';
+                    var temp='';
+                URT_SRC_radio_role+='<div class="row-fluid form-group"><label id="URT_lbl_dbroles" class="col-sm-2">'+temp+'</label><div class="col-sm-2"><input type="radio" name="URT_SRC_radio_nrole" id='+id1+' value='+value+' class="URT_SRC_radio_clsrole"  />' + URT_SRC_terminate_array[i][1] + '</div></div>';
             }
+
             $('#URT_SRC_tble_roles').html(URT_SRC_radio_role);
             var emp_type='<option value="SELECT">SELECT</option>';
 
@@ -152,9 +158,11 @@ $(document).ready(function(){
             $('#URSRC_lb_selectemptype').html(emp_type);
         }
     }
-    var choice='USER_RIGHTS_TERMINATE';
-    xmlhttp.open("POST","COMMON.do?option="+choice,true);
+    var choice="USER_RIGHTS_TERMINATE";
+    xmlhttp.open("GET","COMMON.do?option="+choice);
+//    xmlhttp.open("POST","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?option="+choice);
     xmlhttp.send();
+
     //DO VALIDATION PART
     //emp
     $(".mobileno").doValidation({rule:'numbersonly',prop:{realpart:10,leadzero:true}});
@@ -181,7 +189,8 @@ $(document).ready(function(){
                 var cal_flag=msg_alert[2];
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1)){
                     var msg=js_errormsg_array[1].toString().replace("[LOGIN ID]",URT_SRC_empname);
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msg,"success",false);
                     $("#URT_SRC_lbl_datepickertermination").hide();
                     $("#URT_SRC_lb_loginterminate").hide();
                     $("#URT_SRC_lbl_loginterminate").hide();
@@ -194,7 +203,8 @@ $(document).ready(function(){
                     $('#attachafile').text('Attach a file');
                 }
                 if(success_flag==0){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",js_errormsg_array[6],"success",false);
                     $("#URT_SRC_lbl_datepickertermination").hide();
                     $("#URT_SRC_lb_loginterminate").hide();
                     $("#URT_SRC_lbl_loginterminate").hide();
@@ -207,13 +217,13 @@ $(document).ready(function(){
                 if((success_flag==1)&&(ss_flag==0)){
                     var fileid=msg_alert[3];
                     var msg= js_errormsg_array[8].replace("[SSID]",fileid)
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
-
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msg,"success",false);
                 }
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
                     var msg= js_errormsg_array[9];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
-
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msg,"success",false);
                 }
             }
         }
@@ -245,8 +255,10 @@ $(document).ready(function(){
         if(URSRC_submitbtnvalue=="REJOIN")
         {
             var login_id=$("#URT_SRC_lb_loginrejoin").val();
+//            alert(login_id);
             var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
             var formElement = document.getElementById("URT_SRC_form_terminatesearchupdate");
+//            alert(new FormData(this)+' '+JSON.stringify(new FormData(this)))
             $.ajax({
                 type: 'POST',
                 url: "DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do",
@@ -256,13 +268,16 @@ $(document).ready(function(){
                 processData:false,
                 success: function(data)
                 {
+//                    alert(data)
                     $('.preloader',window.parent.document).hide();
                     if(data.match("Error:Folder id Not present"))
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[13],position:{top:150,left:550}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[13],position:{top:100,left:100}}});
+                        show_msgbox("REJOIN",js_errormsg_array[13],"success",false);
                     }
                     else if(data.toLowerCase().match("error")){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:data ,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:data ,position:{top:100,left:100}}});
+                        show_msgbox("REJOIN",data,"success",false);
                     }
                     var msg_alert=JSON.parse(data);
                     var success_flag=msg_alert[0];
@@ -273,7 +288,8 @@ $(document).ready(function(){
                     if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1)){
                         var loggin=$("#URT_SRC_lb_loginrejoin").val();
                         var msg=js_errormsg_array[2].toString().replace("[LOGIN ID]",URT_loginid_val);
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("REJOIN",msg,"success",false);
                         $("#URT_SRC_lbl_datepickerrejoin").hide();
                         $("#URT_SRC_lbl_loginrejoin").show();
                         $("#URT_SRC_tble_roles").hide();
@@ -302,7 +318,8 @@ $(document).ready(function(){
                         $('#attachafile').text('Attach a file');
                     }
                     else if(success_flag==0){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[6],position:{top:100,left:100}}});
+                        show_msgbox("REJOIN",js_errormsg_array[6],"success",false);
                         $("#URT_SRC_lbl_datepickerrejoin").hide();
                         $("#URT_SRC_lbl_loginrejoin").show();
                         $("#URT_SRC_tble_roles").hide();
@@ -331,23 +348,24 @@ $(document).ready(function(){
                     else if((success_flag==1)&&(ss_flag==0)){
                         var fileid=msg_alert[3];
                         var msg= js_errormsg_array[8].replace("[SSID]",fileid)
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("REJOIN",msg,"success",false);
                     }
                     else if((success_flag==1)&&(ss_flag==1)&&(file_flag==0)){
 
                         var msg=js_errormsg_array[11].replace("[FID]",folder_id);
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg ,position:{top:150,left:500}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg ,position:{top:100,left:100}}});
+                        show_msgbox("REJOIN",msg,"success",false);
                     }
                     else if((success_flag==1)&&(ss_flag==1)&&(cal_flag==0)){
                         var msg= js_errormsg_array[9];
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:150,left:550}}});
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("REJOIN",msg,"success",false);
                     }
                 },
                 error: function(data){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:JSON.stringify(data),position:{top:150,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:JSON.stringify(data),position:{top:150,left:550}}});
+                    show_msgbox("REJOIN",JSON.stringify(data),"success",false);
                 }
 
             });
@@ -366,7 +384,8 @@ $(document).ready(function(){
                 if(msg_alert==1){
                     var loggin=$("#URT_SRC_lb_loginupdate").val();
                     var msg=js_errormsg_array[0].toString().replace("[LOGIN ID]",URT_SRC_empname_upd);
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msg,"success",false);
                 }
                 $('#URT_SRC_lbl_loginrejoin').hide();
                 $('#URT_SRC_lb_loginrejoin').hide();
@@ -565,8 +584,60 @@ $(document).ready(function(){
         xmlhttp.open("GET","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?URT_SRC_loggin="+URT_SRC_loggin+"&option="+option+"&date_value="+date_value,true);
         xmlhttp.send();
     });
-    //CHANGE FUNCTION FOR REJOIN LOGIN ID LISTBX
+
+function list()
+{
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            $('.preloader', window.parent.document).hide();
+            var listbox_value=JSON.parse(xmlhttp.responseText);
+            var desgn=listbox_value[0];
+            var relation=listbox_value[1];
+            var laptop = listbox_value[2];
+            var acc_type=listbox_value[3];
+            if(desgn.length!=0)
+            {
+                var des='<option value="SELECT">SELECT</option>'
+                for(var l=0;l<desgn.length;l++){
+                    des+= '<option value="' + desgn[l] + '">' + desgn[l]+ '</option>';
+                }
+                $('#URSRC_tb_designation').html(des)
+            }
+            if(relation.length!=0)
+            {
+                var rel='<option value="SELECT">SELECT</option>'
+                for(var l=0;l<relation.length;l++){
+                    rel+= '<option value="' + relation[l] + '">' + relation[l]+ '</option>';
+                }
+                $('#URSRC_tb_relationhd').html(rel)
+            }
+            if(laptop.length!=0)
+            {
+                var ltp='<option value="SELECT">SELECT</option>'
+                for(var l=0;l<laptop.length;l++){
+                    ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+                }
+                $('#URSRC_tb_laptopno').html(ltp)
+            }
+            if(acc_type.length!=0)
+            {
+                var acc='<option value="SELECT">SELECT</option>'
+                for(var l=0;l<acc_type.length;l++){
+                    acc+= '<option value="' + acc_type[l] + '">' + acc_type[l]+ '</option>';
+                }
+                $('#URSRC_tb_accntyp').html(acc)
+            }
+        }
+    }
+var option='LISTBOX';
+xmlhttp.open("GET","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?&option="+option,true);
+xmlhttp.send();
+}
+
+    //CHANGE FUNCTION FOR REJOIN LOGIN ID LISTBOX
     $('#URT_SRC_lb_loginrejoin').change(function(){
+
         $("#filetableuploads tr").remove();
         $('#attachprompt').show();
         var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
@@ -596,6 +667,7 @@ $(document).ready(function(){
         else
         {
             $('.preloader', window.parent.document).show();
+            list();
             var URT_SRC_loggin=$(this).val();
             if(URT_loginid_val !=""){
                 var xmlhttp=new XMLHttpRequest();
@@ -604,10 +676,11 @@ $(document).ready(function(){
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         $('.preloader', window.parent.document).hide();
                         if(xmlhttp.responseText.match("Error:Folder id Not present")){
-                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[13] ,position:{top:150,left:500}}});
-
+//                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"REJOIN",msgcontent:js_errormsg_array[13] ,position:{top:100,left:100}}});
+                            show_msgbox("REJOIN",js_errormsg_array[13],"success",false);
                         }
                         else{
+
                             $('#URSRC_lbl_login_role').show();
                             $('#URT_SRC_lbl_datepickerrejoin').show();
                             $('#URT_SRC_tb_datepickerrejoin').show();
@@ -656,6 +729,7 @@ $(document).ready(function(){
                             $('#URSRC_lbl_validnumber').hide();
                             $('#URSRC_lbl_validnumber1').hide();
                             $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
+//                            alert(xmlhttp.responseText);
                             var values_array=JSON.parse(xmlhttp.responseText);
                             var min_date=values_array[0][1];
                             var firstname=values_array[0][0].firstname;
@@ -684,32 +758,43 @@ $(document).ready(function(){
                             var passportno=values_array[0][0].URSRC_passport;
                             var votersid=values_array[0][0].URSRC_voterid;
                             var comments=values_array[0][0].URSRC_comments;
+                            var emp_role=values_array[0][0].URSRC_role;
+                            var house=values_array[0][0].URSRC_house;
+                            var street=values_array[0][0].URSRC_street;
+                            var area=values_array[0][0].URSRC_area;
+                            var postal_code=values_array[0][0].URSRC_postal;
                             var mindate=min_date.toString().split('-');
                             var month=mindate[1]-1;
                             var year=mindate[2];
                             var date=parseInt(mindate[0])+1;
                             var minimumdate = new Date(year,month,date);
                             //load old files start
-                            for(var f=0;f<values_array[0][3].length;f++)
+                            if(emp_role!='')
                             {
-                                var tablerowCount = $('#filetableuploads tr').length;
-                                var uploadfileid="upload_filename"+tablerowCount;
-                                var uploadfilename="filename"+tablerowCount;
-                                var appendfile='<tr><td ><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
-                                $('#filetableuploads').append(appendfile);
+                                $('#URSRC_lb_selectemptype').val(emp_role);
                             }
-                            if(values_array[0][2].length>0)
-                            {
-                                $('#attachafile').text('Attach another file');
-                            }
-                            else
-                            {
-                                $('#attachafile').text('Attach a file');
-                            }
-                            if(values_array[0][2].length==4)
-                            {
-                                $('#attachprompt').hide();
-                            }
+//                            alert(values_array[0][3])
+//                            alert(values_array[0][2])
+//                            for(var f=0;f<values_array[0][3].length;f++)
+//                            {
+//                                var tablerowCount = $('#filetableuploads tr').length;
+//                                var uploadfileid="upload_filename"+tablerowCount;
+//                                var uploadfilename="filename"+tablerowCount;
+//                                var appendfile='<tr><td ><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
+//                                $('#filetableuploads').append(appendfile);
+//                            }
+//                            if(values_array[0][2].length>0)
+//                            {
+//                                $('#attachafile').text('Attach another file');
+//                            }
+//                            else
+//                            {
+//                                $('#attachafile').text('Attach a file');
+//                            }
+//                            if(values_array[0][2].length==4)
+//                            {
+//                                $('#attachprompt').hide();
+//                            }
                             //load old files end
                             $('#URT_SRC_tb_datepickerrejoin').datepicker("option","minDate",minimumdate);
                             $('#URT_SRC_tb_datepickerrejoin').datepicker("option","maxDate",new Date());
@@ -721,12 +806,15 @@ $(document).ready(function(){
                             $('#URSRC_tb_lastname').val(lastname).attr("size",emp_lastname+3);
                             $('#URSRC_tb_dob').val(dob);
                             var emp_designation=designation.length;
-                            $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
+//                            $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
+                             $('#URSRC_tb_designation').val(designation);
+//                          $('#URSRC_tb_designation option[value="' + designation + '"]').prop('selected', true);
                             $('#URSRC_tb_permobile').val(mobile);
                             var emp_kinname=kinname.length;
                             $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
                             var emp_relationhood=relationhood.length;
-                            $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+2);
+//                            $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+2);
+                            $('#URSRC_tb_relationhd').val(relationhood);
                             $('#URSRC_tb_mobile').val(altmobile);
                             var emp_bankname=bankname.length;
                             $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
@@ -739,11 +827,20 @@ $(document).ready(function(){
                             var emp_ifsccode=ifsccode.length;
                             $('#URSRC_tb_ifsccode').val(ifsccode).attr("size",emp_ifsccode+2);
                             var emp_accountype=accountype.length;
-                            $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
+//                            $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
+                            $('#URSRC_tb_accntyp').val(accountype);
                             $('#URSRC_ta_brnchaddr').val(branchaddr);
+                            $('#URSRC_tb_houseno').val(house);
+                            $('#URSRC_tb_strtname').val(street);
+                            $('#URSRC_tb_area').val(area);
+                            $('#URSRC_tb_pstlcode').val(postal_code);
                             if(laptop!=null){
                                 var emp_laptop=laptop.length;
-                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+//                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+                                $('#URSRC_tb_laptopno').val(laptop);
+                            }
+                            else{
+                                $('#URSRC_tb_laptopno').val('SELECT');
                             }
                             if(chargerno!=null){
                                 var emp_cahrgerno=chargerno.length;
@@ -832,6 +929,30 @@ $(document).ready(function(){
         xmlhttp.open("GET","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?URT_SRC_loggin="+URT_SRC_loggin+"&option="+option,true);
         xmlhttp.send();
     });
+
+//CHANGE FUNCTION FOR LAPTOP
+    $(document).on('change','#URSRC_tb_laptopno',function(){
+        $('.preloader', window.parent.document).show();
+        var URSRC_lb_laptopno=$('#URSRC_tb_laptopno').find('option:selected').text();
+        if(URSRC_lb_laptopno!='SELECT')
+        {
+            var xmlhttp=new XMLHttpRequest();
+//            alert('xmlhttp')
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    $('.preloader', window.parent.document).hide();
+                    var value_array=(xmlhttp.responseText);
+                    $('#URSRC_tb_chargerno').val(value_array);
+
+                }
+            }
+            var option="COMPANY_PROPERTY";
+            xmlhttp.open("GET","DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?option="+option+"&URSRC_lb_laptopno="+URSRC_lb_laptopno );
+            xmlhttp.send();
+        }
+    });
+
+
 //CLICK FUNCTION FOR AADHAR RDO BTN
     $('#URSRC_chk_aadharno').click(function(){
         if($("input[name=URSRC_chk_aadharno]").is(":checked")==true){
@@ -887,7 +1008,8 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[3],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[3],position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",js_errormsg_array[3],"success",false);
                 }
             }
         }
@@ -927,7 +1049,8 @@ $(document).ready(function(){
                 {
                     $('#URT_SRC_lbl_loginrejoin').hide();
                     $('#URT_SRC_lb_loginrejoin').hide();
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[4],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[4],position:{top:100,left:  100}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",js_errormsg_array[4],"success",false);
                 }
             }
         }
@@ -963,7 +1086,8 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[5],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[5],position:{top:100,left:100}}});
+                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",js_errormsg_array[5],"success",false);
                     $('#URT_SRC_lbl_loginupdate').hide();
                     $('#URT_SRC_lb_loginupdate').hide();
                 }
@@ -1222,216 +1346,319 @@ $(document).ready(function(){
 });
 </script>
 <body>
+<div class="container-fluid">
 <div class="wrapper">
-<div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-<div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3><p></div></div>
-<form id="URT_SRC_form_terminatesearchupdate"  class ='content' method="post" enctype="multipart/form-data">
-<table>
-<tr> <td> <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination"  value="URT_SRC_radio_valuelogintermination" ><label name="URT_SRC_lbl_nlogintermination" id="URT_SRC_lbl_logintermination" hidden>LOGIN TERMINATION</label></td> </tr>
-<tr> <td> <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" ><label name="URT_SRC_lbl_nloginsearchupdate" id="URT_SRC_lbl_loginsearchupdate"  hidden>SEARCH/UPDATE</label></td></tr>
-<!--URT_SRC_radio_nterminndupdatesearch termination-->
-<tr> <td> <label name="URT_SRC_lbl_nloginterminate" id="URT_SRC_lbl_loginterminate" class="srctitle" hidden>EMPLOYEE NAME<em>*</em> </label></td></tr>
-<tr> <td> <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" hidden> <option>SELECT</option></select></td></tr>
-<tr><td><table>
-            <tr> <td> <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class="srctitle" hidden> SELECT A END DATE <em>*</em> </label> </td> </tr>
-            <tr> <td> <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden></td><td><label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label></td></tr>
-        </table></td></tr>
-<tr> <td> <label name="URT_SRC_lbl_nreasontermination" id="URT_SRC_lbl_reasontermination" class="srctitle" hidden> REASON OF TERMINATION <em>*</em> </label> </td> </tr>
-<tr> <td> <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" hidden> </textarea> </td></td> </tr>
-<tr> <td> <input type="button"  value="TERMINATE" id="URT_SRC_btn_termination" class="maxbtn" hidden> </td></tr>
-<!--select an option-->
-<tr> <td> <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle" hidden> SELECT A OPTION </label></td></tr>
-<tr> <td> <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"    value="URT_SRC_radio_valuerejoin" hidden> <label name="URT_SRC_lbl_nselectrejoin" id="URT_SRC_lbl_selectrejoin"  hidden> REJOIN </label></td></tr>
-<tr> <td> <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectsearchupdate" hidden><label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate"  hidden> SEARCH/UPDATE </label></td></tr>
-<!--terminate rejoin-->
-<tr> <td> <label name="URT_SRC_lbl_nloginrejoin" id="URT_SRC_lbl_loginrejoin" class="srctitle" hidden>EMPLOYEE NAME<em>*</em> </label> </td>
-    <td> <select name="URT_SRC_lb_nloginrejoin" id="URT_SRC_lb_loginrejoin"  hidden > <option>SELECT</option> </select></td></tr>
-<table>
-    <tr>
-        <td width="185"><label id="URSRC_lbl_emptype" hidden>SELECT TYPE OF EMPLOYEE<em>*</em></label></td>
-        <td><select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype"  maxlength="40" hidden  >
-                <option value='SELECT' selected="selected"> SELECT</option>
-            </select></td></tr>
-</table>
-<tr> <td> <table id="URT_SRC_tble_roles"> </table></td></tr>
-<tr> <table><td> <label name="URT_SRC_lbl_ndatepickerrejoin" id="URT_SRC_lbl_datepickerrejoin" class=" srctitle" hidden> SELECT A REJOIN DATE <em>*</em> </label> </td>
-        <td width="185"> <input type="text" name="URT_SRC_tb_ndatepickerrejoin" id="URT_SRC_tb_datepickerrejoin" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" style="width:75px;" hidden></td></table></tr>
-<!--EMPLOYEE DETAILS-->
-<table id="URSRC_table_employeetbl" hidden>
-    <tr>
-        <td><label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_firstname" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_lastname" id="URSRC_lbl_lastname">LAST NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_dob" id="URSRC_lbl_dob">DATE OF BIRTH<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate" style="width:75px;"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_designation" id="URSRC_lbl_designation">DESIGNATION<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_designation" id="URSRC_tb_designation" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_permobile" id="URSRC_lbl_permobile">PERSONAL MOBILE<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate" style="width:75px" >
-            <label id="URSRC_lbl_validnumber" name="URSRC_lbl_validnumber" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_kinname" id="URSRC_lbl_kinname">NEXT KIN NAME<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_relationhd" id="URSRC_lbl_relationhd">RELATION HOOD<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_relationhd" id="URSRC_tb_relationhd" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_mobile" id="URSRC_lbl_mobile">MOBILE NO<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate" maxlength='10' style="width:75px">
-            <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label></td>
-    </tr>
-    <tr>
-        <td><label class="srctitle"  name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_bnkname" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_brnchname" id="URSRC_lbl_brnchname">BRANCH NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_accntname" id="URSRC_lbl_accntname">ACCOUNT NAME <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_accntno" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_ifsccode" id="URSRC_lbl_ifsccode">IFSC CODE<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_accntyp" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label></td>
-        <td><input type="text" name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" maxlength='15' class="alphanumericuppercse sizefix login_submitvalidate" ></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_brnchaddr" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label></td>
-        <td><textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea></td>
-    </tr>
-    <tr>
-        <td><label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label></td>
-        <td><input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='25' class="alphanumeric sizefix login_submitvalidate"></td>
-    </tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">CHARGER NO</label></td>
-        <td><input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='25' class="alphanumeric sizefix login_submitvalidate"></td>
-    </tr>
-    <tr><td></td><td>
-            <table id="URSRC_table_others" style="width:500px" hidden>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
-                        <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">LAPTOP BAG</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
-                        <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">MOUSE</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
-                        <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">DOOR ACCESS</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
-                        <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">ID CARD</label></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
-                        <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label></td>
-                </tr>
-                <tr>
-                    <td width="375">
-                        <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
-                        <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" sizefix login_submitvalidate" hidden></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
-                        <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate" hidden></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
-                        <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">VOTERS ID NO</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate" hidden></td>
-                </tr>
-            </table></td></tr>
-    <tr>
-        <td width="175">
-            <label name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label></td>
-        <td><textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea></td>
-    </tr>
-    <tr>
-        <td> </td>
-        <td>
-            <table ID="filetableuploads">
 
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td><label></label></td>
-        <td>
+<div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+<div class="title" id="fhead" ><div style="padding-top:10px;"><center><p><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3><p></center></div></div>
+<form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
+<div class="panel-body">
+<fieldset>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidden>
+        <div class="radio">
+    <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
+</div></div>
+
+<div class="row-fluid form-group">
+    <label  name="URT_SRC_lbl_nloginsearchupdate" class="col-sm-12" id="URT_SRC_lbl_loginsearchupdate"  hidden>
+        <div class="radio">
+    <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" >SEARCH/UPDATE</label>
+</div></div>
+
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nloginterminate" id="URT_SRC_lbl_loginterminate" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em> </label>
+    <div class="col-sm-4">
+        <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" hidden> <option>SELECT</option></select>
+    </div>
+</div>
+
+<div class="row-fluid form-group">
+    <!-- <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class="srctitle col-lg-8 control-label col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>-->
+    <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class=" col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
+    <div class="col-sm-4">
+        <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden>
+        <!--     <label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label>-->
+    </div>
+</div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nreasontermination" id="URT_SRC_lbl_reasontermination" class=" col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
+    <div class="col-sm-4">
+        <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" hidden> </textarea>
+    </div>
+</div>
+<div>
+    <input type="button"  value="TERMINATE" id="URT_SRC_btn_termination" class="maxbtn" hidden>
+</div>
+<!--select an option-->
+<div class="row-fluid form-group" >
+    <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle col-sm-2" hidden> SELECT A OPTION </label>
+</div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nselectrejoin" class="col-sm-12" id="URT_SRC_lbl_selectrejoin"  hidden>
+        <div class="radio">
+    <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>REJOIN </label>
+</div></div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate" class="col-sm-12" hidden>
+        <div class="radio">
+    <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectsearchupdate" hidden>SEARCH/UPDATE </label>
+</div></div>
+<!--terminate rejoin-->
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nloginrejoin" id="URT_SRC_lbl_loginrejoin" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em></label>
+    <div class="col-sm-10">
+        <select name="URT_SRC_lb_nloginrejoin" id="URT_SRC_lb_loginrejoin"  hidden ><option>SELECT</option></select>
+    </div></div>
+<div class="row-fluid form-group"  width="185">
+    <label id="URSRC_lbl_emptype" class=" col-lg-2" hidden>SELECT TYPE OF EMPLOYEE<em>*</em></label>
+    <div class="col-sm-10">
+        <select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype"  maxlength="40" hidden  >
+            <option value='SELECT' selected="selected"> SELECT</option>
+        </select>
+    </div></div>
+<div id="URT_SRC_tble_roles"></div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_ndatepickerrejoin" id="URT_SRC_lbl_datepickerrejoin" class="col-lg-2" hidden> SELECT A REJOIN DATE <em>*</em> </label>
+    <div class="col-sm-10" width="185">
+        <input type="text" name="URT_SRC_tb_ndatepickerrejoin" id="URT_SRC_tb_datepickerrejoin" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" style="width:75px;" hidden>
+    </div></div>
+<!--EMPLOYEE DETAILS-->
+<div id="URSRC_table_employeetbl" hidden>
+    <div class="row-fluid form-group">
+        <label class="srctitle col-lg-2"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
+    </div>
+    <div class="row-fluid form-group" width="175">
+        <label name="row URSRC_lbl_firstname" class="col-lg-2" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >
+        </div></div>
+
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_lastname" class="col-sm-2" id="URSRC_lbl_lastname">LAST NAME <em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+        </div></div>
+
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_dob" class="col-sm-2" id="URSRC_lbl_dob">DATE OF BIRTH<em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate" style="width:75px;">
+        </div></div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_designation" class="col-sm-2" id="URSRC_lbl_designation">DESIGNATION<em>*</em></label>
+        <div class="col-sm-10">
+<!--            <input type="text" name="URSRC_tb_designation" id="URSRC_tb_designation" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate">-->
+            <select  name="URSRC_tb_designation" id="URSRC_tb_designation">
+                <option value='SELECT'  selected="selected"> SELECT</option>
+            </select>
+        </div>
+    </div>
+    <div class="row-fluid form-group" width="175">
+
+        <label name="URSRC_lbl_permobile" class="col-sm-2" id="URSRC_lbl_permobile">PERSONAL MOBILE<em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate" style="width:75px" >
+            <label id="URSRC_lbl_validnumber" name="URSRC_lbl_validnumber" class="errormsg"></label>
+        </div></div>
+    <div class="row-fluid  form-group" width="175">
+        <label name="URSRC_lbl_kinname" class="col-sm-2" id="URSRC_lbl_kinname">NEXT KIN NAME<em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+        </div></div>
+
+    <div class="row-fluid form-group">
+        <label name="URSRC_lbl_relationhd" class="col-sm-2" id="URSRC_lbl_relationhd">RELATION HOOD<em>*</em></label>
+        <div class="col-sm-10">
+<!--            <input type="text" name="URSRC_tb_relationhd" id="URSRC_tb_relationhd" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >-->
+            <select id='URSRC_tb_relationhd' name="URSRC_tb_relationhd" class="relationhd_submitvalidate ">
+                <option value='SELECT' selected="selected"> SELECT</option>
+            </select>
+        </div></div>
+    <div class="row-fluid  form-group">
+        <label name="URSRC_lbl_mobile" class="col-sm-2" id="URSRC_lbl_mobile">MOBILE NO<em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate" maxlength='10' style="width:75px">
+            <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label>
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid login_submitvalidate"  maxlength='7' style="width:75px">
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" name="URSRC_lbl_strtname" id="URSRC_lbl_strtname">STREET NAME<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="URSRC_tb_strtname" id="URSRC_tb_strtname" class="alphanumericuppercse sizefix login_submitvalidate">
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" name="URSRC_lbl_area" id="URSRC_lbl_area">AREA<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="URSRC_tb_area" id="URSRC_tb_area" class="alphanumericuppercse sizefix login_submitvalidate">
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" name="URSRC_lbl_pstlcode" id="URSRC_lbl_pstlccode">POSTAL CODE<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='6' class="sizefix pstlcode login_submitvalidate" style="width:75px">
+        </div></div>
+    <div class="row-fluid form-group">
+        <label class="srctitle" class="col-sm-2" name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
+    </div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_bnkname" class="col-sm-2" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+        </div></div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_brnchname" class="col-sm-2" id="URSRC_lbl_brnchname">BRANCH NAME <em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+        </div></div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_accntname" class="col-sm-2" id="URSRC_lbl_accntname">ACCOUNT NAME <em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+        </div></div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_accntno" class="col-sm-2" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" >
+        </div></div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_ifsccode" class="col-sm-2" id="URSRC_lbl_ifsccode">IFSC CODE<em>*</em></label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+        </div></div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_accntyp" class="col-sm-2" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label>
+        <div class="col-sm-10">
+<!--            <input type="text" name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" maxlength='15' class="alphanumericuppercse sizefix login_submitvalidate" >-->
+            <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="alphanumericuppercse login_submitvalidate" >
+                <option value='SELECT' selected="selected"> SELECT</option>
+            </select>
+        </div></div>
+    <div class="row-fluid form-group" width="175">
+        <label name="URSRC_lbl_brnchaddr" class="col-sm-2" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label>
+        <div class="col-sm-10">
+            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea>
+        </div></div>
+    <div class="row-fluid  form-group">
+
+        <label class="srctitle col-sm-2"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
+    </div>
+    <div class="row-fluid form-group">
+        <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label>
+        <div class="col-sm-10">
+<!--            <input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='10' class="alphanumeric sizefix login_submitvalidate">-->
+            <select id='URSRC_tb_laptopno' name="URSRC_tb_laptopno"  maxlength="40" class="selectlaptopno_submitvalidate ">
+                <option value='SELECT' selected="selected"> SELECT</option>
+            </select>
+        </div></div>
+    <div class="row-fluid form-group">
+        <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">CHARGER NO</label>
+        <div class="col-sm-10">
+            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate" readonly>
+        </div></div>
+
+    <div id="URSRC_table_others" style="width:500px" hidden>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">LAPTOP BAG</label>
+        </div>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">MOUSE</label>
+        </div>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">DOOR ACCESS</label>
+        </div>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">ID CARD</label>
+        </div>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label>
+        </div>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate" hidden>
+
+        </div>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
+        </div>
+        <div class="row-fluid form-group col-sm-offset-7">
+            <div class="checkbox">
+            <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
+                </div>
+            <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">VOTERS ID NO</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
+        </div>
+
+        <div class="row-fluid form-group">
+            <label name="URSRC_lbl_comments" class="col-sm-2" id="URSRC_lbl_comments">COMMENTS</label>
+            <div class="col-sm-offset-6">
+                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea>
+            </div></div>
+
+        <div ID="filetableuploads"></div>
+
+
+        <div>
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span>
-        </td>
-    </tr>
-</table>
-<table>
+        </div>
+    </div>
+
     <!--EMPL DETAILS-->
-    <tr> <td> <input type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden> </td></tr>
-    <!--terminate updation-->
-    <tr> <td> <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="srctitle " hidden>LOGIN ID<em>*</em> </label></td></tr>
-    <tr> <td> <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" hidden> <option>SELECT</option></select>
-            <label id="URT_SRC_lbl_recordversion" class="srctitle" hidden >RECORD VERSION<em>*</em></label></td><td><select name="URT_SRC_lb_recordversion" id="URT_SRC_lb_recordversion" hidden ></select></td></tr>
-    <tr> <td> <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" srctitle" hidden> SELECT A END DATE <em>*</em> </label> </td> </tr>
-    <tr> <td> <input type="text" name="URT_SRC_tb_ndatepickerupdate" id="URT_SRC_tb_datepickerupdate" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" style="width:75px;" hidden></td></tr>
-    <tr> <td> <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class=" srctitle"hidden> REASON OF TERMINATION <em>*</em> </label> </td> </tr>
-    <tr> <td> <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate" hidden> </textarea> </td> </tr>
-    <tr> <td> <input type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn" hidden> </td></tr>
-</table>
+    <div><input align="right" type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden></div>
+</div>
+<!--terminate updation-->
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="srctitle col-sm-2" hidden>LOGIN ID<em>*</em></label>
+    <div class="col-sm-10">
+        <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" hidden> <option>SELECT</option></select>
+    </div></div>
+<div class="row-fluid form-group">
+    <label id="URT_SRC_lbl_recordversion" class="srctitle col-sm-2" hidden >RECORD VERSION<em>*</em></label>
+    <div class="col-sm-10">
+        <select name="URT_SRC_lb_recordversion" id="URT_SRC_lb_recordversion" hidden ></select>
+    </div></div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" srctitle col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
+    <div class="col-sm-10">
+        <input type="text" name="URT_SRC_tb_ndatepickerupdate" id="URT_SRC_tb_datepickerupdate" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" hidden>
+    </div></div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class=" srctitle col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
+    <div class="col-sm-4">
+        <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate" hidden> </textarea>
+    </div></div>
+<div>
+    <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:190px">
+</div>
+</fieldset>
+</div>
+<!--</div>-->
 </form>
+</div>
+</div>
 </body>
 </html>

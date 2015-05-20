@@ -5,7 +5,8 @@
 //VER 0.01-INITIAL VERSION, SD:24/09/2014 ED:29/09/2014,TRACKER NO:79
 //*********************************************************************************************************//
 <?php
-include "HEADER.php";
+//include "HEADER.php";
+include "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -156,12 +157,13 @@ $(document).ready(function(){
     });
 
     //TREE VIEW EXPANDING
-    $(document).on("click",'.exp,.collapse', function (){
+    $(document).on("click",'.exp,.collapse2', function (){
         var button_id=$(this).attr("id")
         var btnid=button_id.split("_");
         var menu_btnid=btnid[1]
         if($(this).val()=='+'){
-            $(this).replaceWith('<input type="button"   value="-" id='+button_id+'  height="3" width="3" class="collapse" />');
+            $(this).val('-');
+//            $(this).replaceWith('<input type="button"   value="-" id='+button_id+'  height="3" width="3" class="collapse" />');
             if(btnid[0]=='folder'){
                 $('#subf'+menu_btnid).toggle("fold",100);
             }
@@ -330,15 +332,22 @@ $(document).ready(function(){
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body>
+<div class="container-fluid">
 <div class="wrapper">
+
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>SITE MAINTENANCE</h3><p></div></div>
     <form class="content" name="USR_SITE_form_user" id="USR_SITE_form_user">
+        <div class="panel-body">
+            <fieldset>
         <table id="USR_SITE_tble_menu" hidden>
         </table>
         <input align="right" type="button" class="maxbtn" name="USR_SITE_btn_submitbutton" id="USR_SITE_btn_submitbutton" disabled style="width:190px">
+   </fieldset>
+            </div>
     </form>
 </div>
+    </div>
 </body>
 <!--BODY TAG END-->
 </html>

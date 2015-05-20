@@ -1,5 +1,6 @@
 <?php
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--HTML TAG START-->
 
@@ -170,23 +171,29 @@ include "HEADER.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
+<div class="container-fluid">
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
-    <div class="newtitle1" id="fhead"><div style="padding-left:500px; text-align:left;"><p><h3>EMPLOYEE DETAILS </h3><p></div></div>
+    <div class="newtitle1" id="fhead"><center><p><h3>EMPLOYEE DETAILS</h3><p></center></div>
 
     <form class="newcontent1" name="ED_form_user" id="ED_form_user" autocomplete="off" >
+        <div class="panel-body">
+            <fieldset>
         <div><label id="ED_lbl_title" name="ED_lbl_title" class="srctitle"></label></div>
 
         <div><input type="button" id='ED_btn_pdf' class="btnpdf" value="PDF"></div>
 
-        <div class="container">
-            <div class="container" id="tablecontainer" style="width:900px;" hidden>
-                <section style="width:900px;">
+
+            <div class="table-responsive" id="tablecontainer" hidden>
+                <section>
                 </section>
             </div>
-        </div>
+
         <div><label id="ED_lbl_norole_err" name="ED_lbl_norole_err" class="errormsg"></label></div>
+                </fieldset>
+            </div>
     </form>
+    </div>
 </div>
 
 </body>

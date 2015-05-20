@@ -11,7 +11,8 @@
 //VER 0.01-INITIAL VERSION,SD:04/11/2014 ED:04/11/2014,TRACKER NO:97
 //*********************************************************************************************************//
 <?PHP
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -37,7 +38,7 @@ include "HEADER.php";
                         errmsg=values_arraystotal[1][1];
                         $('#src_lbl_error').text(errmsg).show();
                         $('#DR_ACC_btn_pdf').show();
-                        var DR_ACC_table_header='<table id="DR_ACC_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:500px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th style="width:30px">DOOR ACCESS</th></tr></thead><tbody>'
+                        var DR_ACC_table_header='<table id="DR_ACC_tble_htmltable" border="1"  cellspacing="0" class="srcresult"><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th>DOOR ACCESS</th></tr></thead><tbody>'
                         for(var j=0;j<values_array.length;j++){
                             var loginid=values_array[j].loginid;
                             var DR_ACC_draccess=values_array[j].DR_ACC_draccess;
@@ -45,7 +46,7 @@ include "HEADER.php";
                             {
                                 DR_ACC_draccess='';
                             }
-                            DR_ACC_table_header+='<tr><td>'+loginid+'</td><td  style="width:30px" align="center">'+DR_ACC_draccess+'</td></tr>';
+                            DR_ACC_table_header+='<tr><td>'+loginid+'</td><td>'+DR_ACC_draccess+'</td></tr>';
                         }
                         DR_ACC_table_header+='</tbody></table>';
                         $('section').html(DR_ACC_table_header);
@@ -79,24 +80,32 @@ include "HEADER.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
+<div class="container-fluid">
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
-    <div class="title" id="fhead"><div style="padding-left:500px; text-align:left;"><p><h3>DOOR ACCESS DETAILS</h3><p></div></div>
+    <div class="title" id="fhead"><p style="padding-top: 30px;"><center><h3>DOOR ACCESS DETAILS</h3></center><p></div>
     <form class="content" name="DR_ACC_form_user" id="DR_ACC_form_user" autocomplete="off" >
-        <div class="container">
+        <div class="panel-body">
+            <fieldset>
+        <div class="table-responsive">
+
             <div>
                 <label id="src_lbl_error" class="srctitle"></label><br><br>
                 <input type="button" id="DR_ACC_btn_pdf" class="btnpdf" value="PDF" hidden>
             </div>
-            <div class="container" id="tablecontainer" style="width:500px;" hidden>
-                <section style="width:500px;">
+            <div  id="tablecontainer"  hidden>
+                <section style="max-width:500px;">
                 </section>
             </div>
         </div>
         <div>
             <label id="DR_ACC_lbl_norole_err" name="DR_ACC_lbl_norole_err" class="errormsg"></label>
         </div>
-    </form>
+
+       </fieldset>
+            </div>
+</form>
+    </div>
 </div>
 </body>
 <!--BODY TAG END-->

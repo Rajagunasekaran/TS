@@ -5,6 +5,20 @@ include "CONNECTION.php";
 include "GET_USERSTAMP.php";
 date_default_timezone_set('Asia/Kolkata');
 $USERSTAMP=$UserStamp;
+
+$user_uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
+while($row=mysqli_fetch_array($user_uld_id)){
+    $uld_id=$row["ULD_ID"];
+}
+
+$select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$uld_id");
+$wfh_flag='';
+while($row=mysql_fetch_array($select_wfh))
+{
+    $wfh_flag=$row['WFHA_FLAG'];
+}
+
+//echo $wfh_flag;
 if($_REQUEST["option"]=="DATE")
 {
     $date=$_REQUEST['date_change'];
@@ -77,6 +91,10 @@ if($_REQUEST["option"]=="SINGLE DAY ENTRY")
     while($row=mysqli_fetch_array($absent)){
         $ure_absent_data=$row["AC_DATA"];
     }
+//    $workfromhome=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='15'");
+//    while($row=mysqli_fetch_array($workfromhome)){
+//        $ure_workfromhome_data=$row["AC_DATA"];
+//    }
     $onduty=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='3'");
     while($row=mysqli_fetch_array($onduty)){
         $ure_onduty_data=$row["AC_DATA"];
@@ -90,6 +108,17 @@ if($_REQUEST["option"]=="SINGLE DAY ENTRY")
         $projectid;
         $reason='';
         $bandwidth;
+    }
+//  for WORK FROM HOME radio button
+    if($attendance=="2")
+    {
+        $report;
+        $uard_morning_session=$ure_present_data;
+        $uard_afternoon_session =$ure_present_data;
+        $projectid;
+        $reason='';
+        $bandwidth=0;
+
     }
 //  for onduty radio button
     if($attendance=="OD")
@@ -162,6 +191,13 @@ if($_REQUEST["option"]=="SINGLE DAY ENTRY")
             $ure_attendance=$row["AC_DATA"];
         }
     }
+    if($attendance=="2")
+    {
+        $attend= mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID =15");
+        while($row=mysqli_fetch_array($attend)){
+            $ure_attendance=$row["AC_DATA"];
+        }
+    }
     if(($attendance=="0") && (($ampm=="AM") || ($ampm=="PM")))
     {
         $attend= mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID =4 AND CGN_ID='5'");
@@ -192,6 +228,7 @@ if($_REQUEST["option"]=="SINGLE DAY ENTRY")
     }
     $report= $con->real_escape_string($report);
     $reason= $con->real_escape_string($reason);
+//    echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$location','$USERSTAMP',@success_flag)";
     $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$location','$USERSTAMP',@success_flag)");
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query('SELECT @success_flag');

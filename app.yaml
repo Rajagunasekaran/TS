@@ -1,6 +1,6 @@
-application: ei-html-ssomens
-version: 3
-runtime: php
+application: test-time-sheet
+version: 11
+runtime: php55
 api_version: 1
 threadsafe: true
 
@@ -16,12 +16,23 @@ handlers:
 - url: /image
   static_dir: image
 
+- url: /bootstrap
+  static_dir: bootstrap
 
-- url: /FORM_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do
-  script: FORM_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php
+- url: /msgbox
+  static_dir: msgbox
+
+- url: /menu
+  static_dir: menu
+
+- url: /DATA TABLE 10.5
+  static_dir: DATA TABLE 10.5
 
 - url: /DB_MENU.do
   script: DB_MENU.php
+
+- url: /FORM_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do
+  script: FORM_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php
 
 - url: /COMMON.do
   script: COMMON.php
@@ -73,6 +84,21 @@ handlers:
 
 - url: /DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do
   script: DB_DAILY_REPORTS_USER_SEARCH_UPDATE.php
+
+- url: /FORM_REPORT_USER_CLOCK_IN_OUT_DETAILS.do
+  script: FORM_REPORT_USER_CLOCK_IN_OUT_DETAILS.php
+
+- url: /DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.do
+  script: DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.php
+
+- url: /DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.do
+  script: DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.php
+
+- url: /FORM_REPORT_USER_PROJECT_REVENUE.do
+  script: FORM_REPORT_USER_PROJECT_REVENUE.php
+
+- url: /DB_DAILY_REPORT_USER_PROJECT_REVENUE.do
+  script: DB_DAILY_REPORT_USER_PROJECT_REVENUE.php
 
 - url: /_ah/login_required
   script: do_openid_login.py
@@ -149,6 +175,11 @@ handlers:
 - url: /DB_EMPLOYEE_PROJECT_ACCESS.do
   script: DB_EMPLOYEE_PROJECT_ACCESS.php
 
+- url: /FORM_EMPLOYEE_WORK_FROM_HOME_ACCESS.do
+  script: FORM_EMPLOYEE_WORK_FROM_HOME_ACCESS.php
+
+- url: /DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do
+  script: DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.php
 
 
 - url: /DB_EMPLOYEE_PROJECT_SEARCH_UPDATE.do
@@ -206,7 +237,8 @@ handlers:
 - url: /FORM_REPORT_TICKLER_HISTORY.do
   script: FORM_REPORT_TICKLER_HISTORY.php
 
-
+- url: /date.do
+  script: date.php
 
 - url: /FORM_PUBLIC_HOLIDAY_ENTRY.do
   script: FORM_PUBLIC_HOLIDAY_ENTRY.php
@@ -252,15 +284,3 @@ handlers:
 - url: .*
   script: MENU.php
   login: required
-
-
-
-
-
-
-
-
-
-
-
-

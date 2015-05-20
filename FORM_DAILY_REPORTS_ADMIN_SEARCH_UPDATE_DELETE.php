@@ -1,3 +1,5 @@
+
+
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN SEARCH UPDATE DELETE***********************************//
 //DONE BY:RAJA
@@ -93,10 +95,12 @@ $(document).ready(function(){
     var odmindate;
     var odmaxdate;
     var userstamp;
+    var flag;
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             $('.preloader', window.parent.document).hide();
+//            alert(xmlhttp.responseText);
             var value_array=JSON.parse(xmlhttp.responseText);
             permission_array=value_array[0];
 //            project_array=value_array[1];
@@ -108,12 +112,19 @@ $(document).ready(function(){
             }
             else
             {
+//                $("#ASRC_UPD_DEL_lb_attendance option[value='2']").detach();
                 active_emp=value_array[5];
                 nonactive_emp=value_array[6];
                 allmaxdate=value_array[7];
                 odmindate=value_array[8];
                 odmaxdate=value_array[9];
                 userstamp=value_array[10];
+//                flag=value_array[10];
+//                alert(flag);
+//                if(flag == 'X')
+//                {
+//                    $('#ASRC_UPD_DEL_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
+//                }
                 $('#ASRC_UPD_DEL_tb_dte').datepicker("option","minDate",allmindate);
                 $('#ASRC_UPD_DEL_tb_dte').datepicker("option","maxDate",allmaxdate);
                 $('#ASRC_UPD_DEL_tb_sdte').datepicker("option","minDate",odmindate);
@@ -496,9 +507,11 @@ $(document).ready(function(){
 //    var min_date;
     $(document).on('change','#ASRC_UPD_DEL_lb_loginid',function(){
         var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginid").val();
+//        alert(ASRC_UPD_DEL_loginidlist)
         $('#ASRC_UPD_DEL_errmsg').hide();
         if(ASRC_UPD_DEL_loginidlist=='SELECT')
         {
+//            alert('if')
             $('#ASRC_UPD_DEL_lbl_session').hide();
             $('#ASRC_UPD_DEL_lbl_strtdte').hide();
             $('#ASRC_UPD_DEL_tb_strtdte').hide();
@@ -528,22 +541,24 @@ $(document).ready(function(){
         else
         {
             $('.preloader', window.parent.document).show();
+            $("#ASRC_UPD_DEL_lb_attendance option[value='2']").detach();
             var min_date;
             var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     $('.preloader', window.parent.document).hide();
+//                    alert(xmlhttp.responseText)
                     var finaldate=JSON.parse(xmlhttp.responseText);
                     min_date=finaldate[0];
                     var max_date=finaldate[1];
                     var rprt_min_date=finaldate[2];
                     project_array=finaldate[3];
-                    $('#ASRC_UPD_DEL_tb_enddte').datepicker("option","maxDate",max_date);
-                    $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","minDate",min_date);
-                    $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","maxDate",max_date);
-                    $('#ASRC_UPD_DEL_ta_reportdate').datepicker("option","minDate",rprt_min_date);
-                    $('#ASRC_UPD_DEL_ta_reportdate').datepicker("option","maxDate",rprt_max_date);
+                    flag=finaldate[4];
+                    if(flag == 'X')
+                    {
+                        $('#ASRC_UPD_DEL_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
+                    }
                     $('#ASRC_UPD_DEL_lbl_session').hide();
                     if(min_date=='01-01-1970')
                     {
@@ -581,9 +596,15 @@ $(document).ready(function(){
                     $('#ASRC_UPD_DEL_lb_timing').hide();
                     $('#ASRC_UPD_DEL_lbl_band').hide();
                     $('#ASRC_UPD_DEL_tb_band').hide();
+
+                    $('#ASRC_UPD_DEL_tb_enddte').datepicker("option","maxDate",max_date);
+                    $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","minDate",min_date);
+                    $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","maxDate",max_date);
+                    $('#ASRC_UPD_DEL_ta_reportdate').datepicker("option","minDate",rprt_min_date);
+                    $('#ASRC_UPD_DEL_ta_reportdate').datepicker("option","maxDate",rprt_max_date);
                 }
             }
-            var choice="login_id"
+            var choice="login_id";
             xmlhttp.open("GET","DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?login_id="+loginid+"&option="+choice,true);
             xmlhttp.send();
 
@@ -812,21 +833,24 @@ $(document).ready(function(){
                 var delete_msg=xmlhttp.responseText;
                 if(delete_msg==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[2],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[2],position:{top:150,left:500}}});
+                    show_msgbox("ADMIN REPORT ENTRY",err_msg[0],"success",false);
                     flextablerange()
                     $('#ASRC_UPD_DEL_btn_del').hide();
                     $('#ASRC_UPD_DEL_btn_srch').hide();
                 }
                 else if(delete_msg==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[5],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:err_msg[5],position:{top:150,left:500}}});
+                    show_msgbox("ADMIN REPORT ENTRY",err_msg[5],"success",false);
                     flextablerange()
                     $('#ASRC_UPD_DEL_btn_del').hide();
                     $('#ASRC_UPD_DEL_btn_srch').hide();
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:delete_msg,position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH/UPDATE/DELETE",msgcontent:delete_msg,position:{top:150,left:500}}});
+                    show_msgbox("ADMIN REPORT ENTRY",delete_msg,"success",false);
                     flextablerange()
                     $('#ASRC_UPD_DEL_btn_del').hide();
                     $('#ASRC_UPD_DEL_btn_srch').hide();
@@ -888,6 +912,16 @@ $(document).ready(function(){
                     }
                     $('#ASRC_UPD_DEL_lb_timing').html(permission_list);
                 }
+                if(attendance=='WORK FROM HOME')
+                {
+                    $('#ASRC_UPD_DEL_lb_attendance').replaceWith(
+                        "<select id='ASRC_UPD_DEL_lb_attendance' name='ASRC_UPD_DEL_lb_attendance' class='update_validate'> <option value='2'>WORK FROM HOME</option> </select>");
+                }
+                else
+                {
+                    $('#ASRC_UPD_DEL_lb_attendance').replaceWith(
+                        "<select id='ASRC_UPD_DEL_lb_attendance' name='ASRC_UPD_DEL_lb_attendance' class='update_validate'> <option value='1'>PRESENT</option><option value='0'>ABSENT</option><option value='OD'>ONDUTY</option></select>");
+                }
                 $('#ASRC_UPD_DEL_tble_attendence').show();
                 form_show(attendance)
             }
@@ -929,6 +963,31 @@ $(document).ready(function(){
             $('#ASRC_UPD_DEL_ta_report').val(report);
             ASRC_UPD_DEL_tble_bandwidth()
             $('#ASRC_UPD_DEL_tb_band').val(bandwidth);
+            $('#ASRC_UPD_DEL_btn_submit').show();
+        }
+        if(attendance=='WORK FROM HOME')
+        {
+            projectid_array=pdid.split(",");
+            $('#ASRC_UPD_DEL_lbl_reportdte').show();
+            $('#ASRC_UPD_DEL_ta_reportdate').val(date);
+            $('#ASRC_UPD_DEL_ta_reportdate').show();
+            $('#ASRC_UPD_DEL_lb_attendance').val('2');
+            $('#ASRC_UPD_DEL_lbl_permission').hide();
+            $('#ASRC_UPD_DEL_rd_permission').hide();
+            $('#ASRC_UPD_DEL_lbl_nopermission').hide();
+            $('#ASRC_UPD_DEL_rd_nopermission').hide();
+            $('#ASRC_UPD_DEL_lbl_session').hide();
+            $('#ASRC_UPD_DEL_lb_ampm').hide();
+            $('#ASRC_UPD_DEL_tble_projectlistbx').show();
+            $('#ASRC_UPD_DEL_lbl_txtselectproj').show();
+            projectlist();
+            projecdid();
+            ASRC_UPD_DEL_report()
+//            $('#ASRC_UPD_DEL_rd_permission').removeAttr("disabled","disabled");
+//            $('#ASRC_UPD_DEL_rd_nopermission').removeAttr("disabled","disabled");
+            $('#ASRC_UPD_DEL_ta_report').val(report);
+//            ASRC_UPD_DEL_tble_bandwidth()
+            $('#ASRC_UPD_DEL_tb_band').hide();
             $('#ASRC_UPD_DEL_btn_submit').show();
         }
         if(attendance=='0')
@@ -1124,6 +1183,34 @@ $(document).ready(function(){
                 $('#ASRC_UPD_DEL_rd_permission').removeAttr("disabled");
                 $('#ASRC_UPD_DEL_rd_nopermission').removeAttr("disabled");
                 $('#ASRC_UPD_DEL_lb_timing').prop('selectedIndex',0);
+                $('#ASRC_UPD_DEL_errmsg').hide();
+            }
+            else  if($('#ASRC_UPD_DEL_lb_attendance').val()=='2')
+            {
+                $('#ASRC_UPD_DEL_tble_enterthereport,#ASRC_UPD_DEL_ta_reason,#ASRC_UPD_DEL_tble_bandwidth').html('');
+//                $('#ASRC_UPD_DEL_rd_permission').attr('checked',false);
+//                $('#ASRC_UPD_DEL_rd_nopermission').attr('checked',false);
+                $('#ASRC_UPD_DEL_lb_timing').hide();
+                $('#ASRC_UPD_DEL_lbl_permission').hide();
+                $('#ASRC_UPD_DEL_rd_permission').hide();
+                $('#ASRC_UPD_DEL_lbl_nopermission').hide();
+                $('#ASRC_UPD_DEL_rd_nopermission').hide();
+//                var permission_list='<option>SELECT</option>';
+//                for (var i=0;i<permission_array.length;i++) {
+//                    permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
+//                }
+//                $('#ASRC_UPD_DEL_lb_timing').html(permission_list);
+                $('#ASRC_UPD_DEL_lbl_session').hide();
+                $('#ASRC_UPD_DEL_lb_ampm').hide();
+                $('#ASRC_UPD_DEL_lbl_txtselectproj').show();
+                $('#ASRC_UPD_DEL_tble_projectlistbx').show();
+                projectlist();
+                ASRC_UPD_DEL_report();
+//                ASRC_UPD_DEL_tble_bandwidth();
+                $('#ASRC_UPD_DEL_btn_submit').hide();
+//                $('#ASRC_UPD_DEL_rd_permission').removeAttr("disabled");
+//                $('#ASRC_UPD_DEL_rd_nopermission').removeAttr("disabled");
+//                $('#ASRC_UPD_DEL_lb_timing').prop('selectedIndex',0);
                 $('#ASRC_UPD_DEL_errmsg').hide();
             }
             else if($('#ASRC_UPD_DEL_lb_attendance').val()=='0')
@@ -1395,15 +1482,15 @@ $(document).ready(function(){
     }
     // FUNCTION FOR REASON
     function ASRC_UPD_DEL_reason(){
-        $('<tr><td width="150"><label name="ASRC_UPD_DEL_lbl_reason" id="ASRC_UPD_DEL_lbl_reason">REASON<em>*</em></label></td><td><textarea  name="ASRC_UPD_DEL_ta_reason" id="ASRC_UPD_DEL_ta_reason" class="update_validate"></textarea></td></tr>').appendTo($("#ASRC_UPD_DEL_tble_reasonlbltxtarea"));
+        $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_reason"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_reason">REASON<em>*</em></label><div class="col-sm-8"><textarea  name="ASRC_UPD_DEL_ta_reason" id="ASRC_UPD_DEL_ta_reason" class="update_validate"></textarea></div>').appendTo($("#ASRC_UPD_DEL_tble_reasonlbltxtarea"));
     }
     // FUNCTION FOR REPORT
     function ASRC_UPD_DEL_report(){
-        $('<tr><td width="150"><label name="ASRC_UPD_DEL_lbl_report" id="ASRC_UPD_DEL_lbl_report" >ENTER THE REPORT<em>*</em></label></td><td><textarea  name="ASRC_UPD_DEL_ta_report" id="ASRC_UPD_DEL_ta_report" class="update_validate"></textarea></td></tr>').appendTo($("#ASRC_UPD_DEL_tble_enterthereport"));
+        $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_report" class="col-sm-2" id="ASRC_UPD_DEL_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-sm-8"><textarea  name="ASRC_UPD_DEL_ta_report" id="ASRC_UPD_DEL_ta_report" class="update_validate"></textarea></div>').appendTo($("#ASRC_UPD_DEL_tble_enterthereport"));
     }
     // FUNCTIO FOR BANDWIDTH
     function ASRC_UPD_DEL_tble_bandwidth(){
-        $('<tr><td width="150"><label name="ASRC_UPD_DEL_lbl_band" id="ASRC_UPD_DEL_lbl_band">BANDWIDTH<em>*</em></label></td><td><input type="text" name="ASRC_UPD_DEL_tb_band" id="ASRC_UPD_DEL_tb_band" class="autosize amountonly update_validate" style="width:75px;" ><td><label name="ASRC_UPD_DEL_lbl_band" id="ASRC_UPD_DEL_lbl_band">MB</label></td></td></tr></tr>').appendTo($("#ASRC_UPD_DEL_tble_bandwidth"));
+        $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_band" class="col-sm-2" id="ASRC_UPD_DEL_lbl_band">BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="ASRC_UPD_DEL_tb_band" id="ASRC_UPD_DEL_tb_band" class="autosize amountonly update_validate" style="width:75px;" ><label name="ASRC_UPD_DEL_lbl_band" id="ASRC_UPD_DEL_lbl_band">MB</label></div></div>').appendTo($("#ASRC_UPD_DEL_tble_bandwidth"));
         $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
     }
     //FORM VALIDATION
@@ -1483,6 +1570,26 @@ $(document).ready(function(){
                     $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
                 }
             }
+            else if(ASRC_UPD_DEL_presenthalfdysvld=='2')
+            {
+                if(((ASRC_UPD_DEL_reportenter.trim()!="")&&( ASRC_UPD_DEL_projectselectlistbx>0)))
+                {
+
+                    if(ASRC_UPD_DEL_projectselectlistbx!='SELECT')
+                    {
+                        $("#ASRC_UPD_DEL_btn_submit").removeAttr("disabled");
+                    }
+                    else
+                    {
+                        $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                    }
+
+                }
+                else
+                {
+                    $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
+                }
+            }
         }
     }
 
@@ -1497,7 +1604,8 @@ $(document).ready(function(){
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:err_msg[1],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:err_msg[1],position:{top:150,left:500}}});
+                    show_msgbox("ADMIN REPORT ENTRY",err_msg[1],"success",false);
                     ASRC_UPD_DEL_clear()
                     flextablerange()
                     $("#ASRC_UPD_DEL_btn_del").hide();
@@ -1508,7 +1616,8 @@ $(document).ready(function(){
                 }
                 else if(msg_alert==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:err_msg[7],position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:err_msg[7],position:{top:150,left:500}}});
+                    show_msgbox("ADMIN REPORT ENTRY",err_msg[7],"success",false);
                     ASRC_UPD_DEL_clear()
                     flextablerange()
                     $("#ASRC_UPD_DEL_btn_del").hide();
@@ -1519,7 +1628,8 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
+                    show_msgbox("ADMIN REPORT ENTRY",msg_alert,"success",false);
                     ASRC_UPD_DEL_clear()
                     flextablerange()
                     $("#ASRC_UPD_DEL_btn_del").hide();
@@ -1726,14 +1836,14 @@ $(document).ready(function(){
                     pdfmsg=errmsg;
                     $('#ASRC_UPD_DEL_div_headers').text(errmsg).show();
                     $('#ASRC_UPD_btn_od_pdf').show();
-                    var ASRC_UPD_DEL_tbleheader='<table id="ASRC_UPD_DEL_tbl_ondutyhtmltable" border="1"  cellspacing="0" class="srcresult" style="width:1500px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:10px;"></th><th nowrap class="uk-date-column">DATE</th><th style="width:920px">DESCRIPTION</th><th style="width:90px">USERSTAMP</th><th style="width:100px" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>';
+                    var ASRC_UPD_DEL_tbleheader='<table id="ASRC_UPD_DEL_tbl_ondutyhtmltable" border="1"  cellspacing="0" class="srcresult"><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:10px;"></th><th>DATE</th><th>DESCRIPTION</th><th>USERSTAMP</th><th class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>';
                     for(var j=0;j<allvalues_array.length;j++){
                         var id=allvalues_array[j].id;
                         var description=allvalues_array[j].description;
                         var userstamp=allvalues_array[j].userstamp;
                         var timestamp=allvalues_array[j].timestamp;
                         var date=allvalues_array[j].date;
-                        ASRC_UPD_DEL_tbleheader+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_tbl" class="ASRC_UPD_DEL_class_radio odclass" id='+id+'  value='+id+' ></td><td width="30px" align="center" nowrap>'+date+'</td><td style="max-width:900px">'+description+'</td><td style="max-width:145px">'+userstamp+'</td><td style="max-width:100px" nowrap align="center">'+timestamp+'</td></tr>';
+                        ASRC_UPD_DEL_tbleheader+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_tbl" class="ASRC_UPD_DEL_class_radio odclass" id='+id+'  value='+id+' ></td><td width="30px" align="center" nowrap>'+date+'</td><td>'+description+'</td><td>'+userstamp+'</td><td nowrap align="center">'+timestamp+'</td></tr>';
                     }
                     ASRC_UPD_DEL_tbleheader+='</tbody></table>';
                     $('#ASRC_UPD_section_od').html(ASRC_UPD_DEL_tbleheader);
@@ -1820,7 +1930,8 @@ $(document).ready(function(){
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $('.preloader', window.parent.document).hide();
                 var msg_alert=xmlhttp.responseText;
-                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ONDUTY SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
+//                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ONDUTY SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
+                show_msgbox("ADMIN REPORT ENTRY",msg_alert,"success",true);
                 ondutyflextable()
                 $('#ASRC_UPD_DEL_tb_oddte').hide();
                 $('#ASRC_UPD_DEL_lbl_oddte').hide();
@@ -1864,181 +1975,192 @@ $(document).ready(function(){
 <body>
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="newtitle"><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN REPORT SEARCH/UPDATE/DELETE</h3><p></div></div>
+    <div class="newtitle"><center><p><h3>ADMIN REPORT SEARCH/UPDATE/DELETE</h3><p></center></div>
     <form   id="ASRC_UPD_DEL_form_adminsearchupdate" class="newcontent" >
-        <table>
-            <tr>
-                <td width="150"><label name="ASRC_UPD_DEL_lbl_optn" id="ASRC_UPD_DEL_lbl_optn">SELECT A OPTION</label><em>*</em></td>
-                <td width="150">
+        <div class="row-fluid form-group">
+                <label name="ASRC_UPD_DEL_lbl_optn" class="col-sm-2" id="ASRC_UPD_DEL_lbl_optn">SELECT A OPTION<em>*</em></label>
+            <div class="col-sm-8">
                     <select id="option" name="option">
                         <option>SELECT</option>
                         <option>ADMIN REPORT SEARCH UPDATE DELETE</option>
                         <option>ONDUTY REPORT SEARCH UPDATE</option>
                     </select>
-                </td>
-            </tr>
-        </table>
-        <table id="ASRC_UPD_DEL_tble_dailyuserentry" hidden>
-            <table id="ASRC_UPD_DEL_tbl_entry">
-                <tr>
-                    <td><input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_btwnrange" value="RANGES" class='attnd'>
-                        <label name="ASRC_UPD_DEL_lbl_btwnrange" id="ASRC_UPD_DEL_lbl_btwnrange">BETWEEN RANGE</label></td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_allactveemp"   value="RANGES" class='attnd'>
-                        <label name="ASRC_UPD_DEL_lbl_allactveemp" id="ASRC_UPD_DEL_lbl_allactveemp">ALL ACTIVE EMPLOYEE</label></td>
-                </tr>
-                <tr>
-                    <td><label name="ASRC_UPD_DEL_lbl_allactveemps" id="ASRC_UPD_DEL_lbl_allactveemps" class="srctitle" hidden>ALL ACTIVE EMPLOYEE</label></td>
-                </tr>
-                <tr>
-                    <td><label name="ASRC_UPD_DEL_lbl_dte" id="ASRC_UPD_DEL_lbl_dte" hidden>DATE</label></td>
-                    <td> <input type="text" name="ASRC_UPD_DEL_tb_dte" id="ASRC_UPD_DEL_tb_dte" class="ASRC_UPD_DEL_date valid enable"   style="width:75px;"  hidden ></td><br>
-                </tr>
-                <tr>
-                    <td><label name="ASRC_UPD_DEL_lbl_btwnranges" id="ASRC_UPD_DEL_lbl_btwnranges" class="srctitle" hidden>BETWEEN RANGE</label></td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_actveemp" value="EMPLOYEE" hidden >
-                        <label name="ASRC_UPD_DEL_lbl_actveemp" id="ASRC_UPD_DEL_lbl_actveemp"  hidden>ACTIVE EMPLOYEE</label></td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_nonactveemp"   value="EMPLOYEE" class='attnd' hidden>
-                        <label name="ASRC_UPD_DEL_lbl_nonactveemp" id="ASRC_UPD_DEL_lbl_nonactveemp"  hidden>NON ACTIVE EMPLOYEE</label></td>
-                </tr>
+                </div></div>
+
+        <div id="ASRC_UPD_DEL_tble_dailyuserentry" hidden>
+            <div id="ASRC_UPD_DEL_tbl_entry">
+                <div class="row-fluid form-group">
+                    <label name="ASRC_UPD_DEL_lbl_btwnrange"  class="col-sm-12" id="ASRC_UPD_DEL_lbl_btwnrange">
+                    <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_btwnrange" value="RANGES" class='attnd'>BETWEEN RANGE</label>
+
+                </div>
+                <div class="row-fluid form-group">
+                    <label name="ASRC_UPD_DEL_lbl_allactveemp" class="col-sm-12" id="ASRC_UPD_DEL_lbl_allactveemp">
+                    <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_allactveemp"   value="RANGES" class='attnd'>ALL ACTIVE EMPLOYEE</label>
+
+                </div>
+                <div class="row-fluid form-group">
+                    <label name="ASRC_UPD_DEL_lbl_allactveemps" id="ASRC_UPD_DEL_lbl_allactveemps" class="srctitle  col-sm-10" hidden>ALL ACTIVE EMPLOYEE</label>
+                </div>
+                <div class="row-fluid form-group">
+                    <label name="ASRC_UPD_DEL_lbl_dte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_dte" hidden>DATE</label>
+                    <div class="col-sm-8">
+                   <input type="text" name="ASRC_UPD_DEL_tb_dte" id="ASRC_UPD_DEL_tb_dte" class="ASRC_UPD_DEL_date valid enable"   style="width:75px;"  hidden >
+                </div></div>
+                <div class="row-fluid form-group">
+                    <label name="ASRC_UPD_DEL_lbl_btwnranges" id="ASRC_UPD_DEL_lbl_btwnranges" class="srctitle col-sm-10" hidden>BETWEEN RANGE</label>
+                </div>
+                    <div class="row-fluid form-group">
+                        <label name="ASRC_UPD_DEL_lbl_actveemp" class="col-sm-2" id="ASRC_UPD_DEL_lbl_actveemp"  hidden>
+                   <input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label>
+
+              </div>
+                <div class="row-fluid form-group">
+                    <label name="ASRC_UPD_DEL_lbl_nonactveemp"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_nonactveemp"  hidden>
+                    <input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_nonactveemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE</label>
+
+                </div></div>
                 <tr>
                     <td><input type="button" class="btn" id="ASRC_UPD_DEL_btn_allsearch" onclick="buttonchange()"  value="SEARCH" hidden disabled></td>
                 </tr>
-                <tr>
-                    <td>
-                        <label name="ASRC_UPD_DELlbl_loginid" id="ASRC_UPD_DEL_lbl_loginid"  hidden>EMPLOYEE NAME</label></td>
-                    <br>
-                    <td>
+            <div class="row-fluid form-group">
+                        <label name="ASRC_UPD_DELlbl_loginid" class="col-sm-2" id="ASRC_UPD_DEL_lbl_loginid"  hidden>EMPLOYEE NAME</label>
+                <div class="col-sm-8">
                         <select name="ASRC_UPD_DEL_lb_loginid" id="ASRC_UPD_DEL_lb_loginid" hidden>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label name="ASRC_UPD_DEL_lbl_strtdte" id="ASRC_UPD_DEL_lbl_strtdte"  hidden>START DATE<em>*</em></label></td>
-                    <td><input type="text" name="ASRC_UPD_DEL_tb_strtdte" id="ASRC_UPD_DEL_tb_strtdte" hidden class="ASRC_UPD_DEL_date valid clear" style="width:75px;"></td><br>
-                </tr>
-                <tr>
-                    <td><label name="ASRC_UPD_DEL_lbl_enddte" id="ASRC_UPD_DEL_lbl_enddte" hidden>END DATE<em>*</em></label></td>
-                    <td><input type="text" name="ASRC_UPD_DEL_tb_enddte" id="ASRC_UPD_DEL_tb_enddte" hidden class="ASRC_UPD_DEL_date valid clear" style="width:75px;"></td><br>
-                </tr>
-                <tr>
-                    <td><input type="button" class="btn" name="ASRC_UPD_DEL_btn_search" id="ASRC_UPD_DEL_btn_search"  value="SEARCH" disabled hidden></td>
-                </tr>
-            </table>
+                    </div></div>
+
+            <div class="row-fluid form-group">
+                  <label name="ASRC_UPD_DEL_lbl_strtdte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_strtdte"  hidden>START DATE<em>*</em></label>
+                <div class="col-sm-8">
+                    <input type="text" name="ASRC_UPD_DEL_tb_strtdte" id="ASRC_UPD_DEL_tb_strtdte" hidden class="ASRC_UPD_DEL_date valid clear" style="width:75px;">
+</div></div>
+            <div class="row-fluid form-group">
+                   <label name="ASRC_UPD_DEL_lbl_enddte" class="col-sm-2"  id="ASRC_UPD_DEL_lbl_enddte" hidden>END DATE<em>*</em></label>
+                <div class="col-sm-8">
+                    <input type="text" name="ASRC_UPD_DEL_tb_enddte" id="ASRC_UPD_DEL_tb_enddte" hidden class="ASRC_UPD_DEL_date valid clear" style="width:75px;">
+                </div></div>
+                <div>
+                    <input type="button" class="btn" name="ASRC_UPD_DEL_btn_search" id="ASRC_UPD_DEL_btn_search"  value="SEARCH" disabled hidden>
+                </div>
+
             <div class="srctitle" name="ASRC_UPD_DEL_div_header" id="ASRC_UPD_DEL_div_header" hidden></div>
             <div><input type="button" id='ASRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
-            <div class="container" id="ASRC_UPD_DEL_div_tablecontainer" hidden>
+            <div  id="ASRC_UPD_DEL_div_tablecontainer" class="table-responsive" hidden>
                 <section>
                 </section>
             </div>
-            <tr><td><input type="button" id="ASRC_UPD_DEL_btn_srch" class="btn" name="ASRC_UPD_DEL_btn_srch" value="SEARCH" hidden/></td>
-                <td><input type="button" id="ASRC_UPD_DEL_btn_del" class="btn" name="ASRC_UPD_DEL_btn_del" value="DELETE" hidden disabled/></td>
-            </tr>
-            <table>
-                <tr>
-                    <td width="150"><label name="ASRC_UPD_DEL_lbl_reportdte" id="ASRC_UPD_DEL_lbl_reportdte" hidden>DATE</label></td>
-                    <td><input type ="text" id="ASRC_UPD_DEL_ta_reportdate" class='proj datemandtry update_validate ' hidden name="ASRC_UPD_DEL_ta_reportdate" style="width:75px;" /></td><td><label id="ASRC_UPD_DEL_errmsg" name="ASRC_UPD_DEL_errmsg" class="errormsg"></label></td>
-                </tr>
-            </table>
-            <table id="ASRC_UPD_DEL_tble_attendence">
-                <tr>
-                    <td width="150"><label name="ASRC_UPD_DEL_lbl_attendance" id="ASRC_UPD_DEL_lbl_attendance" >ATTENDANCE</label><em>*</em></td>
-                    <td width="150">
+            <div><input type="button" id="ASRC_UPD_DEL_btn_srch" class="btn" name="ASRC_UPD_DEL_btn_srch" value="SEARCH" hidden/>
+                <input type="button" id="ASRC_UPD_DEL_btn_del" class="btn" name="ASRC_UPD_DEL_btn_del" value="DELETE" hidden disabled/>
+            </div>
+        <div class="row-fluid form-group">
+                   <label name="ASRC_UPD_DEL_lbl_reportdte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_reportdte" hidden>DATE</label>
+            <div class="col-sm-8">
+                    <input type ="text" id="ASRC_UPD_DEL_ta_reportdate" class='proj datemandtry update_validate ' hidden name="ASRC_UPD_DEL_ta_reportdate" style="width:75px;" /><label id="ASRC_UPD_DEL_errmsg" name="ASRC_UPD_DEL_errmsg" class="errormsg"></label>
+
+               </div></div>
+            <div id="ASRC_UPD_DEL_tble_attendence" class="row-fluid form-group" >
+
+                  <label name="ASRC_UPD_DEL_lbl_attendance"class="col-sm-2"id="ASRC_UPD_DEL_lbl_attendance" >ATTENDANCE<em>*</em></label>
+                <div class="col-sm-8">
                         <select id="ASRC_UPD_DEL_lb_attendance" name="ASRC_UPD_DEL_lb_attendance" class="update_validate">
                             <option value="1">PRESENT</option>
                             <option value="0">ABSENT</option>
                             <option value="OD">ONDUTY</option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden >
-                        <label name="ASRC_UPD_DEL_permission" id="ASRC_UPD_DEL_lbl_permission" hiddeen>PERMISSION<em>*</em></label></td>
-                    <td>
+                    </div></div>
+
+            <div class="row-fluid form-group">
+                <label name="ASRC_UPD_DEL_permission"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_permission" hiddeen>
+                   <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden >PERMISSION<em>*</em></label>
+                <div class="col-sm-8">
                         <select name="ASRC_UPD_DEL_lb_timing" id="ASRC_UPD_DEL_lb_timing" class="update_validate" hidden >
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="permission" id="ASRC_UPD_DEL_rd_nopermission" value="NOPERMISSION" class='permissn update_validate'  hidden >
-                        <label name="ASRC_UPD_DEL_nopermission" id="ASRC_UPD_DEL_lbl_nopermission" hiddeen>NO PERMISSION<em>*</em></label></td>
-                </tr>
-                <tr>
-                    <td><label name="ASRC_UPD_DEL_lbl_session" id="ASRC_UPD_DEL_lbl_session" hidden >SESSION</label></td>
-                    <td><select name="ASRC_UPD_DEL_lb_ampm" id="ASRC_UPD_DEL_lb_ampm" class="update_validate">
+                    </div></div>
+
+            <div class="row-fluid form-group">
+                <label name="ASRC_UPD_DEL_nopermission" class="col-sm-12" id="ASRC_UPD_DEL_lbl_nopermission" hiddeen>
+                   <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_nopermission" value="NOPERMISSION" class='permissn update_validate'  hidden >NO PERMISSION<em>*</em></label>
+
+               </div>
+            <div class="row-fluid form-group">
+                   <label name="ASRC_UPD_DEL_lbl_session"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_session" hidden >SESSION</label>
+                <div class="col-sm-8">
+                    <select name="ASRC_UPD_DEL_lb_ampm" id="ASRC_UPD_DEL_lb_ampm" class="update_validate">
                             <option>SELECT</option>
                             <option>FULLDAY</option>
                             <option>AM</option>
                             <option>PM</option>
-                        </select></td>
-                </tr>
-            </table>
-            <table id="ASRC_UPD_DEL_tble_reasonlbltxtarea">
-            </table>
-            <table>
-                <tr>
-                    <td width="150"></td><td><input type="checkbox" name="flag" id="ASRC_UPD_DEL_chk_flag" class='update_validate'  hidden >
-                        <label name="ASRC_UPD_DEL_lbl_flag" id="ASRC_UPD_DEL_lbl_flag" hidden>FLAG</label></td>
-                </tr>
-            </table>
-            <table id="ASRC_UPD_DEL_tble_projectlistbx" hidden>
-                <tr><td width="150"><label name="ASRC_UPD_DEL_lbl_txtselectproj" id="ASRC_UPD_DEL_lbl_txtselectproj" >PROJECT</label><em>*</em></td>
-                    <td> <table id="ASRC_UPD_DEL_tble_frstsel_projectlistbx" ></table></td>
-                </tr>
-            </table>
-            <table id="ASRC_UPD_DEL_tble_enterthereport"></table>
-            <table id="ASRC_UPD_DEL_tble_bandwidth"></table>
-            <table>
-                <tr><label id="ASRC_UPD_DEL_banerrmsg" name="ASRC_UPD_DEL_banerrmsg" class="errormsg"></label></tr>
-            </table>
-            <tr>
+                        </select>
+                </div></div>
+            </div>
+            <div id="ASRC_UPD_DEL_tble_reasonlbltxtarea">
+            </div>
+        <div class="row-fluid form-group">
+            <label name="ASRC_UPD_DEL_lbl_flag" class="col-sm-2" id="ASRC_UPD_DEL_lbl_flag" hidden>
+             <input type="checkbox" name="flag" id="ASRC_UPD_DEL_chk_flag" class='update_validate'  hidden >FLAG</label>
+
+            </div>
+            <div id="ASRC_UPD_DEL_tble_projectlistbx"  class="row-fluid form-group"  hidden>
+                <label name="ASRC_UPD_DEL_lbl_txtselectproj" class="col-sm-2"  id="ASRC_UPD_DEL_lbl_txtselectproj" >PROJECT<em>*</em></label>
+                   <div id="ASRC_UPD_DEL_tble_frstsel_projectlistbx" class="col-sm-10"></div>
+                </div>
+
+            <div id="ASRC_UPD_DEL_tble_enterthereport"></div>
+            <div id="ASRC_UPD_DEL_tble_bandwidth"></div>
+            <div>
+                <label id="ASRC_UPD_DEL_banerrmsg" name="ASRC_UPD_DEL_banerrmsg" class="errormsg"></label>
+            </div>
+            <div>
                 <input type="button"  class="btn" name="ASRC_UPD_DEL_btn_submit" id="ASRC_UPD_DEL_btn_submit"  value="UPDATE" disabled>
-            </tr>
-        </table>
-        <table id="ASRC_UPD_DEL_tble_ondutyentry" hidden>
-            <table id="ASRC_UPD_DEL_tble_odshow" hidden>
-                <tr>
-                    <td width="150"> <label name="ASRC_UPD_DEL_lbl_sdte" id="ASRC_UPD_DEL_lbl_sdte">START DATE</label></td>
-                    <td><input type="text" id="ASRC_UPD_DEL_tb_sdte" name="ASRC_UPD_DEL_tb_sdte" class='date datemandtry' style="width:75px;"/></td>
-                </tr>
-                <tr>
-                    <td width="150"> <label name="ASRC_UPD_DEL_lbl_edte" id="ASRC_UPD_DEL_lbl_edte">END DATE</label></td>
-                    <td><input type="text" id="ASRC_UPD_DEL_tb_edte" name="ASRC_UPD_DEL_tb_edte" class='date datemandtry' style="width:75px;"/></td>
-                </tr>
-                <tr>
-                    <td><input type="button" id="ASRC_UPD_DEL_od_btn" name="ASRC_UPD_DEL_od_btn" value="SEARCH" class="btn"  disabled /></td>
-                </tr>
-            </table>
+            </div>
+
+        <div id="ASRC_UPD_DEL_tble_ondutyentry" hidden>
+            <div id="ASRC_UPD_DEL_tble_odshow" hidden>
+                <div class="row-fluid form-group">
+                 <label name="ASRC_UPD_DEL_lbl_sdte"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_sdte">START DATE</label>
+                    <div class="col-sm-8">
+                   <input type="text" id="ASRC_UPD_DEL_tb_sdte" name="ASRC_UPD_DEL_tb_sdte" class='date datemandtry' style="width:75px;"/>
+                </div></div>
+                <div class="row-fluid form-group">
+                 <label name="ASRC_UPD_DEL_lbl_edte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_edte">END DATE</label>
+                <div class="col-sm-8">
+                 <input type="text" id="ASRC_UPD_DEL_tb_edte" name="ASRC_UPD_DEL_tb_edte" class='date datemandtry' style="width:75px;"/>
+                    </div></div>
+
+                <div>
+                   <input type="button" id="ASRC_UPD_DEL_od_btn" name="ASRC_UPD_DEL_od_btn" value="SEARCH" class="btn"  disabled />
+                </div>
+            </div>
             <div class="srctitle" name="ASRC_UPD_DEL_div_headers" id="ASRC_UPD_DEL_div_headers" hidden></div>
             <div><input type="button" id='ASRC_UPD_btn_od_pdf' class="btnpdf" value="PDF"></div>
-            <div class="container" id="ASRC_UPD_DEL_div_ondutytablecontainer" hidden>
+            <div id="ASRC_UPD_DEL_div_ondutytablecontainer" class="table-responsive" hidden>
                 <section id="ASRC_UPD_section_od">
                 </section>
             </div>
-            <tr>
-                <td><input type="button" id="ASRC_UPD_DEL_odsrch_btn" name="ASRC_UPD_DEL_odsrch_btn" value="SEARCH" class="btn"  disabled  /></td>
-            </tr>
-            <tr>
-                <td><label id="ASRC_UPD_DEL_oderrmsg" name="ASRC_UPD_DEL_oderrmsg" class="errormsg" hidden></label></td></tr>
-            <table id="updatepart">
-                <tr>
-                    <td width="150"> <label name="ASRC_UPD_DEL_lbl_oddte" id="ASRC_UPD_DEL_lbl_oddte">DATE</label></td>
-                    <td><input type="text" id="ASRC_UPD_DEL_tb_oddte" name="ASRC_UPD_DEL_tb_oddte" class='odenable datemandtry' style="width:75px;" readonly/></td>
-                </tr>
-                <tr>
-                    <td width="150"> <label name="ASRC_UPD_DEL_lbl_des" id="ASRC_UPD_DEL_lbl_des">DESCRIPTION</label></td>
-                    <td><textarea id="ASRC_UPD_DEL_ta_des" name="ASRC_UPD_DEL_ta_des" class='odenable'></textarea></td>
-                </tr>
-                <tr>
-                    <td><input type="button" id="ASRC_UPD_DEL_odsubmit" name="ASRC_UPD_DEL_odsubmit" value="UPDATE" class="btn" disabled  /></td>
-                </tr>
-            </table>
-        </table>
+            <div>
+               <input type="button" id="ASRC_UPD_DEL_odsrch_btn" name="ASRC_UPD_DEL_odsrch_btn" value="SEARCH" class="btn"  disabled  />
+            </div>
+            <div>
+               <label id="ASRC_UPD_DEL_oderrmsg" name="ASRC_UPD_DEL_oderrmsg" class="errormsg" hidden></label>
+                </div>
+            <div id="updatepart">
+                <div class="row-fluid form-group">
+                   <label name="ASRC_UPD_DEL_lbl_oddte"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_oddte">DATE</label>
+                    <div class="col-sm-8">
+                   <input type="text" id="ASRC_UPD_DEL_tb_oddte" name="ASRC_UPD_DEL_tb_oddte" class='odenable datemandtry' style="width:75px;" readonly/>
+                        </div></div>
+
+                <div class="row-fluid form-group">
+                  <label name="ASRC_UPD_DEL_lbl_des" class="col-sm-2" id="ASRC_UPD_DEL_lbl_des">DESCRIPTION</label>
+                    <div class="col-sm-8">
+                    <textarea id="ASRC_UPD_DEL_ta_des" name="ASRC_UPD_DEL_ta_des" class='odenable'></textarea>
+                </div></div>
+                <div>
+                    <input type="button" id="ASRC_UPD_DEL_odsubmit" name="ASRC_UPD_DEL_odsubmit" value="UPDATE" class="btn" disabled  />
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 </body>

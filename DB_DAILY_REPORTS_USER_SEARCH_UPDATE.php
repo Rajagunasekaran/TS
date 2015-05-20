@@ -146,6 +146,10 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
         while($row=mysqli_fetch_array($absent)){
             $ure_absent_data=$row["AC_DATA"];
         }
+        $work_from_home=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='15'");
+        while($row=mysqli_fetch_array($work_from_home)){
+            $work_from_home_data=$row["AC_DATA"];
+        }
         $onduty=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='3'");
         while($row=mysqli_fetch_array($onduty)){
             $ure_onduty_data=$row["AC_DATA"];
@@ -159,6 +163,16 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
             $projectid;
             $reason='';
             $bandwidth;
+        }
+// for work from home radio button
+        if($attendance=="2")
+        {
+            $report;
+            $uard_morning_session='PRESENT';
+            $uard_afternoon_session ='PRESENT';
+            $projectid;
+            $reason='';
+            $bandwidth=0;
         }
 //  for absent radio button
         if($attendance=="OD")
@@ -230,6 +244,13 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 $ure_attendance=$row["AC_DATA"];
             }
         }
+        if($attendance=="2")
+        {
+            $attend= mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID =15");
+            while($row=mysqli_fetch_array($attend)){
+                $ure_attendance=$row["AC_DATA"];
+            }
+        }
         if(($attendance=="0") && (($ampm=="AM") || ($ampm=="PM")))
         {
             $attend= mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID =4 AND CGN_ID='5'");
@@ -260,6 +281,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
         }
         $report= $con->real_escape_string($report);
         $reason= $con->real_escape_string($reason);
+//        echo "CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','','$reportlocation',@success_flag)";
         $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','','$reportlocation',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
@@ -332,20 +354,20 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 $sub=$sub.'<br>';
 
                 //SENDING MAIL OPTIONS
-                $name = $mail_subject;
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($admin);
-                $message1->addCc($sadmin);
-                $message1->setSubject($mail_subject);
-                $message1->setHtmlBody($sub.$values);
-
-                try {
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+//                $name = $mail_subject;
+//                $from = $admin;
+//                $message1 = new Message();
+//                $message1->setSender($name.'<'.$from.'>');
+//                $message1->addTo($admin);
+//                $message1->addCc($sadmin);
+//                $message1->setSubject($mail_subject);
+//                $message1->setHtmlBody($sub.$values);
+//
+//                try {
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
             }
             $drop_query="DROP TABLE $temp_tickler_history ";
             mysqli_query($con,$drop_query);

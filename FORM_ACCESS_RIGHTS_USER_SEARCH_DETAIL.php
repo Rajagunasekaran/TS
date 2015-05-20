@@ -9,7 +9,8 @@
 //VER 0.01-INITIAL VERSION,SD:11/10/2014 ED:11/10/2014,TRACKER NO:79
 //*********************************************************************************************************//
 <?PHP
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--HTML TAG START-->
 
@@ -41,7 +42,7 @@ include "HEADER.php";
                         title=USD_SRC_errorAarray[1].toString().replace("PROJECT","EMPLOYEE");
                         $('#URSRC_lbl_title').text(title).show();
                         $('#URSRC_btn_pdf').show();
-                        var USU_table_header='<table id="USD_SRC_SRC_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:900px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th nowrap>EMPLOYEE NAME</th><th>ROLE</th><th>REC VER</th><th style="width:10px;"  class="uk-date-column">JOIN DATE</th><th style="width:50px;" class="uk-date-column">TERMINATION DATE</th><th style="min-width:750px;">REASON OF TERMINATION</th><th style="width:70px" nowrap>EMP TYPE</th><th>USERSTAMP</th><th style="width:150px;" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
+                        var USU_table_header='<table id="USD_SRC_SRC_tble_htmltable" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th nowrap>EMPLOYEE NAME</th><th>ROLE</th><th>REC VER</th><th class="uk-date-column">JOIN DATE</th><th class="uk-date-column">TERMINATION DATE</th><th>REASON OF TERMINATION</th><th nowrap>EMP TYPE</th><th>USERSTAMP</th><th class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                         for(var j=0;j<values_array.length;j++){
                             var USD_SRC_loginid=values_array[j].loginid;
                             var USD_SRC_rcid=values_array[j].rcid;
@@ -64,7 +65,7 @@ include "HEADER.php";
                             }
                             var USD_SRC_userstamp=values_array[j].userstamp;
                             var USD_SRC_timestamp=values_array[j].timestamp;
-                            USU_table_header+='<tr><td nowrap>'+USD_SRC_loginid+'</td><td align="center">'+USD_SRC_rcid+'</td><td align="center">'+USD_SRC_recordver+'</td><td nowrap align="center">'+USD_SRC_joindate+'</td><td style="width:10px;" align="center">'+USD_SRC_terminationdate+'</td><td style="width:850px;">'+USD_SRC_reasonoftermination+'</td><td style="width:70px;" align="center">'+USD_SRC_emptype+'</td><td align="center">'+USD_SRC_userstamp+'</td><td  style="min-width:150px;" align="center">'+USD_SRC_timestamp+'</td></tr>';
+                            USU_table_header+='<tr><td nowrap>'+USD_SRC_loginid+'</td><td align="center">'+USD_SRC_rcid+'</td><td align="center">'+USD_SRC_recordver+'</td><td nowrap align="center">'+USD_SRC_joindate+'</td><td align="center">'+USD_SRC_terminationdate+'</td><td>'+USD_SRC_reasonoftermination+'</td><td align="center">'+USD_SRC_emptype+'</td><td align="center">'+USD_SRC_userstamp+'</td><td align="center">'+USD_SRC_timestamp+'</td></tr>';
                         }
                         USU_table_header+='</tbody></table>';
                         $('section').html(USU_table_header);
@@ -120,22 +121,27 @@ include "HEADER.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
+<div class="container-fluid">
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
     <div class="newtitle" id="fhead"><div style="padding-left:500px; text-align:left;"><p><h3>USER SEARCH DETAILS </h3><p></div></div>
     <form class="newcontent" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
+        <div class="panel-body">
+            <fieldset>
         <div><label id="URSRC_lbl_title" name="URSRC_lbl_title" class="srctitle"></label></div>
         <div><input type="button" id='URSRC_btn_pdf' class="btnpdf" value="PDF"></div>
-        <div class="container">
-            <div class="container" id="tablecontainer" style="width:900px;" hidden>
+
+            <div id="tablecontainer" style="width:500px;" hidden>
                 <section style="width:900px;">
                 </section>
             </div>
-        </div>
+
         <div><label id="URSRC_lbl_norole_err" name="URSRC_lbl_norole_err" class="errormsg"></label></div>
+                </fieldset>
+            </div>
     </form>
 </div>
-
+    </div>
 </body>
 <!--BODY TAG END-->
 </html>

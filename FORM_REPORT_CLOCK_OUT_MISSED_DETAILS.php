@@ -410,10 +410,10 @@ $(document).ready(function(){
                         loginname=CLK_loginid.substring(0,loginpos);
                     }
                     pdferrmsg=errmsg;
-                    var CLK_table_header='<table id="CLK_tble_lgn" border="1"  cellspacing="0" class="srcresult" width=300px ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:30px">CLOCK OUT MISSED DATE</th></tr></tfoot><tbody>'
+                    var CLK_table_header='<table id="CLK_tble_lgn" border="1"  cellspacing="0" class="srcresult"><thead  bgcolor="#6495ed" style="color:white;width:300px"><tr><th>CLOCK OUT MISSED DATE</th></tr></tfoot><tbody>'
                     for(var i=0;i<CLK_reportdate.length;i++){
                         var CLK_dte=CLK_reportdate[i].date;
-                        CLK_table_header+='<tr><td align="center" style="width:30px">'+CLK_dte+'</td></tr>';
+                        CLK_table_header+='<tr><td>'+CLK_dte+'</td></tr>';
                     }
                     CLK_table_header+='</tbody></table>';
                     $('section').html(CLK_table_header);
@@ -461,13 +461,13 @@ $(document).ready(function(){
                     msg=errmsg.toString().replace("[MONTH]",CLK_monthyear);
                     $('#src_lbl_error').text(msg).show();
                     $('#CLK_btn_mnth_pdf').show();
-                    var CLK_table_header='<table id="CLK_tble_bw" border="1"  cellspacing="0" class="srcresult" width=400px><thead  bgcolor="#6495ed" style="color:white"><tr><th width=200px>EMPLOYEE NAME</th><th style="width:90px">TOTAL COUNTS</th></tr></thead><tbody>'
+                    var CLK_table_header='<table id="CLK_tble_bw" border="1"  cellspacing="0" class="srcresult"><thead  bgcolor="#6495ed" style="color:white;width:200px"><tr><th>EMPLOYEE NAME</th><th>TOTAL COUNTS</th></tr></thead><tbody>'
                     for(var i=0;i<CLK_monthyr_values.length;i++){
                         var CLK_employeename=CLK_monthyr_values[i].name;
                         var CLK_count=CLK_monthyr_values[i].absent_count;
                         if(CLK_employeename!=null)
                         {
-                            CLK_table_header+='<tr><td>'+CLK_employeename+'</td><td align="center" style="width:90px">'+CLK_count+'</td></tr>';
+                            CLK_table_header+='<tr><td>'+CLK_employeename+'</td><td>'+CLK_count+'</td></tr>';
                         }
                     }
                     CLK_table_header+='</tbody></table>';
@@ -504,88 +504,84 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="wrapper">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><div style="padding-left:500px; text-align:left;" ><p><h3>CLOCK OUT MISSED DETAILS</h3><p></div></div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+    <div class="title"><p><center><h3>CLOCK OUT MISSED DETAILS</h3></center><p></div>
     <form   id="CLK_form_bandwidth" class="content" >
-        <table>
-            <table>
-                <tr>
-                    <td width="150"><label name="CLK_lbl_reportconfig" id="CLK_lbl_reportconfig" hidden>SEARCH BY<em>*</em></label></td>
-                    <td width="150">
-                        <select id="CLK_lb_reportconfig" name="CLK_lb_reportconfig" hidden>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <tr><td><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></td></tr>
-            <table>
-                <tr>
-                    <td width="150"><label name="CLK_lbl_selectmnth" id="CLK_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label></td>
-                    <td><input type="text" name="CLK_db_selectmnth" id="CLK_db_selectmnth" class="date-picker datemandtry validation" style="width:110px;" hidden></td><br>
-                </tr>
-                <tr>
-                    <td><input type="button" class="btn" name="CLK_btn_mysearch" id="CLK_btn_mysearch"  value="SEARCH" disabled></td>
-                </tr>
-            </table>
-            <div>
-                <label id="src_lbl_error" class="srctitle"></label>
+        <!--        <div class="table-responsive">-->
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="CLK_lbl_reportconfig" id="CLK_lbl_reportconfig" hidden>SEARCH BY<em>*</em></label>
+            <div class="col-sm-4">
+                <select id="CLK_lb_reportconfig" name="CLK_lb_reportconfig" hidden>
+                </select>
             </div>
-            <div><input type="button" id="CLK_btn_mnth_pdf" class="btnpdf" value="PDF"></div>
-            <div><label id="CLK_nodata_pdflextble" name="CLK_nodata_pdflextble" class="errormsg"></label></div>
-            <div id ="CLK_div_monthyr" class="container" style="width:500px" hidden>
-                <sections style="width:500px;">
-                </sections>
+        </div>
+        <div><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="CLK_lbl_selectmnth" id="CLK_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
+            <div class="col-sm-4">
+                <input type="text" name="CLK_db_selectmnth" id="CLK_db_selectmnth" class="date-picker datemandtry validation" style="width:110px;" hidden>
+            </div></div>
+        <div>
+            <input type="button" class="btn" name="CLK_btn_mysearch" id="CLK_btn_mysearch"  value="SEARCH" disabled>
+        </div>
+        <label id="src_lbl_error" class="srctitle"></label>
+
+        <div><input type="button" id="CLK_btn_mnth_pdf" class="btnpdf" value="PDF"></div>
+        <div><label id="CLK_nodata_pdflextble" name="CLK_nodata_pdflextble" class="errormsg"></label></div>
+        <div id ="CLK_div_monthyr" hidden class="table-responsive" style="max-width:500px;" >
+            <sections >
+            </sections>
+        </div>
+        <div id="CLK_tble_prjctCLKactnonact" hidden>
+            <div class="row-fluid form-group">
+                <label name="CLK_lbl_actveemp" class="col-sm-12" id="CLK_lbl_actveemp"  hidden>
+                <input type="radio" name="CLK_rd_actveemp" id="CLK_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label>
+
             </div>
-            <table id="CLK_tble_prjctCLKactnonact" hidden>
-                <tr>
-                    <td><input type="radio" name="CLK_rd_actveemp" id="CLK_rd_actveemp" value="EMPLOYEE" hidden >
-                        <label name="CLK_lbl_actveemp" id="CLK_lbl_actveemp"  hidden>ACTIVE EMPLOYEE</label></td>
-                </tr>
-                <tr>
-                    <td><input type="radio" name="CLK_rd_actveemp" id="CLK_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>
-                        <label name="CLK_lbl_nonactveemp" id="CLK_lbl_nonactveemp"  hidden>NON ACTIVE EMPLOYEE </label></td>
-                </tr>
-                <tr>
-                    <td><label name="CLK_lbl_actveemps" id="CLK_lbl_actveemps" class="srctitle" hidden>ACTIVE EMPLOYEE</label></td>
-                </tr>
-                <tr>
-                    <td><label name="CLK_lbl_nonactveemps" id="CLK_lbl_nonactveemps" class="srctitle" hidden>NON ACTIVE EMPLOYEE </label></td>
-                </tr>
-            </table>
-            <tr><td><label id="CLK_nodata_lgnid" name="CLK_nodata_lgnid" class="errormsg"></label></td></tr>
-            <table>
-                <tr><td width="150">
-                        <label name="CLK_lbl_loginid" id="CLK_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label></td>
-                    <td>
-                        <select name="CLK_lb_loginid" id="CLK_lb_loginid" hidden>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="150"><label name="CLK_lbl_selectmnths" id="CLK_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label></td>
-                    <td><input type="text" name="CLK_db_selectmnths" id="CLK_db_selectmnths" class="date-pickers datemandtry valid" style="width:110px;" hidden></td><br>
-                </tr>
-                <tr>
-                    <td><input type="button" class="btn" name="CLK_btn_search" id="CLK_btn_search"  value="SEARCH" disabled></td>
-                </tr>
-            </table>
-            <div>
-                <label id="no_of_days" class="srctitle"></label>
+            <div class="row-fluid form-group">
+                <label name="CLK_lbl_nonactveemp"  class="col-sm-12" id="CLK_lbl_nonactveemp"  hidden>
+                <input type="radio" name="CLK_rd_actveemp" id="CLK_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
+
             </div>
             <div>
-                <label id="src_lbl_error_login" class="srctitle"></label>
+                <label name="CLK_lbl_actveemps" id="CLK_lbl_actveemps" class="srctitle" hidden>ACTIVE EMPLOYEE</label>
             </div>
-            <div><input type="button" id="CLK_btn_emp_pdf" class="btnpdf" value="PDF"></div>
-            <tr><td><label id="CLK_nodata_pdflextbles" name="CLK_nodatas_pdflextble" class="errormsg" hidden></label></td></tr>
-            <div id ="CLK_div_actvenon_dterange" class="container" style="width:300px" hidden>
-                <section style="width:400px;">
-                </section>
+            <div>
+                <label name="CLK_lbl_nonactveemps" id="CLK_lbl_nonactveemps" class="srctitle" hidden>NON ACTIVE EMPLOYEE </label>
             </div>
-        </table>
-    </form>
+        </div>
+        <div><label id="CLK_nodata_lgnid" name="CLK_nodata_lgnid" class="errormsg"></label></div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="CLK_lbl_loginid" id="CLK_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
+            <div class="col-sm-4">
+                <select name="CLK_lb_loginid" id="CLK_lb_loginid" hidden>
+                </select>
+            </div>
+        </div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="CLK_lbl_selectmnths" id="CLK_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
+            <div class="col-sm-4">
+                <input type="text" name="CLK_db_selectmnths" id="CLK_db_selectmnths" class="date-pickers datemandtry valid" style="width:110px;" hidden>
+            </div></div>
+        <div>
+            <input type="button" class="btn" name="CLK_btn_search" id="CLK_btn_search"  value="SEARCH" disabled>
+        </div>
+        <div>
+            <label id="no_of_days" class="srctitle"></label>
+        </div>
+        <div>
+            <label id="src_lbl_error_login" class="srctitle"></label>
+        </div>
+        <div><input type="button" id="CLK_btn_emp_pdf" class="btnpdf" value="PDF"></div>
+        <label id="CLK_nodata_pdflextbles" name="CLK_nodatas_pdflextble" class="errormsg" hidden></label>
+        <div id ="CLK_div_actvenon_dterange" style="max-width:400px;" class="table-responsive">
+            <section>
+            </section>
+        </div>
+</div>
+</form>
 </div>
 </body>
 <!--BODY TAG END-->
 </html>
 <!--HTML TAG END-->
-	

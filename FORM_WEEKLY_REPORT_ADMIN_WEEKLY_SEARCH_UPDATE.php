@@ -81,6 +81,7 @@ $(document).ready(function(){
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             $('.preloader', window.parent.document).hide();
+//            alert(xmlhttp.responseText);
             var value_array=JSON.parse(xmlhttp.responseText);
             js_errormsg_array=value_array[0];
             AWSU_weekly_mindate=value_array[1];
@@ -451,13 +452,15 @@ $(document).ready(function(){
             success: function(response){
                 if(response==1){
                     var msg=js_errormsg_array[0];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+                    show_msgbox("ADMIN WEEKLY SEARCH/UPDATE",msg,"success",true);
                     showTable();
                 }
                 else
                 {
                     var msg=js_errormsg_array[2];
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
+                    show_msgbox("ADMIN WEEKLY SEARCH/UPDATE",msg,"success",true);
                     showTable();
                 }
                 $('.preloader', window.parent.document).hide();
@@ -477,7 +480,7 @@ $(document).ready(function(){
             d1=new Date(dateText),
                 date= GetWeekInMonths(d1);
             dateFormat:$(this).val(date);
-            validation();
+//            validation();
         },
         changeYear: true,
         changeMonth: true
@@ -529,31 +532,32 @@ $(document).ready(function(){
 <body>
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>ADMIN WEEKLY SEARCH/UPDATE</h3><p></div></div>
-    <div class="container">
-        <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="content">
-            <table>
-                <tr>
-                    <td width="150"><label name="AWSU_lbl_strtdte" id="AWSU_lbl_strtdte" >START DATE<em>*</em></label></td>
-                    <td><input type="text" name="AWSU_tb_strtdte" id="AWSU_tb_strtdte" class="mindate maxdate valid datemandtry" style="width:160px;"></td><br>
-                    <td><input type="text" name="AWSU_tb_strtdtes" id="AWSU_tb_strtdtes"  style="width:170px;" class="AWSU_tb_datepicker" hidden></td><br>
-                </tr>
-                <tr>
-                    <td width="150"><label name="AWSU_lbl_enddte" id="AWSU_lbl_enddte" >END DATE<em>*</em></label></td>
-                    <td><input type="text" name="AWSU_tb_enddte" id="AWSU_tb_enddte" class="mindate maxdate valid datemandtry" style="width:160px;"></td><br>
-                    <td><input type="text" name="AWSU_tb_enddtes" id="AWSU_tb_enddtes" class="AWSU_tb_datepicker" style="width:170px;" hidden ></td><br>
-                </tr>
-                <td><input type="button" class="btn"  id="AWSU_btn_search" value="SEARCH" disabled></td><br>
-            </table>
-            <tr><td><label id="AWSU_nodata_startenddate" name="AWSU_nodata_startenddate" class="errormsg"></label></td></tr>
-            <tr><td><label id="AWSU_lbl_title" name="AWSU_lbl_title" class="srctitle"></label></td></tr>
-            <div><input type="button" id='AWSU_btn_pdf' class="btnpdf" value="PDF"></div>
-            <div class="container" id="tablecontainer" hidden>
-                <section>
-                </section>
+    <div class="title" id="fhead"><center><h3>ADMIN WEEKLY SEARCH/UPDATE</h3></center></div>
+    <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="content">
+        <div class="form-group">
+            <div class="row-fluid form-group">
+                <label name="AWSU_lbl_strtdte"  class="col-sm-2" id="AWSU_lbl_strtdte" >START DATE<em>*</em></label>
+                <input type="text" name="AWSU_tb_strtdte" id="AWSU_tb_strtdte" class="col-sm-offset-0 mindate maxdate valid datemandtry" style="width:160px;"><br>
+                <input type="text" name="AWSU_tb_strtdtes" id="AWSU_tb_strtdtes"  style="width:170px;" class="AWSU_tb_datepicker" hidden><br>
             </div>
-    </div>
-    </form>
+            <div class="row-fluid form-group">
+                <label name="AWSU_lbl_enddte" class="col-sm-2" id="AWSU_lbl_enddte" >END DATE<em>*</em></label>
+                <input type="text" name="AWSU_tb_enddte" id="AWSU_tb_enddte" class="col-sm-offset-0  mindate maxdate valid datemandtry" style="width:160px;"><br>
+                <input type="text" name="AWSU_tb_enddtes" id="AWSU_tb_enddtes" class="AWSU_tb_datepicker" style="width:170px;" hidden ><br>
+            </div>
+            <div class="row-fluid form-group">
+                <input type="button" class="btn"  id="AWSU_btn_search" value="SEARCH" disabled>
+            </div>
+        </div>
+        <div class="row-fluid form-group"><label id="AWSU_nodata_startenddate" name="AWSU_nodata_startenddate" class="errormsg"></label></div>
+        <div class="row-fluid form-group"><label id="AWSU_lbl_title" name="AWSU_lbl_title" class="srctitle"></label></div>
+        <div><input type="button" id='AWSU_btn_pdf' class="btnpdf" value="PDF"></div>
+        <div id="tablecontainer" class="table-responsive" hidden>
+            <section>
+            </section>
+        </div>
+</div>
+</form>
 </div>
 </body>
 <!--BODY TAG END-->

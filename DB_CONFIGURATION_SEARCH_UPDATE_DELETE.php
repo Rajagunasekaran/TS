@@ -65,7 +65,8 @@ if(isset($_REQUEST)){
         else{
             $CONFIG_SRCH_UPD_sql_data = mysqli_query($con, "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP,USER_LOGIN_DETAILS ULD WHERE  ULD.ULD_ID=DT.ULD_ID AND CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC");
         }
-        $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult' width='".$arrTableWidth[$flag]."px'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th width=250>USERSTAMP</th><th width=220>TIMESTAMP</th><th width=250>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
+//        $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult' width='".$arrTableWidth[$flag]."px'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
+        $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
         while($row=mysqli_fetch_array($CONFIG_SRCH_UPD_sql_data)){
             $appendTable .='<tr  id='.$row[0].'><td id='.'CONFIG_'.$row[0].'>'.$row[1].'</td>';
             for($x = 3; $x < 5; $x++) {
@@ -73,10 +74,12 @@ if(isset($_REQUEST)){
             }
             if($row[2]=='X')
             {
-                $deleteoption='<input type="button"  id="edit" class="edit btn nondelete" value="EDIT"><input type="button"  id="cancl" class="cancl btn" value="CANCEL">';
+                $deleteoption='<input type="button"  id="edit"  class="edit msgbtn nondelete" value="EDIT"><input type="button"  id="cancl" class="cancl btn" value="CANCEL">';
+//                $deleteoption='<input type="button"  id="edit" style="max-width: 60px!important;" class="edit msgbtn nondelete" value="EDIT"><input type="button" style="max-width: 90px!important; align: center!important;" id="cancl" class="cancl btn" value="CANCEL">';
             }
             else{
-                $deleteoption='<input type="button"  id="edit" class="edit btn deletion" value="EDIT"><input type="button"  id="cancel" class="delete btn" value="DELETE">';
+                $deleteoption='<input type="button"  id="edit"  class="edit msgbtn deletion" value="EDIT"><input type="button"  id="cancel" class="delete btn" value="DELETE">';
+//                $deleteoption='<input type="button"  id="edit" style="max-width: 60px!important;" class="edit msgbtn deletion" value="EDIT"><input type="button" style="max-width: 90px!important; text-align: center!important; " id="cancel" class="delete btn" value="DELETE">';
             }
             $appendTable .='<td align="center">'.$deleteoption.'</td></tr>';
         }

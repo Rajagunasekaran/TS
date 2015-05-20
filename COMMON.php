@@ -88,7 +88,18 @@ if($_REQUEST["option"]=="user_report_entry"){
     $min_date=get_joindate($ure_uld_id);
     $error='3,4,5,6,7,8,16,17,18,67,115,120';
     $error_array=get_error_msg($error);
-    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$ure_empname);
+
+
+//    $user_uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
+//    while($row=mysqli_fetch_array($user_uld_id)){
+//        $uld_id=$row["ULD_ID"];
+//    }
+    $select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$ure_uld_id");
+    while($row=mysqli_fetch_array($select_wfh))
+    {
+        $wfh_flag=$row['WFHA_FLAG'];
+    }
+    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$ure_empname,$wfh_flag);
     echo JSON_ENCODE($values_array);
 
 }
@@ -111,7 +122,12 @@ if($_REQUEST["option"]=="user_search_update"){
         $user_searchmax_date_value=$row["UARD_DATE"];
         $user_searchmax_date_value = date('d-m-Y',strtotime($user_searchmax_date_value));
     }
-    $values_array=array($get_permission_array,$get_project_array,$user_searchmin_date_value,$user_searchmax_date_value,$error_array,$min_date,$ure_empname);
+    $select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$ure_uld_id");
+    while($row=mysqli_fetch_array($select_wfh))
+    {
+        $wfh_flag=$row['WFHA_FLAG'];
+    }
+    $values_array=array($get_permission_array,$get_project_array,$user_searchmin_date_value,$user_searchmax_date_value,$error_array,$min_date,$ure_empname,$wfh_flag);
     echo JSON_ENCODE($values_array);
 }
 //GET ACTIVE LOGIN ID;
@@ -173,7 +189,12 @@ if($_REQUEST["option"]=="admin_report_entry")
     $error_array=get_error_msg($error);
     $min_date=get_joindate($ure_uld_id);
     $login_array=get_active_emp_id();
-    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array);
+//    $select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$ure_uld_id");
+//    while($row=mysqli_fetch_array($select_wfh))
+//    {
+//        $wfh_flag=$row['WFHA_FLAG'];
+//    }
+    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array,$wfh_flag);
     echo JSON_ENCODE($values_array);
 }
 if($_REQUEST["option"]=="admin_search_update")
@@ -211,8 +232,13 @@ if($_REQUEST["option"]=="admin_search_update")
         $onduty_searchmax_date_value=$row["OED_DATE"];
         $od_maxdate= date('d-m-Y',strtotime($onduty_searchmax_date_value));
     }
+//    $select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$ure_uld_id");
+//    while($row=mysqli_fetch_array($select_wfh))
+//    {
+//        $wfh_flag=$row['WFHA_FLAG'];
+//    }
 
-    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array,$active_emp,$active_nonemp,$max_date,$od_mindate,$od_maxdate);
+    $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$login_array,$active_emp,$active_nonemp,$max_date,$od_mindate,$od_maxdate,$wfh_flag);
     echo JSON_ENCODE($values_array);
 
 
@@ -233,12 +259,12 @@ function get_error_msg($str){
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
     $str='9,10,11,12,13,14,56,70,113,114,116,132,133,136,137,138';
     $errormsg_array= get_error_msg($str);
-    $role_result=mysqli_query($con,"SELECT  RC_NAME,RC_ID FROM ROLE_CREATION;");
+    $role_result=mysqli_query($con,"SELECT RC_NAME,RC_ID FROM ROLE_CREATION");
     $get_role_array=array();
     while($row=mysqli_fetch_array($role_result)){
         $get_role_array[]=array($row["RC_ID"],$row["RC_NAME"]);
     }
-    $emp_type=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION where CGN_ID =10 ");
+    $emp_type=mysqli_query($con,"SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID =10");
     $get_emptype_array=array();
     while($row=mysqli_fetch_array($emp_type)){
         $get_emptype_array[]=$row["URC_DATA"];
@@ -246,7 +272,6 @@ if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
 
     $value_array=array($errormsg_array,$get_role_array,$get_emptype_array);
     echo JSON_ENCODE($value_array);
-
 }
 function get_roles(){
     global $con;

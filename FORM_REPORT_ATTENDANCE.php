@@ -13,11 +13,12 @@
 //VER 0.01-INITIAL VERSION, SD:26/09/2014 ED:1/10/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 include "COMMON.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
-<style type="text/css">
+<style type="text/css" xmlns="http://www.w3.org/1999/html">
     .ui-datepicker-calendar {
         display: none;
     }
@@ -277,7 +278,7 @@ $(document).ready(function(){
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     if(option=='6'){
-                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:400px"  ><thead  bgcolor="#6495ed" style="color:white"><tr><th width="200px">EMPLOYEE NAME</th><th style="width:90px">REPORT ENTRY MISSED</th></tr></thead><tbody>'
+                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:500px"  ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th>REPORT ENTRY MISSED</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var name=allvalues_array[j].name;
                             var absent_count=allvalues_array[j].absent_count;
@@ -285,7 +286,7 @@ $(document).ready(function(){
                             $('#src_lbl_error').text(errmsg).show();
                             $('#REP_btn_att_pdf').show();
                             pdferrmsg=errmsg;
-                            ADM_tableheader+='<tr ><td>'+name+'</td><td align="center" style="width:90px">'+absent_count+'</td></tr>';
+                            ADM_tableheader+='<tr ><td>'+name+'</td><td >'+absent_count+'</td></tr>';
                         }
                     }
                     else if(option=='2'){
@@ -297,14 +298,14 @@ $(document).ready(function(){
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
                         $('#src_lbl_error').text(errmsg).show();
                         $('#REP_btn_att_pdf').show();
-                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:600px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:200px" >EMPLOYEE NAME</th><th>NO OF PRESENT</th><th>NO OF ABSENT</th><th>NO OF ONDUTY</th><th>TOTAL HOUR(S) OF PERMISSION</th></tr></thead><tbody>'
+                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult"><thead  bgcolor="#6495ed" style="color:white;width:500px"><tr><th>EMPLOYEE NAME</th><th>NO OF PRESENT</th><th>NO OF ABSENT</th><th>NO OF ONDUTY</th><th>TOTAL HOUR(S) OF PERMISSION</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var name=allvalues_array[j].loginid;
                             var absent_count=allvalues_array[j].absent_count;
                             var present_count=allvalues_array[j].present_count;
                             var onduty_count=allvalues_array[j].onduty_count;
                             var permission_count=allvalues_array[j].permission_count;
-                            ADM_tableheader+='<tr ><td>'+name+'</td><td align="center">'+present_count+'</td><td align="center">'+absent_count+'</td><td align="center">'+onduty_count+'</td><td align="center">'+permission_count+'</td></tr>';
+                            ADM_tableheader+='<tr ><td style="center">'+name+'</td><td>'+present_count+'</td><td>'+absent_count+'</td><td>'+onduty_count+'</td><td>'+permission_count+'</td></tr>';
                         }
                     }
                     else if(option=='1'){
@@ -322,7 +323,7 @@ $(document).ready(function(){
                         $('#no_of_days').text("TOTAL NO OF DAYS: "  +   total_days   +  " DAYS").show();
                         $('#src_lbl_error').text(errmsg).show();
                         $('#REP_btn_att_pdf').show();
-                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:500px"><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="min-width:80px;">DATE</th><th style="min-width:20px;">PRESENT</th><th>ABSENT</th><th>ONDUTY</th><th>PERMISSION HOUR(S)</th></tr></thead><tbody>'
+                        var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult"><thead  bgcolor="#6495ed" style="color:white;width:1400px"><tr><th class="uk-date-column">DATE</th><th>PRESENT</th><th>ABSENT</th><th>ONDUTY</th><th>PERMISSION HOUR(S)</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var report_date=allvalues_array[j].reportdate;
                             var absent_count=allvalues_array[j].absents;
@@ -337,7 +338,7 @@ $(document).ready(function(){
                             var permission_count=allvalues_array[j].permission_counts;
                             if(permission_count==null)
                                 permission_count='';
-                            ADM_tableheader+='<tr ><td>'+report_date+'</td><td  style="width:20px;" align="center">'+present_count+'</td><td align="center">'+absent_count+'</td><td align="center">'+onduty_count+'</td><td align="center">'+permission_count+'</td></tr>';
+                            ADM_tableheader+='<tr ><td>'+report_date+'</td><td>'+present_count+'</td><td>'+absent_count+'</td><td>'+onduty_count+'</td><td>'+permission_count+'</td></tr>';
                         }
                     }
                     ADM_tableheader+='</tbody></table>';
@@ -401,41 +402,44 @@ $(document).ready(function(){
 <!--SCRIPT TAG END-->
 <!--BODY TAG START-->
 <body>
+<div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><div style="padding-left:500px; text-align:left;" ><p><h3>ATTENDANCE</h3><p></div></div>
-    <form   id="REP_form_attendance" class="content" >
-        <table>
-            <tr>
-                <td width="150" id="REP_td_attendance" hidden><label name="REP_lbl_optn" id="REP_lbl_optn" class="srctitle">SELECT A OPTION</label><em>*</em></td>
-                <td width="150">
+    <div class="title"><p><center><h3>ATTENDANCE</h3></center><p></div>
+<form   id="REP_form_attendance" class="content" >
+    <div class="panel-body">
+        <fieldset>
+        <div class="row-fluid form-group">
+                <div width="150" id="REP_td_attendance" hidden> </div>
+
+                <label name="REP_lbl_optn" id="REP_lbl_optn" class="col-sm-2">SELECT A OPTION<em>*</em></label>
+            <div class="col-sm-8">
                     <select id="REP_lb_attendance" name="option" hidden>
                     </select>
-                </td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <td>
-                    <label name="REP_lbl_loginid" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label></td>
-                <br>
-                <td>
-                    <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="150"><label name="REP_lbl_dte" id="REP_lbl_dte" class="srctitle"  hidden>DATE<em>*</em></label></td>
-                <td><input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:105px;" /></td>
-            </tr>
-            <tr>
-                <td><input type="button" class="btn" name="REP_btn_search" id="REP_btn_search"  value="SEARCH" disabled></td>
-            </tr>
-        </table>
+                </div></div>
+
+
+    <div class="row-fluid form-group">
+            <label name="REP_lbl_loginid"  class="col-sm-2" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
+        <div class="col-sm-8">
+            <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
+            </select>
+
+        </div></div>
+
+    <div class="row-fluid form-group">
+           <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-2 "  hidden>DATE<em>*</em></label>
+        <div class="col-sm-8">
+                    <input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:75px;" />
+                </div></div>
+
         <div>
-            <!--            <label id="error" class="errormsg" hideen></label>-->
-            <label id="src_lbl_error" class="srctitle"></label>
+            <input type="button" class="btn" name="REP_btn_search" id="REP_btn_search"  value="SEARCH" disabled>
         </div>
+
+        <div>
+            <label id="src_lbl_error" class="srctitle"></label>
+        </div><br>
         <div>
             <label id="no_of_days" class="srctitle"></label>
         </div>
@@ -443,12 +447,16 @@ $(document).ready(function(){
             <label id="no_of_working_days" class="srctitle"></label>
         </div>
         <div><input type="button" id="REP_btn_att_pdf" class="btnpdf" value="PDF"></div>
-        <div class="container" id="REP_tablecontainer" style="width:500px;" hidden>
-            <section style="width:500px;">
+        <div id="REP_tablecontainer" style="max-width:800px;" class="table-responsive" hidden>
+            <section>
             </section>
         </div>
         <label id="REP_lbl_error" class="errormsg" hidden></label>
-    </form>
+            </fieldset>
+        </div>
+
+</form>
+</div>
 </div>
 </body>
 <!--BODY TAG END-->

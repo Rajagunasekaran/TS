@@ -143,6 +143,12 @@ while($row=mysqli_fetch_array($stmtExecute)){
             else if($row[$x+3]==null)
                 $appendTable .="<td>".str_replace("\n", "<br/>", $row[$x+1])."</td>";
         }
+        elseif($row[$x+4]=='WORK FROM HOME'){
+            if($row[$x+3]!=null)
+                $appendTable .="<td>".str_replace("\n", "<br/>", $row[$x+1])."<br><br>PERMISSION :".$row[$x+3]."</td>";
+            else if($row[$x+3]==null)
+                $appendTable .="<td>".str_replace("\n", "<br/>", $row[$x+1])."</td>";
+        }
         else if($row[$x+4]=='OD'){
             $appendTable .="<td>ONDUTY - REASON:".$row[$x+2]."</td>";
         }

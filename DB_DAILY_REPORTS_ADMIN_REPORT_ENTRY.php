@@ -13,8 +13,13 @@ if($_REQUEST["option"]=="login_id"){
         $mindate_array=$row["UA_JOIN_DATE"];
         $min_date = date('d-m-Y',strtotime($mindate_array));
     }
+    $select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$ADM_uld_id");
+    while($row=mysqli_fetch_array($select_wfh))
+    {
+        $wfh_flag=$row['WFHA_FLAG'];
+    }
     $get_project_array=get_projectentry($ADM_uld_id);
-    $finalvalue=array($min_date,$get_project_array);
+    $finalvalue=array($min_date,$get_project_array,$wfh_flag);
     echo JSON_ENCODE($finalvalue);
 }
 if($_REQUEST["option"]=="LOGINID"){
@@ -103,6 +108,10 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     while($row=mysqli_fetch_array($onduty)){
         $ADM_onduty_data=$row["AC_DATA"];
     }
+//    $work_from_home=mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID='15'");
+//    while($row=mysqli_fetch_array($work_from_home)){
+//        $ADM_work_from_home_data=$row["AC_DATA"];
+//    }
 // for present radio button
     if($attendance=="1")
     {
@@ -113,7 +122,16 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
         $reason='';
         $bandwidth;
     }
-
+// for work from home radio button
+    if($attendance=="2")
+    {
+        $report;
+        $uard_morning_session=$ADM_present_data;
+        $uard_afternoon_session =$ADM_present_data;
+        $projectid;
+        $reason='';
+        $bandwidth=0;
+    }
 //  for onduty radio button
     if($attendance=="OD")
     {
@@ -182,6 +200,13 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     if($attendance=="1")
     {
         $attend= mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID =5 AND CGN_ID='5'");
+        while($row=mysqli_fetch_array($attend)){
+            $ADM_attendance=$row["AC_DATA"];
+        }
+    }
+    if($attendance=="2")
+    {
+        $attend= mysqli_query($con,"select AC_DATA from ATTENDANCE_CONFIGURATION where AC_ID =15");
         while($row=mysqli_fetch_array($attend)){
             $ADM_attendance=$row["AC_DATA"];
         }

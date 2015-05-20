@@ -534,3 +534,29 @@ function replaceSpclcharAngularBrack(str)
     finalstr = finalstr.replace(/>/g, "&gt;");
     return finalstr;
 }
+
+function show_msgbox(title,msg,status,confirmation)
+{
+    $( "body" ).remove( ".jconfirm" );
+    $(".msgbox").html("");
+    if(confirmation==true)
+    {
+        $('body').append('<div class="jconfirm white msgbox" hidden="" ><div class="jconfirm-bg"></div><div class="container"><div class="row"><div class="col-md-6 col-md-offset-3 span6 offset3"><div class="jconfirm-box" style="-webkit-transition-duration: 0.4s; transition-duration: 0.4s; margin-top: 157.5px;"><div class="closeIcon"><span class="fa fa-remove"></span></div><div class="msgboxtitle" style="background-color:#6495ed!important;background-image:none!important;color:#FFF!important;" ></div><span class="divider"></span><div class="msgboxcontent"></div><div class="buttons pull-right"><button class="msgbtn menuconfirm">OK</button><button class="msgbtn msgcancel">CANCEL</button></div><div class="jquery-clear"></div></div></div></div></div></div>');
+    }
+    else
+    {
+        $('body').append('<div class="jconfirm white msgbox" hidden="" ><div class="jconfirm-bg"></div><div class="container"><div class="row"><div class="col-md-6 col-md-offset-3 span6 offset3"><div class="jconfirm-box" style="-webkit-transition-duration: 0.4s; transition-duration: 0.4s; margin-top: 157.5px;"><div class="closeIcon"><span class="fa fa-remove"></span></div><div class="msgboxtitle" style="background-color:#6495ed!important;background-image:none!important;color:#FFF!important;" ></div><span class="divider"></span><div class="msgboxcontent"></div><div class="buttons pull-right"><button class="msgbtn msgconfirm">OK</button></div><div class="jquery-clear"></div></div></div></div></div></div>');
+    }
+    if(status!="success")
+    {
+        $(".msgboxtitle").html('<i class="fa fa-warning fa-2x" style="color:#ffffff;background-color:#6495ed"></i>'+title);
+    }
+    else{
+        $(".msgboxtitle").html('<i class="fa fa-exclamation-circle fa-2x" style="color:#ffffff;background-color:#6495ed"></i>  '+title);
+    }
+    $(".msgboxcontent").text(msg);
+    $(".msgbox").show();
+}
+$(document).on("click",'.msgcancel,.msgconfirm,.menuconfirm', function (){
+    $(".msgbox").hide();
+});

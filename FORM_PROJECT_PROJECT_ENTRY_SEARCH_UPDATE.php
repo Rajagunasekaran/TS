@@ -11,13 +11,16 @@
 //VER 0.01-INITIAL VERSION, SD:20/09/2014 ED:13/10/2014,TRACKER NO:74 DONE BY:SHALINI
 //*********************************************************************************************************//-->
 <?php
-include "HEADER.php";
+//include "HEADER.php";
+include "NEW_MENU.php";
 ?>
 <script>
 //CHECK PRELOADER STATUS N HIDE START
 var SubPage=1;
 // READY FUNCTION STARTS
 $(document).ready(function(){
+//    alert('dddddddddddddd')
+    first()
     $('.preloader', window.parent.document).show();
     get_Values();
     $('#PE_btn_pdf').hide();
@@ -235,8 +238,7 @@ $(document).ready(function(){
                     $("#PE_tb_edate").val('').show();
                     $("#PE_tb_status").val('').show();
                     $("#PE_btn_save").attr("disabled", "disabled");
-                    showTable();
-                    get_Values();
+                    first()
                 }
                 else if(msg_alert==0)
                 {
@@ -247,8 +249,8 @@ $(document).ready(function(){
                     $("#PE_tb_edate").val('').show();
                     $("#PE_tb_status").val('').show();
                     $("#PE_btn_save").attr("disabled", "disabled");
-                    showTable();
                     get_Values();
+                    first()
                 }
                 else
                 {
@@ -307,7 +309,7 @@ $(document).ready(function(){
                 if(response!=0){
                     $('#PE_lbl_title').text(error_message[6]).show();
                     $('#PE_btn_pdf').show();
-                    var header='<table id="demoajax" border="1" cellspacing="0" class="srcresult" width="1700">';//<thead  bgcolor="#6495ed" style="color:white"><tr ><th  width=200>PROJECT NAME</th><th width=500 >PROJECT DESCRIPTION</th><th width=10>REC VER</th><th width=30>STATUS</th><th width=50 class="uk-date-column">START DATE</th><th width=50 class="uk-date-column">END DATE</th><th style="min-width:70px;">USERSTAMP</th><th style="min-width:100px;" nowrap class="uk-timestp-column">TIMESTAMP</th><th width=110>EDIT</th></tr></thead><tbody>';
+                    var header='<table id="demoajax" border="1" cellspacing="0" class="srcresult">';//<thead  bgcolor="#6495ed" style="color:white"><tr ><th  width=200>PROJECT NAME</th><th width=500 >PROJECT DESCRIPTION</th><th width=10>REC VER</th><th width=30>STATUS</th><th width=50 class="uk-date-column">START DATE</th><th width=50 class="uk-date-column">END DATE</th><th style="min-width:70px;">USERSTAMP</th><th style="min-width:100px;" nowrap class="uk-timestp-column">TIMESTAMP</th><th width=110>EDIT</th></tr></thead><tbody>';
 
                     header+=response;
 //                    header+='</tbody></table>';
@@ -336,28 +338,28 @@ $(document).ready(function(){
 
     }
 
-    function sorting(){
-        jQuery.fn.dataTableExt.oSort['uk_date-asc']  = function(a,b) {
-            var x = new Date( Date.parse(FormTableDateFormat(a)));
-            var y = new Date( Date.parse(FormTableDateFormat(b)) );
-            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
-        };
-        jQuery.fn.dataTableExt.oSort['uk_date-desc'] = function(a,b) {
-            var x = new Date( Date.parse(FormTableDateFormat(a)));
-            var y = new Date( Date.parse(FormTableDateFormat(b)) );
-            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
-        }
-        jQuery.fn.dataTableExt.oSort['uk_timestp-asc']  = function(a,b) {
-            var x = new Date( Date.parse(FormTableDateFormat(a.split(' ')[0]))).setHours(a.split(' ')[1].split(':')[0],a.split(' ')[1].split(':')[1],a.split(' ')[1].split(':')[2]);
-            var y = new Date( Date.parse(FormTableDateFormat(b.split(' ')[0]))).setHours(b.split(' ')[1].split(':')[0],b.split(' ')[1].split(':')[1],b.split(' ')[1].split(':')[2]);
-            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
-        };
-        jQuery.fn.dataTableExt.oSort['uk_timestp-desc'] = function(a,b) {
-            var x = new Date( Date.parse(FormTableDateFormat(a.split(' ')[0]))).setHours(a.split(' ')[1].split(':')[0],a.split(' ')[1].split(':')[1],a.split(' ')[1].split(':')[2]);
-            var y = new Date( Date.parse(FormTableDateFormat(b.split(' ')[0]))).setHours(b.split(' ')[1].split(':')[0],b.split(' ')[1].split(':')[1],b.split(' ')[1].split(':')[2]);
-            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
-        };
-    }
+//    function sorting(){
+//        jQuery.fn.dataTableExt.oSort['uk_date-asc']  = function(a,b) {
+//            var x = new Date( Date.parse(FormTableDateFormat(a)));
+//            var y = new Date( Date.parse(FormTableDateFormat(b)) );
+//            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+//        };
+//        jQuery.fn.dataTableExt.oSort['uk_date-desc'] = function(a,b) {
+//            var x = new Date( Date.parse(FormTableDateFormat(a)));
+//            var y = new Date( Date.parse(FormTableDateFormat(b)) );
+//            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+//        }
+//        jQuery.fn.dataTableExt.oSort['uk_timestp-asc']  = function(a,b) {
+//            var x = new Date( Date.parse(FormTableDateFormat(a.split(' ')[0]))).setHours(a.split(' ')[1].split(':')[0],a.split(' ')[1].split(':')[1],a.split(' ')[1].split(':')[2]);
+//            var y = new Date( Date.parse(FormTableDateFormat(b.split(' ')[0]))).setHours(b.split(' ')[1].split(':')[0],b.split(' ')[1].split(':')[1],b.split(' ')[1].split(':')[2]);
+//            return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+//        };
+//        jQuery.fn.dataTableExt.oSort['uk_timestp-desc'] = function(a,b) {
+//            var x = new Date( Date.parse(FormTableDateFormat(a.split(' ')[0]))).setHours(a.split(' ')[1].split(':')[0],a.split(' ')[1].split(':')[1],a.split(' ')[1].split(':')[2]);
+//            var y = new Date( Date.parse(FormTableDateFormat(b.split(' ')[0]))).setHours(b.split(' ')[1].split(':')[0],b.split(' ')[1].split(':')[1],b.split(' ')[1].split(':')[2]);
+//            return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+//        };
+//    }
 
     //FUNCTION FOR FORMTABLEDATEFORMAT
     function FormTableDateFormat(inputdate){
@@ -506,54 +508,228 @@ $(document).ready(function(){
         }
     });
 // CLICK EVENT FOR UPDATE BUTTON
-    $('section').on('click','.ajaxupdate',function(){
-        $('.preloader', window.parent.document).show();
-        var edittrid = $(this).parent().parent().attr('id');
-        var combineid = $(this).parent().parent().attr('id');
-        var combineid_split=combineid.split('_');
-        var edittrid=combineid_split[0];
-        var pdid=combineid_split[1];
-        var projectname =  $("input[name='"+field_name[0]+"']");
-        var projectdes = $("textarea[name='"+field_name[1]+"']");
-        var prostatus =  $('#status').val();
-        var projectsdate = $("input[name='start_date']");
-        var projectedate =  $("input[name='end_date']");
-        data = "&name="+projectname.val()+"&des="+projectdes.val()+"&sta="+prostatus+"&ssd="+projectsdate.val()+"&eed="+projectedate.val()+"&editid="+edittrid+"&pdid="+pdid+"&option=updateData";
-        $.ajax({
-            url:"DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do",
-            type:"POST",
-            data:data,
-            cache: false,
-            success: function(response){
-                $('.preloader', window.parent.document).hide();
-                if(response==1){
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3],position:{top:150,left:520}}});
-                    showTable()
-                    get_Values();
-                }
-                else if(response==0)
-                {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[4],position:{top:150,left:520}}});
-                    showTable()
-                    get_Values();
-                }
-                else
-                {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:response,position:{top:150,left:520}}});
-                    showTable()
-                    get_Values();
-                }
-            }
-        });
-    });
+//    $('section').on('click','.ajaxupdate',function(){
+//        $('.preloader', window.parent.document).show();
+//        var edittrid = $(this).parent().parent().attr('id');
+//        var combineid = $(this).parent().parent().attr('id');
+//        var combineid_split=combineid.split('_');
+//        var edittrid=combineid_split[0];
+//        var pdid=combineid_split[1];
+//        var projectname =  $("input[name='"+field_name[0]+"']");
+//        var projectdes = $("textarea[name='"+field_name[1]+"']");
+//        var prostatus =  $('#status').val();
+//        var projectsdate = $("input[name='start_date']");
+//        var projectedate =  $("input[name='end_date']");
+//        data = "&name="+projectname.val()+"&des="+projectdes.val()+"&sta="+prostatus+"&ssd="+projectsdate.val()+"&eed="+projectedate.val()+"&editid="+edittrid+"&pdid="+pdid+"&option=updateData";
+//        $.ajax({
+//            url:"DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do",
+//            type:"POST",
+//            data:data,
+//            cache: false,
+//            success: function(response){
+//                $('.preloader', window.parent.document).hide();
+//                if(response==1){
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3],position:{top:100,left:100}}});
+//                    showTable()
+//                    get_Values();
+//                }
+//                else if(response==0)
+//                {
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[4],position:{top:100,left:100}}});
+//                    showTable()
+//                    get_Values();
+//                }
+//                else
+//                {
+//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:response,position:{top:100,left:100}}});
+//                    showTable()
+//                    get_Values();
+//                }
+//            }
+//        });
+//    });
 // CLICK EVENT FOR CANCEL BUTTON
-    $('section').on('click','.ajaxcancel',function(){
-        var edittrid = $(this).parent().parent().attr('id');
-        $('#'+edittrid).html(pre_tds);
-    });
+//    $('section').on('click','.ajaxcancel',function(){
+//        var edittrid = $(this).parent().parent().attr('id');
+//        $('#'+edittrid).html(pre_tds);
+//    });
     $(document).on('click','#PE_btn_pdf',function(){
         var url=document.location.href='COMMON_PDF.do?flag=17&title='+error_message[6];
     });
+
+    function first()
+    {
+        $.ajax({
+            type: 'POST',
+            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
+            data:{option:'edit'},
+            success: function(data){
+//                    alert(data);
+                $('section').html(data);
+                $('#tablecontainer').show();
+                $('#PE_btn_pdf').show();
+                $('#reg').DataTable( {
+                    "aaSorting": [],
+                    "pageLength": 10,
+                    "responsive": true,
+                    "sPaginationType":"full_numbers"
+                });
+            },
+            error:function(data){
+                alert('error in getting'+JSON.stringify(data));
+            }
+        })
+
+
+    }
+
+    var previous_id;
+    var combineid;
+    var pdid;
+    var psid;
+    var tdvalue;
+    var ifcondition;
+    $(document).on('click','.edit', function (){
+        if(previous_id!=undefined){
+            $('#'+previous_id).replaceWith("<td class='edit' id='"+previous_id+"' >"+tdvalue+"</td>");
+        }
+        var cid = $(this).attr('id');
+//        alert(cid)
+        var id=cid.split('_');
+        ifcondition=id[0];
+        previous_id=cid;
+//        alert(psid);
+        pdid=id[1];
+        psid=id[2];
+        tdvalue=$(this).text();
+
+        if(ifcondition=='pname')
+        {
+            $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='project_name' name='project_name'  class='update' maxlength='50'  value='"+tdvalue+"'></td>");
+        }
+        if(ifcondition=='pdesc')
+        {
+            $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><textarea id='project_des' name='project_des'  class='update' maxlength='50'  value='"+tdvalue+"'>'"+tdvalue+"'</textarea></td>");
+        }
+        if(ifcondition=='status')
+        {
+//                alert(project_status)
+            $('#'+cid).replaceWith("<td  class='new' id='"+previous_id+"'><select class='update' id='project_status' style='width: 250px;'></select></td>");
+            var status='<option value="SELECT">SELECT</option>';
+
+            for(var k=0;k<project_status.length;k++){
+
+
+                status += '<option value="'+project_status[k][0]+'">'+ project_status[k][1]+'</option>';
+            }
+
+            $('#project_status').html(status);
+            $('#project_status').val(project_status[0]);
+        }
+//
+
+        if(ifcondition=='sdate')
+        {
+            $('#'+cid).replaceWith("<td  class='new' id='"+previous_id+"'><input type='text' id='start_date' name='start_date'  class='update date-picker' style='width: 110px'  value='"+tdvalue+"'></td>");
+            $(".date-picker").datepicker({dateFormat:'dd-mm-yy',
+                changeYear: true,
+                changeMonth: true
+            });
+            $('.date-picker').datepicker("option","maxDate",new Date());
+        }
+        if(ifcondition=='edate')
+        {
+            $('#'+cid).replaceWith("<td  class='new' id='"+previous_id+"'><input type='text' id='end_date' name='end_date'  class='update date-picker' style='width: 110px'  value='"+tdvalue+"'></td>");
+            $(".date-picker").datepicker({dateFormat:'dd-mm-yy',
+                changeYear: true,
+                changeMonth: true
+            });
+            $('.date-picker').datepicker("option","maxDate",new Date());
+        }
+
+
+    } );
+
+    $(document).on('change','.update',function(){
+        $('.preloader').show();
+
+        if($('#pname_'+pdid+'_'+psid).hasClass("edit")==true){
+            var babypname=$('#pname_'+pdid+'_'+psid).text();
+        }
+        else{
+            var babypname=$('#project_name').val();
+        }
+
+        if($('#pdesc_'+pdid+'_'+psid).hasClass("edit")==true){
+
+            var babypdesc=$('#pdesc_'+pdid+'_'+psid).text();
+        }
+        else{
+            var babypdesc=$('#project_des').val();
+        }
+
+        if($('#status_'+pdid+'_'+psid).hasClass("edit")==true){
+
+            var babystatus=$('#status_'+pdid+'_'+psid).text();
+        }
+        else{
+            var babystatus=$('#project_status').find('option:selected').text();
+
+        }
+        if($('#sdate_'+pdid+'_'+psid).hasClass("edit")==true){
+
+            var babysdate=$('#sdate_'+pdid+'_'+psid).text();
+        }
+        else{
+            var babysdate=$('#start_date').val();
+        }
+        if($('#edate_'+pdid+'_'+psid).hasClass("edit")==true){
+
+            var babyedate=$('#edate_'+pdid+'_'+psid).text();
+        }
+        else{
+            var babyedate=$('#end_date').val();
+        }
+//        alert('&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate)
+        $.ajax({
+            type: 'POST',
+            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
+//            data:'&rowid='+combineid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
+            data:'&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
+            success: function(data) {
+//                alert(data)
+                $('.preloader').hide();
+                var resultflag=data;
+                if(resultflag==1){
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[3],position:{top:150,left:520}}});
+                    show_msgbox("PROJECT ENTRY/SEARCH/UPDATE",error_message[3],"success",false);
+                    previous_id=undefined;
+                    first()
+//                        get_Values();
+                }
+                else if(resultflag==0)
+                {
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[4],position:{top:150,left:520}}});
+                    show_msgbox("PROJECT ENTRY/SEARCH/UPDATE",error_message[4],"success",false);
+                    previous_id=undefined;
+                    first()
+//                        get_Values()/;
+                }
+                else
+                {
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:response,position:{top:150,left:520}}});
+                    show_msgbox("PROJECT ENTRY/SEARCH/UPDATE",response,"success",false);
+                    previous_id=undefined;
+                    first()
+//                        get_Values();
+                }
+            }
+        });
+    }) ;
+
+//
+
+
 });
 // READY FUNCTION ENDS
 </script>
@@ -563,46 +739,55 @@ $(document).ready(function(){
 <body>
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="newtitle" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>PROJECT ENTRY/SEARCH/UPDATE</h3><p></div></div>
-
+    <div class="newtitle" id="fhead" ><p style="padding-top: 20px";><center><h3>PROJECT ENTRY/SEARCH/UPDATE</h3></center><p></div>
     <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="newcontent">
-        <table id="PE_tble_projectentry">
-            <tr>
-                <td><label name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label></td>
-                <td><input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label></td>
-            </tr>
-            <tr>
-                <td><label name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label></td>
-                <td><textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  valid"  ></textarea></td>
-            </tr>
-            <tr>
-                <td><label name="PE_lbl_status" id="PE_lbl_status" >STATUS<em>*</em></label></td>
-                <td><input type="text" id="PE_tb_status" name="PE_tb_status" style="width:100px;" class="valid" readonly></td>
-            </tr>
-            <tr>
-                <td><label name="PE_lbl_sdate" id="PE_lbl_sdate" >START DATE<em>*</em></label></td>
-                <td><input type="text" name="PE_tb_sdate" id="PE_tb_sdate" style="width:75px;" class="PE_tb_sdatedatepicker valid datemandtry "></td>
-            </tr>
-            <tr>
-                <td><label name="PE_lbl_edate" id="PE_lbl_edate" >END DATE<em>*</em></label></td>
-                <td><input type="text" name="PE_tb_edate" id="PE_tb_edate" style="width:75px;" class="PE_tb_edatedatepicker valid datemandtry"></td>
-            </tr>
-            <tr>
-                <td align="left"><input type="button" class="btn" name="PE_btn_save" id="PE_btn_save"  value="SAVE" disabled></td>
-            </tr>
-        </table>
-        <div>
-            <label class="errormsg" id="PE_nodataerrormsg" hidden></label>
-        </div>
-        <div>
-            <label class="srctitle" id="PE_lbl_title" hidden></label>
-        </div>
-        <div><input type="button" id="PE_btn_pdf" class="btnpdf" value="PDF"></div>
-        <div class="container" id="tablecontainer" hidden>
+        <div class="table-responsive">
+            <div class="form-group">
+                <label class="col-lg-4" name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label>
+                <div class="col-lg-8">
+                    <input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label>
+                </div></div>
+
+            <div class="form-group">
+                <label class="col-lg-4" name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label>
+                <div class="col-lg-8">
+                    <textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  valid"></textarea>
+                </div> </div>
+
+            <div>
+                <label class="col-lg-4" name="PE_lbl_status" id="PE_lbl_status" >STATUS<em>*</em></label>
+                <div class="col-lg-8">
+                    <input type="text" id="PE_tb_status" name="PE_tb_status" class="valid" readonly>
+                </div></div>
+
+            <div class="form-group">
+                <label class="col-lg-4" name="PE_lbl_sdate" id="PE_lbl_sdate" >START DATE<em>*</em></label>
+                <div class="col-lg-8">
+                    <input type="text" name="PE_tb_sdate" id="PE_tb_sdate"  class="PE_tb_sdatedatepicker valid datemandtry" style="width: 75px">
+                </div> </div>
+
+            <div class="form-group">
+                <label class="col-lg-4" name="PE_lbl_edate" id="PE_lbl_edate" >END DATE<em>*</em></label>
+                <div class="col-lg-8">
+                    <input type="text" name="PE_tb_edate" id="PE_tb_edate" class="PE_tb_edatedatepicker valid datemandtry" style="width: 75px">
+                </div></div>
+
+            <div>
+                <input type="button" class="btn" name="PE_btn_save" id="PE_btn_save"  value="SAVE" disabled>
+            </div>
+
+            <div>
+                <label class="errormsg" id="PE_nodataerrormsg" hidden></label>
+            </div>
+            <div>
+                <label class="srctitle" id="PE_lbl_title" hidden></label>
+            </div>
+            <div><input type="button" id="PE_btn_pdf" class="btnpdf" value="PDF"></div>
             <section>
             </section>
         </div>
-    </form>
+</div>
+</form>
 </div>
 </body>
 <!--BODY TAG END-->

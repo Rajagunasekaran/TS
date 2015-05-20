@@ -7,8 +7,8 @@
 //VER 0.02 SD:06/12/2014 ED:08/12/2014,TRACKER NO:74,Updated preloader position nd message box position,Changed loginid to emp name
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
 //************************************************************************************************************//
-require_once 'google/appengine/api/mail/Message.php';
-use google\appengine\api\mail\Message;
+//require_once 'google/appengine/api/mail/Message.php';
+//use google\appengine\api\mail\Message;
 error_reporting(0);
 if(isset($_REQUEST)){
     include "CONNECTION.php";
@@ -28,10 +28,10 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="COMPANY_PROPERTY")
     {
         $CPVD_loginid=$_REQUEST['CPVD_lb_loginid'];
-        $CPVD_cmpny_prop=mysqli_query($con,"select CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER from EMPLOYEE_DETAILS ED JOIN COMPANY_PROPERTIES_DETAILS CPD on CPD.EMP_ID = ED.EMP_ID JOIN USER_LOGIN_DETAILS ULD ON ULD.ULD_ID = ED.ULD_ID where ULD.ULD_ID='$CPVD_loginid'");
+        $CPVD_cmpny_prop=mysqli_query($con,"SELECT CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER FROM COMPANY_PROPERTIES CP,COMPANY_PROPERTIES_DETAILS CPD,EMPLOYEE_DETAILS EMP WHERE CP.CP_ID=CPD.CP_ID AND EMP.EMP_ID=CPD.EMP_ID AND EMP.ULD_ID='$CPVD_loginid'");
         while($row=mysqli_fetch_array($CPVD_cmpny_prop)){
-            $CPVD_lap_no=$row["CPD_LAPTOP_NUMBER"];
-            $CPVD_charger_no=$row["CPD_CHARGER_NUMBER"];
+            $CPVD_lap_no=$row["CP_LAPTOP_NUMBER"];
+            $CPVD_charger_no=$row["CP_CHARGER_NUMBER"];
         }
         $CPVD_cmpny_values=array('CPVD_lap_no'=>$CPVD_lap_no,'CPVD_charger_no'=>$CPVD_charger_no);
         $values_array[]=$CPVD_cmpny_values;
@@ -76,76 +76,76 @@ if(isset($_REQUEST)){
         else{
             $flag=1;
         }
-        if ($flag==1){
-            $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
-            $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
-            $admin_rs=mysqli_query($con,$select_admin);
-            $sadmin_rs=mysqli_query($con,$select_sadmin);
-            if($row=mysqli_fetch_array($admin_rs)){
-                $admin=$row["ULD_LOGINID"];//get admin
-            }
-            if($row=mysqli_fetch_array($sadmin_rs)){
-                $sadmin=$row["ULD_LOGINID"];//get super admin
-            }
-//            $admin_name = substr($admin, 0, strpos($admin, '.'));
-            $admin_name = strtoupper(substr($admin, 0, strpos($admin, '@')));
-            if(substr($admin_name, 0, strpos($admin_name, '.'))){
-
-                $admin_name = strtoupper(substr($admin_name, 0, strpos($admin_name, '.')));
-
-            }
-            else{
-                $admin_name=$admin_name;
-            }
-            $sadmin_name = strtoupper(substr($sadmin, 0, strpos($sadmin, '@')));
-            if(substr($sadmin_name, 0, strpos($sadmin_name, '.'))){
-
-                $sadmin_name = strtoupper(substr($sadmin_name, 0, strpos($sadmin_name, '.')));
-
-            }
-            else{
-                $sadmin_name=$sadmin_name;
-            }
-            $spladminname=$admin_name.'/'.$sadmin_name;
-            $spladminname=strtoupper($spladminname);
-            $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=9";
-            $select_template_rs=mysqli_query($con,$select_template);
-            if($row=mysqli_fetch_array($select_template_rs)){
-                $mail_subject=$row["ETD_EMAIL_SUBJECT"];
-                $body=$row["ETD_EMAIL_BODY"];
-            }
-            $email_body;
-            $body_msg =explode("^", $body);
-            $length=count($body_msg);
-            for($i=0;$i<$length;$i++){
-                $email_body.=$body_msg[$i].'<br><br>';
-            }
-            $comment =explode("\n", $CPVD_ta_reason1);
-            $commnet_length=count($comment);
-            for($i=0;$i<$commnet_length;$i++){
-                $comment_msg.=$comment[$i].'<br>';
-            }
-            $replace= array("[SADMIN]", "[NAME]","[CHECKEDBYID]","[LAPNO]","[CHARGERNO]","[COMMENTS]");
-            $str_replaced  = array($spladminname,$CPVD_emp_name, $CPVD_checkedby_empname,$CPVD_lap_no,$CPVD_charger_no,$comment_msg);
-            $main_body = str_replace($replace, $str_replaced, $email_body);
-
-            //SENDING MAIL OPTIONS
-            $name = $mail_subject;
-            $from = $admin;
-            $message = new Message();
-            $message->setSender($name.'<'.$from.'>');
-            $message->addTo($admin);
-            $message->addCc($sadmin);
-            $message->setSubject($mail_subject);
-            $message->setHtmlBody($main_body);
-
-            try {
-                $message->send();
-            } catch (\InvalidArgumentException $e) {
-                echo $e;
-            }
-
-        }
+//        if ($flag==1){
+//            $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
+//            $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
+//            $admin_rs=mysqli_query($con,$select_admin);
+//            $sadmin_rs=mysqli_query($con,$select_sadmin);
+//            if($row=mysqli_fetch_array($admin_rs)){
+//                $admin=$row["ULD_LOGINID"];//get admin
+//            }
+//            if($row=mysqli_fetch_array($sadmin_rs)){
+//                $sadmin=$row["ULD_LOGINID"];//get super admin
+//            }
+////            $admin_name = substr($admin, 0, strpos($admin, '.'));
+//            $admin_name = strtoupper(substr($admin, 0, strpos($admin, '@')));
+//            if(substr($admin_name, 0, strpos($admin_name, '.'))){
+//
+//                $admin_name = strtoupper(substr($admin_name, 0, strpos($admin_name, '.')));
+//
+//            }
+//            else{
+//                $admin_name=$admin_name;
+//            }
+//            $sadmin_name = strtoupper(substr($sadmin, 0, strpos($sadmin, '@')));
+//            if(substr($sadmin_name, 0, strpos($sadmin_name, '.'))){
+//
+//                $sadmin_name = strtoupper(substr($sadmin_name, 0, strpos($sadmin_name, '.')));
+//
+//            }
+//            else{
+//                $sadmin_name=$sadmin_name;
+//            }
+//            $spladminname=$admin_name.'/'.$sadmin_name;
+//            $spladminname=strtoupper($spladminname);
+//            $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=9";
+//            $select_template_rs=mysqli_query($con,$select_template);
+//            if($row=mysqli_fetch_array($select_template_rs)){
+//                $mail_subject=$row["ETD_EMAIL_SUBJECT"];
+//                $body=$row["ETD_EMAIL_BODY"];
+//            }
+//            $email_body;
+//            $body_msg =explode("^", $body);
+//            $length=count($body_msg);
+//            for($i=0;$i<$length;$i++){
+//                $email_body.=$body_msg[$i].'<br><br>';
+//            }
+//            $comment =explode("\n", $CPVD_ta_reason1);
+//            $commnet_length=count($comment);
+//            for($i=0;$i<$commnet_length;$i++){
+//                $comment_msg.=$comment[$i].'<br>';
+//            }
+//            $replace= array("[SADMIN]", "[NAME]","[CHECKEDBYID]","[LAPNO]","[CHARGERNO]","[COMMENTS]");
+//            $str_replaced  = array($spladminname,$CPVD_emp_name, $CPVD_checkedby_empname,$CPVD_lap_no,$CPVD_charger_no,$comment_msg);
+//            $main_body = str_replace($replace, $str_replaced, $email_body);
+//
+//            //SENDING MAIL OPTIONS
+//            $name = $mail_subject;
+//            $from = $admin;
+//            $message = new Message();
+//            $message->setSender($name.'<'.$from.'>');
+//            $message->addTo($admin);
+//            $message->addCc($sadmin);
+//            $message->setSubject($mail_subject);
+//            $message->setHtmlBody($main_body);
+//
+//            try {
+//                $message->send();
+//            } catch (\InvalidArgumentException $e) {
+//                echo $e;
+//            }
+//
+//        }
         echo $flag;
     }
 }

@@ -14,7 +14,8 @@
 //VER 0.01-INITIAL VERSION, SD:08/10/2014 ED:15/10/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-include "HEADER.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -809,9 +810,9 @@ $(document).ready(function(){
             else if((option=='10'))
             {
                 $('.preloader', window.parent.document).show();
-                $('<tr><td width="150"><label name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label></td><td><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange" class=" validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></td></tr>').appendTo('#REV_tble_startdate')
-                $('<tr><td width="150"><label name="REV_lbl_enddte" id="REV_lbl_enddtebyrange" >END DATE<em>*</em></label></td><td><input type="text" name="REV_tb_enddtebyrange" id="REV_tb_enddtebyrange" class=" validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></td></tr>').appendTo('#REV_tble_startdate')
-                $('<tr><td><input type="button" class="btn" name="REV_btn_searchdaterange" id="REV_btn_searchdaterange"  value="SEARCH" disabled></td></tr>').appendTo('#REV_tble_searchbtn')
+                $('<div class="row-fluid form-group"><label class="col-sm-3" name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange" class=" validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate')
+                $('<div class="row-fluid form-group"><label class="col-sm-3" name="REV_lbl_enddte" id="REV_lbl_enddtebyrange" >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddtebyrange" id="REV_tb_enddtebyrange" class=" validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate')
+                $('<div class="row-fluid form-group"><input type="button" class="btn" name="REV_btn_searchdaterange" id="REV_btn_searchdaterange"  value="SEARCH" disabled></div>').appendTo('#REV_tble_searchbtn')
                 //DATE PICKER FUNCTION
                 $('.REV_datepicker').datepicker(
                     {
@@ -1214,7 +1215,7 @@ $(document).ready(function(){
                             var project_days=loginidvalues[i].project_days;
                             var project_hrs=loginidvalues[i].project_hrs;
                             var project_mints=loginidvalues[i].project_mints;
-                            REV_table_header1+='<tr><td style="width:150px" nowrap align="center">'+projectdate+'</td><td align="center" style="max-width:10px; !important;">'+project_days+'</td><td align="center" style="max-width:10px; !important;">'+project_hrs+'</td><td align="center" style="max-width:10px; !important;">'+project_mints+'</td></tr>';
+                            REV_table_header1+='<tr><td>'+projectdate+'</td><td  !important;">'+project_days+'</td><td !important;">'+project_hrs+'</td><td align="center" style="max-width:10px; !important;">'+project_mints+'</td></tr>';
                         }
                     }
                     else
@@ -1228,7 +1229,7 @@ $(document).ready(function(){
                         employeetitles=err_msg_array[7].toString().replace("[LOGINID] FOR [PROJECTNAME]",$("#REV_lb_loginid option:selected").text());
                         $('#REV_lbl_emptitle').text(employeetitle).show();
                         $('#REV_btn_emplist_pdf').show();
-                        var REV_table_header1='<table id="REV_tble_empday_nonactveemp1" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:200px" nowrap>PROJECT NAME</th><th>DAYS</th><th>HOURS</th><th>MINUTES</th></tr></thead><tbody>'
+                        var REV_table_header1='<table id="REV_tble_empday_nonactveemp1" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column"nowrap>PROJECT NAME</th><th>DAYS</th><th>HOURS</th><th>MINUTES</th></tr></thead><tbody>'
                         for(var i=0;i<loginidvalues.length;i++){
                             var projectname=loginidvalues[i].projectname;
                             var project_days=loginidvalues[i].project_days;
@@ -1322,13 +1323,13 @@ $(document).ready(function(){
                         $('#REV_lbl_empday').text("TOTAL NO OF DAYS: "  +   total_days).show();
                         $('#REV_btn_emp_pdf').show();
                         //TABLE HEADER
-                        var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:150px" nowrap align="center">PROJECT DATE</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
+                        var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column">PROJECT DATE</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
                         for(var i=0;i<loginidvalues.length;i++){
                             var projectdate=loginidvalues[i].projectdate;
                             var project_days=loginidvalues[i].project_days;
                             var project_hrs=loginidvalues[i].project_hrs;
                             var project_mints=loginidvalues[i].project_mints;
-                            REV_tble_header+='<tr><td style="width:150px" nowrap align="center">'+projectdate+'</td><td align="center">'+project_days+'</td><td align="center">'+project_hrs+'</td><td align="center">'+project_mints+'</td></tr>';
+                            REV_tble_header+='<tr><td>'+projectdate+'</td><td>'+project_days+'</td><td>'+project_hrs+'</td><td>'+project_mints+'</td></tr>';
                         }
                     }
                     else
@@ -1346,13 +1347,13 @@ $(document).ready(function(){
                         var emptitle=err_msg_array[6].toString().replace("[MONTH]",$("#REV_lb_loginid option:selected").text());
                         var startdate=emptitle.replace("[STARTDATE]",REV_start_datevalue);
                         heading=startdate.replace("[ENDDATE]",REV_end_datevalue);
-                        var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:250px" align="center">PROJECT NAME</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
+                        var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column">PROJECT NAME</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
                         for(var i=0;i<loginidvalues.length;i++){
                             var projectname=loginidvalues[i].projectname;
                             var project_days=loginidvalues[i].project_days;
                             var project_hrs=loginidvalues[i].project_hrs;
                             var project_mints=loginidvalues[i].project_mints;
-                            REV_tble_header+='<tr><td style="width:250px">'+projectname+'</td><td align="center">'+project_days+'</td><td align="center">'+project_hrs+'</td><td align="center">'+project_mints+'</td></tr>';
+                            REV_tble_header+='<tr><td>'+projectname+'</td><td>'+project_days+'</td><td>'+project_hrs+'</td><td>'+project_mints+'</td></tr>';
                         }
                     }
                     REV_tble_header+='</tbody></table>';
@@ -1421,13 +1422,13 @@ $(document).ready(function(){
                     $('#REV_lbl_totaldays_dterange').text("TOTAL NO OF  DAYS: "  +   working_day).show();
                     $('#REV_lbl_totalhrs_dterange').text("TOTAL NO OF HRS: "  +   REV_total_hrs).show();
                     $('#REV_btn_totalhrs_pdf').show();
-                    var REV_table_header='<table width="700px" id="REV_tble_projctrevenue_bydaterange" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th width="200px">EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
+                    var REV_table_header='<table width="700px" id="REV_tble_projctrevenue_bydaterange" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white;width:2000px"><tr><th>EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
                     for(var i=0;i<projectvalues.length;i++){
                         var username=projectvalues[i].username;
                         var noofdays=projectvalues[i].noofdays;
                         var total_hrs=projectvalues[i].total_hrs;
                         var total_minutes=projectvalues[i].total_minutes;
-                        REV_table_header+='<tr><td>'+username+'</td><td align="center">'+noofdays+'</td><td align="center">'+total_hrs+'</td><td align="center">'+total_minutes+'</td></tr>';
+                        REV_table_header+='<tr><td>'+username+'</td><td>'+noofdays+'</td><td>'+total_hrs+'</td><td>'+total_minutes+'</td></tr>';
                     }
                     REV_table_header+='</tbody></table>';
                     $('sectionprbydtrange').html(REV_table_header);
@@ -1521,176 +1522,176 @@ $(document).ready(function(){
 <!--SCRIPT TAG END-->
 <!--BODY TAG START-->
 <body>
+<div class="container-fluid">
 <div class="wrapper">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><div style="padding-left:500px; text-align:left;" ><p><h3>REVENUE</h3><p></div></div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+    <div class="title"><p><center><h3>REVENUE</h3></center><p></div>
     <form   id="REV_form_revenue" class="content" >
-        <table>
-            <table>
-                <tr>
-                    <td width="150"><label name="REV_lbl_prjct" id="REV_lbl_prjct" hidden>PROJECT<em>*</em></label></td>
-                    <td width="150">
-                        <select id="REV_lb_project" name="REV_lb_project" hidden>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <tr><td><label id="REV_nodata_rc" name="REV_nodata_rc" class="errormsg"></label></td></tr>
-            <table  id="REV_tble_prjctrevenue"  hidden>
-                <tr>
-                    <td width="150"><label name="REV_lbl_prjctnme" id="REV_lbl_prjctnme" hidden >PROJECT NAME<em>*</em></label></td>
-                    <td>
-                        <select id="REV_lb_projectname" name="REV_lb_projectname" hidden>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="150"><label name="REV_lbl_precver" id="REV_lbl_precver" hidden>RECORD VERSION<em>*</em></label></td>
-                    <td> <select id="REV_lb_precver" name="REV_lb_precver" hidden>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <tr><td><label id="REV_nodata_pd" name="REV_nodata_pd" class="errormsg"></label></td></tr>
-            <table id="REV_tble_startdate"></table>
-            <table id="REV_tble_searchbtn"></table>
-            <div id="REV_err_msg_date_project" class="errormsg"></div>
-            <table>
-                <tr>
-                    <td><input type="button" id="REV_btn_prjctsrch" name="REV_btn_prjctsrch" value="SEARCH" class="btn" disabled/></td>
-                </tr>
-                <tr><td><label id="REV_nodata_pdflextble" name="REV_nodata_pdflextble" class="errormsg"></label></td></tr>
-                <tr>
-                    <td><label id="REV_lbl_title" name="REV_lbl_title"  class="srctitle" hidden></label></td>
-                </tr>
-                <tr>
-                    <td><label id="REV_lbl_totaldays" name="REV_lbl_totaldays"  class="srctitle" hidden></label></td>
-                </tr>
-                <tr>
-                    <td><label id="REV_lbl_totalhrs" name="REV_lbl_totalhrs"  class="srctitle" hidden></label></td>
-                </tr>
-            </table>
-            <tr><input type="button" id="REV_btn_pdf" class="btnpdf" value="PDF"></tr>
-            <tr>
-                <div id ="REV_div_projecttotal" class="container" style="width:500px" hidden>
+        <div class="panel-body">
+            <fieldset>
+        <!--        <div class="table-responsive">-->
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="REV_lbl_prjct" id="REV_lbl_prjct" hidden>PROJECT<em>*</em></label>
+            <div class="col-sm-4">
+                <select id="REV_lb_project" name="REV_lb_project" hidden>
+                </select>
+            </div></div>
+        <div><label id="REV_nodata_rc" name="REV_nodata_rc" class="errormsg"></label></div>
+        <div  id="REV_tble_prjctrevenue"  hidden>
+            <div class="row-fluid form-group">
+                <label class="col-sm-3" name="REV_lbl_prjctnme" id="REV_lbl_prjctnme" hidden >PROJECT NAME<em>*</em></label></td>
+                <div class="col-sm-4">
+                    <select id="REV_lb_projectname" name="REV_lb_projectname" hidden>
+                    </select>
+                </div>
+            </div></div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3"name="REV_lbl_precver" id="REV_lbl_precver" hidden>RECORD VERSION<em>*</em></label>
+            <div class="col-sm-4"> <select id="REV_lb_precver" name="REV_lb_precver" hidden>
+                </select>
+            </div>
+        </div>
+        <div><label id="REV_nodata_pd" name="REV_nodata_pd" class="errormsg"></label></div>
+        <div id="REV_tble_startdate"></div>
+        <div id="REV_tble_searchbtn"></div>
+        <div id="REV_err_msg_date_project" class="errormsg"></div>
+        <div>
+            <input type="button" id="REV_btn_prjctsrch" name="REV_btn_prjctsrch" value="SEARCH" class="btn" disabled/>
+        </div>
+        <div><label id="REV_nodata_pdflextble" name="REV_nodata_pdflextble" class="errormsg"></label></div>
+        <div>
+            <label id="REV_lbl_title" name="REV_lbl_title"  class="srctitle" hidden></label>
+        </div>
+        <div>
+            <label id="REV_lbl_totaldays" name="REV_lbl_totaldays"  class="srctitle" hidden></label>
+        </div>
+        <div>
+            <label id="REV_lbl_totalhrs" name="REV_lbl_totalhrs"  class="srctitle" hidden></label>
+        </div>
+
+        <div><input type="button" id="REV_btn_pdf" class="btnpdf" value="PDF">
+            <div>
+                <div id ="REV_div_projecttotal" style="width:500px">
                     <section>
                     </section>
                 </div>
-            </tr>
-            <tr><td><label id="REV_nodata_staenddate" name="REV_nodata_staenddate" class="errormsg"></label></td></tr>
-            <tr><td><label id="REV_lbl_dterangetitle" name="REV_lbl_dterangetitle" class="srctitle"></label></td></tr><br>
-            <tr>
-                <td><label id="REV_lbl_totaldays_dterange" name="REV_lbl_totaldays_dterange"  class="srctitle" hidden></label></td><br>
-            </tr>
-            <tr>
-                <td><label id="REV_lbl_totalhrs_dterange" name="REV_lbl_totalhrs_dterange"  class="srctitle" hidden></label></td>
-            </tr><br>
-            <tr><input type="button" id="REV_btn_totalhrs_pdf" class="btnpdf" value="PDF"></tr>
-            <tr>
-                <div id ="REV_div_projecttotal_dtebyrange" class="container" style="width:500px" hidden>
-                    <sectionprbydtrange>
-                    </sectionprbydtrange>
-                </div>
-            </tr>
-        </table>
-        <table id="REV_tble_prjctrevactnonact" hidden>
-            <tr>
-                <td><input type="radio" name="REV_rd_veemp" id="REV_rd_actveemp" value="EMPLOYEE" hidden >
-                    <label name="REV_lbl_actveemp" id="REV_lbl_actveemp"  hidden>ACTIVE EMPLOYEE</label></td>
-            </tr>
-            <tr>
-                <td><input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp"   value="EMPLOYEE" class='attnd' hidden>
-                    <label name="REV_lbl_nonactveemp" id="REV_lbl_nonactveemp"  hidden>NON ACTIVE EMPLOYEE </label></td>
-            </tr>
-            <tr>
-                <td><label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="srctitle" hidden>ACTIVE EMPLOYEE</label></td>
-            </tr>
-            <tr>
-                <td><label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle" hidden>NON ACTIVE EMPLOYEE </label></td>
-            </tr>
-            <tr><td><label id="REV_nodata_uld" name="REV_nodata_uld" class="errormsg"></label></td></tr>
-            <tr>
-                <td><table>
-                        <tr><td width="150">
-                                <label name="REV_lbl_loginid" id="REV_lbl_loginid"  hidden>LOGIN ID<em>*</em></label></td>
-                            <td>
-                                <select name="REV_lb_loginid" id="REV_lb_loginid" hidden>
-                                </select>
-                            </td>
-                        </tr></table></td>
-            </tr>
-            <tr>
-                <td><input type="radio" name="REV_rd_project" id="REV_rd_withproject" value="project" hidden >
-                    <label name="REV_lbl_withproject" id="REV_lbl_withproject"  hidden>LIST REVENUE BY PROJECT</label></td>
-            </tr>
-            <tr>
-                <td><input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>
-                    <label name="REV_lbl_withoutproject" id="REV_lbl_withoutproject"  hidden>LIST OF PROJECT REVENUE</label></td>
-            </tr>
-            <tr>
-                <td><table>
-                        <td width="150"><label name="REV_lbl_empproject" id="REV_lbl_empproject" hidden>PROJECT<em>*</em></label></td>
-                        <td>
-                            <select id="REV_lb_empproject" name="REV_lb_empproject" hidden>
-                            </select>
-                        </td>
-                    </table></td>
-            </tr>
-            <tr>
-                <td><table>
-                        <td width="150"><label name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label></td>
-                        <td>
-                            <select id="REV_lb_recver" name="REV_lb_recver" hidden>
-                            </select>
-                        </td>
-                    </table></td>
-            </tr>
-            <tr>
-                <td><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled  /></td>
-                <td>
-            </tr>
-            <tr><td><label id="REV_nodata_loginid" name="REV_nodata_loginid" class="errormsg"></label></td></tr>
-            <table>
-                <tr>
-                    <td width="150"><label name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label></td>
-                    <td><input type="text" name="REV_tb_strtdte" id="REV_tb_strtdte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></td><br>
-                </tr>
-                <tr>
-                    <td width="150"><label name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label></td>
-                    <td><input type="text" name="REV_tb_enddte" id="REV_tb_enddte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></td><br>
-                </tr>
-                <tr>
-                    <td><input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled></td>
-                </tr>
-            </table>
-            <table><tr><td><div id="REV_err_msg_date" class="errormsg"></div></td><td></td></tr></table>
-            <tr><td><label id="REV_nodata_startenddate" name="REV_nodata_startenddate" class="errormsg"></label></td></tr>
-        </table>
-        <tr>
-            <td><label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label></td>
-        </tr>
-        <tr>
-            <td><label id="REV_lbl_ttlprjct" name="REV_lbl_ttlprjct"  class="srctitle" hidden></label></td><br>
-        </tr>
-        <tr>
-            <td><label id="REV_lbl_empday" name="REV_lbl_empday"  class="srctitle" hidden></label></td>
-        </tr><BR>
-        <tr><input type="button" id="REV_btn_emp_pdf" class="btnpdf" value="PDF"></tr>
-        <tr><input type="button" id="REV_btn_emplist_pdf" class="btnpdf" value="PDF"></tr>
-        <tr>
-            <td><label id="REV_lbl_eachproject_empday" name="REV_lbl_eachproject_empday"  class="srctitle" hidden></label></td>
-        </tr>
-        <div  id ="REV_div_loginid" class="container" style="width:500px" hidden>
-            <sections style="width:500px">
-            </sections>
+            </div></div>
+        <div><label id="REV_nodata_staenddate" name="REV_nodata_staenddate" class="errormsg"></label>
+            <div><label id="REV_lbl_dterangetitle" name="REV_lbl_dterangetitle" class="srctitle"></label>
+            </div></div>
+        <div><label id="REV_lbl_totaldays_dterange" name="REV_lbl_totaldays_dterange"  class="srctitle" hidden></label>
         </div>
-        <div id ="REV_div_nonactve_dterange" class="container" style="width:500px" hidden>
-            <sectionrnge style="width:500px">
-            </sectionrnge>
+        <div>
+            <label id="REV_lbl_totalhrs_dterange" name="REV_lbl_totalhrs_dterange"  class="srctitle" hidden></label>
+        </div>
+        <div><input type="button" id="REV_btn_totalhrs_pdf" class="btnpdf" value="PDF"></div>
+        <div>
+            <div id ="REV_div_projecttotal_dtebyrange" style="width:600px" hidden>
+                <sectionprbydtrange>
+                </sectionprbydtrange>
+            </div>
         </div>
 
-        </table>
-    </form>
+        <div id="REV_tble_prjctrevactnonact" hidden></div>
+        <div class="row-fluid form-group">
+            <label name="REV_lbl_actveemp" class="col-sm-2" id="REV_lbl_actveemp" hidden>
+                <div class="radio">
+            <input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label>
+</div>
+        </div>
+        <div class="row-fluid form-group">
+            <label name="REV_lbl_nonactveemp" id="REV_lbl_nonactveemp" class="col-sm-2"  hidden>
+                <div class="radio">
+            <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp"  value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
+
+        </div></div>
+        <div class="row-fluid form-group">
+            <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-2 srctitle" hidden>ACTIVE EMPLOYEE</label>
+        </div>
+        <div class="row-fluid form-group">
+            <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-2" hidden>NON ACTIVE EMPLOYEE </label>
+        </div>
+        <div><label id="REV_nodata_uld" name="REV_nodata_uld" class="errormsg"></label></div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="REV_lbl_loginid" id="REV_lbl_loginid"  hidden>LOGIN ID<em>*</em></label>
+            <div class="col-sm-4">
+                <select name="REV_lb_loginid" id="REV_lb_loginid" hidden>
+                </select>
+            </div></div>
+        <div class="row-fluid form-group">
+            <label name="REV_lbl_withproject" class="col-sm-3" id="REV_lbl_withproject"  hidden>
+                <div class="radio">
+            <input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>LIST REVENUE BY PROJECT</label>
+        </div></div>
+        <div class="row-fluid form-group">
+            <label name="REV_lbl_withoutproject" class="col-sm-3" id="REV_lbl_withoutproject"  hidden>
+                <div class="radio">
+            <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>LIST OF PROJECT REVENUE</label>
+</div>
+        </div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="REV_lbl_empproject" id="REV_lbl_empproject" hidden>PROJECT<em>*</em></label>
+            <div class="col-sm-4">
+                <select id="REV_lb_empproject" name="REV_lb_empproject" hidden>
+                </select>
+            </div></div>
+
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label>
+            <div class="col-sm-4">
+                <select id="REV_lb_recver" name="REV_lb_recver" hidden>
+                </select>
+            </div></div>
+        <div>
+            <input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/>
+
+        </div>
+        <div><label id="REV_nodata_loginid" name="REV_nodata_loginid" class="errormsg"></label></div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3" name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label>
+            <div class="col-sm-4">
+                <input type="text" name="REV_tb_strtdte" id="REV_tb_strtdte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden>
+            </div></div>
+        <div class="row-fluid form-group">
+            <label class="col-sm-3"  name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label>
+            <div class="col-sm-4">
+                <input type="text" name="REV_tb_enddte" id="REV_tb_enddte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden>
+            </div></div>
+        <div>
+            <input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled>
+        </div>
+
+
+        <div id="REV_err_msg_date" class="errormsg"></div>
+        <label id="REV_nodata_startenddate" name="REV_nodata_startenddate" class="errormsg"></label>
+
+        <div>
+            <label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label>
+        </div>
+        <div>
+            <label id="REV_lbl_ttlprjct" name="REV_lbl_ttlprjct"  class="srctitle" hidden></label>
+        </div>
+        <div>
+            <label id="REV_lbl_empday" name="REV_lbl_empday"  class="srctitle" hidden></label>
+        </div>
+        <div><input type="button" id="REV_btn_emp_pdf" class="btnpdf" value="PDF"></div>
+        <div><input type="button" id="REV_btn_emplist_pdf" class="btnpdf" value="PDF"></div>
+        <div>
+            <div><label id="REV_lbl_eachproject_empday" name="REV_lbl_eachproject_empday"  class="srctitle" hidden></label>
+            </div></div>
+        <div  id ="REV_div_loginid" class="table-responsive" style="max-width:500px">
+            <sections>
+            </sections>
+        </div>
+        <div id ="REV_div_nonactve_dterange" class="table-responsive" style="max-width:500px">
+            <sectionrnge>
+            </sectionrnge>
+        </div>
+</fieldset>
+            </div>
+
+</form>
+    </div>
 </div>
 </body>
 <!--BODY TAG END-->
