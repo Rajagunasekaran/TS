@@ -20,7 +20,7 @@ if(isset($_REQUEST)){
     include "COMMON.php";
     include "GET_USERSTAMP.php";
     include "CONFIG.php";
-//    use google\appengine\api\mail\Message;
+    use google\appengine\api\mail\Message;
     $USERSTAMP=$UserStamp;
     global $con;
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_load_mod")
@@ -58,20 +58,46 @@ if(isset($_REQUEST)){
         $CONFIG_SRCH_UPD_arr_data=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA","DT.AC_ID,DT.AC_DATA,DT.AC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.AC_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T')"),5=>array("PROJECT_CONFIGURATION","PC_DATA","DT.PC_ID,DT.PC_DATA,DT.PC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.PC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),2=>array("REPORT_CONFIGURATION","RC_DATA","DT.RC_ID,DT.RC_DATA,DT.RC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.RC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA","DT.URC_ID,DT.URC_DATA,DT.URC_INITIALIZE_FLAG,DT.URC_USERSTAMP,DATE_FORMAT(CONVERT_TZ(DT.URC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"));
 //        echo "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP WHERE  CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC";
 //        echo "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP,USER_LOGIN_DETAILS ULD WHERE  ULD.ULD_ID=DT.ULD_ID AND CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC";
-        if($flag==3)
+        if(($flag==3) && ($CONFIG_SRCH_UPD_type==23))
         {
+            $CONFIG_SRCH_UPD_sql_data = mysqli_query($con,"SELECT CP.CP_ID,CP.CP_LAPTOP_NUMBER, CP.CP_CHARGER_NUMBER, ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(CP.CP_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T') AS TIMESTAMP FROM COMPANY_PROPERTIES CP, USER_LOGIN_DETAILS ULD WHERE CP.ULD_ID=ULD.ULD_ID  ORDER BY CP.CP_LAPTOP_NUMBER  ASC");
+        }
+        elseif(($flag==3) && ($CONFIG_SRCH_UPD_type==24))
+        {
+            $CONFIG_SRCH_UPD_sql_data = mysqli_query($con,"SELECT ED.ED_ID,ED.ED_DESIGNATION,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(ED.ED_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T') AS TIMESTAMP FROM EMPLOYEE_DESIGNATION ED,USER_LOGIN_DETAILS ULD WHERE ED.ULD_ID=ULD.ULD_ID");
+        }
+        elseif($flag==3){
             $CONFIG_SRCH_UPD_sql_data = mysqli_query($con, "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP WHERE  CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC");
         }
         else{
             $CONFIG_SRCH_UPD_sql_data = mysqli_query($con, "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP,USER_LOGIN_DETAILS ULD WHERE  ULD.ULD_ID=DT.ULD_ID AND CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC");
         }
 //        $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult' width='".$arrTableWidth[$flag]."px'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
+      if($CONFIG_SRCH_UPD_type==23)
+          $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead><tbody>";
+      else
         $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
         while($row=mysqli_fetch_array($CONFIG_SRCH_UPD_sql_data)){
             $appendTable .='<tr  id='.$row[0].'><td id='.'CONFIG_'.$row[0].'>'.$row[1].'</td>';
-            for($x = 3; $x < 5; $x++) {
+            if(($CONFIG_SRCH_UPD_type==23)){
+            for($x = 2; $x < 5; $x++) {
                 $appendTable .="<td width='".$arrHeaderWidth[$flag][$x]."px'  >".$row[$x]."</td>";
             }
+            }
+            elseif(($CONFIG_SRCH_UPD_type==24)){
+                for($x = 2; $x < 4; $x++) {
+                    $appendTable .="<td width='".$arrHeaderWidth[$flag][$x]."px'  >".$row[$x]."</td>";
+                }
+            }
+            else{
+                for($x = 3; $x < 5; $x++) {
+                    $appendTable .="<td width='".$arrHeaderWidth[$flag][$x]."px'  >".$row[$x]."</td>";
+                }
+            }
+            if(($CONFIG_SRCH_UPD_type==23)){
+
+            }
+            else{
             if($row[2]=='X')
             {
                 $deleteoption='<input type="button"  id="edit"  class="edit msgbtn nondelete" value="EDIT"><input type="button"  id="cancl" class="cancl btn" value="CANCEL">';
@@ -82,6 +108,7 @@ if(isset($_REQUEST)){
 //                $deleteoption='<input type="button"  id="edit" style="max-width: 60px!important;" class="edit msgbtn deletion" value="EDIT"><input type="button" style="max-width: 90px!important; text-align: center!important; " id="cancel" class="delete btn" value="DELETE">';
             }
             $appendTable .='<td align="center">'.$deleteoption.'</td></tr>';
+        }
         }
         $appendTable .='</tbody></table>';
         echo JSON_ENCODE($appendTable);
@@ -109,12 +136,12 @@ if(isset($_REQUEST)){
         $refresh_token= $Refresh_Token;
         $drive->refreshToken($refresh_token);
         $service = new Google_Service_Drive($drive);
-//        //SERVICE
+        //SERVICE
         $select_document_owner=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=14");
         if($row=mysqli_fetch_array($select_document_owner)){
             $ss_document_owner=$row["URC_DATA"];
         }
-//SHARING FUNCTION PART
+//SHARIN FUNCTION PART
         if($CONFIG_SRCH_UPD_type==13){
             $service = new Google_Service_Calendar($drive);
             try{
@@ -173,7 +200,7 @@ if(isset($_REQUEST)){
                 }
             }
         }
-        //url id
+//        url id
         if($CONFIG_SRCH_UPD_type==9)
         {
             $new_url=$CONFIG_SRCH_UPD_data;
@@ -322,17 +349,21 @@ if(isset($_REQUEST)){
             else if(($ff==1)&&($CONFIG_SRCH_UPD_type==13)){
 
                 $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
-
-
+            }
+            else if(($ff==1)&&($CONFIG_SRCH_UPD_type==24)){
+//                echo "UPDATE EMPLOYEE_DESIGNATION SET ED_DESIGNATION"."= '$CONFIG_SRCH_UPD_data',ULD_ID=(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP') WHERE ED_ID=".$CONFIG_SRCH_UPD_id;
+                $sql="UPDATE EMPLOYEE_DESIGNATION SET ED_DESIGNATION"."= '$CONFIG_SRCH_UPD_data',ULD_ID=(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP') WHERE ED_ID=".$CONFIG_SRCH_UPD_id;
             }
             else if($CONFIG_SRCH_UPD_type!=12 || $CONFIG_SRCH_UPD_type!=9 ||$CONFIG_SRCH_UPD_type!=17 || $CONFIG_SRCH_UPD_type!=13){
 
                 $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."='$USERSTAMP' WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
             }
+
         }
         else{
             $sql="UPDATE ".$CONFIG_SRCH_UPD_arr[$flag][0]." SET ".$CONFIG_SRCH_UPD_arr[$flag][2]."= '$CONFIG_SRCH_UPD_data',".$CONFIG_SRCH_UPD_arr[$flag][3]."=(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP') WHERE ".$CONFIG_SRCH_UPD_arr[$flag][1]."=".$CONFIG_SRCH_UPD_id;
         }
+
         if($ff==1){
             if($CONFIG_SRCH_UPD_save!=2){
                 if (!mysqli_query($con,$sql)) {

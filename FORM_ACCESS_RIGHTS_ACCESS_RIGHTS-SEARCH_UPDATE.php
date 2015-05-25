@@ -1232,7 +1232,7 @@ $(document).ready(function(){
                     //UPDATE FORM
                     for (var i = 0; i < URSRC_role1.length; i++) {
                         var value=URSRC_role1[i].replace(" ","_");
-                        var id1="URSRC_role_array"+i;
+                        var id1="URSRC_role_arrays"+i;
                         if(URSRC_role1[i]==rc_name){
                             if(i==0)
                             {

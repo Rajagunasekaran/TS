@@ -11,6 +11,11 @@ if(isset($_REQUEST)){
     include "GET_USERSTAMP.php";
     $USERSTAMP=$UserStamp;
     global $con;
+    $query="select ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID ='".$USERSTAMP."'";
+    $result=mysqli_query($con,$query);
+    while($row=mysqli_fetch_array($result)){
+        $ULD_ID=$row["ULD_ID"];
+    }
     if($_REQUEST['option']=="CONFIG_ENTRY_load_mod")
     {
         // GET ERR MSG
@@ -39,10 +44,13 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="CONFIG_ENTRY_save")
     {
         $flag=$_REQUEST['CONFIG_ENTRY_lb_module'];
+//        $flag_type=$_REQUEST['CONFIG_ENTRY_lb_type'];
         $CONFIG_ENTRY_data=$_REQUEST['CONFIG_ENTRY_tb_data'];
         $CONFIG_ENTRY_type=$_REQUEST['CONFIG_ENTRY_lb_type'];
+        $LAP=$_REQUEST['LN_CONFIG_ENTRY_tb_data'];
+        $CHARGER=$_REQUEST['CN_CONFIG_ENTRY_tb_data'];
 
-        $CONFIG_ENTRY_arr_config=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA"),5=>array("PROJECT_CONFIGURATION","PC_DATA"),2=>array("REPORT_CONFIGURATION","RC_DATA"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA"));
+        $CONFIG_ENTRY_arr_config=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA"),5=>array("PROJECT_CONFIGURATION","PC_DATA"),2=>array("REPORT_CONFIGURATION","RC_DATA"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA"),6=>array("COMPANY_PROPERTIES","CP_LAPTOP_NUMBER","CP_CHARGER_NUMBER"));
         $sql1= "SELECT ".$CONFIG_ENTRY_arr_config[$flag][1]." FROM ".$CONFIG_ENTRY_arr_config[$flag][0]." CCN WHERE CCN.CGN_ID=(SELECT C.CGN_ID FROM CONFIGURATION C WHERE C.CGN_ID='$CONFIG_ENTRY_type') AND ".$CONFIG_ENTRY_arr_config[$flag][1]."='$CONFIG_ENTRY_data'";
         $CONFIG_ENTRY_type1 = mysqli_query($con,$sql1);
         $CONFIG_ENTRY_save=0;
@@ -51,12 +59,25 @@ if(isset($_REQUEST)){
         }
         $con->autocommit(false);
         $CONFIG_ENTRY_arr=array(4=>array("attendance_configuration","AC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),5=>array("PROJECT_CONFIGURATION","PC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),2=>array("REPORT_CONFIGURATION","RC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA,URC_USERSTAMP","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"));
-        if($flag==3)
+       if(($flag==3) && ($CONFIG_ENTRY_type==23))
+       {
+           $sql="INSERT INTO COMPANY_PROPERTIES (CP_LAPTOP_NUMBER,CP_CHARGER_NUMBER,ULD_ID) VALUES  ('$LAP','$CHARGER','$ULD_ID')";
+       }
+       elseif(($flag==3) && ($CONFIG_ENTRY_type==24))
+       {
+            $sql="INSERT INTO EMPLOYEE_DESIGNATION (ED_DESIGNATION,ULD_ID) VALUES ('$CONFIG_ENTRY_data','$ULD_ID')";
+       }
+     elseif(($flag==3) && ($CONFIG_ENTRY_type==22))
+        {
+            $sql="INSERT INTO USER_RIGHTS_CONFIGURATION (CGN_ID,URC_DATA,URC_USERSTAMP) VALUES ('$CONFIG_ENTRY_type','$CONFIG_ENTRY_data','$USERSTAMP')";
+        }
+     elseif(($flag==3) && ($CONFIG_ENTRY_type==10)){
             $sql="INSERT INTO ".$CONFIG_ENTRY_arr[$flag][0]." (CGN_ID, ".$CONFIG_ENTRY_arr[$flag][1].") VALUES ('$CONFIG_ENTRY_type', '$CONFIG_ENTRY_data', '$USERSTAMP')";
-        else
+        }
+       else{
             $sql="INSERT INTO ".$CONFIG_ENTRY_arr[$flag][0]." (CGN_ID, ".$CONFIG_ENTRY_arr[$flag][1].") VALUES ('$CONFIG_ENTRY_type', '$CONFIG_ENTRY_data', (SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP'))";
-        if($CONFIG_ENTRY_save!=2){
-
+       }
+           if($CONFIG_ENTRY_save!=2){
             if (!mysqli_query($con,$sql)) {
                 die('Error: ' . mysqli_error($con));
                 $CONFIG_ENTRY_save=4;

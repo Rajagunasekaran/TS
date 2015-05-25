@@ -393,7 +393,7 @@ $(document).ready(function(){
                 reason=values_array[j].reason1;
                 permission=values_array[j].permission;
                 attendance=values_array[j].attendance;
-                alert(attendance);
+//                alert(attendance);
                 pdid=values_array[j].pdid;
                 morningsession=values_array[j].morningsession;
                 afternoonsession=values_array[j].afternoonsession;
@@ -1088,8 +1088,9 @@ $(document).ready(function(){
                 {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[1],position:{top:100,left:100}}});
                     show_msgbox("USER SEARCH AND UPDATE",err_msg[1],"success",true);
-                    UARD_clear()
-                    flextable()
+                    UARD_clear();
+                    flextable();
+                    $('.preloader', window.parent.document).hide();
                     $("#USRC_UPD_tb_date").val('').hide()
                     $('#USRC_UPD_lbl_dte').hide();
                 }
@@ -1097,8 +1098,9 @@ $(document).ready(function(){
                 {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[7],position:{top:100,left:100}}});
                     show_msgbox("USER SEARCH AND UPDATE",err_msg[7],"success",true);
-                    UARD_clear()
-                    flextable()
+                    UARD_clear();
+                    flextable();
+                    $('.preloader', window.parent.document).hide();
                     $("#USRC_UPD_tb_date").val('').hide()
                     $('#USRC_UPD_lbl_dte').hide();
                 }
@@ -1106,8 +1108,9 @@ $(document).ready(function(){
                 {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:msg_alert,position:{top:100,left:100}}});
                     show_msgbox("USER SEARCH AND UPDATE",msg_alert,"success",true);
-                    UARD_clear()
-                    flextable()
+                    UARD_clear();
+                    flextable();
+                    $('.preloader', window.parent.document).hide();
                     $("#USRC_UPD_tb_date").val('').hide()
                     $('#USRC_UPD_lbl_dte').hide();
                 }

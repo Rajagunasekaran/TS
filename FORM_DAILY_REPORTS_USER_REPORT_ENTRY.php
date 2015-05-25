@@ -763,19 +763,22 @@ $(document).ready(function(){
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
+                        show_msgbox("USER REPORT ENTRY",err_msg[0],"success",true);
                         UARD_clear();
                         $('#URE_tb_date').val('');
                     }
                     else if(msg_alert==0)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
+                        show_msgbox("USER REPORT ENTRY",err_msg[4],"success",true);
                         UARD_clear();
                         $('#URE_tb_date').val('');
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
+                        show_msgbox("USER REPORT ENTRY",msg_alert,"success",true);
                         UARD_clear();
                         $('#URE_tb_date').val('');
                     }
@@ -795,7 +798,8 @@ $(document).ready(function(){
                     var msg_alert=xmlhttp.responseText;
                     $('.preloader', window.parent.document).hide();
                     if(msg_alert==1){
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
+                        show_msgbox("USER REPORT ENTRY",err_msg[0],"success",true);
                         URE_mulclear()
                         $('#URE_lbl_sdte').show();
                         $('#URE_ta_fromdate').val('').show();
@@ -804,7 +808,8 @@ $(document).ready(function(){
                     }
                     else if(msg_alert==0)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
+                        show_msgbox("USER REPORT ENTRY",err_msg[4],"success",true);
                         $('#URE_lbl_sdte').show();
                         $('#URE_ta_fromdate').val('').show();
                         $('#URE_lbl_edte').show();
@@ -813,7 +818,8 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
+                        show_msgbox("USER REPORT ENTRY",msg_alert,"success",true);
                         $('#URE_lbl_sdte').show();
                         $('#URE_ta_fromdate').val('').show();
                         $('#URE_lbl_edte').show();
@@ -995,6 +1001,7 @@ $(document).ready(function(){
                 $('section').html('');
                 $('.preloader', window.parent.document).show();
                 flextable();
+                $('.preloader', window.parent.document).hide();
                 $("#USRC_UPD_btn_search").attr("disabled", "disabled");
             });
             //DATE PICKER FUNCTION-->
@@ -1902,8 +1909,9 @@ $(document).ready(function(){
                         {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[1],position:{top:100,left:100}}});
                             show_msgbox("USER SEARCH AND UPDATE",err_msg[1],"success",true);
-                            clear()
-                            flextable()
+                            clear();
+                            flextable();
+                            $('.preloader', window.parent.document).hide();
                             $("#USRC_UPD_tb_date").val('').hide()
                             $('#USRC_UPD_lbl_dte').hide();
                         }
@@ -1911,8 +1919,9 @@ $(document).ready(function(){
                         {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[7],position:{top:100,left:100}}});
                             show_msgbox("USER SEARCH AND UPDATE",err_msg[7],"success",true);
-                            clear()
-                            flextable()
+                            clear();
+                            flextable();
+                            $('.preloader', window.parent.document).hide();
                             $("#USRC_UPD_tb_date").val('').hide()
                             $('#USRC_UPD_lbl_dte').hide();
                         }
@@ -1920,8 +1929,9 @@ $(document).ready(function(){
                         {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:msg_alert,position:{top:100,left:100}}});
                             show_msgbox("USER SEARCH AND UPDATE",msg_alert,"success",true);
-                            clear()
-                            flextable()
+                            clear();
+                            flextable();
+                            $('.preloader', window.parent.document).hide();
                             $("#USRC_UPD_tb_date").val('').hide()
                             $('#USRC_UPD_lbl_dte').hide();
                         }

@@ -1,8 +1,77 @@
+
+<!--//*******************************************FILE DESCRIPTION*********************************************//
+//*********************************DAILY REPORTS ADMIN SEARCH UPDATE DELETE***********************************//
+//DONE BY:RAJA
+//VER 0.12-SD:10/01/2015 ED:10/01/2015, TRACKER NO:74,DESC:ADDED LOCATION COLUMN IN DATATABLE, CHANGED PRELOADER POSITON AND
+//DONE BY:RAJA
+//VER 0.11-SD:02/01/2015 ED:07/01/2015, TRACKER NO:74,DESC:IMPLEMENTED PDF BUTTON AND VALIDATED AND GAVE INPUT TO DB, CHANGED LOGIN ID AS EMPLOYEE NAME, SETTING PRELOADER POSITON, MSGBOX POSITION
+//DONE BY:SASIKALA
+//VER 0.10-SD:06/01/2015 ED:06/01/2015, TRACKER NO:74,DESC:ADDED GEOLOCATION FOR REPORT UPDATE
+//DONE BY:LALITHA
+//VER 0.09-SD:29/12/2014 ED:29/12/2014,tracker no:84, updated delete function
+//VER 0.08-SD:05/12/2014 ED:05/12/2014,TRACKER NO:74,Implemented If reason means updated Onduty(am/pm)/Absent(am/pm) with checked condition) nd changed query also,Updated to showned nd hide the header err msg,Updated pdf file name frm err msgs,Changed listbx name
+//VER 0.07 SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
+//VER 0.06 SD:20/11/2014 ED:20/11/2014,TRACKER NO:74,DESC:Updated to showned point by point line for report nd reason,Showned permission in report fr all active employee flextble nd also Changed flex tble query
+//VER 0.05 SD:14/11/2014 ED 14/11/2014,TRACKER NO:74,DESC:Fixed width
+//VER 0.04 SD:06/11/2014 ED 06/11/2014,TRACKER NO:74,DESC:Impmlemented auto focus in radio nd search btn clicking,Fixed width fr all db column,Removed(report:)lbl,Replaced name login(loginid),Hide the err msg while changing dp
+//DONE BY:SASIKALA
+//VER 0.03 SD:17/10/2014 ED 18/10/2014,TRACKER NO:74,DESC:DID PERMISSION AS MANDATORY AND BUTTON VALIDATION
+//VER 0.02 SD:08/10/2014 ED:08/10/2014,TRACKER NO:74,DESC:UPDATED MAIL SEND WHEN UPDATION OCCUR
+//VER 0.01-INITIAL VERSION, SD:08/08/2014 ED:01/10/2014,TRACKER NO:74
+//*********************************************************************************************************//-->
 <?php
 //include "HEADER.php";
 include "NEW_MENU.php";
 ?>
-<script xmlns="http://www.w3.org/1999/html">
+<script>
+var checkoutlocation;
+function displayLocation(latitude,longitude){
+    var request = new XMLHttpRequest();
+    var method = 'GET';
+    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true';
+    var async = true;
+
+    request.open(method, url, async);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var data = JSON.parse(request.responseText);
+            var address = data.results[0];
+            checkoutlocation=address.formatted_address;
+        }
+    };
+    request.send();
+};
+var successCallback = function(position){
+    var x = position.coords.latitude;
+    var y = position.coords.longitude;
+    displayLocation(x,y);
+};
+
+var errorCallback = function(error){
+    var errorMessage = 'Unknown error';
+    switch(error.code) {
+        case 1:
+            errorMessage = 'Permission denied';
+            break;
+        case 2:
+            errorMessage = 'Position unavailable';
+            break;
+        case 3:
+            errorMessage = 'Timeout';
+            break;
+    }
+    document.write(errorMessage);
+};
+
+var options = {
+    enableHighAccuracy: true,
+    timeout: 30000,
+    maximumAge: 0
+};
+
+navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
+
+
 $(document).ready(function(){
     $(document).on('change','.radio_click',function(){
         var click=$(this).val();

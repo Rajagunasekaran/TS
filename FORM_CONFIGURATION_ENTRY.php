@@ -56,7 +56,7 @@ include  "NEW_MENU.php";
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                            alert(xmlhttp.responseText)
+                            alert(xmlhttp.responseText)
                             var CONFIG_ENTRY_values=JSON.parse(xmlhttp.responseText);
                             $('.preloader', window.parent.document).hide();
                             if(CONFIG_ENTRY_values.length==0){
@@ -69,12 +69,10 @@ include  "NEW_MENU.php";
                                     CONFIG_ENTRY_typ_opt += '<option value="' + CONFIG_ENTRY_values[i][0] + '">' + CONFIG_ENTRY_values[i][1] + '</option>';
                                 }
 //                                $("#BDLY_SRC_div_searchresult").html('')
-                                $('#CONFIG_ENTRY_tr_type').html('').append('<div class="row-fluid form-group"><label class="col-sm-3">TYPE<em>*</em></label><div class="col-sm-4"><select id="CONFIG_ENTRY_lb_type" name="CONFIG_ENTRY_lb_type"></select></div></div>')
+                                $('#CONFIG_ENTRY_tr_type').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">TYPE<em>*</em></label><div class="col-sm-4"><select id="CONFIG_ENTRY_lb_type" name="CONFIG_ENTRY_lb_type"></select></div></div>')
                                 $('#CONFIG_ENTRY_lb_type').html(CONFIG_ENTRY_typ_opt);
-//                                $('#CONFIG_ENTRY_tr_type').empty();
                                 $('#CONFIG_ENTRY_tr_type').show();
-
-//                                $('#CONFIG_ENTRY_lb_type').show();
+//                              $('#CONFIG_ENTRY_lb_type').show();
                             }
                         }}
                     var OPTION="CONFIG_ENTRY_load_type";
@@ -95,15 +93,30 @@ include  "NEW_MENU.php";
                     $("#CONFIG_ENTRY_tr_data").empty('');
                     if(($('#CONFIG_ENTRY_lb_type').val()=='7') || ($('#CONFIG_ENTRY_lb_type').val()=='10'))
                     {
-                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-3">DATA<em>*</em></label><div class="col-sm-6"><input type="text" id="CONFIG_ENTRY_tb_data" class="alphabets" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
+                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">DATA<em>*</em></label><div class="col-sm-4"><input type="text" id="CONFIG_ENTRY_tb_data" class="alphabets" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
+                    }
+                    else if($('#CONFIG_ENTRY_lb_type').val()=='23')
+                    {
+                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">LAPTOP NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="LN_CONFIG_ENTRY_tb_data" name="LN_CONFIG_ENTRY_tb_data"></div></div><div class=" row-fluid from-group"><label class="col-sm-2">CHARGER NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="CN_CONFIG_ENTRY_tb_data" name="CN_CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
+                    }
+                    else if($('#CONFIG_ENTRY_lb_type').val()=='22')
+                    {
+                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">RELATIONHOOD TYPE<em>*</em></label><div class="col-sm-4"><input type="text" id="CONFIG_ENTRY_tb_data" class="alphabets" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
+                    }
+                    else if($('#CONFIG_ENTRY_lb_type').val()=='24')
+                    {
+                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">EMPLOYEE DESIGNATION<em>*</em></label><div class="col-sm-4"><input type="text" id="CONFIG_ENTRY_tb_data" class="alphabets" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
                     }
                     else
                     {
-                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-3">DATA<em>*</em></label><div class="col-sm-6"><input type="text" id="CONFIG_ENTRY_tb_data" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
+                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">DATA<em>*</em></label><div class="col-sm-4"><input type="text" id="CONFIG_ENTRY_tb_data" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
                         $('#CONFIG_ENTRY_tr_data').show();
                     }
-                    $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></td><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
+//                    $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></td><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
+                    $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE"></td><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
                     $("#CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#CN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#LN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
                     $(".alphabets").doValidation({rule:'alphabets',prop:{whitespace:true,uppercase:true,autosize:true}});
                     $('#CONFIG_ENTRY_tr_data').show();
                     $('#CONFIG_ENTRY_tr_btn').show();
@@ -121,6 +134,7 @@ include  "NEW_MENU.php";
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $('.preloader', window.parent.document).hide();
+                        alert(xmlhttp.responseText);
                         var CONFIG_ENTRY_msg_alert=xmlhttp.responseText;
                         if(CONFIG_ENTRY_msg_alert==1)
                         {
@@ -155,6 +169,7 @@ include  "NEW_MENU.php";
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                             $('.preloader', window.parent.document).hide();
+                            alert(xmlhttp.responseText)
                             if(xmlhttp.responseText==1){
                                 $("#CONFIG_ENTRY_div_errmsg").show();
                                 $("#CONFIG_ENTRY_div_errmsg").text(CONFIG_ENTRY_errmsg[3].replace('[TYPE]',$("#CONFIG_ENTRY_lb_type option:selected").text()));}
@@ -249,8 +264,10 @@ include  "NEW_MENU.php";
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $('.preloader',window.parent.document).hide();
 //                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:xmlhttp.responseText,position:{top:150,left:530}}});
+//                        alert(xmlhttp.responseText);
                         var CONFIG_SRCH_UPD_values=JSON.parse(xmlhttp.responseText);
                         $('#CONFIG_SRCH_UPD_tble_config_wrapper').show();
+                        $('#CONFIG_SRCH_UPD_tr_type').show();
                         $('section').html(CONFIG_SRCH_UPD_values);
                         var oTable= $('#CONFIG_SRCH_UPD_tble_config').DataTable( {
                             "aaSorting": [],
@@ -374,7 +391,7 @@ include  "NEW_MENU.php";
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                        alert(xmlhttp.responseText)
+                        alert(xmlhttp.responseText);
                         var msg_alert=JSON.parse(xmlhttp.responseText)
                         var success_flag=msg_alert[0];
                         var  CONFIG_SRCH_UPD_msg_alert=success_flag;
@@ -509,21 +526,22 @@ include  "NEW_MENU.php";
         <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
             <div class="panel-body">
                 <fieldset>
-                    <div class="row-fluid form-group ">
-                        <label name="UR_lbl_entry" class="col-sm-2" id="UR_lbl_entry">
+                    <div class="col-sm-12">
+                        <label name="UR_lbl_entry" id="UR_lbl_entry">
                             <div class="radio">
                                 <input type="radio" name="UR_ESU" id="UR_ENTRY" value="entry">ENTRY</label>
-
-                    </div></div>
-            <div class="row-fluid form-group">
-                <label name="UR_lbl_search_update" class="col-sm-2" id="UR_lbl_search_update">
+                    </div>
+            </div>
+            <div class="col-sm-12">
+                <label name="UR_lbl_search_update" id="UR_lbl_search_update">
                     <div class="radio">
                         <input type="radio" name="UR_ESU" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
 
-            </div></div>
+                    </div>
+            </div>
     <div id="entry" hidden>
                     <div class="row-fluid form-group">
-                        <label class="col-sm-3" id="CONFIG_ENTRY_lbl_module">MODULE NAME<em>*</em></label>
+                        <label class="col-sm-2" id="CONFIG_ENTRY_lbl_module">MODULE NAME<em>*</em></label>
                         <div class="col-sm-4">
                             <select id="CONFIG_ENTRY_lb_module" name="CONFIG_ENTRY_lb_module"></select>
                         </div></div>
@@ -540,10 +558,10 @@ include  "NEW_MENU.php";
             </div></div>
         <div id="CONFIG_SRCH_UPD_div_errMod" hidden class="errormsg"></div>
         <br>
-        <div  id="CONFIG_SRCH_UPD_tr_type"></div>
-        <div class="table-responsive">
-            <section style="max-width:500px;" ></section>
-        </div>
+        <div class="table-responsive" id="CONFIG_SRCH_UPD_tr_type"></div>
+            <section style="max-width:500px;">
+
+            </section>
         <div><label id="CONFIG_SRCH_UPD_err_flex" name="CONFIG_SRCH_UPD_err_flex" class="errormsg" hidden></label></div>
     </div>
                 </fieldset>
