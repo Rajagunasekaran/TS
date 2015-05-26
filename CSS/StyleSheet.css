@@ -331,56 +331,12 @@ align-content: center;
 /right:45%;/
 
 /margin-left:100px;/
-align :center;
+
+    align :center;
+
     border-color:#D8D8D8;
 
     border-style:solid;
-
-    /*opacity:0.8;*/
-
-    /*border:4px;*/
-
-    /*background-color:#FFF;*/
-
-    /*width:300px;*/
-
-    /*height:300px;*/
-
-    /*position:left;*/
-
-    /*top:25%;*/
-
-    /*left:35%;*/
-    /*margin-left: 100px;*/
-
-    /*margin-top: 100px;*/
-
-    /*margin-right: 100px;*/
-
-    /*margin-bottom: 100px;*/
-
-    /*margin-left:400px;*/
-
-    /*border-color:#D8D8D8;*/
-
-    /*border-style:solid;*/
-
-    /*position:fixed;*/
-    /*width:100%;*/
-    /*height:100%;*/
-    /*top:0px;*/
-
-    /*right: 0px;*/
-
-    /*left:0px;*/
-    /*z-index:1000;*/
-    /*align-content: center;*/
-    /*vertical-align: middle;*/
-    /*text-align: center;*/
-    /*align: center;*/
-    /*bottom:0;*/
-    /*background-size: cover;*/
-    /*display:none;*/
 }
 
 
@@ -733,6 +689,7 @@ align :center;
     text-align: center;
     font-size: 18px;}
 
+
 /****************TO SET COLOR FOR INVALID INPUT***************************/
 
 .invalid{
@@ -1046,9 +1003,12 @@ textarea {
 
     text-shadow:1px 1px 0px #528ecc;
 
+    color: #ffffff !important;
+
 }.btn:hover {
 
      background-color:#378de5;
+     color: #ffffff !important;
 
  }.btn:active {
 
@@ -1204,7 +1164,7 @@ textarea {
 
     font-weight:bold;
 
-    padding:6px 22px;
+    padding:6px 24px;
 
     text-decoration:none;
 
@@ -1223,6 +1183,7 @@ textarea {
       top:1px;
 
   }
+
 
 /***************************SET COLOR FOR READ ONLY FIELD***************/
 

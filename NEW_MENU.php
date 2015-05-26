@@ -223,8 +223,8 @@ $(document).ready(function(){
 
     }
     var option="MENU";
-//    xmlhttp.open("POST","DB_MENU.do?option="+option,true);
     xmlhttp.open("POST","DB_MENU.do?option="+option,true);
+//    xmlhttp.open("POST","DB_MENU.php?option="+option,true);
 
     xmlhttp.send();
 
@@ -262,7 +262,7 @@ $(document).ready(function(){
             var main='mainmenu'+i
             var submen='submenu'+i;
             var filename=filelist[count]+'.do';
-//            var filename=filelist[count]+'.do';
+//            var filename=filelist[count]+'.php';
 
             if(ARCMENU_first_submenu.length==0)
             {
@@ -293,14 +293,14 @@ $(document).ready(function(){
                         {
                             if(script_flag[count]!='X'){
                                 var file_name=filelist[count]+'.do';
-//                                var file_name=filelist[count]+'.do';
+//                                var file_name=filelist[count]+'.php';
 
 
                             }
                             else{
 
                                 var file_name='ERROR_PAGE.do'
-//                                var file_name='ERROR_PAGE.do'
+//                                var file_name='ERROR_PAGE.php'
 
                             }
 
@@ -323,13 +323,13 @@ $(document).ready(function(){
                             if(script_flag[count][m]!='X'){
 //                                    var file_name=filelist[count][m]
                                 var file_name=filelist[count][m]+'.do';
-//                                var file_name=filelist[count][m]+'.do';
+//                                var file_name=filelist[count][m]+'.php';
 
 
                             }
                             else{
                                 var file_name='ERROR_PAGE.do'
-//                                var file_name='ERROR_PAGE.do'
+//                                var file_name='ERROR_PAGE.php'
 
                             }
 

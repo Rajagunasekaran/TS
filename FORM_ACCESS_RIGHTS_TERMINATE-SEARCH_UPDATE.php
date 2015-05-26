@@ -29,6 +29,7 @@ $(document).ready(function(){
         ValidateSubmitbutton()
         return false;
     });
+    $('.preloader', window.parent.document).hide();
     //file extension validation
     $(document).on("change",'.fileextensionchk', function (){
         ValidateSubmitbutton()
@@ -1354,13 +1355,13 @@ xmlhttp.send();
 <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
 <div class="panel-body">
 <fieldset>
-<div class="row-fluid form-group">
+<div class="form-group">
     <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidden>
         <div class="radio">
     <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
 </div></div>
 
-<div class="row-fluid form-group">
+<div class="form-group">
     <label  name="URT_SRC_lbl_nloginsearchupdate" class="col-sm-12" id="URT_SRC_lbl_loginsearchupdate"  hidden>
         <div class="radio">
     <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" >SEARCH/UPDATE</label>
@@ -1392,17 +1393,17 @@ xmlhttp.send();
 </div>
 <!--select an option-->
 <div class="row-fluid form-group" >
-    <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle col-sm-2" hidden> SELECT A OPTION </label>
+    <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle" hidden> SELECT A OPTION </label>
 </div>
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nselectrejoin" class="col-sm-12" id="URT_SRC_lbl_selectrejoin"  hidden>
+<div class=" form-group form-inline col-sm-12">
+    <label name="URT_SRC_lbl_nselectrejoin"  id="URT_SRC_lbl_selectrejoin"  hidden>
         <div class="radio">
-    <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>REJOIN </label>
+    <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>&nbsp; REJOIN </label>
 </div></div>
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate" class="col-sm-12" hidden>
+<div class=" form-group form-inline col-sm-12">
+    <label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate"  hidden>
         <div class="radio">
-    <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectsearchupdate" hidden>SEARCH/UPDATE </label>
+    <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectsearchupdate" hidden>&nbsp;SEARCH/UPDATE </label>
 </div></div>
 <!--terminate rejoin-->
 <div class="row-fluid form-group">
@@ -1426,7 +1427,7 @@ xmlhttp.send();
 <!--EMPLOYEE DETAILS-->
 <div id="URSRC_table_employeetbl" hidden>
     <div class="row-fluid form-group">
-        <label class="srctitle col-lg-2"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
+        <label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
     </div>
     <div class="row-fluid form-group" width="175">
         <label name="row URSRC_lbl_firstname" class="col-lg-2" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label>
@@ -1544,7 +1545,7 @@ xmlhttp.send();
         </div></div>
     <div class="row-fluid  form-group">
 
-        <label class="srctitle col-sm-2"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
+        <label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
     </div>
     <div class="row-fluid form-group">
         <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label>
@@ -1561,59 +1562,59 @@ xmlhttp.send();
         </div></div>
 
     <div id="URSRC_table_others" style="width:500px" hidden>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">LAPTOP BAG</label>
+                </div></div>
+            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">&nbsp;&nbsp;LAPTOP BAG</label>
         </div>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">MOUSE</label>
+                </div></div>
+            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;&nbsp;MOUSE</label>
         </div>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">DOOR ACCESS</label>
+                </div></div>
+            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;&nbsp;DOOR ACCESS</label>
         </div>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">ID CARD</label>
+                </div></div>
+            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;&nbsp;ID CARD</label>
         </div>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label>
+                </div></div>
+            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;&nbsp;HEAD SET</label>
         </div>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate" hidden>
+                </div></div>
+            <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">&nbsp;&nbsp;AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate" hidden>
 
         </div>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
+                </div></div>
+            <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">&nbsp;&nbsp;PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
         </div>
-        <div class="row-fluid form-group col-sm-offset-7">
-            <div class="checkbox">
+        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+            <div class="form-inline col-lg-1"><div class="checkbox">
             <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
-                </div>
-            <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">VOTERS ID NO</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
+                </div></div>
+            <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">&nbsp;&nbsp;VOTERS ID NO</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
         </div>
 
         <div class="row-fluid form-group">
-            <label name="URSRC_lbl_comments" class="col-sm-2" id="URSRC_lbl_comments">COMMENTS</label>
-            <div class="col-sm-offset-6">
+            <label  class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
+            <div class="col-sm-offset-5">
                 <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea>
             </div></div>
 
@@ -1632,22 +1633,22 @@ xmlhttp.send();
 </div>
 <!--terminate updation-->
 <div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="srctitle col-sm-2" hidden>LOGIN ID<em>*</em></label>
+    <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="form-inline col-sm-2" hidden>LOGIN ID<em>*</em></label>
     <div class="col-sm-10">
         <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" hidden> <option>SELECT</option></select>
     </div></div>
 <div class="row-fluid form-group">
-    <label id="URT_SRC_lbl_recordversion" class="srctitle col-sm-2" hidden >RECORD VERSION<em>*</em></label>
+    <label id="URT_SRC_lbl_recordversion" class=" col-sm-2" hidden >RECORD VERSION<em>*</em></label>
     <div class="col-sm-10">
         <select name="URT_SRC_lb_recordversion" id="URT_SRC_lb_recordversion" hidden ></select>
     </div></div>
 <div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" srctitle col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
+    <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" form-inline col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
     <div class="col-sm-10">
         <input type="text" name="URT_SRC_tb_ndatepickerupdate" id="URT_SRC_tb_datepickerupdate" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" hidden>
     </div></div>
 <div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class=" srctitle col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
+    <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class="form-inline col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
     <div class="col-sm-4">
         <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate" hidden> </textarea>
     </div></div>

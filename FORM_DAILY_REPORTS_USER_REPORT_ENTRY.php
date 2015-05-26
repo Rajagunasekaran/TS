@@ -359,7 +359,7 @@ $(document).ready(function(){
         $('#URE_lb_attdnce').hide();
     }
     <!--ENTRY END-->
-
+    $('.preloader', window.parent.document).hide();
     $('.rdclick').click(function(){
 //        alert('lllll');
         var radiooption=$(this).val();
@@ -764,28 +764,28 @@ $(document).ready(function(){
                     if(msg_alert==1)
                     {
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
-                        show_msgbox("USER REPORT ENTRY",err_msg[0],"success",true);
+                        show_msgbox("USER REPORT ENTRY",err_msg[0],"success",false);
                         UARD_clear();
                         $('#URE_tb_date').val('');
                     }
                     else if(msg_alert==0)
                     {
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
-                        show_msgbox("USER REPORT ENTRY",err_msg[4],"success",true);
+                        show_msgbox("USER REPORT ENTRY",err_msg[4],"success",false);
                         UARD_clear();
                         $('#URE_tb_date').val('');
                     }
                     else
                     {
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
-                        show_msgbox("USER REPORT ENTRY",msg_alert,"success",true);
+                        show_msgbox("USER REPORT ENTRY",msg_alert,"success",false);
                         UARD_clear();
                         $('#URE_tb_date').val('');
                     }
                 }
             }
             var option="SINGLE DAY ENTRY";
-            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,true);
+            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,false);
             xmlhttp.send(new FormData(formElement));
         });
      // CHANGE EVENT FOR MULTIPLE DAY SAVE BUTTON
@@ -799,7 +799,7 @@ $(document).ready(function(){
                     $('.preloader', window.parent.document).hide();
                     if(msg_alert==1){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
-                        show_msgbox("USER REPORT ENTRY",err_msg[0],"success",true);
+                        show_msgbox("USER REPORT ENTRY",err_msg[0],"success",false);
                         URE_mulclear()
                         $('#URE_lbl_sdte').show();
                         $('#URE_ta_fromdate').val('').show();
@@ -809,7 +809,7 @@ $(document).ready(function(){
                     else if(msg_alert==0)
                     {
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
-                        show_msgbox("USER REPORT ENTRY",err_msg[4],"success",true);
+                        show_msgbox("USER REPORT ENTRY",err_msg[4],"success",false);
                         $('#URE_lbl_sdte').show();
                         $('#URE_ta_fromdate').val('').show();
                         $('#URE_lbl_edte').show();
@@ -819,7 +819,7 @@ $(document).ready(function(){
                     else
                     {
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:msg_alert,position:{top:150,left:500}}});
-                        show_msgbox("USER REPORT ENTRY",msg_alert,"success",true);
+                        show_msgbox("USER REPORT ENTRY",msg_alert,"success",false);
                         $('#URE_lbl_sdte').show();
                         $('#URE_ta_fromdate').val('').show();
                         $('#URE_lbl_edte').show();
@@ -829,7 +829,7 @@ $(document).ready(function(){
                 }
             }
             var option="MULTIPLE DAY ENTRY";
-            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,true);
+            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,false);
             xmlhttp.send(new FormData(formElement));
         });
        // CHANGE FUNCTION FOR TO DATE ALEREADY EXISTS
@@ -877,7 +877,7 @@ $(document).ready(function(){
                     }
                 }
                 var option="BETWEEN DATE";
-                xmlhttp.open("GET","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&fromdate="+fromdate+"&todate="+todate,true);
+                xmlhttp.open("GET","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&fromdate="+fromdate+"&todate="+todate,false);
                 xmlhttp.send();
             }
 
@@ -893,7 +893,7 @@ $(document).ready(function(){
             $('#USRC_UPD_btn_pdf').hide();
             var errmsgs;
             $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
-            $('textarea').autogrow({onInitialize: true});
+            $('textarea').autogrow({onInitialize: false});
             var permission_array=[];
             var project_array=[];
             var min_date;
@@ -1126,7 +1126,7 @@ $(document).ready(function(){
                 }
                 $('#USRC_UPD_div_tablecontainer').show();
                 var option='SEARCH';
-                xmlhttp.open("GET","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?start_date="+start_date+"&end_date="+end_date+"&option="+option,true);
+                xmlhttp.open("GET","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?start_date="+start_date+"&end_date="+end_date+"&option="+option,false);
                 xmlhttp.send();
                 sorting();
             }
@@ -1908,7 +1908,7 @@ $(document).ready(function(){
                         if(msg_alert==1)
                         {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[1],position:{top:100,left:100}}});
-                            show_msgbox("USER SEARCH AND UPDATE",err_msg[1],"success",true);
+                            show_msgbox("USER SEARCH AND UPDATE",err_msg[1],"success",false);
                             clear();
                             flextable();
                             $('.preloader', window.parent.document).hide();
@@ -1918,7 +1918,7 @@ $(document).ready(function(){
                         else if(msg_alert==0)
                         {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:err_msg[7],position:{top:100,left:100}}});
-                            show_msgbox("USER SEARCH AND UPDATE",err_msg[7],"success",true);
+                            show_msgbox("USER SEARCH AND UPDATE",err_msg[7],"success",false);
                             clear();
                             flextable();
                             $('.preloader', window.parent.document).hide();
@@ -1928,7 +1928,7 @@ $(document).ready(function(){
                         else
                         {
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER SEARCH AND UPDATE",msgcontent:msg_alert,position:{top:100,left:100}}});
-                            show_msgbox("USER SEARCH AND UPDATE",msg_alert,"success",true);
+                            show_msgbox("USER SEARCH AND UPDATE",msg_alert,"success",false);
                             clear();
                             flextable();
                             $('.preloader', window.parent.document).hide();
@@ -1938,7 +1938,7 @@ $(document).ready(function(){
                     }
                 }
                 var option="UPDATE"
-                xmlhttp.open("POST","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?option="+option+"&reportlocation="+checkoutlocation,true);
+                xmlhttp.open("POST","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?option="+option+"&reportlocation="+checkoutlocation,false);
                 xmlhttp.send(new FormData(formElement));
             });
             $(document).on('click','#USRC_UPD_btn_pdf',function(){
@@ -2013,20 +2013,20 @@ $(document).ready(function(){
                 </select>
             </div></div>
         <div class="row-fluid form-group">
-            <label name="URE_permission" class="col-sm-2" id="URE_lbl_permission">
-                <div class="radio">
+            <label name="URE_permission" class="col-sm-10" id="URE_lbl_permission">
+                <div class="col-sm-3"> <div class="radio">
                     <input type="radio" id="URE_rd_permission" name="permission" value="PERMISSION"/>PERMISSION<em>*</em></label>
-        </div>
+        </div></div>
         <div class="col-sm-8">
             <select name="URE_lb_timing" id="URE_lb_timing" hidden >
             </select>
         </div></div>
 
     <div class="row-fluid form-group">
-        <label name="URE_nopermission" class="col-sm-12" id="URE_lbl_nopermission">
-            <div class="radio">
+        <label name="URE_nopermission" class="col-sm-10" id="URE_lbl_nopermission">
+           <div class="col-sm-3"><div class="radio">
                 <input type="radio" id="URE_rd_nopermission" name="permission" value="NOPERMISSION"/>NO PERMISSION<em>*</em></label>
-    </div>
+    </div></div>
 </div>
 <div class="row-fluid form-group">
     <label name="URE_lbl_session" class="col-sm-2" id="URE_lbl_session" hidden >SESSION</label>
@@ -2122,19 +2122,20 @@ $(document).ready(function(){
             </div></div>
 
         <div class="row-fluid form-group">
-            <label name="USRC_UPD_permission" class="col-sm-2" id="USRC_UPD_lbl_permission" >
-                <div class="radio">
+            <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission" >
+                <div class="col-sm-3"> <div class="radio">
                     <input type="radio" id="USRC_UPD_rd_permission" name="permission" value="PERMISSION" class="update_validate"/>PERMISSION <em>*</em></label>
-        </div>
+        </div></div>
         <div class="col-sm-8">
             <select name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate" hidden >
             </select>
         </div></div>
     <div class="row-fluid form-group">
-        <label name="USRC_UPD_permission" class="col-sm-12" id="USRC_UPD_lbl_nopermission" >
-            <div class="radio">
+        <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_nopermission" >
+           <div class="col-sm-3"> <div class="radio">
                 <input type="radio" id="USRC_UPD_rd_nopermission" name="permission" value="NOPERMISSION" class="update_validate"/>NO PERMISSION <em>*</em></label>
     </div></div>
+</div>
 <div class="row-fluid form-group">
     <label name="USRC_UPD_lbl_session" class="col-sm-2" id="USRC_UPD_lbl_session" hidden >SESSION</label>
     <div class="col-sm-8">

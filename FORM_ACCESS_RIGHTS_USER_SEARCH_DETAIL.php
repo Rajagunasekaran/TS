@@ -131,7 +131,7 @@ include  "NEW_MENU.php";
         <div><label id="URSRC_lbl_title" name="URSRC_lbl_title" class="srctitle"></label></div>
         <div><input type="button" id='URSRC_btn_pdf' class="btnpdf" value="PDF"></div>
 
-            <div id="tablecontainer" style="width:500px;" hidden>
+            <div id="tablecontainer" style="width:500px;" class="table-responsive" hidden>
                 <section style="width:900px;">
                 </section>
             </div>

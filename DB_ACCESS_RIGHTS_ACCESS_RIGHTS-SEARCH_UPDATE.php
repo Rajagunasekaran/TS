@@ -427,10 +427,10 @@ if(isset($_REQUEST)){
                     $message1 = new Message();
                     $message1->setSender($name.'<'.$from.'>');
                     $message1->addTo($loginid);
-//                    $message1->addCc($cclist);
+                    $message1->addCc($cclist);
                     $message1->setSubject($mail_subject);
                     $message1->setHtmlBody($final_message);
-//                    $message1->send();
+                    $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
@@ -461,7 +461,7 @@ if(isset($_REQUEST)){
                     $message1->addCc($sadmin);
                     $message1->setSubject($intro_mail_subject);
                     $message1->setHtmlBody($intro_message);
-//                    $message1->send();
+                    $message1->send();
                 } catch (\InvalidArgumentException $e) {
                     echo $e;
                 }
@@ -994,7 +994,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                         $message1->addCc($cclist);
                         $message1->setSubject($mail_subject1);
                         $message1->setHtmlBody($final_message);
-//                        $message1->send();
+                        $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
@@ -1025,7 +1025,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                         $message1->addCc($sadmin);
                         $message1->setSubject($intro_mail_subject);
                         $message1->setHtmlBody($intro_message);
-//                        $message1->send();
+                        $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
@@ -1158,7 +1158,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                         $message1->addCc($cclist);
                         $message1->setSubject($mail_subject1);
                         $message1->setHtmlBody($final_message);
-//                        $message1->send();
+                        $message1->send();
                     } catch (\InvalidArgumentException $e) {
                         echo $e;
                     }
@@ -1179,7 +1179,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                             $message1->addCc($cclist);
                             $message1->setSubject($mail_subject1);
                             $message1->setHtmlBody($final_message);
-//                            $message1->send();
+                            $message1->send();
                         } catch (\InvalidArgumentException $e) {
                             echo $e;
                         }}

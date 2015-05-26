@@ -186,24 +186,24 @@ $(document).ready(function(){
 //            alert(emp_type)
             $('#URSRC_lb_selectemptype').html(emp_type);
 
-            var URSRC_basicrole_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT BASIC ROLE</label></div>'
-            var URSRC_basicroleprofile_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT BASIC ROLE <em>*</em></label></div>'
+            var URSRC_basicrole_radio='<div class="col-lg-2 control-label"><label>SELECT BASIC ROLE</label></div>'
+            var URSRC_basicroleprofile_radio='<div class="col-lg-2 control-label"><label">SELECT BASIC ROLE <em>*</em></label></div>'
             for(var j=0;j<URSRC_basicrole_profile_array.length;j++){
                 var basic_roleprofile_value=URSRC_basicrole_profile_array[j].replace(" ","_")
-                URSRC_basicroleprofile_radio+='<div class="row-fluid form-group col-sm-offset-2">&nbsp;&nbsp;&nbsp;<input type="checkbox" name="URSRC_cb_basicroles1[]" id='+basic_roleprofile_value+' value='+basic_roleprofile_value+' class="URSRC_class_basicroles_chk tree"/>'+URSRC_basicrole_profile_array[j]+'</div>';
+                URSRC_basicroleprofile_radio+='<div class="col-sm-offset-2 col-lg-10">&nbsp;&nbsp;&nbsp;<input type="checkbox" name="URSRC_cb_basicroles1[]" id='+basic_roleprofile_value+' value='+basic_roleprofile_value+' class="URSRC_class_basicroles_chk tree"/>'+URSRC_basicrole_profile_array[j]+'</div>';
 
             }
             $('#URSRC_tble_basicroles_chk').html(URSRC_basicroleprofile_radio);
             //BASIC ROLE ENTRY
             if(URSRC_userrigths_array.length!=0){
-                var URSRC_role_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT ROLE ACCESS</label></div>'
-                var URSRC_basicrole_radio='<div class="row-fluid form-group"><label class="col-sm-2">SELECT BASIC ROLE</label></div>'
+                var URSRC_role_radio='<div class="col-lg-2 control-label"><label>SELECT ROLE ACCESS</label></div>'
+                var URSRC_basicrole_radio='<div class="col-lg-2 control-label"><label>SELECT BASIC ROLE</label></div>'
                 for (var i = 0; i < URSRC_userrigths_array.length; i++) {
                     var id="URSRC_tble_table"+i
                     var id1="URSRC_userrigths_array"+i;
                     var value=URSRC_userrigths_array[i].replace(" ","_")
-                    URSRC_role_radio+='<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="basicroles" id='+id1+' value='+value+' class="URSRC_class_basicroles "  />' + URSRC_userrigths_array[i] + '</div>';
-                    URSRC_basicrole_radio+='<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="URSRC_radio_basicroles1" id='+value+i+' value='+value+' class="URSRC_class_basic"/>'+URSRC_userrigths_array[i]+'</div>';
+                    URSRC_role_radio+='<div class="col-sm-offset-2 col-lg-10"><div class="radio"><label><input type="radio" name="basicroles" id='+id1+' value='+value+' class="URSRC_class_basicroles "  />' + URSRC_userrigths_array[i] + '</label></div></div>';
+                    URSRC_basicrole_radio+='<div class=" col-sm-offset-2 col-lg-10"><div class="radio"><label><input type="radio" name="URSRC_radio_basicroles1" id='+value+i+' value='+value+' class="URSRC_class_basic"/>'+URSRC_userrigths_array[i]+'</label></div></div>';
                 }
                 $('#URSRC_tble_roles').html(URSRC_role_radio);
                 $('#URSRC_tble_basicroles').html(URSRC_basicrole_radio);
@@ -659,6 +659,7 @@ $(document).ready(function(){
         {
             if ((atpos<1 || dotpos<atpos+2 || dotpos+2>=URSRC_login_id.length)||(/^[@a-zA-Z0-9-\\.]*$/.test(URSRC_login_id) == false))
             {
+
                 error_valid='invalid';
                 $('.preloader',window.parent.document).hide();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
@@ -693,6 +694,7 @@ $(document).ready(function(){
                 if((URSRC_login_id.substring(URSRC_login_id.indexOf("@") + 1) == "ssomens.com")||(URSRC_login_id.substring(URSRC_login_id.indexOf("@") + 1) == "gmail.com"))
                 {
                     error_ext='valid';
+
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -792,12 +794,12 @@ $(document).ready(function(){
                                             var value=URSRC_role_array[i].replace(" ","_")
                                             var id1="URSRC_role_array"+i;
                                             if(i==0){
-                                                var URSRC_roles='<div class="row-fluid form-group"><label class="col-sm-2">SELECT ROLE ACCESS<em>*</em></label></div>'
-                                                URSRC_roles+= '<div class="row-fluid form-group col-sm-offset-2" ><input type="radio" name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</div>';
+                                                var URSRC_roles='<div class="col-lg-2  control-label"><label >SELECT ROLE ACCESS<em>*</em></label></div>'
+                                                URSRC_roles+= '<div class="col-lg-10" ><div class="radio"><label><input type="radio"  name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</label></div></div>';
                                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                                             }
                                             else{
-                                                URSRC_roles= '<div class="row-fluid form-group col-sm-offset-2"><input type="radio" name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</div>';
+                                                URSRC_roles= '<div class="col-sm-offset-2 col-lg-10"><div class="radio"><label><input type="radio" name="roles1" id='+id1+' value='+value+' class="URSRC_class_role1 tree login_submitvalidate"   />' + URSRC_role_array[i] + '</label></div></div>';
                                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                                             }
                                         }
@@ -1236,13 +1238,13 @@ $(document).ready(function(){
                         if(URSRC_role1[i]==rc_name){
                             if(i==0)
                             {
-                                var URSRC_roles='<tr><td><label>SELECT ROLE ACCESS</label></td>';
-                                URSRC_roles+= '<td><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate" checked  />' + URSRC_role1[i] + '</td></tr>';
+                                var URSRC_roles='<div class="col-lg-2  control-label"><label>SELECT ROLE ACCESS</label></div>';
+                                URSRC_roles+='<div class="col-lg-10" ><div class="radio"><label><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate" checked  />' + URSRC_role1[i] + '</label></div></div>';
                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                             }
                             else
                             {
-                                URSRC_roles= '<tr><td width="175"></td><td><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate" checked  />' + URSRC_role1[i] + '</td></tr>';
+                                URSRC_roles= '<div class="col-sm-offset-2 col-lg-10"><div class="radio"><label><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate" checked  />' + URSRC_role1[i] + '</label></div></div>';
                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                             }
                         }
@@ -1250,13 +1252,13 @@ $(document).ready(function(){
                         {
                             if(i==0)
                             {
-                                var URSRC_roles='<tr><td><label>SELECT ROLE ACCESS<em>*</em></label></td>';
-                                URSRC_roles+= '<td><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate"   />' + URSRC_role1[i] + '</td></tr>';
+                                var URSRC_roles='<div class="col-lg-2  control-label"><label>SELECT ROLE ACCESS<em>*</em></label></div>';
+                                URSRC_roles+= '<div class="col-lg-10" ><div class="radio"><label><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate"   />' + URSRC_role1[i] + '</label></div></div>';
                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                             }
                             else
                             {
-                                URSRC_roles = '<tr><td width="175"></td><td><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate"   />' + URSRC_role1[i] + '</td></tr>';
+                                URSRC_roles = '<div class="col-sm-offset-2 col-lg-10"><div class="radio"><label><input type="radio" name="roles1" id='+id1+' value='+value+' class="login_submitvalidate"   />' + URSRC_role1[i] + '</label></div></div>';
                                 $('#URSRC_tble_rolecreation').append(URSRC_roles);
                             }
                         }
@@ -2202,34 +2204,34 @@ $(document).ready(function(){
 <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
 <div class="panel-body">
 <fieldset>
-<div id="URSRC_tble_main">
+<div id="URSRC_tble_main ">
     <div class="row-fluid form-group">
-        <label name="USU_lbl_strtdte" id="USU_lbl_strtdte" class="srctitle col-sm-2">SELECT A OPTION</label>
+        <label name="USU_lbl_strtdte" id="USU_lbl_strtdte" class="srctitle">SELECT A OPTION</label>
         <input type="text" name="USU_tb_strtdte" id="USU_tb_strtdte" class="USU_date valid" hidden>
     </div>
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group form-inline col-sm-5">
         <div class="radio">
-        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenucreation' value='BASIC ROLE MENU CREATION'>BASIC ROLE MENU CREATION
+        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenucreation' value='BASIC ROLE MENU CREATION'> &nbsp;BASIC ROLE MENU CREATION
     </div></div>
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group form-inline col-sm-5">
         <div class="radio">
-        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenusearchupdate' value='BASIC ROLE MENU SEARCH UPDATE'>BASIC ROLE MENU SEARCH/UPDATE
+        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_basicrolemenusearchupdate' value='BASIC ROLE MENU SEARCH UPDATE'> &nbsp;BASIC ROLE MENU SEARCH/UPDATE
     </div></div>
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group form-inline col-sm-5">
         <div class="radio">
-        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolecreation' value='ROLE CREATION'>ROLE CREATION
+        <input  type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolecreation' value='ROLE CREATION'> &nbsp; ROLE CREATION
     </div></div>
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group form-inline col-sm-5">
         <div class="radio">
-        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolesearchupdate' value='ROLE SEARCH UPDATE'>ROLE SEARCH/UPDATE
+        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_rolesearchupdate' value='ROLE SEARCH UPDATE'>  &nbsp;ROLE SEARCH/UPDATE
     </div></div>
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group form-inline col-sm-5">
         <div class="radio">
-        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_logincreation' value='LOGIN CREATION'>LOGIN CREATION
+        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_logincreation' value='LOGIN CREATION'>  &nbsp;LOGIN CREATION
     </div></div>
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group form-inline col-sm-5">
         <div class="radio">
-        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_loginsearchupdate' value='LOGIN SEARCH UPDATE'>LOGIN SEARCH/UPDATE
+        <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_loginsearchupdate' value='LOGIN SEARCH UPDATE'>  &nbsp;LOGIN SEARCH/UPDATE
     </div></div>
 
     <label id="URSRC_lbl_header" class="srctitle"></label>
@@ -2284,7 +2286,7 @@ $(document).ready(function(){
             </select>
         </div></div>
 
-    <div id="URSRC_tble_rolecreation" hidden></div>
+    <div id="URSRC_tble_rolecreation"  hidden></div>
 
 
     <div id="joindate" class="row-fluid form-group" >
@@ -2298,7 +2300,7 @@ $(document).ready(function(){
 </div>
 <div id="URSRC_table_employeetbl" hidden>
 <div class="row-fluid form-group">
-    <label class="srctitle col-sm-2"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
+    <label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
 </div>
 <div class="row-fluid form-group">
 
@@ -2374,7 +2376,7 @@ $(document).ready(function(){
         <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='8' class="sizefix pstlcode login_submitvalidate" style="width:75px">
     </div></div>
 <div class="row-fluid form-group">
-    <label class="srctitle col-sm-2"  name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
+    <label class="srctitle"  name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
 </div>
 <div class="row-fluid form-group">
     <label class="col-sm-2" name="URSRC_lbl_bnkname" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label>
@@ -2433,54 +2435,54 @@ $(document).ready(function(){
 
 
 <div id="URSRC_table_others" style="width:450px" hidden>
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+       <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox"  name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">LAPTOP BAG</label>
+           </div></div>
+        <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag"> &nbsp;&nbsp;LAPTOP BAG</label>
     </div>
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+        <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">MOUSE</label>
+            </div></div>
+        <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;&nbsp;MOUSE</label>
     </div>
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+        <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">DOOR ACCESS</label>
+            </div></div>
+        <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;&nbsp;DOOR ACCESS</label>
     </div>
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-3">
+        <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">ID CARD</label>
+            </div></div>
+        <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;&nbsp;ID CARD</label>
     </div>
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-3">
+        <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">HEAD SET</label>
+            </div></div>
+        <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;&nbsp;HEAD SET</label>
     </div>
 
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+        <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate" hidden>
+            </div></div>
+        <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">&nbsp;&nbsp;AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate" hidden>
     </div>
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+        <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate" hidden>
+            </div></div>
+        <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">&nbsp;&nbsp;PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate" hidden>
     </div>
-    <div class="row-fluid form-group col-sm-offset-7">
-        <div class="checkbox">
+    <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+        <div class="form-inline col-lg-1"><div class="checkbox">
         <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
-            </div>
-        <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">VOTERS ID</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate" hidden>
+            </div></div>
+        <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">&nbsp;&nbsp;VOTERS ID</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate" hidden>
     </div>
 
 

@@ -12,12 +12,12 @@
 //VER 0.01-INITIAL VERSION, SD:20/08/2014 ED:11/09/2014,TRACKER NO:81
 //*********************************************************************************************************//-->
 
-//set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
-//require_once 'google/appengine/api/mail/Message.php';
-//require_once 'google-api-php-client-master/src/Google/Client.php';
-//require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
-//include 'google-api-php-client-master/src/Google/Service/Calendar.php';
-//use google\appengine\api\mail\Message;
+set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
+require_once 'google/appengine/api/mail/Message.php';
+require_once 'google-api-php-client-master/src/Google/Client.php';
+require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
+include 'google-api-php-client-master/src/Google/Service/Calendar.php';
+use google\appengine\api\mail\Message;
 include "CONNECTION.php";
 include "COMMON.php";
 include "GET_USERSTAMP.php";
