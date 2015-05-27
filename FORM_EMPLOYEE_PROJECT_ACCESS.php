@@ -21,7 +21,8 @@ var EMPSRC_UPD_proj_id=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
     $(document).on('click','#project_access',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
             $('#entry').html('PROJECT ACCESS');
 //            $('#option').val('SELECT');
         $('#access').show();
@@ -42,7 +43,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     EMP_ENTRY_loginid=values_array[0];
                     project_array=values_array[1];
@@ -82,13 +84,15 @@ $(document).ready(function(){
         $('#EMP_ENTRY_lb_loginid').change(function(){
             $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             //PRELOADER ADJUST FUNCTION
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $('input:checkbox[id=checkbox]').attr('checked',false);
             $('#checkbox').attr('checked',false);
             EMP_ENTRY_empname=$("#EMP_ENTRY_lb_loginid option:selected").text();
             if(EMP_ENTRY_empname=="SELECT")
             {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 $('#EMP_ENTRY_btn_save').hide();
                 $('#EMP_ENTRY_btn_reset').hide();
                 $('#EMP_ENTRY_tble_frstsel_projectlistbx').hide();
@@ -98,7 +102,8 @@ $(document).ready(function(){
             else
             {
                 projectlist();
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 $('#EMP_ENTRY_lb_loginid').show();
                 $('#EMP_ENTRY_lbl_loginid').show();
                 $('#EMP_ENTRY_btn_save').attr("disabled","disabled").show();
@@ -139,7 +144,8 @@ $(document).ready(function(){
         //CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#EMP_ENTRY_btn_save',function(){
             //PRELOADER ADJUST FUNCTION
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var loginid=$("#EMP_ENTRY_lb_loginid option:selected").text();
             var formElement = document.getElementById("EMP_ENTRY_form_employeename");
             var xmlhttp=new XMLHttpRequest();
@@ -148,7 +154,8 @@ $(document).ready(function(){
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var msg=err_msg_array[2].replace("[LOGINID]",loginid);
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:msg,position:{top:100,left:100}}});
                         EMP_ENTRY_rset()
@@ -156,7 +163,8 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
                     }
                 }
@@ -167,7 +175,8 @@ $(document).ready(function(){
         });
     });
     $(document).on('click','#project_search',function(){
-        $('.preloader', window.parent.document).show()
+//        $('.preloader', window.parent.document).show()
+        $(".preloader").show();
             $('#entry').html('PROJECT ACCESS SEARCH UPDATE');
 //            $('#option').val('SELECT');
         $('#search').show();
@@ -186,7 +195,8 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide()
+//                $('.preloader', window.parent.document).hide()
+                $(".preloader").hide();
                 var EMPSRC_UPD_loginid=$('#EMPSRC_UPD_lb_loginid').val();
                 var values_array=JSON.parse(xmlhttp.responseText);
                 EMPSRC_UPD_loginid=values_array[0];
@@ -219,11 +229,13 @@ $(document).ready(function(){
             $('#EMPSRC_UPD_lbl_txtselectproj').hide();
             $('#EMPSRC_UPD_tble_frstsel_projectlistbx').html('');
             //PRELOADER ADJUST FUNCTION
-            $('.preloader', window.parent.document).show()
+//            $('.preloader', window.parent.document).show()
+            $(".preloader").show();
             EMPSRC_UPD_empname=$("#EMPSRC_UPD_lb_loginid option:selected").text();
             if(EMPSRC_UPD_empname=='SELECT')
             {
-                $('.preloader', window.parent.document).hide()
+//                $('.preloader', window.parent.document).hide()
+                $(".preloader").hide();
                 $('#EMPSRC_UPD_btn_update').hide();
                 $('#EMPSRC_UPD_btn_reset').hide();
                 $('#EMPSRC_UPD_tble_frstsel_projectlistbx').hide();
@@ -235,7 +247,8 @@ $(document).ready(function(){
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide()
+//                        $('.preloader', window.parent.document).hide()
+                        $(".preloader").hide();
                         var values_array=JSON.parse(xmlhttp.responseText);
                         EMPSRC_UPD_proj_array=values_array[0];
                         EMPSRC_UPD_proj_id=values_array[1];
@@ -251,7 +264,8 @@ $(document).ready(function(){
                                 }
                             }
                         }
-                        $('.preloader', window.parent.document).hide()
+//                        $('.preloader', window.parent.document).hide()
+                        $(".preloader").hide();
                         $('#EMPSRC_UPD_lb_loginid').show();
                         $('#EMPSRC_UPD_lbl_loginid').show();
                         $('#EMPSRC_UPD_btn_update').attr("disabled","disabled").show();
@@ -298,7 +312,8 @@ $(document).ready(function(){
         });
         //CLICK EVENT FOR UPDATE BUTTON
         $(document).on('click','#EMPSRC_UPD_btn_update',function(){
-            $('.preloader', window.parent.document).show()
+//            $('.preloader', window.parent.document).show()
+            $(".preloader").show();
             var formElement = document.getElementById("EMP_ENTRY_form_employeename");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -306,14 +321,16 @@ $(document).ready(function(){
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $('.preloader', window.parent.document).hide()
+//                        $('.preloader', window.parent.document).hide()
+                        $(".preloader").hide();
                         var msg=err_msg_array[2].replace("[LOGIN ID]",EMPSRC_UPD_empname);
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
                         EMPSRC_UPD_rset()
                     }
                     else
                     {
-                        $('.preloader', window.parent.document).hide()
+//                        $('.preloader', window.parent.document).hide()
+                        $(".preloader").hide();
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
                     }
                 }

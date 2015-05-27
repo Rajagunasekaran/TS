@@ -16,14 +16,16 @@ include  "NEW_MENU.php";
 <script>
 //DOCUMENT READY FUNCTION START
 $(document).ready(function(){
-    $('.preloader', window.parent.document).show();
+//    $('.preloader', window.parent.document).show();
+    $(".preloader").show();
     var pre_tds;
     var CONFIG_SRCH_UPD_errmsg=[];
     var CONFIG_SRCH_UPD_mod_opt='<option>SELECT</option>';
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             var CONFIG_SRCH_UPD_values=JSON.parse(xmlhttp.responseText);
             CONFIG_SRCH_UPD_errmsg=CONFIG_SRCH_UPD_values[0];
             var CONFIG_SRCH_UPD_typ_opt='<option value="SELECT">SELECT</option>';
@@ -43,11 +45,13 @@ $(document).ready(function(){
         var CONFIG_SRCH_UPD_typ_opt='<option value="SELECT">SELECT</option>';
         var formElement = document.getElementById("CONFIG_SRCH_UPD_form");
         if($(this).val()!='SELECT'){
-            $('.preloader',window.parent.document).show();
+//            $('.preloader',window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     var CONFIG_SRCH_UPD_values=JSON.parse(xmlhttp.responseText);
                     if(CONFIG_SRCH_UPD_values.length==0){
                         $('#CONFIG_SRCH_UPD_div_errMod').show();
@@ -74,7 +78,8 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader',window.parent.document).hide();
+//                $('.preloader',window.parent.document).hide();
+                $(".preloader").hide();
 //                $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:xmlhttp.responseText,position:{top:150,left:530}}});
                 var CONFIG_SRCH_UPD_values=JSON.parse(xmlhttp.responseText);
                 $('section').html(CONFIG_SRCH_UPD_values);
@@ -108,7 +113,8 @@ $(document).ready(function(){
         $('#CONFIG_SRCH_UPD_tble_config').hide();
         $('#CONFIG_SRCH_UPD_err_flex').hide();
         if($(this).val()!='SELECT'){
-            $('.preloader',window.parent.document).show();
+//            $('.preloader',window.parent.document).show();
+            $(".preloader").show();
             CONFIG_SRCH_UPD_fetch_configdata();
         }
     });
@@ -192,7 +198,8 @@ $(document).ready(function(){
         CONFIG_flag_upd=0;
         var config_type=$('#CONFIG_SRCH_UPD_lb_type').val();
         var CONFIG_id=$(this).parent().parent().attr('id');
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         var formElement = document.getElementById("CONFIG_SRCH_UPD_form");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -208,12 +215,14 @@ $(document).ready(function(){
                 }
                 else if(CONFIG_SRCH_UPD_msg_alert==0 && failure_flag==1)
                 {
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:CONFIG_SRCH_UPD_errmsg[0],position:{top:150,left:530}}});
 //                    show_msgbox("CONFIGURATION ENTRY",CONFIG_SRCH_UPD_errmsg[0],"success",false);
                 }
                 if(CONFIG_SRCH_UPD_msg_alert==2){
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     $(".update").attr("disabled","disabled");
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:errmsg,position:{top:150,left:530}}});
 //                    show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
@@ -222,7 +231,8 @@ $(document).ready(function(){
                     CONFIG_SRCH_UPD_fetch_configdata();
                 }
                 else if(failure_flag==0){
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     if((config_type==9)||(config_type==12)){
                         var msg= CONFIG_SRCH_UPD_errmsg[2].replace("[SSID]",fileid)
                     }
@@ -247,7 +257,8 @@ $(document).ready(function(){
     $(document).on('click','.delete',function(){
         CONFIG_flag_del=0;
         var CONFIG_id=$(this).parent().parent().attr('id');
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         var formElement = document.getElementById("CONFIG_SRCH_UPD_form");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -265,7 +276,8 @@ $(document).ready(function(){
                     $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[7],position:{top:150,left:520}}});
 //                    show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[7],"success",false);
                 }
-                $('.preloader',window.parent.document).hide();
+//                $('.preloader',window.parent.document).hide();
+                $(".preloader").hide();
             }
         }
         var OPTION="CONFIG_SRCH_UPD_delete";
@@ -278,11 +290,13 @@ $(document).ready(function(){
 
         var formElement = document.getElementById("CONFIG_SRCH_UPD_form");
         if((txt_area!='') && txt_area!=pre_tds){
-            $('.preloader',window.parent.document).show();
+//            $('.preloader',window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     if(xmlhttp.responseText==1){
                         $(".update").attr("disabled","disabled");
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[8].replace('[TYPE]',$("#CONFIG_SRCH_UPD_lb_type option:selected").text()),position:{top:150,left:500}}});

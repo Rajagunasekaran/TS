@@ -39,7 +39,8 @@ $(document).ready(function(){
 //            $('#clockmissed').show();
 //
 //        });
-    $('.preloader', window.parent.document).hide();
+//    $('.preloader', window.parent.document).hide();
+    $(".preloader").hide();
     $(document).on('click','#clock_in_out',function(){
         $('#inout').html('CLOCK IN/OUT DETAILS');
         $('#clockinout').show();
@@ -74,13 +75,15 @@ $(document).ready(function(){
         $('#REP_btn_searchdaterange').hide();
         $('#REP_btn_pdf').hide();
         $('#REP_btn_pdfs').hide();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         //GEETING INITIAL DATA FROM DB
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var values_array=JSON.parse(xmlhttp.responseText);
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 REP_chk_active_emp=values_array[0];
                 REP_chk_nonactive_emp=values_array[1];
                 REP_chk_config=values_array[2];
@@ -213,12 +216,14 @@ $(document).ready(function(){
             var daterange_val=[];
             var formElement = document.getElementById("REP_chk_form_details");
             var REV_project_name=$("#REV_lb_projectname").val();
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION FOR SETTINF MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     $('.maskpanel',window.parent.document).removeAttr('style').hide();
 //                    $('.preloader').hide();
                     daterange_val=JSON.parse(xmlhttp.responseText);
@@ -381,7 +386,8 @@ $(document).ready(function(){
             }
             else
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 //DATE PICKER FUNCTION
                 $('.REP_datepicker').datepicker(
                     {
@@ -393,12 +399,14 @@ $(document).ready(function(){
                 var daterange_val=[];
                 var formElement = document.getElementById("REP_chk_form_details");
                 var REV_project_name=$("#REV_lb_projectname").val();
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 //FUNCTION FOR SETTINF MIN ND MAX DATE
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         daterange_val=JSON.parse(xmlhttp.responseText);
                         var REV_start_dates=daterange_val[0];
                         var REV_end_dates=daterange_val[1];
@@ -465,7 +473,8 @@ $(document).ready(function(){
         var allvalues_array;
         //CLICK FUNCTION FOR ALL ACTIVE DATE BX
         $(document).on('click','#REP_btn_date',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $("#REP_btn_date").attr("disabled","disabled");
             $('#REP_tablecontainer').hide();
             $('#REP_tble_allactive_count').hide();
@@ -475,7 +484,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     allvalues_array=JSON.parse(xmlhttp.responseText);
                     if(allvalues_array.length!=0){
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -541,7 +551,8 @@ $(document).ready(function(){
         var allvalues_array;
         //CLICK  FUNCTION FOR DATE BX
         $(document).on('click','#REP_btn_searchdaterange',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $("#REP_btn_searchdaterange").attr("disabled","disabled");
             $('#REP_tble_absent_count').html('');
             $('section').html('');
@@ -553,7 +564,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     allvalues_array=JSON.parse(xmlhttp.responseText);
                     if(allvalues_array.length!=0){
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -651,7 +663,8 @@ $(document).ready(function(){
 <!--CLOCK OUT MISSED DETAILS-->
 
     $(document).on('click','#clock_missed',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         $('#inout').html('CLOCK OUT MISSED DETAILS');
         $('#clockinout').hide();
         $('#clockmissed').show();
@@ -722,13 +735,15 @@ $(document).ready(function(){
         var CLK_reportconfig_listbx=[];
         var CLK_active_emp=[];
         var CLK_nonactive_emp=[];
-        $('.preloader', window.parent.document).show()
+//        $('.preloader', window.parent.document).show()
+        $(".preloader").show();
         $('#CLK_btn_search').hide();
         $('#CLK_btn_mysearch').hide();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide()
+//                $('.preloader', window.parent.document).hide()
+                $(".preloader").hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
 
                 CLK_reportconfig_listbx=values_array[0];
@@ -794,16 +809,18 @@ $(document).ready(function(){
             //BANDWIDTH BY MONTH
             else if(option=='14')
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 //FUNCTION FOR SETTING MIN ND MAX DATE
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         date_val=JSON.parse(xmlhttp.responseText);
                         var CLK_start_dates=date_val[0];
                         var CLK_end_dates=date_val[1];
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
                     }
                     //DATE PICKER FUNCTION START
                     $('#CLK_db_selectmnth').datepicker( {
@@ -984,12 +1001,14 @@ $(document).ready(function(){
             }
             else
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 //FUNCTION FOR SETTINF MIN ND MAX DATE
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         date_val=JSON.parse(xmlhttp.responseText);
                         var CLK_start_dates=date_val[0];
                         var CLK_end_dates=date_val[1];
@@ -1079,11 +1098,13 @@ $(document).ready(function(){
             $('#CLK_btn_search').attr("disabled","disabled");
             var CLK_monthyear=$('#CLK_db_selectmnths').val();
             var CLK_loginid=$('#CLK_lb_loginid').val();
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var CLK_actnon_values=JSON.parse(xmlhttp.responseText);
                     if(CLK_actnon_values[0].length!=0)
                     {
@@ -1143,11 +1164,13 @@ $(document).ready(function(){
             $('#CLK_btn_emp_pdf').hide();
             $('#CLK_btn_mysearch').attr("disabled","disabled");
             var CLK_monthyear=$('#CLK_db_selectmnth').val();
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var CLK_monthyr_values=JSON.parse(xmlhttp.responseText);
                     if(CLK_monthyr_values.length!=0)
                     {

@@ -35,13 +35,15 @@ $(document).ready(function(){
     var REP_BND_reportconfig_listbx=[];
     var REP_BND_active_emp=[];
     var REP_BND_nonactive_emp=[];
-    $('.preloader', window.parent.document).show()
+//    $('.preloader', window.parent.document).show()
+    $(".preloader").show();
     $('#REP_BND_btn_search').hide();
     $('#REP_BND_btn_mysearch').hide();
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader', window.parent.document).hide()
+//            $('.preloader', window.parent.document).hide()
+            $(".preloader").hide();
             var values_array=JSON.parse(xmlhttp.responseText);
             REP_BND_reportconfig_listbx=values_array[0];
             REP_BND_active_emp=values_array[1];
@@ -104,16 +106,19 @@ $(document).ready(function(){
         //BANDWIDTH BY MONTH
         else if(option=='11')
         {
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION FOR SETTING MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                 }
                 //DATE PICKER FUNCTION START
                 $('#REP_BND_db_selectmnth').datepicker( {
@@ -288,12 +293,14 @@ $(document).ready(function(){
         }
         else
         {
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION FOR SETTINF MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
@@ -381,11 +388,13 @@ $(document).ready(function(){
         $('#REP_BND_btn_search').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnths').val();
         var REP_BND_loginid=$('#REP_BND_lb_loginid').val();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var REP_BND_actnon_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_actnon_values[0]!=null)
                 {
@@ -474,11 +483,13 @@ $(document).ready(function(){
         $('#REP_BND_btn_emp_pdf').hide();
         $('#REP_BND_btn_mysearch').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnth').val();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var REP_BND_monthyr_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_monthyr_values[0]!='' && REP_BND_monthyr_values[0]!=null)
                 {

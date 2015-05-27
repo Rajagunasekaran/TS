@@ -27,12 +27,14 @@ $(document).ready(function(){
             $('#heading').html('PUBLIC HOLIDAY ENTRY');
             $('#PH_ENTRY_table').show();
             $('#publicsearch').hide();
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //GETTING ERR MSG FROM DB
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var value_array=JSON.parse(xmlhttp.responseText);
                     PH_ENTRY_errorAarray=value_array[0];
                 }
@@ -53,12 +55,14 @@ $(document).ready(function(){
             });
             //CLICK FUNCTION FOR SAVE BUTTON
             $(document).on('click','#PH_ENTRY_btn_save',function(){
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var formElement = document.getElementById("PH_entry_form");
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var msg_alert_array=JSON.parse(xmlhttp.responseText);
                         var valid_ss=msg_alert_array[2];
                         var ph_date_already_exixst=msg_alert_array[0];
@@ -137,12 +141,14 @@ $(document).ready(function(){
             $('#tablecontainer').hide();
             $('#PH_SRC_UP_btn_pdf').hide();
             $('#PH_SRC_UPD_btn_search').hide();
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var values_array=JSON.parse(xmlhttp.responseText);
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     PH_SRC_UPD_yr_listbx=values_array[0];
                     err_msg_array=values_array[1];
 //            alert(values_array[1]);
@@ -183,7 +189,8 @@ $(document).ready(function(){
             var values_array=[];
             var id;
             $(document).on('change','#PH_SRC_UPD_lb_yr',function(){
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 $('#tablecontainer').hide();
                 $('#PH_SRC_UPD_tble_htmltable').html('');
                 $('section').html('');
@@ -204,7 +211,8 @@ $(document).ready(function(){
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                            $('.preloader', window.parent.document).hide();
+//                            $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
                             values_arraystotal=JSON.parse(xmlhttp.responseText);
                             values_array=values_arraystotal[0];
                             if(values_array.length!=0)
@@ -245,7 +253,8 @@ $(document).ready(function(){
                                 $('#PH_SRC_UPD_tble_htmltable').html('');
 
                             }
-                            $('.preloader', window.parent.document).hide();
+//                            $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
                         }
                     }
                     $('#tablecontainer').show();
@@ -256,7 +265,8 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     $('#PH_SRC_UPD_updateform').hide();
                     $('#PH_SRC_UPD_btn_search').hide();
                     $('#tablecontainer').hide();
@@ -319,7 +329,8 @@ $(document).ready(function(){
                     var babysdate=$('#start_date').val();
                 }
 //        alert('&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate)
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 $.ajax({
                     type: 'POST',
                     url: 'DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do',
@@ -340,8 +351,10 @@ $(document).ready(function(){
                             //MESSAGE BOX FOR NOT UPDATED
 //                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
                             show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[2],"success",true);
+                            $(".preloader").hide();
                         }
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                     }
                 });
             });
@@ -433,13 +446,15 @@ $(document).ready(function(){
             //CLICK EVENT FUCNTION FOR RESET
             $('#PH_SRC_UPD_btn_reset').click(function()
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 PH_SRC_UPD_detailrset()
             });
 //RESET ALL THE ELEMENT//
             function PH_SRC_UPD_detailrset()
             {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 $('#PH_SRC_UPD_tb_date').val('');
                 $('#PH_SRC_UPD_tb_des').val('');
                 $("#PH_SRC_UPD_btn_update").attr("disabled","disabled");

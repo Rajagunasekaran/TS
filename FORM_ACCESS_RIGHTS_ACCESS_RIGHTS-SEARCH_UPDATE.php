@@ -25,8 +25,8 @@ var button_vflag=1;
 
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
-    $('.preloader',window.parent.document).show();
-
+//    $('.preloader',window.parent.document).show();
+    $(".preloader").show();
     //reomve file upload row
 //    FUNCTION TO GET DIFFERENCE ARRAY
     function getDifferenceArray(outfilearray,infilearray)
@@ -169,7 +169,8 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader',window.parent.document).hide();
+//            $('.preloader',window.parent.document).hide();
+            $(".preloader").hide();
 //            alert(xmlhttp.responseText);
             var value_array=JSON.parse(xmlhttp.responseText);
             URSRC_rolecreation_array=value_array[0];
@@ -395,7 +396,8 @@ $(document).ready(function(){
     var basicmenurolesresult=[];
     //WEHN BASIC ROLE CLICK IN BASIC MENU CREATION AND SEARCH/UPDATE FORM
     $(document).on("click",'.URSRC_class_basic', function (){
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         $('#URSRC_btn_submitbutton').hide();
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         $('input[type=checkbox]').attr('checked', false);
@@ -410,7 +412,8 @@ $(document).ready(function(){
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1)
                 {
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     if($("input[name=URSRC_mainradiobutton]:checked").val()=="BASIC ROLE MENU CREATION"){
                         $('#URSRC_lbl_basicrole_err').hide();
                         $('#URSRC_tble_basicroles_chk').show();
@@ -418,7 +421,8 @@ $(document).ready(function(){
                         URSRC_loadmenu_basicrole()
                     }
                     else{
-                        $('.preloader',window.parent.document).hide();
+//                        $('.preloader',window.parent.document).hide();
+                        $(".preloader").hide();
                         var msg=URSRC_errorAarray[16].toString().replace("[NAME]",$("input[name=URSRC_radio_basicroles1]:checked").val())
                         $('#URSRC_lbl_basicrole_err').text(msg).show();
                         $('#URSRC_tble_basicroles_chk').hide()
@@ -431,7 +435,8 @@ $(document).ready(function(){
                     if($("input[name=URSRC_mainradiobutton]:checked").val()=="BASIC ROLE MENU CREATION")
                     {
                         $('#URSRC_lbl_basicrole_err').text(URSRC_errorAarray[13]).show()
-                        $('.preloader',window.parent.document).hide();
+//                        $('.preloader',window.parent.document).hide();
+                        $(".preloader").hide();
                         $('#URSRC_tble_basicroles_chk').hide()
                         $('#URSRC_tble_menu').hide();
                         $('#URSRC_tble_folder').hide();
@@ -499,7 +504,8 @@ $(document).ready(function(){
     $(document).on('blur','#URSRC_tb_customrole',function(){
         var URSRC_roleidval=$(this).val();
         if(URSRC_roleidval!=''){
-            $('.preloader',window.parent.document).show();
+//            $('.preloader',window.parent.document).show();
+            $(".preloader").show();
             $('#URSRC_tble_roles').hide()
             $('#URSRC_tble_menu').hide();
             $('#URSRC_tble_folder').hide();
@@ -509,7 +515,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     var msgalert=JSON.parse(xmlhttp.responseText);//
                     if(msgalert==0)
                     {
@@ -661,7 +668,8 @@ $(document).ready(function(){
             {
 
                 error_valid='invalid';
-                $('.preloader',window.parent.document).hide();
+//                $('.preloader',window.parent.document).hide();
+                $(".preloader").hide();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                     $("#URSRC_lbl_email_err").text(URSRC_errorAarray[2]).show();
                     $('#URSRC_tb_loginid').addClass("invalid")
@@ -676,7 +684,8 @@ $(document).ready(function(){
             else
             {
                 error_valid='valid';
-                $('.preloader',window.parent.document).show();
+//                $('.preloader',window.parent.document).show();
+                $(".preloader").show();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                     $("#URSRC_lbl_email_err").hide();
                     $('#URSRC_tb_loginid').removeClass("invalid")
@@ -699,7 +708,8 @@ $(document).ready(function(){
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                           alert(xmlhttp.responseText);
-                            $('.preloader',window.parent.document).hide();
+//                            $('.preloader',window.parent.document).hide();
+                            $(".preloader").hide();
                             var msgalert=JSON.parse(xmlhttp.responseText);
                             var LoginId_exist=msgalert[0];
                             var URSRC_role_array=msgalert[1];
@@ -847,7 +857,8 @@ $(document).ready(function(){
                 }
                 else{
                     error_ext='invalid';
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                         $('#URSRC_tble_rolecreation').show()
                         $('#URSRC_lbl_email_err').text(URSRC_errorAarray[17]).show()
@@ -864,7 +875,8 @@ $(document).ready(function(){
             loginbuttonvalidation();
         }
         else{
-            $('.preloader',window.parent.document).hide();
+//            $('.preloader',window.parent.document).hide();
+            $(".preloader").hide();
             if(URSRC_radio_button_select_value=="LOGIN CREATION"){
                 $('#URSRC_tble_rolecreation tr').remove().hide();
                 $('#URSRC_lbl_joindate').hide();
@@ -1009,7 +1021,8 @@ $(document).ready(function(){
     $('#URSRC_radio_loginsearchupdate').click(function(){
 //        alert('asd');
         button_vflag=1;
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         flag=0;
         exist_flag=1;
         error_valid='valid';
@@ -1068,7 +1081,8 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                alert(xmlhttp.responseText);
-                $('.preloader',window.parent.document).hide();
+                $(".preloader").hide();
+
 //              alert(JSON.stringify(xmlhttp.responseText+'stringfy'));
                 var loginid_array=JSON.parse(xmlhttp.responseText);
                 relation=loginid_array[1];
@@ -1140,7 +1154,8 @@ $(document).ready(function(){
         $('#attachprompt').show();
         $("#filetableuploads tr").remove();
         $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         exist_flag=1;
         error_valid='valid';
         error_ext='valid';
@@ -1160,7 +1175,8 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                    alert(xmlhttp.responseText);
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     if(xmlhttp.responseText.match("Error:Folder id Not present")){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
                         show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[32],"success",false);
@@ -1404,7 +1420,8 @@ $(document).ready(function(){
             xmlhttp.send();
         }
         else{
-            $('.preloader',window.parent.document).hide();
+//            $('.preloader',window.parent.document).hide();
+            $(".preloader").hide();
             $('#URSRC_tble_rolecreation').hide();
             $('#URSRC_tble_rolecreation tr').remove();
             $('#URSRC_lbl_joindate').hide();
@@ -1427,7 +1444,8 @@ $(document).ready(function(){
         var URSRC_submitbtnvalue= $(this).find("input[type=submit]:focus").val();
         if(URSRC_submitbtnvalue=="CREATE")
         {
-            $('.preloader',window.parent.document).show();
+//            $('.preloader',window.parent.document).show();
+            $(".preloader").show();
             var radio_checked=$("input[name=roles1]:checked" ).val()
             $.ajax({
                 type: 'POST',
@@ -1443,7 +1461,8 @@ $(document).ready(function(){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
                         show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
                     }
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     var msg_alert=JSON.parse(data);
                     var success_flag=msg_alert[0];
                     var ss_flag=msg_alert[1];
@@ -1519,7 +1538,8 @@ $(document).ready(function(){
         }
         if(URSRC_submitbtnvalue=="UPDATE")
         {
-            $('.preloader',window.parent.document).show();
+//            $('.preloader',window.parent.document).show();
+            $(".preloader").show();
             var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
             $.ajax({
                 type: 'POST',
@@ -1539,7 +1559,8 @@ $(document).ready(function(){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
                         show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
                     }
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     var msg_alert=JSON.parse(data);
                     var success_flag=msg_alert[0];
                     var ss_flag=msg_alert[1];
@@ -1639,12 +1660,14 @@ $(document).ready(function(){
     });
     //FUNCTION TO CLICK BASIC ROLE
     $(document).on("click",'.URSRC_class_basicroles', function (){
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         var radio_value=$(this).val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader',window.parent.document).hide();
+//                $('.preloader',window.parent.document).hide();
+                $(".preloader").hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
                 URSRC_menuname=values_array[0];
                 URSRC_submenu=values_array[1];
@@ -1658,7 +1681,8 @@ $(document).ready(function(){
     });
     //COMMON TREE VIEW FUNCTION
     function URSRC_tree_view(values_array,URSRC_checked_mpid){
-        $('.preloader',window.parent.document).hide();
+//        $('.preloader',window.parent.document).hide();
+        $(".preloader").hide();
         $('#URSRC_btn_submitbutton').attr("disabled","disabled");
         $('#URSRC_tble_menu').replaceWith('<table id="URSRC_tble_menu"  ></table>')
         var count=0;
@@ -1902,14 +1926,16 @@ $(document).ready(function(){
     });
     //Basic Role/Search&update/Role Creation and Update  button click
     $(document).on('click','#URSRC_btn_submitbutton',function(){
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
         //ROLE CREATION SAVE PART
         var formElement = document.getElementById("URE_attendanceentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader',window.parent.document).hide();
+//                $('.preloader',window.parent.document).hide();
+                $(".preloader").hide();
                 var msg_alert=xmlhttp.responseText;
                 if(URSRC_radio_button_select_value=="ROLE CREATION"){
                     $('#URSRC_tble_menu').hide();
@@ -2018,7 +2044,8 @@ $(document).ready(function(){
         flag=0;
         var radio_value_rolesearch=$(this).val();
         $('#URSRC_lbl_header').text("ROLE SEARCH/UPDATE").show()
-        $('.preloader',window.parent.document).show();
+//        $('.preloader',window.parent.document).show();
+        $(".preloader").show();
         $('#URSRC_btn_submitbutton').val('UPDATE').hide();
         $('#URSRC_tble_role').hide();
         $('#URSRC_tble_menu').hide();
@@ -2053,7 +2080,8 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var values_array_rcname=JSON.parse(xmlhttp.responseText);
-                $('.preloader',window.parent.document).hide();
+//                $('.preloader',window.parent.document).hide();
+                $(".preloader").hide();
                 if(values_array_rcname.length!=0){
                     var URSRC_customerole_options='<option>SELECT</option>'
                     for(var l=0;l<values_array_rcname.length;l++){
@@ -2085,12 +2113,14 @@ $(document).ready(function(){
     $('#URSRC_lb_selectrole').change(function(){
         var URSRC_lbrole_srchndupdate=$('#URSRC_lb_selectrole').val();
         if($(this).val()!='SELECT'){
-            $('.preloader',window.parent.document).show();
+//            $('.preloader',window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION TO LOAD SELECTED ROLE DETAILS
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader',window.parent.document).hide();
+//                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                     values_array_rcname=JSON.parse(xmlhttp.responseText);
                     var URSRC_lb_radiovalrolesearch=values_array_rcname[0];
                     URSRC_checked_mpid=values_array_rcname[1];
@@ -2168,7 +2198,8 @@ $(document).ready(function(){
     $('#URSRC_btn_submitbutton').hide();
 
     $(document).on('change','#URSRC_lb_selectlaptopno',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var URSRC_lb_laptopno=$('#URSRC_lb_selectlaptopno').find('option:selected').text();
 //        alert(URSRC_lb_laptopno)
 //        alert('URSRC_lb_loginid')
@@ -2177,7 +2208,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
 //                                alert(xmlhttp.responseText)
                     var value_array=(xmlhttp.responseText);
                     $('#URSRC_tb_chargerno').val(value_array);
@@ -2199,7 +2231,7 @@ $(document).ready(function(){
 <div class="container-fluid">
 <div class="wrapper">
 
-<div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+<div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
 <div class="title" id="fhead" ><center><p><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3><p></center></div>
 <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
 <div class="panel-body">

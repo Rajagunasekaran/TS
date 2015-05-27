@@ -19,7 +19,8 @@ include  "NEW_MENU.php";
     //DOCUMENT READY FUNCTION START
     $(document).ready(function(){
         $('#URSRC_btn_pdf').hide();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var title;
         var values_arraystotal=[];
         var values_array=[];
@@ -33,7 +34,8 @@ include  "NEW_MENU.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     values_arraystotal=JSON.parse(xmlhttp.responseText);
                     values_array=values_arraystotal[0];
                     var USD_SRC_errorAarray=values_arraystotal[1];
@@ -124,14 +126,14 @@ include  "NEW_MENU.php";
 <div class="container-fluid">
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
-    <div class="newtitle" id="fhead"><div style="padding-left:500px; text-align:left;"><p><h3>USER SEARCH DETAILS </h3><p></div></div>
+    <div class="newtitle" id="fhead" style="padding-top: 10px"><center><p><h3>USER SEARCH DETAILS </h3><p></center></div>
     <form class="newcontent" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
         <div class="panel-body">
             <fieldset>
         <div><label id="URSRC_lbl_title" name="URSRC_lbl_title" class="srctitle"></label></div>
         <div><input type="button" id='URSRC_btn_pdf' class="btnpdf" value="PDF"></div>
 
-            <div id="tablecontainer" style="width:500px;" class="table-responsive" hidden>
+            <div id="tablecontainer" class="table-responsive" hidden>
                 <section style="width:900px;">
                 </section>
             </div>

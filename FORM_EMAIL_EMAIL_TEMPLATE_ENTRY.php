@@ -14,14 +14,16 @@ include  "NEW_MENU.php";
     //READY FUNCTION START
     $(document).ready(function(){
         first()
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var ET_ENTRY_chknull_input="";
         var ET_ENTRY_errormsg=[];
         //START FUNCTION FOR EMAIL TEMPLATE ERROR MESSAGE
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var value_array=JSON.parse(xmlhttp.responseText);
                 ET_ENTRY_errormsg=value_array[0];
             }
@@ -64,14 +66,16 @@ include  "NEW_MENU.php";
         });
         //BLUR FUNCTION FOR TRIM SUBJECT
         $("#ET_ENTRY_ta_subject").blur(function(){
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#ET_ENTRY_ta_subject').val($('#ET_ENTRY_ta_subject').val().toUpperCase())
             var trimfunc=($('#ET_ENTRY_ta_subject').val()).trim()
             $('#ET_ENTRY_ta_subject').val(trimfunc)
         });
 //BLUR FUNCTION FOR TRIM BODY
         $("#ET_ENTRY_ta_body").blur(function(){
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#ET_ENTRY_ta_body').val($('#ET_ENTRY_ta_body').val().toUpperCase())
             var trimfunc=($('#ET_ENTRY_ta_body').val()).trim()
             $('#ET_ENTRY_ta_body').val(trimfunc)
@@ -103,7 +107,8 @@ include  "NEW_MENU.php";
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var ET_ENTRY_response=JSON.parse(xmlhttp.responseText);
                         var ET_ENTRY_chkinput=ET_ENTRY_response;
                         if(ET_ENTRY_chkinput==0)
@@ -126,7 +131,8 @@ include  "NEW_MENU.php";
                         }
                         else if(ET_ENTRY_chkinput==1)
                         {
-                            $('.preloader', window.parent.document).hide();
+//                            $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
                             $('#ET_ENTRY_lbl_validid').show();
                             $('#ET_ENTRY_lbl_validid').text(ET_ENTRY_errormsg[2]);
                             $("#ET_ENTRY_tb_scriptname").addClass('invalid');
@@ -142,7 +148,8 @@ include  "NEW_MENU.php";
         //CLICK EVENT FOR SAVE BUTTON
         $('#ET_ENTRY_btn_save').click(function()
         {
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $("#ET_ENTRY_hidden_chkvalid").val("SAVE")//SET SAVE FUNCTION VALUE
             var ET_ENTRY_scriptname=$('#ET_ENTRY_tb_scriptname').val();
             if($('#ET_ENTRY_form_template')!="")
@@ -154,7 +161,8 @@ include  "NEW_MENU.php";
         //SUCCESS FUNCTIOIN FOR SAVE
         function ET_ENTRY_save_resultsuccess()
         {
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var formElement = document.getElementById("ET_ENTRY_form_template");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -177,7 +185,8 @@ include  "NEW_MENU.php";
                         show_msgbox("EMAIL TEMPLATE ENTRY",ET_ENTRY_errormsg[0],"success",false);
                     }
 
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                 }
             }
             var choice="ET_ENTRY_insert"
@@ -288,8 +297,8 @@ include  "NEW_MENU.php";
 //                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE ENTRY",msgcontent:ET_ENTRY_errormsg[0],position:{top:100,left:100}}});
                             show_msgbox("EMAIL TEMPLATE ENTRY",ET_ENTRY_errormsg[0],"success",false);
                         }
-                        $('.preloader', window.parent.document).hide();
-
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
 
                         }
 
@@ -341,8 +350,8 @@ include  "NEW_MENU.php";
 //                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE ENTRY",msgcontent:ET_ENTRY_errormsg[0],position:{top:100,left:100}}});
                             show_msgbox("EMAIL TEMPLATE ENTRY",ET_ENTRY_errormsg[0],"success",false);
                         }
-                        $('.preloader', window.parent.document).hide();
-
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                     }
                 }
                 var OPTION="update1";
@@ -389,8 +398,8 @@ include  "NEW_MENU.php";
 //                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE ENTRY",msgcontent:ET_ENTRY_errormsg[0],position:{top:100,left:100}}});
                             show_msgbox("EMAIL TEMPLATE ENTRY",ET_ENTRY_errormsg[0],"success",false);
                         }
-                        $('.preloader', window.parent.document).hide();
-
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                     }
                 }
                 var OPTION="update2";

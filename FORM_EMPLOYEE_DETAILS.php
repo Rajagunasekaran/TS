@@ -1,3 +1,9 @@
+
+<!--//*******************************************FILE DESCRIPTION*********************************************//
+//**********************************************EMPLOYEE DETAILS*******************************************************//
+//DONE BY:RENUKADEVI
+//INITIAL VERSION
+//************************************************************************************************************-->
 <?php
 //include "HEADER.php";
 include  "NEW_MENU.php";
@@ -9,7 +15,8 @@ include  "NEW_MENU.php";
     //DOCUMENT READY FUNCTION START
     $(document).ready(function(){
         $('#ED_btn_pdf').hide();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var title;
         var values_arraystotal=[];
         var values_array=[];
@@ -23,7 +30,8 @@ include  "NEW_MENU.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     values_arraystotal=JSON.parse(xmlhttp.responseText);
                     values_array=values_arraystotal[0];
                     var ED_errorAarray=values_arraystotal[1];

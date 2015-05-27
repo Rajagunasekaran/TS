@@ -310,8 +310,8 @@ $(document).ready(function(){
                             }
                             else{
 
-//                                var file_name='ERROR_PAGE.php'
-                                var file_name='ERROR_PAGE.do'
+//                                var file_name='ERROR_PAGE.php';
+                                var file_name='ERROR_PAGE.do';
 
                             }
 
@@ -339,8 +339,8 @@ $(document).ready(function(){
 
                             }
                             else{
-//                                var file_name='ERROR_PAGE.php'
-                                var file_name='ERROR_PAGE.do'
+//                                var file_name='ERROR_PAGE.php';
+                                var file_name='ERROR_PAGE.do';
 
                             }
 
@@ -409,7 +409,7 @@ $(document).ready(function(){
 
         }
         var option="CLOCK";
-        xmlhttp.open("POST","DB_MENU.php" +
+        xmlhttp.open("POST","DB_MENU.do" +
             "?option="+option+"&location="+locationaddress+"&btn_value="+button_value);
         xmlhttp.send();
     });

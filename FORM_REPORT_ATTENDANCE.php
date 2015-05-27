@@ -28,7 +28,8 @@ include "COMMON.php";
 //DOCUMENT READY FUNCTION START
 $(document).ready(function(){
     $('#REP_btn_att_pdf').hide();
-    $('.preloader', window.parent.document).show();
+//    $('.preloader', window.parent.document).show();
+    $(".preloader").show();
     $('#REP_btn_search').hide();
     var err_msg_array=[];
     var mindate;
@@ -39,7 +40,8 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             var final_array=JSON.parse(xmlhttp.responseText);
             var loginid_array=final_array[0];
             err_msg_array=final_array[1];
@@ -65,7 +67,8 @@ $(document).ready(function(){
     xmlhttp.send();
     //CHANGE FUNCTION FOR LOGIN ID LIST BX
     $(document).on('change','#REP_lb_loginid',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('#REP_tablecontainer').hide();
@@ -77,7 +80,8 @@ $(document).ready(function(){
         var loginid=$('#REP_lb_loginid').val();
         $('#REP_date').val("");
         if(loginid=="SELECT"){
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -93,7 +97,8 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var finaldate=JSON.parse(xmlhttp.responseText);
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var min_date=finaldate[0];
                     var max_date=finaldate[1];
 
@@ -169,7 +174,8 @@ $(document).ready(function(){
     });
     //CHANGE FUNCTION FOR ATTENDANCE LISTBX
     $(document).on('change','#REP_lb_attendance',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         $('#REP_tablecontainer').hide();
         $('#REP_btn_search').hide();
         $('#REP_lbl_dte').show();
@@ -185,7 +191,8 @@ $(document).ready(function(){
         $('#REP_tble_absent_count').html('');
         var option=$('#REP_lb_attendance').val();
         if(option=="1"){
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#REP_lb_loginid').show();
             $('#REP_lbl_loginid').show();
             $('#REP_lbl_dte').hide();
@@ -193,7 +200,8 @@ $(document).ready(function(){
             $('#REP_btn_search').hide();
         }
         if(option=="SELECT"){
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -204,7 +212,8 @@ $(document).ready(function(){
             $('#REP_btn_att_pdf').hide();
         }
         if(option=='6' || option=='2'){
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#REP_btn_search').attr("disabled","disabled").show();
             //DATE PICKER FUNCTION
             $('.date-pickers').datepicker( {
@@ -258,7 +267,8 @@ $(document).ready(function(){
     var allvalues_array;
     //CHANGE FUNCTION FOR DATE BX
     $(document).on('click','#REP_btn_search',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('section').html('');
@@ -273,7 +283,8 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -409,11 +420,10 @@ $(document).ready(function(){
 <form   id="REP_form_attendance" class="content" >
     <div class="panel-body">
         <fieldset>
+            <div width="150" id="REP_td_attendance" hidden> </div>
         <div class="row-fluid form-group">
-                <div width="150" id="REP_td_attendance" hidden> </div>
-
                 <label name="REP_lbl_optn" id="REP_lbl_optn" class="col-sm-2">SELECT A OPTION<em>*</em></label>
-            <div class="col-sm-8">
+            <div class="col-sm-4">
                     <select id="REP_lb_attendance" name="option" hidden>
                     </select>
                 </div></div>
@@ -421,14 +431,14 @@ $(document).ready(function(){
 
     <div class="row-fluid form-group">
             <label name="REP_lbl_loginid"  class="col-sm-2" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
             <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
             </select>
 
         </div></div>
 
     <div class="row-fluid form-group">
-           <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-2 "  hidden>DATE<em>*</em></label>
+           <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-2"  hidden>DATE<em>*</em></label>
         <div class="col-sm-8">
                     <input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:75px;" />
                 </div></div>
@@ -437,21 +447,22 @@ $(document).ready(function(){
             <input type="button" class="btn" name="REP_btn_search" id="REP_btn_search"  value="SEARCH" disabled>
         </div>
 
-        <div>
-            <label id="src_lbl_error" class="srctitle"></label>
+        <div class="row-fluid form-group">
+            <label id="src_lbl_error" class="srctitle col-sm-12"></label>
         </div><br>
-        <div>
-            <label id="no_of_days" class="srctitle"></label>
+        <div class="row-fluid form-group">
+            <label id="no_of_days" class="srctitle col-sm-12"></label>
         </div>
-        <div>
-            <label id="no_of_working_days" class="srctitle"></label>
+        <div class="row-fluid form-group">
+            <label id="no_of_working_days" class="srctitle col-sm-12"></label>
         </div>
         <div><input type="button" id="REP_btn_att_pdf" class="btnpdf" value="PDF"></div>
+
         <div id="REP_tablecontainer" style="max-width:800px;" class="table-responsive" hidden>
             <section>
             </section>
         </div>
-        <label id="REP_lbl_error" class="errormsg" hidden></label>
+        <label id="REP_lbl_error" class="errormsg col-sm-2"  hidden></label>
             </fieldset>
         </div>
 

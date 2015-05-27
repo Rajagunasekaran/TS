@@ -28,13 +28,15 @@ $(document).ready(function(){
     var CLK_reportconfig_listbx=[];
     var CLK_active_emp=[];
     var CLK_nonactive_emp=[];
-    $('.preloader', window.parent.document).show()
+//    $('.preloader', window.parent.document).show()
+    $(".preloader").show();
     $('#CLK_btn_search').hide();
     $('#CLK_btn_mysearch').hide();
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader', window.parent.document).hide()
+//            $('.preloader', window.parent.document).hide()
+            $(".preloader").hide();
             var values_array=JSON.parse(xmlhttp.responseText);
             CLK_reportconfig_listbx=values_array[0];
             CLK_active_emp=values_array[1];
@@ -99,16 +101,18 @@ $(document).ready(function(){
         //BANDWIDTH BY MONTH
         else if(option=='14')
         {
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION FOR SETTING MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var CLK_start_dates=date_val[0];
                     var CLK_end_dates=date_val[1];
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
                 }
                 //DATE PICKER FUNCTION START
                 $('#CLK_db_selectmnth').datepicker( {
@@ -289,12 +293,14 @@ $(document).ready(function(){
         }
         else
         {
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION FOR SETTINF MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var CLK_start_dates=date_val[0];
                     var CLK_end_dates=date_val[1];
@@ -384,11 +390,13 @@ $(document).ready(function(){
         $('#CLK_btn_search').attr("disabled","disabled");
         var CLK_monthyear=$('#CLK_db_selectmnths').val();
         var CLK_loginid=$('#CLK_lb_loginid').val();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var CLK_actnon_values=JSON.parse(xmlhttp.responseText);
                 if(CLK_actnon_values[0].length!=0)
                 {
@@ -448,11 +456,13 @@ $(document).ready(function(){
         $('#CLK_btn_emp_pdf').hide();
         $('#CLK_btn_mysearch').attr("disabled","disabled");
         var CLK_monthyear=$('#CLK_db_selectmnth').val();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var CLK_monthyr_values=JSON.parse(xmlhttp.responseText);
                 if(CLK_monthyr_values.length!=0)
                 {

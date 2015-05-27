@@ -18,7 +18,8 @@ include  "NEW_MENU.php";
     var active_loginid=[];
     //READY FUNCTION START
     $(document).ready(function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var CPVD_lb_loginid_val;
         //JQUERY LIB VALIDATION START
         $('textarea').autogrow({onInitialize: true});
@@ -27,7 +28,8 @@ include  "NEW_MENU.php";
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
                 err_msg_array=values_array[0];
                 active_loginid=values_array[1];
@@ -57,7 +59,8 @@ include  "NEW_MENU.php";
                     loginid=response;
                     if(loginid!=0)
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         $('#CPVD_lbl_loginid').show();
                         $('#CPVD_lb_loginid').html(loginid).show();
                     }
@@ -71,7 +74,8 @@ include  "NEW_MENU.php";
         var CPVD_laptop_no=[];
         //CHANGE FUNCTION FOR LOGIN ID
         $(document).on('change','#CPVD_lb_loginid',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $('#CPVD_ta_reason').val('');
             $("#CPVD_btn_send").attr("disabled", "disabled");
             var CPVD_lb_loginid=$('#CPVD_lb_loginid').val();
@@ -106,7 +110,8 @@ include  "NEW_MENU.php";
             }
             else
             {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 $('#CPVD_lbl_reason').hide();
                 $('#CPVD_ta_reason').hide();
                 $('#CPVD_lbl_laptopno').hide();
@@ -117,11 +122,13 @@ include  "NEW_MENU.php";
                 $('#CPVD_lb_chckdby').hide();
                 $('#CPVD_btns_sendreset').hide();
             }
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
         });
         //BLUR FUNCTION FOR TRIM REASON
         $("#CPVD_ta_reason").blur(function(){
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#CPVD_ta_reason').val($('#CPVD_ta_reason').val().toUpperCase())
             var trimfunc=($('#CPVD_ta_reason').val()).trim()
             $('#CPVD_ta_reason').val(trimfunc)
@@ -145,7 +152,8 @@ include  "NEW_MENU.php";
         });
         //CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#CPVD_btn_send',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var formElement = document.getElementById("CPVD_form_cmpnypropverfictn");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -153,14 +161,16 @@ include  "NEW_MENU.php";
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
                         CPVD_rset()
                         showTable()
                     }
                     else
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1],position:{top:100,left:100}}});
                     }
                 }

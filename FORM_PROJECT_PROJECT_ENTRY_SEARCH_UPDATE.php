@@ -21,7 +21,8 @@ var SubPage=1;
 $(document).ready(function(){
 //    alert('dddddddddddddd')
     first()
-    $('.preloader', window.parent.document).show();
+//    $('.preloader', window.parent.document).show();
+    $(".preloader").show();
     get_Values();
     $('#PE_btn_pdf').hide();
     var  CACS_VIEW_customername;
@@ -64,7 +65,8 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var values=JSON.parse(xmlhttp.responseText);
                 var proj_auto=values[0];
                 error_message=values[1];
@@ -83,11 +85,13 @@ $(document).ready(function(){
     $(document).on("change blur",'#projectname',function(){
         var checkproject_name=$(this).val();
         if(checkproject_name!=''){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var check_array=JSON.parse(xmlhttp.responseText);
                     if(check_array[0]==1){
                         $("#PE_btn_update").attr("disabled", "disabled");
@@ -136,11 +140,13 @@ $(document).ready(function(){
         var checkproject_name=($(this).val()).trim();
         if(checkproject_name!=''){
             $('#PE_tb_prjectname').val(checkproject_name.toUpperCase())
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var check_array=JSON.parse(xmlhttp.responseText);
 //                    var desc=check_array[1];
                     var min_enddate=check_array[1];
@@ -221,12 +227,14 @@ $(document).ready(function(){
     }
 // CLICK EVENT FOR SAVE BUTTON
     $(document).on('click','#PE_btn_save',function(){
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var formElement = document.getElementById("PE_form_projectentry");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var msg_alert=xmlhttp.responseText;
 
                 if(msg_alert==1)
@@ -487,11 +495,13 @@ $(document).ready(function(){
         var checkproject_name=$('#projectname').val();
         var rec_ver=$('#recver').val();
         if(checkproject_name!=''){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var check_array=(xmlhttp.responseText);
                     if(check_array==1){
                         $('#std').prop('disabled','disabled');

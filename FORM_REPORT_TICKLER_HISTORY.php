@@ -20,13 +20,15 @@ include  "NEW_MENU.php";
     $(document).ready(function(){
         var pdferrmsg;
         $('#TH_btn_pdf').hide();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var TH_err_msg=[];
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $('.maskpanel',window.parent.document).removeAttr('style').hide();
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var arrayvalues=JSON.parse(xmlhttp.responseText);
                 TH_employeeid=arrayvalues[0];
                 TH_err_msg=arrayvalues[1];
@@ -88,7 +90,8 @@ include  "NEW_MENU.php";
         });
 // CLICK EVENT FOR SEARCH BUTTON
         $(document).on('click','#TH_btn_search',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             flextable()
             $('#TH_btn_search').attr("disabled","disabled");
         });
@@ -110,7 +113,8 @@ include  "NEW_MENU.php";
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var values_array=JSON.parse(xmlhttp.responseText);
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     if(values_array.length!=0)
                     {
                         $("html, body").animate({ scrollTop: $(document).height() }, "fast");

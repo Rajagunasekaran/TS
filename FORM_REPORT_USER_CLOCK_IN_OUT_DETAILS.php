@@ -55,7 +55,8 @@ var REP_chk_errorAarray=[];
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
 //                alert(xmlhttp.responseText);
                 daterange_val=JSON.parse(xmlhttp.responseText);
                 var REV_start_dates=daterange_val[0];
@@ -116,7 +117,8 @@ var REP_chk_errorAarray=[];
         var allvalues_array=[];
         var REP_strtend_errmsgs;
         $(document).on('click','#REP_btn_searchdaterange',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $("#REP_btn_searchdaterange").attr("disabled","disabled");
             $('#REP_tablecontainer_bydaterange').show();
             $('section').html('');
@@ -126,7 +128,8 @@ var REP_chk_errorAarray=[];
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
 //                    alert(xmlhttp.responseText);
                     allvalues_array=JSON.parse(xmlhttp.responseText);
                     if(allvalues_array.length!=0){
@@ -224,11 +227,13 @@ var REP_chk_errorAarray=[];
             $('#CLK_btn_emp_pdf').hide();
             err();
 //        $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             function err(){
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                $('.preloader', window.parent.document).hide()
+                        $(".preloader").hide();
 //                alert(xmlhttp.responseText);
                         var values_array=JSON.parse(xmlhttp.responseText);
                         CLK_errorAarray=values_array;
@@ -277,11 +282,13 @@ var REP_chk_errorAarray=[];
 
             //FUNCTION FOR SETTINF MIN ND MAX DATE
 //        alert('first function');
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                alert('success')
 //                $('.preloader', wixmlhttp.responseTextndow.parent.document).hide();
+                    $(".preloader").hide();
 //                alert(xmlhttp.responseText);
                     var date_val=JSON.parse(xmlhttp.responseText);
                     CLK_start_dates=date_val[0];
@@ -355,11 +362,13 @@ var REP_chk_errorAarray=[];
 //        alert(CLK_monthyear);
                 var CLK_reportdte;
                 var CLK_loginid=$('#CLK_lb_loginid').val();
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
 //                alert(xmlhttp.responseText);
                         var CLK_actnon_values=JSON.parse(xmlhttp.responseText);
 

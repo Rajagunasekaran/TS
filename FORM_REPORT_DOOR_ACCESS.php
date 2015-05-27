@@ -20,7 +20,8 @@ include  "NEW_MENU.php";
     $(document).ready(function(){
         var errmsg;
         $('#DR_ACC_btn_pdf').hide();
-        $('.preloader', window.parent.document).show()
+//        $('.preloader', window.parent.document).show()
+        $(".preloader").show();
         var values_arraystotal=[];
         var values_array=[];
         table();
@@ -29,7 +30,8 @@ include  "NEW_MENU.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     values_arraystotal=JSON.parse(xmlhttp.responseText);
                     values_array=values_arraystotal[0];
                     var DR_ACC_errorAarray=values_arraystotal[1];

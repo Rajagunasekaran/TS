@@ -30,14 +30,16 @@ $(document).ready(function(){
         $('#AWSU_lbl_title').hide();
         $('#AWSU_btn_pdf').hide();
         $('#tablecontainer').hide();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         //ERROR MESSAGE
         var js_errormsg_array=[];
         var js_min_date=[];
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var value_array=JSON.parse(xmlhttp.responseText);
                 js_errormsg_array=value_array[0];
                 js_min_date=value_array[1];
@@ -266,7 +268,8 @@ $(document).ready(function(){
         }
 //CLICK EVENT FOR SUBMIT BUTTON
         $(document).on('click','#AWRE_SRC_btn_submit',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var formElement = document.getElementById("AWRE_SRC_form_reportentry");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -275,7 +278,8 @@ $(document).ready(function(){
                     var msg=js_errormsg_array[0];
                     if(msg_alert==1)
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg,position:{top:100,left:100}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("ADMIN WEEKLY REPORT ENTRY",msg,"success",false);
                         $("#AWRE_SRC_lbl_enterreport").hide();
                         $("#AWRE_SRC_ta_enterreport").val('').hide();
                         $("#AWRE_SRC_btn_submit").hide();
@@ -285,9 +289,11 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:100,left:100}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:100,left:100}}});
+                        show_msgbox("ADMIN WEEKLY REPORT ENTRY",js_errormsg_array[1],"success",false);
                     }
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                 }
             }
             var option='SUBMIT';
@@ -317,7 +323,8 @@ $(document).ready(function(){
         $('#AWRE_errmsg').hide();
 
         $('#AWSU_btn_pdf').hide();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
 //ERROR_MESSAGE
         var pdfmsg;
         var dateText="";
@@ -333,7 +340,8 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var value_array=JSON.parse(xmlhttp.responseText);
                 js_errormsg_array=value_array[0];
                 AWSU_weekly_mindate=value_array[1];
@@ -470,7 +478,8 @@ $(document).ready(function(){
         }
         //FUNCTION FOR FLEX TABLE
         function showTable(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $("#AWSU_btn_search").attr("disabled", "disabled");
             $('#AWSU_nodata_startenddate').hide();
             var values_array=[];
@@ -500,7 +509,8 @@ $(document).ready(function(){
                     values_array=JSON.parse(response);
                     if(values_array)
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var AWSU_tableheader='<table id="AWSU_tble_adminweeklysearchupdate" border="1" class="display"  cellspacing="0" ><thead bgcolor="#6495ed" style="color:white"><tr class="head"><th   class="uk-week-column" nowrap >WEEK</th><th>WEEKLY REPORT</th><th>USERSTAMP</th><th class="uk-timestp-column" nowrap>TIMESTAMP</th></tr></thead><tbody>';
                         for(var j=0;j<values_array.length;j++)
                         {
@@ -527,7 +537,8 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var sd=js_errormsg_array[1].toString().replace("[SDATE]",startdates);
                         var msg=sd.toString().replace("[EDATE]",enddates);
                         $('#AWSU_nodata_startenddate').text(msg).show();
@@ -691,7 +702,8 @@ $(document).ready(function(){
         });
 // CLICK EVENT FOR UPDATE BUTTON
         $('section').on('click','.AWSU_btn_update',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $('textarea').height(50).width(60);
             var edittrid = $(this).parent().parent().attr('id');
             var AWSU_tb_report = $('#AWSU_tb_report').val();
@@ -704,16 +716,19 @@ $(document).ready(function(){
                 success: function(response){
                     if(response==1){
                         var msg=js_errormsg_array[0];
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("ADMIN WEEKLY SEARCH/UPDATE",msg,"success",false);
                         showTable();
                     }
                     else
                     {
                         var msg=js_errormsg_array[2];
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("ADMIN WEEKLY SEARCH/UPDATE",msg,"success",false);
                         showTable();
                     }
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                 }
             });
         });
@@ -814,7 +829,8 @@ $(document).ready(function(){
                             show_msgbox("ADMIN WEEKLY SEARCH/UPDATE",js_errormsg_array[2],"success",false);
                             showTable();
                         }
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                     }
                 }
                 var OPTION="update";

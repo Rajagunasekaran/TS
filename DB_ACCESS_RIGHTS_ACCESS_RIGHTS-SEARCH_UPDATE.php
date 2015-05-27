@@ -457,7 +457,8 @@ if(isset($_REQUEST)){
                     $from = $admin;
                     $message1 = new Message();
                     $message1->setSender($name.'<'.$from.'>');
-                    $message1->addTo($cc_array);
+//                    $message1->addTo($cc_array);
+                    $message1->addTo( 'staff_all@ssomens.com');
                     $message1->addCc($sadmin);
                     $message1->setSubject($intro_mail_subject);
                     $message1->setHtmlBody($intro_message);
@@ -1021,7 +1022,8 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     try {
                         $message1 = new Message();
                         $message1->setSender($name.'<'.$from.'>');
-                        $message1->addTo($cc_array);
+//                        $message1->addTo($cc_array);
+                        $message1->addTo('staff_all@ssomens.com');
                         $message1->addCc($sadmin);
                         $message1->setSubject($intro_mail_subject);
                         $message1->setHtmlBody($intro_message);

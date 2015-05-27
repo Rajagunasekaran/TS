@@ -15,12 +15,12 @@ require_once 'google/appengine/api/mail/Message.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
+use google\appengine\api\mail\Message;
 if(isset($_REQUEST)){
     include "CONNECTION.php";
     include "COMMON.php";
     include "GET_USERSTAMP.php";
     include "CONFIG.php";
-    use google\appengine\api\mail\Message;
     $USERSTAMP=$UserStamp;
     global $con;
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_load_mod")

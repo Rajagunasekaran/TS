@@ -17,7 +17,8 @@ var USR_SITE_errorAarray=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
     $('#USR_SITE_btn_submitbutton').attr("disabled", "disabled");
-    $('.preloader', window.parent.document).show();
+//    $('.preloader', window.parent.document).show();
+    $(".preloader").show();
     var USR_SITE_menuname=[];
     var USR_SITE_submenu=[];
     var USR_SITE_subsubmenu=[];
@@ -28,7 +29,8 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             value_array=JSON.parse(xmlhttp.responseText);
             USR_SITE_tree_view(value_array)
         }
@@ -38,7 +40,8 @@ $(document).ready(function(){
     xmlhttp.send();
     //COMMON TREE VIEW FUNCTION
     function USR_SITE_tree_view(value_array){
-        $('.preloader', window.parent.document).hide();
+//        $('.preloader', window.parent.document).hide();
+        $(".preloader").hide();
         $('#USR_SITE_tble_menu').replaceWith('<table id="USR_SITE_tble_menu"  ></table>')
         var count=0;
         var menus=[];
@@ -279,8 +282,8 @@ $(document).ready(function(){
     });
     //CLICK FUNCTON FOR SUBMIT BUTTON
     $(document).on('click','#USR_SITE_btn_submitbutton',function(){
-        $('.preloader', window.parent.document).show();
-
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").hide();
         var formElement = document.getElementById("USR_SITE_form_user");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -290,16 +293,19 @@ $(document).ready(function(){
                 {
                     if($('#USR_SITE_btn_submitbutton').val()=='REVOKE ACCESS')
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[0],position:{top:150,left:500}}});
-                        $('.preloader', window.parent.document).hide();
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[0],position:{top:150,left:500}}});
+                        show_msgbox("SITE MAINTENANCE",USR_SITE_errorAarray[0],"success",false);
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
 
                         USR_SITE_clear()
                     }
                     else
                     {
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[1],position:{top:150,left:500}}});
-                        $('.preloader', window.parent.document).hide();
-
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"SITE MAINTENANCE",msgcontent:USR_SITE_errorAarray[1],position:{top:150,left:500}}});
+                        show_msgbox("SITE MAINTENANCE",USR_SITE_errorAarray[1],"success",false);
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         USR_SITE_clear()
                     }
                 }
@@ -311,7 +317,9 @@ $(document).ready(function(){
     });
 //SUCCESS FUNCTION FOR UPDATING
     function USR_SITE_clear(){
-        $('.preloader', window.parent.document).hide();
+//        $('.preloader', window.parent.document).hide();
+        $(".preloader").hide();
+
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -336,7 +344,7 @@ $(document).ready(function(){
 <div class="wrapper">
 
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title" id="fhead" ><div style="padding-left:500px; text-align:left;"><p><h3>SITE MAINTENANCE</h3><p></div></div>
+    <div class="title" id="fhead"><center><p><h3>SITE MAINTENANCE</h3><p></center></div>
     <form class="content" name="USR_SITE_form_user" id="USR_SITE_form_user">
         <div class="panel-body">
             <fieldset>

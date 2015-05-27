@@ -359,7 +359,8 @@ $(document).ready(function(){
         $('#URE_lb_attdnce').hide();
     }
     <!--ENTRY END-->
-    $('.preloader', window.parent.document).hide();
+//    $('.preloader', window.parent.document).hide();
+    $(".preloader").hide();
     $('.rdclick').click(function(){
 //        alert('lllll');
         var radiooption=$(this).val();
@@ -392,7 +393,8 @@ $(document).ready(function(){
 
         $('#USRC_UPD_btn_submit').hide();
 <!--            entry function-->
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $('textarea').autogrow({onInitialize: true});
             $('#URE_btn_submit').hide();
             $('#URE_btn_save').hide();
@@ -404,7 +406,8 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var value_array=JSON.parse(xmlhttp.responseText);
                     permission_array=value_array[0];
                     project_array=value_array[1];
@@ -444,13 +447,15 @@ $(document).ready(function(){
 
             //JQUERY LIB VALIDATION END
             $(document).on('change','#URE_tb_date',function(){
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var reportdate=$('#URE_tb_date').val();
                 $('#URE_lbl_checkmsg').hide();
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var msgalert=xmlhttp.responseText;
                         if(msgalert==1)
                         {
@@ -496,12 +501,14 @@ $(document).ready(function(){
             }
             else if($('#URE_lb_attendance').val()=='1')
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var reportdate=$('#URE_tb_date').val();
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var response=xmlhttp.responseText;
                         if(response==1)
                         {
@@ -610,12 +617,14 @@ $(document).ready(function(){
             }
             else if($('#URE_lb_attendance').val()=='2')
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var reportdate=$('#URE_tb_date').val();
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var response=xmlhttp.responseText;
                         if(response==1)
   {
@@ -696,12 +705,14 @@ $(document).ready(function(){
             }
             else
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var reportdate=$('#URE_tb_date').val();
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var response=xmlhttp.responseText;
                         if(response==1)
                         {
@@ -754,12 +765,14 @@ $(document).ready(function(){
         }
         // CLICK EVENT FOR SAVE BUTTON
         $(document).on('click','#URE_btn_submit',function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var formElement = document.getElementById("URE_form_dailyuserentry");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1)
                     {
@@ -790,13 +803,15 @@ $(document).ready(function(){
         });
      // CHANGE EVENT FOR MULTIPLE DAY SAVE BUTTON
         $('#URE_btn_save').click(function(){
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var formElement = document.getElementById("URE_form_dailyuserentry");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var msg_alert=xmlhttp.responseText;
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     if(msg_alert==1){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
                         show_msgbox("USER REPORT ENTRY",err_msg[0],"success",false);
@@ -838,13 +853,15 @@ $(document).ready(function(){
             var todate=$('#URE_ta_todate').val();
             if(fromdate!='' && todate!='')
             {
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         var date_array=JSON.parse(xmlhttp.responseText);
                         var error_date='';
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         for(var i=0;i<date_array.length;i++){
                             if(i==0){
                                 error_date=date_array[i]
@@ -889,7 +906,8 @@ $(document).ready(function(){
             $('#enter').html('USER REPORT SEARCH UPDATE');
             $('#search_update').show();
             $('#entry').hide();
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             $('#USRC_UPD_btn_pdf').hide();
             var errmsgs;
             $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
@@ -906,7 +924,8 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var value_array=JSON.parse(xmlhttp.responseText);
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     permission_array=value_array[0];
                     project_array=value_array[1];
                     min_date=value_array[2];
@@ -999,9 +1018,11 @@ $(document).ready(function(){
                 $('#USRC_UPD_btn_pdf').hide();
                 $('#USRC_UPD_div_tablecontainer').hide();
                 $('section').html('');
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 flextable();
-                $('.preloader', window.parent.document).hide();
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 $("#USRC_UPD_btn_search").attr("disabled", "disabled");
             });
             //DATE PICKER FUNCTION-->
@@ -1026,7 +1047,8 @@ $(document).ready(function(){
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                alert(xmlhttp.responseText);
                         values_array=JSON.parse(xmlhttp.responseText);
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         if(values_array.length!=0){
                             $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                             //HEADER ERR MSG
@@ -1457,12 +1479,14 @@ $(document).ready(function(){
             $(document).on('change ','#USRC_UPD_tb_date',function(){
                 var reportdate=$('#USRC_UPD_tb_date').val();
                 if(date!=reportdate){
-                    $('.preloader', window.parent.document).show();
+//                    $('.preloader', window.parent.document).show();
+                    $(".preloader").show();
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                             var msgalert=xmlhttp.responseText;
-                            $('.preloader', window.parent.document).hide();
+//                            $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
                             if(msgalert==1)
                             {
                                 err_flag=1;
@@ -1898,12 +1922,14 @@ $(document).ready(function(){
             }
             // CHANGE EVENT FOR UPDATE BUTTON
             $(document).on('click','#USRC_UPD_btn_submit',function(){
-                $('.preloader', window.parent.document).show();
+//                $('.preloader', window.parent.document).show();
+                $(".preloader").show();
                 var formElement = document.getElementById("URE_form_dailyuserentry");
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var msg_alert=xmlhttp.responseText;
                         if(msg_alert==1)
                         {
@@ -1911,7 +1937,8 @@ $(document).ready(function(){
                             show_msgbox("USER SEARCH AND UPDATE",err_msg[1],"success",false);
                             clear();
                             flextable();
-                            $('.preloader', window.parent.document).hide();
+//                            $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
                             $("#USRC_UPD_tb_date").val('').hide()
                             $('#USRC_UPD_lbl_dte').hide();
                         }
@@ -1921,7 +1948,8 @@ $(document).ready(function(){
                             show_msgbox("USER SEARCH AND UPDATE",err_msg[7],"success",false);
                             clear();
                             flextable();
-                            $('.preloader', window.parent.document).hide();
+//                            $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
                             $("#USRC_UPD_tb_date").val('').hide()
                             $('#USRC_UPD_lbl_dte').hide();
                         }
@@ -1931,7 +1959,8 @@ $(document).ready(function(){
                             show_msgbox("USER SEARCH AND UPDATE",msg_alert,"success",false);
                             clear();
                             flextable();
-                            $('.preloader', window.parent.document).hide();
+//                            $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
                             $("#USRC_UPD_tb_date").val('').hide()
                             $('#USRC_UPD_lbl_dte').hide();
                         }
@@ -2013,11 +2042,11 @@ $(document).ready(function(){
                 </select>
             </div></div>
         <div class="row-fluid form-group">
-            <label name="URE_permission" class="col-sm-10" id="URE_lbl_permission">
+            <label name="URE_permission" class="col-sm-8" id="URE_lbl_permission">
                 <div class="col-sm-3"> <div class="radio">
                     <input type="radio" id="URE_rd_permission" name="permission" value="PERMISSION"/>PERMISSION<em>*</em></label>
         </div></div>
-        <div class="col-sm-8">
+        <div class="col-lg-1">
             <select name="URE_lb_timing" id="URE_lb_timing" hidden >
             </select>
         </div></div>
@@ -2122,11 +2151,11 @@ $(document).ready(function(){
             </div></div>
 
         <div class="row-fluid form-group">
-            <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission" >
+            <label name="USRC_UPD_permission" class="col-sm-8" id="USRC_UPD_lbl_permission" >
                 <div class="col-sm-3"> <div class="radio">
                     <input type="radio" id="USRC_UPD_rd_permission" name="permission" value="PERMISSION" class="update_validate"/>PERMISSION <em>*</em></label>
         </div></div>
-        <div class="col-sm-8">
+        <div class="col-lg-1">
             <select name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate" hidden >
             </select>
         </div></div>

@@ -27,8 +27,8 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
-
+//                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var values_array=JSON.parse(xmlhttp.responseText);
 
                 EMP_ENTRY_loginid=values_array[0];
@@ -72,13 +72,15 @@ $(document).ready(function(){
     $('#EMP_ENTRY_lb_loginid').change(function(){
         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
         //PRELOADER ADJUST FUNCTION
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         $('input:checkbox[id=checkbox]').attr('checked',false);
         $('#checkbox').attr('checked',false);
         EMP_ENTRY_empname=$("#EMP_ENTRY_lb_loginid option:selected").text();
         if(EMP_ENTRY_empname=="SELECT")
         {
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#EMP_ENTRY_btn_reset').hide();
             $('#EMP_ENTRY_tble_frstsel_projectlistbx').hide();
             $('#EMP_ENTRY_tble_projectlistbx').hide();
@@ -87,7 +89,8 @@ $(document).ready(function(){
         else
         {
             projectlist();
-            $('.preloader', window.parent.document).hide();
+//            $('.preloader', window.parent.document).hide();
+            $(".preloader").hide();
             $('#EMP_ENTRY_lb_loginid').show();
             $('#EMP_ENTRY_lbl_loginid').show();
             $('#CONFIG_SRCH_UPD_tr_type').append('<div><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled></div>')
@@ -152,11 +155,13 @@ $(document).ready(function(){
             var loginid=$('#EMP_ENTRY_lb_loginid').val();
             var formElement = document.getElementById("EMP_ENTRY_form_employeename");
             var flag;
-            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     flag=values_array[0];
                     if(flag == "X")
@@ -180,7 +185,8 @@ $(document).ready(function(){
     $(document).on('click','#EMP_ENTRY_btn_save',function(){
         //PRELOADER ADJUST FUNCTION
         $('#CONFIG_SRCH_UPD_tr_type').empty();
-        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var loginid=$("#EMP_ENTRY_lb_loginid option:selected").text();
         var formElement = document.getElementById("EMP_ENTRY_form_employeename");
         var xmlhttp=new XMLHttpRequest();
@@ -191,7 +197,8 @@ $(document).ready(function(){
                 {
                     if(msg_alert[0]==1)
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var msg=err_msg_array[2].replace("[UNAME]",loginid);
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:msg,position:{top:100,left:100}}});
                         show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",true);
@@ -200,7 +207,8 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
                         show_msgbox("EMPLOYEE WORK FROM ACCESS",err_msg_array[0],"success",true);
                     }
@@ -209,18 +217,20 @@ $(document).ready(function(){
                 {
                     if(msg_alert[0]==1)
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
                         var msg=err_msg_array[3].replace("[UNAME]",loginid);
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:msg,position:{top:100,left:100}}});
-                        show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",true);
+                        show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",false);
                         EMP_ENTRY_rset()
                         initialload();
                     }
                     else
                     {
-                        $('.preloader', window.parent.document).hide();
+//                        $('.preloader', window.parent.document).hide();
+                        $(".preloader").hide();
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
-                        show_msgbox("EMPLOYEE WORK FROM ACCESS",err_msg_array[0],"success",true);
+                        show_msgbox("EMPLOYEE WORK FROM ACCESS",err_msg_array[0],"success",false);
 
                     }
 
