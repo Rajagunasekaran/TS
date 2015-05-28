@@ -17,6 +17,7 @@ include "HEADER.php";
     $(document).ready(function(){
 
         $(document).on('click','#UR_ENTRY',function(){
+            $('#UR_lbl_report_entry').html('CONFIGURATION ENTRY');
             $('#entry').show();
             $('#search_update').hide();
             $('#CONFIG_SRCH_UPD_lb_module').val('SELECT');
@@ -200,7 +201,7 @@ include "HEADER.php";
             });
         });
         $(document).on('click','#UR_SEARCH_UPDATE',function(){
-            alert('sdjfhk');
+            $('#UR_lbl_report_entry').html('CONFIGURATION SEARCH UPDATE');
             $('#search_update').show();
             $('#entry').hide();
             $('#CONFIG_ENTRY_lb_module').val('SELECT');
@@ -545,7 +546,7 @@ include "HEADER.php";
 <div class="container-fluid">
     <div class="wrapper">
         <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"/></div></div></div>
-        <div class="title" id="fhead"><center><h3>CONFIGURATION ENTRY</h3></center></div>
+        <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY/SEARCH/UPDATE/DELETE</h3></b></center></div>
         <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
             <div class="panel-body">
                 <fieldset>
@@ -562,6 +563,9 @@ include "HEADER.php";
 
                     </div>
             </div>
+    <div class="row-fluid form-group">
+        <label name="UR_report_entry" id="UR_lbl_report_entry" class="srctitle col-sm-12"></label>
+    </div>
     <div id="entry" hidden>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" id="CONFIG_ENTRY_lbl_module">MODULE NAME<em>*</em></label>

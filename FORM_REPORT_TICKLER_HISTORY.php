@@ -224,7 +224,7 @@ include  "NEW_MENU.php";
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center">
                 <img src="image/Loading.gif"/></div></div></div>
-    <div class="title" id="fhead"><center><h3>TICKLER HISTORY</h3></center></div>
+    <div class="title" id="fhead"><center><b><h3>TICKLER HISTORY</h3></b></center></div>
     <form class="content" name="TH_form_employeeid" id="TH_form_employeeid">
         <div class="panel-body">
             <fieldset>

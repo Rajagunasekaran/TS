@@ -9,7 +9,8 @@ include "NEW_MENU.php";
     //READY FUNCTION START
     $(document).ready(function(){
         $(document).on('click','#clock_in_out',function(){
-            $('#inout').html('CLOCK IN/OUT DETAILS');
+            $('#REP_lbl_report_entry').html('CLOCK IN/OUT DETAILS');
+//            $('#inout').html('CLOCK IN/OUT DETAILS');
             $('#clockinout').show();
             $('#clockmissed').hide();
             $('#no_of_days').hide();
@@ -208,7 +209,8 @@ var REP_chk_errorAarray=[];
         });
         });
         $(document).on('click','#clock_missed',function(){
-            $('#inout').html('CLOCK OUT MISSED DETAILS');
+            $('#REP_lbl_report_entry').html('CLOCK OUT MISSED DETAILS');
+//            $('#inout').html('CLOCK OUT MISSED DETAILS');
             $('#clockinout').hide();
             $('#clockmissed').show();
             $('#REP_tb_strtdtebyrange').val('');
@@ -435,7 +437,7 @@ var REP_chk_errorAarray=[];
 <div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><center ><h3>CLOCK IN/OUT DETAILS</h3></center></div>
+    <div class="title"><center ><b><h3>CLOCK IN/OUT DETAILS</h3></b></center></div>
     <form  id="REP_chk_form_details" class="content" >
         <div class="panel-body">
             <fieldset>
@@ -451,6 +453,9 @@ var REP_chk_errorAarray=[];
                 <input type="radio" name="clock" class="rdclock" id="clock_missed" value="clockmissed">CLOCK-OUT-MISSED DETAILS</label>
 </div>
         </div>
+    <div class="row-fluid form-group">
+        <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
+    </div>
         <div id="clockinout" hidden>
        <div class="form-group">
                 <label name="REP_lbl_strtdtebyrange" class="col-sm-2" id="REP_lbl_strtdtebyrange" >START DATE<em>*</em></label>

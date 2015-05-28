@@ -416,7 +416,7 @@ $(document).ready(function(){
 <div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><p><center><h3>ATTENDANCE</h3></center><p></div>
+    <div class="title"><p><center><b><h3>ATTENDANCE</h3></b></center><p></div>
 <form   id="REP_form_attendance" class="content" >
     <div class="panel-body">
         <fieldset>

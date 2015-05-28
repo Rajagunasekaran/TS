@@ -77,9 +77,11 @@ $(document).ready(function(){
         var click=$(this).val();
         if(click=="entries")
         {
+            $('#ARE_lbl_report_entry').html('ADMIN REPORT ENTRY');
 //            alert('entry')
             entryclear();
             ARE_clear();
+
             $('#search').hide();
             $('#ASRC_UPD_DEL_div_tablecontainer').hide();
 
@@ -229,11 +231,25 @@ $(document).ready(function(){
                             project_array=final_array[1];
                             var wfh_flag=final_array[2];
 //                    alert(wfh_flag);
+//                            if(wfh_flag == 'X')
+//                            {
+//                                $('#ARE_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
+//                            }
                             if(wfh_flag == 'X')
                             {
                                 $('#ARE_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
+                                $('#ARE_lb_attendance').children('option[value="1"]').css('display','none');
+                                $('#ARE_lb_attendance').children('option[value="0"]').css('display','none');
+                                $('#ARE_lb_attendance').children('option[value="OD"]').css('display','none');
                             }
-//                            $('.preloader', window.parent.document).hide();
+                            else
+                            {
+                                $('#ARE_lb_attendance').children('option[value="1"]').show();
+                                $('#ARE_lb_attendance').children('option[value="0"]').show();
+                                $('#ARE_lb_attendance').children('option[value="OD"]').show();
+                            }
+
+
                             $(".preloader").hide();
                             if(project_array.length==0){
 
@@ -401,31 +417,87 @@ $(document).ready(function(){
                 }
                 else if($('#ARE_lb_attendance').val()=='2')
                 {
-                    $('#ARE_tbl_enterthereport,#ARE_ta_reason,#ARE_tble_bandwidth').html('');
+                    $('.preloader', window.parent.document).show();
+                    var reportdate=$('#ARE_tb_date').val();
+                    var loginid=$('#ARE_lb_loginid').val();
+                    var xmlhttp=new XMLHttpRequest();
+                    xmlhttp.onreadystatechange=function() {
+                        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                            $('.preloader', window.parent.document).hide();
+                            $("html, body").animate({ scrollTop: $(document).height() }, "1000");
+                            var response=JSON.parse(xmlhttp.responseText);
+                            if((response[0]==1) && (response[1]==0))
+                            {
+                                $('#ARE_lbl_checkmsg').text(err_msg[12]).show();
+                                $('#ARE_lb_timing').hide();
+                                $('#ARE_rd_permission').hide();
+                                $('#ARE_lbl_permission').hide();
+                                $('#ARE_rd_nopermission').hide();
+                                $('#ARE_lbl_nopermission').hide();
+                                $('#ARE_lbl_session').hide();
+                                $('#ARE_lb_ampm').hide();
+                                $('#ARE_lbl_txtselectproj').hide();
+                                $('#ARE_tble_projectlistbx').hide();
+                                $('#ARE_btn_submit').hide();
+                                $('#ARE_lbl_errmsg').hide();
+                            }
+                            else{
+                                $('#ARE_tbl_enterthereport,#ARE_ta_reason,#ARE_tble_bandwidth').html('');
 //            $('#ARE_rd_permission').attr('checked',false);
 //            $('#ARE_rd_nopermission').attr('checked',false);
-                    $('#ARE_lb_timing').hide();
-                    $('#ARE_rd_permission').hide();
-                    $('#ARE_lbl_permission').hide();
-                    $('#ARE_rd_nopermission').hide();
-                    $('#ARE_lbl_nopermission').hide();
+                                $('#ARE_lb_timing').hide();
+                                $('#ARE_rd_permission').hide();
+                                $('#ARE_lbl_permission').hide();
+                                $('#ARE_rd_nopermission').hide();
+                                $('#ARE_lbl_nopermission').hide();
 //            var permission_list='<option>SELECT</option>';
 //            for (var i=0;i<permission_array.length;i++) {
 //                permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
 //            }
 //            $('#ARE_lb_timing').html(permission_list);
-                    $('#ARE_lbl_session').hide();
-                    $('#ARE_lb_ampm').hide();
-                    $('#ARE_lbl_txtselectproj').show();
-                    $('#ARE_tble_projectlistbx').show();
-                    projectlist();
-                    ARE_report();
+                                $('#ARE_lbl_session').hide();
+                                $('#ARE_lb_ampm').hide();
+                                $('#ARE_lbl_txtselectproj').show();
+                                $('#ARE_tble_projectlistbx').show();
+                                projectlist();
+                                ARE_report();
 //            ARE_tble_bandwidth();
-                    $('#ARE_btn_submit').hide();
+                                $('#ARE_btn_submit').hide();
 //            $('#ARE_rd_permission').removeAttr("disabled");
 //            $('#ARE_rd_nopermission').removeAttr("disabled");
-                    $('#ARE_lbl_errmsg').hide();
-                    $('#ARE_lbl_checkmsg').hide();
+                                $('#ARE_lbl_errmsg').hide();
+                                $('#ARE_lbl_checkmsg').hide();
+                            }
+                        }
+                    }
+                    var option="PRESENT";
+                    xmlhttp.open("POST","DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
+                    xmlhttp.send();
+//                $('#ARE_tbl_enterthereport,#ARE_ta_reason,#ARE_tble_bandwidth').html('');
+////            $('#ARE_rd_permission').attr('checked',false);
+////            $('#ARE_rd_nopermission').attr('checked',false);
+//                $('#ARE_lb_timing').hide();
+//                $('#ARE_rd_permission').hide();
+//                $('#ARE_lbl_permission').hide();
+//                $('#ARE_rd_nopermission').hide();
+//                $('#ARE_lbl_nopermission').hide();
+////            var permission_list='<option>SELECT</option>';
+////            for (var i=0;i<permission_array.length;i++) {
+////                permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
+////            }
+////            $('#ARE_lb_timing').html(permission_list);
+//                $('#ARE_lbl_session').hide();
+//                $('#ARE_lb_ampm').hide();
+//                $('#ARE_lbl_txtselectproj').show();
+//                $('#ARE_tble_projectlistbx').show();
+//                projectlist();
+//                ARE_report();
+////            ARE_tble_bandwidth();
+//                $('#ARE_btn_submit').hide();
+////            $('#ARE_rd_permission').removeAttr("disabled");
+////            $('#ARE_rd_nopermission').removeAttr("disabled");
+//                $('#ARE_lbl_errmsg').hide();
+//                $('#ARE_lbl_checkmsg').hide();
                 }
                 else if($('#ARE_lb_attendance').val()=='0')
                 {
@@ -1244,6 +1316,7 @@ $(document).ready(function(){
         //search/update
         else if(click=="search")
         {
+            $('#ARE_lbl_report_entry').html('ADMIN REPORT SEARCH/UPDATE');
 //            alert('search');
             $('#options').val('SELECT');
             $('#entries').hide();
@@ -2107,6 +2180,16 @@ $(document).ready(function(){
                                 permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
                             }
                             $('#ASRC_UPD_DEL_lb_timing').html(permission_list);
+                        }
+                        if(attendance=='WORK FROM HOME')
+                        {
+                            $('#ASRC_UPD_DEL_lb_attendance').replaceWith(
+                                "<select id='ASRC_UPD_DEL_lb_attendance' name='ASRC_UPD_DEL_lb_attendance' class='update_validate'> <option value='2'>WORK FROM HOME</option> </select>");
+                        }
+                        else
+                        {
+                            $('#ASRC_UPD_DEL_lb_attendance').replaceWith(
+                                "<select id='ASRC_UPD_DEL_lb_attendance' name='ASRC_UPD_DEL_lb_attendance' class='update_validate'> <option value='1'>PRESENT</option><option value='0'>ABSENT</option><option value='OD'>ONDUTY</option></select>");
                         }
                         $('#ASRC_UPD_DEL_tble_attendence').show();
                         form_show(attendance)
@@ -3204,7 +3287,7 @@ $(document).ready(function(){
 <div class="container-fluid">
     <div class="wrapper">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title"><center><h3 id="entry">ADMIN ENTRY</h3></center></div>
+        <div class="title"><center><b><h3 id="entry">ADMIN REPORT ENTRY/SEARCH/UPDATE</h3></b></center></div>
         <form id="ARE_form_adminreportentry" class="content">
             <div class="panel-body">
                 <fieldset>
@@ -3219,6 +3302,9 @@ $(document).ready(function(){
                     <div class="radio">
                         <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_search" value="search">SEARCH/UPDATE</label>
             </div>
+    </div>
+    <div class="row-fluid form-group">
+        <label name="ARE_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
     </div>
     <div id="entries" hidden>
         <div class="row-fluid form-group">

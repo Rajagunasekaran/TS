@@ -21,9 +21,10 @@ var EMPSRC_UPD_proj_id=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
     $(document).on('click','#project_access',function(){
+
 //        $('.preloader', window.parent.document).show();
-        $(".preloader").show();
-            $('#entry').html('PROJECT ACCESS');
+        $(".preloader").show()
+        $('#EMP_lbl_report_entry').html('PROJECT ACCESS');
 //            $('#option').val('SELECT');
         $('#access').show();
         $('#search').hide();
@@ -177,7 +178,7 @@ $(document).ready(function(){
     $(document).on('click','#project_search',function(){
 //        $('.preloader', window.parent.document).show()
         $(".preloader").show();
-            $('#entry').html('PROJECT ACCESS SEARCH UPDATE');
+        $('#EMP_lbl_report_entry').html('PROJECT SEARCH UPDATE');
 //            $('#option').val('SELECT');
         $('#search').show();
         $('#access').hide();
@@ -349,7 +350,7 @@ $(document).ready(function(){
 <div class="container-fluid">
     <div class="wrapper">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title" id="fhead" ><center><p><h3 id="entry">EMPLOYEE PROJECT</h3><p></center></div>
+        <div class="title" id="fhead" ><center><p><b><h3 id="entry">PROJECT ACCESS/SEARCH/UPDATE</h3></b><p></center></div>
         <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" >
             <div class="panel-body">
                 <fieldset>
@@ -364,6 +365,9 @@ $(document).ready(function(){
                     <div class="radio">
                         <input type="radio" name="entry"  id="project_search" value="search">SEARCH/UPDATE</label>
             </div></div>
+    <div class="row-fluid form-group">
+        <label name="EMP_report_entry" id="EMP_lbl_report_entry" class="srctitle col-sm-12"></label>
+    </div>
     <div id="access" hidden>
         <div class="row-fluid form-group">
             <label name="EMP_ENTRY_lbl_loginid" class="col-sm-2" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>

@@ -367,7 +367,8 @@ $(document).ready(function(){
         if(radiooption=='entry')
         {
             UARD_clear();
-            $('#enter').html('USER REPORT ENTRY');
+            $('#URE_lbl_report_entry').html('USER REPORT ENTRY');
+//            $('#enter').html('USER REPORT ENTRY');
             $('#URE_rd_sinentry').prop('checked', false);
             $('#URE_rd_mulentry').prop('checked', false);
             $('#URE_lbl_dte').hide();
@@ -417,10 +418,26 @@ $(document).ready(function(){
                     var userstamp=value_array[4];
                     var wfh_flag=value_array[5];
 //            alert(wfh_flag);
+//                    if(wfh_flag == 'X')
+//                    {
+//                        $('#URE_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
+//                    }
+
                     if(wfh_flag == 'X')
                     {
                         $('#URE_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
+                        $('#URE_lb_attendance').children('option[value="1"]').css('display','none');
+                        $('#URE_lb_attendance').children('option[value="0"]').css('display','none');
+                        $('#URE_lb_attendance').children('option[value="OD"]').css('display','none');
                     }
+                    else
+                    {
+                        $('#URE_lb_attendance').children('option[value="1"]').show();
+                        $('#URE_lb_attendance').children('option[value="0"]').show();
+                        $('#URE_lb_attendance').children('option[value="OD"]').show();
+                    }
+
+
                     if(project_array.length==0){
                         var msg=err_msg[10].replace('[LOGIN ID]',userstamp);
                         $('#URE_form_dailyuserentry').replaceWith('<p><label class="errormsg">'+ msg +'</label></p>');
@@ -629,7 +646,7 @@ $(document).ready(function(){
                         if(response==1)
   {
 //                            alert(err_msg[11])
-                            $('#URE_lbl_checkmsg').text(err_msg[11]).show();
+                            $('#URE_lbl_checkmsg').text(err_msg[12]).show();
                             $('#URE_lb_timing').hide();
                             $('#URE_lbl_permission').hide();
                             $('#URE_rd_permission').hide();
@@ -903,7 +920,8 @@ $(document).ready(function(){
         else if(radiooption=='search_update')
         {
 //    $(document).on('click','#UR_SEARCH_UPDATE',function(){
-            $('#enter').html('USER REPORT SEARCH UPDATE');
+            $('#URE_lbl_report_entry').html('USER REPORT SEARCH UPDATE');
+//            $('#enter').html('USER REPORT SEARCH UPDATE');
             $('#search_update').show();
             $('#entry').hide();
 //            $('.preloader', window.parent.document).show();
@@ -925,6 +943,7 @@ $(document).ready(function(){
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var value_array=JSON.parse(xmlhttp.responseText);
 //                    $('.preloader', window.parent.document).hide();
+                    $("#USRC_UPD_lb_attendance option[value='2']").detach();
                     $(".preloader").hide();
                     permission_array=value_array[0];
                     project_array=value_array[1];
@@ -1993,7 +2012,7 @@ $(document).ready(function(){
 <div class="container-fluid">
     <div class="wrapper">
         <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif" /></div></div></div>
-        <div class="title" id="fhead" ><center><h3 id="enter"><p>USER REPORT</p></h3></center></div>
+        <div class="title" id="fhead" ><center><b><h3 id="enter"><p>USER REPORT ENTRY SEARCH/UPDATE</p></b></h3></center></div>
         <form id="URE_form_dailyuserentry" name="URE_form_dailyuserentry" class ='content'>
             <div class="panel-body">
                 <fieldset>
@@ -2009,6 +2028,9 @@ $(document).ready(function(){
                        <input type="radio" name="UR_ESU" class="rdclick"  id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
 
             </div></div>
+    <div class="row-fluid form-group">
+        <label name="URE_report_entry" id="URE_lbl_report_entry" class="srctitle col-sm-12"></label>
+    </div>
     <div id="entry" hidden>
         <div class="row-fluid form-group">
             <label name="entry" class="col-sm-12" id="URE_lbl_sinentry" >

@@ -24,7 +24,7 @@ $(document).ready(function(){
         var click=$(this).val();
         if(click=='entry_click')
         {
-            $('#heading').html('PUBLIC HOLIDAY ENTRY');
+            $('#PH_lbl_report_entry').html('PUBLIC HOLIDAY ENTRY');
             $('#PH_ENTRY_table').show();
             $('#publicsearch').hide();
 //            $('.preloader', window.parent.document).show();
@@ -68,7 +68,8 @@ $(document).ready(function(){
                         var ph_date_already_exixst=msg_alert_array[0];
                         var ph_saved=msg_alert_array[1];
                         if(ph_date_already_exixst==0 && ph_saved==1 && valid_ss!=0){
-                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[1],position:{top:150,left:500}}});
+//                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[1],position:{top:150,left:500}}});
+                            show_msgbox("PUBLIC HOLIDAY ENTRY",PH_ENTRY_errorAarray[1],"success",true);
                             PH_ENTRY_holiday_rset();
                         }
                         else if(ph_date_already_exixst==1){
@@ -89,7 +90,9 @@ $(document).ready(function(){
                         }
                         else
                         {
-                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[0],position:{top:150,left:500}}});
+
+//                           $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY ENTRY",msgcontent:PH_ENTRY_errorAarray[0],position:{top:150,left:500}}});
+                            show_msgbox("PUBLIC HOLIDAY ENTRY",PH_ENTRY_errorAarray[0],"success",true);
                         }
                     }
                 }
@@ -134,7 +137,7 @@ $(document).ready(function(){
         {
             var err_msg_array;
             var PH_SRC_UPD_yr_listbx;
-            $('#heading').html('PUBLIC HOLIDAY SEARCH/UPDATE');
+            $('#PH_lbl_report_entry').html('PUBLIC HOLIDAY SEARCH UPDATE');
             $('#PH_ENTRY_table').hide();
             $('#publicsearch').show();
             $('#PH_SRC_UPD_nodate').hide();
@@ -540,7 +543,7 @@ $(document).ready(function(){
 <div class="container-fluid">
     <div class="wrapper">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title" id="fhead"><center><h3 id="heading">PUBLIC HOLIDAY ENTRY</h3></center></div>
+        <div class="title" id="fhead"><center><b><h3 id="heading">PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h3></b></center></div>
         <form  name="PH_entry_form" id="PH_entry_form" class="content">
             <div class="panel-body">
                 <fieldset>
@@ -555,6 +558,9 @@ $(document).ready(function(){
                     <div class="radio">
                         <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>
             </div></div>
+    div class="row-fluid form-group">
+    <label name="PH_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
+</div>
     <!--entry part-->
     <div id="PH_ENTRY_table" hidden>
         <div class="row-fluid form-group">

@@ -418,7 +418,7 @@ include  "NEW_MENU.php";
 <div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="row title"><center><p><h3>EMAIL TEMPLATE ENTRY</h3><p></center></div>
+    <div class="row title"><center><p><b><h3>EMAIL TEMPLATE ENTRY</h3></b><p></center></div>
     <form id="ET_ENTRY_form_template" class="content" >
         <div class="panel-body">
             <fieldset>

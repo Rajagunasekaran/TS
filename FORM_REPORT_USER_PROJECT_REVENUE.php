@@ -377,7 +377,7 @@ $(document).on('change','.vali',function(){
 <div class="container-fluid">
     <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><center><h3>REVENUE</h3></center></div>
+    <div class="title"><center><b><h3>REVENUE</h3></b></center></div>
     <form   id="REV_form_revenue" class="content">
         <div class="panel-body">
             <fieldset>

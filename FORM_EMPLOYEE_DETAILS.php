@@ -182,7 +182,7 @@ include  "NEW_MENU.php";
 <div class="container-fluid">
 <div class="wrapper">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
-    <div class="newtitle1" id="fhead"><center><p><h3>EMPLOYEE DETAILS</h3><p></center></div>
+    <div class="newtitle1" id="fhead"><center><p><b><h3>EMPLOYEE DETAILS</h3></b><p></center></div>
 
     <form class="newcontent1" name="ED_form_user" id="ED_form_user" autocomplete="off" >
         <div class="panel-body">

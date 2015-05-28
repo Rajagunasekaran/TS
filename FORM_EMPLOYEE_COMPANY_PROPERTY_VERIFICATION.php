@@ -210,7 +210,7 @@ include  "NEW_MENU.php";
 <div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><center><p><h3>COMPANY PROPERTY VERIFICATION</h3><p></center></div>
+    <div class="title"><center><p><b><h3>COMPANY PROPERTY VERIFICATION</h3></b><p></center></div>
     <form   id="CPVD_form_cmpnypropverfictn" class="content" >
         <div class="panel-body">
             <fieldset>

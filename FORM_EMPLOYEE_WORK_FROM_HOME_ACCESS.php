@@ -93,7 +93,7 @@ $(document).ready(function(){
             $(".preloader").hide();
             $('#EMP_ENTRY_lb_loginid').show();
             $('#EMP_ENTRY_lbl_loginid').show();
-            $('#CONFIG_SRCH_UPD_tr_type').append('<div><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled></div>')
+            $('#CONFIG_SRCH_UPD_tr_type').append('<div class="row-fluid form-group"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled></div>')
             $('#EMP_ENTRY_btn_reset').show();
             $('#checkbox').attr('checked',false).show();
             $('#EMP_ENTRY_tble_projectlistbx').show();
@@ -167,11 +167,11 @@ $(document).ready(function(){
                     if(flag == "X")
                     {
                         $('input:checkbox[id=checkbox]').attr('checked',true)
-                        $('#CONFIG_SRCH_UPD_tr_type').append('<div><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="UPDATE" disabled></div>')
+                        $('#CONFIG_SRCH_UPD_tr_type').append('<div class="row-fluid form-group"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="UPDATE" disabled></div>')
                     }
                     else{
                         $('input:checkbox[id=checkbox]').attr('checked',false)
-                        $('#CONFIG_SRCH_UPD_tr_type').append('<div><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled></div>')
+                        $('#CONFIG_SRCH_UPD_tr_type').append('<div class="row-fluid form-group"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled></div>')
                     }
                 }
             }
@@ -251,7 +251,7 @@ $(document).ready(function(){
 <div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title" id="fhead" ><center><p><h3>EMPLOYEE WORK FROM HOME ACCESS</h3><p></center></div>
+    <div class="title" id="fhead" ><center><p><b><h3>EMPLOYEE WORK FROM HOME ACCESS</h3></b><p></center></div>
     <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" >
         <div class="panel-body">
             <fieldset>
@@ -268,12 +268,11 @@ $(document).ready(function(){
                     <div id="EMP_ENTRY_tble_frstsel_projectlistbx" class="col-sm-8" ></div>
                 </div>
 
-<div class="form-group">
+<div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
                     <div class="col-sm-2" id="CONFIG_SRCH_UPD_tr_type"></div>
-<!--                                      <input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled="" hidden>-->
-                    <!--                    <td align="left"><input type="button" class="btn" name="EMP_ENTRY_btn_update" id="EMP_ENTRY_btn_update"   value="UPDATE" disabled="" hidden></td>-->
+<div class="col-sm-4">
                   <input type="button" class="btn" name="EMP_ENTRY_btn_reset" id="EMP_ENTRY_btn_reset"  value="RESET" hidden>
-</div>
+</div></div>
 </fieldset>
             </div>
     </form>

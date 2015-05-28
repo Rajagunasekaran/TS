@@ -1382,7 +1382,7 @@ xmlhttp.send();
 <div class="wrapper">
 
 <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-<div class="title" id="fhead" ><div style="padding-top:10px;"><center><p><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3><p></center></div></div>
+<div class="title" id="fhead" ><div style="padding-top:10px;"><center><p><b><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3></b><p></center></div></div>
 <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
 <div class="panel-body">
 <fieldset>

@@ -16,6 +16,7 @@ include  "NEW_MENU.php";
 $(document).ready(function(){
     $(document).on('click','#UR_ENTRY',function(){
 //        $('.preloader', window.parent.document).show();
+        $('#AWRE_lbl_report_entry').html('ADMIN WEEKLY REPORT ENTRY');
         $('#enter').html('ADMIN WEEKLY REPORT ENTRY');
         $('#entry').show();
         $('#search_update').hide();
@@ -311,7 +312,7 @@ $(document).ready(function(){
     });
     $(document).on('click','#UR_SEARCH_UPDATE',function(){
 //        $('.preloader', window.parent.document).show();
-        $('#enter').html('ADMIN WEEKLY REPORT SEARCH UPDATE');
+        $('#AWRE_lbl_report_entry').html('ADMIN WEEKLY REPORT SEARCH UPDATE');
         $('#entry').hide();
         $('#search_update').show();
 //        $('#AWRE_SRC_lbl_selectdate').hide();
@@ -849,7 +850,7 @@ $(document).ready(function(){
 <div class="container-fluid">
 <div class="wrapper">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><p><center><h3 id="enter">ADMIN WEEKLY REPORT</h3></center><p></div>
+    <div class="title"><p><center><b><h3 id="enter">ADMIN WEEKLY REPORT/SEARCH/UPDATE</h3></b></center><p></div>
     <form id="AWRE_SRC_form_reportentry" class="content">
         <div class="panel-body">
             <fieldset>
@@ -865,6 +866,9 @@ $(document).ready(function(){
             <input type="radio" name="UR_ESU" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
 
 </div></div>
+    <div class="row-fluid form-group">
+        <label name="AWRE_report_entry" id="AWRE_lbl_report_entry" class="srctitle col-sm-12"></label>
+    </div>
 <div id="entry" hidden>
             <div class="row-fluid form-group">
 
