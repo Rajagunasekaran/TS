@@ -232,7 +232,7 @@ $(document).ready(function(){
                                     var PH_SRC_UPD_userstamp=values_array[j].PH_SRC_UPD_userstamp;
                                     var PH_SRC_UPD_timestamp=values_array[j].PH_SRC_UPD_timestamp;
                                     id=values_array[j].id;
-//                                    PH_SRC_UPD_table_header+='<tr></td><td id=date_'+id+' class="date">'+PH_SRC_UPD_date+'</td><td id=desc_'+id+' class="description">'+PH_SRC_UPD_desc+'</td><td>'+PH_SRC_UPD_userstamp+'</td><td>'+PH_SRC_UPD_timestamp+'</td></tr>';
+//                                  PH_SRC_UPD_table_header+='<tr></td><td id=date_'+id+' class="date">'+PH_SRC_UPD_date+'</td><td id=desc_'+id+' class="description">'+PH_SRC_UPD_desc+'</td><td>'+PH_SRC_UPD_userstamp+'</td><td>'+PH_SRC_UPD_timestamp+'</td></tr>';
                                     PH_SRC_UPD_table_header+='<tr></td><td id=date_'+id+' class="edit">'+PH_SRC_UPD_date+'</td><td id=desc_'+id+' class="edit">'+PH_SRC_UPD_desc+'</td><td>'+PH_SRC_UPD_userstamp+'</td><td>'+PH_SRC_UPD_timestamp+'</td></tr>';
                                 }
                                 PH_SRC_UPD_table_header+='</tbody></table>';
@@ -558,7 +558,7 @@ $(document).ready(function(){
                     <div class="radio">
                         <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>
             </div></div>
-    div class="row-fluid form-group">
+   <div class="row-fluid form-group">
     <label name="PH_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
 </div>
     <!--entry part-->

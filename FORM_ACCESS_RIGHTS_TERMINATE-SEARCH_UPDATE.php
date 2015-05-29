@@ -125,7 +125,7 @@ $(document).ready(function(){
         button_vflag=0;
         var tablerowCount = $('#filetableuploads tr').length;
         var uploadfileid="upload_filename"+tablerowCount;
-        var appendfile='<tr><td ><input type="file" name="UTERM_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></td></tr></br>';
+        var appendfile='<input type="file" name="UTERM_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></br>';
         $('#filetableuploads').append(appendfile);
         ValidateSubmitbutton();
     });
@@ -1649,7 +1649,7 @@ xmlhttp.send();
                 <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea>
             </div></div>
 
-        <div ID="filetableuploads"></div>
+        <div id="filetableuploads"></div>
 
 
         <div>

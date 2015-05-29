@@ -563,7 +563,7 @@ $(document).ready(function(){
                             $('#URE_lbl_session').hide();
                             $('#URE_lb_ampm').hide();
                             $('#URE_tble_projectlistbx').show();
-                            projectlist();
+                            projectlists();
                             URE_report();
                             URE_tble_bandwidth();
                             $('#URE_btn_submit').hide();
@@ -675,7 +675,7 @@ $(document).ready(function(){
                             $('#URE_tble_enterthereport').html('');
                             $('#URE_tble_bandwidth').html('');
                             $('#URE_tble_projectlistbx').show();
-                            projectlist();
+                            projectlists();
                             URE_report();
                             $('#URE_btn_submit').hide();
                             $("#URE_btn_submit").removeAttr("disabled");
@@ -748,7 +748,7 @@ $(document).ready(function(){
                             $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                             $('#URE_tble_projectlistbx').show();
                             URE_tble_reason();
-                            projectlist();
+                            projectlists();
                             URE_report();
                             URE_tble_bandwidth();
                             $('#URE_rd_permission').attr('checked',false);
@@ -773,7 +773,7 @@ $(document).ready(function(){
             }
         });
   //FUNCTION FOR PROJECT LIST
-        function projectlist(){
+        function projectlists(){
             var project_list;
             for (var i=0;i<project_array.length;i++) {
                 project_list += '<tr><td><input type="checkbox" id ="checkbox" name="checkbox[]" value="' + project_array[i][1] + '">' + project_array[i][0] + ' - '+ project_array[i][2]+'</td></tr>';
@@ -1614,20 +1614,11 @@ $(document).ready(function(){
                     }
                     else if($('#USRC_UPD_lb_attendance').val()=='2')
                     {
-//                $('#USRC_UPD_rd_permission').attr('checked',false);
-//                $('#USRC_UPD_rd_nopermission').attr('checked',false);
-//                $('#USRC_UPD_lb_timing').hide();
                         $('#USRC_UPD_lbl_permission').hide();
                         $('#USRC_UPD_rd_permission').hide();
                         $('#USRC_UPD_lbl_nopermission').hide();
                         $('#USRC_UPD_rd_nopermission').hide();
                         $('#USRC_UPD_lbl_session').hide();
-//                var permission_list='<option>SELECT</option>';
-//                for (var i=0;i<permission_array.length;i++) {
-//                    permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
-
-//                $('#USRC_UPD_lb_timing').html(permission_list);
-//                $('#USRC_UPD_lbl_session').hide();
                         $('#USRC_UPD_lb_ampm').hide();
                         $('#USRC_UPD_tble_projectlistbx').show();
                         $('#USRC_UPD_lbl_txtselectproj').show();
@@ -1635,10 +1626,7 @@ $(document).ready(function(){
                         $('#USRC_UPD_tble_bandwidth').html('');
                         projectlist();
                         USRC_UPD_report();
-//                USRC_UPD_tble_bandwidth();
-
                         $('#USRC_UPD_btn_submit').hide();
-//                $('#USRC_UPD_lb_timing').prop('selectedIndex',0);
                         $('#USRC_UPD_rd_permission').removeAttr("disabled");
                         $('#USRC_UPD_rd_nopermission').removeAttr("disabled");
                         $('#USRC_UPD_errmsg').hide();
@@ -1814,7 +1802,7 @@ $(document).ready(function(){
                 }
 
 
-                $('#USRC_UPD_tble_frstsel_projectlistbx').append(project_list);
+                $('#USRC_UPD_tble_frstsel_projectlistbx').append(project_list).show();
             }
 
 

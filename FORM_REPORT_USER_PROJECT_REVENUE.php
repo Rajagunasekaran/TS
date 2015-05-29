@@ -37,7 +37,7 @@ $(document).ready(function(){
         }
     }
     var option="common";
-    xmlhttp.open("GET","DB_DAILY_REPORT_USER_PROJECT_REVENUE.php?option="+option);
+    xmlhttp.open("GET","DB_DAILY_REPORT_USER_PROJECT_REVENUE.do?option="+option);
     xmlhttp.send();
 
 // CHANGE EVENT FOR PROJECT LISTBOX
@@ -57,7 +57,7 @@ $(document).ready(function(){
                }
            }
            var option="SPECICIFIED_PROJECT_NAME";
-           xmlhttp.open("GET","DB_DAILY_REPORT_USER_PROJECT_REVENUE.php?option="+option);
+           xmlhttp.open("GET","DB_DAILY_REPORT_USER_PROJECT_REVENUE.do?option="+option);
            xmlhttp.send();
        }
 
@@ -157,7 +157,7 @@ $(document).on('change','.vali',function(){
         }
     }
     var choice="PROJECTRECVERSION";
-    xmlhttp.open("POST","DB_DAILY_REPORT_USER_PROJECT_REVENUE.php?option="+choice);
+    xmlhttp.open("POST","DB_DAILY_REPORT_USER_PROJECT_REVENUE.do?option="+choice);
     xmlhttp.send(new FormData(formElement));
 });
 
@@ -329,7 +329,7 @@ $(document).on('change','.vali',function(){
             }
             $('#REV_div_loginid').show();
             var option="nonactiveempdatatble";
-            xmlhttp.open("GET","DB_DAILY_REPORT_USER_PROJECT_REVENUE.php?option="+option+"&REV_prjctname="+REV_prjctname+"&REV_withproject="+seacrhby_prjct+"&project_recver="+project_recver);
+            xmlhttp.open("GET","DB_DAILY_REPORT_USER_PROJECT_REVENUE.do?option="+option+"&REV_prjctname="+REV_prjctname+"&REV_withproject="+seacrhby_prjct+"&project_recver="+project_recver);
             xmlhttp.send(formElement);
             sorting();
         });
@@ -346,10 +346,10 @@ $(document).on('change','.vali',function(){
 //            inputValFive = inputValFive.split("-").reverse().join("-");
 //            alert(inputValFive)
 //            if($('#REV_lb_project').val()==8){
-                var url=document.location.href='COMMON_PDF.php?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
+                var url=document.location.href='COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
 //            }
 //            else if($('#REV_lb_project').val()==9){
-//                var url=document.location.href='COMMON_PDF.php?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+//                var url=document.location.href='COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
 //            }
         }
     });
@@ -361,10 +361,10 @@ $(document).on('change','.vali',function(){
             var inputValFive=$('#REV_tb_enddte').val();
             inputValFive = inputValFive.split("-").reverse().join("-");
 //            if($('#REV_lb_project').val()==8){
-                var url=document.location.href='COMMON_PDF.php?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
+                var url=document.location.href='COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
 //            }
 //            else if($('#REV_lb_project').val()==9){
-                var url=document.location.href='COMMON_PDF.php?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                var url=document.location.href='COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
 //            }
         }
     });

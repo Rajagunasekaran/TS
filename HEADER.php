@@ -57,14 +57,6 @@
 <!--        --><?php //include 'CSS/StyleSheet.css'; ?>
 <!--    </style>-->
 
-<!--new version added-->
-<!--    <link rel="stylesheet" type="text/css" href="Data_table/media/css/jquery.dataTables.css">-->
-<!--    <link rel="stylesheet" type="text/css" href="Data_table/media/css/jquery.dataTables.min.css">-->
-<!--    <script type="text/javascript" src="Data_table/media/js/jquery.dataTables.js"></script>-->
-<!--    <script type="text/javascript" src="Data_table/media/js/jquery.js"></script>-->
-<!--    <script type="text/javascript" src="Data_table/media/js/jquery.dataTables.min.js"></script>-->
-<!--    -->
-
     <link rel="stylesheet" type="text/css" href="https://googledrive.com/host/0B_f0d7mdbV_USEZYZDVnRUZMZW8/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://googledrive.com/host/0B_f0d7mdbV_USEZYZDVnRUZMZW8/dataTables.tableTools.css">
 

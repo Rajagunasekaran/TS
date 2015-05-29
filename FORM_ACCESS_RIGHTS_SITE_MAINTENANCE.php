@@ -348,8 +348,8 @@ $(document).ready(function(){
     <form class="content" name="USR_SITE_form_user" id="USR_SITE_form_user">
         <div class="panel-body">
             <fieldset>
-        <table id="USR_SITE_tble_menu" hidden>
-        </table>
+        <div id="USR_SITE_tble_menu" hidden>
+        </div>
         <input align="right" type="button" class="maxbtn" name="USR_SITE_btn_submitbutton" id="USR_SITE_btn_submitbutton" disabled style="width:190px">
    </fieldset>
             </div>

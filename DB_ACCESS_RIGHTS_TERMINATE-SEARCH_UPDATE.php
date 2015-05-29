@@ -62,7 +62,8 @@ if(isset($_REQUEST))
             $get_rname_array[]=$row["URC_DATA"];
         }
         //LAPTOP NUMBER
-        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES  ORDER BY CP_LAPTOP_NUMBER");
+//        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES  ORDER BY CP_LAPTOP_NUMBER");
+        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_FLAG IS NULL ORDER BY CP_LAPTOP_NUMBER");
         $get_lname_array=array();
         while($row=mysqli_fetch_array($lname_result)){
             $get_lname_array[]=$row["CP_LAPTOP_NUMBER"];

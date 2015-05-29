@@ -1021,6 +1021,7 @@ $(document).ready(function(){
     $('#URSRC_radio_loginsearchupdate').click(function(){
 //        alert('asd');
         button_vflag=1;
+        $('#URSRC_tble_rolecreation').hide();
 //        $('.preloader',window.parent.document).show();
         $(".preloader").show();
         flag=0;
@@ -2536,7 +2537,7 @@ $(document).ready(function(){
     </div>
 </div>
 <div>
-    <td ><input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden /></td>
+    <input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden />
 </div>
 <div id="URSRC_tble_rolesearch" hidden>
     <div><label id="URSRC_lbl_norole_err" class="errormsg"></label></div>

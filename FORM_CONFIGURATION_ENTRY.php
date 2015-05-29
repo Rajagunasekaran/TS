@@ -8,14 +8,14 @@
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 <?PHP
-include "HEADER.php";
-//include  "NEW_MENU.php";
+//include "HEADER.php";
+include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
     //DOCUMENT READY FUNCTION START
     $(document).ready(function(){
-
+        $(".preloader").hide();
         $(document).on('click','#UR_ENTRY',function(){
             $('#UR_lbl_report_entry').html('CONFIGURATION ENTRY');
             $('#entry').show();
@@ -45,7 +45,7 @@ include "HEADER.php";
                     $('#CONFIG_ENTRY_lb_module').html(CONFIG_ENTRY_mod_opt);
                 }}
             var OPTION="CONFIG_ENTRY_load_mod";
-            xmlhttp.open("GET","DB_CONFIGURATION_ENTRY.php?option="+OPTION,true);
+            xmlhttp.open("GET","DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
             xmlhttp.send(new FormData());
             //CHANGE EVENT FOR MODULE CONFIG
             $(document).on('change','#CONFIG_ENTRY_lb_module',function(){
@@ -82,7 +82,7 @@ include "HEADER.php";
                         }}
                     var OPTION="CONFIG_ENTRY_load_type";
                     var CONFIG_ENTRY_data=$(this).val();
-                    xmlhttp.open("GET","DB_CONFIGURATION_ENTRY.php?option="+OPTION+"&module="+CONFIG_ENTRY_data,true);
+                    xmlhttp.open("GET","DB_CONFIGURATION_ENTRY.do?option="+OPTION+"&module="+CONFIG_ENTRY_data,true);
                     xmlhttp.send(new FormData());
                 }
                 else
@@ -120,8 +120,8 @@ include "HEADER.php";
 //                    $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></td><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
                     $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE"></td><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
                     $("#CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
-                    $("#CN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
-                    $("#LN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#CN_CONFIG_ENTRY_tb_data").doValidation({prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#LN_CONFIG_ENTRY_tb_data").doValidation({prop:{whitespace:true,uppercase:true,autosize:true}});
                     $(".alphabets").doValidation({rule:'alphabets',prop:{whitespace:true,uppercase:true,autosize:true}});
                     $('#CONFIG_ENTRY_tr_data').show();
                     $('#CONFIG_ENTRY_tr_btn').show();
@@ -164,7 +164,7 @@ include "HEADER.php";
                         $('#CONFIG_ENTRY_lb_module').val('SELECT');
                     }}
                 var OPTION="CONFIG_ENTRY_save";
-                xmlhttp.open("POST","DB_CONFIGURATION_ENTRY.php?option="+OPTION,true);
+                xmlhttp.open("POST","DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
                 xmlhttp.send(new FormData(formElement));
             });
             //CHANGE FUNCTION FOR DATA
@@ -192,7 +192,7 @@ include "HEADER.php";
                         }}
                     var OPTION="CONFIG_ENTRY_check_data";
                     var CONFIG_ENTRY_data=$(this).val();
-                    xmlhttp.open("POST","DB_CONFIGURATION_ENTRY.php?option="+OPTION,true);
+                    xmlhttp.open("POST","DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
                     xmlhttp.send(new FormData(formElement));}
                 else
                 {
@@ -231,7 +231,7 @@ include "HEADER.php";
                     $('#CONFIG_SRCH_UPD_lb_module').html(CONFIG_SRCH_UPD_mod_opt);
                 }}
             var OPTION="CONFIG_SRCH_UPD_load_mod";
-            xmlhttp.open("GET","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.php?option="+OPTION);
+            xmlhttp.open("GET","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION);
             xmlhttp.send(new FormData());
             //CHANGE EVENT FOR MODULE CONFIG
             $(document).on('change','#CONFIG_SRCH_UPD_lb_module',function(){
@@ -266,7 +266,7 @@ include "HEADER.php";
                     }
                     var OPTION="CONFIG_SRCH_UPD_load_type";
                     var CONFIG_SRCH_UPD_data=$(this).val();
-                    xmlhttp.open("GET","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.php?option="+OPTION+"&module="+CONFIG_SRCH_UPD_data,true);
+                    xmlhttp.open("GET","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&module="+CONFIG_SRCH_UPD_data,true);
                     xmlhttp.send(new FormData());
                 }
             });
@@ -306,7 +306,7 @@ include "HEADER.php";
 //                    show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
                     }}
                 var OPTION="CONFIG_SRCH_UPD_load_data";
-                xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.php?option="+OPTION,true);
+                xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION,true);
                 xmlhttp.send(new FormData(formElement));
             }
             //CHANGE EVENT FOR TYPE CONFIG
@@ -454,7 +454,7 @@ include "HEADER.php";
                         }
                     }}
                 var OPTION="CONFIG_SRCH_UPD_save";
-                xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.php?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
+                xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
                 xmlhttp.send(new FormData(formElement));
             });
             var CONFIG_flag_del;
@@ -486,7 +486,7 @@ include "HEADER.php";
                     }
                 }
                 var OPTION="CONFIG_SRCH_UPD_delete";
-                xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.php?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
+                xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
                 xmlhttp.send(new FormData(formElement));
             });
             //CHANGE FUNCTION FOR DATA
@@ -515,7 +515,7 @@ include "HEADER.php";
                     }
                     var OPTION="CONFIG_SRCH_UPD_check_data";
                     var CONFIG_SRCH_UPD_data=$(this).val();
-                    xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.php?option="+OPTION+"&CONFIG_SRCH_UPD_tb_data="+txt_area,true);
+                    xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_tb_data="+txt_area,true);
                     xmlhttp.send(new FormData(formElement));
                 }
                 else{

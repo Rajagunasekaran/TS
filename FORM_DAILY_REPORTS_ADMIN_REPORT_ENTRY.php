@@ -3318,30 +3318,30 @@ $(document).ready(function(){
             </div></div>
 
 
-        <div class="col-sm-12">
-            <label name="entry"  id="ARE_lbl_sinentry" hidden>
-                <div class="radio">
+        <div class="row-fluid form-group">
+            <label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden>
+                <div class="col-sm-3"><div class="radio">
                     <input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label>
-        </div></div>
-    <div class="col-sm-12">
-        <label name="entry"  id="ARE_lbl_mulentry" hidden>
-            <div class="radio">
+        </div></div></div>
+    <div class="row-fluid form-group">
+        <label name="entry" class="col-sm-8" id="ARE_lbl_mulentry" hidden>
+            <div class="col-sm-3"><div class="radio">
                 <input type="radio" id="ARE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY" hidden/>MULTIPLE DAY ENTRY</label>
-    </div></div>
+    </div></div></div>
 <div class="row-fluid form-group">
     <div class="radio">
         <label name="ARE_lbl_multipleday" id="ARE_lbl_multipleday" class="srctitle col-sm-12" hidden>MULTIPLE DAY ENTRY</label>
     </div></div>
-<div class="col-sm-12">
-    <label name="ARE_lbl_emp" id="ARE_lbl_sinemp" hidden>
-        <div class="radio">
+<div class="row-fluid form-group">
+    <label name="ARE_lbl_emp" class="col-sm-8" id="ARE_lbl_sinemp" hidden>
+        <div class="col-sm-3"><div class="radio">
             <input type="radio" id="ARE_rd_sinemp" name="ARE_rd_emp" value="FOR SINGLE EMPLOYEE"hidden/>FOR SINGLE EMPLOYEE</label>
-</div></div>
-<div class="col-sm-12">
-    <label name="ARE_lbl_emp" id="ARE_lbl_allemp" hidden>
-        <div class="radio">
+</div></div></div>
+<div class="row-fluid form-group">
+    <label name="ARE_lbl_emp" class="col-sm-8" id="ARE_lbl_allemp" hidden>
+        <div class="col-sm-3"> <div class="radio">
             <input type="radio" id="ARE_rd_allemp" name="ARE_rd_emp" value="FOR ALL EMPLOYEE"hidden/>FOR ALL EMPLOYEE</label>
-</div></div>
+</div></div></div>
 
 
 <div id="ARE_tble_singledayentry" hidden>

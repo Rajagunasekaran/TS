@@ -104,7 +104,7 @@ $(document).ready(function(){
 
     var options = {
         enableHighAccuracy: true,
-        timeout: 30000,
+        timeout: 40000,
         maximumAge: 0
     };
 
@@ -421,7 +421,7 @@ $(document).ready(function(){
 <div class="container-fluid">
     <div class="wrapper" >
 
-        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+        <div  class="preloader MaskPanel"><div class="statusarea"><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
         <!--    <tr>-->
         <!--        <td style="width:1300px";>-->
         <img src="image/SSOMENS_TIME_SHEET.jpg" style="width:350px" align="middle"/>
@@ -430,7 +430,7 @@ $(document).ready(function(){
 
         <table>
             <tr>
-                <td style="width:1000px";><b><h4><span  style="font-family:Helvetica Neue" id="clock" ></span></h4></b></td><td><b><?php echo $UserStamp ?></b></td>
+                <td style="width:1000px"><b><h4><span style="font-family:Helvetica Neue" id="clock"></span></h4></b></td><td><b><?php echo $UserStamp ?></b></td>
             </tr>
             <tr>
                 <td><b><label id="clockmsg" name="clockmsg" ></label></b> </td><td><b><label id="location"></label></b></td>
