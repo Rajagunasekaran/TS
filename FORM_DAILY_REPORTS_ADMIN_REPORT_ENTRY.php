@@ -102,10 +102,13 @@ $(document).ready(function(){
     var min_date;
     var errmsgs;
     var errmsg;
+    var err_msg[];
     var msg;
     var sd;
     var ASRC_UPD_DEL_tbleheader;
     var err_msg;
+    var ASRC_UPD_DEL_table_header;
+    var activeloginid;
 var   allvalues_array;
     var datepicker_maxdate;
     alert('ready');
@@ -1392,7 +1395,6 @@ var   allvalues_array;
         //CHANGE EVENT ONDUTY ENTRY DATE FUNCTION
         $('#ARE_tb_dte').change(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-//                $('.preloader', window.parent.document).show();
             $(".preloader").show();
             var reportdate=$('#ARE_tb_dte').val();
             var xmlhttp=new XMLHttpRequest();
@@ -1496,34 +1498,38 @@ var   allvalues_array;
     });
     //CLICK EVENT FOR ALL ACTIVE EMPLOYEE SEARCH BUTTTON
     $(document).on('click','#ASRC_UPD_DEL_btn_allsearch',function(){
+        alert('allsearch');
         $('#ASRC_UPD_DEL_div_header').hide();
         $('#ASRC_UPD_btn_pdf').hide();
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
         var ure_after_mrg;
-//                $('.preloader', window.parent.document).show();
         $(".preloader").show();
         $("#ASRC_UPD_DEL_btn_allsearch").attr("disabled", "disabled");
         $('section').html('')
         $('#ASRC_UPD_DEL_div_tablecontainer').hide();
         $('#ASRC_UPD_DEL_tbl_htmltable').show();
-        var date=$('#ASRC_UPD_DEL_tb_dte').val();
-        var activeloginid=$('#ASRC_UPD_DEL_lb_loginid').val();
+         date=$('#ASRC_UPD_DEL_tb_dte').val();
+        alert(date);
+         activeloginid=$('#ASRC_UPD_DEL_lb_loginid').val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                        $('.preloader', window.parent.document).hide();
                 $(".preloader").hide();
+                alert(xmlhttp.responseText);
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array!=''){
+                    alert('value here');
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     //HEADER ERR MSG
-                    var errmsg=err_msg[12].replace('[DATE]',date);
+                    errmsg=err_msg[12].replace('[DATE]',date);
                     pdfmsg=errmsg;
+                    alert('pdfmsg');
                     $('#ASRC_UPD_DEL_div_header').text(errmsg).show();
                     $('#ASRC_UPD_btn_pdf').show();
                     var ASRC_UPD_DEL_tableheader='<table id="ASRC_UPD_DEL_tbl_htmltable" border="1" class="srcresult" style="width:1600px"><thead  bgcolor="#6495ed" style="color:white"><tr><th nowrap>EMPLOYEE NAME</th><th style="width:1100px">REPORT</th><th>LOCATION</th><th style="width:90px">USERSTAMP</th><th style="width:100px" class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
                     for(var j=0;j<allvalues_array.length;j++){
+                        alert(allvalues_array[j]);
                         var report=allvalues_array[j].admreport;
                         var reason=allvalues_array[j].admreason;
                         var morningsession=allvalues_array[j].morningsession;
@@ -1597,6 +1603,7 @@ var   allvalues_array;
                         }
                     }
                     ASRC_UPD_DEL_tableheader+='</tbody></table>';
+                    alert(ASRC_UPD_DEL_tableheader);
                     $('#ASRC_UPD_DEL_tbl_htmltable').show();
                     $('section').html(ASRC_UPD_DEL_tableheader);
                     $('#ASRC_UPD_DEL_tbl_htmltable').DataTable( {
@@ -1933,13 +1940,13 @@ var   allvalues_array;
     });
     var values_array=[];
     $(document).on('click','#ASRC_UPD_DEL_btn_search',function(){
-        $('section').html('')
+        alert('inside button');
+        $('section').html('').show();
         $('#ASRC_UPD_DEL_div_tablecontainer').hide();
         $('#ASRC_UPD_DEL_div_header').hide();
         $('#ASRC_UPD_btn_pdf').hide();
         $('#ASRC_UPD_DEL_div_headers').hide();
         $('#ASRC_UPD_btn_od_pdf').hide();
-//                $('.preloader', window.parent.document).show();
         $(".preloader").show();
         flextablerange()
         $("#ASRC_UPD_DEL_btn_search").attr("disabled", "disabled");
@@ -1960,21 +1967,22 @@ var   allvalues_array;
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-//                        $('.preloader', window.parent.document).hide();
                 $(".preloader").hide();
+                alert(xmlhttp.responseText)
                 values_array=JSON.parse(xmlhttp.responseText);
                 if(values_array.length!=0){
-                    var sd=err_msg[11].toString().replace("[LOGINID]",$("#ASRC_UPD_DEL_lb_loginid option:selected").text());
-                    var msg=sd.toString().replace("[STARTDATE]",start_date);
-                    var errmsgs=msg.toString().replace("[ENDDATE]",end_date);
+                     sd=err_msg[11].toString().replace("[LOGINID]",$("#ASRC_UPD_DEL_lb_loginid option:selected").text());
+                     msg=sd.toString().replace("[STARTDATE]",start_date);
+                     errmsgs=msg.toString().replace("[ENDDATE]",end_date);
                     pdfmsg=errmsgs;
                     //HEADER ERR MSG
-                    var sd=err_msg[11].toString().replace("[LOGINID]",$("#ASRC_UPD_DEL_lb_loginid option:selected").text());
-                    var msg=sd.toString().replace("[STARTDATE]",start_date);
-                    var errmsg=msg.toString().replace("[ENDDATE]",end_date);
+                     sd=err_msg[11].toString().replace("[LOGINID]",$("#ASRC_UPD_DEL_lb_loginid option:selected").text());
+                     msg=sd.toString().replace("[STARTDATE]",start_date);
+                     errmsg=msg.toString().replace("[ENDDATE]",end_date);
                     $('#ASRC_UPD_DEL_div_header').text(errmsg).show();
                     $('#ASRC_UPD_btn_pdf').show();
-                    var ASRC_UPD_DEL_table_header='<table id="ASRC_UPD_DEL_tbl_htmltable" border="1" class="srcresult" style="width:1700px"><thead  bgcolor="#6495ed" style="color:white"><tr><th  style="width:10px"></th><th style="width:70px" class="uk-date-column" nowrap>DATE</th><th style="width:1100px">REPORT</th><th>LOCATION</th><th style="width:150px">USERSTAMP</th><th class="uk-timestp-column" style="width:100px">TIMESTAMP</th></tr></thead><tbody>'
+                   var ASRC_UPD_DEL_table_header='<table id="ASRC_UPD_DEL_tbl_htmltable" border="1" class="srcresult" style="width:1700px"><thead  bgcolor="#6495ed" style="color:white"><tr><th  style="width:10px"></th><th style="width:70px" class="uk-date-column" nowrap>DATE</th><th style="width:1100px">REPORT</th><th>LOCATION</th><th style="width:150px">USERSTAMP</th><th class="uk-timestp-column" style="width:100px">TIMESTAMP</th></tr></thead><tbody>'
+//                    alert(ASRC_UPD_DEL_table_header +.'ssfasfasfsaf');
                     for(var j=0;j<values_array.length;j++){
                         var emp_date=values_array[j].date;
                         var emp_report=values_array[j].report;
@@ -2051,6 +2059,7 @@ var   allvalues_array;
                         }
                     }
                     ASRC_UPD_DEL_table_header+='</tbody></table>';
+            alert(ASRC_UPD_DEL_table_header);
                     $('#ASRC_UPD_DEL_tbl_htmltable').show();
                     $('section').html(ASRC_UPD_DEL_table_header);
                     $('#ASRC_UPD_DEL_tbl_htmltable').DataTable( {
@@ -3179,8 +3188,8 @@ var   allvalues_array;
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                        $('.preloader', window.parent.document).hide();
                 $(".preloader").hide();
+                alert(xmlhttp.responseText)
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "fast");
@@ -3201,6 +3210,7 @@ var   allvalues_array;
                         ASRC_UPD_DEL_tbleheader+='<tr ><td><input type="radio" name="ASRC_UPD_DEL_rd_tbl" class="ASRC_UPD_DEL_class_radio odclass" id='+id+'  value='+id+' ></td><td width="30px" align="center" nowrap>'+date+'</td><td>'+description+'</td><td>'+userstamp+'</td><td nowrap align="center">'+timestamp+'</td></tr>';
                     }
                     ASRC_UPD_DEL_tbleheader+='</tbody></table>';
+                    alert(ASRC_UPD_DEL_tbleheader)
                     $('#ASRC_UPD_DEL_tbl_ondutyhtmltable').show();
                     $('#ASRC_UPD_section_od').html(ASRC_UPD_DEL_tbleheader);
                     $('#ASRC_UPD_DEL_tbl_ondutyhtmltable').DataTable( {
@@ -3291,7 +3301,7 @@ var   allvalues_array;
                 var msg_alert=xmlhttp.responseText;
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ONDUTY SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
                 show_msgbox("ONDUTY SEARCH/UPDATE",msg_alert,"success",false);
-                ondutyflextable()
+                ondutyflextable();
                 $('#ASRC_UPD_DEL_tb_oddte').hide();
                 $('#ASRC_UPD_DEL_lbl_oddte').hide();
                 $('#ASRC_UPD_DEL_ta_des').hide();

@@ -100,6 +100,7 @@ if($_REQUEST["option"]=="user_report_entry"){
         $wfh_flag=$row['WFHA_FLAG'];
     }
     $values_array=array($get_permission_array,$get_project_array,$min_date,$error_array,$ure_empname,$wfh_flag);
+//    echo $values_array;
     echo JSON_ENCODE($values_array);
 
 }

@@ -234,8 +234,8 @@ $(document).ready(function(){
 
     }
     var option="MENU";
-//    xmlhttp.open("POST","DB_MENU.do?option="+option,true);
-    xmlhttp.open("POST","DB_MENU.php?option="+option,true);
+    xmlhttp.open("POST","DB_MENU.do?option="+option,true);
+//    xmlhttp.open("POST","DB_MENU.php?option="+option,true);
 
     xmlhttp.send();
 
@@ -273,8 +273,8 @@ $(document).ready(function(){
         {
             var main='mainmenu'+i
             var submen='submenu'+i;
-            var filename=filelist[count]+'.php';
-//            var filename=filelist[count]+'.do';
+//            var filename=filelist[count]+'.php';
+            var filename=filelist[count]+'.do';
 
             if(ARCMENU_first_submenu.length==0)
             {
@@ -304,15 +304,15 @@ $(document).ready(function(){
                         if(ARCMENU_second_submenu[count].length==0)
                         {
                             if(script_flag[count]!='X'){
-                                var file_name=filelist[count]+'.php';
-//                                var file_name=filelist[count]+'.do';
+//                                var file_name=filelist[count]+'.php';
+                                var file_name=filelist[count]+'.do';
 
 
                             }
                             else{
 
-                                var file_name='ERROR_PAGE.php';
-//                                var file_name='ERROR_PAGE.do';
+//                                var file_name='ERROR_PAGE.php';
+                                var file_name='ERROR_PAGE.do';
 
                             }
 
@@ -334,14 +334,14 @@ $(document).ready(function(){
                         {
                             if(script_flag[count][m]!='X'){
 //                                    var file_name=filelist[count][m]
-                                var file_name=filelist[count][m]+'.php';
-//                                var file_name=filelist[count][m]+'.do';
+//                                var file_name=filelist[count][m]+'.php';
+                                var file_name=filelist[count][m]+'.do';
 
 
                             }
                             else{
-                                var file_name='ERROR_PAGE.php';
-//                                var file_name='ERROR_PAGE.do';
+//                                var file_name='ERROR_PAGE.php';
+                                var file_name='ERROR_PAGE.do';
 
                             }
 
@@ -410,7 +410,7 @@ $(document).ready(function(){
 
         }
         var option="CLOCK";
-        xmlhttp.open("POST","DB_MENU.php" +
+        xmlhttp.open("POST","DB_MENU.do" +
             "?option="+option+"&location="+locationaddress+"&btn_value="+button_value);
         xmlhttp.send();
     });
