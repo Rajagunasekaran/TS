@@ -11,8 +11,8 @@
 //VER 0.01-INITIAL VERSION,SD:04/11/2014 ED:04/11/2014,TRACKER NO:97
 //*********************************************************************************************************//
 <?PHP
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -82,8 +82,7 @@ include  "NEW_MENU.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
     <div class="title" id="fhead"><p style="padding-top: 30px;"><center><b><h3>DOOR ACCESS DETAILS</h3></b></center><p></div>
     <form class="content" name="DR_ACC_form_user" id="DR_ACC_form_user" autocomplete="off" >
@@ -107,7 +106,6 @@ include  "NEW_MENU.php";
        </fieldset>
             </div>
 </form>
-    </div>
 </div>
 </body>
 <!--BODY TAG END-->

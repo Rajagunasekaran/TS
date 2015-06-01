@@ -12,8 +12,8 @@
 //VER 0.01-INITIAL VERSION, SD:06/10/2014 ED:08/10/2014,TRACKER NO:96
 //*********************************************************************************************************//-->
 <?php
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <script>
     //READY FUNCTION START
@@ -220,8 +220,7 @@ include  "NEW_MENU.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center">
                 <img src="image/Loading.gif"/></div></div></div>
     <div class="title" id="fhead"><center><b><h3>TICKLER HISTORY</h3></b></center></div>
@@ -249,7 +248,6 @@ include  "NEW_MENU.php";
                 </fieldset>
 </div>
     </form>
-    </div>
 </div>
 </body>
 <!--BODY TAG END-->

@@ -11,8 +11,8 @@
 //VER 0.01-INITIAL VERSION, SD:20/09/2014 ED:13/10/2014,TRACKER NO:74 DONE BY:SHALINI
 //*********************************************************************************************************//-->
 <?php
-//include "HEADER.php";
-include "NEW_MENU.php";
+include "HEADER.php";
+//include "NEW_MENU.php";
 ?>
 <script>
 //CHECK PRELOADER STATUS N HIDE START
@@ -747,7 +747,7 @@ $(document).ready(function(){
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body>
-<div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="newtitle" id="fhead" ><p style="padding-top: 20px";><center><h3>PROJECT ENTRY/SEARCH/UPDATE</h3></center><p></div>
     <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="newcontent">

@@ -13,8 +13,8 @@ done by :safi
 //*********************************************************************************************************//-->
 <?php
 include "COMMON.php";
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -1378,9 +1378,7 @@ xmlhttp.send();
 });
 </script>
 <body>
-<div class="container-fluid">
-<div class="wrapper">
-
+<div class="container">
 <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
 <div class="title" id="fhead" ><div style="padding-top:10px;"><center><p><b><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3></b><p></center></div></div>
 <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
@@ -1690,7 +1688,6 @@ xmlhttp.send();
 </div>
 <!--</div>-->
 </form>
-</div>
 </div>
 </body>
 </html>

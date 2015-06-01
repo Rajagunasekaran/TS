@@ -4,8 +4,8 @@
 //VER 0.01-INITIAL VERSION, SD:08/10/2014 ED:15/10/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-//include "HEADER.php";
-include "NEW_MENU.php";
+include "HEADER.php";
+//include "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <head>
@@ -374,8 +374,7 @@ $(document).on('change','.vali',function(){
    </script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title"><center><b><h3>REVENUE</h3></b></center></div>
     <form   id="REV_form_revenue" class="content">
@@ -435,7 +434,6 @@ $(document).on('change','.vali',function(){
             </fieldset>
             </div>
     </form>
-    </div>
     </div>
 </body>
 </html>

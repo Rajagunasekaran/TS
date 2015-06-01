@@ -8,8 +8,8 @@
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 <?PHP
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -543,8 +543,7 @@ include  "NEW_MENU.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
-<div class="container-fluid">
-    <div class="wrapper">
+<div class="container">
         <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"/></div></div></div>
         <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY/SEARCH/UPDATE/DELETE</h3></b></center></div>
         <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
@@ -594,7 +593,6 @@ include  "NEW_MENU.php";
                 </fieldset>
             </div>
         </form>
-    </div>
 </div>
 </body>
 <!--BODY TAG END-->

@@ -1,6 +1,6 @@
 <?php
-//include "HEADER.php";
-include "NEW_MENU.php";
+include "HEADER.php";
+//include "NEW_MENU.php";
 ?>
 <html>
 <head>
@@ -434,8 +434,7 @@ var REP_chk_errorAarray=[];
 </script>
 </head>
 <body>
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title"><center ><b><h3>CLOCK IN/OUT DETAILS</h3></b></center></div>
     <form  id="REP_chk_form_details" class="content" >
@@ -514,7 +513,6 @@ var REP_chk_errorAarray=[];
     </fieldset>
     </div>
     </form>
-</div>
 </div>
 </body>
 </html>

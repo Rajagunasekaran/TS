@@ -6,8 +6,8 @@
 //VER 0.01-INITIAL VERSION, SD:27/10/2014 ED:28/10/2014,TRACKER NO:99
 //*********************************************************************************************************//
 <?php
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -415,8 +415,7 @@ include  "NEW_MENU.php";
 </script>
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="row title"><center><p><b><h3>EMAIL TEMPLATE ENTRY</h3></b><p></center></div>
     <form id="ET_ENTRY_form_template" class="content" >
@@ -482,7 +481,6 @@ include  "NEW_MENU.php";
             </div>
     </form>
 
-        </div>
 </div>
 </body>
 <!--BODY TAG END-->

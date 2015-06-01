@@ -9,8 +9,8 @@
 //VER 0.01-INITIAL VERSION,SD:11/10/2014 ED:11/10/2014,TRACKER NO:79
 //*********************************************************************************************************//
 <?PHP
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--HTML TAG START-->
 
@@ -123,8 +123,7 @@ include  "NEW_MENU.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
     <div class="newtitle" id="fhead" style="padding-top: 10px"><center><p><b><h3>USER SEARCH DETAILS </h3></b><p></center></div>
     <form class="newcontent" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
@@ -143,7 +142,6 @@ include  "NEW_MENU.php";
             </div>
     </form>
 </div>
-    </div>
 </body>
 <!--BODY TAG END-->
 </html>

@@ -5,8 +5,8 @@
 //VER 0.01-INITIAL VERSION, SD:03/01/2015 ED:05/01/2015,TRACKER NO:74
 //*********************************************************************************************************//
 <?php
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
 <!--<style type="text/css">-->
@@ -1224,8 +1224,7 @@ $(document).ready(function(){
 </script>
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title" ><center><b><h3 id="inout">CLOCK DETAILS</h3></b></center></div>
     <form   id="REP_chk_form_details" class="content" >
@@ -1426,7 +1425,7 @@ $(document).ready(function(){
             </div>
 
     </form>
-    </div>
+
 </div>
 </body>
 <!--BODY TAG END-->

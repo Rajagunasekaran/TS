@@ -5,8 +5,8 @@
 //INITIAL VERSION
 //************************************************************************************************************-->
 <?php
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--HTML TAG START-->
 
@@ -179,8 +179,7 @@ include  "NEW_MENU.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
     <div class="newtitle1" id="fhead"><center><p><b><h3>EMPLOYEE DETAILS</h3></b><p></center></div>
 
@@ -201,7 +200,7 @@ include  "NEW_MENU.php";
                 </fieldset>
             </div>
     </form>
-    </div>
+
 </div>
 
 </body>

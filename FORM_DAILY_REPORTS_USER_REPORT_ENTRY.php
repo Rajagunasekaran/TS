@@ -1966,7 +1966,6 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-    <div class="wrapper">
         <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif" /></div></div></div>
         <div class="title" id="fhead" ><center><b><h3 id="enter"><p>USER REPORT ENTRY SEARCH/UPDATE</p></b></h3></center></div>
         <form id="URE_form_dailyuserentry" name="URE_form_dailyuserentry" class ='content'>
@@ -2173,7 +2172,6 @@ $(document).ready(function(){
 </fieldset>
 </div>
 </form>
-</div>
 </div>
 </body>
 <!--BODY TAG END-->

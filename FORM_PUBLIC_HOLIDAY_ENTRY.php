@@ -10,8 +10,8 @@
 //VER 0.01-INITIAL VERSION, SD:02/10/2014 ED:06/10/2014,TRACKER NO:74,Designed Form,Get data from ss nd insert in db part
 //*********************************************************************************************************//
 <?php
-//include "HEADER.php";
-include "NEW_MENU.php";
+include "HEADER.php";
+//include "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -540,8 +540,7 @@ $(document).ready(function(){
 </script>
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-    <div class="wrapper">
+<div class="container">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
         <div class="title" id="fhead"><center><b><h3 id="heading">PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h3></b></center></div>
         <form  name="PH_entry_form" id="PH_entry_form" class="content">
@@ -625,7 +624,6 @@ $(document).ready(function(){
     </fieldset>
 </div>
 </form>
-</div>
 </body>
 </div>
 <!--BODY TAG END-->

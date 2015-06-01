@@ -11,8 +11,8 @@
 //VER 0.01-INITIAL VERSION, SD:23/10/2014 ED:25/10/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
 <style type="text/css" xmlns="http://www.w3.org/1999/html">
@@ -573,8 +573,7 @@ $(document).ready(function(){
 </script>
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title"><p><center><b><h3>BANDWIDTH</h3></b></center><p></div>
     <form   id="REP_BND_form_bandwidth" class="content" >
@@ -661,7 +660,6 @@ $(document).ready(function(){
         </fieldset>
         </div>
     </form>
-</div>
 </div>
 </body>
 <!--BODY TAG END-->

@@ -6,8 +6,8 @@
 //VER 0.01-INITIAL VERSION, SD:03/11/2014 ED:04/11/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -207,8 +207,7 @@ include  "NEW_MENU.php";
 </script>
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title"><center><p><b><h3>COMPANY PROPERTY VERIFICATION</h3></b><p></center></div>
     <form   id="CPVD_form_cmpnypropverfictn" class="content" >
@@ -255,7 +254,6 @@ include  "NEW_MENU.php";
                 </fieldset>
             </div>
     </form>
-    </div>
 </div>
 </body>
 <!--BODY TAG END-->

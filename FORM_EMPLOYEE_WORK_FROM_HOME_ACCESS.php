@@ -5,8 +5,8 @@
 //VER 0.01-INITIAL VERSION, SD:22/04/2015 ED:27/04/2015,TRACKER NO:79
 //*********************************************************************************************************//
 <?php
-//include "HEADER.php";
-include  "NEW_MENU.php";
+include "HEADER.php";
+//include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -248,8 +248,7 @@ $(document).ready(function(){
 <!--SCRIPT TAG END-->
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-<div class="wrapper">
+<div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
     <div class="title" id="fhead" ><center><p><b><h3>EMPLOYEE WORK FROM HOME ACCESS</h3></b><p></center></div>
     <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" >
@@ -276,7 +275,7 @@ $(document).ready(function(){
 </fieldset>
             </div>
     </form>
-    </div>
+
 </div>
 </body>
 <!--BODY TAG END-->
