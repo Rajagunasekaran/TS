@@ -56,6 +56,17 @@
 <!--    <style>-->
 <!--        --><?php //include 'CSS/StyleSheet.css'; ?>
 <!--    </style>-->
+    <style>
+        <?php include 'CSS/StyleSheet.css'; ?>
+        <!--        --><?php //include 'CSS/jquery-ui.css'; ?>
+        <!--        --><?php //include 'CSS/jquery.dataTables.css'; ?>
+        <!--        --><?php //include 'CSS/dataTables.tableTools.css'; ?>
+
+
+
+
+    </style>
+
 
     <link rel="stylesheet" type="text/css" href="https://googledrive.com/host/0B_f0d7mdbV_USEZYZDVnRUZMZW8/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://googledrive.com/host/0B_f0d7mdbV_USEZYZDVnRUZMZW8/dataTables.tableTools.css">

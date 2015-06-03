@@ -24,22 +24,7 @@ var REP_chk_config=[];
 var CLK_errorAarray=[];
 //READY FUNCTION START
 $(document).ready(function(){
-//    $(document).on('click','.rdclock',function(){
-//        var val=$(this).attr('id')
-//        alert(val);
-//        if(val=='clock_in_out')
-//        {
-//            $('#clockinout').show();
-//            $('#clockmissed').hide();
-//        }
 //
-//        else if(val=='clock_missed')
-//        {
-//            $('#clockinout').hide();
-//            $('#clockmissed').show();
-//
-//        });
-//    $('.preloader', window.parent.document).hide();
     $(".preloader").hide();
     $(document).on('click','#clock_in_out',function(){
         $('#REP_lbl_report_entry').html('CLOCK IN/OUT DETAILS');

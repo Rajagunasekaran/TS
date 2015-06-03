@@ -18,7 +18,7 @@ include "HEADER.php";
 var PH_ENTRY_errorAarray=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
-
+    $(".preloader").hide();
     $(document).on('change','.publicentry',function(){
 
         var click=$(this).val();

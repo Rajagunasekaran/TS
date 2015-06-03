@@ -61,7 +61,7 @@ $(document).ready(function(){
         }
     }
     var option="search_option";
-    xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?option="+option);
+    xmlhttp.open("GET","DB_REPORT_ATTENDANCE.php?option="+option);
     xmlhttp.send();
     //CHANGE FUNCTION FOR LOGIN ID LIST BX
     $(document).on('change','#REP_lb_loginid',function(){
@@ -163,7 +163,7 @@ $(document).ready(function(){
                 }
             }
             var choice="login_id"
-            xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?login_id="+loginid+"&option="+choice,true);
+            xmlhttp.open("GET","DB_REPORT_ATTENDANCE.php?login_id="+loginid+"&option="+choice,true);
             xmlhttp.send();
         }
     });
@@ -175,7 +175,7 @@ $(document).ready(function(){
         $('#REP_lbl_dte').show();
         $('#src_lbl_error').hide();
         $('#REP_btn_att_pdf').hide();
-        $('#REP_date').val("");
+        $('#REP_date').val('');
         $('#REP_lb_loginid').hide();
         $('#REP_lb_loginid').prop('selectedIndex',0)
         $('#REP_lbl_loginid').hide();
@@ -193,7 +193,7 @@ $(document).ready(function(){
             $('#REP_btn_search').hide();
         }
         if(option=="SELECT"){
-           $('.preloader').hide();
+            $('.preloader').hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -204,9 +204,9 @@ $(document).ready(function(){
             $('#REP_btn_att_pdf').hide();
         }
         if(option=='6' || option=='2'){
-           $('.preloader').hide();
+            $('.preloader').hide();
             $('#REP_btn_search').attr("disabled","disabled").show();
-            //DATE PICKER FUNCTION
+//            DATE PICKER FUNCTION
             $('.date-pickers').datepicker( {
                 changeMonth: true,      //provide option to select Month
                 changeYear: true,       //provide option to select year
@@ -273,7 +273,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-               $('.preloader').hide();
+                $('.preloader').hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -368,7 +368,7 @@ $(document).ready(function(){
             }
         }
         $('#REP_tablecontainer').show();
-        xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?option="+option+"&date="+date+"&loginid="+loginid,true);
+        xmlhttp.open("GET","DB_REPORT_ATTENDANCE.php?option="+option+"&date="+date+"&loginid="+loginid,true);
         xmlhttp.send();
     });
     //FUNCTION FOR SORTING
@@ -388,13 +388,13 @@ $(document).ready(function(){
         var inputValOne=$('#REP_date').val();
         var inputValTwo=$('#REP_lb_loginid').val();
         if($('#REP_lb_attendance').val()==1){
-            var url=document.location.href='COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+            var url=document.location.href='COMMON_PDF.php?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==2){
-            var url=document.location.href='COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='COMMON_PDF.php?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==6){
-            var url=document.location.href='COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='COMMON_PDF.php?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
     });
 });
@@ -404,60 +404,60 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title"><p><center><h3>ATTENDANCE</h3></center><p></div>
-        <form   id="REP_form_attendance" class="content" >
-            <div class="panel-body">
-                <fieldset>
-                    <div class="row-fluid form-group">
-                        <div width="150" id="REP_td_attendance" hidden> </div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+    <div class="title"><p><center><h3>ATTENDANCE</h3></center><p></div>
+    <form   id="REP_form_attendance" class="content" >
+        <div class="panel-body">
+            <fieldset>
+                <div class="row-fluid form-group">
+                    <div width="150" id="REP_td_attendance" hidden> </div>
 
-                        <label name="REP_lbl_optn" id="REP_lbl_optn" class="col-sm-2">SELECT A OPTION<em>*</em></label>
-                        <div class="col-sm-8">
-                            <select id="REP_lb_attendance" name="option" hidden>
-                            </select>
-                        </div></div>
+                    <label name="REP_lbl_optn" id="REP_lbl_optn" class="col-sm-2">SELECT A OPTION<em>*</em></label>
+                    <div class="col-sm-8">
+                        <select id="REP_lb_attendance" name="option" hidden>
+                        </select>
+                    </div></div>
 
 
-                    <div class="row-fluid form-group">
-                        <label name="REP_lbl_loginid"  class="col-sm-2" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
-                        <div class="col-sm-8">
-                            <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
-                            </select>
+                <div class="row-fluid form-group">
+                    <label name="REP_lbl_loginid"  class="col-sm-2" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
+                    <div class="col-sm-8">
+                        <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
+                        </select>
 
-                        </div></div>
+                    </div></div>
 
-                    <div class="row-fluid form-group">
-                        <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-2 "  hidden>DATE<em>*</em></label>
-                        <div class="col-sm-8">
-                            <input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:75px;" />
-                        </div></div>
+                <div class="row-fluid form-group">
+                    <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-2 "  hidden>DATE<em>*</em></label>
+                    <div class="col-sm-8">
+                        <input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:75px;" />
+                    </div></div>
 
-                    <div class="row-fluid form-group  col-sm-2">
-                        <input type="button" class="btn" name="REP_btn_search" id="REP_btn_search"  value="SEARCH" disabled>
-                    </div>
+                <div class="row-fluid form-group  col-sm-2">
+                    <input type="button" class="btn" name="REP_btn_search" id="REP_btn_search"  value="SEARCH" disabled>
+                </div>
 
-                    <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
-                        <label id="src_lbl_error" class="srctitle"></label>
-                    </div><br>
-                    <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
-                        <label id="no_of_days" class="srctitle"></label>
-                    </div>
-                    <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
-                        <label id="no_of_working_days" class="srctitle"></label>
-                    </div>
-                    <div class="row-fluid form-group col-sm-2">
-                        <input type="button" class="btnpdf" id="REP_btn_att_pdf" value="PDF">
-                    </div>
-                    <div id="REP_tablecontainer" style="max-width:800px;" class="table-responsive row-fluid form-group form-inline col-sm-offset-0 col-sm-2" hidden>
-                        <section>
-                        </section>
-                    </div>
-                    <label id="REP_lbl_error" class="errormsg" hidden></label>
-                </fieldset>
-            </div>
+                <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
+                    <label id="src_lbl_error" class="srctitle"></label>
+                </div><br>
+                <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
+                    <label id="no_of_days" class="srctitle"></label>
+                </div>
+                <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
+                    <label id="no_of_working_days" class="srctitle"></label>
+                </div>
+                <div class="row-fluid form-group col-sm-2">
+                    <input type="button" class="btnpdf" id="REP_btn_att_pdf" value="PDF">
+                </div>
+                <div id="REP_tablecontainer" style="max-width:800px;" class="table-responsive row-fluid form-group form-inline col-sm-offset-0 col-sm-2" hidden>
+                    <section>
+                    </section>
+                </div>
+                <label id="REP_lbl_error" class="errormsg" hidden></label>
+            </fieldset>
+        </div>
 
-        </form>
+    </form>
 
 </div>
 </body>

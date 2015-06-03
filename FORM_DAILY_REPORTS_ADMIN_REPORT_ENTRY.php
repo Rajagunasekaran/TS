@@ -109,11 +109,12 @@ $(document).ready(function(){
         {
             $('#ARE_lbl_report_entry').html('ADMIN REPORT ENTRY');
 //            alert('entry')
-            entryclear();
+
             ARE_clear();
 
             $('#search').hide();
             $('#ASRC_UPD_DEL_div_tablecontainer').hide();
+            entryclear();
             $('#entries').show();
             $('#ARE_lbl_optn').show();
             $('#option').show();
@@ -318,7 +319,7 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-alert(xmlhttp.responseText);
+//alert(xmlhttp.responseText);
                     var final_array=JSON.parse(xmlhttp.responseText);
                     mindate=final_array[0];
                     project_array=final_array[1];
@@ -1025,7 +1026,8 @@ alert(xmlhttp.responseText);
         }
     });
     // CLICK EVENT FOR SINGLEDAYENTRY RADIO BUTTON
-    $('#ARE_rd_sinentry').click(function(){
+    $(document).on('click','#ARE_rd_sinentry',function(){
+//    $('#ARE_rd_sinentry').click(function(){
         $('#ARE_rd_sinentry').attr('checked',true);
         $('#ARE_tble_singledayentry').show();
         $('#ARE_lbl_session').hide();
@@ -1780,12 +1782,12 @@ alert(xmlhttp.responseText);
     //CHANGE EVENT FOR LOGIN ID LISTBX
 //    var min_date;
     $(document).on('change','#ASRC_UPD_DEL_lb_loginid',function(){
-        var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginidASRC_UPD_DEL_lb_loginid").val();
+        var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginid").val();
 //                alert(ASRC_UPD_DEL_loginidlist)
         $('#ASRC_UPD_DEL_errmsg').hide();
         if(ASRC_UPD_DEL_loginidlist=='SELECT')
         {
-            alert('if')
+//            alert('if')
             $('#ASRC_UPD_DEL_lbl_session').hide();
             $('#ASRC_UPD_DEL_lbl_strtdte').hide();
             $('#ASRC_UPD_DEL_tb_strtdte').hide();
@@ -1821,7 +1823,7 @@ alert(xmlhttp.responseText);
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     $(".preloader").hide();
-                    alert(xmlhttp.responseText)
+//                    alert(xmlhttp.responseText)
                     var finaldate=JSON.parse(xmlhttp.responseText);
                     min_date=finaldate[0];
                     max_date=finaldate[1];
@@ -3312,8 +3314,8 @@ alert(xmlhttp.responseText);
     </div>
     <div id="entries" hidden>
         <div class="row-fluid form-group">
-            <label name="ARE_lbl_optn" class="col-sm-2" id="ARE_lbl_optn">SELECT A OPTION<em>*</em></label>
-            <div class="col-sm-3">
+            <label name="ARE_lbl_optn" class="col-sm-3" id="ARE_lbl_optn">SELECT A OPTION<em>*</em></label>
+            <div class="col-sm-2">
                 <select id="option" name="option">
                     <option>SELECT</option>
                     <option>ADMIN REPORT ENTRY</option>
@@ -3324,7 +3326,7 @@ alert(xmlhttp.responseText);
 
         <div class="row-fluid form-group">
             <label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden>
-                <div class="col-sm-3"><div class="radio">
+                <div class="col-sm-4"><div class="radio">
                         <input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label>
         </div></div></div>
 <div class="row-fluid form-group">
@@ -3338,12 +3340,12 @@ alert(xmlhttp.responseText);
     </div></div>
 <div class="row-fluid form-group">
     <label name="ARE_lbl_emp" class="col-sm-8" id="ARE_lbl_sinemp" hidden>
-        <div class="col-sm-3"><div class="radio">
+        <div class="col-sm-4"><div class="radio">
                 <input type="radio" id="ARE_rd_sinemp" name="ARE_rd_emp" value="FOR SINGLE EMPLOYEE"hidden/>FOR SINGLE EMPLOYEE</label>
 </div></div></div>
 <div class="row-fluid form-group">
     <label name="ARE_lbl_emp" class="col-sm-8" id="ARE_lbl_allemp" hidden>
-        <div class="col-sm-3"> <div class="radio">
+        <div class="col-sm-4"> <div class="radio">
                 <input type="radio" id="ARE_rd_allemp" name="ARE_rd_emp" value="FOR ALL EMPLOYEE"hidden/>FOR ALL EMPLOYEE</label>
 </div></div></div>
 
@@ -3466,8 +3468,8 @@ alert(xmlhttp.responseText);
 <!--search update-->
 <div id="search" hidden>
     <div class="row-fluid form-group">
-        <label name="ASRC_UPD_DEL_lbl_optn" class="col-sm-2" id="ASRC_UPD_DEL_lbl_optn">SELECT A OPTION<em>*</em></label>
-        <div class="col-sm-8">
+        <label name="ASRC_UPD_DEL_lbl_optn" class="col-sm-3" id="ASRC_UPD_DEL_lbl_optn">SELECT A OPTION<em>*</em></label>
+        <div class="col-sm-2">
 
             <select id="options" name="option">
                 <option>SELECT</option>
@@ -3480,7 +3482,7 @@ alert(xmlhttp.responseText);
         <div id="ASRC_UPD_DEL_tbl_entry" hidden>
             <div  class="row-fluid form-group">
                 <label name="ASRC_UPD_DEL_lbl_btwnrange" class="col-sm-8" id="ASRC_UPD_DEL_lbl_btwnrange">
-                    <div class="col-sm-3"><div class="radio">
+                    <div class="col-sm-4"><div class="radio">
                             <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_btwnrange" value="RANGES" class='attnd'>BETWEEN RANGE</label>
             </div></div>
     </div>
@@ -3505,7 +3507,7 @@ alert(xmlhttp.responseText);
 </div>
 <div   class="row-fluid form-group">
     <label name="ASRC_UPD_DEL_lbl_actveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_actveemp"  hidden>
-        <div class="col-sm-3"><div class="radio">
+        <div class="col-sm-4"><div class="radio">
                 <input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label>
 </div></div>
 </div>

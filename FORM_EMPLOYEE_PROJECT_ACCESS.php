@@ -20,10 +20,11 @@ var EMPSRC_UPD_proj_array=[];
 var EMPSRC_UPD_proj_id=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
+    $(".preloader").hide();
     $(document).on('click','#project_access',function(){
 
 //        $('.preloader', window.parent.document).show();
-        $(".preloader").show()
+        $(".preloader").show();
         $('#EMP_lbl_report_entry').html('PROJECT ACCESS');
 //            $('#option').val('SELECT');
         $('#access').show();

@@ -8,6 +8,7 @@ include "HEADER.php";
 <script>
     //READY FUNCTION START
     $(document).ready(function(){
+        $(".preloader").hide();
         $(document).on('click','#clock_in_out',function(){
             $('#REP_lbl_report_entry').html('CLOCK IN/OUT DETAILS');
 //            $('#inout').html('CLOCK IN/OUT DETAILS');

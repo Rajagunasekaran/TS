@@ -100,7 +100,7 @@ $(document).ready(function(){
         var radiooption=$(this).val();
         if(radiooption=='entry')
         {
-            alert(radiooption);
+//            alert(radiooption);
             $(".preloader").hide();
             UARD_clear();
             $('#URE_lbl_report_entry').html('USER REPORT ENTRY');
@@ -110,7 +110,7 @@ $(document).ready(function(){
             $('#URE_tb_date').val('').hide();
             $('#entry').show();
             $('#search_update').hide();
-            alert('sdjfhkggsgkskgsd');
+//            alert('sdjfhkggsgkskgsd');
             $('#USRC_UPD_lbl_report,#USRC_UPD_ta_report,#USRC_UPD_tble_enterthereport').empty();
             $('#USRC_UPD_tb_strtdte').val('');
             $('#USRC_UPD_tb_enddte').val('');
@@ -130,17 +130,17 @@ $(document).ready(function(){
 //            $('textarea').autogrow({onInitialize: true});
             $('#URE_btn_submit').hide();
             $('#URE_btn_save').hide();
-            alert('before db');
+//            alert('before db');
 //            $("#URE_lb_attendance option[value='2']").detach();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     $(".preloader").hide();
-                    alert(xmlhttp.responseText);
+//                    alert(xmlhttp.responseText);
                     var value_array=JSON.parse(xmlhttp.responseText);
                     permission_array=value_array[0];
                     project_array=value_array[1];
-                    alert(project_array)
+//                    alert(project_array)
                     min_date=value_array[2];
                     err_msg=value_array[3];
                     var userstamp=value_array[4];
@@ -193,6 +193,10 @@ $(document).ready(function(){
             $('#entry').hide();
             $(".preloader").hide();
             $('#USRC_UPD_btn_pdf').hide();
+
+
+            $('#USRC_UPD_btn_submit').hide();
+            $('#USRC_UPD_btn_srch').hide();
             var errmsgs;
             $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
             $('textarea').autogrow({onInitialize: false});
@@ -452,6 +456,7 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR SINGLE DAY RADIO BUTTON
     $('#URE_rd_sinentry').click(function(){
+//        alert('singe day');
         $('#URE_tbl_singleday').show();
         $('#URE_tbl_multipleday').hide();
         $('#URE_lbl_reason').hide();
@@ -535,7 +540,7 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $(".preloader").hide();
-                alert(xmlhttp.responseText);
+//                alert(xmlhttp.responseText);
                  msgalert=xmlhttp.responseText;
                 if(msgalert==1)
                 {
@@ -1013,7 +1018,9 @@ $(document).ready(function(){
         $('#USRC_UPD_tb_enddte').datepicker("option","minDate",USRC_UPD_todate);
     });
     var values_array=[];
-    $('#USRC_UPD_btn_search').click(function(){
+    $(document).on('click','#USRC_UPD_btn_search',function(){
+//    $('#USRC_UPD_btn_search').click(function(){
+//        alert('search date');
         $('#USRC_UPD_div_header').hide();
         $('#USRC_UPD_btn_pdf').hide();
         $('#USRC_UPD_div_tablecontainer').hide();
@@ -1216,9 +1223,11 @@ $(document).ready(function(){
     var bandwidth;
     var projectid_array;
     $(document).on('click','#USRC_UPD_btn_srch',function(){
-        clear();
+//        alert('search');
+
         $("html, body").animate({ scrollTop: $(document).height() }, "fast");
         $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
+        clear();
         var SRC_UPD__idradiovalue=$('input:radio[name=USRC_UPD_rd_flxtbl]:checked').attr('id');
         $("#USRC_UPD_btn_srch").attr("disabled", "disabled");
         $('#USRC_UPD_lbl_txtselectproj').hide();
