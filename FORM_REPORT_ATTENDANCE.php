@@ -27,8 +27,8 @@ include "COMMON.php";
 <script>
 //DOCUMENT READY FUNCTION START
 $(document).ready(function(){
-    $('#REP_btn_att_pdf').hide();
-    $('.preloader').show();
+     $('#REP_btn_att_pdf').hide();
+    $(".preloader").show();
     $('#REP_btn_search').hide();
     var err_msg_array=[];
     var mindate;
@@ -39,7 +39,7 @@ $(document).ready(function(){
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader').hide();
+            $(".preloader").hide();
             var final_array=JSON.parse(xmlhttp.responseText);
             var loginid_array=final_array[0];
             err_msg_array=final_array[1];
@@ -61,11 +61,11 @@ $(document).ready(function(){
         }
     }
     var option="search_option";
-    xmlhttp.open("GET","DB_REPORT_ATTENDANCE.php?option="+option);
+    xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?option="+option);
     xmlhttp.send();
     //CHANGE FUNCTION FOR LOGIN ID LIST BX
     $(document).on('change','#REP_lb_loginid',function(){
-        $('.preloader').show();
+        $(".preloader").show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('#REP_tablecontainer').hide();
@@ -77,7 +77,7 @@ $(document).ready(function(){
         var loginid=$('#REP_lb_loginid').val();
         $('#REP_date').val("");
         if(loginid=="SELECT"){
-            $('.preloader').hide();
+            $(".preloader").hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -93,7 +93,7 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var finaldate=JSON.parse(xmlhttp.responseText);
-                    $('.preloader').hide();
+                    $(".preloader").hide();
                     var min_date=finaldate[0];
                     var max_date=finaldate[1];
 
@@ -163,13 +163,13 @@ $(document).ready(function(){
                 }
             }
             var choice="login_id"
-            xmlhttp.open("GET","DB_REPORT_ATTENDANCE.php?login_id="+loginid+"&option="+choice,true);
+            xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?login_id="+loginid+"&option="+choice,true);
             xmlhttp.send();
         }
     });
     //CHANGE FUNCTION FOR ATTENDANCE LISTBX
     $(document).on('change','#REP_lb_attendance',function(){
-        $('.preloader').show();
+        $(".preloader").show();
         $('#REP_tablecontainer').hide();
         $('#REP_btn_search').hide();
         $('#REP_lbl_dte').show();
@@ -185,7 +185,7 @@ $(document).ready(function(){
         $('#REP_tble_absent_count').html('');
         var option=$('#REP_lb_attendance').val();
         if(option=="1"){
-            $('.preloader').hide();
+            $(".preloader").hide();
             $('#REP_lb_loginid').show();
             $('#REP_lbl_loginid').show();
             $('#REP_lbl_dte').hide();
@@ -193,7 +193,7 @@ $(document).ready(function(){
             $('#REP_btn_search').hide();
         }
         if(option=="SELECT"){
-            $('.preloader').hide();
+            $(".preloader").hide();
             $('#REP_lbl_dte').hide();
             $('#REP_date').hide();
             $('#REP_tablecontainer').hide();
@@ -204,9 +204,9 @@ $(document).ready(function(){
             $('#REP_btn_att_pdf').hide();
         }
         if(option=='6' || option=='2'){
-            $('.preloader').hide();
+            $(".preloader").hide();
             $('#REP_btn_search').attr("disabled","disabled").show();
-//            DATE PICKER FUNCTION
+            //DATE PICKER FUNCTION
             $('.date-pickers').datepicker( {
                 changeMonth: true,      //provide option to select Month
                 changeYear: true,       //provide option to select year
@@ -258,7 +258,7 @@ $(document).ready(function(){
     var allvalues_array;
     //CHANGE FUNCTION FOR DATE BX
     $(document).on('click','#REP_btn_search',function(){
-        $('.preloader').show();
+        $(".preloader").show();
         $("#REP_btn_search").attr("disabled","disabled");
         $('#REP_tble_absent_count').html('');
         $('section').html('');
@@ -273,7 +273,7 @@ $(document).ready(function(){
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader').hide();
+                $(".preloader").hide();
                 allvalues_array=JSON.parse(xmlhttp.responseText);
                 if(allvalues_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -368,7 +368,7 @@ $(document).ready(function(){
             }
         }
         $('#REP_tablecontainer').show();
-        xmlhttp.open("GET","DB_REPORT_ATTENDANCE.php?option="+option+"&date="+date+"&loginid="+loginid,true);
+        xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?option="+option+"&date="+date+"&loginid="+loginid,true);
         xmlhttp.send();
     });
     //FUNCTION FOR SORTING
@@ -388,13 +388,13 @@ $(document).ready(function(){
         var inputValOne=$('#REP_date').val();
         var inputValTwo=$('#REP_lb_loginid').val();
         if($('#REP_lb_attendance').val()==1){
-            var url=document.location.href='COMMON_PDF.php?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+            var url=document.location.href='COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==2){
-            var url=document.location.href='COMMON_PDF.php?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==6){
-            var url=document.location.href='COMMON_PDF.php?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
     });
 });
@@ -410,26 +410,24 @@ $(document).ready(function(){
         <div class="panel-body">
             <fieldset>
                 <div class="row-fluid form-group">
-                    <div width="150" id="REP_td_attendance" hidden> </div>
-
-                    <label name="REP_lbl_optn" id="REP_lbl_optn" class="col-sm-2">SELECT A OPTION<em>*</em></label>
-                    <div class="col-sm-8">
-                        <select id="REP_lb_attendance" name="option" hidden>
+              <div width="150" id="REP_td_attendance" hidden> </div>
+                    <label name="REP_lbl_optn" id="REP_lbl_optn" class="col-sm-3">SELECT A OPTION<em>*</em></label>
+                    <div class="col-sm-6">
+                        <select id="REP_lb_attendance" name="option" class="form-control" hidden>
                         </select>
                     </div></div>
 
-
-                <div class="row-fluid form-group">
-                    <label name="REP_lbl_loginid"  class="col-sm-2" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
-                    <div class="col-sm-8">
-                        <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
+           <div class="row-fluid form-group">
+                    <label name="REP_lbl_loginid"  class="col-sm-3" id="REP_lbl_loginid">EMPLOYEE NAME<em>*</em></label>
+                    <div class="col-sm-6 ">
+                        <select name="REP_lb_loginid" id="REP_lb_loginid" class="form-control" hidden>
                         </select>
 
                     </div></div>
 
                 <div class="row-fluid form-group">
-                    <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-2 "  hidden>DATE<em>*</em></label>
-                    <div class="col-sm-8">
+                    <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-3" hidden>DATE<em>*</em></label>
+                    <div class="col-sm-6">
                         <input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:75px;" />
                     </div></div>
 

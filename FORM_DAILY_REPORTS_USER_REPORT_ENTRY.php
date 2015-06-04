@@ -998,7 +998,7 @@ $(document).ready(function(){
         $('#USRC_UPD_div_header').hide();
         $('#USRC_UPD_btn_pdf').hide();
         clear();
-        $('#USRC_UPD_tbl_htmltable').html('');
+//        $('#USRC_UPD_tbl_htmltable').html('');
         $('#USRC_UPD_btn_srch').hide();
         $('#USRC_UPD_lbl_dte').hide();
         $('#USRC_UPD_tb_date').hide();
@@ -1027,8 +1027,8 @@ $(document).ready(function(){
         $('section').html('');
         $(".preloader").show();
         flextable();
-        $(".preloader").hide();
-        $("#USRC_UPD_btn_search").attr("disabled", "disabled");
+
+
     });
     //DATE PICKER FUNCTION-->
     $('#USRC_UPD_tb_date').datepicker({
@@ -1044,14 +1044,17 @@ $(document).ready(function(){
     //FUNCTION FOR DATA TABLE
     function flextable()
     {
+        alert('sd')
+        $("#USRC_UPD_btn_search").attr("disabled", "disabled");
+        $('#search_update').show();
         var ure_after_mrg;
         var start_date=$('#USRC_UPD_tb_strtdte').val();
         var end_date=$('#USRC_UPD_tb_enddte').val();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                alert(xmlhttp.responseText);
                 values_array=JSON.parse(xmlhttp.responseText);
+//                alert(values_array)
                 $(".preloader").hide();
                 if(values_array.length!=0){
                     $("html, body").animate({ scrollTop: $(document).height() }, "fast");
@@ -1062,6 +1065,7 @@ $(document).ready(function(){
                     $('#USRC_UPD_div_header').text(errmsgs).show();
                     $('#USRC_UPD_btn_pdf').show();
                     var USRC_UPD_table_header='<table id="USRC_UPD_tbl_htmltable" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th></th><th  class="uk-date-column">DATE</th><th >REPORT</th><th class="uk-timestp-column">TIMESTAMP</th></tr></thead><tbody>'
+//                  alert(USRC_UPD_table_header)
                     for(var j=0;j<values_array.length;j++){
                         var emp_date=values_array[j].date;
                         var emp_report=values_array[j].report;
@@ -1131,6 +1135,7 @@ $(document).ready(function(){
                         }
                     }
                     USRC_UPD_table_header+='</tbody></table>';
+//                    alert(USRC_UPD_table_header)
                     $('section').html(USRC_UPD_table_header);
                     $('#USRC_UPD_tbl_htmltable').DataTable( {
                         "aaSorting": [],
@@ -1154,7 +1159,7 @@ $(document).ready(function(){
         var option='SEARCH';
         xmlhttp.open("GET","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?start_date="+start_date+"&end_date="+end_date+"&option="+option,false);
         xmlhttp.send();
-        sorting();
+//        sorting();
     }
     //FUNCTION FOR SORTING
     function sorting(){
@@ -1226,8 +1231,8 @@ $(document).ready(function(){
 //        alert('search');
 
         $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-        $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
         clear();
+        $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
         var SRC_UPD__idradiovalue=$('input:radio[name=USRC_UPD_rd_flxtbl]:checked').attr('id');
         $("#USRC_UPD_btn_srch").attr("disabled", "disabled");
         $('#USRC_UPD_lbl_txtselectproj').hide();
@@ -1322,6 +1327,8 @@ $(document).ready(function(){
             USRC_UPD_tble_bandwidth()
             $('#USRC_UPD_tb_band').val(bandwidth);
             $('#USRC_UPD_btn_submit').show();
+//            $('#USRC_UPD_rd_permission').attr('disabled','enabled');
+//            $('#USRC_UPD_rd_nopermission').attr('disabled','enabled');
             $('#USRC_UPD_rd_permission').removeAttr("disabled");
             $('#USRC_UPD_rd_nopermission').removeAttr("disabled");
 
@@ -1516,31 +1523,35 @@ $(document).ready(function(){
     });
 // CHANGE EVENT FOR ATTENDANCE
     $(document).on('change','#USRC_UPD_lb_attendance',function(){
+        alert(attendance);
 //            $('#USRC_UPD_lb_attendance').change(function(){
         err_flag=0;
         if(attendance==$('#USRC_UPD_lb_attendance').val())
         {
+alert('inside');
             $('#USRC_UPD_tble_reasonlbltxtarea').html('');
             $('#USRC_UPD_tble_frstsel_projectlistbx').html('');
             $('#USRC_UPD_tble_enterthereport').html('');
             $('#USRC_UPD_tble_bandwidth').html('');
             $('#USRC_UPD_lb_timing').hide();
             $('#USRC_UPD_lbl_permission').hide();
-            $('#USRC_UPD_rd_permission').hide();
+            $('#USRC_UPD_rd_permission').show();
             $('#USRC_UPD_lbl_nopermission').hide();
-            $('#USRC_UPD_rd_nopermission').hide();
+            $('#USRC_UPD_rd_nopermission').show();
             form_show(attendance)
             $('#USRC_UPD_btn_submit').attr('disabled','disabled');
             $('#USRC_UPD_banderrmsg').hide();
         }
         else
         {
+            alert('else');
             projectid_array='';
             $('#USRC_UPD_tble_frstsel_projectlistbx').html('');
             $('#USRC_UPD_btn_submit').attr('disabled','disabled');
             $('#USRC_UPD_tble_reasonlbltxtarea').html('');
             if($('#USRC_UPD_lb_attendance').val()=='1')
             {
+                alert('present');
                 $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                 $('#USRC_UPD_tble_enterthereport,#USRC_UPD_ta_reason,#USRC_UPD_tble_bandwidth').html('');
                 $('#USRC_UPD_rd_permission').attr('checked',false);
@@ -1571,6 +1582,7 @@ $(document).ready(function(){
             }
             else if($('#USRC_UPD_lb_attendance').val()=='0')
             {
+                alert('absent');
                 $('#USRC_UPD_rd_permission').attr('checked',false);
                 $('#USRC_UPD_rd_nopermission').attr('checked',false);
                 $('#USRC_UPD_lb_timing').hide();
@@ -1688,7 +1700,9 @@ $(document).ready(function(){
     $(document).on('change','#USRC_UPD_lb_ampm',function(){
 //            $('#USRC_UPD_lb_ampm').change(function(){
         projectid_array='';
-        $('#USRC_UPD_tble_reasonlbltxtarea,#USRC_UPD_tble_enterthereport,#USRC_UPD_tble_bandwidth,#USRC_UPD_tble_frstsel_projectlistbx').html('');
+
+       $('#USRC_UPD_tble_reasonlbltxtarea,#USRC_UPD_tble_enterthereport,#USRC_UPD_tble_bandwidth,#USRC_UPD_tble_frstsel_projectlistbx').html('');
+
         if($('#USRC_UPD_lb_ampm').val()=='SELECT')
         {
             $('#USRC_UPD_tble_reasonlbltxtarea').html('');
@@ -1719,29 +1733,31 @@ $(document).ready(function(){
         else
         {
             $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-            USRC_UPD_reason();
+//            USRC_UPD_reason();
+            $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-sm-8"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
             $('#USRC_UPD_tble_projectlistbx').show();
-            projectlist();
-            USRC_UPD_report();
-            USRC_UPD_tble_bandwidth();
-            $('#USRC_UPD_rd_permission').attr('checked',false);
-            $('#USRC_UPD_rd_nopermission').attr('checked',false);
-            $('#USRC_UPD_lb_timing').hide();
-            $('#USRC_UPD_lbl_permission').show();
-            $('#USRC_UPD_rd_permission').show();
-            $('#USRC_UPD_lbl_nopermission').show();
-            $('#USRC_UPD_rd_nopermission').show();
-            var permission_list='<option>SELECT</option>';
-            for (var i=0;i<4;i++) {
-                permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
-            }
-            $('#USRC_UPD_lb_timing').html(permission_list);
-            $('#USRC_UPD_lbl_txtselectproj').show();
-            $('#USRC_UPD_btn_submit').hide();
-            $('#USRC_UPD_lb_timing').prop('selectedIndex',0);
-            $('#USRC_UPD_rd_permission').removeAttr("disabled");
-            $('#USRC_UPD_rd_nopermission').removeAttr("disabled");
-            $('#USRC_UPD_banderrmsg').hide();
+            $('#search_update').show();
+//            projectlist();
+//            USRC_UPD_report();
+//            USRC_UPD_tble_bandwidth();
+//            $('#USRC_UPD_rd_permission').attr('checked',false);
+//            $('#USRC_UPD_rd_nopermission').attr('checked',false);
+//            $('#USRC_UPD_lb_timing').hide();
+//            $('#USRC_UPD_lbl_permission').show();
+//            $('#USRC_UPD_rd_permission').show();
+//            $('#USRC_UPD_lbl_nopermission').show();
+//            $('#USRC_UPD_rd_nopermission').show();
+//            var permission_list='<option>SELECT</option>';
+//            for (var i=0;i<4;i++) {
+//                permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
+//            }
+//            $('#USRC_UPD_lb_timing').html(permission_list);
+//            $('#USRC_UPD_lbl_txtselectproj').show();
+//            $('#USRC_UPD_btn_submit').hide();
+//            $('#USRC_UPD_lb_timing').prop('selectedIndex',0);
+//            $('#USRC_UPD_rd_permission').removeAttr("disabled");
+//            $('#USRC_UPD_rd_nopermission').removeAttr("disabled");
+//            $('#USRC_UPD_banderrmsg').hide();
         }
     });
 // CHANGE EVENT FOR REPORT TEXTAREA

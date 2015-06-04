@@ -20,11 +20,11 @@ var EMPSRC_UPD_proj_array=[];
 var EMPSRC_UPD_proj_id=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
-    $(".preloader").hide();
+    $(".preloader").hide()
     $(document).on('click','#project_access',function(){
 
 //        $('.preloader', window.parent.document).show();
-        $(".preloader").show();
+        $(".preloader").show()
         $('#EMP_lbl_report_entry').html('PROJECT ACCESS');
 //            $('#option').val('SELECT');
         $('#access').show();
@@ -321,19 +321,24 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var msg_alert=xmlhttp.responseText;
+                   // alert(msg_alert)
                     if(msg_alert==1)
                     {
 //                        $('.preloader', window.parent.document).hide()
                         $(".preloader").hide();
+                       // alert(err_msg_array[2])
                         var msg=err_msg_array[2].replace("[LOGIN ID]",EMPSRC_UPD_empname);
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+                      //  alert(msg)
+                      //  $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msg,"success",false);
                         EMPSRC_UPD_rset()
                     }
                     else
                     {
 //                        $('.preloader', window.parent.document).hide()
                         $(".preloader").hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
+                       // $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
+                        show_msgbox("EMPLOYEE PROJECT ACCESS SEARCH/UPDATE",err_msg_array[0],"success",false);
                     }
                 }
             }
@@ -370,9 +375,9 @@ $(document).ready(function(){
     </div>
     <div id="access" hidden>
         <div class="row-fluid form-group">
-            <label name="EMP_ENTRY_lbl_loginid" class="col-sm-2" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
-            <div class="col-sm-8">
-                <select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" hidden>
+            <label name="EMP_ENTRY_lbl_loginid" class="col-sm-3" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
+            <div class="col-sm-6">
+                <select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" class="form-control" hidden>
                 </select>
             </div></div>
         <div><label id="EMP_ENTRY_lbl_nologinid" name="EMP_ENTRY_lbl_nologinid" class="errormsg"></label></div>
@@ -390,9 +395,9 @@ $(document).ready(function(){
     </div>
     <div id="search" hidden>
         <div class="row-fluid form-group">
-            <label name="EMPSRC_UPD_lbl_loginid" class="col-sm-2" id="EMPSRC_UPD_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
-            <div class="col-sm-8">
-                <select name="EMPSRC_UPD_lb_loginid" id="EMPSRC_UPD_lb_loginid" hidden>
+            <label name="EMPSRC_UPD_lbl_loginid" class="col-sm-3" id="EMPSRC_UPD_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
+            <div class="col-sm-6">
+                <select name="EMPSRC_UPD_lb_loginid" id="EMPSRC_UPD_lb_loginid" class="form-control" hidden>
                 </select>
             </div></div>
         <div><label id="EMPSRC_UPD_lbl_nologinid" name="EMPSRC_UPD_lbl_nologinid" class="errormsg"></label></div>

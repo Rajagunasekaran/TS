@@ -15,6 +15,7 @@ include "HEADER.php";
     var project_recver='';
     //READY FUNCTION START
 $(document).ready(function(){
+    $(".preloader").hide();
     $('#REV_btn_emplist_pdf').hide();
     $('#REV_btn_emp_pdf').hide();
     var project_recver='';

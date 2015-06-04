@@ -14,6 +14,7 @@ include "HEADER.php";
 <script xmlns="http://www.w3.org/1999/html">
 // READY FUNCTION STARTS
 $(document).ready(function(){
+    $(".preloader").hide();
     $(document).on('click','#UR_ENTRY',function(){
 //        $('.preloader', window.parent.document).show();
         $('#AWRE_lbl_report_entry').html('ADMIN WEEKLY REPORT ENTRY');

@@ -94,6 +94,7 @@ var REP_chk_errorAarray=[];
         }
         //SET END DATE
         $(document).on('change','#REP_tb_strtdtebyrange',function(){
+            alert('start_date');
             $('#REV_lbl_emptitle').hide();
             var USRC_UPD_startdate = $('#REP_tb_strtdtebyrange').datepicker('getDate');
             var date = new Date( Date.parse( USRC_UPD_startdate ));

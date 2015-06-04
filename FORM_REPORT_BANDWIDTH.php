@@ -12,6 +12,7 @@
 //************************************************************************************************************-->
 <?php
 include "HEADER.php";
+include "HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
@@ -35,13 +36,13 @@ $(document).ready(function(){
     var REP_BND_reportconfig_listbx=[];
     var REP_BND_active_emp=[];
     var REP_BND_nonactive_emp=[];
-    $('.preloader', window.parent.document).show()
+    $(".preloader").show()
     $('#REP_BND_btn_search').hide();
     $('#REP_BND_btn_mysearch').hide();
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            $('.preloader', window.parent.document).hide()
+            $(".preloader").hide()
             var values_array=JSON.parse(xmlhttp.responseText);
             REP_BND_reportconfig_listbx=values_array[0];
             REP_BND_active_emp=values_array[1];
@@ -104,16 +105,16 @@ $(document).ready(function(){
         //BANDWIDTH BY MONTH
         else if(option=='11')
         {
-            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION FOR SETTING MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
-                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                 }
                 //DATE PICKER FUNCTION START
                 $('#REP_BND_db_selectmnth').datepicker( {
@@ -288,12 +289,12 @@ $(document).ready(function(){
         }
         else
         {
-            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
             //FUNCTION FOR SETTINF MIN ND MAX DATE
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REP_BND_start_dates=date_val[0];
                     var REP_BND_end_dates=date_val[1];
@@ -381,11 +382,11 @@ $(document).ready(function(){
         $('#REP_BND_btn_search').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnths').val();
         var REP_BND_loginid=$('#REP_BND_lb_loginid').val();
-        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var REP_BND_actnon_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_actnon_values[0]!=null)
                 {
@@ -474,11 +475,11 @@ $(document).ready(function(){
         $('#REP_BND_btn_emp_pdf').hide();
         $('#REP_BND_btn_mysearch').attr("disabled","disabled");
         var REP_BND_monthyear=$('#REP_BND_db_selectmnth').val();
-        $('.preloader', window.parent.document).show();
+        $(".preloader").show();
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
                 var REP_BND_monthyr_values=JSON.parse(xmlhttp.responseText);
                 if(REP_BND_monthyr_values[0]!='' && REP_BND_monthyr_values[0]!=null)
                 {
@@ -570,22 +571,22 @@ $(document).ready(function(){
             <div class="panel-body">
                 <fieldset>
                     <div class="row-fluid form-group">
-                        <label name="REP_BND_lbl_reportconfig" class="col-sm-2" id="REP_BND_lbl_reportconfig" hidden>BANDWIDTH<em>*</em></label>
-                        <div class="col-sm-8">
-                            <select id="REP_BND_lb_reportconfig" name="REP_BND_lb_reportconfig" hidden>
+                        <label name="REP_BND_lbl_reportconfig" class="col-sm-3" id="REP_BND_lbl_reportconfig">BANDWIDTH<em>*</em></label>
+                        <div class="col-sm-4">
+                            <select id="REP_BND_lb_reportconfig" name="REP_BND_lb_reportconfig" class="form-control">
                             </select>
                         </div></div>
 
                     <div><label id="REP_BND_nodata_rc" name="REP_BND_nodata_rc" class="errormsg"></label></div>
 
                     <div class="row-fluid form-group">
-                        <label name="REP_BND_lbl_selectmnth"  class="col-sm-2" id="REP_BND_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
-                        <div class="col-sm-8">
+                        <label name="REP_BND_lbl_selectmnth"  class="col-sm-3" id="REP_BND_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
+                        <div class="col-sm-4">
                             <input type="text" name="REP_BND_db_selectmnth" id="REP_BND_db_selectmnth" class="date-picker datemandtry validation" style="width:75px;" hidden>
                         </div></div>
                     <div class="row-fluid form-group">
-                        <label name="REP_BND_lbl_selectmnth"  class="col-sm-2" id="REP_BND_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
-                        <div class="col-sm-8">
+                        <label name="REP_BND_lbl_selectmnth"  class="col-sm-3" id="REP_BND_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
+                        <div class="col-sm-4">
                             <input type="text" name="REP_BND_db_selectmnth" id="REP_BND_db_selectmnth" class="date-picker datemandtry validation" style="width:75px;" hidden>
                         </div></div>
                     <div>
@@ -608,7 +609,7 @@ $(document).ready(function(){
 
                         </div></div>
                     <div class="row-fluid form-group">
-                        <label name="REP_BND_lbl_nonactveemp" class="col-sm-2" id="REP_BND_lbl_nonactveemp"  hidden>
+                        <label name="REP_BND_lbl_nonactveemp" class="col-sm-3" id="REP_BND_lbl_nonactveemp"  hidden>
                             <div class="radio">
                                 <input type="radio" name="REP_BND_rd_actveemp"  id="REP_BND_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
 
@@ -622,15 +623,15 @@ $(document).ready(function(){
     </div>
     <div><label id="REP_BND_nodata_lgnid" name="REP_BND_nodata_lgnid" class="errormsg"></label>
         <div class="row-fluid form-group">
-            <label name="REP_BND_lbl_loginid"  class="col-sm-2" id="REP_BND_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
-            <div class="col-sm-8">
-                <select name="REP_BND_lb_loginid" id="REP_BND_lb_loginid" hidden>
+            <label name="REP_BND_lbl_loginid"  class="col-sm-3" id="REP_BND_lbl_loginid">EMPLOYEE NAME<em>*</em></label>
+            <div class="col-sm-4">
+                <select name="REP_BND_lb_loginid" id="REP_BND_lb_loginid" class="form-control">
                 </select>
             </div>
         </div></div>
     <div class="row-fluid form-group">
-        <label name="REP_BND_lbl_selectmnths" class="col-sm-2" id="REP_BND_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
-        <div class="col-sm-8">
+        <label name="REP_BND_lbl_selectmnths" class="col-sm-3" id="REP_BND_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
+        <div class="col-sm-3">
             <input type="text" name="REP_BND_db_selectmnths" id="REP_BND_db_selectmnths" class="date-pickers datemandtry valid" style="width: 75px" hidden>
         </div></div>
     <div>
