@@ -76,7 +76,7 @@ $(document).ready(function(){
             }
         }
         var option='AUTO';
-        xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php?&option="+option,true);
+        xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?&option="+option,true);
         xmlhttp.send();
 
     }
@@ -102,7 +102,7 @@ $(document).ready(function(){
                 }
             }
             var option='CHECK';
-            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php?checkproject_name="+checkproject_name+"&option="+option,true);
+            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option,true);
             xmlhttp.send();
         }
     });
@@ -191,7 +191,7 @@ $(document).ready(function(){
                 }
             }
             var option='CHECK';
-            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php?checkproject_name="+checkproject_name+"&option="+option,true);
+            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option,true);
             xmlhttp.send();
         }
         else{
@@ -239,7 +239,8 @@ $(document).ready(function(){
 
                 if(msg_alert==1)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[1],position:{top:150,left:500}}});
+                   // $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[1],position:{top:150,left:500}}});
+                    show_msgbox("PROJECT ENTRY/SEARCH/UPDATE",error_message[1],"success",false);
                     $("#PE_tb_prjectname").val('').show();
                     $("#PE_ta_prjdescrptn").val('').show();
                     $("#PE_tb_sdate").val('').show();
@@ -250,7 +251,8 @@ $(document).ready(function(){
                 }
                 else if(msg_alert==0)
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[2],position:{top:150,left:500}}});
+                   // $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:error_message[2],position:{top:150,left:500}}});
+                    show_msgbox("PROJECT ENTRY/SEARCH/UPDATE",error_message[2],"success",false);
                     $("#PE_tb_prjectname").val('').show();
                     $("#PE_ta_prjdescrptn").val('').show();
                     $("#PE_tb_sdate").val('').show();
@@ -262,7 +264,8 @@ $(document).ready(function(){
                 }
                 else
                 {
-                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
+                   // $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PROJECT ENTRY/SEARCH/UPDATE",msgcontent:msg_alert,position:{top:150,left:500}}});
+                    show_msgbox("PROJECT ENTRY/SEARCH/UPDATE",msg_alert,"success",false);
                     $("#PE_tb_prjectname").val('').show();
                     $("#PE_ta_prjdescrptn").val('').show();
                     $("#PE_tb_sdate").val('').show();
@@ -275,7 +278,7 @@ $(document).ready(function(){
             }
         }
         var option='SAVE';
-        xmlhttp.open("POST","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php?option="+option,true);
+        xmlhttp.open("POST","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?option="+option,true);
         xmlhttp.send(new FormData(formElement));
     });
     //FUNCTION FOR VALIDATION
@@ -309,7 +312,7 @@ $(document).ready(function(){
     // FUNCTION FOR DATETABLE
     function showTable(){
         $.ajax({
-            url:"DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php",
+            url:"DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do",
             type:"POST",
             data:"option=showData",
             cache: false,
@@ -513,13 +516,13 @@ $(document).ready(function(){
                 }
             }
             var option='RANDOM';
-            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php?checkproject_name="+checkproject_name+"&option="+option+"&recver="+rec_ver,true);
+            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option+"&recver="+rec_ver,true);
             xmlhttp.send();
         }
     });
 // CLICK EVENT FOR UPDATE BUTTON
 //    $('section').on('click','.ajaxupdate',function(){
-//        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.phpcument).show();
 //        var edittrid = $(this).parent().parent().attr('id');
 //        var combineid = $(this).parent().parent().attr('id');
 //        var combineid_split=combineid.split('_');
@@ -564,14 +567,14 @@ $(document).ready(function(){
 //        $('#'+edittrid).html(pre_tds);
 //    });
     $(document).on('click','#PE_btn_pdf',function(){
-        var url=document.location.href='COMMON_PDF.php?flag=17&title='+error_message[6];
+        var url=document.location.href='COMMON_PDF.do?flag=17&title='+error_message[6];
     });
 
     function first()
     {
         $.ajax({
             type: 'POST',
-            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php',
+            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
             data:{option:'edit'},
             success: function(data){
 //                    alert(data);
@@ -703,7 +706,7 @@ $(document).ready(function(){
 //        alert('&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate)
         $.ajax({
             type: 'POST',
-            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.php',
+            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
 //            data:'&rowid='+combineid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
             data:'&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
             success: function(data) {

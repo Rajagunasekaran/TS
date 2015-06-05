@@ -27,7 +27,7 @@ include "COMMON.php";
 <script>
 //DOCUMENT READY FUNCTION START
 $(document).ready(function(){
-     $('#REP_btn_att_pdf').hide();
+    $('#REP_btn_att_pdf').hide();
     $(".preloader").show();
     $('#REP_btn_search').hide();
     var err_msg_array=[];
@@ -405,22 +405,22 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><p><center><h3>ATTENDANCE</h3></center><p></div>
+    <div class="title"><p><center><h3><b>ATTENDANCE</b></h3></center><p></div>
     <form   id="REP_form_attendance" class="content" >
         <div class="panel-body">
             <fieldset>
                 <div class="row-fluid form-group">
-              <div width="150" id="REP_td_attendance" hidden> </div>
+                    <div width="150" id="REP_td_attendance" hidden> </div>
                     <label name="REP_lbl_optn" id="REP_lbl_optn" class="col-sm-3">SELECT A OPTION<em>*</em></label>
                     <div class="col-sm-6">
                         <select id="REP_lb_attendance" name="option" class="form-control" hidden>
                         </select>
                     </div></div>
 
-           <div class="row-fluid form-group">
-                    <label name="REP_lbl_loginid"  class="col-sm-3" id="REP_lbl_loginid">EMPLOYEE NAME<em>*</em></label>
+                <div class="row-fluid form-group">
+                    <label name="REP_lbl_loginid"  class="col-sm-3" id="REP_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
                     <div class="col-sm-6 ">
-                        <select name="REP_lb_loginid" id="REP_lb_loginid" class="form-control" hidden>
+                        <select name="REP_lb_loginid" id="REP_lb_loginid" class="form-control" style="display:none">
                         </select>
 
                     </div></div>

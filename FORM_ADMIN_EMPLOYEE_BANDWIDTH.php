@@ -12,7 +12,6 @@
 //************************************************************************************************************-->
 <?php
 include "HEADER.php";
-include "HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
@@ -566,7 +565,7 @@ $(document).ready(function(){
 <div class="container-fluid">
     <div class="wrapper">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title"><p><center><h3>BANDWIDTH</h3></center><p></div>
+        <div class="title"><p><center><h3><b>BANDWIDTH</b></h3></center><p></div>
         <form   id="REP_BND_form_bandwidth" class="content" >
             <div class="panel-body">
                 <fieldset>
@@ -623,9 +622,9 @@ $(document).ready(function(){
     </div>
     <div><label id="REP_BND_nodata_lgnid" name="REP_BND_nodata_lgnid" class="errormsg"></label>
         <div class="row-fluid form-group">
-            <label name="REP_BND_lbl_loginid"  class="col-sm-3" id="REP_BND_lbl_loginid">EMPLOYEE NAME<em>*</em></label>
+            <label name="REP_BND_lbl_loginid"  class="col-sm-3" id="REP_BND_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
             <div class="col-sm-4">
-                <select name="REP_BND_lb_loginid" id="REP_BND_lb_loginid" class="form-control">
+                <select name="REP_BND_lb_loginid" id="REP_BND_lb_loginid" class="form-control" style="display:none">
                 </select>
             </div>
         </div></div>

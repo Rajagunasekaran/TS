@@ -646,7 +646,7 @@ $(document).ready(function(){
             };
         }
     });
-<!--CLOCK OUT MISSED DETAILS-->
+    <!--CLOCK OUT MISSED DETAILS-->
 
     $(document).on('click','#clock_missed',function(){
 //        $('.preloader', window.parent.document).show();
@@ -1203,7 +1203,7 @@ $(document).ready(function(){
             var url=document.location.href='COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
         });
 
-});
+    });
 });
 <!--SCRIPT TAG END-->
 </script>
@@ -1215,45 +1215,45 @@ $(document).ready(function(){
     <form   id="REP_chk_form_details" class="content" >
         <div class="panel-body">
             <fieldset>
-        <div class="row-fluid form-group ">
-            <div class="radio">
-            <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
-                <input type="radio" name="clock" class="rdclock" id="clock_in_out" value=clockinout>CLOCK IN/OUT DETAILS</label>
+                <div class="row-fluid form-group ">
+                    <div class="radio">
+                        <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
+                            <input type="radio" name="clock" class="rdclock" id="clock_in_out" value=clockinout>CLOCK IN/OUT DETAILS</label>
 
-        </div></div>
-        <div class="row-fluid  form-group">
-            <div class="radio">
-            <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
-                <input type="radio" name="clock" class="rdclock" id="clock_missed" value="clockmissed">CLOCK OUT/MISSED DETAILS</label>
+                    </div></div>
+                <div class="row-fluid  form-group">
+                    <div class="radio">
+                        <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
+                            <input type="radio" name="clock" class="rdclock" id="clock_missed" value="clockmissed">CLOCK OUT/MISSED DETAILS</label>
 
-        </div></div>
+                    </div></div>
                 <div class="row-fluid form-group">
                     <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
-        <div id="clockinout" hidden>
-        <div class="row-fluid form-group">
-            <label class="col-sm-2" name="REP_chk_lbl_srchby" id="REP_chk_lbl_srchby">SEARCH BY<em>*</em></label>
-            <div class="col-sm-4">
-                <select id="REP_chk_lb_srchby" name="REP_chk_lb_srchby" hidden>
-                </select>
-            </div>
-        </div>
-        <div><label id="REP_nodata_rc" name="REP_nodata_rc" class="errormsg"></label></div>
+                <div id="clockinout" hidden>
+                    <div class="row-fluid form-group">
+                        <label class="col-sm-3" name="REP_chk_lbl_srchby" id="REP_chk_lbl_srchby">SEARCH BY<em>*</em></label>
+                        <div class="col-sm-6">
+                            <select id="REP_chk_lb_srchby" name="REP_chk_lb_srchby" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div><label id="REP_nodata_rc" name="REP_nodata_rc" class="errormsg"></label></div>
 
-        <div id="REP_tble_startdate"></div>
-        <div id="REP_tble_searchbtn"></div>
-        <div class="row-fluid form-group">
-            <label name="REP_chk_lbl_btwnrange" class="col-sm-12" id="REP_chk_lbl_btwnrange" hidden>
-                <div class="radio">
-                <input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_btwnrange" value="RANGES" class='attnd' hidden>BETWEEN RANGE</label>
-</div>
-        </div>
-        <div class="row-fluid form-group">
-            <label name="REP_chk_lbl_allactveemp"  class="col-sm-12" id="REP_chk_lbl_allactveemp" hidden>
-                <div class="radio">
-                <input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_allactveemp"   value="RANGES" class='attnd' hidden>ALL ACTIVE EMPLOYEE</label>
+                    <div id="REP_tble_startdate"></div>
+                    <div id="REP_tble_searchbtn"></div>
+                    <div class="row-fluid form-group">
+                        <label name="REP_chk_lbl_btwnrange" class="col-sm-12" id="REP_chk_lbl_btwnrange" hidden>
+                            <div class="radio">
+                                <input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_btwnrange" value="RANGES" class='attnd' hidden>BETWEEN RANGE</label>
+                    </div>
+                </div>
+                <div class="row-fluid form-group">
+                    <label name="REP_chk_lbl_allactveemp"  class="col-sm-12" id="REP_chk_lbl_allactveemp" hidden>
+                        <div class="radio">
+                            <input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_allactveemp"   value="RANGES" class='attnd' hidden>ALL ACTIVE EMPLOYEE</label>
 
-        </div></div>
+                </div></div>
         <div class="row-fluid form-group">
             <label name="REP_chk_lbl_allactveemps" id="REP_chk_lbl_allactveemps" class="srctitle" hidden>ALL ACTIVE EMPLOYEE</label>
         </div>
@@ -1271,145 +1271,145 @@ $(document).ready(function(){
         <div class="row-fluid form-group">
             <label name="REP_chk_lbl_actveemp" class="col-sm-12" id="REP_chk_lbl_actveemp"  hidden>
                 <div class="radio">
-                <input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_actveemp" value="EMPLOYEE" hidden >ACTIVE EMPLOYEE</label>
+                    <input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_actveemp" value="EMPLOYEE" hidden >ACTIVE EMPLOYEE</label>
 
         </div></div>
+<div class="row-fluid form-group">
+    <label name="REP_chk_lbl_nonactveemp" class="col-sm-12" id="REP_chk_lbl_nonactveemp"  hidden>
+        <div class="radio">
+            <input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
+</div>
+</div>
+<div class="row-fluid form-group">
+    <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="srctitle col-sm-12 " hidden>ACTIVE EMPLOYEE</label>
+</div>
+<div class="row-fluid form-group">
+    <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-12" hidden>NON ACTIVE EMPLOYEE </label>
+</div>
+<div class="row-fluid form-group">
+    <label class="col-sm-3" name="REP_lbl_loginid" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
+    <div class="col-sm-6">
+        <select name="REP_lb_loginid" id="REP_lb_loginid" class="form-control" style="display:none">
+        </select>
+    </div>
+</div>
+<div><label id="REP_nodata_uld" name="REP_nodata_uld" class="errormsg"></label></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-3" name="REP_lbl_strtdtebyrange" id="REP_lbl_strtdtebyrange" hidden>START DATE<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" id="REP_tb_strtdtebyrange" name="REP_tb_strtdtebyrange" hidden class='valid REP_datepicker datemandtry' style="width:75px;"/>
+    </div></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-3" name="REP_lbl_enddte" id="REP_lbl_enddte" hidden>END DATE<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" id="REP_tb_enddtebyrange" name="REP_tb_enddtebyrange" hidden class='valid REP_datepicker datemandtry' style="width:75px;"/>
+    </div></div>
+<div>
+    <input type="button" id="REP_btn_searchdaterange" name="REP_btn_searchdaterange"  value="SEARCH" class="btn"  disabled />
+</div>
+<div >
+    <input type="button" class="btn" name="REP_chk_btn_search" id="REP_chk_btn_search"  value="SEARCH" disabled hidden>
+</div>
+<div>
+    <label id="REP_lbl_daterange" name="REP_lbl_daterange"  class="srctitle" hidden></label>
+</div><br>
+<div>
+    <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
+</div>
+<div id="REP_tablecontainer_bydaterange"style="max-width:1000px" class="table-responsive">
+    <section>
+    </section>
+</div>
+<label id="REP_lbl_nodata_allactive" name="REP_lbl_nodata_allactive" class="errormsg"></label>
+<label id="REP_nodata_btwrange" name="REP_nodata_btwrange" class="errormsg"></label>
+<div>
+    <label id="REP_lbl_dteranges" name="REP_lbl_dteranges"  class="srctitle" hidden></label>
+</div><br>
+<div>
+    <input type="button" id="REP_btn_pdfs" class="btnpdf" value="PDF"></div>
+<div  id="REP_tablecontainer"  style="max-width:1000px" class="table-responsive" hidden>
+    <sectionid>
+    </sectionid >
+</div>
+</div>
+<div id="clockmissed" hidden>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" name="CLK_lbl_reportconfig" id="CLK_lbl_reportconfig" hidden>SEARCH BY<em>*</em></label>
+        <div class="col-sm-4">
+            <select id="CLK_lb_reportconfig" name="CLK_lb_reportconfig" class="form-control"  hidden>
+            </select>
+        </div>
+    </div>
+    <div><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></div>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" name="CLK_lbl_selectmnth" id="CLK_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
+        <div class="col-sm-4">
+            <input type="text" name="CLK_db_selectmnth" id="CLK_db_selectmnth" class="date-picker datemandtry validation" style="width:110px;" hidden>
+        </div></div>
+    <div>
+        <input type="button" class="btn" name="CLK_btn_mysearch" id="CLK_btn_mysearch"  value="SEARCH" disabled>
+    </div>
+    <label id="src_lbl_error" class="srctitle"></label>
+
+    <div><input type="button" id="CLK_btn_mnth_pdf" class="btnpdf" value="PDF"></div>
+    <div><label id="CLK_nodata_pdflextble" name="CLK_nodata_pdflextble" class="errormsg"></label></div>
+    <div id ="CLK_div_monthyr"  style="max-width:400px;" hidden class="table-responsive">
+        <sections >
+        </sections>
+    </div>
+    <div id="CLK_tble_prjctCLKactnonact" hidden>
         <div class="row-fluid form-group">
-            <label name="REP_chk_lbl_nonactveemp" class="col-sm-12" id="REP_chk_lbl_nonactveemp"  hidden>
+            <label name="CLK_lbl_actveemp" class="col-sm-12" id="CLK_lbl_actveemp"  hidden>
                 <div class="radio">
-                <input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
+                    <input type="radio" name="CLK_rd_actveemp" id="CLK_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label>
+        </div>
+    </div>
+    <div class="row-fluid form-group">
+        <label name="CLK_lbl_nonactveemp"  class="col-sm-12" id="CLK_lbl_nonactveemp"  hidden>
+            <div class="radio">
+                <input type="radio" name="CLK_rd_actveemp" id="CLK_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
+    </div>
 </div>
-        </div>
-        <div class="row-fluid form-group">
-            <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="srctitle col-sm-12 " hidden>ACTIVE EMPLOYEE</label>
-        </div>
-        <div class="row-fluid form-group">
-            <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-12" hidden>NON ACTIVE EMPLOYEE </label>
-        </div>
-        <div class="row-fluid form-group">
-            <label class="col-sm-2" name="REP_lbl_loginid" id="REP_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
-            <div class="col-sm-4">
-                <select name="REP_lb_loginid" id="REP_lb_loginid" hidden>
-                </select>
-            </div>
-        </div>
-        <div><label id="REP_nodata_uld" name="REP_nodata_uld" class="errormsg"></label></div>
-        <div class="row-fluid form-group">
-            <label class="col-sm-2" name="REP_lbl_strtdtebyrange" id="REP_lbl_strtdtebyrange" hidden>START DATE<em>*</em></label>
-            <div class="col-sm-4">
-                <input type="text" id="REP_tb_strtdtebyrange" name="REP_tb_strtdtebyrange" hidden class='valid REP_datepicker datemandtry' style="width:75px;"/>
-            </div></div>
-        <div class="row-fluid form-group">
-            <label class="col-sm-2" name="REP_lbl_enddte" id="REP_lbl_enddte" hidden>END DATE<em>*</em></label>
-            <div class="col-sm-4">
-                <input type="text" id="REP_tb_enddtebyrange" name="REP_tb_enddtebyrange" hidden class='valid REP_datepicker datemandtry' style="width:75px;"/>
-            </div></div>
-        <div>
-            <input type="button" id="REP_btn_searchdaterange" name="REP_btn_searchdaterange"  value="SEARCH" class="btn"  disabled />
-        </div>
-        <div >
-            <input type="button" class="btn" name="REP_chk_btn_search" id="REP_chk_btn_search"  value="SEARCH" disabled hidden>
-        </div>
-        <div>
-            <label id="REP_lbl_daterange" name="REP_lbl_daterange"  class="srctitle" hidden></label>
-        </div><br>
-        <div>
-            <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
-        </div>
-        <div id="REP_tablecontainer_bydaterange"style="max-width:1000px" class="table-responsive">
-            <section>
-            </section>
-        </div>
-        <label id="REP_lbl_nodata_allactive" name="REP_lbl_nodata_allactive" class="errormsg"></label>
-        <label id="REP_nodata_btwrange" name="REP_nodata_btwrange" class="errormsg"></label>
-        <div>
-            <label id="REP_lbl_dteranges" name="REP_lbl_dteranges"  class="srctitle" hidden></label>
-        </div><br>
-        <div>
-            <input type="button" id="REP_btn_pdfs" class="btnpdf" value="PDF"></div>
-        <div  id="REP_tablecontainer"  style="max-width:1000px" class="table-responsive" hidden>
-            <sectionid>
-            </sectionid >
-        </div>
-            </div>
-        <div id="clockmissed" hidden>
-            <div class="row-fluid form-group">
-                <label class="col-sm-2" name="CLK_lbl_reportconfig" id="CLK_lbl_reportconfig" hidden>SEARCH BY<em>*</em></label>
-                <div class="col-sm-4">
-                    <select id="CLK_lb_reportconfig" name="CLK_lb_reportconfig" hidden>
-                    </select>
-                </div>
-            </div>
-            <div><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></div>
-            <div class="row-fluid form-group">
-                <label class="col-sm-2" name="CLK_lbl_selectmnth" id="CLK_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
-                <div class="col-sm-4">
-                    <input type="text" name="CLK_db_selectmnth" id="CLK_db_selectmnth" class="date-picker datemandtry validation" style="width:110px;" hidden>
-                </div></div>
-            <div>
-                <input type="button" class="btn" name="CLK_btn_mysearch" id="CLK_btn_mysearch"  value="SEARCH" disabled>
-            </div>
-            <label id="src_lbl_error" class="srctitle"></label>
+<div>
+    <label name="CLK_lbl_actveemps" id="CLK_lbl_actveemps" class="srctitle" hidden>ACTIVE EMPLOYEE</label>
+</div>
+<div>
+    <label name="CLK_lbl_nonactveemps" id="CLK_lbl_nonactveemps" class="srctitle" hidden>NON ACTIVE EMPLOYEE </label>
+</div>
+</div>
+<div><label id="CLK_nodata_lgnid" name="CLK_nodata_lgnid" class="errormsg"></label></div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="CLK_lbl_loginid" id="CLK_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
+    <div class="col-sm-4">
+        <select name="CLK_lb_loginid" id="CLK_lb_loginid" hidden>
+        </select>
+    </div>
+</div>
+<div class="row-fluid form-group">
+    <label class="col-sm-2" name="CLK_lbl_selectmnths" id="CLK_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
+    <div class="col-sm-4">
+        <input type="text" name="CLK_db_selectmnths" id="CLK_db_selectmnths" class="date-pickers datemandtry valid" style="width:110px;" hidden>
+    </div></div>
+<div>
+    <input type="button" class="btn" name="CLK_btn_search" id="CLK_btn_search"  value="SEARCH" disabled>
+</div>
+<div>
+    <label id="no_of_days" class="srctitle"></label>
+</div>
+<div>
+    <label id="src_lbl_error_login" class="srctitle"></label>
+</div>
+<div><input type="button" id="CLK_btn_emp_pdf" class="btnpdf" value="PDF"></div>
+<label id="CLK_nodata_pdflextbles" name="CLK_nodatas_pdflextble" class="errormsg" hidden></label>
+<div id ="CLK_div_actvenon_dterange" style="max-width:400px;" class="table-responsive">
+    <section>
+    </section>
+</div>
+</div>
+</fieldset>
+</div>
 
-            <div><input type="button" id="CLK_btn_mnth_pdf" class="btnpdf" value="PDF"></div>
-            <div><label id="CLK_nodata_pdflextble" name="CLK_nodata_pdflextble" class="errormsg"></label></div>
-            <div id ="CLK_div_monthyr"  style="max-width:400px;" hidden class="table-responsive">
-                <sections >
-                </sections>
-            </div>
-            <div id="CLK_tble_prjctCLKactnonact" hidden>
-                <div class="row-fluid form-group">
-                    <label name="CLK_lbl_actveemp" class="col-sm-12" id="CLK_lbl_actveemp"  hidden>
-                        <div class="radio">
-                        <input type="radio" name="CLK_rd_actveemp" id="CLK_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label>
-</div>
-                </div>
-                <div class="row-fluid form-group">
-                    <label name="CLK_lbl_nonactveemp"  class="col-sm-12" id="CLK_lbl_nonactveemp"  hidden>
-                        <div class="radio">
-                        <input type="radio" name="CLK_rd_actveemp" id="CLK_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
-</div>
-                </div>
-                <div>
-                    <label name="CLK_lbl_actveemps" id="CLK_lbl_actveemps" class="srctitle" hidden>ACTIVE EMPLOYEE</label>
-                </div>
-                <div>
-                    <label name="CLK_lbl_nonactveemps" id="CLK_lbl_nonactveemps" class="srctitle" hidden>NON ACTIVE EMPLOYEE </label>
-                </div>
-            </div>
-            <div><label id="CLK_nodata_lgnid" name="CLK_nodata_lgnid" class="errormsg"></label></div>
-            <div class="row-fluid form-group">
-                <label class="col-sm-2" name="CLK_lbl_loginid" id="CLK_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
-                <div class="col-sm-4">
-                    <select name="CLK_lb_loginid" id="CLK_lb_loginid" hidden>
-                    </select>
-                </div>
-            </div>
-            <div class="row-fluid form-group">
-                <label class="col-sm-2" name="CLK_lbl_selectmnths" id="CLK_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
-                <div class="col-sm-4">
-                    <input type="text" name="CLK_db_selectmnths" id="CLK_db_selectmnths" class="date-pickers datemandtry valid" style="width:110px;" hidden>
-                </div></div>
-            <div>
-                <input type="button" class="btn" name="CLK_btn_search" id="CLK_btn_search"  value="SEARCH" disabled>
-            </div>
-            <div>
-                <label id="no_of_days" class="srctitle"></label>
-            </div>
-            <div>
-                <label id="src_lbl_error_login" class="srctitle"></label>
-            </div>
-            <div><input type="button" id="CLK_btn_emp_pdf" class="btnpdf" value="PDF"></div>
-            <label id="CLK_nodata_pdflextbles" name="CLK_nodatas_pdflextble" class="errormsg" hidden></label>
-            <div id ="CLK_div_actvenon_dterange" style="max-width:400px;" class="table-responsive">
-                <section>
-                </section>
-            </div>
-</div>
-                </fieldset>
-            </div>
-
-    </form>
+</form>
 
 </div>
 </body>

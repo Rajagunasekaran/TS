@@ -19,7 +19,7 @@ var PH_ENTRY_errorAarray=[];
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
     $(".preloader").hide();
-    $(document).on('change','.publicentry',function(){
+ $(document).on('change','.publicentry',function(){
 
         var click=$(this).val();
         if(click=='entry_click')
@@ -118,10 +118,10 @@ $(document).ready(function(){
                     $("#PH_ENTRY_btn_save").attr("disabled","disabled");
                 }
             });
-            //RESET CLICK FUNCTION
-            $(document).on('click','#PH_ENTRY_btn_reset',function(){
-                PH_ENTRY_holiday_rset();
-            });
+//            //RESET CLICK FUNCTION
+//            $(document).on('click','#PH_ENTRY_btn_reset',function(){
+//                PH_ENTRY_holiday_rset();
+//            });
             //CLEAR ALL FIELDS
             function PH_ENTRY_holiday_rset()
             {
@@ -314,7 +314,7 @@ $(document).ready(function(){
 
 
             $(document).on('change','.update',function(){
-                $('.preloader').show();
+                $(".preloader").show();
 
                 if($('#desc_'+pdid).hasClass("edit")==true){
 
@@ -529,12 +529,18 @@ $(document).ready(function(){
 //                        }
 //                    }
 //                    var OPTION="update1";
-//                    xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+OPTION+"&descriptionvalue="+descriptionvalue+"&id="+combineid,true);
+//                    xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.php?option="+OPTION+"&descriptionvalue="+descriptionvalue+"&id="+combineid,true);
 //                    xmlhttp.send();
 //                }
 //            });
         }
     });
+
+    //RESET CLICK FUNCTION
+            $(document).on('click','#PH_ENTRY_btn_reset',function(){
+               // $(".preloader").show();
+                 PH_ENTRY_holiday_rset();
+            });
 });
 <!--SCRIPT TAG END-->
 </script>
@@ -584,9 +590,9 @@ $(document).ready(function(){
     <div id="publicsearch" hidden>
         <!--        <div id="PH_ENTRY_table" >-->
         <div class="row-fluid form-group">
-            <label name="PH_SRC_UPD_lbl_yr" class="col-sm-2" id="PH_SRC_UPD_lbl_yr">SELECT A YEAR<em>*</em></label>
-            <div class="col-sm-8">
-                <select id="PH_SRC_UPD_lb_yr" name="PH_SRC_UPD_lb_yr">
+            <label name="PH_SRC_UPD_lbl_yr" class="col-sm-3" id="PH_SRC_UPD_lbl_yr">SELECT A YEAR<em>*</em></label>
+            <div class="col-sm-4">
+                <select id="PH_SRC_UPD_lb_yr" name="PH_SRC_UPD_lb_yr" class="form-control">
                 </select>
             </div></div>
         <div><label id="PH_SRC_UPD_nodaterr" name="PH_SRC_UPD_nodaterr" class="errormsg"></label></div>

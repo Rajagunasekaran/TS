@@ -137,11 +137,12 @@ var REP_chk_errorAarray=[];
                     allvalues_array=JSON.parse(xmlhttp.responseText);
                     if(allvalues_array.length!=0){
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-                        $('#REP_btn_pdf').show();
                         var sd=REP_chk_errorAarray[4].toString().replace("[LOGINID]",uld_name);
                         var errmsg=sd.toString().replace("[STARTDATE]",startdate);
                         REP_strtend_errmsgs=errmsg.toString().replace("[ENDDATE]",enddate);
                         $('#REP_lbl_daterange').text(REP_strtend_errmsgs).show();
+                        $('#REP_btn_pdf').show();
+
                         var ADM_tableheader='<table id="REP_tble_absent_count" border="1"  cellspacing="0" class="srcresult" style="width:1000px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column">DATE</th><th>CLOCK IN</th><th style="width:250px">CLOCK IN LOCATION</th><th>CLOCK OUT</th><th style="width:250px">CLOCK OUT LOCATION</th></tr></thead><tbody>'
                         for(var j=0;j<allvalues_array.length;j++){
                             var check_in_date=allvalues_array[j].check_in_date;

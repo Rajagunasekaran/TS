@@ -56,7 +56,7 @@ $(document).on('click','#UR_ENTRY',function(){
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        alert(xmlhttp.responseText)
+//                        alert(xmlhttp.responseText)
                         var CONFIG_ENTRY_values=JSON.parse(xmlhttp.responseText);
                         $(".preloader").hide();
                         if(CONFIG_ENTRY_values.length==0){
@@ -518,7 +518,7 @@ $(document).on('click','#UR_ENTRY',function(){
 <div class="container-fluid">
     <div class="wrapper">
         <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"/></div></div></div>
-        <div class="title" id="fhead"><center><h3>CONFIGURATION ENTRY</h3></center></div>
+        <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY</h3></b></center></div>
         <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
             <div class="panel-body">
                 <fieldset>

@@ -90,6 +90,7 @@ include "HEADER.php";
                             var CPVD_laptop_no=value_array[i].CPVD_lap_no;
                             var CPVD_charger_no=value_array[i].CPVD_charger_no;
                         }
+
                         $('#CPVD_lbl_laptopno').show();
                         $('#CPVD_tb_laptopno').val(CPVD_laptop_no).show();
                         $('#CPVD_lbl_chargerno').show();
@@ -163,7 +164,8 @@ include "HEADER.php";
                     {
 //                        $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
+                      //  $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[0],position:{top:100,left:100}}});
+                        show_msgbox("COMPANY PROPERTY VERIFICATION",err_msg_array[0],"success",false);
                         CPVD_rset()
                         showTable()
                     }
@@ -171,7 +173,8 @@ include "HEADER.php";
                     {
 //                        $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1],position:{top:100,left:100}}});
+                       // $(document).doValidation({rule:'messagebox',prop:{msgtitle:"COMPANY PROPERTY VERIFICATION",msgcontent:err_msg_array[1],position:{top:100,left:100}}});
+                        show_msgbox("COMPANY PROPERTY VERIFICATION",err_msg_array[1],"success",false);
                     }
                 }
             }
@@ -214,33 +217,33 @@ include "HEADER.php";
         <div class="panel-body">
             <fieldset>
         <div class="row-fluid form-group">
-                <label name="CPVD_lbl_loginid" class="col-sm-2" id="CPVD_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
-            <div class="col-sm-8">
-                <select name="CPVD_lb_loginid" id="CPVD_lb_loginid" hidden>
+                <label name="CPVD_lbl_loginid" class="col-sm-3" id="CPVD_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
+            <div class="col-sm-6">
+                <select name="CPVD_lb_loginid" id="CPVD_lb_loginid" class="form-control" hidden>
                         <option>SELECT</option>
                     </select>
             </div></div>
            <div><label id="CPVD_lbl_nologinid" name="CPVD_lbl_nologinid" class="errormsg"></label></div>
         <div class="row-fluid form-group">
-                    <label name="CPVD_lbl_laptopno"  class="col-sm-2" id="CPVD_lbl_laptopno" hidden>LAPTOP NUMBER</label>
+                    <label name="CPVD_lbl_laptopno"  class="col-sm-3" id="CPVD_lbl_laptopno" hidden>LAPTOP NUMBER</label>
             <div class="col-sm-8">
                <input type="text" name="CPVD_tb_laptopno" id="CPVD_tb_laptopno" hidden maxlength='25' class="alphanumeric sizefix" readonly>
             </div></div>
 
         <div class="row-fluid form-group">
-                  <label  name="CPVD_lbl_chargerno" class="col-sm-2" id="CPVD_lbl_chargerno" hidden>CHARGER NUMBER</label>
+                  <label  name="CPVD_lbl_chargerno" class="col-sm-3" id="CPVD_lbl_chargerno" hidden>CHARGER NUMBER</label>
             <div class="col-sm-8">
             <input type="text" name="CPVD_tb_chargerno" id="CPVD_tb_chargerno" maxlength='25' class="alphanumeric sizefix" hidden readonly>
             </div></div>
         <div class="row-fluid form-group">
-                <label name="CPVD_lbl_chckdby" class="col-sm-2" id="CPVD_lbl_chckdby" hidden>CHECKED BY<em>*</em></label>
-            <div class="col-sm-8">
-               <select name="CPVD_lb_chckdby" id="CPVD_lb_chckdby" hidden>
+                <label name="CPVD_lbl_chckdby" class="col-sm-3" id="CPVD_lbl_chckdby" hidden>CHECKED BY<em>*</em></label>
+            <div class="col-sm-6">
+               <select name="CPVD_lb_chckdby" id="CPVD_lb_chckdby" class="form-control"  style="display:none">
                         <option>SELECT</option>
                     </select>
             </div></div>
         <div class="row-fluid form-group">
-               <label name="CPVD_lbl_reason" class="col-sm-2"  id="CPVD_lbl_reason" hidden>COMMENTS<em>*</em></label>
+               <label name="CPVD_lbl_reason" class="col-sm-3"  id="CPVD_lbl_reason" hidden>COMMENTS<em>*</em></label>
             <div class="col-sm-8">
                <textarea rows="4" cols="50" name="CPVD_ta_reason" id="CPVD_ta_reason" hidden>
                     </textarea>

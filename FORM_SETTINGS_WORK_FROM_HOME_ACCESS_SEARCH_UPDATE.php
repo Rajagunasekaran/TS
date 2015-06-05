@@ -255,15 +255,15 @@ $(document).ready(function(){
         <div class="panel-body">
             <fieldset>
         <div class="row-fluid form-group">
-                 <label name="EMP_ENTRY_lbl_loginid" class="col-sm-2" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
-            <div class="col-sm-8">
-               <select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" hidden>
+                 <label name="EMP_ENTRY_lbl_loginid" class="col-sm-3" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
+            <div class="col-sm-6">
+               <select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" class="form-control" hidden>
                     </select>
                 </div></div>
                 <div><label id="EMP_ENTRY_lbl_nologinid" name="EMP_ENTRY_lbl_nologinid" class="errormsg"></label></div>
 
                <div class="row-fluid form-group" style="position: relative; left: 10px" id="EMP_ENTRY_tble_projectlistbx"  hidden>
-                  <label name="EMP_ENTRY_lbl_txtselectproj"  class="col-sm-2" id="EMP_ENTRY_lbl_txtselectproj">PROJECT NAME<em>*</em></label>
+                  <label name="EMP_ENTRY_lbl_txtselectproj"  class="col-sm-3" id="EMP_ENTRY_lbl_txtselectproj">PROJECT NAME<em>*</em></label>
                     <div id="EMP_ENTRY_tble_frstsel_projectlistbx" class="col-sm-8" ></div>
                 </div>
 

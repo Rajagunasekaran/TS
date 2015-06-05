@@ -1,12 +1,3 @@
-<!--//*******************************************FILE DESCRIPTION*********************************************//
-//*********************************ADMIN WEEKLY REPORT ENTRY******************************************//
-//DONE BY:LALITHA
-//VER 0.04-SD:29/12/2014 ED:30/12/2014,TRACKER NO:74,Changed date picker function nd validation,Updated err msg(rep nt saved)
-//VER 0.03-SD:02/12/2014 ED:02/12/2014,TRACKER NO:74,Changed Preloder funct,Removed confirmation err msg,Removed hardcode fr mindate
-//VER 0.02,SD:14/11/2014 ED:14/11/2014,TRACKER NO:74,Fixed max date nd min dte
-//DONE BY:SHALINI
-//VER 0.01-INITIAL VERSION, SD:16/10/2014 ED:19/10/2014,TRACKER NO:86
-//*********************************************************************************************************//-->
 <?php
 include "HEADER.php";
 //include  "NEW_MENU.php";
@@ -16,6 +7,7 @@ include "HEADER.php";
 $(document).ready(function(){
     $(".preloader").hide();
     $(document).on('click','#UR_ENTRY',function(){
+        // $(".preloader").hide();
 //        $('.preloader', window.parent.document).show();
         $('#AWRE_lbl_report_entry').html('ADMIN WEEKLY REPORT ENTRY');
         $('#enter').html('ADMIN WEEKLY REPORT ENTRY');
@@ -106,7 +98,7 @@ $(document).ready(function(){
             }
         }
         var choice='ADMIN WEEKLY REPORT ENTRY';
-        xmlhttp.open("POST","COMMON.do?option="+choice,true);
+        xmlhttp.open("POST","COMMON.php?option="+choice,true);
         xmlhttp.send();
         $('#AWRE_SRC_btn_submit').hide();
         $('#AWRE_SRC_btn_reset').hide();
@@ -216,7 +208,7 @@ $(document).ready(function(){
                 }
             }
             var option='CHECK';
-            xmlhttp.open("GET","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?&option="+option,true);
+            xmlhttp.open("GET","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.php?&option="+option,true);
             xmlhttp.send();
         }
         //DATEPICKER FUNCTION
@@ -299,7 +291,7 @@ $(document).ready(function(){
                 }
             }
             var option='SUBMIT';
-            xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?option="+option,true);
+            xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.php?option="+option,true);
             xmlhttp.send(new FormData(formElement));
         });
         //CLICK EVENT FOR RESET BUTTON
@@ -427,7 +419,7 @@ $(document).ready(function(){
             }
         }
         var choice='ADMIN WEEKLY REPORT SEARCH UPDATE';
-        xmlhttp.open("POST","COMMON.do?option="+choice,true);
+        xmlhttp.open("POST","COMMON.php?option="+choice,true);
         xmlhttp.send();
         //FUNCTION FOR FORMTABLEDATEFORMAT
         function FormTableDateFormat(inputdate){
@@ -501,7 +493,7 @@ $(document).ready(function(){
             pdfmsg=titlemsg;
             data ="&startdate="+finalsddate+"&enddate="+finaleddate+"&option=showData";
             $.ajax({
-                url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
+                url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.php",
                 type:"POST",
                 data:data,
                 cache: false,
@@ -711,7 +703,7 @@ $(document).ready(function(){
             var AWSU_tb_report = $('#AWSU_tb_report').val();
             data ="&report="+AWSU_tb_report+"&editid="+edittrid+"&option=updateData";
             $.ajax({
-                url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
+                url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.php",
                 type:"POST",
                 data:data,
                 cache: false,
@@ -788,7 +780,7 @@ $(document).ready(function(){
             inputValOne = inputValOne.split("-").reverse().join("-");
             var inputValTwo=$('#AWSU_tb_enddtes').val();
             inputValTwo = inputValTwo.split("-").reverse().join("-");
-            var url=document.location.href='COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
+            var url=document.location.href='COMMON_PDF.php?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
         });
         var previous_id;
         var combineid;
@@ -836,7 +828,7 @@ $(document).ready(function(){
                     }
                 }
                 var OPTION="update";
-                xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do?option="+OPTION+"&reportvalue="+reportvalue+"&id="+combineid,true);
+                xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.php?option="+OPTION+"&reportvalue="+reportvalue+"&id="+combineid,true);
                 xmlhttp.send();
             }
         });
@@ -854,39 +846,39 @@ $(document).ready(function(){
     <form id="AWRE_SRC_form_reportentry" class="content">
         <div class="panel-body">
             <fieldset>
-        <div class="row-fluid form-group ">
-            <label name="UR_lbl_entry" class="col-sm-2" id="UR_lbl_entry">
+                <div class="row-fluid form-group ">
+                    <label name="UR_lbl_entry" class="col-sm-2" id="UR_lbl_entry">
+                        <div class="radio">
+                            <input type="radio" name="UR_ESU" id="UR_ENTRY" value="entry">ENTRY</label>
+
+                </div></div>
+        <div class="row-fluid form-group">
+            <label name="UR_lbl_search_update" class="col-sm-3" id="UR_lbl_search_update">
                 <div class="radio">
-                    <input type="radio" name="UR_ESU" id="UR_ENTRY" value="entry">ENTRY</label>
+                    <input type="radio" name="UR_ESU" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
 
         </div></div>
 <div class="row-fluid form-group">
-    <label name="UR_lbl_search_update" class="col-sm-2" id="UR_lbl_search_update">
-        <div class="radio">
-            <input type="radio" name="UR_ESU" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
-
-</div></div>
-    <div class="row-fluid form-group">
-        <label name="AWRE_report_entry" id="AWRE_lbl_report_entry" class="srctitle col-sm-12"></label>
-    </div>
+    <label name="AWRE_report_entry" id="AWRE_lbl_report_entry" class="srctitle col-sm-12"></label>
+</div>
 <div id="entry" hidden>
-            <div class="row-fluid form-group">
+    <div class="row-fluid form-group">
 
-                <label name="AWRE_SRC_lbl_selectdate"  class="col-sm-2" id="AWRE_SRC_lbl_selectdate" >SELECT A DATE<em>*</em></label>
-                <div class="col-sm-8">
-                        <input type="text" name="AWRE_SRC_tb_selectdate" id="AWRE_SRC_tb_selectdate" style="width:160px;" class="AWRE_SRC_tb_datepicker valid datemandtry">
-                        <input type="text" name="AWRE_SRC_tb_date" id="AWRE_SRC_tb_date" style="width:170px;" class="AWRE_SRC_tb_datepicker valid datemandtry" hidden >
-                    </div></div>
-        <div class="row-fluid form-group">
-               <label name="AWRE_SRC_lbl_enterreport" class="col-sm-2" id="AWRE_SRC_lbl_enterreport" hidden>ENTER THE REPORT<em>*</em></label>
-            <div class="col-sm-8">
-                    <textarea name="AWRE_SRC_ta_enterreport" id="AWRE_SRC_ta_enterreport" class="valid" hidden></textarea>
-                </div></div>
-            <div>
-                <input type="button" value="SUBMIT" id="AWRE_SRC_btn_submit" class="btn" disabled><input type="button" value="RESET" id="AWRE_SRC_btn_reset" class="btn">
+        <label name="AWRE_SRC_lbl_selectdate"  class="col-sm-2" id="AWRE_SRC_lbl_selectdate" >SELECT A DATE<em>*</em></label>
+        <div class="col-sm-8">
+            <input type="text" name="AWRE_SRC_tb_selectdate" id="AWRE_SRC_tb_selectdate" style="width:160px;" class="AWRE_SRC_tb_datepicker valid datemandtry">
+            <input type="text" name="AWRE_SRC_tb_date" id="AWRE_SRC_tb_date" style="width:170px;" class="AWRE_SRC_tb_datepicker valid datemandtry" hidden >
+        </div></div>
+    <div class="row-fluid form-group">
+        <label name="AWRE_SRC_lbl_enterreport" class="col-sm-2" id="AWRE_SRC_lbl_enterreport" hidden>ENTER THE REPORT<em>*</em></label>
+        <div class="col-sm-8">
+            <textarea name="AWRE_SRC_ta_enterreport" id="AWRE_SRC_ta_enterreport" class="valid" hidden></textarea>
+        </div></div>
+    <div>
+        <input type="button" value="SUBMIT" id="AWRE_SRC_btn_submit" class="btn" disabled><input type="button" value="RESET" id="AWRE_SRC_btn_reset" class="btn">
 
-            </div>
-            <label id="AWRE_errmsg" name="AWRE_errmsg" class="errormsg" hidden></label>
+    </div>
+    <label id="AWRE_errmsg" name="AWRE_errmsg" class="errormsg" hidden></label>
 </div>
 <div id="search_update" hidden>
     <div class="row-fluid form-group">
@@ -911,9 +903,9 @@ $(document).ready(function(){
         </section>
     </div>
 </div>
-    </fieldset>
-    </div>
-    </form>
+</fieldset>
+</div>
+</form>
 </div>
 </body>
 <!--BODY TAG END-->
