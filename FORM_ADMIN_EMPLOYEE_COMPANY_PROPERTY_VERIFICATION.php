@@ -227,13 +227,13 @@ include "HEADER.php";
         <div class="row-fluid form-group">
                     <label name="CPVD_lbl_laptopno"  class="col-sm-3" id="CPVD_lbl_laptopno" hidden>LAPTOP NUMBER</label>
             <div class="col-sm-8">
-               <input type="text" name="CPVD_tb_laptopno" id="CPVD_tb_laptopno" hidden maxlength='25' class="alphanumeric sizefix" readonly>
+               <input type="text" name="CPVD_tb_laptopno" id="CPVD_tb_laptopno" hidden maxlength='25' class="alphanumeric sizefix form-control" readonly>
             </div></div>
 
         <div class="row-fluid form-group">
                   <label  name="CPVD_lbl_chargerno" class="col-sm-3" id="CPVD_lbl_chargerno" hidden>CHARGER NUMBER</label>
             <div class="col-sm-8">
-            <input type="text" name="CPVD_tb_chargerno" id="CPVD_tb_chargerno" maxlength='25' class="alphanumeric sizefix" hidden readonly>
+            <input type="text" name="CPVD_tb_chargerno" id="CPVD_tb_chargerno" maxlength='25' class="alphanumeric sizefix form-control" hidden readonly>
             </div></div>
         <div class="row-fluid form-group">
                 <label name="CPVD_lbl_chckdby" class="col-sm-3" id="CPVD_lbl_chckdby" hidden>CHECKED BY<em>*</em></label>

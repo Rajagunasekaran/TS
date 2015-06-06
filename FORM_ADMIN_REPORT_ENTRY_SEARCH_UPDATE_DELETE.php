@@ -2246,7 +2246,8 @@ $(document).ready(function(){
             ASRC_UPD_DEL_report()
 
             $('#ASRC_UPD_DEL_ta_report').val(report);
-            ASRC_UPD_DEL_tble_bandwidth()
+            $('#ASRC_UPD_DEL_tble_bandwidth').show()
+            $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_band" class="col-sm-2" id="ASRC_UPD_DEL_lbl_band">BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="ASRC_UPD_DEL_tb_band" id="ASRC_UPD_DEL_tb_band" class="autosize amountonly update_validate" style="width:75px;" ><label name="ASRC_UPD_DEL_lbl_band" id="ASRC_UPD_DEL_lbl_band">MB</label></div></div>').appendTo($("#ASRC_UPD_DEL_tble_bandwidth"));
             $('#ASRC_UPD_DEL_tb_band').val(bandwidth);
             $('#ASRC_UPD_DEL_btn_submit').show();
         }
@@ -2801,7 +2802,7 @@ $(document).ready(function(){
     function ASRC_UPD_DEL_report(){
         $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_report" class="col-sm-2" id="ASRC_UPD_DEL_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-sm-8"><textarea  name="ASRC_UPD_DEL_ta_report" id="ASRC_UPD_DEL_ta_report" class="update_validate"></textarea></div>').appendTo($("#ASRC_UPD_DEL_tble_enterthereport"));
     }
-    // FUNCTIO FOR BANDWIDTH
+//    FUNCTION FOR BANDWIDTH
     function ASRC_UPD_DEL_tble_bandwidth(){
         $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_band" class="col-sm-2" id="ASRC_UPD_DEL_lbl_band">BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="ASRC_UPD_DEL_tb_band" id="ASRC_UPD_DEL_tb_band" class="autosize amountonly update_validate" style="width:75px;" ><label name="ASRC_UPD_DEL_lbl_band" id="ASRC_UPD_DEL_lbl_band">MB</label></div></div>').appendTo($("#ASRC_UPD_DEL_tble_bandwidth"));
         $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});

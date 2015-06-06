@@ -515,8 +515,7 @@ $(document).on('click','#UR_ENTRY',function(){
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body class="dt-example">
-<div class="container-fluid">
-    <div class="wrapper">
+<div class="container">
         <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"/></div></div></div>
         <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY</h3></b></center></div>
         <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
@@ -563,7 +562,6 @@ $(document).on('click','#UR_ENTRY',function(){
     </fieldset>
 </div>
 </form>
-</div>
 </div>
 </body>
 <!--BODY TAG END-->

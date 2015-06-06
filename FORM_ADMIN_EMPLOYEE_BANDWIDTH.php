@@ -562,8 +562,7 @@ $(document).ready(function(){
 </script>
 <!--BODY TAG START-->
 <body>
-<div class="container-fluid">
-    <div class="wrapper">
+<div class="container">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
         <div class="title"><p><center><h3><b>BANDWIDTH</b></h3></center><p></div>
         <form   id="REP_BND_form_bandwidth" class="content" >
@@ -650,7 +649,6 @@ $(document).ready(function(){
     </fieldset>
 </div>
 </form>
-</div>
 </div>
 </body>
 <!--BODY TAG END-->

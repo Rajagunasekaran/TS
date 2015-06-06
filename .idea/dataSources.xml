@@ -6,9 +6,6 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://173.194.249.38:3306/TS_PHP</jdbc-url>
-      <user-name>MI</user-name>
-      <user-password>dfe7dfe3</user-password>
-      <schema-pattern>TS_PHP.*</schema-pattern>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />
@@ -17,4 +14,3 @@
     </data-source>
   </component>
 </project>
-
