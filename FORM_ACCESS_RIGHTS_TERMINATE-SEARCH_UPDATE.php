@@ -22,7 +22,7 @@ var  button_vflag=1;
 //START READY FUNCTION
 $(document).ready(function(){
 //    $('.preloader', window.parent.document).show();
-    $(".preloader").show();
+    $(".preloader").hide();
 
     $('textarea').autogrow({onInitialize: true});
     //reomve file upload row

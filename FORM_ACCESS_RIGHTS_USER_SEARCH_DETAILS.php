@@ -20,7 +20,7 @@ include "HEADER.php";
     $(document).ready(function(){
         $('#URSRC_btn_pdf').hide();
 //        $('.preloader', window.parent.document).show();
-        $(".preloader").show();
+        $(".preloader").hide();
         var title;
         var values_arraystotal=[];
         var values_array=[];

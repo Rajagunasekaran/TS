@@ -18,7 +18,7 @@ var USR_SITE_errorAarray=[];
 $(document).ready(function(){
     $('#USR_SITE_btn_submitbutton').attr("disabled", "disabled");
 //    $('.preloader', window.parent.document).show();
-    $(".preloader").show();
+    $(".preloader").hide();
     var USR_SITE_menuname=[];
     var USR_SITE_submenu=[];
     var USR_SITE_subsubmenu=[];

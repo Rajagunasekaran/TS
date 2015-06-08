@@ -243,11 +243,11 @@ $(document).ready(function(){
             xmlhttp.send();
         }
         else
-        {
-            $('#entry').hide();
-            $('#search_update').hide();
-        }
-    });
+    {
+        $('#entry').hide();
+        $('#search_update').hide();
+    }
+});
 
     <!--ENTRY-->
     //DATE PICKER FUNCTION
@@ -1497,8 +1497,9 @@ $(document).ready(function(){
             $('#USRC_UPD_ta_reason').val(reason).show();
             USRC_UPD_report()
             $('#USRC_UPD_ta_report').val(report);
-            USRC_UPD_tble_bandwidth()
-            $('#USRC_UPD_tb_band').val(bandwidth);
+            $('#USRC_UPD_tble_bandwidth').show()
+           $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
+           $('#USRC_UPD_tb_band').val(bandwidth);
             $('#USRC_UPD_btn_submit').show();
         }
         if(permission!=null)

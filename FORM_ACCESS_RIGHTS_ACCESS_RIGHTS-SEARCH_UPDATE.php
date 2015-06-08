@@ -26,7 +26,7 @@ var button_vflag=1;
 //START DOCUMENT READY FUNCTION
 $(document).ready(function(){
 //    $('.preloader',window.parent.document).show();
-    $(".preloader").show();
+    $(".preloader").hide();
     //reomve file upload row
 //    FUNCTION TO GET DIFFERENCE ARRAY
     function getDifferenceArray(outfilearray,infilearray)

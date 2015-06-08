@@ -39,6 +39,8 @@ $(document).ready(function(){
         $('#CLK_lbl_selectmnths').hide();
         $('#CLK_db_selectmnths').hide();
         $('#CLK_div_monthyr').hide();
+        $('#CLK_lbl_selectmnth').hide();
+        $('#CLK_db_selectmnth').hide();
         $('#CLK_div_actvenon_dterange').hide();
         $('#CLK_div_monthyr').hide();
         $('#CLK_lbl_actveemps').hide();
@@ -768,6 +770,8 @@ $(document).ready(function(){
             $('#CLK_div_actvenon_dterange').hide();
             $('#CLK_div_monthyr').hide();
             $('#CLK_lbl_actveemps').hide();
+//            $('#CLK_lbl_selectmnth').hide();
+//            $('#CLK_db_selectmnth').hide();
             $('#CLK_lbl_nonactveemps').hide();
             $('#CLK_nodata_pdflextble').hide();
             $('#CLK_nodata_pdflextbles').hide();
@@ -1075,6 +1079,7 @@ $(document).ready(function(){
                 xmlhttp.send(new FormData(formElement));
             }
         });
+
         // CLICK EVENT FOR LOGIN ID SEARCH BTN
         var CLK_actnon_values=[];
         $(document).on('click','#CLK_btn_search',function(){
@@ -1381,7 +1386,7 @@ $(document).ready(function(){
 <div class="row-fluid form-group">
     <label class="col-sm-2" name="CLK_lbl_loginid" id="CLK_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
     <div class="col-sm-4">
-        <select name="CLK_lb_loginid" id="CLK_lb_loginid" hidden>
+        <select name="CLK_lb_loginid" id="CLK_lb_loginid" class="form-control" style="display:none" hidden>
         </select>
     </div>
 </div>
