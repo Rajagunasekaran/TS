@@ -293,7 +293,7 @@ margin-left: 100px;
 
     margin-bottom: 100px;
 
-/margin-left:400px;/
+
 border-color:#D8D8D8;
 
     border-style:solid;
@@ -316,21 +316,12 @@ display:none;
 
 /border:4px;/
 
-/background-color:#FFF;/
 
-/width:250px;/
-/width:auto;/
-/height:250px;/
-/height:auto;/
-/position:left;/
 align-content: center;
     margin: 0 auto;
 
     top:25%;
 
-/right:45%;/
-
-/margin-left:100px;/
 
     align :center;
 
@@ -474,9 +465,9 @@ align-content: center;
     /*width: 1400px;*/
     width: auto;
 
-    margin: 10px auto 30px;
+    /*margin: 10px auto 30px;*/
 
-    padding: 1%;
+    /*padding: 1%;*/
 
     position: relative;
 
@@ -944,9 +935,11 @@ input, textarea{
 /******************SET TEXTAREA WIDTH N HEIGHT***********************/
 
 textarea {
-    max-width: 400px;
-    min-width: 400px;
+    /*max-width: 350px;*/
+    /*min-width: 350px;*/
     min-height: 200px;
+   width: auto;
+    height: auto;
 
 }
 

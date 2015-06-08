@@ -522,7 +522,7 @@ $(document).ready(function(){
     });
 // CLICK EVENT FOR UPDATE BUTTON
 //    $('section').on('click','.ajaxupdate',function(){
-//        $('.preloader', window.parent.phpcument).show();
+//        $('.preloader', window.parent.document).show();
 //        var edittrid = $(this).parent().parent().attr('id');
 //        var combineid = $(this).parent().parent().attr('id');
 //        var combineid_split=combineid.split('_');

@@ -8,7 +8,7 @@ include "CONNECTION.php";
 include "COMMON.php";
 include "GET_USERSTAMP.php";
 include "CONFIG.php";
-use google\appengine\api\mail\Message;
+//use google\appengine\api\mail\Message;
 //error_reporting(0);
 error_reporting(E_ERROR | E_PARSE);
 if(isset($_REQUEST)){

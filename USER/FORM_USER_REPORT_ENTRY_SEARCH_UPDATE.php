@@ -179,7 +179,7 @@ $(document).ready(function(){
                 }
             }
             var option="user_report_entry";
-            xmlhttp.open("GET","COMMON.do?option="+option);
+            xmlhttp.open("GET","COMMON.php?option="+option);
             xmlhttp.send();
         }
         else if(radiooption=='search_update')
@@ -239,7 +239,7 @@ $(document).ready(function(){
                 }
             }
             var option="user_search_update";
-            xmlhttp.open("GET","COMMON.do?option="+option);
+            xmlhttp.open("GET","COMMON.php?option="+option);
             xmlhttp.send();
         }
         else
@@ -558,7 +558,7 @@ $(document).ready(function(){
             }
         }
         var option="DATE";
-        xmlhttp.open("GET","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?date_change="+reportdate+"&option="+option);
+        xmlhttp.open("GET","DB_DAILY_REPORTS_USER_REPORT_ENTRY.php?date_change="+reportdate+"&option="+option);
         xmlhttp.send();
     });
 
@@ -649,7 +649,7 @@ $(document).ready(function(){
 
             }
             var option="PRESENT";
-            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate);
+            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate);
             xmlhttp.send();
 
         }
@@ -758,7 +758,7 @@ $(document).ready(function(){
                 }
             }
             var option="PRESENT";
-            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate);
+            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate);
             xmlhttp.send();
         }
     });
@@ -838,7 +838,7 @@ $(document).ready(function(){
                 }
             }
             var option="HALFDAYABSENT";
-            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate);
+            xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate);
             xmlhttp.send();
         }
     });
@@ -883,7 +883,7 @@ $(document).ready(function(){
             }
         }
         var option="SINGLE DAY ENTRY";
-        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,false);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.php?option="+option+"&checkoutlocation="+checkoutlocation,false);
         xmlhttp.send(new FormData(formElement));
     });
     // CHANGE EVENT FOR MULTIPLE DAY SAVE BUTTON
@@ -927,7 +927,7 @@ $(document).ready(function(){
             }
         }
         var option="MULTIPLE DAY ENTRY";
-        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,false);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_REPORT_ENTRY.php?option="+option+"&checkoutlocation="+checkoutlocation,false);
         xmlhttp.send(new FormData(formElement));
     });
     // CHANGE FUNCTION FOR TO DATE ALEREADY EXISTS
@@ -975,7 +975,7 @@ $(document).ready(function(){
                 }
             }
             var option="BETWEEN DATE";
-            xmlhttp.open("GET","DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&fromdate="+fromdate+"&todate="+todate,false);
+            xmlhttp.open("GET","DB_DAILY_REPORTS_USER_REPORT_ENTRY.php?option="+option+"&fromdate="+fromdate+"&todate="+todate,false);
             xmlhttp.send();
         }
     });
@@ -1164,7 +1164,7 @@ $(document).ready(function(){
         }
         $('#USRC_UPD_div_tablecontainer').show();
         var option='SEARCH';
-        xmlhttp.open("GET","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?start_date="+start_date+"&end_date="+end_date+"&option="+option,false);
+        xmlhttp.open("GET","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.php?start_date="+start_date+"&end_date="+end_date+"&option="+option,false);
         xmlhttp.send();
         sorting();
     }
@@ -1435,6 +1435,7 @@ $(document).ready(function(){
                 projectlist();
                 projecdid();
             }
+
             USRC_UPD_reason()
             $('#USRC_UPD_ta_reason').val(reason).show();
             USRC_UPD_report()
@@ -1498,8 +1499,11 @@ $(document).ready(function(){
             USRC_UPD_report()
             $('#USRC_UPD_ta_report').val(report);
             $('#USRC_UPD_tble_bandwidth').show()
-           $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
-           $('#USRC_UPD_tb_band').val(bandwidth);
+            $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
+            $('#USRC_UPD_tb_band').val(bandwidth);
+
+//            USRC_UPD_tble_bandwidth()
+//            $('#USRC_UPD_tb_band').val(bandwidth);
             $('#USRC_UPD_btn_submit').show();
         }
         if(permission!=null)
@@ -1540,7 +1544,7 @@ $(document).ready(function(){
                 }
             }
             var option="DATE";
-            xmlhttp.open("GET","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?date_change="+reportdate+"&option="+option);
+            xmlhttp.open("GET","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.php?date_change="+reportdate+"&option="+option);
             xmlhttp.send();
         }
         else{
@@ -2000,7 +2004,7 @@ $(document).ready(function(){
             }
         }
         var option="UPDATE"
-        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.do?option="+option+"&reportlocation="+checkoutlocation,false);
+        xmlhttp.open("POST","DB_DAILY_REPORTS_USER_SEARCH_UPDATE.php?option="+option+"&reportlocation="+checkoutlocation,false);
         xmlhttp.send(new FormData(formElement));
     });
     $(document).on('click','#USRC_UPD_btn_pdf',function(){
@@ -2008,7 +2012,7 @@ $(document).ready(function(){
         inputValOne = inputValOne.split("-").reverse().join("-");
         var inputValTwo=$('#USRC_UPD_tb_enddte').val();
         inputValTwo = inputValTwo.split("-").reverse().join("-");
-        var url=document.location.href='COMMON_PDF.do?flag=18&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+errmsgs;
+        var url=document.location.href='COMMON_PDF.php?flag=18&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+errmsgs;
     });
 
 //    SEARCH UPDATE END

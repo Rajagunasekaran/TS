@@ -2230,7 +2230,7 @@ $(document).ready(function(){
     <!--BODY TAG START-->
 <body>
 <div class="container">
-<div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+<div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
 <div class="title" id="fhead" ><center><p><b><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3></b><p></center></div>
 <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
 <div class="panel-body">
