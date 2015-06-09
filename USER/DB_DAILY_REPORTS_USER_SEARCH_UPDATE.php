@@ -1,11 +1,11 @@
 <?php
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
-error_reporting(0);
+//error_reporting(0);
 if(isset($_REQUEST)){
-    include "CONNECTION.php";
-    include "GET_USERSTAMP.php";
-    include "COMMON.php";
+    include "../SSOLIB/CONNECTION.php";
+    include "../SSOLIB/GET_USERSTAMP.php";
+    include "../SSOLIB/COMMON.php";
     date_default_timezone_set('Asia/Kolkata');
     $timeZoneFormat=getTimezone();
     $USERSTAMP=$UserStamp;
@@ -33,6 +33,7 @@ if(isset($_REQUEST)){
         }
         echo $flag;
     }
+
     if($_REQUEST['option']=='SEARCH')
     {
         $sdate =$_REQUEST['start_date'];
@@ -353,21 +354,21 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 $sub=str_replace("[LOGINID]","$loginid",$body);
                 $sub=$sub.'<br>';
 
-//                SENDING MAIL OPTIONS
-                $name = $mail_subject;
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($admin);
-                $message1->addCc($sadmin);
-                $message1->setSubject($mail_subject);
-                $message1->setHtmlBody($sub.$values);
-
-                try {
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+                //SENDING MAIL OPTIONS
+//                $name = $mail_subject;
+//                $from = $admin;
+//                $message1 = new Message();
+//                $message1->setSender($name.'<'.$from.'>');
+//                $message1->addTo($admin);
+//                $message1->addCc($sadmin);
+//                $message1->setSubject($mail_subject);
+//                $message1->setHtmlBody($sub.$values);
+//
+//                try {
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
             }
             $drop_query="DROP TABLE $temp_tickler_history ";
             mysqli_query($con,$drop_query);

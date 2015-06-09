@@ -1,7 +1,7 @@
 <?php
 error_reporting(1);
-include "CONNECTION.php";
-include "GET_USERSTAMP.php";
+include "../SSOLIB/CONNECTION.php";
+include "../SSOLIB/GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;
 date_default_timezone_set('Asia/Kolkata');
 global $con;

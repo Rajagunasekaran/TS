@@ -8,7 +8,8 @@
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 <?PHP
-include "HEADER.php";
+//include "HEADER.php";
+ include "../SSOLIB/HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -42,7 +43,7 @@ $(document).on('click','#UR_ENTRY',function(){
                 $('#CONFIG_ENTRY_lb_module').html(CONFIG_ENTRY_mod_opt);
             }}
         var OPTION="CONFIG_ENTRY_load_mod";
-        xmlhttp.open("GET","DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
+        xmlhttp.open("GET","SETTINGS/DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
         xmlhttp.send(new FormData());
         //CHANGE EVENT FOR MODULE CONFIG
         $(document).on('change','#CONFIG_ENTRY_lb_module',function(){
@@ -77,7 +78,7 @@ $(document).on('click','#UR_ENTRY',function(){
                     }}
                 var OPTION="CONFIG_ENTRY_load_type";
                 var CONFIG_ENTRY_data=$(this).val();
-                xmlhttp.open("GET","DB_CONFIGURATION_ENTRY.do?option="+OPTION+"&module="+CONFIG_ENTRY_data,true);
+                xmlhttp.open("GET","SETTINGS/DB_CONFIGURATION_ENTRY.do?option="+OPTION+"&module="+CONFIG_ENTRY_data,true);
                 xmlhttp.send(new FormData());
             }
             else
@@ -157,7 +158,7 @@ $(document).on('click','#UR_ENTRY',function(){
                     $('#CONFIG_ENTRY_lb_module').val('SELECT');
                 }}
             var OPTION="CONFIG_ENTRY_save";
-            xmlhttp.open("POST","DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
+            xmlhttp.open("POST","SETTINGS/DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
             xmlhttp.send(new FormData(formElement));
         });
         //CHANGE FUNCTION FOR DATA
@@ -183,7 +184,7 @@ $(document).on('click','#UR_ENTRY',function(){
                     }}
                 var OPTION="CONFIG_ENTRY_check_data";
                 var CONFIG_ENTRY_data=$(this).val();
-                xmlhttp.open("POST","DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
+                xmlhttp.open("POST","SETTINGS/DB_CONFIGURATION_ENTRY.do?option="+OPTION,true);
                 xmlhttp.send(new FormData(formElement));}
             else
             {
@@ -219,7 +220,7 @@ $(document).on('click','#UR_ENTRY',function(){
                 $('#CONFIG_SRCH_UPD_lb_module').html(CONFIG_SRCH_UPD_mod_opt);
             }}
         var OPTION="CONFIG_SRCH_UPD_load_mod";
-        xmlhttp.open("GET","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION);
+        xmlhttp.open("GET","SETTINGS/DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION);
         xmlhttp.send(new FormData());
         //CHANGE EVENT FOR MODULE CONFIG
         $(document).on('change','#CONFIG_SRCH_UPD_lb_module',function(){
@@ -252,7 +253,7 @@ $(document).on('click','#UR_ENTRY',function(){
                 }
                 var OPTION="CONFIG_SRCH_UPD_load_type";
                 var CONFIG_SRCH_UPD_data=$(this).val();
-                xmlhttp.open("GET","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&module="+CONFIG_SRCH_UPD_data,true);
+                xmlhttp.open("GET","SETTINGS/DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&module="+CONFIG_SRCH_UPD_data,true);
                 xmlhttp.send(new FormData());
             }
         });
@@ -291,7 +292,7 @@ $(document).on('click','#UR_ENTRY',function(){
                    // show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
                 }}
             var OPTION="CONFIG_SRCH_UPD_load_data";
-            xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION,true);
+            xmlhttp.open("POST","SETTINGS/DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION,true);
             xmlhttp.send(new FormData(formElement));
         }
         //CHANGE EVENT FOR TYPE CONFIG
@@ -434,7 +435,7 @@ $(document).on('click','#UR_ENTRY',function(){
                     }
                 }}
             var OPTION="CONFIG_SRCH_UPD_save";
-            xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
+            xmlhttp.open("POST","SETTINGS/DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
             xmlhttp.send(new FormData(formElement));
         });
         var CONFIG_flag_del;
@@ -442,6 +443,7 @@ $(document).on('click','#UR_ENTRY',function(){
         $(document).on('click','.delete',function(){
             CONFIG_flag_del=0;
             var CONFIG_id=$(this).parent().parent().attr('id');
+            alert(CONFIG_id)
             $(".preloader").show();
             var formElement = document.getElementById("CONFIG_ENTRY_form");
             var xmlhttp=new XMLHttpRequest();
@@ -464,7 +466,7 @@ $(document).on('click','#UR_ENTRY',function(){
                 }
             }
             var OPTION="CONFIG_SRCH_UPD_delete";
-            xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
+            xmlhttp.open("POST","SETTINGS/DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_id="+CONFIG_id+"&CONFIG_SRCH_UPD_tb_data="+$('#CONFIG_SRCH_UPD_tb_data').val(),true);
             xmlhttp.send(new FormData(formElement));
         });
         //CHANGE FUNCTION FOR DATA
@@ -491,7 +493,7 @@ $(document).on('click','#UR_ENTRY',function(){
                 }
                 var OPTION="CONFIG_SRCH_UPD_check_data";
                 var CONFIG_SRCH_UPD_data=$(this).val();
-                xmlhttp.open("POST","DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_tb_data="+txt_area,true);
+                xmlhttp.open("POST","SETTINGS/DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION+"&CONFIG_SRCH_UPD_tb_data="+txt_area,true);
                 xmlhttp.send(new FormData(formElement));
             }
             else{
@@ -516,7 +518,7 @@ $(document).on('click','#UR_ENTRY',function(){
 <!--BODY TAG START-->
 <body class="dt-example">
 <div class="container">
-        <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"/></div></div></div>
+        <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="../image/Loading.gif"/></div></div></div>
         <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY</h3></b></center></div>
         <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
             <div class="panel-body">

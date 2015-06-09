@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+//error_reporting(0);
 include "CONNECTION.php";
 include "GET_USERSTAMP.php";
 include "COMMON.php";

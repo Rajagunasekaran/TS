@@ -6,7 +6,8 @@
 //VER 0.01-INITIAL VERSION, SD:27/10/2014 ED:28/10/2014,TRACKER NO:99
 //*********************************************************************************************************//
 <?php
-include "HEADER.php";
+//include "../HEADER.php";
+include "../SSOLIB/HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -29,7 +30,7 @@ include "HEADER.php";
             }
         }
         var option="EMAIL_TEMPLATE_ENTRY";
-        xmlhttp.open("GET","COMMON.do?option="+option);
+        xmlhttp.open("GET","SSOLIB/COMMON.do?option="+option);
         xmlhttp.send();
         //END FUNCTION FOR EMAIL TEMPLATE ERROR MESSAGE
         //JQUERY LIB VALIDATION START
@@ -141,7 +142,7 @@ include "HEADER.php";
                     }
                 }
                 var choice='ET_ENTRY_already_result';
-                xmlhttp.open("GET","DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?ET_ENTRY_scriptname="+ET_ENTRY_scriptname+"&option="+choice,true);
+                xmlhttp.open("GET","SETTINGS/DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?ET_ENTRY_scriptname="+ET_ENTRY_scriptname+"&option="+choice,true);
                 xmlhttp.send();
             }
         }
@@ -190,7 +191,7 @@ include "HEADER.php";
                 }
             }
             var choice="ET_ENTRY_insert"
-            xmlhttp.open("POST","DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+choice,true);
+            xmlhttp.open("POST","SETTINGS/DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+choice,true);
             xmlhttp.send(new FormData(formElement));
         }
         //CLICK EVENT FUCNTION FOR RESET
@@ -223,7 +224,7 @@ include "HEADER.php";
         {
                 $.ajax({
                     type: 'POST',
-                    url: 'DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do',
+                    url: 'SETTINGS/DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do',
                     data:{option:'edit'},
                     success: function(data){
 //                        alert(data);
@@ -305,7 +306,7 @@ include "HEADER.php";
                     }
 
                 var OPTION="update";
-                xmlhttp.open("POST","DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+OPTION+"&scriptvalue="+scriptvalue+"&ET_ID="+combineid,true);
+                xmlhttp.open("POST","SETTINGS/DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+OPTION+"&scriptvalue="+scriptvalue+"&ET_ID="+combineid,true);
                 xmlhttp.send();
             }
         });
@@ -355,7 +356,7 @@ include "HEADER.php";
                     }
                 }
                 var OPTION="update1";
-                xmlhttp.open("POST","DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+OPTION+"&subjectvalue="+subjectvalue+"&ETD_ID="+combineid,true);
+                xmlhttp.open("POST","SETTINGS/DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+OPTION+"&subjectvalue="+subjectvalue+"&ETD_ID="+combineid,true);
                 xmlhttp.send();
             }
         });
@@ -403,7 +404,7 @@ include "HEADER.php";
                     }
                 }
                 var OPTION="update2";
-                xmlhttp.open("POST","DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+OPTION+"&bodyvalue="+bodyvalue+"&ETD_ID="+combineid,true);
+                xmlhttp.open("POST","SETTINGS/DB_EMAIL_EMAIL_TEMPLATE_ENTRY.do?option="+OPTION+"&bodyvalue="+bodyvalue+"&ETD_ID="+combineid,true);
                 xmlhttp.send();
             }
         });
@@ -453,7 +454,7 @@ include "HEADER.php";
         <div class="form-group">
             <label class="col-lg-2" name="ET_ENTRY_lbl_body" id="ET_ENTRY_lbl_body">BODY<em>*</em></label>
             <div class="col-lg-10">
-                <textarea rows="4" cols="50" name="ET_ENTRY_ta_body" id="ET_ENTRY_ta_body" class="maxlength"maxlength="50"></textarea>
+                <textarea class="form-control" rows="8" name="ET_ENTRY_ta_body" id="ET_ENTRY_ta_body" class="maxlength"></textarea>
             </div>
         </div>
         <!--            <tr>-->

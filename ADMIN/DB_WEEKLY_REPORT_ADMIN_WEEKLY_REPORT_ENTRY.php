@@ -11,8 +11,8 @@
 error_reporting(0);
 if(isset($_REQUEST))
 {
-    include "CONNECTION.php";
-    include "GET_USERSTAMP.php";
+    include "SSOLIB/CONNECTION.php";
+    include "SSOLIB/GET_USERSTAMP.php";
     $USERSTAMP=$UserStamp;
     if($_REQUEST['option']=='SUBMIT')
     {

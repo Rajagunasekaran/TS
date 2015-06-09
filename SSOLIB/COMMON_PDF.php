@@ -1,7 +1,7 @@
 <?php
-require_once('mpdf571/mpdf571/mpdf.php');
-include "CONNECTION.php";
-include "GET_USERSTAMP.php";
+require_once('../mpdf571/mpdf571/mpdf.php');
+include "../SSOLIB/CONNECTION.php";
+include "../SSOLIB/GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;
 //FLAG VALUE
 $flag= $_GET['flag'];

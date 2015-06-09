@@ -1,11 +1,23 @@
 <?php
-include "HEADER.php";
+include "../SSOLIB/HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <script xmlns="http://www.w3.org/1999/html">
 // READY FUNCTION STARTS
 $(document).ready(function(){
     $(".preloader").hide();
+    //DATEPICKER FUNCTION
+    $('#AWRE_SRC_tb_selectdate').datepicker({
+        onSelect: function(dateText, inst) {
+            $('#AWRE_SRC_tb_date').val(dateText);
+            d1=new Date(dateText),
+                date= GetWeekInMonth(d1);
+            dateFormat:$(this).val(date);
+            validation();
+        },
+        changeYear: true,
+        changeMonth: true
+    });
     var js_errormsg_array=[];
     var js_min_date=[];
     var maxdate;
@@ -40,7 +52,7 @@ $(document).ready(function(){
             // $(".preloader").hide();
 //        $('.preloader', window.parent.document).show();
             $('#AWRE_lbl_report_entry').html('ADMIN WEEKLY REPORT ENTRY');
-            $('#enter').html('ADMIN WEEKLY REPORT ENTRY');
+//            $('#enter').html('ADMIN WEEKLY REPORT ENTRY');
             $('#entry').show();
             $('#search_update').hide();
 //        $('#AWSU_lbl_strtdte').hide();
@@ -64,9 +76,11 @@ $(document).ready(function(){
 //                $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
                     var value_array=JSON.parse(xmlhttp.responseText);
-//                   alert(value_array)
+                   alert(value_array)
                     js_errormsg_array=value_array[0];
+                    alert(js_errormsg_array)
                     js_min_date=value_array[1];
+                    alert(js_min_date)
                     //SET MIN ND MAX DATE
                     maxdate=new Date();
                     day=maxdate.getUTCDay();
@@ -129,7 +143,7 @@ $(document).ready(function(){
                 }
             }
             var choice='ADMIN WEEKLY REPORT ENTRY';
-            xmlhttp.open("POST","COMMON.do?option="+choice,true);
+            xmlhttp.open("POST","SSOLIB/COMMON.do?option="+choice,true);
             xmlhttp.send();
         }
         else if(radiooption=='search_update')
@@ -238,7 +252,7 @@ $(document).ready(function(){
                 }
             }
             var choice='ADMIN WEEKLY REPORT SEARCH UPDATE';
-            xmlhttp.open("POST","COMMON.do?option="+choice,true);
+            xmlhttp.open("POST","SSOLIB/COMMON.do?option="+choice,true);
             xmlhttp.send();
         }
 //        else
@@ -247,7 +261,7 @@ $(document).ready(function(){
 //            $('#search_update').hide();
 //        }
         function validation(){
-//            alert('validate');
+            alert('validate');
             $('#AWRE_errmsg').text(msg).hide();
             $('textarea').height(50).width(60);
             var checkreportdate=$('#AWRE_SRC_tb_date').val();//$(this).val();
@@ -281,7 +295,7 @@ $(document).ready(function(){
             }
             if(p==0)
             {
-//                alert('1');
+                alert('1');
                 $("#AWRE_SRC_lbl_enterreport").show();
 //                alert('2');
                 $("#AWRE_SRC_ta_enterreport").val('').show();
@@ -322,20 +336,91 @@ $(document).ready(function(){
                 }
             }
             var option='CHECK';
-            xmlhttp.open("GET","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?&option="+option,true);
+            xmlhttp.open("GET","ADMIN/DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?&option="+option,true);
             xmlhttp.send();
         }
-        //DATEPICKER FUNCTION
-        $('#AWRE_SRC_tb_selectdate').datepicker({
-            onSelect: function(dateText, inst) {
-                $('#AWRE_SRC_tb_date').val(dateText);
-                d1=new Date(dateText),
-                    date= GetWeekInMonth(d1);
-                dateFormat:$(this).val(date);
-                validation();
-            },
-            changeYear: true,
-            changeMonth: true
+
+        $('#AWRE_SRC_btn_submit').hide();
+        $('#AWRE_SRC_btn_reset').hide();
+        $('textarea').autogrow({onInitialize: true});
+        datesarray();
+
+//        FUNCTION FOR FINDING DATE ALREADY ENTERED
+        function W_GetWeekInmonth(date)
+        {
+            var date1 = new Date(date);
+            WeekNumber = ['1', '2', '3', '4', '5'];
+            var weekNum = 0 | date1.getDate() / 7;
+            weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
+            var month=new Array();
+            month[0]="January";
+            month[1]="February";
+            month[2]="March";
+            month[3]="April";
+            month[4]="May";
+            month[5]="June";
+            month[6]="July";
+            month[7]="August";
+            month[8]="September";
+            month[9]="October";
+            month[10]="November";
+            month[11]="December";
+            var d1=month[date1.getMonth()];
+            var a=(WeekNumber[weekNum] +d1+date1.getFullYear());
+            return a;
+        }
+        function W_GetWeekInMonth(date)
+        {
+            var date1 = new Date(date);
+            WeekNumber = ['1', '2', '3', '4', '5'];
+            var weekNum = 0 | date1.getDate() / 7;
+            weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
+            return WeekNumber[weekNum];
+        }
+//CHANGE EVENT FOR SELECTDATE
+//        $(document).on("blur change",'#AWRE_SRC_tb_selectdate', function (){
+
+//CLICK EVENT FOR SUBMIT BUTTON
+        $(document).on('click','#AWRE_SRC_btn_submit',function(){
+//            $('.preloader', window.parent.document).show();
+            $(".preloader").show();
+            var formElement = document.getElementById("AWRE_SRC_form_reportentry");
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    var msg_alert=xmlhttp.responseText;
+                    var msg=js_errormsg_array[0];
+                    if(msg_alert==1)
+                    {
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg,position:{top:100,left:100}}});
+                        show_msgbox("ADMIN WEEKLY REPORT ENTRY",msg,"success",false);
+                        $("#AWRE_SRC_lbl_enterreport").hide();
+                        $("#AWRE_SRC_ta_enterreport").val('').hide();
+                        $("#AWRE_SRC_btn_submit").hide();
+                        $("#AWRE_SRC_btn_reset").hide();
+                        $("#AWRE_SRC_tb_selectdate").val('').show();
+                        datesarray();
+                    }
+                    else
+                    {
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:100,left:100}}});
+                        show_msgbox("ADMIN WEEKLY REPORT ENTRY",js_errormsg_array[1],"success",false);
+                    }
+//                    $('.preloader', window.parent.document).hide();
+                    $(".preloader").hide();
+                }
+            }
+            var option='SUBMIT';
+            xmlhttp.open("POST","ADMIN/DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?option="+option,true);
+            xmlhttp.send(new FormData(formElement));
+        });
+        //CLICK EVENT FOR RESET BUTTON
+        $('#AWRE_SRC_btn_reset').click(function(){
+            $("#AWRE_SRC_tb_selectdate").val('').show();
+            $("#AWRE_SRC_lbl_enterreport").hide();
+            $("#AWRE_SRC_ta_enterreport").hide();
+            $("#AWRE_SRC_btn_submit").hide();
+            $("#AWRE_SRC_btn_reset").hide();
         });
 //FUNCTION FOR DATE BOX VALIDATION
         $(document).on('change blur','.valid',function(){
@@ -468,7 +553,7 @@ $(document).ready(function(){
                     }
                 }
                 var OPTION="update";
-                xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do?option="+OPTION+"&reportvalue="+reportvalue+"&id="+combineid,true);
+                xmlhttp.open("POST","ADMIN/DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do?option="+OPTION+"&reportvalue="+reportvalue+"&id="+combineid,true);
                 xmlhttp.send();
             }
         });
@@ -478,94 +563,13 @@ $(document).ready(function(){
             inputValOne = inputValOne.split("-").reverse().join("-");
             var inputValTwo=$('#AWSU_tb_enddtes').val();
             inputValTwo = inputValTwo.split("-").reverse().join("-");
-            var url=document.location.href='COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
+            var url=document.location.href='SSOLIB/COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
         });
 
     });
 
     <!--    entry-->
-        $('#AWRE_SRC_btn_submit').hide();
-        $('#AWRE_SRC_btn_reset').hide();
-        $('textarea').autogrow({onInitialize: true});
-        datesarray();
 
-//        FUNCTION FOR FINDING DATE ALREADY ENTERED
-    function W_GetWeekInmonth(date)
-    {
-        var date1 = new Date(date);
-        WeekNumber = ['1', '2', '3', '4', '5'];
-        var weekNum = 0 | date1.getDate() / 7;
-        weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
-        var month=new Array();
-        month[0]="January";
-        month[1]="February";
-        month[2]="March";
-        month[3]="April";
-        month[4]="May";
-        month[5]="June";
-        month[6]="July";
-        month[7]="August";
-        month[8]="September";
-        month[9]="October";
-        month[10]="November";
-        month[11]="December";
-        var d1=month[date1.getMonth()];
-        var a=(WeekNumber[weekNum] +d1+date1.getFullYear());
-        return a;
-    }
-    function W_GetWeekInMonth(date)
-    {
-        var date1 = new Date(date);
-        WeekNumber = ['1', '2', '3', '4', '5'];
-        var weekNum = 0 | date1.getDate() / 7;
-        weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
-        return WeekNumber[weekNum];
-    }
-//CHANGE EVENT FOR SELECTDATE
-//        $(document).on("blur change",'#AWRE_SRC_tb_selectdate', function (){
-
-//CLICK EVENT FOR SUBMIT BUTTON
-    $(document).on('click','#AWRE_SRC_btn_submit',function(){
-//            $('.preloader', window.parent.document).show();
-        $(".preloader").show();
-        var formElement = document.getElementById("AWRE_SRC_form_reportentry");
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                var msg_alert=xmlhttp.responseText;
-                var msg=js_errormsg_array[0];
-                if(msg_alert==1)
-                {
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg,position:{top:100,left:100}}});
-                    show_msgbox("ADMIN WEEKLY REPORT ENTRY",msg,"success",false);
-                    $("#AWRE_SRC_lbl_enterreport").hide();
-                    $("#AWRE_SRC_ta_enterreport").val('').hide();
-                    $("#AWRE_SRC_btn_submit").hide();
-                    $("#AWRE_SRC_btn_reset").hide();
-                    $("#AWRE_SRC_tb_selectdate").val('').show();
-                    datesarray();
-                }
-                else
-                {
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:100,left:100}}});
-                    show_msgbox("ADMIN WEEKLY REPORT ENTRY",js_errormsg_array[1],"success",false);
-                }
-//                    $('.preloader', window.parent.document).hide();
-                $(".preloader").hide();
-            }
-        }
-        var option='SUBMIT';
-        xmlhttp.open("POST","DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?option="+option,true);
-        xmlhttp.send(new FormData(formElement));
-    });
-    //CLICK EVENT FOR RESET BUTTON
-    $('#AWRE_SRC_btn_reset').click(function(){
-        $("#AWRE_SRC_tb_selectdate").val('').show();
-        $("#AWRE_SRC_lbl_enterreport").hide();
-        $("#AWRE_SRC_ta_enterreport").hide();
-        $("#AWRE_SRC_btn_submit").hide();
-        $("#AWRE_SRC_btn_reset").hide();
-    });
     <!--entry end-->
 //    $(document).on('click','#UR_SEARCH_UPDATE',function(){
 //        $('.preloader', window.parent.document).show();
@@ -642,7 +646,7 @@ $(document).ready(function(){
         pdfmsg=titlemsg;
         data ="&startdate="+finalsddate+"&enddate="+finaleddate+"&option=showData";
         $.ajax({
-            url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
+            url:"ADMIN/DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
             type:"POST",
             data:data,
             cache: false,
@@ -848,7 +852,7 @@ $(document).ready(function(){
         var AWSU_tb_report = $('#AWSU_tb_report').val();
         data ="&report="+AWSU_tb_report+"&editid="+edittrid+"&option=updateData";
         $.ajax({
-            url:"DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
+            url:"ADMIN/DB_WEEKLY_REPORT_ADMIN_WEEKLY_SEARCH_UPDATE.do",
             type:"POST",
             data:data,
             cache: false,

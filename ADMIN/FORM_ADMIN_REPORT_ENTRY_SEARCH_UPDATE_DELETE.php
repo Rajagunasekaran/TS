@@ -20,9 +20,12 @@
 //VER 0.01-INITIAL VERSION, SD:08/08/2014 ED:01/10/2014,TRACKER NO:74
 //*********************************************************************************************************//-->
 <?php
-include "HEADER.php";
-//include "NEW_MENU.php";
-?>
+//include '../HEADER.php';//HEADER FILE CALLED IN OUTSIDE
+//include '/SSOLIB/HEADER.php';
+include '../SSOLIB/HEADER.php';
+////include "NEW_MENU.php";
+//?>
+
 <script>
 var checkoutlocation;
 function displayLocation(latitude,longitude){
@@ -155,7 +158,7 @@ $(document).ready(function(){
                 }
             }
             var option="admin_report_entry";
-            xmlhttp.open("GET","COMMON.do?option="+option);
+            xmlhttp.open("GET","SSOLIB/COMMON.php?option="+option);
             xmlhttp.send();
         }
         else if(click=="search")
@@ -226,7 +229,7 @@ $(document).ready(function(){
                 }
             }
             var option="admin_search_update";
-            xmlhttp.open("GET","COMMON.do?option="+option);
+            xmlhttp.open("GET","SSOLIB/COMMON.php?option="+option);
             xmlhttp.send();
         }
     });
@@ -2041,7 +2044,7 @@ $(document).ready(function(){
         }
         $('#ASRC_UPD_DEL_div_tablecontainer').show();
         var choice='DATERANGE';
-        xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?start_date="+start_date+"&end_date="+end_date+"&option="+choice+"&actionloginid="+activeloginid,true);
+        xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?start_date="+start_date+"&end_date="+end_date+"&option="+choice+"&actionloginid="+activeloginid,true);
         xmlhttp.send();
         sorting()
     }
@@ -2957,7 +2960,7 @@ $(document).ready(function(){
 
         }
         var option="UPDATE"
-        xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?option="+option+"&reportlocation="+checkoutlocation,true);
+        xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?option="+option+"&reportlocation="+checkoutlocation,true);
         xmlhttp.send(new FormData(formElement));
     });
     // CHANGE EVENT FOR OPTION LIST BOX
@@ -3291,10 +3294,10 @@ $(document).ready(function(){
         var inputValFour=$('#ASRC_UPD_DEL_tb_dte').val();
         inputValFour = inputValFour.split("-").reverse().join("-");
         if($("input[id=ASRC_UPD_DEL_rd_btwnrange]:checked").val()=='RANGES'){
-            var url=document.location.href='COMMON_PDF.do?flag=22&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+pdfmsg;
+            var url=document.location.href='COMMON_PDF.php?flag=22&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+pdfmsg;
         }
         else if($("input[id=ASRC_UPD_DEL_rd_allactveemp]:checked").val()=='RANGES'){
-            var url=document.location.href='COMMON_PDF.do?flag=21&inputValFour='+inputValFour+'&title='+pdfmsg;
+            var url=document.location.href='COMMON_PDF.php?flag=21&inputValFour='+inputValFour+'&title='+pdfmsg;
         }
     });
     $(document).on('click','#ASRC_UPD_btn_od_pdf',function(){
@@ -3302,7 +3305,7 @@ $(document).ready(function(){
         inputValOne = inputValOne.split("-").reverse().join("-");
         var inputValTwo=$('#ASRC_UPD_DEL_tb_edte').val();
         inputValTwo = inputValTwo.split("-").reverse().join("-");
-        var url=document.location.href='COMMON_PDF.do?flag=20&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
+        var url=document.location.href='COMMON_PDF.php?flag=20&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
     });
 
 });

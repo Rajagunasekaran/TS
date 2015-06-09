@@ -1,11 +1,11 @@
 <?php
-require_once 'google/appengine/api/mail/Message.php';
-use google\appengine\api\mail\Message;
+//require_once 'google/appengine/api/mail/Message.php';
+//use google\appengine\api\mail\Message;
 error_reporting(0);
 if(isset($_REQUEST)){
 
-    include "CONNECTION.php";
-    include "GET_USERSTAMP.php";
+    include "../SSOLIB/CONNECTION.php";
+    include "../SSOLIB/GET_USERSTAMP.php";
     include "COMMON.php";
     date_default_timezone_set('Asia/Kolkata');
     $USERSTAMP=$UserStamp;
