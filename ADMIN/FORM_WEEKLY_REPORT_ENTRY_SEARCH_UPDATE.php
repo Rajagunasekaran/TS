@@ -1,26 +1,25 @@
+<!--//*******************************************FILE DESCRIPTION*********************************************//
+//*********************************ADMIN WEEKLY REPORT ENTRY******************************************//
+//DONE BY:ARTHI
+//VER 0.05-SD:09/06/2015 ED:10/06/2015,DID RESPONSIVE,INITIALLY DATE PICKER IS NOT LOADING FIXED THAT ISSUE.
+//DONE BY:LALITHA
+//VER 0.04-SD:29/12/2014 ED:30/12/2014,TRACKER NO:74,Changed date picker function nd validation,Updated err msg(rep nt saved)
+//VER 0.03-SD:02/12/2014 ED:02/12/2014,TRACKER NO:74,Changed Preloder funct,Removed confirmation err msg,Removed hardcode fr mindate
+//VER 0.02,SD:14/11/2014 ED:14/11/2014,TRACKER NO:74,Fixed max date nd min dte
+//DONE BY:SHALINI
+//VER 0.01-INITIAL VERSION, SD:16/10/2014 ED:19/10/2014,TRACKER NO:86
+<!--//*********************************************************************************************************-->
 <?php
-include "../SSOLIB/HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <script xmlns="http://www.w3.org/1999/html">
 // READY FUNCTION STARTS
 $(document).ready(function(){
     $(".preloader").hide();
-    //DATEPICKER FUNCTION
-    $('#AWRE_SRC_tb_selectdate').datepicker({
-        onSelect: function(dateText, inst) {
-            $('#AWRE_SRC_tb_date').val(dateText);
-            d1=new Date(dateText),
-                date= GetWeekInMonth(d1);
-            dateFormat:$(this).val(date);
-            validation();
-        },
-        changeYear: true,
-        changeMonth: true
-    });
+    var maxdate;
     var js_errormsg_array=[];
     var js_min_date=[];
-    var maxdate;
     var day;
     var month;
     var year;
@@ -43,18 +42,21 @@ $(document).ready(function(){
     var  PE_maxdate;
     var  PE_max_enddate;
     var report;
-    $(document).on('change','.rdclick',function(){
+    $(document).on('change','.wdclick',function(){
+
 //    $('.rdclick').click(function(){
         var radiooption=$(this).val();
-        if(radiooption=='entry')
+        if(radiooption=='report_entry')
         {
+
 //    $(document).on('click','#UR_ENTRY',function(){
             // $(".preloader").hide();
 //        $('.preloader', window.parent.document).show();
             $('#AWRE_lbl_report_entry').html('ADMIN WEEKLY REPORT ENTRY');
 //            $('#enter').html('ADMIN WEEKLY REPORT ENTRY');
-            $('#entry').show();
-            $('#search_update').hide();
+            $('#report_entry').show();
+            $('#report_search_update').hide();
+
 //        $('#AWSU_lbl_strtdte').hide();
             $('#AWSU_tb_strtdte').val('');
             $('#AWSU_tb_strtdtes').hide();
@@ -68,19 +70,20 @@ $(document).ready(function(){
             $('#tablecontainer').hide();
 //        $('.preloader', window.parent.document).show();
             $(".preloader").show();
-            //ERROR MESSAGE
 
+            //ERROR MESSAGE
+            js_errormsg_array=[];
+            js_min_date=[];
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
                     var value_array=JSON.parse(xmlhttp.responseText);
-                   alert(value_array)
+//                    alert(value_array)
+
                     js_errormsg_array=value_array[0];
-                    alert(js_errormsg_array)
                     js_min_date=value_array[1];
-                    alert(js_min_date)
                     //SET MIN ND MAX DATE
                     maxdate=new Date();
                     day=maxdate.getUTCDay();
@@ -143,14 +146,14 @@ $(document).ready(function(){
                 }
             }
             var choice='ADMIN WEEKLY REPORT ENTRY';
-            xmlhttp.open("POST","SSOLIB/COMMON.do?option="+choice,true);
+            xmlhttp.open("POST","TSLIB/COMMON.do?option="+choice,true);
             xmlhttp.send();
         }
-        else if(radiooption=='search_update')
+        else if(radiooption=='report_search_update')
         {
             $('#AWRE_lbl_report_entry').html('ADMIN WEEKLY REPORT SEARCH UPDATE');
-            $('#entry').hide();
-            $('#search_update').show();
+            $('#report_entry').hide();
+            $('#report_search_update').show();
 //        $('#AWRE_SRC_lbl_selectdate').hide();
 //        $('#AWRE_SRC_tb_selectdate').hide();
             $('#AWRE_SRC_tb_date').val('null');
@@ -174,6 +177,7 @@ $(document).ready(function(){
                     AWSU_weekly_mindate=value_array[1];
                     AWSU_weekly_maxdate=value_array[2];
                     AWSU_weekly_month_enddate=value_array[3];
+                    alert(AWSU_weekly_mindate)
                     if(AWSU_weekly_mindate=='1970-01-01' || AWSU_weekly_mindate==null)
                     {
                         $('#AWRE_SRC_form_reportentry').replaceWith('<p><label class="errormsg">'+ js_errormsg_array[3] +'</label></p>');
@@ -252,16 +256,25 @@ $(document).ready(function(){
                 }
             }
             var choice='ADMIN WEEKLY REPORT SEARCH UPDATE';
-            xmlhttp.open("POST","SSOLIB/COMMON.do?option="+choice,true);
+            xmlhttp.open("POST","TSLIB/COMMON.do?option="+choice,true);
             xmlhttp.send();
         }
-//        else
-//        {
-//            $('#entry').hide();
-//            $('#search_update').hide();
-//        }
+    });
+//        }//DATEPICKER FUNCTION
+        $('#AWRE_SRC_tb_selectdate').datepicker({
+            onSelect: function(dateText, inst) {
+                $('#AWRE_SRC_tb_date').val(dateText);
+                d1=new Date(dateText),
+                    date= GetWeekInMonth(d1);
+                dateFormat:$(this).val(date);
+                validation();
+            },
+            changeYear: true,
+            changeMonth: true
+        });
         function validation(){
-            alert('validate');
+
+//            alert('validate');
             $('#AWRE_errmsg').text(msg).hide();
             $('textarea').height(50).width(60);
             var checkreportdate=$('#AWRE_SRC_tb_date').val();//$(this).val();
@@ -295,7 +308,7 @@ $(document).ready(function(){
             }
             if(p==0)
             {
-                alert('1');
+//                alert('1');
                 $("#AWRE_SRC_lbl_enterreport").show();
 //                alert('2');
                 $("#AWRE_SRC_ta_enterreport").val('').show();
@@ -332,7 +345,7 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     date_array=JSON.parse(xmlhttp.responseText);
-                    alert('checking');
+//                    alert('checking');
                 }
             }
             var option='CHECK';
@@ -340,88 +353,6 @@ $(document).ready(function(){
             xmlhttp.send();
         }
 
-        $('#AWRE_SRC_btn_submit').hide();
-        $('#AWRE_SRC_btn_reset').hide();
-        $('textarea').autogrow({onInitialize: true});
-        datesarray();
-
-//        FUNCTION FOR FINDING DATE ALREADY ENTERED
-        function W_GetWeekInmonth(date)
-        {
-            var date1 = new Date(date);
-            WeekNumber = ['1', '2', '3', '4', '5'];
-            var weekNum = 0 | date1.getDate() / 7;
-            weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
-            var month=new Array();
-            month[0]="January";
-            month[1]="February";
-            month[2]="March";
-            month[3]="April";
-            month[4]="May";
-            month[5]="June";
-            month[6]="July";
-            month[7]="August";
-            month[8]="September";
-            month[9]="October";
-            month[10]="November";
-            month[11]="December";
-            var d1=month[date1.getMonth()];
-            var a=(WeekNumber[weekNum] +d1+date1.getFullYear());
-            return a;
-        }
-        function W_GetWeekInMonth(date)
-        {
-            var date1 = new Date(date);
-            WeekNumber = ['1', '2', '3', '4', '5'];
-            var weekNum = 0 | date1.getDate() / 7;
-            weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
-            return WeekNumber[weekNum];
-        }
-//CHANGE EVENT FOR SELECTDATE
-//        $(document).on("blur change",'#AWRE_SRC_tb_selectdate', function (){
-
-//CLICK EVENT FOR SUBMIT BUTTON
-        $(document).on('click','#AWRE_SRC_btn_submit',function(){
-//            $('.preloader', window.parent.document).show();
-            $(".preloader").show();
-            var formElement = document.getElementById("AWRE_SRC_form_reportentry");
-            var xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    var msg_alert=xmlhttp.responseText;
-                    var msg=js_errormsg_array[0];
-                    if(msg_alert==1)
-                    {
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg,position:{top:100,left:100}}});
-                        show_msgbox("ADMIN WEEKLY REPORT ENTRY",msg,"success",false);
-                        $("#AWRE_SRC_lbl_enterreport").hide();
-                        $("#AWRE_SRC_ta_enterreport").val('').hide();
-                        $("#AWRE_SRC_btn_submit").hide();
-                        $("#AWRE_SRC_btn_reset").hide();
-                        $("#AWRE_SRC_tb_selectdate").val('').show();
-                        datesarray();
-                    }
-                    else
-                    {
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:100,left:100}}});
-                        show_msgbox("ADMIN WEEKLY REPORT ENTRY",js_errormsg_array[1],"success",false);
-                    }
-//                    $('.preloader', window.parent.document).hide();
-                    $(".preloader").hide();
-                }
-            }
-            var option='SUBMIT';
-            xmlhttp.open("POST","ADMIN/DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?option="+option,true);
-            xmlhttp.send(new FormData(formElement));
-        });
-        //CLICK EVENT FOR RESET BUTTON
-        $('#AWRE_SRC_btn_reset').click(function(){
-            $("#AWRE_SRC_tb_selectdate").val('').show();
-            $("#AWRE_SRC_lbl_enterreport").hide();
-            $("#AWRE_SRC_ta_enterreport").hide();
-            $("#AWRE_SRC_btn_submit").hide();
-            $("#AWRE_SRC_btn_reset").hide();
-        });
 //FUNCTION FOR DATE BOX VALIDATION
         $(document).on('change blur','.valid',function(){
             date= $('#AWRE_SRC_tb_selectdate').val();
@@ -504,7 +435,9 @@ $(document).ready(function(){
         }
         //CLICK EVENT FOR SEARCH BUTTON
         $(document).on("click",'#AWSU_btn_search', function (){
+//            alert('search');
             $("#AWSU_btn_search").attr("disabled", "disabled");
+//            alert(showTable());
             showTable();
         });
         var previous_id;
@@ -563,13 +496,94 @@ $(document).ready(function(){
             inputValOne = inputValOne.split("-").reverse().join("-");
             var inputValTwo=$('#AWSU_tb_enddtes').val();
             inputValTwo = inputValTwo.split("-").reverse().join("-");
-            var url=document.location.href='SSOLIB/COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
         });
 
-    });
+//    });
 
     <!--    entry-->
+    $('#AWRE_SRC_btn_submit').hide();
+    $('#AWRE_SRC_btn_reset').hide();
+    $('textarea').autogrow({onInitialize: true});
+    datesarray();
 
+//        FUNCTION FOR FINDING DATE ALREADY ENTERED
+    function W_GetWeekInmonth(date)
+    {
+        var date1 = new Date(date);
+        WeekNumber = ['1', '2', '3', '4', '5'];
+        var weekNum = 0 | date1.getDate() / 7;
+        weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
+        var month=new Array();
+        month[0]="January";
+        month[1]="February";
+        month[2]="March";
+        month[3]="April";
+        month[4]="May";
+        month[5]="June";
+        month[6]="July";
+        month[7]="August";
+        month[8]="September";
+        month[9]="October";
+        month[10]="November";
+        month[11]="December";
+        var d1=month[date1.getMonth()];
+        var a=(WeekNumber[weekNum] +d1+date1.getFullYear());
+        return a;
+    }
+    function W_GetWeekInMonth(date)
+    {
+        var date1 = new Date(date);
+        WeekNumber = ['1', '2', '3', '4', '5'];
+        var weekNum = 0 | date1.getDate() / 7;
+        weekNum = ( date1.getDate() % 7 === 0 ) ? weekNum - 1 : weekNum;
+        return WeekNumber[weekNum];
+    }
+//CHANGE EVENT FOR SELECTDATE
+//        $(document).on("blur change",'#AWRE_SRC_tb_selectdate', function (){
+
+//CLICK EVENT FOR SUBMIT BUTTON
+    $(document).on('click','#AWRE_SRC_btn_submit',function(){
+//            $('.preloader', window.parent.document).show();
+        $(".preloader").show();
+        var formElement = document.getElementById("AWRE_SRC_form_reportentry");
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                var msg_alert=xmlhttp.responseText;
+                var msg=js_errormsg_array[0];
+                if(msg_alert==1)
+                {
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:msg,position:{top:100,left:100}}});
+                    show_msgbox("ADMIN WEEKLY REPORT ENTRY",msg,"success",false);
+                    $("#AWRE_SRC_lbl_enterreport").hide();
+                    $("#AWRE_SRC_ta_enterreport").val('').hide();
+                    $("#AWRE_SRC_btn_submit").hide();
+                    $("#AWRE_SRC_btn_reset").hide();
+                    $("#AWRE_SRC_tb_selectdate").val('').show();
+                    datesarray();
+                }
+                else
+                {
+//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY REPORT ENTRY",msgcontent:js_errormsg_array[1],position:{top:100,left:100}}});
+                    show_msgbox("ADMIN WEEKLY REPORT ENTRY",js_errormsg_array[1],"success",false);
+                }
+//                    $('.preloader', window.parent.document).hide();
+                $(".preloader").hide();
+            }
+        }
+        var option='SUBMIT';
+        xmlhttp.open("POST","ADMIN/DB_WEEKLY_REPORT_ADMIN_WEEKLY_REPORT_ENTRY.do?option="+option,true);
+        xmlhttp.send(new FormData(formElement));
+    });
+    //CLICK EVENT FOR RESET BUTTON
+    $('#AWRE_SRC_btn_reset').click(function(){
+        $("#AWRE_SRC_tb_selectdate").val('').show();
+        $("#AWRE_SRC_lbl_enterreport").hide();
+        $("#AWRE_SRC_ta_enterreport").hide();
+        $("#AWRE_SRC_btn_submit").hide();
+        $("#AWRE_SRC_btn_reset").hide();
+    });
     <!--entry end-->
 //    $(document).on('click','#UR_SEARCH_UPDATE',function(){
 //        $('.preloader', window.parent.document).show();
@@ -881,8 +895,6 @@ $(document).ready(function(){
         $('#'+edittrid).html(pre_tds);
     });
 
-
-
 });
 // READY FUNCTION ENDS
 </script>
@@ -894,22 +906,19 @@ $(document).ready(function(){
     <form id="AWRE_SRC_form_reportentry" class="content">
         <div class="panel-body">
             <fieldset>
-                <div class="row-fluid form-group ">
-                    <label name="UR_lbl_entry" class="col-sm-2" id="UR_lbl_entry">
-                        <div class="radio">
-                            <input type="radio" name="UR_ESU" class="rdclick" id="UR_ENTRY" value="entry">ENTRY</label>
+         <div style="padding-bottom: 15px">
+          <div class="radio">
+           <label><input type="radio" name="UR_ESU" class="wdclick" id="UR_ENTRY" value="report_entry">ENTRY</label>
+                </div>
+            <div class="radio">
+            <label><input type="radio" name="UR_ESU" class="wdclick" id="UR_SEARCH_UPDATE" value="report_search_update">SEARCH / UPDATE</label>
 
-                </div></div>
-        <div class="row-fluid form-group">
-            <label name="UR_lbl_search_update" class="col-sm-3" id="UR_lbl_search_update">
-                <div class="radio">
-                    <input type="radio" name="UR_ESU" class="rdclick" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
-
-        </div></div>
+       </div>
+         </div>
 <div class="row-fluid form-group">
     <label name="AWRE_report_entry" id="AWRE_lbl_report_entry" class="srctitle col-sm-12"></label>
 </div>
-<div id="entry" hidden>
+<div id="report_entry" hidden>
     <div class="row-fluid form-group">
 
         <label name="AWRE_SRC_lbl_selectdate"  class="col-sm-2" id="AWRE_SRC_lbl_selectdate" >SELECT A DATE<em>*</em></label>
@@ -922,13 +931,14 @@ $(document).ready(function(){
         <div class="col-sm-8">
             <textarea name="AWRE_SRC_ta_enterreport" id="AWRE_SRC_ta_enterreport" class="valid" hidden></textarea>
         </div></div>
-    <div>
-        <input type="button" value="SUBMIT" id="AWRE_SRC_btn_submit" class="btn" disabled><input type="button" value="RESET" id="AWRE_SRC_btn_reset" class="btn">
+    <div class="row-fluid form-group">
+        <input type="button" value="SUBMIT" id="AWRE_SRC_btn_submit" class="btn" disabled>
+        <input type="button" value="RESET" id="AWRE_SRC_btn_reset" class="btn">
 
     </div>
     <label id="AWRE_errmsg" name="AWRE_errmsg" class="errormsg" hidden></label>
 </div>
-<div id="search_update" hidden>
+<div id="report_search_update" hidden>
     <div class="row-fluid form-group">
         <label class="col-sm-2" name="AWSU_lbl_strtdte" id="AWSU_lbl_strtdte" >START DATE<em>*</em></label>
         <div class="col-sm-8">

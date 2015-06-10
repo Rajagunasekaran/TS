@@ -11,7 +11,8 @@
 //VER 0.01-INITIAL VERSION, SD:20/09/2014 ED:13/10/2014,TRACKER NO:74 DONE BY:SHALINI
 //*********************************************************************************************************//-->
 <?php
-include "HEADER.php";
+//include "TSLIB_HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 //include "NEW_MENU.php";
 ?>
 <script>
@@ -76,7 +77,7 @@ $(document).ready(function(){
             }
         }
         var option='AUTO';
-        xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?&option="+option,true);
+        xmlhttp.open("GET","SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?&option="+option,true);
         xmlhttp.send();
 
     }
@@ -102,7 +103,7 @@ $(document).ready(function(){
                 }
             }
             var option='CHECK';
-            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option,true);
+            xmlhttp.open("GET","SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option,true);
             xmlhttp.send();
         }
     });
@@ -167,6 +168,7 @@ $(document).ready(function(){
                             $('#PE_tb_sdate').datepicker("option","maxDate",max_date);
 //                            $('#PE_ta_prjdescrptn').val(desc);
                             $('#PE_tb_status').val(project_status[1][1]);
+                         //   alert(project_status[1][1])
                             $('#PE_lbl_erromsg').hide();
                             $('#PE_ta_prjdescrptn').val(check_array[2]);
                             count=1;
@@ -191,7 +193,7 @@ $(document).ready(function(){
                 }
             }
             var option='CHECK';
-            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option,true);
+            xmlhttp.open("GET","SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option,true);
             xmlhttp.send();
         }
         else{
@@ -278,7 +280,7 @@ $(document).ready(function(){
             }
         }
         var option='SAVE';
-        xmlhttp.open("POST","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?option="+option,true);
+        xmlhttp.open("POST","SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?option="+option,true);
         xmlhttp.send(new FormData(formElement));
     });
     //FUNCTION FOR VALIDATION
@@ -312,7 +314,7 @@ $(document).ready(function(){
     // FUNCTION FOR DATETABLE
     function showTable(){
         $.ajax({
-            url:"DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do",
+            url:"SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do",
             type:"POST",
             data:"option=showData",
             cache: false,
@@ -516,13 +518,13 @@ $(document).ready(function(){
                 }
             }
             var option='RANDOM';
-            xmlhttp.open("GET","DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option+"&recver="+rec_ver,true);
+            xmlhttp.open("GET","SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do?checkproject_name="+checkproject_name+"&option="+option+"&recver="+rec_ver,true);
             xmlhttp.send();
         }
     });
 // CLICK EVENT FOR UPDATE BUTTON
 //    $('section').on('click','.ajaxupdate',function(){
-//        $('.preloader', window.parent.document).show();
+//        $('.preloader', window.parent.phpcument).show();
 //        var edittrid = $(this).parent().parent().attr('id');
 //        var combineid = $(this).parent().parent().attr('id');
 //        var combineid_split=combineid.split('_');
@@ -567,14 +569,14 @@ $(document).ready(function(){
 //        $('#'+edittrid).html(pre_tds);
 //    });
     $(document).on('click','#PE_btn_pdf',function(){
-        var url=document.location.href='COMMON_PDF.do?flag=17&title='+error_message[6];
+        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=17&title='+error_message[6];
     });
 
     function first()
     {
         $.ajax({
             type: 'POST',
-            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
+            url: 'SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
             data:{option:'edit'},
             success: function(data){
 //                    alert(data);
@@ -706,7 +708,7 @@ $(document).ready(function(){
 //        alert('&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate)
         $.ajax({
             type: 'POST',
-            url: 'DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
+            url: 'SETTINGS/DB_PROJECT_PROJECT_ENTRY_SEARCH_UPDATE.do',
 //            data:'&rowid='+combineid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
             data:'&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
             success: function(data) {
@@ -751,35 +753,35 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
     <div class="newtitle" id="fhead" ><p style="padding-top: 20px";><center><h3>PROJECT ENTRY/SEARCH/UPDATE</h3></center><p></div>
     <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="newcontent">
         <div class="table-responsive">
-            <div class="form-group">
+            <div class="row-fluid form-group">
                 <label class="col-lg-4" name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label>
                 <div class="col-lg-8">
                     <input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label>
                 </div></div>
-
-            <div class="form-group">
+            <div class="row-fluid form-group">
                 <label class="col-lg-4" name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label>
                 <div class="col-lg-8">
                     <textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  valid"></textarea>
                 </div> </div>
 
-            <div>
+            <div class="row-fluid form-group">
                 <label class="col-lg-4" name="PE_lbl_status" id="PE_lbl_status" >STATUS<em>*</em></label>
                 <div class="col-lg-8">
                     <input type="text" id="PE_tb_status" name="PE_tb_status" class="valid" readonly>
                 </div></div>
 
-            <div class="form-group">
+
+            <div class="row-fluid form-group">
                 <label class="col-lg-4" name="PE_lbl_sdate" id="PE_lbl_sdate" >START DATE<em>*</em></label>
                 <div class="col-lg-8">
                     <input type="text" name="PE_tb_sdate" id="PE_tb_sdate"  class="PE_tb_sdatedatepicker valid datemandtry" style="width: 75px">
                 </div> </div>
 
-            <div class="form-group">
+            <div class="row-fluid form-group">
                 <label class="col-lg-4" name="PE_lbl_edate" id="PE_lbl_edate" >END DATE<em>*</em></label>
                 <div class="col-lg-8">
                     <input type="text" name="PE_tb_edate" id="PE_tb_edate" class="PE_tb_edatedatepicker valid datemandtry" style="width: 75px">

@@ -1,7 +1,7 @@
 <?php
-include "CONNECTION.php";
-include "GET_USERSTAMP.php";
-include "COMMON.php";
+include "../../TSLIB/TSLIB_CONNECTION.php";
+include "../../TSLIB/TSLIB_GET_USERSTAMP.php";
+include "../../TSLIB/TSLIB_COMMON.php";
 
 
 if($_REQUEST["option"]=="search_option"){

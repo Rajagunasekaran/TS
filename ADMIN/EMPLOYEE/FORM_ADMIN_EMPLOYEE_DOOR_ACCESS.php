@@ -11,7 +11,7 @@
 //VER 0.01-INITIAL VERSION,SD:04/11/2014 ED:04/11/2014,TRACKER NO:97
 //*********************************************************************************************************//
 <?PHP
-include "HEADER.php";
+include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -66,12 +66,12 @@ include "HEADER.php";
                 }
             }
             $('#tablecontainer').show();
-            xmlhttp.open("POST","DB_REPORT_DOOR_ACCESS.do",true);
+            xmlhttp.open("POST","ADMIN/EMPLOYEE/DB_REPORT_DOOR_ACCESS.do",true);
             xmlhttp.send();
         }
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#DR_ACC_btn_pdf',function(){
-            var url=document.location.href='COMMON_PDF.do?flag=4&title='+errmsg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=4&title='+errmsg;
 
         });
     });

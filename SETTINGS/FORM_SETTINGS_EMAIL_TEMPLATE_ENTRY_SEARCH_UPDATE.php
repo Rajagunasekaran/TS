@@ -6,8 +6,8 @@
 //VER 0.01-INITIAL VERSION, SD:27/10/2014 ED:28/10/2014,TRACKER NO:99
 //*********************************************************************************************************//
 <?php
-//include "../HEADER.php";
-include "../SSOLIB/HEADER.php";
+//include "../TSLIB_HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -30,7 +30,7 @@ include "../SSOLIB/HEADER.php";
             }
         }
         var option="EMAIL_TEMPLATE_ENTRY";
-        xmlhttp.open("GET","SSOLIB/COMMON.do?option="+option);
+        xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
         xmlhttp.send();
         //END FUNCTION FOR EMAIL TEMPLATE ERROR MESSAGE
         //JQUERY LIB VALIDATION START
@@ -423,7 +423,7 @@ include "../SSOLIB/HEADER.php";
         <div class="panel-body">
             <fieldset>
 <div class ="table-responsive">
-        <div class="form-group">
+        <div class="row-fluid form-group">
             <label class="col-lg-2" name="ET_ENTRY_lbl_scriptname" id="ET_ENTRY_lbl_scriptname">SCRIPT NAME<em>*</em></label>
             <div class="col-lg-10">
                 <input type="text" name="ET_ENTRY_tb_scriptname" id="ET_ENTRY_tb_scriptname"maxlength="100">
@@ -437,7 +437,7 @@ include "../SSOLIB/HEADER.php";
         <!--                <td><input type="text" name="ET_ENTRY_tb_scriptname" id="ET_ENTRY_tb_scriptname" class="autosize" maxlength=100></td>-->
         <!--                <td><div><label id="ET_ENTRY_lbl_validid" name="ET_ENTRY_lbl_validid" class="errormsg" disabled=""></label></div></td>-->
         <!--        </tr>-->
-        <div class="form-group">
+        <div class="row-fluid form-group">
             <label class="col-lg-2" name="ET_ENTRY_lbl_subject" id="ET_ENTRY_lbl_subject">SUBJECT<em>*</em></label>
             <div class="col-lg-10">
                 <textarea rows="4" cols="50" name="ET_ENTRY_ta_subject" id="ET_ENTRY_ta_subject" class="maxlength"maxlength="1000"></textarea>
@@ -451,7 +451,7 @@ include "../SSOLIB/HEADER.php";
         <!--                    </textarea></td>-->
         <!--            </tr>-->
 
-        <div class="form-group">
+        <div class="row-fluid form-group">
             <label class="col-lg-2" name="ET_ENTRY_lbl_body" id="ET_ENTRY_lbl_body">BODY<em>*</em></label>
             <div class="col-lg-10">
                 <textarea class="form-control" rows="8" name="ET_ENTRY_ta_body" id="ET_ENTRY_ta_body" class="maxlength"></textarea>

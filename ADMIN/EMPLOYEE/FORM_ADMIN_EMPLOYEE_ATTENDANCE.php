@@ -13,9 +13,9 @@
 //VER 0.01-INITIAL VERSION, SD:26/09/2014 ED:1/10/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-include "HEADER.php";
+include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
-include "COMMON.php";
+include "../../TSLIB/TSLIB_COMMON.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
 <style type="text/css" xmlns="http://www.w3.org/1999/html">
@@ -61,7 +61,7 @@ $(document).ready(function(){
         }
     }
     var option="search_option";
-    xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?option="+option);
+    xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_ATTENDANCE.do?option="+option);
     xmlhttp.send();
     //CHANGE FUNCTION FOR LOGIN ID LIST BX
     $(document).on('change','#REP_lb_loginid',function(){
@@ -163,7 +163,7 @@ $(document).ready(function(){
                 }
             }
             var choice="login_id"
-            xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?login_id="+loginid+"&option="+choice,true);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_ATTENDANCE.do?login_id="+loginid+"&option="+choice,true);
             xmlhttp.send();
         }
     });
@@ -368,7 +368,7 @@ $(document).ready(function(){
             }
         }
         $('#REP_tablecontainer').show();
-        xmlhttp.open("GET","DB_REPORT_ATTENDANCE.do?option="+option+"&date="+date+"&loginid="+loginid,true);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_ATTENDANCE.do?option="+option+"&date="+date+"&loginid="+loginid,true);
         xmlhttp.send();
     });
     //FUNCTION FOR SORTING
@@ -388,13 +388,13 @@ $(document).ready(function(){
         var inputValOne=$('#REP_date').val();
         var inputValTwo=$('#REP_lb_loginid').val();
         if($('#REP_lb_attendance').val()==1){
-            var url=document.location.href='COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==2){
-            var url=document.location.href='COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==6){
-            var url=document.location.href='COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
     });
 });

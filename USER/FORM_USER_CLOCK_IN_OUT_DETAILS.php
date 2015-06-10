@@ -1,27 +1,27 @@
 <?php
-include "HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 //include "NEW_MENU.php";
 ?>
 <html>
 <head>
 <!--SCRIPT TAG START-->
 <script>
-    //READY FUNCTION START
-    $(document).ready(function(){
-        $(".preloader").hide();
-        $(document).on('click','#clock_in_out',function(){
-            $('#REP_lbl_report_entry').html('CLOCK IN/OUT DETAILS');
+//READY FUNCTION START
+$(document).ready(function(){
+    $(".preloader").hide();
+    $(document).on('click','#clock_in_out',function(){
+        $('#REP_lbl_report_entry').html('CLOCK IN/OUT DETAILS');
 //            $('#inout').html('CLOCK IN/OUT DETAILS');
-            $('#clockinout').show();
-            $('#clockmissed').hide();
-            $('#no_of_days').hide();
-            $('#src_lbl_error_login').hide();
-            $('#CLK_btn_emp_pdf').hide();
-            $('#CLK_nodata_pdflextbles').hide();
-            $('#CLK_div_actvenon_dterange').hide();
-            $('#CLK_db_selectmnths').val('');
+        $('#clockinout').show();
+        $('#clockmissed').hide();
+        $('#no_of_days').hide();
+        $('#src_lbl_error_login').hide();
+        $('#CLK_btn_emp_pdf').hide();
+        $('#CLK_nodata_pdflextbles').hide();
+        $('#CLK_div_actvenon_dterange').hide();
+        $('#CLK_db_selectmnths').val('');
 
-            $('#REP_btn_pdf').hide();
+        $('#REP_btn_pdf').hide();
         //DATE PICKER FUNCTION
         $('.REP_datepicker').datepicker(
             {
@@ -29,7 +29,7 @@ include "HEADER.php";
                 changeYear: true,
                 changeMonth: true
             });
-var REP_chk_errorAarray=[];
+        var REP_chk_errorAarray=[];
         //GEETING INITIAL DATA FROM DB
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
@@ -37,12 +37,12 @@ var REP_chk_errorAarray=[];
                 var values_array=JSON.parse(xmlhttp.responseText);
                 REP_chk_errorAarray=values_array[3];
 //                alert(REP_chk_errorAarray);
-                    $('#REP_nodata_rc').text(REP_chk_errorAarray[3]).show();
-                    $('#REP_chk_lbl_srchby').hide();
+                $('#REP_nodata_rc').text(REP_chk_errorAarray[3]).show();
+                $('#REP_chk_lbl_srchby').hide();
             }
         }
         var option="common";
-        xmlhttp.open("GET","DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.do?option="+option);
+        xmlhttp.open("GET","USER/DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.do?option="+option);
         xmlhttp.send();
 
         // CAL FUNCTION FOR START AND END DATE.
@@ -54,43 +54,43 @@ var REP_chk_errorAarray=[];
         //FUNCTION FOR SETTINF MIN ND MAX DATE
         function date()
         {
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                $('.preloader', window.parent.document).hide();
-                $(".preloader").hide();
+                    $(".preloader").hide();
 //                alert(xmlhttp.responseText);
-                daterange_val=JSON.parse(xmlhttp.responseText);
-                var REV_start_dates=daterange_val[0];
-                var REV_end_dates=daterange_val[1];
-                uld_id=daterange_val[2];
-                uld_name=daterange_val[3];
-                $('#REP_tb_strtdtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
-                $('#REP_tb_strtdtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
-                $('#REP_tb_enddtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
-                if(REV_start_dates==null){
-                    $('#REP_nodata_btwrange').text(REP_chk_errorAarray[3]).show();
-                    $('#REP_tb_strtdtebyrange').hide();
-                    $('#REP_tb_enddtebyrange').hide();
-                    $('#REP_lbl_strtdtebyrange').hide();
-                    $('#REP_btn_searchdaterange').hide();
-                    $('#REP_lbl_enddte').hide();
+                    daterange_val=JSON.parse(xmlhttp.responseText);
+                    var REV_start_dates=daterange_val[0];
+                    var REV_end_dates=daterange_val[1];
+                    uld_id=daterange_val[2];
+                    uld_name=daterange_val[3];
+                    $('#REP_tb_strtdtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
+                    $('#REP_tb_strtdtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
+                    $('#REP_tb_enddtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
+                    if(REV_start_dates==null){
+                        $('#REP_nodata_btwrange').text(REP_chk_errorAarray[3]).show();
+                        $('#REP_tb_strtdtebyrange').hide();
+                        $('#REP_tb_enddtebyrange').hide();
+                        $('#REP_lbl_strtdtebyrange').hide();
+                        $('#REP_btn_searchdaterange').hide();
+                        $('#REP_lbl_enddte').hide();
 
-                }
-                else{
-                    $('#REP_nodata_btwrange').hide();
-                    $('#REP_tb_strtdtebyrange').show();
-                    $('#REP_tb_enddtebyrange').show();
-                    $('#REP_lbl_strtdtebyrange').show();
-                    $('#REP_btn_searchdaterange').show();
-                    $('#REP_lbl_enddte').show();
+                    }
+                    else{
+                        $('#REP_nodata_btwrange').hide();
+                        $('#REP_tb_strtdtebyrange').show();
+                        $('#REP_tb_enddtebyrange').show();
+                        $('#REP_lbl_strtdtebyrange').show();
+                        $('#REP_btn_searchdaterange').show();
+                        $('#REP_lbl_enddte').show();
 
+                    }
                 }
             }
-        }
-        var choice="set_datemin_max";
-        xmlhttp.open("GET","DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.do?option="+choice);
-        xmlhttp.send();
+            var choice="set_datemin_max";
+            xmlhttp.open("GET","USER/DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.do?option="+choice);
+            xmlhttp.send();
         }
         //SET END DATE
         $(document).on('change','#REP_tb_strtdtebyrange',function(){
@@ -196,7 +196,7 @@ var REP_chk_errorAarray=[];
             }
             $('#REP_tablecontainer_bydaterange').show();
             var option="BETWEEN_RANGE";
-            xmlhttp.open("GET","DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.do?option="+option+"&startdate="+startdate+"&enddate="+enddate);
+            xmlhttp.open("GET","USER/DB_DAILY_REPORTS_USER_CLOCK_IN_OUT_DETAILS.do?option="+option+"&startdate="+startdate+"&enddate="+enddate);
             xmlhttp.send();
             sorting();
         });
@@ -208,232 +208,232 @@ var REP_chk_errorAarray=[];
             var inputValTwo=$('#REP_tb_enddtebyrange').val();
             inputValTwo = inputValTwo.split("-").reverse().join("-");
             var inputValThree=uld_id;
-            var url=document.location.href='COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
         });
-        });
-        $(document).on('click','#clock_missed',function(){
-            $('#REP_lbl_report_entry').html('CLOCK OUT MISSED DETAILS');
+    });
+    $(document).on('click','#clock_missed',function(){
+        $('#REP_lbl_report_entry').html('CLOCK OUT MISSED DETAILS');
 //            $('#inout').html('CLOCK OUT MISSED DETAILS');
-            $('#clockinout').hide();
-            $('#clockmissed').show();
-            $('#REP_tb_strtdtebyrange').val('');
-            $('#REP_tb_enddtebyrange').val('');
-            $('#REP_lbl_daterange').hide();
-            $('#REP_btn_pdf').hide();
-            $('#REP_tablecontainer_bydaterange').hide();
+        $('#clockinout').hide();
+        $('#clockmissed').show();
+        $('#REP_tb_strtdtebyrange').val('');
+        $('#REP_tb_enddtebyrange').val('');
+        $('#REP_lbl_daterange').hide();
+        $('#REP_btn_pdf').hide();
+        $('#REP_tablecontainer_bydaterange').hide();
 
-            var uld_id;
-            var uld_name;
-            var CLK_errorAarray;
-            var errmsg;
-            var pdferrmsg;
-            var msg;
-            $(".ui-datepicker-calendar").hide();
-            $('#CLK_btn_emp_pdf').hide();
-            err();
+        var uld_id;
+        var uld_name;
+        var CLK_errorAarray;
+        var errmsg;
+        var pdferrmsg;
+        var msg;
+        $(".ui-datepicker-calendar").hide();
+        $('#CLK_btn_emp_pdf').hide();
+        err();
 //        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
-            function err(){
-                var xmlhttp=new XMLHttpRequest();
-                xmlhttp.onreadystatechange=function() {
-                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                $('.preloader', window.parent.document).hide()
-                        $(".preloader").hide();
-//                alert(xmlhttp.responseText);
-                        var values_array=JSON.parse(xmlhttp.responseText);
-                        CLK_errorAarray=values_array;
-                    }
-                    else
-                    {
-                        $('#CLK_nodata_rc').text(CLK_errorAarray[2]).show();
-                    }
-                }
-                var option="common";
-                xmlhttp.open("GET","DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.do?option="+option);
-                xmlhttp.send();
-            }
-            var CLK_start_dates='';
-            var CLK_end_dates='';
-//        alert('aaaa');
-//        $('.preloader', window.parent.document).show();
-
-            //DATE PICKER FUNCTION
-            $('.date-pickers').datepicker( {
-                changeMonth: true,      //provide option to select Month
-                changeYear: true,       //provide option to select year
-                showButtonPanel: true,   // button panel having today and done button
-                dateFormat: 'MM-yy',    //set date format
-                //ONCLOSE FUNCTION
-                onClose: function(dateText, inst) {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
-                    $(this).blur();//remove focus input box
-                    $("#CLK_btn_search").attr("disabled");
-                    validationdp()
-                }
-            });
-
-            //FOCUS FUNCTION
-            $(".date-pickers").focus(function () {
-                $(".ui-datepicker-calendar").hide();
-                $("#ui-datepicker-div").position({
-                    my: "center top",
-                    at: "center bottom",
-                    of: $(this)
-                });
-            });
-
-
-            //FUNCTION FOR SETTINF MIN ND MAX DATE
-//        alert('first function');
-            $(".preloader").show();
+        $(".preloader").show();
+        function err(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                alert('success')
-//                $('.preloader', wixmlhttp.responseTextndow.parent.document).hide();
+//                $('.preloader', window.parent.document).hide()
                     $(".preloader").hide();
 //                alert(xmlhttp.responseText);
-                    var date_val=JSON.parse(xmlhttp.responseText);
-                    CLK_start_dates=date_val[0];
-                    CLK_end_dates=date_val[1];
-                    uld_id=date_val[2];
-                    uld_name=date_val[3];
-                    if(CLK_start_dates!=null && CLK_start_dates!=''){
-
-                        $('#CLK_btn_search').show();
-                        $('#CLK_lbl_selectmnths').show();
-                        $('#CLK_db_selectmnths').show();
-                        $('#CLK_nodata_lgnid').hide();
-                        $('#src_lbl_error_login').hide();
-                        $('#no_of_days').hide();
-                        $(".date-pickers").datepicker("option","minDate", new Date(CLK_start_dates));
-                        $(".date-pickers").datepicker("option","maxDate", new Date(CLK_end_dates));
-                    }
-                    else{
-                        $('#CLK_btn_search').hide();
-                        $('#CLK_lbl_selectmnths').hide();
-                        $('#CLK_db_selectmnths').hide();
-                        $('#src_lbl_error_login').text(CLK_errorAarray[2]).addClass('errormsg').removeClass('srctitle').show();
-                    }
-                }
-            }
-            var choice="minmax_dtewth_loginid";
-            xmlhttp.open("GET","DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.do?option="+choice);
-            xmlhttp.send();
-
-
-
-
-            //VALIDATION FOR DATE BX
-            function validationdp(){
-                $('section').html('');
-                $('sections').html('');
-                $('#CLK_div_actvenon_dterange').hide();
-                $('#CLK_nodata_pdflextbles').hide();
-                $('#src_lbl_error').hide();
-                $('#no_of_days').hide();
-                $('#CLK_btn_mnth_pdf').hide();
-                $('#src_lbl_error_login').hide();
-                $('#CLK_btn_emp_pdf').hide();
-                $("#CLK_btn_search").attr("disabled","disabled");
-                if($("#CLK_db_selectmnths").val()=='')
-                {
-                    $("#CLK_btn_search").attr("disabled","disabled");
-                }
-                if(($('#CLK_db_selectmnths').val()!='undefined')&&($('#CLK_db_selectmnths').val()!='')&&($('#CLK_lb_loginid').val()!="SELECT"))
-                {
-                    $("#CLK_btn_search").removeAttr("disabled");
+                    var values_array=JSON.parse(xmlhttp.responseText);
+                    CLK_errorAarray=values_array;
                 }
                 else
                 {
-                    $("#CLK_btn_search").attr("disabled","disabled");
+                    $('#CLK_nodata_rc').text(CLK_errorAarray[2]).show();
                 }
             }
+            var option="common";
+            xmlhttp.open("GET","USER/DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.do?option="+option);
+            xmlhttp.send();
+        }
+        var CLK_start_dates='';
+        var CLK_end_dates='';
+//        alert('aaaa');
+//        $('.preloader', window.parent.document).show();
+
+        //DATE PICKER FUNCTION
+        $('.date-pickers').datepicker( {
+            changeMonth: true,      //provide option to select Month
+            changeYear: true,       //provide option to select year
+            showButtonPanel: true,   // button panel having today and done button
+            dateFormat: 'MM-yy',    //set date format
+            //ONCLOSE FUNCTION
+            onClose: function(dateText, inst) {
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
+                $(this).blur();//remove focus input box
+                $("#CLK_btn_search").attr("disabled");
+                validationdp()
+            }
+        });
+
+        //FOCUS FUNCTION
+        $(".date-pickers").focus(function () {
+            $(".ui-datepicker-calendar").hide();
+            $("#ui-datepicker-div").position({
+                my: "center top",
+                at: "center bottom",
+                of: $(this)
+            });
+        });
+
+
+        //FUNCTION FOR SETTINF MIN ND MAX DATE
+//        alert('first function');
+        $(".preloader").show();
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                alert('success')
+//                $('.preloader', wixmlhttp.responseTextndow.parent.document).hide();
+                $(".preloader").hide();
+//                alert(xmlhttp.responseText);
+                var date_val=JSON.parse(xmlhttp.responseText);
+                CLK_start_dates=date_val[0];
+                CLK_end_dates=date_val[1];
+                uld_id=date_val[2];
+                uld_name=date_val[3];
+                if(CLK_start_dates!=null && CLK_start_dates!=''){
+
+                    $('#CLK_btn_search').show();
+                    $('#CLK_lbl_selectmnths').show();
+                    $('#CLK_db_selectmnths').show();
+                    $('#CLK_nodata_lgnid').hide();
+                    $('#src_lbl_error_login').hide();
+                    $('#no_of_days').hide();
+                    $(".date-pickers").datepicker("option","minDate", new Date(CLK_start_dates));
+                    $(".date-pickers").datepicker("option","maxDate", new Date(CLK_end_dates));
+                }
+                else{
+                    $('#CLK_btn_search').hide();
+                    $('#CLK_lbl_selectmnths').hide();
+                    $('#CLK_db_selectmnths').hide();
+                    $('#src_lbl_error_login').text(CLK_errorAarray[2]).addClass('errormsg').removeClass('srctitle').show();
+                }
+            }
+        }
+        var choice="minmax_dtewth_loginid";
+        xmlhttp.open("GET","USER/DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.do?option="+choice);
+        xmlhttp.send();
+
+
+
+
+        //VALIDATION FOR DATE BX
+        function validationdp(){
+            $('section').html('');
+            $('sections').html('');
+            $('#CLK_div_actvenon_dterange').hide();
+            $('#CLK_nodata_pdflextbles').hide();
+            $('#src_lbl_error').hide();
+            $('#no_of_days').hide();
+            $('#CLK_btn_mnth_pdf').hide();
+            $('#src_lbl_error_login').hide();
+            $('#CLK_btn_emp_pdf').hide();
+            $("#CLK_btn_search").attr("disabled","disabled");
+            if($("#CLK_db_selectmnths").val()=='')
+            {
+                $("#CLK_btn_search").attr("disabled","disabled");
+            }
+            if(($('#CLK_db_selectmnths').val()!='undefined')&&($('#CLK_db_selectmnths').val()!='')&&($('#CLK_lb_loginid').val()!="SELECT"))
+            {
+                $("#CLK_btn_search").removeAttr("disabled");
+            }
+            else
+            {
+                $("#CLK_btn_search").attr("disabled","disabled");
+            }
+        }
 
 
 //    }
 
-            // CLICK EVENT FOR LOGIN ID SEARCH BTN
-            var CLK_actnon_values=[];
-            var errmsg;
-            $(document).on('click','#CLK_btn_search',function(){
-                $('#CLK_nodata_pdflextbles').hide();
-                $('#CLK_div_actvenon_dterange').hide();
-                $('#CLK_tble_lgn').html('');
-                $('#CLK_btn_search').attr("disabled","disabled");
-                var CLK_monthyear=$('#CLK_db_selectmnths').val();
+        // CLICK EVENT FOR LOGIN ID SEARCH BTN
+        var CLK_actnon_values=[];
+        var errmsg;
+        $(document).on('click','#CLK_btn_search',function(){
+            $('#CLK_nodata_pdflextbles').hide();
+            $('#CLK_div_actvenon_dterange').hide();
+            $('#CLK_tble_lgn').html('');
+            $('#CLK_btn_search').attr("disabled","disabled");
+            var CLK_monthyear=$('#CLK_db_selectmnths').val();
 //        alert(CLK_monthyear);
-                var CLK_reportdte;
-                var CLK_loginid=$('#CLK_lb_loginid').val();
+            var CLK_reportdte;
+            var CLK_loginid=$('#CLK_lb_loginid').val();
 //                $('.preloader', window.parent.document).show();
-                $(".preloader").show();
-                var xmlhttp=new XMLHttpRequest();
-                xmlhttp.onreadystatechange=function() {
-                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            $(".preloader").show();
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                        $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                    $(".preloader").hide();
 //                alert(xmlhttp.responseText);
-                        var CLK_actnon_values=JSON.parse(xmlhttp.responseText);
+                    var CLK_actnon_values=JSON.parse(xmlhttp.responseText);
 
-                        if(CLK_actnon_values[0].length!=0)
-                        {
-                            var CLK_reportdate= CLK_actnon_values[0];
-                            var total= CLK_actnon_values[1];
-                            for(var i=0;i<total.length;i++){
-                                CLK_reportdte=total[i].count;
-                            }
+                    if(CLK_actnon_values[0].length!=0)
+                    {
+                        var CLK_reportdate= CLK_actnon_values[0];
+                        var total= CLK_actnon_values[1];
+                        for(var i=0;i<total.length;i++){
+                            CLK_reportdte=total[i].count;
+                        }
 //                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-                            $('#no_of_days').text("TOTAL NO OF DAYS FOR CLOCK OUT MISSED: "  +   CLK_reportdte   +  " DAYS").show();
-                            errmsg=CLK_errorAarray[4].toString().replace("[MONTH]",CLK_monthyear);
-                            var msg=errmsg.toString().replace("BANDWIDTH",'CLOCK OUT MISSED DETAILS');
-                            errmsg=msg.replace("[LOGINID]", uld_name);
-                            $('#src_lbl_error_login').text(errmsg).addClass('srctitle').removeClass('errormsg').show();
-                            $('#CLK_btn_emp_pdf').show();
-                            $('#CLK_div_actvenon_dterange').show();
+                        $('#no_of_days').text("TOTAL NO OF DAYS FOR CLOCK OUT MISSED: "  +   CLK_reportdte   +  " DAYS").show();
+                        errmsg=CLK_errorAarray[4].toString().replace("[MONTH]",CLK_monthyear);
+                        var msg=errmsg.toString().replace("BANDWIDTH",'CLOCK OUT MISSED DETAILS');
+                        errmsg=msg.replace("[LOGINID]", uld_name);
+                        $('#src_lbl_error_login').text(errmsg).addClass('srctitle').removeClass('errormsg').show();
+                        $('#CLK_btn_emp_pdf').show();
+                        $('#CLK_div_actvenon_dterange').show();
 
-                            var CLK_table_header='<table id="CLK_tble_lgn" border="1"  cellspacing="0" class="srcresult" width=300px ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:30px">CLOCK OUT MISSED DATE</th></tr></tfoot><tbody>'
-                            for(var i=0;i<CLK_reportdate.length;i++){
-                                var CLK_dte=CLK_reportdate[i].date;
-                                CLK_table_header+='<tr><td align="center" style="width:30px">'+CLK_dte+'</td></tr>';
-                            }
-                            CLK_table_header+='</tbody></table>';
+                        var CLK_table_header='<table id="CLK_tble_lgn" border="1"  cellspacing="0" class="srcresult" width=300px ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:30px">CLOCK OUT MISSED DATE</th></tr></tfoot><tbody>'
+                        for(var i=0;i<CLK_reportdate.length;i++){
+                            var CLK_dte=CLK_reportdate[i].date;
+                            CLK_table_header+='<tr><td align="center" style="width:30px">'+CLK_dte+'</td></tr>';
+                        }
+                        CLK_table_header+='</tbody></table>';
 
 //                    alert(CLK_table_header)
-                            $('section').html(CLK_table_header);
-                            $('#CLK_tble_lgn').DataTable({
-                            });
+                        $('section').html(CLK_table_header);
+                        $('#CLK_tble_lgn').DataTable({
+                        });
 
-                        }
-                        else
-                        {
-                            var sd=CLK_errorAarray[1].toString().replace("[DATE]",CLK_monthyear);
-                            $('#CLK_nodata_pdflextbles').show();
-                            $('#CLK_nodata_pdflextbles').text(sd);
-                            $('#CLK_div_actvenon_dterange').hide();
-                            $('#CLK_tble_lgn').html('');
-                        }
+                    }
+                    else
+                    {
+                        var sd=CLK_errorAarray[1].toString().replace("[DATE]",CLK_monthyear);
+                        $('#CLK_nodata_pdflextbles').show();
+                        $('#CLK_nodata_pdflextbles').text(sd);
+                        $('#CLK_div_actvenon_dterange').hide();
+                        $('#CLK_tble_lgn').html('');
                     }
                 }
-                var option="CLK_loginid_searchoption";
-                xmlhttp.open("GET","DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.do?option="+option+"&CLK_monthyear="+CLK_monthyear);
-                xmlhttp.send();
-            });
-            //CLICK EVENT FOR PDF BUTTON
-            $(document).on('click','#CLK_btn_mnth_pdf',function(){
-                var inputValOne=$('#CLK_db_selectmnth').val();
-                var url=document.location.href='COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
-            });
-            $(document).on('click','#CLK_btn_emp_pdf',function(){
-                var inputValOne=$("#CLK_db_selectmnths").val();
-                var inputValThree =uld_id;
+            }
+            var option="CLK_loginid_searchoption";
+            xmlhttp.open("GET","USER/DB_DAILY_REPORTS_USER_CLOCK_OUT_MISSED_DETAILS.do?option="+option+"&CLK_monthyear="+CLK_monthyear);
+            xmlhttp.send();
+        });
+        //CLICK EVENT FOR PDF BUTTON
+        $(document).on('click','#CLK_btn_mnth_pdf',function(){
+            var inputValOne=$('#CLK_db_selectmnth').val();
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
+        });
+        $(document).on('click','#CLK_btn_emp_pdf',function(){
+            var inputValOne=$("#CLK_db_selectmnths").val();
+            var inputValThree =uld_id;
 //        alert(errmsg)
-                var url=document.location.href='COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
-            });
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
         });
+    });
 
-        });
+});
 </script>
 </head>
 <body>
@@ -443,47 +443,46 @@ var REP_chk_errorAarray=[];
     <form  id="REP_chk_form_details" class="content" >
         <div class="panel-body">
             <fieldset>
-        <div class="row-fluid form-group ">
-            <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
-                <div class="radio">
-                <input type="radio" name="clock" class="rdclock" id="clock_in_out" value=clockinout>CLOCK IN-OUT DETAILS</label>
+                <div style="padding-bottom: 15px">
+                    <div class="radio">
+                        <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
+                            <input type="radio" name="clock" class="cdclock" id="clock_in_out" value=clockinout>CLOCK IN-OUT DETAILS</label>
+                    </div>
+                    <div class="radio">
+                        <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
 
-        </div></div>
-        <div class="row-fluid  form-group">
-            <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
-                <div class="radio">
-                <input type="radio" name="clock" class="rdclock" id="clock_missed" value="clockmissed">CLOCK-OUT-MISSED DETAILS</label>
+                            <input type="radio" name="clock" class="cdclock" id="clock_missed" value="clockmissed">CLOCK-OUT-MISSED DETAILS</label>
+                    </div>
+                </div>
+<div class="row-fluid form-group">
+    <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
 </div>
+<div id="clockinout" hidden>
+    <div class="form-group">
+        <label name="REP_lbl_strtdtebyrange" class="col-sm-2" id="REP_lbl_strtdtebyrange" >START DATE<em>*</em></label>
+        <div class="col-sm-offset-1">
+            <input type="text" id="REP_tb_strtdtebyrange" name="REP_tb_strtdtebyrange"  class='valid REP_datepicker datemandtry' style="width:75px;"/>
         </div>
-    <div class="row-fluid form-group">
-        <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
     </div>
-        <div id="clockinout" hidden>
-       <div class="form-group">
-                <label name="REP_lbl_strtdtebyrange" class="col-sm-2" id="REP_lbl_strtdtebyrange" >START DATE<em>*</em></label>
-           <div class="col-sm-offset-1">
-                <input type="text" id="REP_tb_strtdtebyrange" name="REP_tb_strtdtebyrange"  class='valid REP_datepicker datemandtry' style="width:75px;"/>
-           </div>
-       </div>
-        <div class="form-group">
-               <label name="REP_lbl_enddte" class="col-sm-2" id="REP_lbl_enddte" >END DATE<em>*</em></label>
-            <div class="col-sm-offset-1">
-               <input type="text" id="REP_tb_enddtebyrange" name="REP_tb_enddtebyrange"  class='valid REP_datepicker datemandtry' style="width:75px;"/>
-            </div>
+    <div class="form-group">
+        <label name="REP_lbl_enddte" class="col-sm-2" id="REP_lbl_enddte" >END DATE<em>*</em></label>
+        <div class="col-sm-offset-1">
+            <input type="text" id="REP_tb_enddtebyrange" name="REP_tb_enddtebyrange"  class='valid REP_datepicker datemandtry' style="width:75px;"/>
         </div>
-        <div class="form-group">
-              <input type="button" id="REP_btn_searchdaterange" name="REP_btn_searchdaterange"  value="SEARCH" class="btn"  disabled />
-        </div>
-        <div class="form-group">
+    </div>
+    <div class="form-group">
+        <input type="button" id="REP_btn_searchdaterange" name="REP_btn_searchdaterange"  value="SEARCH" class="btn"  disabled />
+    </div>
+    <div class="form-group">
         <label id="REP_lbl_daterange" name="REP_lbl_daterange"  class="srctitle" hidden></label>
-        </div>
-        <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
+    </div>
+    <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
 
-        <div id="REP_tablecontainer_bydaterange" style="width:auto" class="table-responsive" hidden>
-            <section style="width:1000px;">
-            </section>
-        </div>
-            </div>
+    <div id="REP_tablecontainer_bydaterange" style="width:auto" class="table-responsive" hidden>
+        <section style="width:1000px;">
+        </section>
+    </div>
+</div>
 <div id="clockmissed" hidden>
     <div class="form-group "><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></div>
     <div class="form-group" >
@@ -513,9 +512,9 @@ var REP_chk_errorAarray=[];
         </section>
     </div>
 </div>
-    </fieldset>
-    </div>
-    </form>
+</fieldset>
+</div>
+</form>
 </div>
 </body>
 </html>

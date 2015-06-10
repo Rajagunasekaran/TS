@@ -17,7 +17,7 @@
 //VER 0.01-INITIAL VERSION, SD:08/08/2014 ED:01/10/2014,TRACKER NO:74
 //*********************************************************************************************************//-->
 <?php
-include "../SSOLIB/HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 //include "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -181,7 +181,7 @@ $(document).ready(function(){
                 }
             }
             var option="user_report_entry";
-            xmlhttp.open("GET","SSOLIB/COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
             xmlhttp.send();
         }
         else if(radiooption=='search_update')
@@ -242,7 +242,7 @@ $(document).ready(function(){
                 }
             }
             var option="user_search_update";
-            xmlhttp.open("GET","SSOLIB/COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
             xmlhttp.send();
         }
         else
@@ -1037,7 +1037,7 @@ $(document).ready(function(){
         $('#USRC_UPD_btn_pdf').hide();
         $('#USRC_UPD_div_tablecontainer').hide();
         $('section').html('');
-//        $(".preloader").show();
+        $(".preloader").show();
         flextable();
 //        $(".preloader").hide();
 
@@ -1065,6 +1065,7 @@ $(document).ready(function(){
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 values_array=JSON.parse(xmlhttp.responseText);
                 if(values_array.length!=0){
+                    $(".preloader").hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                     //HEADER ERR MSG
                     sd=err_msg[11].toString().replace("[LOGINID]",empname);
@@ -1512,12 +1513,14 @@ $(document).ready(function(){
         if(permission!=null)
         {
             $('#USRC_UPD_rd_permission').attr('checked','checked');
-//            $('#USRC_UPD_lb_timing').show();
+            $('#USRC_UPD_lb_timing').show();
             $('#USRC_UPD_lb_timing').val(permission).show();
         }
         else
         {
             $('#USRC_UPD_rd_nopermission').attr('checked','checked');
+            $('#USRC_UPD_lb_timing').show();
+//            $('#USRC_UPD_lb_timing').val(permission).show();
         }
     }
     var err_flag=0;
@@ -2015,7 +2018,7 @@ $(document).ready(function(){
         inputValOne = inputValOne.split("-").reverse().join("-");
         var inputValTwo=$('#USRC_UPD_tb_enddte').val();
         inputValTwo = inputValTwo.split("-").reverse().join("-");
-        var url=document.location.href='SSOLIB/COMMON_PDF.do?flag=18&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+errmsgs;
+        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=18&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+errmsgs;
     });
 
 //    SEARCH UPDATE END

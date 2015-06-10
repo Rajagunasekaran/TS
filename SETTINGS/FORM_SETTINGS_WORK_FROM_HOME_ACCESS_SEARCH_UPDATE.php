@@ -5,7 +5,8 @@
 //VER 0.01-INITIAL VERSION, SD:22/04/2015 ED:27/04/2015,TRACKER NO:79
 //*********************************************************************************************************//
 <?php
-include "HEADER.php";
+//include "TSLIB_HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -54,7 +55,7 @@ $(document).ready(function(){
             }
         }
         var option="common";
-        xmlhttp.open("GET","DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+option);
+        xmlhttp.open("GET","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+option);
         xmlhttp.send();
     }
 
@@ -176,7 +177,7 @@ $(document).ready(function(){
                 }
             }
             var option="check_flag";
-            xmlhttp.open("GET","DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+option+"&loginid="+loginid);
+            xmlhttp.open("GET","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+option+"&loginid="+loginid);
             xmlhttp.send(new FormData(formElement));
         }
     })
@@ -238,7 +239,7 @@ $(document).ready(function(){
             }
         }
         var choice="PROJECT_PROPETIES_SAVE"
-        xmlhttp.open("POST","DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+choice,true);
+        xmlhttp.open("POST","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+choice,true);
         xmlhttp.send(new FormData(formElement));
     });
 
@@ -249,7 +250,7 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
     <div class="title" id="fhead" ><center><p><b><h3>EMPLOYEE WORK FROM HOME ACCESS</h3></b><p></center></div>
     <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" >
         <div class="panel-body">

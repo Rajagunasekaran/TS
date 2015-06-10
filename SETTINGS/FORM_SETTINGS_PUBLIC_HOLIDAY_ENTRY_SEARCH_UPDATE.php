@@ -10,7 +10,8 @@
 //VER 0.01-INITIAL VERSION, SD:02/10/2014 ED:06/10/2014,TRACKER NO:74,Designed Form,Get data from ss nd insert in db part
 //*********************************************************************************************************//
 <?php
-include "HEADER.php";
+//include "TSLIB_HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 //include "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -40,7 +41,7 @@ $(document).ready(function(){
                 }
             }
             var option="PUBLIC_HOLIDAY";
-            xmlhttp.open("GET","COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
             xmlhttp.send();
             //DO VALIDATION START
             $(".autosizealph").doValidation({rule:'alphanumeric',prop:{whitespace:true,autosize:true,uppercase:false}});
@@ -97,7 +98,7 @@ $(document).ready(function(){
                     }
                 }
                 var choice="ph_save"
-                xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_ENTRY.do?option="+choice,true);
+                xmlhttp.open("POST","SETTINGS/DB_PUBLIC_HOLIDAY_ENTRY.do?option="+choice,true);
                 xmlhttp.send(new FormData(formElement));
             });
             //SAVE BUTTON VALIDATION
@@ -173,7 +174,7 @@ $(document).ready(function(){
                 }
             }
             var option="common";
-            xmlhttp.open("GET","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+option);
+            xmlhttp.open("GET","SETTINGS/DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+option);
             xmlhttp.send();
             //FUNCTION FOR FORMTABLEDATEFORMAT
             function FormTableDateFormat(inputdate){
@@ -262,7 +263,7 @@ $(document).ready(function(){
                     }
                     $('#tablecontainer').show();
                     var choice="PUBLIC_HOLIDAY_DETAILS";
-                    xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+choice,true);
+                    xmlhttp.open("POST","SETTINGS/DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+choice,true);
                     xmlhttp.send(new FormData(formElement));
                     sorting();
                 }
@@ -336,7 +337,7 @@ $(document).ready(function(){
                 $(".preloader").show();
                 $.ajax({
                     type: 'POST',
-                    url: 'DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do',
+                    url: 'SETTINGS/DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do',
 //            data:'&rowid='+combineid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
                     data:'&option=PROJECT_DETAILS_UPDATE&EMPSRC_UPD_DEL_rd_flxtbl='+pdid+'&PH_SRC_UPD_tb_des='+babypdesc+'&PH_SRC_UPD_tb_date='+babysdate,
                     success: function(data) {
@@ -464,7 +465,7 @@ $(document).ready(function(){
             }
             $(document).on('click','#PH_SRC_UP_btn_pdf',function(){
                 var inputValOne=$('#PH_SRC_UPD_lb_yr').val();
-                var url=document.location.href='COMMON_PDF.do?flag=16&inputValOne='+inputValOne+'&title='+pdfmsg;
+                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=16&inputValOne='+inputValOne+'&title='+pdfmsg;
             });
             //FUNCTION FOR SORTING
             function sorting(){
@@ -529,7 +530,7 @@ $(document).ready(function(){
 //                        }
 //                    }
 //                    var OPTION="update1";
-//                    xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.php?option="+OPTION+"&descriptionvalue="+descriptionvalue+"&id="+combineid,true);
+//                    xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+OPTION+"&descriptionvalue="+descriptionvalue+"&id="+combineid,true);
 //                    xmlhttp.send();
 //                }
 //            });
@@ -539,7 +540,13 @@ $(document).ready(function(){
     //RESET CLICK FUNCTION
             $(document).on('click','#PH_ENTRY_btn_reset',function(){
                // $(".preloader").show();
-                 PH_ENTRY_holiday_rset();
+            //    alert('rest')
+                $("#PH_entry_form")[0].reset();
+                $("#PH_ENTRY_btn_save").attr("disabled", "disabled");
+                $('.sizefix').prop("size","20");
+                $('#PH_ENTRY_lbl_valid').hide();
+                $('#PH_ENTRY_lbl_valid1').hide();
+                $('#PH_ENTRY_lbl_already').hide();
             });
 });
 <!--SCRIPT TAG END-->
@@ -547,7 +554,7 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
         <div class="title" id="fhead"><center><b><h3 id="heading">PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h3></b></center></div>
         <form  name="PH_entry_form" id="PH_entry_form" class="content">
             <div class="panel-body">

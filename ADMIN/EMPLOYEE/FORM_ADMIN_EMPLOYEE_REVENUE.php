@@ -14,7 +14,7 @@
 //VER 0.01-INITIAL VERSION, SD:08/10/2014 ED:15/10/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-include "HEADER.php";
+include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -80,7 +80,7 @@ $(document).ready(function(){
         }
     }
     var option="common";
-    xmlhttp.open("GET","DB_REPORT_REVENUE.do?option="+option);
+    xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option);
     xmlhttp.send(new FormData(formElement));
 //FUNCTION FOR FORMTABLEDATEFORMAT
     function FormTableDateFormat(inputdate){
@@ -182,7 +182,7 @@ $(document).ready(function(){
             }
         }
         var option="SPECICIFIED_PROJECT_NAME";
-        xmlhttp.open("GET","DB_REPORT_REVENUE.do?option="+option+"&login_id="+login_id);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&login_id="+login_id);
         xmlhttp.send();
     });
 // CHANGE EVENT FOR PROJECT LISTBOX
@@ -656,7 +656,7 @@ $(document).ready(function(){
                     }
                 }}
             var choice="EMPLOYEEPERIOD";
-            xmlhttp.open("POST","DB_REPORT_REVENUE.do?option="+choice+"&selectoption="+$('#REV_lb_loginid').val());
+            xmlhttp.open("POST","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+choice+"&selectoption="+$('#REV_lb_loginid').val());
             xmlhttp.send(new FormData(formElement));
             //END DATE PICKER FUNCTION
         }
@@ -734,7 +734,7 @@ $(document).ready(function(){
                 }
             }
             var choice="PROJECTRECVERSION";
-            xmlhttp.open("POST","DB_REPORT_REVENUE.do?option="+choice+"&selectoption="+option);
+            xmlhttp.open("POST","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+choice+"&selectoption="+option);
             xmlhttp.send(new FormData(formElement));
         }
     });
@@ -874,7 +874,7 @@ $(document).ready(function(){
                     }
                 }
                 var choice="set_datemin_max";
-                xmlhttp.open("GET","DB_REPORT_REVENUE.do?REV_project_name="+REV_project_name+"&option="+choice+"&project_recver="+project_recver,true);
+                xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?REV_project_name="+REV_project_name+"&option="+choice+"&project_recver="+project_recver,true);
                 xmlhttp.send(new FormData(formElement));
                 //SET END DATE
                 $(document).on('change','#REV_tb_strtdtebyrange',function(){
@@ -1002,7 +1002,7 @@ $(document).ready(function(){
             }
         }
         var choice="PROJECTRECVERSION";
-        xmlhttp.open("POST","DB_REPORT_REVENUE.do?option="+choice);
+        xmlhttp.open("POST","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+choice);
         xmlhttp.send(new FormData(formElement));
     });
     //FUNCTION FOR SET MIN ND MAX DATE FOR NON ACTIVE BY DATE RANGE
@@ -1035,7 +1035,7 @@ $(document).ready(function(){
             }
         }
         var choice="login_id";
-        xmlhttp.open("GET","DB_REPORT_REVENUE.do?REV_loginids="+REV_loginids+"&option="+choice+"&project_recverss="+project_recverss+"&project_namess="+project_namess,true);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?REV_loginids="+REV_loginids+"&option="+choice+"&project_recverss="+project_recverss+"&project_namess="+project_namess,true);
         xmlhttp.send(new FormData(formElement));
         //SET END DATE
         $(document).on('change','#REV_tb_strtdte',function(){
@@ -1174,7 +1174,7 @@ $(document).ready(function(){
         }
         $('#REV_div_projecttotal').show();
         var option="projectname";
-        xmlhttp.open("GET","DB_REPORT_REVENUE.do?option="+option+"&REV_projectname="+REV_projectname+"&project_recver="+project_recver);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&REV_projectname="+REV_projectname+"&project_recver="+project_recver);
         xmlhttp.send();
     });
 // CLICK EVENT FOR LOGINID SEARCH BUTTON
@@ -1286,7 +1286,7 @@ $(document).ready(function(){
         }
         $('#REV_div_loginid').show();
         var option="nonactiveempdatatble";
-        xmlhttp.open("GET","DB_REPORT_REVENUE.do?option="+option+"&REV_loginid="+REV_loginid+"&REV_prjctname="+REV_prjctname+"&REV_withproject="+seacrhby_prjct+"&project_recver="+project_recver);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&REV_loginid="+REV_loginid+"&REV_prjctname="+REV_prjctname+"&REV_withproject="+seacrhby_prjct+"&project_recver="+project_recver);
         xmlhttp.send(formElement);
         sorting();
     });
@@ -1412,7 +1412,7 @@ $(document).ready(function(){
         }
         $('#REV_div_nonactve_dterange').show();
         var option="non_activeemp_dterange";
-        xmlhttp.open("GET","DB_REPORT_REVENUE.do?option="+option+"&REV_loginid="+REV_loginid+"&REV_start_datevalue="+REV_start_datevalue+"&REV_end_datevalue="+REV_end_datevalue+"&REV_prjctname="+REV_prjctname+"&REV_withproject="+seacrhby_prjct+"&rec_ver="+rec_ver);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&REV_loginid="+REV_loginid+"&REV_start_datevalue="+REV_start_datevalue+"&REV_end_datevalue="+REV_end_datevalue+"&REV_prjctname="+REV_prjctname+"&REV_withproject="+seacrhby_prjct+"&rec_ver="+rec_ver);
         xmlhttp.send();
         sorting();
     });
@@ -1484,7 +1484,7 @@ $(document).ready(function(){
         }
         $('#REV_div_projecttotal_dtebyrange').show();
         var option="projectname_dtebyrange";
-        xmlhttp.open("GET","DB_REPORT_REVENUE.do?option="+option+"&REV_projectname="+REV_projectname+"&REV_start_datevalue="+REV_start_datevalue+"&REV_end_datevalue="+REV_end_datevalue+"&REV_project_recver="+REV_project_recversion);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&REV_projectname="+REV_projectname+"&REV_start_datevalue="+REV_start_datevalue+"&REV_end_datevalue="+REV_end_datevalue+"&REV_project_recver="+REV_project_recversion);
         xmlhttp.send();
     });
     //FUNCTION FOR SORTING
@@ -1505,7 +1505,7 @@ $(document).ready(function(){
     $(document).on('click','#REV_btn_pdf',function(){
         var inputValOne=$("#REV_lb_projectname").val();
         var inputValTwo=$('#REV_lb_precver').val();
-        var url=document.location.href='COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
+        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
     });
     $(document).on('click','#REV_btn_emp_pdf',function(){
         if($("input[id=REV_rd_withproject]:checked").val()=="project"){
@@ -1517,10 +1517,10 @@ $(document).ready(function(){
             var inputValFive=$('#REV_tb_enddte').val();
             inputValFive = inputValFive.split("-").reverse().join("-");
             if($('#REV_lb_project').val()==8){
-                var url=document.location.href='COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
+                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
             }
             else if($('#REV_lb_project').val()==9){
-                var url=document.location.href='COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
             }
         }
     });
@@ -1532,10 +1532,10 @@ $(document).ready(function(){
             var inputValFive=$('#REV_tb_enddte').val();
             inputValFive = inputValFive.split("-").reverse().join("-");
             if($('#REV_lb_project').val()==8){
-                var url=document.location.href='COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
+                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
             }
             else if($('#REV_lb_project').val()==9){
-                var url=document.location.href='COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
             }
         }
     });
@@ -1546,7 +1546,7 @@ $(document).ready(function(){
         inputValThree = inputValThree.split("-").reverse().join("-");
         var inputValFour=$('#REV_tb_enddtebyrange').val();
         inputValFour = inputValFour.split("-").reverse().join("-");
-        var url=document.location.href='COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
+        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
     });
 });
 //DOCUMENT READY FUNCTION END
@@ -1625,7 +1625,7 @@ $(document).ready(function(){
 
         <div id="REV_tble_prjctrevactnonact" hidden></div>
         <div class="row-fluid form-group">
-            <label name="REV_lbl_actveemp" class="form-inline col-sm-2" id="REV_lbl_actveemp" hidden>
+            <label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden>
                 <div class="radio">
             <input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>&nbsp;ACTIVE EMPLOYEE</label>
 </div>
@@ -1637,7 +1637,7 @@ $(document).ready(function(){
 
         </div></div>
         <div class="row-fluid form-group">
-            <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-2 srctitle" hidden>ACTIVE EMPLOYEE</label>
+            <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-3 srctitle" hidden>ACTIVE EMPLOYEE</label>
         </div>
         <div class="row-fluid form-group">
             <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-2" hidden>NON ACTIVE EMPLOYEE </label>

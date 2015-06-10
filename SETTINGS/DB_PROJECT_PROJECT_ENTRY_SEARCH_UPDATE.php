@@ -10,9 +10,9 @@
 //VER 0.01-INITIAL VERSION, SD:20/09/2014 ED:13/10/2014,TRACKER NO:74 DONE BY:SHALINI
 //*********************************************************************************************************//-->
 error_reporting(0);
-include "CONNECTION.php";
-include 'GET_USERSTAMP.php';
-include "COMMON.php";
+include "../TSLIB/TSLIB_CONNECTION.php";
+include '../TSLIB/TSLIB_GET_USERSTAMP.php';
+include "../TSLIB/TSLIB_COMMON.php";
 $USERSTAMP=$UserStamp;
 if(isset($_REQUEST))
 {

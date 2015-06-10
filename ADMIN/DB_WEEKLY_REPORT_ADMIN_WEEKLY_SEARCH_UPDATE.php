@@ -12,8 +12,8 @@
 //VER 0.01-INITIAL VERSION, SD:20/10/2014 ED:28/10/2014,TRACKER NO:86
 //*********************************************************************************************************//-->
 error_reporting(0);
-include "../SSOLIB/CONNECTION.php";
-include "../SSOLIB/GET_USERSTAMP.php";
+include "../TSLIB/TSLIB_CONNECTION.php";
+include "../TSLIB/TSLIB_GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;
 if(isset($_REQUEST['option']) && $_REQUEST['option']!=''){
     $actionfunction = $_REQUEST['option'];

@@ -5,7 +5,7 @@
 //INITIAL VERSION
 //************************************************************************************************************-->
 <?php
-include "HEADER.php";
+include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--HTML TAG START-->
@@ -141,7 +141,7 @@ include "HEADER.php";
                 }
             }
             $('#tablecontainer').show();
-            xmlhttp.open("POST","DB_EMPLOYEE_DETAILS.do",true);
+            xmlhttp.open("POST","ADMIN/EMPLOYEE/DB_EMPLOYEE_DETAILS.do",true);
             xmlhttp.send();
         }
 
@@ -169,7 +169,7 @@ include "HEADER.php";
         };
 
         $(document).on('click','#ED_btn_pdf',function(){
-            var url=document.location.href='COMMON_PDF.do?flag=25&title='+title;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=25&title='+title;
         });
     });
     //DOCUMENT READY FUNCTION END

@@ -8,9 +8,9 @@
 //*********************************************************************************************************//
 error_reporting(0);
 if(isset($_REQUEST)){
-    include "CONNECTION.php";
-    include "COMMON.php";
-    include "GET_USERSTAMP.php";
+    include "../TSLIB/TSLIB_CONNECTION.php";
+    include "../TSLIB/TSLIB_COMMON.php";
+    include "../TSLIB/TSLIB_GET_USERSTAMP.php";
     $USERSTAMP=$UserStamp;
     global $con;
     $project_result=mysqli_query($con,"SELECT AC_ID,AC_DATA FROM ATTENDANCE_CONFIGURATION WHERE AC_ID=15 ");

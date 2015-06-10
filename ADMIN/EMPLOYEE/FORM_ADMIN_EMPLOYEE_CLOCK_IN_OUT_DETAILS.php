@@ -5,7 +5,7 @@
 //VER 0.01-INITIAL VERSION, SD:03/01/2015 ED:05/01/2015,TRACKER NO:74
 //*********************************************************************************************************//
 <?php
-include "HEADER.php";
+include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
@@ -39,8 +39,6 @@ $(document).ready(function(){
         $('#CLK_lbl_selectmnths').hide();
         $('#CLK_db_selectmnths').hide();
         $('#CLK_div_monthyr').hide();
-        $('#CLK_lbl_selectmnth').hide();
-        $('#CLK_db_selectmnth').hide();
         $('#CLK_div_actvenon_dterange').hide();
         $('#CLK_div_monthyr').hide();
         $('#CLK_lbl_actveemps').hide();
@@ -93,7 +91,7 @@ $(document).ready(function(){
             }
         }
         var option="common";
-        xmlhttp.open("GET","DB_REPORT_CLOCK_IN_OUT_DETAILS.do?option="+option);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_IN_OUT_DETAILS.do?option="+option);
         xmlhttp.send();
         //FUNCTION FOR FORMTABLEDATEFORMAT
         function FormTableDateFormat(inputdate){
@@ -222,7 +220,7 @@ $(document).ready(function(){
                 }
             }
             var choice="datemin_max";
-            xmlhttp.open("GET","DB_REPORT_CLOCK_IN_OUT_DETAILS.do?REV_project_name="+REV_project_name+"&option="+choice,true);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_IN_OUT_DETAILS.do?REV_project_name="+REV_project_name+"&option="+choice,true);
             xmlhttp.send(new FormData(formElement));
         });
         //VALIDATION FOR START ND END DATE
@@ -422,7 +420,7 @@ $(document).ready(function(){
                     }
                 }
                 var choice="set_datemin_max";
-                xmlhttp.open("GET","DB_REPORT_CLOCK_IN_OUT_DETAILS.do?REP_chk_loginid="+REP_chk_loginid+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_IN_OUT_DETAILS.do?REP_chk_loginid="+REP_chk_loginid+"&option="+choice,true);
                 xmlhttp.send(new FormData(formElement));
 
                 //SET END DATE
@@ -533,7 +531,7 @@ $(document).ready(function(){
             }
             $('#REP_tablecontainer').show();
             var option="ALL_ACTIVE_RANGE";
-            xmlhttp.open("GET","DB_REPORT_CLOCK_IN_OUT_DETAILS.do?option="+option+"&date="+date+"&loginid="+loginid);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_IN_OUT_DETAILS.do?option="+option+"&date="+date+"&loginid="+loginid);
             xmlhttp.send();
         });
         var allvalues_array;
@@ -615,7 +613,7 @@ $(document).ready(function(){
             }
             $('#REP_tablecontainer_bydaterange').show();
             var option="BETWEEN_RANGE";
-            xmlhttp.open("GET","DB_REPORT_CLOCK_IN_OUT_DETAILS.do?option="+option+"&startdate="+startdate+"&enddate="+enddate+"&loginid="+loginid);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_IN_OUT_DETAILS.do?option="+option+"&startdate="+startdate+"&enddate="+enddate+"&loginid="+loginid);
             xmlhttp.send();
             sorting();
         });
@@ -626,13 +624,13 @@ $(document).ready(function(){
             var inputValTwo=$('#REP_tb_enddtebyrange').val();
             inputValTwo = inputValTwo.split("-").reverse().join("-");
             var inputValThree=$('#REP_lb_loginid').val();
-            var url=document.location.href='COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
         });
         //CLICK FUNCTION FOR PDF BUTTON
         $(document).on('click','#REP_btn_pdfs',function(){
             var inputValFour=$('#REP_tb_date').val();
             inputValFour = inputValFour.split("-").reverse().join("-");
-            var url=document.location.href='COMMON_PDF.do?flag=23&inputValFour='+inputValFour+'&title='+REP_allactve_msg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=23&inputValFour='+inputValFour+'&title='+REP_allactve_msg;
         });
         //FUNCTION FOR SORTING
         function sorting(){
@@ -754,7 +752,7 @@ $(document).ready(function(){
             }
         }
         var option="common";
-        xmlhttp.open("GET","DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+option);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+option);
         xmlhttp.send();
         //CHANGE FUNCTION FOR BANDWIDTH LISTBX
         $(document).on('change','#CLK_lb_reportconfig',function(){
@@ -770,8 +768,6 @@ $(document).ready(function(){
             $('#CLK_div_actvenon_dterange').hide();
             $('#CLK_div_monthyr').hide();
             $('#CLK_lbl_actveemps').hide();
-//            $('#CLK_lbl_selectmnth').hide();
-//            $('#CLK_db_selectmnth').hide();
             $('#CLK_lbl_nonactveemps').hide();
             $('#CLK_nodata_pdflextble').hide();
             $('#CLK_nodata_pdflextbles').hide();
@@ -871,7 +867,7 @@ $(document).ready(function(){
                     $('#CLK_tble_prjctCLKactnonact').hide();
                 }
                 var choice="minmax_dtewth_monthyr";
-                xmlhttp.open("GET","DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+choice,true);
+                xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+choice,true);
                 xmlhttp.send(new FormData(formElement));
             }
             //BANDWIDTH BY EMPLOYEE
@@ -1075,11 +1071,10 @@ $(document).ready(function(){
 
                 }
                 var choice="minmax_dtewth_loginid";
-                xmlhttp.open("GET","DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?CLK_loginid="+CLK_loginid+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?CLK_loginid="+CLK_loginid+"&option="+choice,true);
                 xmlhttp.send(new FormData(formElement));
             }
         });
-
         // CLICK EVENT FOR LOGIN ID SEARCH BTN
         var CLK_actnon_values=[];
         $(document).on('click','#CLK_btn_search',function(){
@@ -1139,7 +1134,7 @@ $(document).ready(function(){
                 }
             }
             var option="CLK_loginid_searchoption";
-            xmlhttp.open("GET","DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+option+"&CLK_loginid="+CLK_loginid+"&CLK_monthyear="+CLK_monthyear);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+option+"&CLK_loginid="+CLK_loginid+"&CLK_monthyear="+CLK_monthyear);
             xmlhttp.send();
         });
         // CLICK EVENT FOR MONTH ND YEAR SEARCH BTN
@@ -1194,18 +1189,18 @@ $(document).ready(function(){
                 }
             }
             var option="CLK_monthyear_searchoption";
-            xmlhttp.open("GET","DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+option+"&CLK_db_selectmnth="+CLK_monthyear);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_CLOCK_OUT_MISSED_DETAILS.do?option="+option+"&CLK_db_selectmnth="+CLK_monthyear);
             xmlhttp.send();
         });
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#CLK_btn_mnth_pdf',function(){
             var inputValOne=$('#CLK_db_selectmnth').val();
-            var url=document.location.href='COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
         });
         $(document).on('click','#CLK_btn_emp_pdf',function(){
             var inputValOne=$("#CLK_db_selectmnths").val();
             var inputValThree =$('#CLK_lb_loginid').val();
-            var url=document.location.href='COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
         });
 
     });
@@ -1386,7 +1381,7 @@ $(document).ready(function(){
 <div class="row-fluid form-group">
     <label class="col-sm-2" name="CLK_lbl_loginid" id="CLK_lbl_loginid"  hidden>EMPLOYEE NAME<em>*</em></label>
     <div class="col-sm-4">
-        <select name="CLK_lb_loginid" id="CLK_lb_loginid" class="form-control" style="display:none" hidden>
+        <select name="CLK_lb_loginid" id="CLK_lb_loginid" hidden>
         </select>
     </div>
 </div>

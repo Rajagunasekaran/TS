@@ -12,7 +12,7 @@
 //VER 0.01-INITIAL VERSION, SD:06/10/2014 ED:08/10/2014,TRACKER NO:96
 //*********************************************************************************************************//-->
 <?php
-include "HEADER.php";
+include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <script>
@@ -35,7 +35,7 @@ include "HEADER.php";
             }
         }
         var option="active_emp";
-        xmlhttp.open("GET","DB_REPORT_TICKLER_HISTORY.do?option="+option);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_TICKLER_HISTORY.do?option="+option);
         xmlhttp.send();
 //FUNCTION TO HIGHLIGHT SEARCH TEXT
         function TH_view_highlightSearchText() {
@@ -190,7 +190,7 @@ include "HEADER.php";
             }
             $('#TH_div_flexdata_result').show();
             var option='search';
-            xmlhttp.open("GET","DB_REPORT_TICKLER_HISTORY.do?option="+option+"&empid="+emp_id,true);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_TICKLER_HISTORY.do?option="+option+"&empid="+emp_id,true);
             xmlhttp.send();
             sorting();
         }
@@ -209,7 +209,7 @@ include "HEADER.php";
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#TH_btn_pdf',function(){
             var inputValOne=$('#TH_tb_empid').val();
-            var url=document.location.href='COMMON_PDF.do?flag=3&inputValOne='+inputValOne+'&title='+$('#TH_lbl_heading').text();
+            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=3&inputValOne='+inputValOne+'&title='+$('#TH_lbl_heading').text();
 
         });
     });

@@ -1,8 +1,8 @@
 <?php
 error_reporting(0);
-include "SSOLIB/CONNECTION.php";
-include "SSOLIB/GET_USERSTAMP.php";
-include "SSOLIB/COMMON.php";
+include "../TSLIB/TSLIB_CONNECTION.php";
+include "../TSLIB/TSLIB_GET_USERSTAMP.php";
+include "../TSLIB/TSLIB_COMMON.php";
 date_default_timezone_set('Asia/Kolkata');
 $USERSTAMP=$UserStamp;
 if($_REQUEST["option"]=="login_id"){

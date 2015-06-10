@@ -9,8 +9,8 @@
 //VER 0.01-INITIAL VERSION, SD:02/10/2014 ED:06/10/2014,TRACKER NO:74,Designed Form,Get data from ss nd insert in db part
 //*********************************************************************************************************//
 error_reporting(0);
-include 'CONNECTION.php';
-include "GET_USERSTAMP.php";
+include '../TSLIB/TSLIB_CONNECTION.php';
+include "../TSLIB/TSLIB_GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;
 //SAVE PART FOR PUBLIC HOLIDAY
 if($_REQUEST['option']=="ph_save"){

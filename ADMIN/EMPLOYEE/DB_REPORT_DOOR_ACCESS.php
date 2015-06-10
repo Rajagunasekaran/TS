@@ -12,7 +12,7 @@
 //VER 0.01-INITIAL VERSION,SD:04/11/2014 ED:04/11/2014,TRACKER NO:97
 //*********************************************************************************************************//
 error_reporting(0);
-include "CONNECTION.php";
+include "../../TSLIB/TSLIB_CONNECTION.php";
 //GETTING ERR MSG
 $errormessages=array();
 $errormsg=mysqli_query($con,"SELECT DISTINCT EMC_DATA FROM ERROR_MESSAGE_CONFIGURATION WHERE EMC_ID IN (15,102)");

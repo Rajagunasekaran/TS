@@ -1,6 +1,6 @@
 <?php
 
-include "CONNECTION.php";
+include "../../TSLIB/TSLIB_CONNECTION.php";
 
 //GETTING ERR MSG
 $errormessages=array();

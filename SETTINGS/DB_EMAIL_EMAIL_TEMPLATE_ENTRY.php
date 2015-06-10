@@ -6,9 +6,9 @@
 //*********************************************************************************************************//
 error_reporting(0);
 if(isset($_REQUEST)){
-    include "../SSOLIB/CONNECTION.php";
-    include "../SSOLIB/COMMON.php";
-    include "../SSOLIB/GET_USERSTAMP.php";
+    include "../TSLIB/TSLIB_CONNECTION.php";
+    include "../TSLIB/TSLIB_COMMON.php";
+    include "../TSLIB/TSLIB_GET_USERSTAMP.php";
     $USERSTAMP=$UserStamp;
     global $con;
     //FUNCTION FOR ALREADY EXIST FOR SCRIPT NAME

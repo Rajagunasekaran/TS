@@ -11,8 +11,8 @@
 <?php
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
-include "COMMON_FUNCTIONS.php";
-include "CONNECTION.php";
+include "TSLIB_COMMON_FUNCTIONS.php";
+include "TSLIB_CONNECTION.php";
 date_default_timezone_set('Asia/Kolkata');
 $get_active_user=array();
 $get_active_user=get_active_login_id();//GET ALL ACTIVE LOGIN ID

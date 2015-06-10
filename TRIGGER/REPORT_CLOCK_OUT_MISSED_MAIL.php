@@ -7,8 +7,8 @@
 <?php
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
-include "COMMON_FUNCTIONS.php";
-include "CONNECTION.php";
+include "TSLIB_COMMON_FUNCTIONS.php";
+include "TSLIB_CONNECTION.php";
 $currentdate=date("Y-m-d");//CURRENT DATE
 //$currentdate=date("Y-m-d",strtotime("-1 days"));//yesterday DATE
 $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";

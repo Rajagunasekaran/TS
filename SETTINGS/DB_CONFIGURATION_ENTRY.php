@@ -6,9 +6,9 @@
  * Time: 9:38 AM
  */
 if(isset($_REQUEST)){
-    include "../SSOLIB/CONNECTION.php";
-    include "../SSOLIB/COMMON.php";
-    include "../SSOLIB/GET_USERSTAMP.php";
+    include "../TSLIB/TSLIB_CONNECTION.php";
+    include "../TSLIB/TSLIB_COMMON.php";
+    include "../TSLIB/TSLIB_GET_USERSTAMP.php";
     $USERSTAMP=$UserStamp;
     global $con;
     $query="select ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID ='".$USERSTAMP."'";

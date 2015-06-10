@@ -11,7 +11,7 @@
 //VER 0.01-INITIAL VERSION, SD:23/10/2014 ED:25/10/2014,TRACKER NO:97
 //************************************************************************************************************-->
 <?php
-include "HEADER.php";
+include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
@@ -63,7 +63,7 @@ $(document).ready(function(){
         }
     }
     var option="common";
-    xmlhttp.open("GET","DB_REPORT_BANDWIDTH.do?option="+option);
+    xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_BANDWIDTH.do?option="+option);
     xmlhttp.send();
     //CHANGE FUNCTION FOR BANDWIDTH LISTBX
     $(document).on('change','#REP_BND_lb_reportconfig',function(){
@@ -173,7 +173,7 @@ $(document).ready(function(){
                 $('#REP_BND_tble_prjctrevactnonact').hide();
             }
             var choice="minmax_dtewth_monthyr";
-            xmlhttp.open("GET","DB_REPORT_BANDWIDTH.do?option="+choice,true);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_BANDWIDTH.do?option="+choice,true);
             xmlhttp.send(new FormData(formElement));
         }
         //BANDWIDTH BY EMPLOYEE
@@ -368,7 +368,7 @@ $(document).ready(function(){
 
             }
             var choice="minmax_dtewth_loginid";
-            xmlhttp.open("GET","DB_REPORT_BANDWIDTH.do?REP_BND_loginid="+REP_BND_loginid+"&option="+choice,true);
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_BANDWIDTH.do?REP_BND_loginid="+REP_BND_loginid+"&option="+choice,true);
             xmlhttp.send(new FormData(formElement));
         }
     });
@@ -459,7 +459,7 @@ $(document).ready(function(){
         }
         $('#REP_BND_div_actvenon_dterange').show();
         var option="REP_BND_loginid_searchoption";
-        xmlhttp.open("GET","DB_REPORT_BANDWIDTH.do?option="+option+"&REP_BND_loginid="+REP_BND_loginid+"&REP_BND_monthyear="+REP_BND_monthyear);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_BANDWIDTH.do?option="+option+"&REP_BND_loginid="+REP_BND_loginid+"&REP_BND_monthyear="+REP_BND_monthyear);
         xmlhttp.send();
     });
     // CLICK EVENT FOR MONTH ND YEAR SEARCH BTN
@@ -544,18 +544,18 @@ $(document).ready(function(){
         }
         $('#REP_BND_div_monthyr').show();
         var option="REP_BND_monthyear_searchoption";
-        xmlhttp.open("GET","DB_REPORT_BANDWIDTH.do?option="+option+"&REP_BND_db_selectmnth="+REP_BND_monthyear);
+        xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_BANDWIDTH.do?option="+option+"&REP_BND_db_selectmnth="+REP_BND_monthyear);
         xmlhttp.send();
     });
     //CLICK EVENT FOR PDF BUTTON
     $(document).on('click','#REP_BND_btn_mnth_pdf',function(){
         var inputValOne=$("#REP_BND_db_selectmnth").val();
-        var url=document.location.href='COMMON_PDF.do?flag=14&inputValOne='+inputValOne+'&title='+errmsg;
+        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=14&inputValOne='+inputValOne+'&title='+errmsg;
     });
     $(document).on('click','#REP_BND_btn_emp_pdf',function(){
         var inputValOne=$("#REP_BND_db_selectmnths").val();
         var inputValTwo=$('#REP_BND_lb_loginid').val();
-        var url=document.location.href='COMMON_PDF.do?flag=15&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=15&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
     });
 });
 <!--SCRIPT TAG END-->

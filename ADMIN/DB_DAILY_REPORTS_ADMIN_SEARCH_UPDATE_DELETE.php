@@ -1,12 +1,12 @@
 <?php
-//require_once 'google/appengine/api/mail/Message.php';
-//use google\appengine\api\mail\Message;
+require_once 'google/appengine/api/mail/Message.php';
+use google\appengine\api\mail\Message;
 error_reporting(0);
 if(isset($_REQUEST)){
 
-    include "../SSOLIB/CONNECTION.php";
-    include "../SSOLIB/GET_USERSTAMP.php";
-    include "COMMON.php";
+    include "../TSLIB/TSLIB_CONNECTION.php";
+    include "../TSLIB/TSLIB_GET_USERSTAMP.php";
+    include "../TSLIB/TSLIB_COMMON.php";
     date_default_timezone_set('Asia/Kolkata');
     $USERSTAMP=$UserStamp;
     if($_REQUEST["option"]=="login_id"){

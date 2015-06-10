@@ -6,9 +6,9 @@
 //*********************************************************************************************************//
 error_reporting(0);
 if(isset($_REQUEST)){
-    include "CONNECTION.php";
-    include "COMMON.php";
-    include "GET_USERSTAMP.php";
+    include "TSLIB_CONNECTION.php";
+    include "TSLIB_COMMON.php";
+    include "TSLIB_GET_USERSTAMP.php";
     $USERSTAMP=$UserStamp;
     global $con;
 //FETCHING DATAS LOADED FRM DB FOR INITIAL LISTBX
