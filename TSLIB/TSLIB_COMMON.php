@@ -1,5 +1,6 @@
 <!--//BY PUNI
-changed UploadEmployeeFiles function to match exact folder id of employee for duplicate folder name issue #21-->
+fixed issue #21,changed UploadEmployeeFiles function to match exact folder id of employee for duplicate folder name /wrong folder id
+-->
 
 <?php
 error_reporting(1);
@@ -428,7 +429,6 @@ function trashFile($folderid,$user_filelist) {
 
     return $final_empfilelist1;
 }
-
 //FUNCTION TO GET EMPLOYEE DRIVE FOLDER ID N UPLOADED FILE LIST IN DRIVE
 function UploadEmployeeFiles($formname,$loginid_result)
 {
