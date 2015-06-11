@@ -1,7 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER REPORT ENTRY **************************************//
-//DONE BY:LALITHA
-//VER 0.07-SD:09/06/2015 ED:09/06/2015, DESC:appending update form datas,removed bolde option fr permission listbx,folderwise form changed in coding
+//DONE BY:JAYAPRIYA
+//VER 0.08-SD:11/06/2015 ED:11/06/2015, CHANGE THE FORM TO BE RESPONSIVE
 //DONE BY:RAJA
 //VER 0.07-SD:10/01/2015 ED:10/01/2015, TRACKER NO:74,DESC:CHANGED PRELOADER POSITION IMPLEMENTED AUTOFOCUS
 //DONE BY:RAJA
@@ -181,7 +181,7 @@ $(document).ready(function(){
                 }
             }
             var option="user_report_entry";
-            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+option);
             xmlhttp.send();
         }
         else if(radiooption=='search_update')
@@ -242,7 +242,7 @@ $(document).ready(function(){
                 }
             }
             var option="user_search_update";
-            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+option);
             xmlhttp.send();
         }
         else
@@ -327,7 +327,8 @@ $(document).ready(function(){
 
     // FUNCTION FOR REASON
     function URE_tble_reason(){
-        $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-sm-4"><textarea  name="URE_ta_reason" id="URE_ta_reason" ></textarea></div></div>').appendTo($("#URE_tble_reasonlbltxtarea"));
+        //   alert('inside')
+        $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-sm-4"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="form-control "></textarea></div></div>').appendTo($("#URE_tble_reasonlbltxtarea"));
     }
     // FUNCTION FOR MULTIPLE DAY REASON
     function URE_mulreason(){
@@ -346,7 +347,9 @@ $(document).ready(function(){
     $(document).on('change blur','#URE_form_dailyuserentry',function(){
         if($("input[name=entry]:checked").val()=="SINGLE DAY ENTRY"){
             var URE_sessionlstbx= $("#URE_lb_ampm").val();
+            //   alert(URE_sessionlstbx)
             var URE_tble_reasontxtarea =$("#URE_ta_reason").val();
+            //    alert(URE_tble_reasontxtarea)
             var URE_reportenter =$("#URE_ta_report").val();
             var URE_bndtxt = $("#URE_tb_band").val();
             var URE_projectselectlistbx = $("input[id=checkbox]").is(":checked");
@@ -861,7 +864,9 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $(".preloader").hide();
+            //    alert(xmlhttp.responseText)
                 msg_alert=xmlhttp.responseText;
+            //    alert(msg_alert)
                 if(msg_alert==1)
                 {
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
@@ -1037,7 +1042,7 @@ $(document).ready(function(){
         $('#USRC_UPD_btn_pdf').hide();
         $('#USRC_UPD_div_tablecontainer').hide();
         $('section').html('');
-        $(".preloader").show();
+//        $(".preloader").show();
         flextable();
 //        $(".preloader").hide();
 
@@ -1065,7 +1070,6 @@ $(document).ready(function(){
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 values_array=JSON.parse(xmlhttp.responseText);
                 if(values_array.length!=0){
-                    $(".preloader").hide();
                     $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                     //HEADER ERR MSG
                     sd=err_msg[11].toString().replace("[LOGINID]",empname);
@@ -1279,12 +1283,12 @@ $(document).ready(function(){
                 if(attendance=='WORK FROM HOME')
                 {
                     $('#USRC_UPD_lb_attendance').replaceWith(
-                        "<select id='USRC_UPD_lb_attendance' name='USRC_UPD_lb_attendance' class='update_validate'> <option value='2'>WORK FROM HOME</option> </select>");
+                        "<select id='USRC_UPD_lb_attendance' name='USRC_UPD_lb_attendance' class='update_validate form-control'> <option value='2'>WORK FROM HOME</option> </select>");
                 }
                 else
                 {
                     $('#USRC_UPD_lb_attendance').replaceWith(
-                        "<select id='USRC_UPD_lb_attendance' name='USRC_UPD_lb_attendance' class='update_validate'> <option value='1'>PRESENT</option><option value='0'>ABSENT</option><option value='OD'>ONDUTY</option></select>");
+                        "<select id='USRC_UPD_lb_attendance' name='USRC_UPD_lb_attendance' class='update_validate form-control'> <option value='1'>PRESENT</option><option value='0'>ABSENT</option><option value='OD'>ONDUTY</option></select>");
                 }
                 $('#USRC_UPD_tble_attendence').show();
                 form_show(attendance)
@@ -1448,7 +1452,7 @@ $(document).ready(function(){
         }
         else if(attendance=='OD')
         {
-            alert('insiddddde')
+            //      alert('insiddddde')
             $('#USRC_UPD_lb_attendance').val('OD');
             $('#USRC_UPD_lbl_dte').show();
             $('#USRC_UPD_tb_date').show();
@@ -1517,7 +1521,7 @@ $(document).ready(function(){
             $('#USRC_UPD_lb_timing').val(permission).show();
         }
         else
-        {
+        {//alert('aler')
             $('#USRC_UPD_rd_nopermission').attr('checked','checked');
             $('#USRC_UPD_lb_timing').show();
 //            $('#USRC_UPD_lb_timing').val(permission).show();
@@ -2018,7 +2022,7 @@ $(document).ready(function(){
         inputValOne = inputValOne.split("-").reverse().join("-");
         var inputValTwo=$('#USRC_UPD_tb_enddte').val();
         inputValTwo = inputValTwo.split("-").reverse().join("-");
-        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=18&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+errmsgs;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=18&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+errmsgs;
     });
 
 //    SEARCH UPDATE END
@@ -2081,8 +2085,8 @@ $(document).ready(function(){
             <div id="URE_tble_attendence" hidden>
                 <div class="row-fluid form-group">
                     <label name="URE_lbl_attendance"  class="col-sm-2"  id="URE_lbl_attendance">ATTENDANCE</label>
-                    <div class="col-sm-8">
-                        <select id="URE_lb_attendance" name="URE_lb_attendance">
+                    <div class="col-sm-4">
+                        <select id="URE_lb_attendance" name="URE_lb_attendance" class="form-control">
                             <option>SELECT</option>
                             <option value="1">PRESENT</option>
                             <option value="0">ABSENT</option>
@@ -2108,8 +2112,8 @@ $(document).ready(function(){
 </div>
 <div class="row-fluid form-group">
     <label name="URE_lbl_session" class="col-sm-2" id="URE_lbl_session" hidden >SESSION</label>
-    <div class="col-sm-8">
-        <select name="URE_lb_ampm" id="URE_lb_ampm" >
+    <div class="col-sm-4">
+        <select name="URE_lb_ampm" id="URE_lb_ampm" class="form-control" >
             <option>SELECT</option>
             <option>FULLDAY</option>
             <option>AM</option>
@@ -2143,8 +2147,8 @@ $(document).ready(function(){
     <div id="URE_tbl_attendence" class="row-fluid form-group" hidden>
 
         <label name="URE_lbl_attdnce" class="col-sm-2" id="URE_lbl_attdnce">ATTENDANCE</label>
-        <div class="col-sm-8">
-            <select id="URE_lb_attdnce" name="URE_lb_attdnce">
+        <div class="col-sm-4">
+            <select id="URE_lb_attdnce" name="URE_lb_attdnce" class="form-control">
                 <option>SELECT</option>
                 <option value="0">ABSENT</option>
                 <option value="OD">ONDUTY</option>
@@ -2192,7 +2196,7 @@ $(document).ready(function(){
         <div class="row-fluid form-group">
             <label name="USRC_UPD_lbl_attendance" class="col-sm-2" id="USRC_UPD_lbl_attendance" >ATTENDANCE</label>
             <div class="col-sm-2">
-                <select id="USRC_UPD_lb_attendance" name="USRC_UPD_lb_attendance" class="update_validate ">
+                <select id="USRC_UPD_lb_attendance" name="USRC_UPD_lb_attendance" class="update_validate form-control">
                     <option value="1">PRESENT</option>
                     <option value="0">ABSENT</option>
                     <option value="OD">ONDUTY</option>
@@ -2201,23 +2205,23 @@ $(document).ready(function(){
 
         <div class="row-fluid form-group">
             <div class="col-sm-2">
-            <label name="USRC_UPD_permission" class="col-sm-8" id="USRC_UPD_lbl_permission" >
+                <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission" >
                     <div class="radio">
                         <input type="radio" id="USRC_UPD_rd_permission" name="permission" value="PERMISSION" class="update_validate"/>PERMISSION <em>*</em>
                     </div>
-            </label>
+                </label>
             </div>
             <div class="col-sm-2">
-        <select  name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate" style="display:none" hidden >
-            <option>SELECT</option>
-        </select>
-    </div>
-</div>
-<div class="row-fluid form-group">
-    <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_nopermission" >
-        <div class="col-sm-3"> <div class="radio">
-                <input type="radio" id="USRC_UPD_rd_nopermission" name="permission" value="NOPERMISSION" class="update_validate"/>NO PERMISSION <em>*</em></label>
-</div></div>
+                <select  name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate form-control" style="display:none">
+                    <option>SELECT</option>
+                </select>
+            </div>
+        </div>
+        <div class="row-fluid form-group">
+            <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_nopermission" >
+                <div class="col-sm-3"> <div class="radio">
+                        <input type="radio" id="USRC_UPD_rd_nopermission" name="permission" value="NOPERMISSION" class="update_validate"/>NO PERMISSION <em>*</em></label>
+        </div></div>
 </div>
 <div class="row-fluid form-group">
     <label name="USRC_UPD_lbl_session" class="col-sm-2" id="USRC_UPD_lbl_session" hidden >SESSION</label>

@@ -1,13 +1,14 @@
 <?php
 set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
 require_once 'google/appengine/api/mail/Message.php';
+require_once 'google-api-php-client-master/src/Google/autoload.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
 include "../TSLIB/TSLIB_CONNECTION.php";
 include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
-include "../TSLIB/CONFIG.php";
+include "../TSLIB/TSLIB_CONFIG.php";
 use google\appengine\api\mail\Message;
 error_reporting(0);
 error_reporting(E_ERROR | E_PARSE);

@@ -10,7 +10,7 @@
 //VER 0.01-INITIAL VERSION, SD:02/10/2014 ED:06/10/2014,TRACKER NO:74,Designed Form,Get data from ss nd insert in db part
 //*********************************************************************************************************//
 <?php
-//include "TSLIB_HEADER.php";
+//include "HEADER.php";
 include "../TSLIB/TSLIB_HEADER.php";
 //include "NEW_MENU.php";
 ?>
@@ -41,7 +41,7 @@ $(document).ready(function(){
                 }
             }
             var option="PUBLIC_HOLIDAY";
-            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+option);
             xmlhttp.send();
             //DO VALIDATION START
             $(".autosizealph").doValidation({rule:'alphanumeric',prop:{whitespace:true,autosize:true,uppercase:false}});
@@ -465,7 +465,7 @@ $(document).ready(function(){
             }
             $(document).on('click','#PH_SRC_UP_btn_pdf',function(){
                 var inputValOne=$('#PH_SRC_UPD_lb_yr').val();
-                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=16&inputValOne='+inputValOne+'&title='+pdfmsg;
+                var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=16&inputValOne='+inputValOne+'&title='+pdfmsg;
             });
             //FUNCTION FOR SORTING
             function sorting(){
@@ -559,17 +559,28 @@ $(document).ready(function(){
         <form  name="PH_entry_form" id="PH_entry_form" class="content">
             <div class="panel-body">
                 <fieldset>
+          <div style="padding-bottom: 15px">
+             <div class="radio">
+              <label name="public_entry" id="pub_entry">
+               <input type="radio" name="public" id="entry" class="publicentry" value="entry_click">PUBLIC HOLIDAY ENTRY</label>
+                </div>
 
-                    <div class="row-fluid form-group">
-                        <label name="public_entry" class="col-sm-12"  id="pub_entry">
-                            <div class="radio">
-                                <input type="radio" name="public" class="publicentry" id="entry" value="entry_click">PUBLIC HOLIDAY ENTRY</label>
-                    </div></div>
-            <div class="row-fluid form-group">
-                <label name="public_search" class="col-sm-12"  id="pub_search">
-                    <div class="radio">
-                        <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>
-            </div></div>
+               <div class="radio">
+              <label name="public_search" id="pub_search">
+               <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>
+               </div></div>
+
+<!--            <div class="row-fluid form-group">-->
+<!--                        <label name="public_entry" class="col-sm-12"  id="pub_entry">-->
+<!--                            <div class="radio">-->
+<!--                                <input type="radio" name="public" class="publicentry" id="entry" value="entry_click">PUBLIC HOLIDAY ENTRY</label>-->
+<!--                    </div></div>-->
+<!--            <div class="row-fluid form-group">-->
+<!--                <label name="public_search" class="col-sm-12"  id="pub_search">-->
+<!--                    <div class="radio">-->
+<!--                        <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>-->
+<!--            </div></div>-->
+
    <div class="row-fluid form-group">
     <label name="PH_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
 </div>

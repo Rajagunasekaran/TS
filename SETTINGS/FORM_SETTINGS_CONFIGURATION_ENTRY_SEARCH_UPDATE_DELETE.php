@@ -2,14 +2,16 @@
 <!--*********************************************************************************************************//-->
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //****************************************CONFIGURATION ENTRY*************************************************//
+/DONE BY:ARTHI
+//VER 0.04-SD:011/06/2015 ED:11/06/2015,UPDATE PART IS NOT WORKING FIXED THAT PART
 //DONE BY:LALITHA
 //VER 0.03-SD:07/02/2015 ED:07/02/2015,TRACKER NO:74,Corrected Issues:Updated alphabets fr project details nd Changed validation,Updated Preloader position also
 /DONE BY:SARADAMBAL
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 <?PHP
-//include "TSLIB_HEADER.php";
- include "../TSLIB/TSLIB_HEADER.php";
+//include "HEADER.php";
+ include "../TSLIB/TSLIB/HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -17,7 +19,7 @@
 //DOCUMENT READY FUNCTION START
 $(document).ready(function(){
     $(".preloader").hide();
-$(document).on('click','#UR_ENTRY',function(){
+    $(document).on('click','#UR_ENTRY',function(){
         $('#entry').show();
         $('#search_update').hide();
         $('#CONFIG_SRCH_UPD_lb_module').val('SELECT');
@@ -113,10 +115,10 @@ $(document).on('click','#UR_ENTRY',function(){
                     $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">DATA<em>*</em></label><div class="col-sm-4"><input type="text" id="CONFIG_ENTRY_tb_data" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
                     $('#CONFIG_ENTRY_tr_data').show();
                 }
-               $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></td><br><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
-              // <div class="row form-group"><div class="col-lg-offset-2 col-lg-3"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="CREATE" disabled>         <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>   </div>
+                $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></td><br><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
+                // <div class="row form-group"><div class="col-lg-offset-2 col-lg-3"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="CREATE" disabled>         <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>   </div>
                 //$('#CONFIG_ENTRY_tr_btn').append('<div class="row form-group" align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE"></div><div class="row-fluid form-group">' + '<input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
-            //   $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid form-group"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></div> <div> <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
+                //   $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid form-group"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></div> <div> <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
                 $("#CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
                 $("#CN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
                 $("#LN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
@@ -137,7 +139,7 @@ $(document).on('click','#UR_ENTRY',function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     $(".preloader").hide();
-                  //  alert(xmlhttp.responseText);
+                    //  alert(xmlhttp.responseText);
                     var CONFIG_ENTRY_msg_alert=xmlhttp.responseText;
                     if(CONFIG_ENTRY_msg_alert==1)
                     {
@@ -172,7 +174,7 @@ $(document).on('click','#UR_ENTRY',function(){
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $(".preloader").hide();
-                   //     alert(xmlhttp.responseText)
+                        //     alert(xmlhttp.responseText)
                         if(xmlhttp.responseText==1){
                             $("#CONFIG_ENTRY_div_errmsg").show();
                             $("#CONFIG_ENTRY_div_errmsg").text(CONFIG_ENTRY_errmsg[3].replace('[TYPE]',$("#CONFIG_ENTRY_lb_type option:selected").text()));}
@@ -290,8 +292,8 @@ $(document).on('click','#UR_ENTRY',function(){
                     }
                     if(CONFIG_flag_upd==1){
                         var errmsg=CONFIG_SRCH_UPD_errmsg[4].replace('[MODULE NAME]',$("#CONFIG_SRCH_UPD_lb_module option:selected").text());
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:errmsg,position:{top:150,left:530}}});}
-                   // show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:errmsg,position:{top:100,left:100}}});}
+//                    show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
                 }}
             var OPTION="CONFIG_SRCH_UPD_load_data";
             xmlhttp.open("POST","SETTINGS/DB_CONFIGURATION_SEARCH_UPDATE_DELETE.do?option="+OPTION,true);
@@ -394,7 +396,7 @@ $(document).on('click','#UR_ENTRY',function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-              //      alert(xmlhttp.responseText);
+                    //      alert(xmlhttp.responseText);
                     var msg_alert=JSON.parse(xmlhttp.responseText)
                     var success_flag=msg_alert[0];
                     var  CONFIG_SRCH_UPD_msg_alert=success_flag;
@@ -407,14 +409,14 @@ $(document).on('click','#UR_ENTRY',function(){
                     else if(CONFIG_SRCH_UPD_msg_alert==0 && failure_flag==1)
                     {
                         $(".preloader").hide();
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:CONFIG_SRCH_UPD_errmsg[0],position:{top:150,left:530}}});
-                //  show_msgbox("CONFIGURATION ENTRY",CONFIG_SRCH_UPD_errmsg[0],"success",false);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:CONFIG_SRCH_UPD_errmsg[0],position:{top:100,left:100}}});
+                        //  show_msgbox("CONFIGURATION ENTRY",CONFIG_SRCH_UPD_errmsg[0],"success",false);
                     }
                     if(CONFIG_SRCH_UPD_msg_alert==2){
                         $(".preloader").hide();
                         $(".update").attr("disabled","disabled");
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:errmsg,position:{top:150,left:530}}});
-                  // show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:errmsg,position:{top:100,left:100}}});
+                        // show_msgbox("CONFIGURATION ENTRY",errmsg,"success",false);
                     }
                     else if(CONFIG_SRCH_UPD_msg_alert!=0){
                         CONFIG_SRCH_UPD_fetch_configdata();
@@ -432,8 +434,8 @@ $(document).on('click','#UR_ENTRY',function(){
                             var msg=CONFIG_SRCH_UPD_errmsg[1];
 
                         }
-                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:msg,position:{top:150,left:530}}});
-                  // show_msgbox("CONFIGURATION ENTRY",msg,"success",false);
+                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION ENTRY",msgcontent:msg,position:{top:100,left:100}}});
+                        // show_msgbox("CONFIGURATION ENTRY",msg,"success",false);
                     }
                 }}
             var OPTION="CONFIG_SRCH_UPD_save";
@@ -445,7 +447,7 @@ $(document).on('click','#UR_ENTRY',function(){
         $(document).on('click','.delete',function(){
             CONFIG_flag_del=0;
             var CONFIG_id=$(this).parent().parent().attr('id');
-        //    alert(CONFIG_id)
+            //    alert(CONFIG_id)
             $(".preloader").show();
             var formElement = document.getElementById("CONFIG_ENTRY_form");
             var xmlhttp=new XMLHttpRequest();
@@ -456,13 +458,13 @@ $(document).on('click','#UR_ENTRY',function(){
                     if(CONFIG_SRCH_UPD_msg_alert==1)
                     {
                         $(".delete").attr("disabled","disabled");
-                   show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[6],"success",false);
+                        show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[6],"success",false);
                         CONFIG_SRCH_UPD_fetch_configdata();
                     }
                     else
                     {
-                    // $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[7],position:{top:150,left:520}}});
-                  show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[7],"success",false);
+                        // $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[7],position:{top:150,left:520}}});
+                        show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[7],"success",false);
                     }
                     $(".preloader").hide();
                 }
@@ -484,8 +486,8 @@ $(document).on('click','#UR_ENTRY',function(){
                         $(".preloader").hide();
                         if(xmlhttp.responseText==1){
                             $(".update").attr("disabled","disabled");
-                         $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[8].replace('[TYPE]',$("#CONFIG_SRCH_UPD_lb_type option:selected").text()),position:{top:150,left:500}}});
-                    //    show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[8],"success",false);
+                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CONFIGURATION SEARCH/UPDATE/DELETE",msgcontent:CONFIG_SRCH_UPD_errmsg[8].replace('[TYPE]',$("#CONFIG_SRCH_UPD_lb_type option:selected").text()),position:{top:100,left:100}}});
+                            //    show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[8],"success",false);
                             $(this).addClass('invalid');}
                         else{
                             $(".update").removeAttr("disabled","disabled");
@@ -505,13 +507,13 @@ $(document).on('click','#UR_ENTRY',function(){
         });
 
     });
-        //CLICK EVENT FOR BUTTON RESET
-        $(document).on('click','#CONFIG_ENTRY_btn_reset',function(){
+    //CLICK EVENT FOR BUTTON RESET
+    $(document).on('click','#CONFIG_ENTRY_btn_reset',function(){
 //            alert('success')
-            $('#CONFIG_ENTRY_tr_type,#CONFIG_ENTRY_tr_data,#CONFIG_ENTRY_tr_btn').empty();
-            $('#CONFIG_ENTRY_lb_module').val('SELECT');
-        });
-        });
+        $('#CONFIG_ENTRY_tr_type,#CONFIG_ENTRY_tr_data,#CONFIG_ENTRY_tr_btn').empty();
+        $('#CONFIG_ENTRY_lb_module').val('SELECT');
+    });
+});
 //DOCUMENT READY FUNCTION END
 </script>
 <!--SCRIPT TAG END-->
@@ -520,57 +522,68 @@ $(document).on('click','#UR_ENTRY',function(){
 <!--BODY TAG START-->
 <body class="dt-example">
 <div class="container">
-        <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="../image/Loading.gif"/></div></div></div>
-        <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY</h3></b></center></div>
-        <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
-            <div class="panel-body">
-                <fieldset>
-                    <div class="col-sm-12">
-                        <label name="UR_lbl_entry" id="UR_lbl_entry">
-                            <div class="radio">
-                                <input type="radio" name="UR_ESU" id="UR_ENTRY" value="entry">ENTRY</label>
-                    </div>
-            </div>
-            <div class="col-sm-12">
-                <label name="UR_lbl_search_update" id="UR_lbl_search_update">
+    <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="../image/Loading.gif"/></div></div></div>
+    <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY</h3></b></center></div>
+    <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
+        <div class="panel-body">
+            <fieldset>
+
+                <div style="padding-bottom: 15px">
                     <div class="radio">
-                        <input type="radio" name="UR_ESU" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
+                        <label name="UR_lbl_entry" id="UR_lbl_entry">
+                            <input type="radio" name="UR_ESU" id="UR_ENTRY" value="entry">ENTRY</label>
+                    </div>
 
-            </div>
-    </div>
-    <div id="entry" hidden>
-        <div class="row-fluid form-group">
-            <label class="col-sm-2" id="CONFIG_ENTRY_lbl_module">MODULE NAME<em>*</em></label>
-            <div class="col-sm-4">
-                <select id="CONFIG_ENTRY_lb_module" name="CONFIG_ENTRY_lb_module" class="form-control"></select>
-            </div></div>
-        <div id="CONFIG_ENTRY_div_errMod" hidden class="errormsg"></div>
-        <div id="CONFIG_ENTRY_tr_type"></div>
-        <div id="CONFIG_ENTRY_tr_data"></div>
-        <div id="CONFIG_ENTRY_tr_btn"></div>
-    </div>
-    <div id="search_update" hidden>
-        <div class=" row-fluid form-group">
-            <label class="col-sm-2" id="CONFIG_SRCH_UPD_lbl_module">MODULE NAME<em>*</em></label>
-            <div class="col-sm-4">
-                <select id="CONFIG_SRCH_UPD_lb_module" name="CONFIG_SRCH_UPD_lb_module" class="form-control"></select>
-            </div></div>
-<!--  //     $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></td><br><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');-->
-<!---->
-<!--        <div class="row form-group">-->
-<!--            <div class="col-lg-offset-2 col-lg-3">-->
-<!--                <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled>         <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET">-->
-<!--            </div>-->
+                    <div class="radio">
+                        <label name="UR_lbl_search_update" id="UR_lbl_search_update">
+                            <input type="radio" name="UR_ESU" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>
+                    </div></div>
+<!--                <div class="col-sm-12">-->
+<!--                    <label name="UR_lbl_entry" id="UR_lbl_entry">-->
+<!--                        <div class="radio">-->
+<!--                            <input type="radio" name="UR_ESU" id="UR_ENTRY" value="entry">ENTRY</label>-->
+<!--                </div>-->
 <!--        </div>-->
-        <div id="CONFIG_SRCH_UPD_div_errMod" hidden class="errormsg"></div>
-        <br>
-        <div class="table-responsive" id="CONFIG_SRCH_UPD_tr_type"></div>
-        <section style="max-width:500px;">
+<!--        <div class="col-sm-12">-->
+<!--            <label name="UR_lbl_search_update" id="UR_lbl_search_update">-->
+<!--                <div class="radio">-->
+<!--                    <input type="radio" name="UR_ESU" id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>-->
+<!---->
+<!--        </div>-->
+<!--</div>-->
+<div id="entry" hidden>
+    <div class="row-fluid form-group">
+        <label class="col-sm-2" id="CONFIG_ENTRY_lbl_module">MODULE NAME<em>*</em></label>
+        <div class="col-sm-4">
+            <select id="CONFIG_ENTRY_lb_module" name="CONFIG_ENTRY_lb_module" class="form-control"></select>
+        </div></div>
+    <div id="CONFIG_ENTRY_div_errMod" hidden class="errormsg"></div>
+    <div id="CONFIG_ENTRY_tr_type"></div>
+    <div id="CONFIG_ENTRY_tr_data"></div>
+    <div id="CONFIG_ENTRY_tr_btn"></div>
+</div>
+<div id="search_update" hidden>
+    <div class=" row-fluid form-group">
+        <label class="col-sm-2" id="CONFIG_SRCH_UPD_lbl_module">MODULE NAME<em>*</em></label>
+        <div class="col-sm-4">
+            <select id="CONFIG_SRCH_UPD_lb_module" name="CONFIG_SRCH_UPD_lb_module" class="form-control"></select>
+        </div></div>
+    <!--  //     $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></td><br><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');-->
+    <!---->
+    <!--        <div class="row form-group">-->
+    <!--            <div class="col-lg-offset-2 col-lg-3">-->
+    <!--                <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled>         <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET">-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <div id="CONFIG_SRCH_UPD_div_errMod" hidden class="errormsg"></div>
+    <br>
+    <div class="table-responsive" id="CONFIG_SRCH_UPD_tr_type"></div>
+    <section style="max-width:500px;">
 
-        </section>
-        <div><label id="CONFIG_SRCH_UPD_err_flex" name="CONFIG_SRCH_UPD_err_flex" class="errormsg" hidden></label></div>
-    </div>
-    </fieldset>
+    </section>
+    <div><label id="CONFIG_SRCH_UPD_err_flex" name="CONFIG_SRCH_UPD_err_flex" class="errormsg" hidden></label></div>
+</div>
+</fieldset>
 </div>
 </form>
 </div>

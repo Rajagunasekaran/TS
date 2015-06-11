@@ -12,6 +12,7 @@
 
 set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
 require_once 'google/appengine/api/mail/Message.php';
+require_once 'google-api-php-client-master/src/Google/autoload.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
@@ -20,7 +21,7 @@ if(isset($_REQUEST)){
     include "../TSLIB/TSLIB_CONNECTION.php";
     include "../TSLIB/TSLIB_COMMON.php";
     include "../TSLIB/TSLIB_GET_USERSTAMP.php";
-    include "CONFIG.php";
+    include "../TSLIB/TSLIB_CONFIG.php";
     $USERSTAMP=$UserStamp;
     global $con;
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_load_mod")

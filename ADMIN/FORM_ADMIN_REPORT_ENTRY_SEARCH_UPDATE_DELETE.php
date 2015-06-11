@@ -3400,11 +3400,16 @@ $(document).ready(function(){
     </div>
 
     <div class="row-fluid form-group">
+        <div class="col-sm-2">
         <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">
-            <div class="col-sm-3"> <div class="radio">
-                    <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em></label>
-    </div></div><div class="col-lg-1">
-    <select name="ARE_lb_timing" id="ARE_lb_timing" hidden >
+            <div class="radio">
+                    <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em>
+                </div>
+            </label>
+    </div>
+<div class="col-lg-2">
+    <select name="ARE_lb_timing" id="ARE_lb_timing" style="display:none" hidden>
+        <option>SELECT</option>
     </select>
 </div></div>
 <div class="row-fluid form-group">
@@ -3593,7 +3598,7 @@ $(document).ready(function(){
     </div></div>
 
 <div  class="row-fluid form-group">
-    <label name="ASRC_UPD_DEL_permission" class="col-sm-8" id="ASRC_UPD_DEL_lbl_permission" hiddeen>
+    <label name="ASRC_UPD_DEL_permission" class="col-sm-8" id="ASRC_UPD_DEL_lbl_permission" hidden>
         <div class="col-sm-3"> <div class="radio">
                 <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden>PERMISSION<em>*</em></label>
 </div></div>

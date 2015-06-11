@@ -261,7 +261,7 @@ function get_error_msg($str){
     return $errormessage;
 }
 
-
+//TERMINATE FOR REJOIN OF APPENDING UPDATE FORM DATAS
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
     $str='9,10,11,12,13,14,56,70,113,114,116,132,133,136,137,138';
     $errormsg_array= get_error_msg($str);
@@ -275,8 +275,29 @@ if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
     while($row=mysqli_fetch_array($emp_type)){
         $get_emptype_array[]=$row["URC_DATA"];
     }
-
-    $value_array=array($errormsg_array,$get_role_array,$get_emptype_array);
+    //desgination
+    $rdesgn_result=mysqli_query($con,"SELECT * FROM EMPLOYEE_DESIGNATION ORDER BY ED_DESIGNATION");
+    $get_rdesgn_array=array();
+    while($row=mysqli_fetch_array($rdesgn_result)){
+        $get_rdesgn_array[]=$row["ED_DESIGNATION"];
+    }
+    //RELATIONHOOD
+    $rname_result=mysqli_query($con,"SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID=22 ORDER BY URC_DATA");
+    $get_rname_array=array();
+    while($row=mysqli_fetch_array($rname_result)){
+        $get_rname_array[]=$row["URC_DATA"];
+    }
+    $acctype_result=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID=21 ORDER BY URC_DATA");
+    $get_acctype_array=array();
+    while($row=mysqli_fetch_array($acctype_result)){
+        $get_acctype_array[]=$row["URC_DATA"];
+    }
+    $laptype_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_FLAG IS NULL ORDER BY CP_LAPTOP_NUMBER");
+    $get_laptype_array=array();
+    while($row=mysqli_fetch_array($laptype_result)){
+        $get_laptype_array[]=$row["CP_LAPTOP_NUMBER"];
+    }
+    $value_array=array($errormsg_array,$get_role_array,$get_emptype_array,$get_rdesgn_array, $get_rname_array,$get_acctype_array,$get_laptype_array);
     echo JSON_ENCODE($value_array);
 }
 function get_roles(){
