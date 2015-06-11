@@ -1,9 +1,9 @@
 <?php
 //error_reporting(0);
-include "GET_USERSTAMP.php";
-include "CONNECTION.php";
-include "COMMON.php";
-$USERSTAMP=$UserStamp;;
+include "TSLIB/TSLIB_GET_USERSTAMP.php";
+include "TSLIB/TSLIB_CONNECTION.php";
+include "TSLIB/TSLIB_COMMON.php";
+$USERSTAMP=$UserStamp;
 if($_REQUEST['option']=="MENU")
 {
     mysqli_report(MYSQLI_REPORT_STRICT);
