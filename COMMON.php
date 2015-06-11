@@ -1,3 +1,6 @@
+<!--//BY PUNI
+changed UploadEmployeeFiles function to match exact folder id of employee for duplicate folder name issue #21-->
+
 <?php
 error_reporting(1);
 include "CONNECTION.php";
@@ -309,6 +312,7 @@ function renamefile($service,$logincre_foldername,$emp_folderid)
 function getEmpfolderName($loginidval){
     global $con,$emp_uldid;
     $loginid=$loginidval;
+//    echo "SELECT ULD_ID,EMPLOYEE_NAME from VW_TS_ALL_EMPLOYEE_DETAILS where ULD_LOGINID='$loginid'";exit;
     $login_idqry=mysqli_query($con,"SELECT ULD_ID,EMPLOYEE_NAME from VW_TS_ALL_EMPLOYEE_DETAILS where ULD_LOGINID='$loginid'");
     $login_empid="";
     while($row=mysqli_fetch_array($login_idqry)){
@@ -432,6 +436,7 @@ function UploadEmployeeFiles($formname,$loginid_result)
     $loginid=$loginid_result;
     $emp_uploadfilelist=array();
     $login_empid=getEmpfolderName($loginid);
+//    echo $login_empid;exit;
     $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
     if($row=mysqli_fetch_array($select_folderid)){
         $folderid=$row["URC_DATA"];
@@ -449,13 +454,13 @@ function UploadEmployeeFiles($formname,$loginid_result)
     $emp_folderid="";
     $emp_uploadfilenamelist=array();
     $emp_uploadfileidlist=array();
-
     $children = $service->children->listChildren($folderid);
     $root_filearray=$children->getItems();
     foreach ($root_filearray as $child) {
         if($service->files->get($child->getId())->getExplicitlyTrashed()==1)continue;
         $rootfold_title=$service->files->get($child->getId())->title;
-        if(!preg_match("/$emp_uldid/",$rootfold_title))continue;
+        $split_folderid=explode(" ",$rootfold_title);
+        if(strcasecmp($emp_uldid, $split_folderid[count($split_folderid)-1]) != 0)continue;
         $emp_folderid=$service->files->get($child->getId())->id;
         if($rootfold_title!=$login_empid)
         {
