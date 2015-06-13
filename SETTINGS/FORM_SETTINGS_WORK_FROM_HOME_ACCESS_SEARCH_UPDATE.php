@@ -251,7 +251,9 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
-    <div class="title" id="fhead" ><center><p><b><h3>EMPLOYEE WORK FROM HOME ACCESS</h3></b><p></center></div>
+<!--    <div class="title text-center"><h4><b>EMPLOYEE WORK FROM HOME ACCESS</b></h4></div>-->
+    <div class="newtitle text-center"><b><h4>EMPLOYEE WORK FROM HOME ACCESS</h4></b></div>
+<!--    <div class="title" id="fhead" ><center><p><b><h3>EMPLOYEE WORK FROM HOME ACCESS</h3></b><p></center></div>-->
     <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" >
         <div class="panel-body">
             <fieldset>

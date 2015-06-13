@@ -113,7 +113,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
         };
         $(document).on('click','#URSRC_btn_pdf',function(){
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=1&title='+title;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=1&title='+title;
         });
     });
     //DOCUMENT READY FUNCTION END
@@ -125,7 +125,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 <body class="dt-example">
 <div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"/></div></div></div>
-    <div class="newtitle" id="fhead" style="padding-top: 10px"><center><p><b><h3>USER SEARCH DETAILS </h3></b><p></center></div>
+<div class="newtitle text-center"><b><h4>USER SEARCH DETAILS</h4></b></div>
     <form class="newcontent" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
         <div class="panel-body">
             <fieldset>

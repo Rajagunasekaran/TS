@@ -30,7 +30,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             }
         }
         var option="EMAIL_TEMPLATE_ENTRY";
-        xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
+        xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+option);
         xmlhttp.send();
         //END FUNCTION FOR EMAIL TEMPLATE ERROR MESSAGE
         //JQUERY LIB VALIDATION START
@@ -418,7 +418,9 @@ include "../TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="row title"><center><p><b><h3>EMAIL TEMPLATE ENTRY</h3></b><p></center></div>
+<!--    <div class="title text-center"><h4><b>EMAIL TEMPLATE ENTRY</b></h4></div>-->
+    <div class="newtitle text-center"><b><h4>EMAIL TEMPLATE ENTRY</h4></b></div>
+<!--    <div class="title"><center><b><h3>EMAIL TEMPLATE ENTRY</h3></b></center></div>-->
     <form id="ET_ENTRY_form_template" class="content" >
         <div class="panel-body">
             <fieldset>

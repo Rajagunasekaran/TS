@@ -12,7 +12,6 @@
 
 set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
 require_once 'google/appengine/api/mail/Message.php';
-require_once 'google-api-php-client-master/src/Google/autoload.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
@@ -21,7 +20,6 @@ if(isset($_REQUEST)){
     include "../TSLIB/TSLIB_CONNECTION.php";
     include "../TSLIB/TSLIB_COMMON.php";
     include "../TSLIB/TSLIB_GET_USERSTAMP.php";
-    include "../TSLIB/TSLIB_CONFIG.php";
     $USERSTAMP=$UserStamp;
     global $con;
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_load_mod")
@@ -39,6 +37,7 @@ if(isset($_REQUEST)){
     }
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_load_type")
     {
+
         $CONFIG_SRCH_UPD_mod=$_REQUEST['module'];
         //CONFIG TYPE LIST
         $CONFIG_SRCH_UPD_type = mysqli_query($con,"SELECT * FROM CONFIGURATION WHERE CNP_ID='$CONFIG_SRCH_UPD_mod' AND (CGN_NON_IP_FLAG != 'XX' or CGN_NON_IP_FLAG is null)  ORDER BY CGN_TYPE ASC");
@@ -51,6 +50,7 @@ if(isset($_REQUEST)){
     //LOAD DATA FOR FLEX TABLE
     if($_REQUEST['option']=="CONFIG_SRCH_UPD_load_data")
     {
+
         $flag=$_REQUEST['CONFIG_SRCH_UPD_lb_module'];
         $CONFIG_SRCH_UPD_data=$_REQUEST['CONFIG_SRCH_UPD_tb_data'];
         $CONFIG_SRCH_UPD_type=$_REQUEST['CONFIG_SRCH_UPD_lb_type'];
@@ -128,6 +128,13 @@ if(isset($_REQUEST)){
         $CONFIG_SRCH_UPD_save=0;
         //SERVICE
         $drive = new Google_Client();
+        $Client=get_servicedata();
+        $ClientId=$Client[0];
+        $ClientSecret=$Client[1];
+        $RedirectUri=$Client[3];
+        $DriveScopes=$Client[4];
+        $CalenderScopes=$Client[5];
+        $Refresh_Token=$Client[6];
         $drive->setClientId($ClientId);
         $drive->setClientSecret($ClientSecret);
         $drive->setRedirectUri($RedirectUri);

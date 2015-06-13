@@ -550,12 +550,12 @@ $(document).ready(function(){
     //CLICK EVENT FOR PDF BUTTON
     $(document).on('click','#REP_BND_btn_mnth_pdf',function(){
         var inputValOne=$("#REP_BND_db_selectmnth").val();
-        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=14&inputValOne='+inputValOne+'&title='+errmsg;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=14&inputValOne='+inputValOne+'&title='+errmsg;
     });
     $(document).on('click','#REP_BND_btn_emp_pdf',function(){
         var inputValOne=$("#REP_BND_db_selectmnths").val();
         var inputValTwo=$('#REP_BND_lb_loginid').val();
-        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=15&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=15&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
     });
 });
 <!--SCRIPT TAG END-->
@@ -564,7 +564,9 @@ $(document).ready(function(){
 <body>
 <div class="container">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title"><p><center><h3><b>BANDWIDTH</b></h3></center><p></div>
+<!--    <div class="title text-center"><h4><b>BANDWIDTH</b></h4></div>-->
+    <div class="newtitle text-center"><b><h4>BANDWIDTH</h4></b></div>
+    <!--    <div class="title"><p><center><h3><b>BANDWIDTH</b></h3></center><p></div>-->
         <form   id="REP_BND_form_bandwidth" class="content" >
             <div class="panel-body">
                 <fieldset>

@@ -345,7 +345,8 @@ $(document).ready(function(){
 <div class="container">
 
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
-    <div class="title" id="fhead"><center><p><b><h3>SITE MAINTENANCE</h3></b><p></center></div>
+<!--    //<div class="title" id="fhead"><center><p><b><h3>SITE MAINTENANCE</h3></b><p></center></div>-->
+<div class="newtitle text-center"><b><h4>SITE MAINTENANCE</h4></b></div>
     <form class="content" name="USR_SITE_form_user" id="USR_SITE_form_user">
         <div class="panel-body">
             <fieldset>

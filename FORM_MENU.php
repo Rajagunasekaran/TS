@@ -158,7 +158,9 @@ $Userstamp=json_encode($UserStamp);
 
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $(".preloader").hide();
+//                alert(xmlhttp.responseText)
                 var value_array=JSON.parse(xmlhttp.responseText);
+//                alert(value_array);
                 all_menu_array= value_array[0];
                 checkintime=value_array[1];
                 checkinerrormsg=value_array[2];

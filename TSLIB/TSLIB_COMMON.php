@@ -1,6 +1,3 @@
-<!--//BY PUNI
-fixed issue #21,changed UploadEmployeeFiles function to match exact folder id of employee for duplicate folder name /wrong folder id
--->
 
 <?php
 error_reporting(1);
@@ -24,6 +21,17 @@ function get_empname(){
     }
     return $ure_empname;
 }
+// service function
+function get_servicedata(){
+    global $USERSTAMP;
+    global $con;
+    $uld_id=mysqli_query($con,"select URC_DATA from USER_RIGHTS_CONFIGURATION where URC_ID in (28,29,30,31,32,33)");
+    while($row=mysqli_fetch_array($uld_id)){
+        $Client[]=$row["URC_DATA"];
+    }
+    return $Client;
+}
+
 //GET ULD_ID
 function get_uldid(){
     global $USERSTAMP;
@@ -383,7 +391,13 @@ function restoreFile($service, $fileId) {
 //FUNCTION TO DELETE DRIVE FILE REMOVED VIA LOGIN UPDATE FORM
 function trashFile($folderid,$user_filelist) {
     global $ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
-
+      $Client=get_servicedata();
+       $ClientId=$Client[0];
+       $ClientSecret=$Client[1];
+       $RedirectUri=$Client[3];
+       $DriveScopes=$Client[4];
+       $CalenderScopes=$Client[5];
+       $Refresh_Token=$Client[6];
     $drive = new Google_Client();
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);

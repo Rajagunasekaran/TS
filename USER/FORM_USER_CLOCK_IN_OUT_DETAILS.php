@@ -208,7 +208,7 @@ $(document).ready(function(){
             var inputValTwo=$('#REP_tb_enddtebyrange').val();
             inputValTwo = inputValTwo.split("-").reverse().join("-");
             var inputValThree=uld_id;
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
         });
     });
     $(document).on('click','#clock_missed',function(){
@@ -423,13 +423,13 @@ $(document).ready(function(){
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#CLK_btn_mnth_pdf',function(){
             var inputValOne=$('#CLK_db_selectmnth').val();
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
         });
         $(document).on('click','#CLK_btn_emp_pdf',function(){
             var inputValOne=$("#CLK_db_selectmnths").val();
             var inputValThree =uld_id;
 //        alert(errmsg)
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
         });
     });
 
@@ -439,7 +439,8 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><center ><b><h3>CLOCK IN/OUT DETAILS</h3></b></center></div>
+<!--    <div class="title"><center ><b><h3>CLOCK IN/OUT DETAILS</h3></b></center></div>-->
+    <div class="newtitle text-center"><b><h4>CLOCK IN/OUT DETAILS</h4></b></div>
     <form  id="REP_chk_form_details" class="content" >
         <div class="panel-body">
             <fieldset>

@@ -216,7 +216,7 @@ $(document).ready(function(){
         }
     }
     var option="ACCESS_RIGHTS_SEARCH_UPDATE";
-    xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
+    xmlhttp.open("GET","TSLIB/TSLIB_COMMON.php?option="+option);
     xmlhttp.send();
     //END BASIC ROLECREATION
     //postalcode
@@ -449,7 +449,7 @@ $(document).ready(function(){
             }
         }
         var choice='URSRC_check_basicrolemenu';
-        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_basicradio_value="+URSRC_basicradio_value+"&option="+choice,true);
+        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?URSRC_basicradio_value="+URSRC_basicradio_value+"&option="+choice,true);
         xmlhttp.send(new FormData(formElement));
     });
     //BASIC ROLE CREATION FOR TRUE/FALSE
@@ -464,7 +464,7 @@ $(document).ready(function(){
             }
         }
         var choice="URSRC_tree_view"
-        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_value="+URSRC_basicradio_value+"&option="+choice,true);
+        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?radio_value="+URSRC_basicradio_value+"&option="+choice,true);
         xmlhttp.send();
     }
     var basicmenurolesresult=[];
@@ -493,7 +493,7 @@ $(document).ready(function(){
             }
         }
         var choice="URSRC_loadbasicrole_menu"
-        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_basicradio_value="+URSRC_basicradio_value+"&option="+choice,true);
+        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?URSRC_basicradio_value="+URSRC_basicradio_value+"&option="+choice,true);
         xmlhttp.send();
     }
     //CUSTOM ROLE CHANGE FUNCTION
@@ -528,7 +528,7 @@ $(document).ready(function(){
                 }
             }
             var choice='URSRC_check_role_id';
-            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_roleidval="+URSRC_roleidval+"&option="+choice,true);
+            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?URSRC_roleidval="+URSRC_roleidval+"&option="+choice,true);
             xmlhttp.send();
         }
     });
@@ -844,7 +844,7 @@ $(document).ready(function(){
                         }
                     }
                     var choice='check_login_id';
-                    xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_login_id="+URSRC_login_id+"&option="+choice,true);
+                    xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?URSRC_login_id="+URSRC_login_id+"&option="+choice,true);
                     xmlhttp.send();
                 }
                 else{
@@ -1134,7 +1134,7 @@ $(document).ready(function(){
             }
         }
         var choice="login_db";
-        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
+        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?option="+choice,true);
         xmlhttp.send();
     });
     //LOGIN SEARCH ND UPDATE FOR LOGIN ID CHANGE FUNCTION
@@ -1406,7 +1406,7 @@ $(document).ready(function(){
                 }
             }
             var choice="loginfetch"
-            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_login_id="+URSRC_login_id+"&option="+choice,true);
+            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?URSRC_login_id="+URSRC_login_id+"&option="+choice,true);
             xmlhttp.send();
         }
         else{
@@ -1439,7 +1439,7 @@ $(document).ready(function(){
             var radio_checked=$("input[name=roles1]:checked" ).val()
             $.ajax({
                 type: 'POST',
-                url: "ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do",
+                url: "ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php",
                 data: new FormData(this),
                 contentType: false,       // The content type used when sending data to the server.
                 cache: false,             // To unable request pages to be cached
@@ -1533,7 +1533,7 @@ $(document).ready(function(){
             var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
             $.ajax({
                 type: 'POST',
-                url: "ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do",
+                url: "ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php",
                 data: new FormData(this),
                 contentType: false,       // The content type used when sending data to the server.
                 cache: false,             // To unable request pages to be cached
@@ -1542,7 +1542,7 @@ $(document).ready(function(){
                 {
 //                    alert(data);
                     if(data.match("Error:Folder id Not present")){
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
+//                        $(document).phpValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
                         show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[32],"success",false);
                     }
                     else if(data.toLowerCase().match("error")){
@@ -1666,7 +1666,7 @@ $(document).ready(function(){
             }
         }
         var choice="URSRC_tree_view"
-        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?radio_value="+radio_value+"&option="+choice,true);
+        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?radio_value="+radio_value+"&option="+choice,true);
         xmlhttp.send();
     });
     //COMMON TREE VIEW FUNCTION
@@ -2026,7 +2026,7 @@ $(document).ready(function(){
             }
         }
         var choice="rolecreationsave"
-        xmlhttp.open("POST","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_radio_button_select_value="+URSRC_radio_button_select_value+"&option="+choice,true);
+        xmlhttp.open("POST","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?URSRC_radio_button_select_value="+URSRC_radio_button_select_value+"&option="+choice,true);
         xmlhttp.send(new FormData(formElement));
     });
     //ROLE SEARCH/UPDATE CLICK
@@ -2095,7 +2095,7 @@ $(document).ready(function(){
             }
         }
         var choice="ACCESS_RIGHTS_SEARCH_UPDATE_BASICROLE"
-        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
+        xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?option="+choice,true);
         xmlhttp.send();
     });
     var values_array_rcname=[];
@@ -2138,7 +2138,7 @@ $(document).ready(function(){
                 }
             }
             var choice="URSRC_tree_views"
-            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_lbrole_srchndupdate="+URSRC_lbrole_srchndupdate+"&option="+choice,true);
+            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?URSRC_lbrole_srchndupdate="+URSRC_lbrole_srchndupdate+"&option="+choice,true);
             xmlhttp.send();
         }
         $('#URSRC_tble_menu').hide();
@@ -2207,7 +2207,7 @@ $(document).ready(function(){
                 }
             }
             var option="COMPANY_PROPERTY";
-            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+option+"&URSRC_lb_laptopno="+URSRC_lb_laptopno );
+            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.php?option="+option+"&URSRC_lb_laptopno="+URSRC_lb_laptopno );
             xmlhttp.send();
         }
 //
@@ -2220,7 +2220,8 @@ $(document).ready(function(){
 <body>
 <div class="container">
 <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-<div class="title" id="fhead" ><center><p><b><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3></b><p></center></div>
+<!--//<div class="title" id="fhead" ><center><p><b><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3></b><p></center></div>-->
+<div class="title text-center"><h4><b>ACCESS RIGHTS:SEARCH/UPDATE</b></h4></div>
 <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
 <div class="panel-body">
 <fieldset>

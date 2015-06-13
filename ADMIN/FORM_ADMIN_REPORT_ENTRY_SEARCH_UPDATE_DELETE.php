@@ -139,12 +139,12 @@ $(document).ready(function(){
                     min_date=value_array[2];
                     err_msg=value_array[3];
                     login_id=value_array[4];
-                     maxdate=new Date();
-                     month=maxdate.getMonth()+1;
-                     year=maxdate.getFullYear();
-                     date=maxdate.getDate();
+                    maxdate=new Date();
+                    month=maxdate.getMonth()+1;
+                    year=maxdate.getFullYear();
+                    date=maxdate.getDate();
                     max_date = new Date(year,month,date);
-                     datepicker_maxdate=new Date(Date.parse(max_date));
+                    datepicker_maxdate=new Date(Date.parse(max_date));
                     $('#ARE_tb_date').datepicker("option","maxDate",datepicker_maxdate);
                     $('#ARE_tb_date').datepicker("option","minDate",min_date);
                     var login_list='<option>SELECT</option>';
@@ -160,7 +160,7 @@ $(document).ready(function(){
                 }
             }
             var option="admin_report_entry";
-            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+option);
             xmlhttp.send();
         }
         else if(click=="search")
@@ -231,7 +231,7 @@ $(document).ready(function(){
                 }
             }
             var option="admin_search_update";
-            xmlhttp.open("GET","TSLIB/COMMON.do?option="+option);
+            xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+option);
             xmlhttp.send();
         }
     });
@@ -282,9 +282,9 @@ $(document).ready(function(){
 //                $('#ARE_ta_reason').hide();
     }
     var od_maxdate=new Date();
-     month=od_maxdate.getMonth()+1;
-     year=od_maxdate.getFullYear();
-     date=od_maxdate.getDate();
+    month=od_maxdate.getMonth()+1;
+    year=od_maxdate.getFullYear();
+    date=od_maxdate.getDate();
     var OD_max_date = new Date(year,month,date);
     $('#ARE_tb_dte').datepicker("option","maxDate",OD_max_date);
     //CHANGE EVENT FOR LOGIN LIST BX
@@ -320,7 +320,7 @@ $(document).ready(function(){
         {
             $(".preloader").show();
             $("#ARE_lb_attendance option[value='2']").detach();
-             loginid=$('#ARE_lb_loginid').val();
+            loginid=$('#ARE_lb_loginid').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -470,11 +470,12 @@ $(document).ready(function(){
                     $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                     var response=JSON.parse(xmlhttp.responseText);
                     $('#ARE_rd_permission').attr('checked',false);
-                        $('#ARE_rd_nopermission').attr('checked',false);
+                    $('#ARE_rd_nopermission').attr('checked',false);
                     $('#ARE_rd_permission').removeAttr("disabled");
-            $('#ARE_rd_nopermission').removeAttr("disabled");
+                    $('#ARE_rd_nopermission').removeAttr("disabled");
                     if((response[0]==1) && (response[1]==0))
                     {
+
                         $('#ARE_lbl_checkmsg').text(err_msg[11]).show();
                         $('#ARE_lb_timing').hide();
                         $('#ARE_rd_permission').hide();
@@ -1840,7 +1841,7 @@ $(document).ready(function(){
                     var finaldate=JSON.parse(xmlhttp.responseText);
                     min_date=finaldate[0];
                     max_date=finaldate[1];
-                   rprt_min_date=finaldate[2];
+                    rprt_min_date=finaldate[2];
                     project_array=finaldate[3];
                     $('#ASRC_UPD_DEL_tb_enddte').datepicker("option","maxDate",max_date);
                     $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","minDate",min_date);
@@ -3296,10 +3297,10 @@ $(document).ready(function(){
         var inputValFour=$('#ASRC_UPD_DEL_tb_dte').val();
         inputValFour = inputValFour.split("-").reverse().join("-");
         if($("input[id=ASRC_UPD_DEL_rd_btwnrange]:checked").val()=='RANGES'){
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=22&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+pdfmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=22&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+pdfmsg;
         }
         else if($("input[id=ASRC_UPD_DEL_rd_allactveemp]:checked").val()=='RANGES'){
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=21&inputValFour='+inputValFour+'&title='+pdfmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=21&inputValFour='+inputValFour+'&title='+pdfmsg;
         }
     });
     $(document).on('click','#ASRC_UPD_btn_od_pdf',function(){
@@ -3307,51 +3308,50 @@ $(document).ready(function(){
         inputValOne = inputValOne.split("-").reverse().join("-");
         var inputValTwo=$('#ASRC_UPD_DEL_tb_edte').val();
         inputValTwo = inputValTwo.split("-").reverse().join("-");
-        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=20&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=20&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
     });
 
 });
 </script>
 <body>
 <div class="container">
-<!--    <div class="wrapper">-->
-        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title"><center><b><h3 id="entry">ADMIN REPORT ENTRY/SEARCH/UPDATE</h3></b></center></div>
-        <form id="ARE_form_adminreportentry" class="content">
-            <div class="panel-body">
-                <fieldset>
-                    <div class="col-sm-12">
-                        <label name="reports_entry"  id="reports_entry">
-                            <div class="radio">
-                                <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_entry" value="entries">ENTRY</label>
-                    </div>
-            </div>
-            <div class="col-sm-12">
-                <label id="reports_search"  name="reports_search">
+    <!--    <div class="wrapper">-->
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+<!--    <div class="title"><center><b><h3 id="entry">ADMIN REPORT ENTRY/SEARCH/UPDATE</h3></b></center></div>-->
+    <div class="newtitle text-center"><b><h4>ADMIN REPORT/ ENTRY/ SEARCH/ UPDATE</h4></b></div>
+    <form id="ARE_form_adminreportentry" class="content">
+        <div class="panel-body">
+            <fieldset>
+                <div style="padding-bottom: 15px">
                     <div class="radio">
-                        <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_search" value="search">SEARCH/UPDATE</label>
-            </div>
-    </div>
+                        <label name="reports_entry" id="reports_entry">
+                            <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_entry" value="entries">ENTRY</label>
+                    </div>
+
+                    <div class="radio">
+                        <label name="reports_search" id="reports_search">
+                            <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_search" value="search">SEARCH / UPDATE</label>
+                    </div></div>
+<div class="row-fluid form-group">
+    <label name="ARE_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
+</div>
+<div id="entries" hidden>
     <div class="row-fluid form-group">
-        <label name="ARE_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
-    </div>
-    <div id="entries" hidden>
-        <div class="row-fluid form-group">
-            <label name="ARE_lbl_optn" class="col-sm-3" id="ARE_lbl_optn">SELECT A OPTION<em>*</em></label>
-            <div class="col-sm-4">
-                <select id="option" name="option"class="form-control"style="width: 250px;">
-                    <option>SELECT</option>
-                    <option>ADMIN REPORT ENTRY</option>
-                    <option>ONDUTY REPORT ENTRY</option>
-                </select>
-            </div></div>
+        <label name="ARE_lbl_optn" class="col-sm-3" id="ARE_lbl_optn">SELECT A OPTION<em>*</em></label>
+        <div class="col-sm-4">
+            <select id="option" name="option"class="form-control"style="width: 250px;">
+                <option>SELECT</option>
+                <option>ADMIN REPORT ENTRY</option>
+                <option>ONDUTY REPORT ENTRY</option>
+            </select>
+        </div></div>
 
 
-        <div class="row-fluid form-group">
-            <label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden>
-                <div class="col-sm-4"><div class="radio">
-                        <input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label>
-        </div></div></div>
+    <div class="row-fluid form-group">
+        <label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden>
+            <div class="col-sm-4"><div class="radio">
+                    <input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label>
+    </div></div></div>
 <div class="row-fluid form-group">
     <label name="entry" class="col-sm-8" id="ARE_lbl_mulentry" hidden>
         <div class="col-sm-4"><div class="radio">
@@ -3390,7 +3390,7 @@ $(document).ready(function(){
     <div id="ARE_tble_attendence" class="row-fluid form-group" >
         <label name="ARE_lbl_attendance" class="col-sm-2" id="ARE_lbl_attendance" >ATTENDANCE</label>
         <div class="col-sm-4">
-            <select id="ARE_lb_attendance" name="ARE_lb_attendance">
+            <select id="ARE_lb_attendance" name="ARE_lb_attendance" class="form-control"style="display: inline">
                 <option>SELECT</option>
                 <option value="1">PRESENT</option>
                 <option value="0">ABSENT</option>
@@ -3401,22 +3401,22 @@ $(document).ready(function(){
 
     <div class="row-fluid form-group">
         <div class="col-sm-2">
-        <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">
-            <div class="radio">
+            <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">
+                <div class="radio">
                     <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em>
                 </div>
             </label>
-    </div>
-<div class="col-lg-2">
-    <select name="ARE_lb_timing" id="ARE_lb_timing" style="display:none" hidden>
-        <option>SELECT</option>
-    </select>
-</div></div>
-<div class="row-fluid form-group">
-    <label name="ARE_nopermission" class="col-sm-8" id="ARE_lbl_nopermission">
-        <div class="col-sm-3"><div class="radio">
-                <input type="radio" name="permission" id="ARE_rd_nopermission" class='permissn' value="NOPERMISSION" hidden >NO PERMISSION<em>*</em></label>
-</div></div></div>
+        </div>
+        <div class="col-lg-2">
+            <select name="ARE_lb_timing" id="ARE_lb_timing" style="display:none" hidden>
+                <option>SELECT</option>
+            </select>
+        </div></div>
+    <div class="row-fluid form-group">
+        <label name="ARE_nopermission" class="col-sm-8" id="ARE_lbl_nopermission">
+            <div class="col-sm-3"><div class="radio">
+                    <input type="radio" name="permission" id="ARE_rd_nopermission" class='permissn' value="NOPERMISSION" hidden >NO PERMISSION<em>*</em></label>
+    </div></div></div>
 <div class="row-fluid form-group">
     <label name="ARE_lbl_session" class="col-sm-2" id="ARE_lbl_session" hidden >SESSION</label>
     <div class="col-sm-4">

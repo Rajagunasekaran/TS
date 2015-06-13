@@ -388,15 +388,16 @@ $(document).ready(function(){
         var inputValOne=$('#REP_date').val();
         var inputValTwo=$('#REP_lb_loginid').val();
         if($('#REP_lb_attendance').val()==1){
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==2){
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
         else if($('#REP_lb_attendance').val()==6){
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
         }
     });
+    });.d
 });
 //DOCUMENT READY FUNCTION END
 </script>
@@ -405,7 +406,9 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><p><center><h3><b>ATTENDANCE</b></h3></center><p></div>
+    <div class="newtitle text-center"><b><h4>ATTENDANCE</h4></b></div>
+<!--   <div class="title text-center"><h4><b>ATTENDANCE</b></h4></div>-->
+<!--    <div class="title"><p><center><h3><b>ATTENDANCE</b></h3></center><p></div>-->
     <form   id="REP_form_attendance" class="content" >
         <div class="panel-body">
             <fieldset>

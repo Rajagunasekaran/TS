@@ -1,6 +1,6 @@
 <?php
-require_once 'google/appengine/api/mail/Message.php';
-use google\appengine\api\mail\Message;
+//require_once 'google/appengine/api/mail/Message.php';
+//use google\appengine\api\mail\Message;
 //error_reporting(0);
 if(isset($_REQUEST)){
     include "../TSLIB/TSLIB_CONNECTION.php";

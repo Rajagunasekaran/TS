@@ -523,7 +523,9 @@ $(document).ready(function(){
 <body class="dt-example">
 <div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="../image/Loading.gif"/></div></div></div>
-    <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY</h3></b></center></div>
+<!--    <div class="title text-center"><h4><b>CONFIGURATION ENTRY</b></h4></div>-->
+    <div class="newtitle text-center"><b><h4>CONFIGURATION ENTRY</h4></b></div>
+<!--    <div class="title" id="fhead"><center><b><h3>CONFIGURATION ENTRY</h3></b></center></div>-->
     <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
         <div class="panel-body">
             <fieldset>

@@ -212,7 +212,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><center><p><b><h3>COMPANY PROPERTY VERIFICATION</h3></b><p></center></div>
+    <div class="newtitle text-center"><b><h4>COMPANY PROPERTY VERIFICATION</h4></b></div>
+<!--    <div class="title"><center><p><b><h3>COMPANY PROPERTY VERIFICATION</h3></b><p></center></div>-->
     <form   id="CPVD_form_cmpnypropverfictn" class="content" >
         <div class="panel-body">
             <fieldset>

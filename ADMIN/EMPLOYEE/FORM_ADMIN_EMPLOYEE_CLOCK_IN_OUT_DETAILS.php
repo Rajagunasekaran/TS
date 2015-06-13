@@ -624,13 +624,13 @@ $(document).ready(function(){
             var inputValTwo=$('#REP_tb_enddtebyrange').val();
             inputValTwo = inputValTwo.split("-").reverse().join("-");
             var inputValThree=$('#REP_lb_loginid').val();
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
         });
         //CLICK FUNCTION FOR PDF BUTTON
         $(document).on('click','#REP_btn_pdfs',function(){
             var inputValFour=$('#REP_tb_date').val();
             inputValFour = inputValFour.split("-").reverse().join("-");
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=23&inputValFour='+inputValFour+'&title='+REP_allactve_msg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=23&inputValFour='+inputValFour+'&title='+REP_allactve_msg;
         });
         //FUNCTION FOR SORTING
         function sorting(){
@@ -1195,12 +1195,12 @@ $(document).ready(function(){
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#CLK_btn_mnth_pdf',function(){
             var inputValOne=$('#CLK_db_selectmnth').val();
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
         });
         $(document).on('click','#CLK_btn_emp_pdf',function(){
             var inputValOne=$("#CLK_db_selectmnths").val();
             var inputValThree =$('#CLK_lb_loginid').val();
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
         });
 
     });
@@ -1211,7 +1211,8 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title" ><center><b><h3 id="inout">CLOCK DETAILS</h3></b></center></div>
+    <div class="newtitle text-center"><b><h4>CLOCK DETAILS</h4></b></div>
+<!--    <div class="title" ><center><b><h3 id="inout">CLOCK DETAILS</h3></b></center></div>-->
     <form   id="REP_chk_form_details" class="content" >
         <div class="panel-body">
             <fieldset>

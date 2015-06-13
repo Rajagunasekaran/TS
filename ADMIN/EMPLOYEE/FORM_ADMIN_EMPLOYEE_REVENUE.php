@@ -451,7 +451,7 @@ $(document).ready(function(){
     });
 // CHANGE EVENT FOR LOGINID
     $('#REV_lb_loginid').change(function(){
-//        $('.preloader', window.parent.document).hide();
+//        $('.preloader', window.parent.phpcument).hide();
         $(".preloader").hide();
         $('#REV_lbl_emptitle').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
         $('#REV_btn_emplist_pdf').hide();
@@ -615,7 +615,7 @@ $(document).ready(function(){
         }
         else if(option==9)
         {
-//            $('.preloader', window.parent.document).show();
+//            $('.preloader', window.parent.phpcument).show();
             $(".preloader").show();
             $('#REV_lbl_empproject').hide();
             $('#REV_lb_empproject').val("SELECT").hide();
@@ -645,7 +645,7 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var values_array=JSON.parse(xmlhttp.responseText);
-//                    $('.preloader', window.parent.document).hide();
+//                    $('.preloader', window.parent.phpcument).hide();
                     $(".preloader").hide();
                     if(values_array[0]!=null && values_array[0]!=''){
                         $('#REV_tb_strtdte,#REV_tb_enddte,#REV_lbl_strtdte,#REV_lbl_enddte,#REV_btn_search').show();$('#REV_err_msg_date').hide();
@@ -823,12 +823,19 @@ $(document).ready(function(){
             }
             else if((option=='10'))
             {
+                alert('date');
 //                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 $('<div class="row-fluid form-group"><label class="col-sm-2 name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange" class=" validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate')
                 $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_enddte" id="REV_lbl_enddtebyrange" >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddtebyrange" id="REV_tb_enddtebyrange" class=" validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate')
                 $('<div class="row-fluid form-group col-sm-2"><input type="button" class="btn" name="REV_btn_searchdaterange" id="REV_btn_searchdaterange"  value="SEARCH" disabled></div>').appendTo('#REV_tble_searchbtn')
                 //DATE PICKER FUNCTION
+                $('.REV_datepicker').datepicker(
+                    {
+                        dateFormat: 'dd-mm-yy',
+                        changeYear: true,
+                        changeMonth: true
+                    });
                 $('.REV_datepicker').datepicker(
                     {
                         dateFormat: 'dd-mm-yy',
@@ -1505,7 +1512,7 @@ $(document).ready(function(){
     $(document).on('click','#REV_btn_pdf',function(){
         var inputValOne=$("#REV_lb_projectname").val();
         var inputValTwo=$('#REV_lb_precver').val();
-        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
     });
     $(document).on('click','#REV_btn_emp_pdf',function(){
         if($("input[id=REV_rd_withproject]:checked").val()=="project"){
@@ -1517,10 +1524,10 @@ $(document).ready(function(){
             var inputValFive=$('#REV_tb_enddte').val();
             inputValFive = inputValFive.split("-").reverse().join("-");
             if($('#REV_lb_project').val()==8){
-                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
+                var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
             }
             else if($('#REV_lb_project').val()==9){
-                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
             }
         }
     });
@@ -1532,10 +1539,10 @@ $(document).ready(function(){
             var inputValFive=$('#REV_tb_enddte').val();
             inputValFive = inputValFive.split("-").reverse().join("-");
             if($('#REV_lb_project').val()==8){
-                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
+                var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
             }
             else if($('#REV_lb_project').val()==9){
-                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
             }
         }
     });
@@ -1546,7 +1553,7 @@ $(document).ready(function(){
         inputValThree = inputValThree.split("-").reverse().join("-");
         var inputValFour=$('#REV_tb_enddtebyrange').val();
         inputValFour = inputValFour.split("-").reverse().join("-");
-        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
     });
 });
 //DOCUMENT READY FUNCTION END
@@ -1556,23 +1563,24 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><p><center><b><h3>REVENUE</h3></b></center><p></div>
+    <div class="newtitle text-center"><b><h4>REVENUE</h4></b></div>
+<!--    <div class="title"><p><center><b><h3>REVENUE</h3></b></center><p></div>-->
     <form   id="REV_form_revenue" class="content" >
         <div class="panel-body">
             <fieldset>
         <!--        <div class="table-responsive">-->
         <div class="row-fluid form-group">
-            <label class="col-sm-2" name="REV_lbl_prjct" id="REV_lbl_prjct" hidden>PROJECT<em>*</em></label>
+            <label class="col-sm-2" name="REV_lbl_prjct" id="REV_lbl_prjct">PROJECT<em>*</em></label>
             <div class="col-sm-4">
-                <select id="REV_lb_project" class="form-control" name="REV_lb_project" hidden>
+                <select id="REV_lb_project" class="form-control" style="display: inline" name="REV_lb_project" hidden>
                 </select>
             </div></div>
         <div><label id="REV_nodata_rc" name="REV_nodata_rc" class="errormsg"></label></div>
         <div  id="REV_tble_prjctrevenue"  hidden>
             <div class="row-fluid form-group">
-                <label class="col-sm-2" name="REV_lbl_prjctnme" id="REV_lbl_prjctnme" hidden >PROJECT NAME<em>*</em></label></td>
+                <label class="col-sm-2" name="REV_lbl_prjctnme" id="REV_lbl_prjctnme">PROJECT NAME<em>*</em></label></td>
                 <div class="col-sm-4">
-                    <select id="REV_lb_projectname" name="REV_lb_projectname" hidden>
+                    <select id="REV_lb_projectname" class="form-control" style="display: inline" name="REV_lb_projectname" hidden>
                     </select>
                 </div>
             </div></div>

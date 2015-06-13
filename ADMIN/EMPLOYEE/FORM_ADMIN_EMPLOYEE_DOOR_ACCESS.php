@@ -71,7 +71,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         }
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#DR_ACC_btn_pdf',function(){
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=4&title='+errmsg;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=4&title='+errmsg;
 
         });
     });
@@ -84,7 +84,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <body class="dt-example">
 <div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
-    <div class="title" id="fhead"><p style="padding-top: 30px;"><center><b><h3>DOOR ACCESS DETAILS</h3></b></center><p></div>
+    <div class="newtitle text-center"><b><h4>DOOR ACCESS DETAILS</h4></b></div>
+<!--    <div class="title" id="fhead"><p style="padding-top: 30px;"><center><b><h3>DOOR ACCESS DETAILS</h3></b></center><p></div>-->
     <form class="content" name="DR_ACC_form_user" id="DR_ACC_form_user" autocomplete="off" >
         <div class="panel-body">
             <fieldset>

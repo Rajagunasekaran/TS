@@ -569,7 +569,7 @@ $(document).ready(function(){
 //        $('#'+edittrid).html(pre_tds);
 //    });
     $(document).on('click','#PE_btn_pdf',function(){
-        var url=document.location.href='TSLIB/COMMON_PDF.do?flag=17&title='+error_message[6];
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=17&title='+error_message[6];
     });
 
     function first()
@@ -754,10 +754,12 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
-    <div class="newtitle" id="fhead" ><p style="padding-top: 20px";><center><h3>PROJECT ENTRY/SEARCH/UPDATE</h3></center><p></div>
+<!--    <div class="title text-center"><h4><b>PROJECT ENTRY/SEARCH/UPDATE</b></h4></div>-->
+    <div class="newtitle text-center"><b><h4>PROJECT ENTRY/SEARCH/UPDATE</h4></b></div>
+<!--    <div class="title"><center><b><h3>PROJECT ENTRY/SEARCH/UPDATE</h3></b></center></div>-->
     <form  name="PE_form_projectentry" id="PE_form_projectentry" method="post" class="newcontent">
         <div class="table-responsive">
-            <div class="row-fluid form-group">
+            <div class="row-f luid form-group">
                 <label class="col-lg-4" name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label>
                 <div class="col-lg-8">
                     <input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label>

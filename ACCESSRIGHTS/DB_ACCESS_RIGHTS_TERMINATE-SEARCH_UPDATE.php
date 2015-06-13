@@ -12,9 +12,8 @@
 //VER 0.01-INITIAL VERSION, SD:20/08/2014 ED:11/09/2014,TRACKER NO:81
 //*********************************************************************************************************//-->
 
-set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
+set_include_path( get_include_path() . PATH_SEPARATOR . '../google-api-php-client-master/src' );
 require_once 'google/appengine/api/mail/Message.php';
-require_once 'google-api-php-client-master/src/Google/autoload.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
@@ -22,7 +21,6 @@ use google\appengine\api\mail\Message;
 include "../TSLIB/TSLIB_CONNECTION.php";
 include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
-include "../TSLIB/TSLIB_CONFIG.php";
 function getULD_ID_from_ULD_LOGINID1($ULD_LOGINID){
     global $con;
     $query="select ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID ='".$ULD_LOGINID."'";
@@ -40,7 +38,6 @@ if(isset($_REQUEST))
     if($_REQUEST['option']=='TERMINATIONLB')
     {
         $active_emp=get_active_emp_id();
-
 
         echo json_encode( $active_emp);
     }
@@ -63,7 +60,6 @@ if(isset($_REQUEST))
             $get_rname_array[]=$row["URC_DATA"];
         }
         //LAPTOP NUMBER
-//        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES  ORDER BY CP_LAPTOP_NUMBER");
         $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_FLAG IS NULL ORDER BY CP_LAPTOP_NUMBER");
         $get_lname_array=array();
         while($row=mysqli_fetch_array($lname_result)){
@@ -81,11 +77,33 @@ if(isset($_REQUEST))
         while($row=mysqli_fetch_array($acctype_result)){
             $get_acctype_array[]=$row["URC_DATA"];
         }
+//        function get_data(){
+//            global $USERSTAMP;
+//            global $con;
+//            $service=mysqli_query($con," select URC_DATA from USER_RIGHTS_CONFIGURATION where URC_ID in (28,29,30,31,32,33)");
+//            while($row=mysqli_fetch_array($service)){
+//                $Client[]=$row["URC_DATA"];
+//            }
+//            return $Client;
+//
+//
+
         $final_array=array($get_rdesgn_array,$get_rname_array,$get_lname_array,$get_acctype_array);
         echo json_encode($final_array);
     }
     else if($_REQUEST['option']=='FETCH')
     {
+
+////
+//        $Client=get_servicedata();
+//        $ClientId=$Client[0];
+//        $ClientSecret=$Client[1];
+//        $RedirectUri=$Client[3];
+//        $DriveScopes=$Client[4];
+//        $CalenderScopes=$Client[5];
+//        $Refresh_Token=$Client[6];
+
+
         $URT_SRC_uld_id = $_REQUEST['URT_SRC_loggin'];
         $select_recver="SELECT UA_REC_VER FROM USER_ACCESS WHERE ULD_ID =(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_ID='$URT_SRC_uld_id') AND UA_TERMINATE='X'";
         $selectrecver_rs=mysqli_query($con,$select_recver);
@@ -149,12 +167,8 @@ if(isset($_REQUEST))
         }
         //EMPLOYEE DETAILS
         $login_id_result = $_REQUEST['URT_SRC_loggin'];
-//        $loginsearch_fetchingdata= mysqli_query($con,"SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,ED.ED_DESIGNATION AS EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,URC2.URC_DATA AS EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_HOUSE_NO,EMP.EMP_STREET_NAME,EMP.EMP_AREA,EMP.EMP_PIN_CODE,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,URC3.URC_DATA AS EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,EMPLOYEE_DESIGNATION ED,USER_RIGHTS_CONFIGURATION URC2,USER_RIGHTS_CONFIGURATION URC3,COMPANY_PROPERTIES CP,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ED.ED_ID=EMP.EMP_DESIGNATION AND URC2.URC_ID=EMP.EMP_RELATIONHOOD AND URC3.URC_ID=EMP.EMP_ACCOUNT_TYPE AND CP.CP_ID=CPD.CP_ID AND ULD.ULD_ID='$login_id_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
-
-//        echo "SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,ED.ED_DESIGNATION AS EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,URC2.URC_DATA AS EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_HOUSE_NO,EMP.EMP_STREET_NAME,EMP.EMP_AREA,EMP.EMP_PIN_CODE,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,URC3.URC_DATA AS EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID left join COMPANY_PROPERTIES CP ON CPD.CP_ID = CP.CP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,EMPLOYEE_DESIGNATION ED,USER_RIGHTS_CONFIGURATION URC2,USER_RIGHTS_CONFIGURATION URC3,ROLE_CREATION RC WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ED.ED_ID=EMP.EMP_DESIGNATION AND URC2.URC_ID=EMP.EMP_RELATIONHOOD AND URC3.URC_ID=EMP.EMP_ACCOUNT_TYPE AND ULD.ULD_ID='$login_id_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME";
-
-        $loginsearch_fetchingdata= mysqli_query($con,"SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,ED.ED_DESIGNATION AS EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,URC2.URC_DATA AS EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_HOUSE_NO,EMP.EMP_STREET_NAME,EMP.EMP_AREA,EMP.EMP_PIN_CODE,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,URC3.URC_DATA AS EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID left join COMPANY_PROPERTIES CP ON CPD.CP_ID = CP.CP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,EMPLOYEE_DESIGNATION ED,USER_RIGHTS_CONFIGURATION URC2,USER_RIGHTS_CONFIGURATION URC3,ROLE_CREATION RC WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ED.ED_ID=EMP.EMP_DESIGNATION AND URC2.URC_ID=EMP.EMP_RELATIONHOOD AND URC3.URC_ID=EMP.EMP_ACCOUNT_TYPE AND ULD.ULD_ID='$login_id_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
-
+        $loginsearch_fetchingdata= mysqli_query($con,"SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
+           FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD.ULD_ID='$login_id_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result' ) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         while($row=mysqli_fetch_array($loginsearch_fetchingdata)){
             $URSRC_role=$row['URC_DATA'];
             $URSRC_firstname=$row['EMP_FIRST_NAME'];
@@ -369,7 +383,7 @@ if(isset($_REQUEST))
             $URSRC_voterid='';
         }
         $con->autocommit(false);
-//   echo "CALL  SP_TS_LOGIN_CREATION_INSERT('2','$loggin_empty','$loggin','$final_radioval','$joindate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comments','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$userstamp','$URSRC_house','$URSRC_street','$URSRC_area','$URSRC_postal',@success_flag)";
+//        echo "CALL  SP_TS_LOGIN_CREATION_INSERT('2','$loggin_empty','$loggin','$final_radioval','$joindate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comments','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$userstamp','$URSRC_house','$URSRC_street','$URSRC_area','$URSRC_postal',@success_flag)";
 //   exit;
         $result = $con->query("CALL  SP_TS_LOGIN_CREATION_INSERT('2','$loggin_empty','$loggin','$final_radioval','$joindate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comments','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$userstamp','$URSRC_house','$URSRC_street','$URSRC_area','$URSRC_postal',@success_flag)");
 //        $result = $con->query("CALL  SP_TS_LOGIN_CREATION_INSERT('2','$loggin_empty','$login_id','$final_radioval','$joindate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comments','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$userstamp','$URSRC_house','$URSRC_street','$URSRC_area','$URSRC_postal',@success_flag)");
@@ -377,200 +391,247 @@ if(isset($_REQUEST))
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
-//        if($flag==1){
-//            $select_loggin=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID= $login_id");
-//            if($row=mysqli_fetch_array($select_loggin)){
-//                $loggin=$row["ULD_LOGINID"];
-//
-//            }
-//            $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
-//            $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
-//            $admin_rs=mysqli_query($con,$select_admin);
-//            $sadmin_rs=mysqli_query($con,$select_sadmin);
-//            if($row=mysqli_fetch_array($admin_rs)){
-//                $admin=$row["ULD_LOGINID"];//get admin
-//            }
-//            if($row=mysqli_fetch_array($sadmin_rs)){
-//                $sadmin=$row["ULD_LOGINID"];//get super admin
-//            }
-//            $select_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=4");
-//            if($row=mysqli_fetch_array($select_link)){
-//                $site_link=$row["URC_DATA"];
-//            }
-//            $select_ss_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=5");
-//            if($row=mysqli_fetch_array($select_ss_link)){
-//                $ss_link=$row["URC_DATA"];
-//            }
-//
-//            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
-//            if($row=mysqli_fetch_array($select_fileid)){
-//                $ss_fileid=$row["URC_DATA"];
-//            }
-//            $loginid_name = strtoupper(substr($loggin, 0, strpos($loggin, '@')));
-//            if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
-//
-//                $loginid_name = strtoupper(substr($loginid_name, 0, strpos($loginid_name, '.')));
-//
-//            }
-//            else{
-//                $loginid_name=$loginid_name;
-//            }
-//            $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loggin'");
-//            while($row=mysqli_fetch_array($uld_id)){
-//                $URSC_uld_id=$row["ULD_ID"];
-//            }
-//            $select_des=mysqli_query($con,"SELECT EMP_DESIGNATION FROM EMPLOYEE_DETAILS WHERE ULD_ID='$URSC_uld_id'");
-//            while($row=mysqli_fetch_array($select_des)){
-//                $URSC_des=$row["EMP_DESIGNATION"];
-//            }
-//
-//            $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
-//            if($row=mysqli_fetch_array($select_calenderid)){
-//                $calenderid=$row["URC_DATA"];
-//            }
-//
-//            $select_youtubelink=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=12");
-//            if($row=mysqli_fetch_array($select_youtubelink)){
-//                $youtubelink=$row["URC_DATA"];
-//            }
-//            $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
-//            if($row=mysqli_fetch_array($select_folderid)){
-//                $folderid=$row["URC_DATA"];
-//            }
-//
-//            $fileId=$ss_fileid;
-//            $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=1";
-//            $select_template_rs=mysqli_query($con,$select_template);
-//            if($row=mysqli_fetch_array($select_template_rs)){
-//                $mail_subject=$row["ETD_EMAIL_SUBJECT"];
-//                $body=$row["ETD_EMAIL_BODY"];
-//            }
-//            $drive = new Google_Client();
-//            $drive->setClientId($ClientId);
-//            $drive->setClientSecret($ClientSecret);
-//            $drive->setRedirectUri($RedirectUri);
-//            $drive->setScopes(array($DriveScopes,$CalenderScopes));
-//            $drive->setAccessType('online');
-//            $authUrl = $drive->createAuthUrl();
-//            $refresh_token= $Refresh_Token;
-//            $drive->refreshToken($refresh_token);
-//            $service = new Google_Service_Drive($drive);
-//            $return_array=URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN',$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid);
-////           print_r($return_array);
-//
-//            $ss_flag=$return_array[0];
-//            $cal_flag=$return_array[1];
-//
-//            $file_array=$return_array[3];
-////            echo $cal_flag.$ss_flag;
-//             if($filesarray!=''){
-//
-//            if(count($file_array)==0){
-//                $file_flag=0;
-//                $cal_flag=0;
-//                URSRC_unshare_document($loggin,$fileId);
-//                $con->rollback();
-//
-//            }
-//             }
-//
-//            if($ss_flag==0){
-//
-//                $con->rollback();
-//
-//            }
-//            if($cal_flag==0){
-//                URSRC_unshare_document($loggin,$fileId);
-//                for($i=0;$i<count($file_array);$i++){
-//                    delete_file($service,$file_array[$i]);
-//                }
-//                $con->rollback();
-//            }
-////            echo $flag.$ss_flag.$cal_flag.$fileId.$file_flag.$folderid;
-//            if(($ss_flag==1)&&($cal_flag==1)){
-//                $email_body;
-//                $body_msg =explode("^", $body);
-//                $length=count($body_msg);
-//                for($i=0;$i<$length;$i++){
-//                    $email_body.=$body_msg[$i].'<br><br>';
-//                }
-//                $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]","[DES]");
-//                $str_replaced  = array($URSRC_firstname,$site_link, $ss_link, $youtubelink,'<b>'.$URSRC_designation.'</b>');
-//                $final_message = str_replace($replace, $str_replaced, $email_body);
-//
-//                $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=10";
-//                $select_template_rs=mysqli_query($con,$select_template);
-//                if($row=mysqli_fetch_array($select_template_rs)){
-//                    $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
-//                    $body=$row["ETD_EMAIL_BODY"];
-//                }
-////STRING REPLACE FUNCTION
-//                $emp_email_body;
-//                $body_msg =explode("^", $body);
-//                $length=count($body_msg);
-//                for($i=0;$i<$length;$i++){
-//                    $emp_email_body.=$body_msg[$i].'<br><br>';
-//                }
-//                $comment =explode("\n", $URSRC_branchaddr1);
-//                $commnet_length=count($comment);
-//                for($i=0;$i<$commnet_length;$i++){
-//                    $comment_msg.=$comment[$i].'<br>';
-//                }
-//                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
-//                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
-//
-//                $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
-//                $final_message=$final_message.'<br>'.$newphrase;
-//
+        if($flag==1){
+            $select_loggin=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID= $login_id");
+            if($row=mysqli_fetch_array($select_loggin)){
+                $loggin=$row["ULD_LOGINID"];
+
+            }
+            $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
+            $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
+            $admin_rs=mysqli_query($con,$select_admin);
+            $sadmin_rs=mysqli_query($con,$select_sadmin);
+            if($row=mysqli_fetch_array($admin_rs)){
+                $admin=$row["ULD_LOGINID"];//get admin
+            }
+            if($row=mysqli_fetch_array($sadmin_rs)){
+                $sadmin=$row["ULD_LOGINID"];//get super admin
+            }
+            $select_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=4");
+            if($row=mysqli_fetch_array($select_link)){
+                $site_link=$row["URC_DATA"];
+            }
+            $select_ss_link=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=5");
+            if($row=mysqli_fetch_array($select_ss_link)){
+                $ss_link=$row["URC_DATA"];
+            }
+
+            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
+            if($row=mysqli_fetch_array($select_fileid)){
+                $ss_fileid=$row["URC_DATA"];
+            }
+            $loginid_name = strtoupper(substr($loggin, 0, strpos($loggin, '@')));
+            if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
+
+                $loginid_name = strtoupper(substr($loginid_name, 0, strpos($loginid_name, '.')));
+
+            }
+            else{
+                $loginid_name=$loginid_name;
+            }
+            $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loggin'");
+            while($row=mysqli_fetch_array($uld_id)){
+                $URSC_uld_id=$row["ULD_ID"];
+            }
+            $select_des=mysqli_query($con,"SELECT EMP_DESIGNATION FROM EMPLOYEE_DETAILS WHERE ULD_ID='$URSC_uld_id'");
+            while($row=mysqli_fetch_array($select_des)){
+                $URSC_des=$row["EMP_DESIGNATION"];
+            }
+
+            $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
+            if($row=mysqli_fetch_array($select_calenderid)){
+                $calenderid=$row["URC_DATA"];
+            }
+
+            $select_youtubelink=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=12");
+            if($row=mysqli_fetch_array($select_youtubelink)){
+                $youtubelink=$row["URC_DATA"];
+            }
+            $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
+            if($row=mysqli_fetch_array($select_folderid)){
+                $folderid=$row["URC_DATA"];
+            }
+
+            $fileId=$ss_fileid;
+            $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=1";
+            $select_template_rs=mysqli_query($con,$select_template);
+            if($row=mysqli_fetch_array($select_template_rs)){
+                $mail_subject=$row["ETD_EMAIL_SUBJECT"];
+                $body=$row["ETD_EMAIL_BODY"];
+            }
+            $Client=get_servicedata();
+            $ClientId=$Client[0];
+            $ClientSecret=$Client[1];
+            $RedirectUri=$Client[3];
+            $DriveScopes=$Client[4];
+            $CalenderScopes=$Client[5];
+            $Refresh_Token=$Client[6];
+            $drive = new Google_Client();
+            $drive->setClientId($ClientId);
+            $drive->setClientSecret($ClientSecret);
+            $drive->setRedirectUri($RedirectUri);
+            $drive->setScopes(array($DriveScopes,$CalenderScopes));
+            $drive->setAccessType('online');
+            $authUrl = $drive->createAuthUrl();
+            $refresh_token= $Refresh_Token;
+            $drive->refreshToken($refresh_token);
+            $service = new Google_Service_Drive($drive);
+            $return_array=URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN',$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid);
+//           print_r($return_array);
+
+            $ss_flag=$return_array[0];
+            $cal_flag=$return_array[1];
+
+            $file_array=$return_array[3];
+//            echo $cal_flag.$ss_flag;
+             if($filesarray!=''){
+
+            if(count($file_array)==0){
+                $file_flag=0;
+                $cal_flag=0;
+                URSRC_unshare_document($loggin,$fileId);
+                $con->rollback();
+
+            }
+             }
+
+            if($ss_flag==0){
+
+                $con->rollback();
+
+            }
+            if($cal_flag==0){
+                URSRC_unshare_document($loggin,$fileId);
+                for($i=0;$i<count($file_array);$i++){
+                    delete_file($service,$file_array[$i]);
+                }
+                $con->rollback();
+            }
+//            echo $flag.$ss_flag.$cal_flag.$fileId.$file_flag.$folderid;
+            if(($ss_flag==1)&&($cal_flag==1)){
+                $email_body;
+                $body_msg =explode("^", $body);
+                $length=count($body_msg);
+                for($i=0;$i<$length;$i++){
+                    $email_body.=$body_msg[$i].'<br><br>';
+                }
+                $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]","[DES]");
+                $str_replaced  = array($URSRC_firstname,$site_link, $ss_link, $youtubelink,'<b>'.$URSRC_designation.'</b>');
+                $final_message = str_replace($replace, $str_replaced, $email_body);
+
+                $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=10";
+                $select_template_rs=mysqli_query($con,$select_template);
+                if($row=mysqli_fetch_array($select_template_rs)){
+                    $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
+                    $body=$row["ETD_EMAIL_BODY"];
+                }
+                //not aplicable
+                if($URSRC_laptopno=='')
+                {
+                    $URSRC_laptopno="N/A";
+                }
+                else{
+                    $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                }
+                if($URSRC_chrgrno=='')
+                {
+                    $URSRC_chrgrno="N/A";
+                }
+                else{
+                    $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+                }
+                if($URSRC_chk_aadharno=='on')
+                {
+                    $URSRC_aadharno;
+                }
+                else
+                {
+                    $URSRC_aadharno="N/A";
+                }
+                if($URSRC_chk_passportno=='on')
+                {
+                    $URSRC_passportno;
+                }
+                else
+                {
+                    $URSRC_passportno="N/A";
+                }
+                if($URSRC_chk_votersid=='on')
+                {
+                    $URSRC_voterid;
+                }
+                else
+                {
+                    $URSRC_voterid="N/A";
+                }
+                //not applicable
+//STRING REPLACE FUNCTION
+                $emp_email_body;
+                $body_msg =explode("^", $body);
+                $length=count($body_msg);
+                for($i=0;$i<$length;$i++){
+                    $emp_email_body.=$body_msg[$i].'<br><br>';
+                }
+                $comment =explode("\n", $URSRC_branchaddr1);
+                $commnet_length=count($comment);
+                for($i=0;$i<$commnet_length;$i++){
+                    $comment_msg.=$comment[$i].'<br>';
+                }
+                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
+                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
+
+                $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
+                $final_message=$final_message.'<br>'.$newphrase;
+
 //                //SENDING MAIL OPTIONS
-//                $name = 'REJOIN';
-//                $from = $admin;
-//                $message1 = new Message();
-//                $message1->setSender($name.'<'.$from.'>');
-//                $message1->addTo($loggin);
-//                $message1->addCc($admin);
-//                $message1->setSubject($mail_subject);
-//                $message1->setHtmlBody($final_message);
-//
-//                try {
-//                    $message1->send();
-//                } catch (\InvalidArgumentException $e) {
-//                    echo $e;
-//                }
-//
-//                $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
-//                $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
-//                if($row=mysqli_fetch_array($select_introtemplate_rs)){
-//                    $intro_mail_subject=$row["ETD_EMAIL_SUBJECT"];
-//                    $intro_body=$row["ETD_EMAIL_BODY"];
-//                }
-//                $intro_email_body;
-//                $intro_body_msg =explode("^", $intro_body);
-//                $intro_length=count($intro_body_msg);
-//                for($i=0;$i<$intro_length;$i++){
-//                    $intro_email_body.=$intro_body_msg[$i].'<br><br>';
-//                }
-//                $replace= array("[DATE]", "[employee name]","[emailid]","[designation]");
-//                $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loggin,'<b>'.$URSRC_designation.'</b>');
-//                $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
-//                $cc_array=get_active_login_id();
-////                $cc_array=['safiyullah.mohideen@ssomens.com'];
+                $name = 'REJOIN';
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($loggin);
+                $message1->addCc($admin);
+                $message1->setSubject($mail_subject);
+                $message1->setHtmlBody($final_message);
+
+                try {
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
+
+                $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
+                $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
+                if($row=mysqli_fetch_array($select_introtemplate_rs)){
+                    $intro_mail_subject=$row["ETD_EMAIL_SUBJECT"];
+                    $intro_body=$row["ETD_EMAIL_BODY"];
+                }
+                $intro_email_body;
+                $intro_body_msg =explode("^", $intro_body);
+                $intro_length=count($intro_body_msg);
+                for($i=0;$i<$intro_length;$i++){
+                    $intro_email_body.=$intro_body_msg[$i].'<br><br>';
+                }
+                $replace= array("[DATE]", "[employee name]","[emailid]","[designation]");
+                $str_replaced  = array(date("d-m-Y"),'<b>'.$URSRC_firstname.'</b>', $loggin,'<b>'.$URSRC_designation.'</b>');
+                $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
+                $cc_array=get_active_login_id();
+//                $cc_array=['safiyullah.mohideen@ssomens.com'];
 //                //SENDING MAIL OPTIONS
-//                $name = 'REJOIN';
-//                $from = $admin;
-//                $message1 = new Message();
-//                $message1->setSender($name.'<'.$from.'>');
-//                $message1->addTo($cc_array);
-//                $message1->setSubject($intro_mail_subject);
-//                $message1->setHtmlBody($intro_message);
-//
-//                try {
-//                    $message1->send();
-//                } catch (\InvalidArgumentException $e) {
-//                    echo $e;
-//                }
-//            }
-            $flag_array=[$flag,'1','1','1','1','1'];
+                $name = 'REJOIN';
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($cc_array);
+                $message1->setSubject($intro_mail_subject);
+                $message1->setHtmlBody($intro_message);
+
+                try {
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
+            }
+        $flag_array=[$flag,'1','1','1','1','1'];
 //
 //        }
 //        else{
@@ -583,6 +644,7 @@ if(isset($_REQUEST))
     }
     else if($_REQUEST['option']=='TERMINATE')
     {
+        set_time_limit(0);
         $reason_termin=$_POST['URT_SRC_ta_nreasontermination'];
         $reason_termin=$con->real_escape_string($reason_termin);
         $loggin=$_REQUEST['loggin'];
@@ -595,50 +657,51 @@ if(isset($_REQUEST))
             $emp_name=$row["EMPLOYEE_NAME"];
 
         }
+//        echo "CALL SP_TS_LOGIN_TERMINATE_SAVE($loggin,'$enddate','$reason_termin','$userstamp',@success_flag)";
         $result = $con->query("CALL SP_TS_LOGIN_TERMINATE_SAVE($loggin,'$enddate','$reason_termin','$userstamp',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
         $flag=$result['@success_flag'];
-//        if($flag==1){
+        if($flag==1){
+
+            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
+            if($row=mysqli_fetch_array($select_fileid)){
+                $ss_fileid=$row["URC_DATA"];
+            }
+            $loginid_name = strtoupper(substr($loginid, 0, strpos($loginid, '@')));
+            if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
+
+                $loginid_name = strtoupper(substr($loginid_name, 0, strpos($loginid_name, '.')));
+            }
+            else{
+                $loginid_name=$loginid_name;
+            }
+            $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loginid'");
+            while($row=mysqli_fetch_array($uld_id)){
+                $URSC_uld_id=$row["ULD_ID"];
+            }
+            $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
+            if($row=mysqli_fetch_array($select_calenderid)){
+                $calenderid=$row["URC_DATA"];
+            }
+            $fileId=$ss_fileid;
 //
-//            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
-//            if($row=mysqli_fetch_array($select_fileid)){
-//                $ss_fileid=$row["URC_DATA"];
-//            }
-//            $loginid_name = strtoupper(substr($loginid, 0, strpos($loginid, '@')));
-//            if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
-//
-//                $loginid_name = strtoupper(substr($loginid_name, 0, strpos($loginid_name, '.')));
-//            }
-//            else{
-//                $loginid_name=$loginid_name;
-//            }
-//            $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loginid'");
-//            while($row=mysqli_fetch_array($uld_id)){
-//                $URSC_uld_id=$row["ULD_ID"];
-//            }
-//            $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
-//            if($row=mysqli_fetch_array($select_calenderid)){
-//                $calenderid=$row["URC_DATA"];
-//            }
-//            $fileId=$ss_fileid;
-//
-//            $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE','','','','');
-//            $ss_flag=$return_array[0];
-//            $cal_flag=$return_array[1];
-//            if($ss_flag==0){
-//                $con->rollback();
-//            }
-//            if($cal_flag==0){
-//                share_document($loginid,$fileId);
-//                $con->rollback();
-//            }
-            $flag_array=[$flag,'1','1','1'];
-//        }
-//        else{
-//            $flag_array=[$flag];
-//        }
+            $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE','','','','');
+            $ss_flag=$return_array[0];
+            $cal_flag=$return_array[1];
+            if($ss_flag==0){
+                $con->rollback();
+            }
+            if($cal_flag==0){
+                share_document($loginid,$fileId);
+                $con->rollback();
+            }
+            $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
+        }
+        else{
+            $flag_array=[$flag];
+        }
         $con->commit();
         echo json_encode($flag_array);
     }
@@ -646,6 +709,13 @@ if(isset($_REQUEST))
 //FUNCTION FOR CALENDAR SHARING DOCUMENT
 function share_document($loggin,$fileId){
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+    $Client=get_servicedata();
+        $ClientId=$Client[0];
+        $ClientSecret=$Client[1];
+        $RedirectUri=$Client[3];
+        $DriveScopes=$Client[4];
+        $CalenderScopes=$Client[5];
+        $Refresh_Token=$Client[6];
     $drive = new Google_Client();
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
@@ -675,6 +745,15 @@ function share_document($loggin,$fileId){
 //FUNCTION FOR CALENDAR CREATION
 function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$finaldate,$calenderid,$status,$form,$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid){
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+
+    $Client=get_servicedata();
+        $ClientId=$Client[0];
+        $ClientSecret=$Client[1];
+        $RedirectUri=$Client[3];
+        $DriveScopes=$Client[4];
+        $CalenderScopes=$Client[5];
+        $Refresh_Token=$Client[6];
+
     $drive = new Google_Client();
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
@@ -811,6 +890,13 @@ function insertFile($service, $title, $description, $parentId,$mimeType,$uploadf
 function URSRC_unshare_document($loggin,$fileId){
 
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+    $Client=get_servicedata();
+        $ClientId=$Client[0];
+        $ClientSecret=$Client[1];
+        $RedirectUri=$Client[3];
+        $DriveScopes=$Client[4];
+        $CalenderScopes=$Client[5];
+        $Refresh_Token=$Client[6];
     $drive = new Google_Client();
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
@@ -855,4 +941,4 @@ function delete_file($service,$fileid){
     }
     return $f;
 
-}
+}}

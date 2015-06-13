@@ -1,7 +1,5 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************ACCESS_RIGHTS_TERMINATE_SEARCH_UPDATE*********************************************//
-/DONE BY:ARTHI
-//ver 0.09 DESC:LOADED DESGNIATION,RELATIONHOOD,ACCOUNT TYPE FROM DB
 //DONE BY:PUNI
 //ver 0.08 DESC:CHANGED SCRIPT TO UPLOAD FILE IN DRIVE -REJOIN FORM-CHANGED SUBMIT BUTTON VALIDATION,SHOW ERR WITH DUPLICATE FILE NAME BY USER,MAX 4 FILES,FILE SIZE 10 MB,CREATED FOLDER IN DRIVE IF NOT EXISTS ELSE SHOW ERROR MSG
 //DONE BY:LALITHA
@@ -224,12 +222,15 @@ $(document).ready(function(){
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                $('.preloader',window.parent.document).hide();
                 $(".preloader").hide();
+                alert(xmlhttp.responseText);
                 var msg_alert=JSON.parse(xmlhttp.responseText);
+                alert(msg_alert);
                 var success_flag=msg_alert[0];
                 var ss_flag=msg_alert[1];
                 var cal_flag=msg_alert[2];
                 if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1)){
                     var msg=js_errormsg_array[1].toString().replace("[LOGIN ID]",URT_SRC_empname);
+//                    alert(msg);
 //                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
                     show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msg,"success",false);
                     $("#URT_SRC_lbl_datepickertermination").hide();
@@ -244,8 +245,8 @@ $(document).ready(function(){
                     $('#attachafile').text('Attach a file');
                 }
                 if(success_flag==0){
-//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
-                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",js_errormsg_array[6],"success",false);
+                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:js_errormsg_array[6],position:{top:150,left:550}}});
+//                    show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",js_errormsg_array[6],"success",false);
                     $("#URT_SRC_lbl_datepickertermination").hide();
                     $("#URT_SRC_lb_loginterminate").hide();
                     $("#URT_SRC_lbl_loginterminate").hide();
@@ -425,6 +426,7 @@ $(document).ready(function(){
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                $('.preloader', window.parent.document).hide();
                 $(".preloader").hide();
+//                    alert(xmlhttp.responseText)''
                 var msg_alert=xmlhttp.responseText;
                 if(msg_alert==1){
                     var loggin=$("#URT_SRC_lb_loginupdate").val();
@@ -479,6 +481,7 @@ $(document).ready(function(){
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                    $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
+                    alert(xmlhttp.responseText);
                     var values_array=JSON.parse(xmlhttp.responseText);
                     var rec_ver='<option value="SELECT">SELECT</option>';
                     recver_array=(values_array.recver);
@@ -647,7 +650,9 @@ $(document).ready(function(){
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //            $('.preloader', window.parent.document).hide();
                 $(".preloader").hide();
+//                alert(xmlhttp.responseText);
                 var listbox_value=JSON.parse(xmlhttp.responseText);
+
                 var desgn=listbox_value[0];
                 var relation=listbox_value[1];
                 var laptop = listbox_value[2];
@@ -1424,59 +1429,59 @@ $(document).ready(function(){
 });
 </script>
 <body>
-<div class="container-fluid">
-    <div class="wrapper">
+<div class="container">
 
-        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-        <div class="title" id="fhead" ><div style="padding-top:10px;"><center><p><b><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3></b><p></center></div></div>
-        <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
-            <div class="panel-body">
-                <fieldset>
-                    <div class="form-group">
-                        <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidden>
-                            <div class="radio">
-                                <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
-                    </div></div>
+    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
+<!--    <div class="title" id="fhead" ><div style="padding-top:10px;"><center><p><b><h3>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h3></b><p></center></div></div>-->
+    <div class="newtitle text-center"><b><h4>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</h4></b></div>
+    <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
+        <div class="panel-body">
+            <fieldset>
+                <div class="form-group">
+                    <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidden>
+                        <div class="radio">
+                            <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
+                </div></div>
 
-            <div class="form-group">
-                <label  name="URT_SRC_lbl_nloginsearchupdate" class="col-sm-12" id="URT_SRC_lbl_loginsearchupdate"  hidden>
-                    <div class="radio">
-                        <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" >SEARCH/UPDATE</label>
-            </div></div>
+        <div class="form-group">
+            <label  name="URT_SRC_lbl_nloginsearchupdate" class="col-sm-12" id="URT_SRC_lbl_loginsearchupdate"  hidden>
+                <div class="radio">
+                    <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" >SEARCH/UPDATE</label>
+        </div></div>
 
-    <div class="row-fluid form-group">
-        <label name="URT_SRC_lbl_nloginterminate" id="URT_SRC_lbl_loginterminate" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em> </label>
-        <div class="col-sm-4">
-            <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
-        </div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nloginterminate" id="URT_SRC_lbl_loginterminate" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em> </label>
+    <div class="col-sm-4">
+        <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
     </div>
+</div>
 
-    <div class="row-fluid form-group">
-        <!-- <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class="srctitle col-lg-8 control-label col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>-->
-        <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class=" col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
-        <div class="col-sm-4">
-            <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden>
-            <!--     <label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label>-->
-        </div>
+<div class="row-fluid form-group">
+    <!-- <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class="srctitle col-lg-8 control-label col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>-->
+    <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class=" col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
+    <div class="col-sm-4">
+        <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden>
+        <!--     <label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label>-->
     </div>
-    <div class="row-fluid form-group">
-        <label name="URT_SRC_lbl_nreasontermination" id="URT_SRC_lbl_reasontermination" class=" col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
-        <div class="col-sm-4">
-            <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" hidden> </textarea>
-        </div>
+</div>
+<div class="row-fluid form-group">
+    <label name="URT_SRC_lbl_nreasontermination" id="URT_SRC_lbl_reasontermination" class=" col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
+    <div class="col-sm-4">
+        <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" hidden> </textarea>
     </div>
-    <div>
-        <input type="button"  value="TERMINATE" id="URT_SRC_btn_termination" class="maxbtn" hidden>
-    </div>
-    <!--select an option-->
-    <div class="row-fluid form-group" >
-        <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle" hidden> SELECT A OPTION </label>
-    </div>
-    <div class=" form-group form-inline col-sm-12">
-        <label name="URT_SRC_lbl_nselectrejoin"  id="URT_SRC_lbl_selectrejoin"  hidden>
-            <div class="radio">
-                <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>&nbsp; REJOIN </label>
-    </div></div>
+</div>
+<div>
+    <input type="button"  value="TERMINATE" id="URT_SRC_btn_termination" class="maxbtn" hidden>
+</div>
+<!--select an option-->
+<div class="row-fluid form-group" >
+    <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle" hidden> SELECT A OPTION </label>
+</div>
+<div class=" form-group form-inline col-sm-12">
+    <label name="URT_SRC_lbl_nselectrejoin"  id="URT_SRC_lbl_selectrejoin"  hidden>
+        <div class="radio">
+            <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>&nbsp; REJOIN </label>
+</div></div>
 <div class=" form-group form-inline col-sm-12">
     <label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate"  hidden>
         <div class="radio">
@@ -1711,8 +1716,8 @@ $(document).ready(function(){
 <!--terminate updation-->
 <div class="row-fluid form-group">
     <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="form-inline col-sm-2" hidden>LOGIN ID<em>*</em></label>
-    <div class="col-sm-10">
-        <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" hidden> <option>SELECT</option></select>
+    <div class="col-sm-4">
+        <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
     </div></div>
 <div class="row-fluid form-group">
     <label id="URT_SRC_lbl_recordversion" class=" col-sm-2" hidden >RECORD VERSION<em>*</em></label>
@@ -1730,13 +1735,12 @@ $(document).ready(function(){
         <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate" hidden> </textarea>
     </div></div>
 <div>
-    <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:190px">
+    <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:100px">
 </div>
 </fieldset>
 </div>
 <!--</div>-->
 </form>
-</div>
 </div>
 </body>
 </html>

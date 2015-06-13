@@ -555,7 +555,9 @@ $(document).ready(function(){
 <body>
 <div class="container">
         <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
-        <div class="title" id="fhead"><center><b><h3 id="heading">PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h3></b></center></div>
+<!--        <div class="title" id="fhead"><center><b><h3 id="heading">PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h3></b></center></div>-->
+    <div class="newtitle text-center"><b><h4>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h4></b></div>
+<!--       <div class="title text-center"><h4><b>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</b></h4></div>-->
         <form  name="PH_entry_form" id="PH_entry_form" class="content">
             <div class="panel-body">
                 <fieldset>

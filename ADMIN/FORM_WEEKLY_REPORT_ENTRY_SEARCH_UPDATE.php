@@ -146,8 +146,9 @@ $(document).ready(function(){
                 }
             }
             var choice='ADMIN WEEKLY REPORT ENTRY';
-            xmlhttp.open("POST","TSLIB/COMMON.do?option="+choice,true);
+            xmlhttp.open("POST","TSLIB/TSLIB_COMMON.do?option="+choice,true);
             xmlhttp.send();
+            $('#AWRE_SRC_btn_reset').hide();
         }
         else if(radiooption=='report_search_update')
         {
@@ -177,7 +178,7 @@ $(document).ready(function(){
                     AWSU_weekly_mindate=value_array[1];
                     AWSU_weekly_maxdate=value_array[2];
                     AWSU_weekly_month_enddate=value_array[3];
-                    alert(AWSU_weekly_mindate)
+//                    alert(AWSU_weekly_mindate)
                     if(AWSU_weekly_mindate=='1970-01-01' || AWSU_weekly_mindate==null)
                     {
                         $('#AWRE_SRC_form_reportentry').replaceWith('<p><label class="errormsg">'+ js_errormsg_array[3] +'</label></p>');
@@ -256,7 +257,7 @@ $(document).ready(function(){
                 }
             }
             var choice='ADMIN WEEKLY REPORT SEARCH UPDATE';
-            xmlhttp.open("POST","TSLIB/COMMON.do?option="+choice,true);
+            xmlhttp.open("POST","TSLIB/TSLIB_COMMON.do?option="+choice,true);
             xmlhttp.send();
         }
     });
@@ -902,7 +903,8 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <div class="container">
     <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="title"><p><center><b><h3 id="enter">ADMIN WEEKLY REPORT/SEARCH/UPDATE</h3></b></center><p></div>
+<!--    <div class="title"><p><center><b><h3 id="enter">ADMIN WEEKLY REPORT/SEARCH/UPDATE</h3></b></center><p></div>-->
+    <div class="newtitle text-center"><b><h4>ADMIN WEEKLY REPORT/SEARCH/UPDATE</h4></b></div>
     <form id="AWRE_SRC_form_reportentry" class="content">
         <div class="panel-body">
             <fieldset>

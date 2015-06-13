@@ -209,7 +209,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         //CLICK EVENT FOR PDF BUTTON
         $(document).on('click','#TH_btn_pdf',function(){
             var inputValOne=$('#TH_tb_empid').val();
-            var url=document.location.href='TSLIB/COMMON_PDF.do?flag=3&inputValOne='+inputValOne+'&title='+$('#TH_lbl_heading').text();
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=3&inputValOne='+inputValOne+'&title='+$('#TH_lbl_heading').text();
 
         });
     });
@@ -223,7 +223,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center">
                 <img src="image/Loading.gif"/></div></div></div>
-    <div class="title" id="fhead"><center><b><h3>TICKLER HISTORY</h3></b></center></div>
+<!--    <div class="title" id="fhead"><center><b><h3>TICKLER HISTORY</h3></b></center></div>-->
+    <div class="newtitle text-center"><b><h4>TICKLER HISTORY</h4></b></div>
     <form class="content" name="TH_form_employeeid" id="TH_form_employeeid">
         <div class="panel-body">
             <fieldset>

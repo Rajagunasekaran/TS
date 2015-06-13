@@ -2035,7 +2035,8 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif" /></div></div></div>
-    <div class="title" id="fhead" ><center><b><h3 id="enter"><p>USER REPORT ENTRY SEARCH/UPDATE</p></b></h3></center></div>
+<!--    <div class="title" id="fhead" ><center><b><h3 id="enter"><p>USER REPORT ENTRY SEARCH/UPDATE</p></b></h3></center></div>-->
+    <div class="newtitle text-center"><b><h4>USER REPORT ENTRY SEARCH/UPDATE</h4></b></div>
     <form id="URE_form_dailyuserentry" name="URE_form_dailyuserentry" class ='content'>
         <div class="panel-body">
             <fieldset>
