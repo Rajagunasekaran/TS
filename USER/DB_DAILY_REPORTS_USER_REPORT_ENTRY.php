@@ -1,22 +1,23 @@
 <?php
-//error_reporting(0);
+error_reporting(0);
 
-include "TSLIB/TSLIB_CONNECTION.php";
-include "TSLIB/TSLIB_GET_USERSTAMP.php";
+include "../TSLIB/TSLIB_CONNECTION.php";
+include "../TSLIB/TSLIB_GET_USERSTAMP.php";
+include "../TSLIB/TSLIB_COMMON.php";
 date_default_timezone_set('Asia/Kolkata');
 $USERSTAMP=$UserStamp;
 
-$user_uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
-while($row=mysqli_fetch_array($user_uld_id)){
-    $uld_id=$row["ULD_ID"];
-}
-
-$select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$uld_id");
-$wfh_flag='';
-while($row=mysql_fetch_array($select_wfh))
-{
-    $wfh_flag=$row['WFHA_FLAG'];
-}
+//$user_uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
+//while($row=mysqli_fetch_array($user_uld_id)){
+//    $uld_id=$row["ULD_ID"];
+//}
+//
+//$select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID=$uld_id");
+//$wfh_flag='';
+//while($row=mysql_fetch_array($select_wfh))
+//{
+//    $wfh_flag=$row['WFHA_FLAG'];
+//}
 
 //echo $wfh_flag;
 if($_REQUEST["option"]=="DATE")

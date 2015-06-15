@@ -18,6 +18,7 @@
 //*********************************************************************************************************//-->
 <?php
 include "../TSLIB/TSLIB_HEADER.php";
+//include "../TSLIB/TSLIB_COMMON.php";
 //include "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
@@ -71,7 +72,7 @@ navigator.geolocation.getCurrentPosition(successCallback,errorCallback,options);
 //READY FUNCTION START
 $(document).ready(function(){
     $(".preloader").hide();
-    $('textarea').autogrow({onInitialize: true});
+//    $('textarea').autogrow({onInitialize: true});
     // global variable
     var permission_array=[];
     var project_array=[];
@@ -98,12 +99,12 @@ $(document).ready(function(){
     var formElement;
     var project_list;
     var project_array;
-
-    $('.rdclick').click(function(){
+    $(document).on('click','.rdclick',function(){
+//    $('.rdclick').click(function(){
+        $(".preloader").show();
         var radiooption=$(this).val();
         if(radiooption=='entry')
         {
-            $(".preloader").hide();
             UARD_clear();
             $('#URE_lbl_report_entry').html('USER REPORT ENTRY');
             $('#URE_rd_sinentry').prop('checked', false);
@@ -128,6 +129,8 @@ $(document).ready(function(){
             $('#USRC_UPD_lbl_report').hide();
             $('#USRC_UPD_ta_report').hide();
             $('#USRC_UPD_btn_submit').hide();
+            $('#URE_tbl_multipleday').hide();
+            $('#URE_lbl_msg').hide();
 //            $('textarea').autogrow({onInitialize: true});
             $('#URE_btn_submit').hide();
             $('#URE_btn_save').hide();
@@ -166,6 +169,8 @@ $(document).ready(function(){
 
                     }
                     else{
+                        $("#URE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+                        $("#URE_ta_fromdate").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         mindatesplit=min_date.split('-');
                         maxdate=new Date();
                         month=maxdate.getMonth()+1;
@@ -180,8 +185,8 @@ $(document).ready(function(){
                     }
                 }
             }
-            var option="user_report_entry";
-            xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+option);
+            var chioce="user_report_entry";
+            xmlhttp.open("GET","TSLIB/TSLIB_COMMON.do?option="+chioce);
             xmlhttp.send();
         }
         else if(radiooption=='search_update')
@@ -189,7 +194,6 @@ $(document).ready(function(){
             $('#URE_lbl_report_entry').html('USER REPORT SEARCH UPDATE');
             $('#search_update').show();
             $('#entry').hide();
-            $(".preloader").hide();
             $('#USRC_UPD_btn_pdf').hide();
             $('#USRC_UPD_btn_submit').hide();
             $('#USRC_UPD_btn_srch').hide();
@@ -200,7 +204,6 @@ $(document).ready(function(){
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-
                     var value_array=JSON.parse(xmlhttp.responseText);
                     $("#USRC_UPD_lb_attendance option[value='2']").detach();
                     $(".preloader").hide();
@@ -222,6 +225,8 @@ $(document).ready(function(){
                         {
                             $('#USRC_UPD_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
                         }
+                        $("#USRC_UPD_tb_strtdte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+                        $("#USRC_UPD_tb_enddte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         mindatesplit=join_date.split('-');
                         max_date=new Date();
                         month=max_date.getMonth()+1;
@@ -229,15 +234,17 @@ $(document).ready(function(){
                         date=max_date.getDate();
                         max_date = new Date(year,month,date);
                         datepicker_maxdate=new Date(Date.parse(max_date));
-                        $('#USRC_UPD_tb_date').datepicker("option","maxDate",datepicker_maxdate);
-                        $('#USRC_UPD_tb_date').datepicker("option","minDate",join_date);
-                        $('#USRC_UPD_tb_enddte').datepicker("option","maxDate",search_max_date);
                         $('#USRC_UPD_tb_strtdte').datepicker("option","minDate",min_date);
                         $('#USRC_UPD_tb_strtdte').datepicker("option","maxDate",search_max_date);
+                        $('#USRC_UPD_tb_enddte').datepicker("option","maxDate",search_max_date);
                         $('#USRC_UPD_lbl_strtdte').show();
                         $('#USRC_UPD_tb_strtdte').show();
                         $('#USRC_UPD_lbl_enddte').show();
                         $('#USRC_UPD_tb_enddte').show();
+                        $("#USRC_UPD_btn_search").attr("disabled", "disabled").show();
+                        $('#USRC_UPD_tb_date').datepicker("option","maxDate",datepicker_maxdate);
+                        $('#USRC_UPD_tb_date').datepicker("option","minDate",join_date);
+                        $('#USRC_UPD_errmsg').hide();
                     }
                 }
             }
@@ -259,9 +266,9 @@ $(document).ready(function(){
         changeYear: true,
         changeMonth: true
     });
-    //JQUERY LIB VALIDATION START
-    $("#URE_tb_band").prop("title","NUMBERS ONLY");
-    $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
+//    //JQUERY LIB VALIDATION START//ths one need to check nd implement
+//    $("#URE_tb_band").prop("title","NUMBERS ONLY");
+//    $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
 
     // CLICK EVENT FOR PERMISSION RADIO BUTN
     $(document).on('click','#URE_rd_permission',function()
@@ -327,7 +334,6 @@ $(document).ready(function(){
 
     // FUNCTION FOR REASON
     function URE_tble_reason(){
-        //   alert('inside')
         $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-sm-4"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="form-control "></textarea></div></div>').appendTo($("#URE_tble_reasonlbltxtarea"));
     }
     // FUNCTION FOR MULTIPLE DAY REASON
@@ -341,13 +347,12 @@ $(document).ready(function(){
     // FUCNTION FOR BANDWIDTH
     function URE_tble_bandwidth(){
         $('<div class="row-fluid form-group"><label name="URE_lbl_band" class="col-sm-2" id="URE_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-4"><input type="text" name="URE_tb_band" id="URE_tb_band" class="autosize amountonly" style="width:75px;"><label name="URE_lbl_band" id="URE_lbl_band">MB</label></div></div>').appendTo($("#URE_tble_bandwidth"));
-        $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
+//        $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
     }
     //FORM VALIDATION
     $(document).on('change blur','#URE_form_dailyuserentry',function(){
         if($("input[name=entry]:checked").val()=="SINGLE DAY ENTRY"){
             var URE_sessionlstbx= $("#URE_lb_ampm").val();
-            //   alert(URE_sessionlstbx)
             var URE_tble_reasontxtarea =$("#URE_ta_reason").val();
             //    alert(URE_tble_reasontxtarea)
             var URE_reportenter =$("#URE_ta_report").val();
@@ -463,13 +468,13 @@ $(document).ready(function(){
     // CLICK EVENT FOR SINGLE DAY RADIO BUTTON
     $('#URE_rd_sinentry').click(function(){
         $('#URE_tbl_singleday').show();
+        $('#URE_lbl_dte').show();
+        $('#URE_tb_date').val('').show();
         $('#URE_tbl_multipleday').hide();
         $('#URE_lbl_reason').hide();
         $('#URE_ta_reason').hide();
         $('#URE_tbl_attendence').hide();
         $('#URE_btn_save').hide();
-        $('#URE_lbl_dte').show();
-        $('#URE_tb_date').val('').show();
         $('#URE_lbl_attdnce').hide();
         $('#URE_lb_attdnce').hide();
         $('#URE_btn_save').hide();
@@ -569,7 +574,8 @@ $(document).ready(function(){
     });
 
     //CHANGE EVENT FOR ATTENDANCE
-    $('#URE_lb_attendance').change(function(){
+//    $('#URE_lb_attendance').change(function(){
+    $(document).on('change','#URE_lb_attendance',function(){
         $('#URE_tble_frstsel_projectlistbx').html('');
         $('#URE_btn_submit').attr('disabled','disabled');
         $('#URE_tble_reasonlbltxtarea').html('');
@@ -590,7 +596,6 @@ $(document).ready(function(){
         }
         else if($('#URE_lb_attendance').val()=='1')
         {
-//            alert($('#URE_lb_attendance').val())
             $(".preloader").show();
             var reportdate=$('#URE_tb_date').val();
             var xmlhttp=new XMLHttpRequest();
@@ -600,7 +605,7 @@ $(document).ready(function(){
                     response=xmlhttp.responseText;
                     if(response==1)
                     {
-//                            alert(err_msg[11])
+                        $('#entry').show();
                         $('#URE_lbl_checkmsg').text(err_msg[11]).show();
                         $('#URE_lb_timing').hide();
                         $('#URE_lbl_permission').hide();
@@ -722,7 +727,6 @@ $(document).ready(function(){
                     response=xmlhttp.responseText;
                     if(response==1)
                     {
-//                            alert(err_msg[11])
                         $('#URE_lbl_checkmsg').text(err_msg[12]).show();
                         $('#URE_lb_timing').hide();
                         $('#URE_lbl_permission').hide();
@@ -864,19 +868,15 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $(".preloader").hide();
-            //    alert(xmlhttp.responseText)
                 msg_alert=xmlhttp.responseText;
-            //    alert(msg_alert)
                 if(msg_alert==1)
                 {
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[0],position:{top:150,left:500}}});
                     show_msgbox("USER REPORT ENTRY",err_msg[0],"success",false);
                     UARD_clear();
                     $('#URE_tb_date').val('');
                 }
                 else if(msg_alert==0)
                 {
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"USER REPORT ENTRY",msgcontent:err_msg[4],position:{top:150,left:500}}});
                     show_msgbox("USER REPORT ENTRY",err_msg[4],"success",false);
                     UARD_clear();
                     $('#URE_tb_date').val('');
@@ -998,7 +998,7 @@ $(document).ready(function(){
         changeYear: true,
         changeMonth: true
     });
-    $('textarea').autogrow({onInitialize: true});
+//    $('textarea').autogrow({onInitialize: true});
     //BUTTON VALIDATION
     $('.valid').change(function(){
         if(($("#USRC_UPD_tb_strtdte").val()=='')||($("#USRC_UPD_tb_enddte").val()==''))
@@ -1037,12 +1037,11 @@ $(document).ready(function(){
     var values_array=[];
     $(document).on('click','#USRC_UPD_btn_search',function(){
 //    $('#USRC_UPD_btn_search').click(function(){
-//        alert('search date');
         $('#USRC_UPD_div_header').hide();
         $('#USRC_UPD_btn_pdf').hide();
         $('#USRC_UPD_div_tablecontainer').hide();
         $('section').html('');
-//        $(".preloader").show();
+        $(".preloader").show();
         flextable();
 //        $(".preloader").hide();
 
@@ -1452,7 +1451,6 @@ $(document).ready(function(){
         }
         else if(attendance=='OD')
         {
-            //      alert('insiddddde')
             $('#USRC_UPD_lb_attendance').val('OD');
             $('#USRC_UPD_lbl_dte').show();
             $('#USRC_UPD_tb_date').show();
@@ -1521,7 +1519,7 @@ $(document).ready(function(){
             $('#USRC_UPD_lb_timing').val(permission).show();
         }
         else
-        {//alert('aler')
+        {
             $('#USRC_UPD_rd_nopermission').attr('checked','checked');
             $('#USRC_UPD_lb_timing').show();
 //            $('#USRC_UPD_lb_timing').val(permission).show();
@@ -1568,7 +1566,6 @@ $(document).ready(function(){
         err_flag=0;
         if(attendance==$('#USRC_UPD_lb_attendance').val())
         {
-//            alert('inside');
             $('#USRC_UPD_tble_reasonlbltxtarea').html('');
             $('#USRC_UPD_tble_frstsel_projectlistbx').html('');
             $('#USRC_UPD_tble_enterthereport').html('');
@@ -1584,7 +1581,6 @@ $(document).ready(function(){
         }
         else
         {
-//            alert('else');
             projectid_array='';
             $('#USRC_UPD_tble_frstsel_projectlistbx').html('');
             $('#USRC_UPD_btn_submit').attr('disabled','disabled');
@@ -1614,7 +1610,7 @@ $(document).ready(function(){
 
                 USRC_UPD_tble_bandwidth();
                 $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
-                $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
+//                $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
                 $('#USRC_UPD_btn_submit').hide();
                 $('#USRC_UPD_lb_timing').prop('selectedIndex',0);
                 $('#USRC_UPD_rd_permission').removeAttr("disabled");
@@ -1626,7 +1622,6 @@ $(document).ready(function(){
             }
             else if($('#USRC_UPD_lb_attendance').val()=='0')
             {
-//                alert('absent');
                 $('#USRC_UPD_rd_permission').attr('checked',false);
                 $('#USRC_UPD_rd_nopermission').attr('checked',false);
                 $('#USRC_UPD_lb_timing').hide();
@@ -1721,7 +1716,6 @@ $(document).ready(function(){
     });
     // FUNCTION FOR CLEAR
     function clear(){
-//                alert('clear')
         $('#USRC_UPD_tble_attendence').hide();
         $('#USRC_UPD_tble_reasonlbltxtarea').html('');
         $('#USRC_UPD_tble_frstsel_projectlistbx').html('');
@@ -1744,7 +1738,6 @@ $(document).ready(function(){
     $(document).on('change','#USRC_UPD_lb_ampm',function(){
 //            $('#USRC_UPD_lb_ampm').change(function(){
         projectid_array='';
-//alert($('#USRC_UPD_lb_ampm').val())
         $('#USRC_UPD_tble_reasonlbltxtarea,#USRC_UPD_tble_enterthereport,#USRC_UPD_tble_bandwidth,#USRC_UPD_tble_frstsel_projectlistbx').html('');
 
         if($('#USRC_UPD_lb_ampm').val()=='SELECT')
@@ -1799,7 +1792,7 @@ $(document).ready(function(){
             USRC_UPD_report();
             USRC_UPD_tble_bandwidth();
             $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
-            $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
+//            $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
             $('#USRC_UPD_lb_timing').hide();
 
             var permission_list='<option>SELECT</option>';
@@ -1861,7 +1854,7 @@ $(document).ready(function(){
     // FUNCTION FOR BANDWIDTH
     function USRC_UPD_tble_bandwidth(){
         $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
-        $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
+//        $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
     }
     //FORM VALIDATION
     $(document).on('change blur','.update_validate',function(){
@@ -2048,18 +2041,6 @@ $(document).ready(function(){
                         <label><input type="radio" name="UR_ESU" value="search_update" class="rdclick">SEARCH/UPDATE/DELETE</label>
                     </div>
                 </div>
-                <!--                <div class="row-fluid form-group ">-->
-                <!--                        <div class="radio">-->
-                <!--                            <input type="radio" class="rdclick" name="UR_ESU" id="UR_ENTRY" value="entry">ENTRY</label>-->
-                <!---->
-                <!--                </div></div>-->
-                <!--        <div class="row-fluid form-group">-->
-                <!--            <label name="UR_lbl_search_update" class="col-sm-2" id="UR_lbl_search_update">-->
-                <!--                <div class="radio">-->
-                <!--                    <input type="radio" name="UR_ESU" class="rdclick"  id="UR_SEARCH_UPDATE" value="search_update">SEARCH / UPDATE</label>-->
-                <!---->
-                <!--        </div>-->
-                <!--        </div>-->
                 <div class="row-fluid form-group">
                     <label name="URE_report_entry" id="URE_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
@@ -2075,8 +2056,6 @@ $(document).ready(function(){
                         <div class="radio">
                             <input type="radio" id="URE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY"/>MULTIPLE DAY ENTRY</label>
                 </div></div>
-
-
         <div id="URE_tbl_singleday" hidden>
             <div class="row-fluid form-group">
                 <label name="URE_lbl_dte" class="col-sm-2" id="URE_lbl_dte" >DATE</label>

@@ -30,7 +30,7 @@ handlers:
 - url: /DB_MENU.do
   script: DB_MENU.php
 
-- url: /TSLIB/COMMON.do
+- url: /TSLIB/TSLIB_COMMON.do
   script: TSLIB/TSLIB_COMMON.php
 
 - url: /ACCESSRIGHTS/ERROR_PAGE.do
@@ -225,10 +225,7 @@ handlers:
 - url: /REPORT_MAIL_ADMIN
   script: REPORT_MAIL_ADMIN.php
 
-- url: /date.do
-  script: date.php
-
-- url: /TSLIB/COMMON_PDF.do
+- url: /TSLIB/TSLIB_COMMON_PDF.do
   script: TSLIB/TSLIB_COMMON_PDF.php
 
 - url: .*

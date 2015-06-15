@@ -223,31 +223,31 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <div class="container">
     <div class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center">
                 <img src="image/Loading.gif"/></div></div></div>
-<!--    <div class="title" id="fhead"><center><b><h3>TICKLER HISTORY</h3></b></center></div>-->
+    <!--    <div class="title" id="fhead"><center><b><h3>TICKLER HISTORY</h3></b></center></div>-->
     <div class="newtitle text-center"><b><h4>TICKLER HISTORY</h4></b></div>
     <form class="content" name="TH_form_employeeid" id="TH_form_employeeid">
         <div class="panel-body">
             <fieldset>
-            <div class="row-fluid form-group">
-                <label class="col-sm-3" name="TH_lbl_employeeid" id="TH_lbl_employeeid">EMPLOYEE NAME</label>
-                <div class="col-sm-4">
-                <input type="text" class="autosize form-control" name="TH_tb_empid" id="TH_tb_empid" style="width:300px"/></div><label id="TH_lbl_notmatch" name="TH_lbl_notmatch" class="errormsg" hidden></label>
-            </div>
-        <div class="row-fluid form-group">
-            <input type="button" name="TH_btn_search" class='btn' value="SEARCH" id="TH_btn_search" disabled/>
-            </div>
+                <div class="row-fluid form-group">
+                    <label class="col-sm-3" name="TH_lbl_employeeid" id="TH_lbl_employeeid">EMPLOYEE NAME</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="autosize form-control" name="TH_tb_empid" id="TH_tb_empid" style="width:300px"/></div><label id="TH_lbl_notmatch" name="TH_lbl_notmatch" class="errormsg" hidden></label>
+                </div>
+                <div class="row-fluid form-group">
+                    <input type="button" name="TH_btn_search" class='btn' value="SEARCH" id="TH_btn_search" disabled/>
+                </div>
                 <div>
-                <label id="TH_lbl_heading" name="TH_lbl_heading"  class="srctitle" hidden></label>
-                <label id="TH_lbl_nodata" name="TH_lbl_nodata"  class="errormsg" hidden></label><br>
-                <input type="button" id="TH_btn_pdf" class="btnpdf" value="PDF">
-            </div>
-            <div id ="TH_div_flexdata_result"  class="table-responsive">
-                <section>
+                    <label id="TH_lbl_heading" name="TH_lbl_heading"  class="srctitle" hidden></label>
+                    <label id="TH_lbl_nodata" name="TH_lbl_nodata"  class="errormsg" hidden></label><br>
+                    <input type="button" id="TH_btn_pdf" class="btnpdf" value="PDF">
+                </div>
+                <div id ="TH_div_flexdata_result"  class="table-responsive">
+                    <section>
 
-                </section>
-            </div>
-                </fieldset>
-</div>
+                    </section>
+                </div>
+            </fieldset>
+        </div>
     </form>
 </div>
 </body>
