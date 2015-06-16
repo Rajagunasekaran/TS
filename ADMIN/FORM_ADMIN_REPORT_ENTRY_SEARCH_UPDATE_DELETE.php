@@ -77,6 +77,8 @@ include '../TSLIB/TSLIB_HEADER.php';
         $(".preloader").hide();
 //    alert('ready');
         $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+        $('#ARE_lb_loginid').val('SELECT').show();
+        $('#ARE_tble_attendence').val('SELECT').show();
         var permission_array=[];
         var project_array=[];
         var min_date;
@@ -104,33 +106,28 @@ include '../TSLIB/TSLIB_HEADER.php';
         var rprt_max_date
         var datepicker_maxdate;
         var msg;
-
-
         $(document).on('click','.radio_click',function(){
-
             var click=$(this).val();
             if(click=="entries")
             {
+                ASRC_UPD_DEL_clear();
+                search_clear();
                 $('#ARE_lbl_report_entry').html('ADMIN REPORT ENTRY');
-//            alert('entry')
-
-
-
-                $('#search').hide();
                 $('#ASRC_UPD_DEL_div_tablecontainer').hide();
-                entryclear();
-                ARE_clear();
+                $('#ARE_rd_sinentry').prop('checked', false);
+                $('#ARE_rd_mulentry').prop('checked', false);
                 $('#entries').show();
+                $('#search').hide();
                 $('#ARE_lbl_optn').show();
                 $('#option').val('SELECT').show();
+                $('#ARE_lb_loginid').val('SELECT').hide();
+                $('#ARE_tb_date').val('').hide();
                 $('#ARE_tble_attendence').hide();
                 $('#ARE_tbl_attendence').hide();
                 $('#ARE_btn_save').hide();
                 $('#ARE_ta_reason').hide();
                 $('#ARE_lbl_reason').hide();
                 $("#ARE_btn_odsubmit").hide();
-
-
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -139,10 +136,12 @@ include '../TSLIB/TSLIB_HEADER.php';
                         var value_array=JSON.parse(xmlhttp.responseText);
                         permission_array=value_array[0];
 //                  project_array=value_array[1];
+//                    $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         min_date=value_array[2];
                         err_msg=value_array[3];
                         login_id=value_array[4];
 //                    alert(login_id);
+                        $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         maxdate=new Date();
                         month=maxdate.getMonth()+1;
                         year=maxdate.getFullYear();
@@ -156,11 +155,11 @@ include '../TSLIB/TSLIB_HEADER.php';
                             login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
                         }
                         $('#ARE_lb_loginid').html(login_list);
-                        var login_list='<option>SELECT</option>';
-                        for (var i=0;i<login_id.length;i++) {
-                            login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
-                        }
-                        $('#ARE_lb_lgnid').html(login_list);
+//                    var login_list='<option>SELECT</option>';
+//                    for (var i=0;i<login_id.length;i++) {
+//                        login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
+//                    }
+//                    $('#ARE_lb_lgnid').html(login_list);
                     }
                 }
                 var option="admin_report_entry";
@@ -173,8 +172,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#options').val('SELECT');
                 $('#entries').hide();
                 $('#search').show();
-                ASRC_UPD_DEL_clear();
-                search_clear();
+                entryclear();
+                ARE_clear();
                 $('#ASRC_UPD_DEL_div_ondutytablecontainer').hide();
                 $('#ASRC_UPD_DEL_div_headers').hide();
                 $('#ASRC_UPD_DEL_od_btn').hide();
@@ -293,9 +292,6 @@ include '../TSLIB/TSLIB_HEADER.php';
         $('#ARE_tb_dte').datepicker("option","maxDate",OD_max_date);
         //CHANGE EVENT FOR LOGIN LIST BX
         $(document).on('change','#ARE_lb_loginid',function(){
-
-//        alert('name');
-
             $("html, body").animate({ scrollTop: $(document).height() }, "1000");
             var ARE_loginidlistbx= $("#ARE_lb_loginid").val();
             $('#ARE_lbl_errmsg').hide();
@@ -332,8 +328,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//alert(xmlhttp.responseText);
                         var final_array=JSON.parse(xmlhttp.responseText);
+                        $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         mindate=final_array[0];
                         project_array=final_array[1];
                         var wfh_flag=final_array[2];
@@ -367,7 +363,6 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                         }
                         else{
-                            $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                             $('#ARE_tb_date').datepicker("option","minDate",mindate);
                             $('#ARE_lbl_norole_err').hide();
                             $('#ARE_tb_date').show();
@@ -406,22 +401,20 @@ include '../TSLIB/TSLIB_HEADER.php';
         //JQUERY LIB VALIDATION END
         // CHANGE EVENT FOR DATE
         $(document).on('change','#ARE_tb_date',function(){
-//        alert('date');
-            $(".preloader").show();
 
+            $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+            $(".preloader").show();
             var loginid=$('#ARE_lb_loginid').val();
             var reportdate=$('#ARE_tb_date').val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                alert(xmlhttp.responseText);
                     var msgalert=xmlhttp.responseText;
                     $('#ARE_lbl_checkmsg').hide();
 //                        $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
                     if(msgalert==1)
                     {
-//                    alert('checkdate');
                         var msg=err_msg[3].toString().replace("[DATE]",reportdate)
                         ARE_clear()
                         $("#ARE_tb_date").val("");
@@ -434,8 +427,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                     {
                         ARE_clear()
                         $('#ARE_tble_attendence').val('SELECT').show();
-                        $('#ARE_lb_attendance').prop('selectedIndex',0);
                         $('#ARE_lbl_errmsg').hide();
+                        $('#ARE_lb_attendance').prop('selectedIndex',0);
 
                     }
                 }
@@ -480,7 +473,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                            $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
-                        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
+//                    $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                         var response=JSON.parse(xmlhttp.responseText);
                         $('#ARE_rd_permission').attr('checked',false);
                         $('#ARE_rd_nopermission').attr('checked',false);
@@ -758,7 +751,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                            $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
-                        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
+//                    $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                         var response=JSON.parse(xmlhttp.responseText);
                         if((response[0]==1) && (response[1]==0))
                         {
@@ -1002,10 +995,13 @@ include '../TSLIB/TSLIB_HEADER.php';
             xmlhttp.send(new FormData(formElement));
         });
         // CHANGE EVENT FOR OPTION BUTTON
-        $(document).on('change','#option',function(){
+//        $(document).on('change','#option',function(){
+        $('#value').change(function(){
+            $('#ARE_rd_sinentry').attr('checked',false);
+            $('#ARE_rd_mulentry').attr('checked',false);
             $('#ARE_form_dailyuserentry').hide();
             $('#ARE_lbl_checkmsg').hide();
-            if($('#option').val()=='ADMIN REPORT ENTRY')
+            if($('#value').val()=='ADMIN REPORT ENTRY')
             {
                 $("#ARE_lbl_sinentry").show();
                 $('#ARE_rd_sinentry').attr('checked',false);
@@ -1016,7 +1012,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ARE_tble_ondutyentry').hide();
                 $('#ARE_lbl_oderrmsg').hide();
             }
-            else if(($('#option').val()=='ONDUTY REPORT ENTRY'))
+            else if(($('#value').val()=='ONDUTY REPORT ENTRY'))
             {
                 $('#ARE_tble_ondutyentry').show();
                 $('#ARE_lbl_session').hide();
@@ -1058,8 +1054,13 @@ include '../TSLIB/TSLIB_HEADER.php';
         // CLICK EVENT FOR SINGLEDAYENTRY RADIO BUTTON
         $(document).on('click','#ARE_rd_sinentry',function(){
             $('#ARE_rd_sinentry').attr('checked',true);
-            $('#ARE_lb_loginid').val('SELECT').show();
             $('#ARE_lbl_loginid').show();
+            $('#ARE_lb_loginid').val('SELECT').show();
+            var login_list='<option>SELECT</option>';
+            for (var i=0;i<login_id.length;i++) {
+                login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
+            }
+            $('#ARE_lb_loginid').html(login_list);
             $('#ARE_tble_singledayentry').show();
             $('#ARE_lbl_session').hide();
             $('#ARE_tble_ondutyentry').hide();
@@ -1439,7 +1440,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 
         //search update
 
-        $('textarea').autogrow({onInitialize: true});
+//    $('textarea').autogrow({onInitialize: true});
         $('#ASRC_UPD_DEL_btn_search').hide();
         $('#ASRC_UPD_DEL_btn_srch').hide();
         $('#ASRC_UPD_DEL_btn_srchupd').hide();
@@ -1480,9 +1481,11 @@ include '../TSLIB/TSLIB_HEADER.php';
             $('#ASRC_UPD_btn_pdf').hide();
             $('#ASRC_UPD_DEL_div_headers').hide();
             $('#ASRC_UPD_btn_od_pdf').hide();
+            $("#ASRC_UPD_DEL_startdate").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
             var ASRC_UPD_DEL_startdate = $('#ASRC_UPD_DEL_tb_strtdte').datepicker('getDate');
             var date = new Date( Date.parse( ASRC_UPD_DEL_startdate ));
             date.setDate( date.getDate()  );
+            $("#ASRC_UPD_DEL_todate").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
             var ASRC_UPD_DEL_todate = date.toDateString();
             ASRC_UPD_DEL_todate = new Date( Date.parse( ASRC_UPD_DEL_todate ));
             $('#ASRC_UPD_DEL_tb_enddte').datepicker("option","minDate",ASRC_UPD_DEL_todate);
@@ -1509,7 +1512,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $(".preloader").hide();
                     allvalues_array=JSON.parse(xmlhttp.responseText);
                     if(allvalues_array!=''){
-                        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+//                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         //HEADER ERR MSG
                         var errmsg=err_msg[12].replace('[DATE]',date);
                         pdfmsg=errmsg;
@@ -1854,6 +1857,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $(".preloader").hide();
 //                    alert(xmlhttp.responseText)
                         var finaldate=JSON.parse(xmlhttp.responseText);
+                        $("#ASRC_UPD_DEL_tb_strtdte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+                        $("#ASRC_UPD_DEL_tb_enddte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         min_date=finaldate[0];
                         max_date=finaldate[1];
                         rprt_min_date=finaldate[2];
@@ -3354,7 +3359,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     <div class="row-fluid form-group">
                         <label name="ARE_lbl_optn" class="col-sm-3" id="ARE_lbl_optn">SELECT A OPTION<em>*</em></label>
                         <div class="col-sm-4">
-                            <select id="option" name="option"class="form-control"style="width: 250px;">
+                            <select id="value" name="option"class="form-control"style="width: 250px;">
                                 <option>SELECT</option>
                                 <option>ADMIN REPORT ENTRY</option>
                                 <option>ONDUTY REPORT ENTRY</option>
@@ -3393,7 +3398,8 @@ include '../TSLIB/TSLIB_HEADER.php';
     <div class="row-fluid form-group">
         <label name="ARE_lbl_loginid" id="ARE_lbl_loginid" class="col-sm-2">EMPLOYEE NAME</label>
         <div class="col-sm-4">
-            <select name="ARE_lb_loginid" id="ARE_lb_loginid"class="form-control" style="display: inline">
+            <select name="ARE_lb_loginid" id="ARE_lb_loginid" class="form-control" style="display: inline">
+                <option>SELECT</option>
             </select><br>
             <label id="ARE_lbl_norole_err" name="ARE_lbl_norole_err" class="errormsg" ></label>
         </div></div>

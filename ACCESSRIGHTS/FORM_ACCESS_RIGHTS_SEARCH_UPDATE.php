@@ -2221,7 +2221,7 @@ $(document).ready(function(){
 <div class="container">
 <div  class="preloader MaskPanel"><div class="statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
 <!--//<div class="title" id="fhead" ><center><p><b><h3>ACCESS RIGHTS:SEARCH/UPDATE</h3></b><p></center></div>-->
-<div class="title text-center"><h4><b>ACCESS RIGHTS:SEARCH/UPDATE</b></h4></div>
+<div class="newtitle text-center"><h4><b>ACCESS RIGHTS:SEARCH/UPDATE</b></h4></div>
 <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
 <div class="panel-body">
 <fieldset>
