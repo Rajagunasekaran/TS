@@ -1,6 +1,10 @@
 <html>
 <!--HEAD TAG START-->
 <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/ico" href="image/FAV.png">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
     <!--TO SUPPORT JQUERY FUNCTIONALITIES-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -44,28 +48,16 @@
     <link rel="stylesheet" type="text/css" href="msgbox/jquery-confirm.css">
     <script type="text/javascript" src="msgbox/jquery-confirm.js"></script>
 
-    <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/ico" href="image/FAV.png">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
     <!--TO SUPPORT JQUERY LIB VALIDATION-->
     <script  src="jquery/JQuery.js"></script>
     <script  src="jquery/datepickerjs.js"></script>
     <link rel="stylesheet" type="text/css" href="/CSS/StyleSheet.css">
 
-<!--    <style>-->
-<!--        --><?php //include 'CSS/StyleSheet.css'; ?>
-<!--    </style>-->
-    <style>
-        <?php include 'CSS/StyleSheet.css'; ?>
-        <!--        --><?php //include 'CSS/jquery-ui.css'; ?>
-        <!--        --><?php //include 'CSS/jquery.dataTables.css'; ?>
-        <!--        --><?php //include 'CSS/dataTables.tableTools.css'; ?>
 
 
 
 
-    </style>
 
 
     <link rel="stylesheet" type="text/css" href="https://googledrive.com/host/0B_f0d7mdbV_USEZYZDVnRUZMZW8/jquery.dataTables.css">
@@ -82,9 +74,11 @@
 
     <!--    <script type="text/javascript" language="javascript" src="https://googledrive.com/host/0B_f0d7mdbV_USEZYZDVnRUZMZW8/DataTable1.10.4.js"></script>-->
     <script type="text/javascript" language="javascript" src="https://googledrive.com/host/0B_f0d7mdbV_USEZYZDVnRUZMZW8/dataTables.tableTools.js"></script>
-</head>
-<body>
+<!--</head>-->
+<!--<body>-->
 <script src=http://code.jquery.com/jquery-2.1.3.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-</body>
+<!--</body>-->
+    </head>
+        <html>

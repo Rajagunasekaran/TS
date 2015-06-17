@@ -23,7 +23,8 @@
 <?php
 include '../TSLIB/TSLIB_HEADER.php';
 ?>
-
+<html>
+<head>
 <script>
     var checkoutlocation;
     function displayLocation(latitude,longitude){
@@ -107,6 +108,7 @@ include '../TSLIB/TSLIB_HEADER.php';
         var datepicker_maxdate;
         var msg;
         $(document).on('click','.radio_click',function(){
+            $(".preloader").show();
             var click=$(this).val();
             if(click=="entries")
             {
@@ -141,6 +143,11 @@ include '../TSLIB/TSLIB_HEADER.php';
                         err_msg=value_array[3];
                         login_id=value_array[4];
 //                    alert(login_id);
+                        var login_list='<option>SELECT</option>';
+                        for (var i=0;i<login_id.length;i++) {
+                            login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
+                        }
+                        $('#ARE_lb_loginid').html(login_list);
                         $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         maxdate=new Date();
                         month=maxdate.getMonth()+1;
@@ -150,11 +157,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         datepicker_maxdate=new Date(Date.parse(max_date));
                         $('#ARE_tb_date').datepicker("option","maxDate",datepicker_maxdate);
                         $('#ARE_tb_date').datepicker("option","minDate",min_date);
-                        var login_list='<option>SELECT</option>';
-                        for (var i=0;i<login_id.length;i++) {
-                            login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
-                        }
-                        $('#ARE_lb_loginid').html(login_list);
+
 //                    var login_list='<option>SELECT</option>';
 //                    for (var i=0;i<login_id.length;i++) {
 //                        login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
@@ -238,7 +241,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                 xmlhttp.send();
             }
         });
-
+        $("#ASRC_UPD_DEL_tb_strtdte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+        $("#ASRC_UPD_DEL_tb_enddte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
 //    $('textarea').autogrow({onInitialize: true});
         $("#ARE_tb_band,#ARE_tb_date").html('')
         $('#ARE_tb_band').hide();
@@ -292,11 +296,12 @@ include '../TSLIB/TSLIB_HEADER.php';
         $('#ARE_tb_dte').datepicker("option","maxDate",OD_max_date);
         //CHANGE EVENT FOR LOGIN LIST BX
         $(document).on('change','#ARE_lb_loginid',function(){
+            $(".preloader").show();
             $("html, body").animate({ scrollTop: $(document).height() }, "1000");
             var ARE_loginidlistbx= $("#ARE_lb_loginid").val();
+            $('#ARE_tb_date').val('');
             $('#ARE_lbl_errmsg').hide();
             $('#ARE_lbl_checkmsg').hide();
-
             $('#ARE_tble_attendence').hide();
             if(ARE_loginidlistbx=='SELECT')
             {
@@ -322,13 +327,19 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
             else
             {
-                $(".preloader").show();
+//                alert('dsfdfg')
                 $("#ARE_lb_attendance option[value='2']").detach();
-                loginid=$('#ARE_lb_loginid').val();
+                var loginid=$('#ARE_lb_loginid').val();
+                $('#ARE_lbl_dte').show();
+                $('#ARE_tb_date').show();
+                $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                        alert(xmlhttp.responseText)
                         var final_array=JSON.parse(xmlhttp.responseText);
+//                        alert(final_array)
+                        $(".preloader").hide();
                         $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         mindate=final_array[0];
                         project_array=final_array[1];
@@ -338,7 +349,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 //                            {
 //                                $('#ARE_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
 //                            }
-                        if(wfh_flag == 'X')
+                        if(wfh_flag=='X')
                         {
                             $('#ARE_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
                             $('#ARE_lb_attendance').children('option[value="1"]').css('display','none');
@@ -351,9 +362,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_lb_attendance').children('option[value="0"]').show();
                             $('#ARE_lb_attendance').children('option[value="OD"]').show();
                         }
-
-
-                        $(".preloader").hide();
                         if(project_array.length==0){
 
                             var msg=err_msg[10].replace('[LOGIN ID]',$("#ARE_lb_loginid option:selected").text());
@@ -396,13 +404,13 @@ include '../TSLIB/TSLIB_HEADER.php';
         });
         //JQUERY LIB VALIDATION START
 //    $("#ARE_tb_band").doValidation({rule:'numbersonly',prop:{realpart:10,leadzero:true}});
-        $("#ARE_tb_band").prop("title","NUMBERS ONLY")
+//        $("#ARE_tb_band").prop("title","NUMBERS ONLY")
 //    $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:5,imaginary:2}});
         //JQUERY LIB VALIDATION END
         // CHANGE EVENT FOR DATE
-        $(document).on('change','#ARE_tb_date',function(){
+        $(document).on('change','.singledayentry',function(){
 
-            $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+//            $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
             $(".preloader").show();
             var loginid=$('#ARE_lb_loginid').val();
             var reportdate=$('#ARE_tb_date').val();
@@ -410,6 +418,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var msgalert=xmlhttp.responseText;
+//                    alert(msgalert)
                     $('#ARE_lbl_checkmsg').hide();
 //                        $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
@@ -995,24 +1004,28 @@ include '../TSLIB/TSLIB_HEADER.php';
             xmlhttp.send(new FormData(formElement));
         });
         // CHANGE EVENT FOR OPTION BUTTON
-//        $(document).on('change','#option',function(){
-        $('#value').change(function(){
+        alert('allllllll')
+        $(document).on('change','.adminselectoption',function(){
+//        $('.adminselectoption').change(function(){
+            alert('ppppppppp')
+            alert($('#option').val())
+            var adminselectoptionvalue=$('#option').val()
             $('#ARE_rd_sinentry').attr('checked',false);
             $('#ARE_rd_mulentry').attr('checked',false);
             $('#ARE_form_dailyuserentry').hide();
             $('#ARE_lbl_checkmsg').hide();
-            if($('#value').val()=='ADMIN REPORT ENTRY')
+            if(adminselectoptionvalue=='ADMIN REPORT ENTRY')
             {
                 $("#ARE_lbl_sinentry").show();
-                $('#ARE_rd_sinentry').attr('checked',false);
-                $('#ARE_rd_mulentry').attr('checked',false);
                 $("#ARE_rd_sinentry").show();
                 $("#ARE_lbl_mulentry").show();
                 $("#ARE_rd_mulentry").show();
+                $('#ARE_rd_sinentry').attr('checked',false);
+                $('#ARE_rd_mulentry').attr('checked',false);
                 $('#ARE_tble_ondutyentry').hide();
                 $('#ARE_lbl_oderrmsg').hide();
             }
-            else if(($('#value').val()=='ONDUTY REPORT ENTRY'))
+            else if((adminselectoptionvalue=='ONDUTY REPORT ENTRY'))
             {
                 $('#ARE_tble_ondutyentry').show();
                 $('#ARE_lbl_session').hide();
@@ -1382,7 +1395,8 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
         });
         //CHANGE EVENT ONDUTY ENTRY DATE FUNCTION
-        $('#ARE_tb_dte').change(function(){
+//        $('#ARE_tb_dte').change(function(){
+        $('.ondutydayentry').change(function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
 //                $('.preloader', window.parent.document).show();
             $(".preloader").show();
@@ -1813,9 +1827,12 @@ include '../TSLIB/TSLIB_HEADER.php';
         });
         //CHANGE EVENT FOR LOGIN ID LISTBX
 //    var min_date;
-        $(document).on('change','#ASRC_UPD_DEL_lb_loginid',function(){
+//        $(document).on('change','#ASRC_UPD_DEL_lb_loginid',function(){
+        alert('psfsd')
+        $(document).on('change','.emplistbxactve',function(){
             var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginid").val();
-//                alert(ASRC_UPD_DEL_loginidlist)
+                alert('saaf')
+            $(".preloader").show();
             $('#ASRC_UPD_DEL_errmsg').hide();
             if(ASRC_UPD_DEL_loginidlist=='SELECT')
             {
@@ -1848,7 +1865,6 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
             else
             {
-                $(".preloader").show();
                 var min_date;
                 var loginid=$('#ASRC_UPD_DEL_lb_loginid').val();
                 var xmlhttp=new XMLHttpRequest();
@@ -1857,12 +1873,13 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $(".preloader").hide();
 //                    alert(xmlhttp.responseText)
                         var finaldate=JSON.parse(xmlhttp.responseText);
-                        $("#ASRC_UPD_DEL_tb_strtdte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
-                        $("#ASRC_UPD_DEL_tb_enddte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+//                       alert(finaldate)
                         min_date=finaldate[0];
                         max_date=finaldate[1];
                         rprt_min_date=finaldate[2];
                         project_array=finaldate[3];
+                        $("#ASRC_UPD_DEL_tb_strtdte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+                        $("#ASRC_UPD_DEL_tb_enddte").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                         $('#ASRC_UPD_DEL_tb_enddte').datepicker("option","maxDate",max_date);
                         $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","minDate",min_date);
                         $('#ASRC_UPD_DEL_tb_strtdte').datepicker("option","maxDate",max_date);
@@ -3359,7 +3376,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     <div class="row-fluid form-group">
                         <label name="ARE_lbl_optn" class="col-sm-3" id="ARE_lbl_optn">SELECT A OPTION<em>*</em></label>
                         <div class="col-sm-4">
-                            <select id="value" name="option"class="form-control"style="width: 250px;">
+                            <select id="option" name="option" class="adminselectoption form-control" style="width: 250px;">
                                 <option>SELECT</option>
                                 <option>ADMIN REPORT ENTRY</option>
                                 <option>ONDUTY REPORT ENTRY</option>
@@ -3406,7 +3423,7 @@ include '../TSLIB/TSLIB_HEADER.php';
     <div class="row-fluid form-group">
         <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte" hidden>DATE</label>
         <div class="col-sm-4">
-            <input type ="text" id="ARE_tb_date" class='tb_date proj datemandtry' hidden name="ARE_tb_date" style="width:75px;" />
+            <input type ="text" id="ARE_tb_date" class='tb_date proj datemandtry singledayentry' hidden name="ARE_tb_date" style="width:75px;" />
         </div></div>
     <div id="ARE_tble_attendence" class="row-fluid form-group" >
         <label name="ARE_lbl_attendance" class="col-sm-2" id="ARE_lbl_attendance" >ATTENDANCE</label>
@@ -3501,7 +3518,7 @@ include '../TSLIB/TSLIB_HEADER.php';
     <div  class="row-fluid form-group">
         <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte">DATE</label>
         <div class="col-sm-8">
-            <input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class='proj datemandtry enable' style="width:75px;"/>
+            <input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class='proj datemandtry enable ondutydayentry' style="width:75px;"/>
         </div></div>
     <div class="row-fluid form-group">
         <label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label>
@@ -3571,7 +3588,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 <div class="row-fluid form-group">
     <label name="ASRC_UPD_DELlbl_loginid" class="col-sm-2" id="ASRC_UPD_DEL_lbl_loginid"  hidden>EMPLOYEE NAME</label>
     <div class="col-sm-4">
-        <select name="ASRC_UPD_DEL_lb_loginid" id="ASRC_UPD_DEL_lb_loginid" class="form-control" hidden>
+        <select name="ASRC_UPD_DEL_lb_loginid" id="ASRC_UPD_DEL_lb_loginid" class="form-control emplistbxactve" hidden>
         </select>
     </div></div>
 

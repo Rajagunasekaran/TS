@@ -10,12 +10,12 @@
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 
-set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
-require_once 'google/appengine/api/mail/Message.php';
-require_once 'google-api-php-client-master/src/Google/Client.php';
-require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
-include 'google-api-php-client-master/src/Google/Service/Calendar.php';
-use google\appengine\api\mail\Message;
+//set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
+//require_once 'google/appengine/api/mail/Message.php';
+//require_once 'google-api-php-client-master/src/Google/Client.php';
+//require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
+//include 'google-api-php-client-master/src/Google/Service/Calendar.php';
+//use google\appengine\api\mail\Message;
 if(isset($_REQUEST)){
     include "../TSLIB/TSLIB_CONNECTION.php";
     include "../TSLIB/TSLIB_COMMON.php";
@@ -74,16 +74,16 @@ if(isset($_REQUEST)){
             $CONFIG_SRCH_UPD_sql_data = mysqli_query($con, "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP,USER_LOGIN_DETAILS ULD WHERE  ULD.ULD_ID=DT.ULD_ID AND CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC");
         }
 //        $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult' width='".$arrTableWidth[$flag]."px'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
-      if($CONFIG_SRCH_UPD_type==23)
-          $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead><tbody>";
-      else
-        $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
+        if($CONFIG_SRCH_UPD_type==23)
+            $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead><tbody>";
+        else
+            $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
         while($row=mysqli_fetch_array($CONFIG_SRCH_UPD_sql_data)){
             $appendTable .='<tr  id='.$row[0].'><td id='.'CONFIG_'.$row[0].'>'.$row[1].'</td>';
             if(($CONFIG_SRCH_UPD_type==23)){
-            for($x = 2; $x < 5; $x++) {
-                $appendTable .="<td width='".$arrHeaderWidth[$flag][$x]."px'  >".$row[$x]."</td>";
-            }
+                for($x = 2; $x < 5; $x++) {
+                    $appendTable .="<td width='".$arrHeaderWidth[$flag][$x]."px'  >".$row[$x]."</td>";
+                }
             }
             elseif(($CONFIG_SRCH_UPD_type==24)){
                 for($x = 2; $x < 4; $x++) {
@@ -99,17 +99,17 @@ if(isset($_REQUEST)){
 
             }
             else{
-            if($row[2]=='X')
-            {
-                $deleteoption='<input type="button"  id="edit"  class="edit msgbtn nondelete" value="EDIT"><input type="button"  id="cancl" class="cancl btn" value="CANCEL">';
+                if($row[2]=='X')
+                {
+                    $deleteoption='<input type="button"  id="edit"  class="edit msgbtn nondelete" value="EDIT"><input type="button"  id="cancl" class="cancl btn" value="CANCEL">';
 //                $deleteoption='<input type="button"  id="edit" style="max-width: 60px!important;" class="edit msgbtn nondelete" value="EDIT"><input type="button" style="max-width: 90px!important; align: center!important;" id="cancl" class="cancl btn" value="CANCEL">';
-            }
-            else{
-                $deleteoption='<input type="button"  id="edit"  class="edit msgbtn deletion" value="EDIT"><input type="button"  id="cancel" class="delete btn" value="DELETE">';
+                }
+                else{
+                    $deleteoption='<input type="button"  id="edit"  class="edit msgbtn deletion" value="EDIT"><input type="button"  id="cancel" class="delete btn" value="DELETE">';
 //                $deleteoption='<input type="button"  id="edit" style="max-width: 60px!important;" class="edit msgbtn deletion" value="EDIT"><input type="button" style="max-width: 90px!important; text-align: center!important; " id="cancel" class="delete btn" value="DELETE">';
+                }
+                $appendTable .='<td align="center">'.$deleteoption.'</td></tr>';
             }
-            $appendTable .='<td align="center">'.$deleteoption.'</td></tr>';
-        }
         }
         $appendTable .='</tbody></table>';
         echo JSON_ENCODE($appendTable);
@@ -127,23 +127,24 @@ if(isset($_REQUEST)){
         $CONFIG_SRCH_UPD_type1 = mysqli_query($con,$sql1);
         $CONFIG_SRCH_UPD_save=0;
         //SERVICE
-        $drive = new Google_Client();
-        $Client=get_servicedata();
-        $ClientId=$Client[0];
-        $ClientSecret=$Client[1];
-        $RedirectUri=$Client[3];
-        $DriveScopes=$Client[4];
-        $CalenderScopes=$Client[5];
-        $Refresh_Token=$Client[6];
-        $drive->setClientId($ClientId);
-        $drive->setClientSecret($ClientSecret);
-        $drive->setRedirectUri($RedirectUri);
-        $drive->setScopes(array($DriveScopes,$CalenderScopes));
-        $drive->setAccessType('online');
-        $authUrl = $drive->createAuthUrl();
-        $refresh_token= $Refresh_Token;
-        $drive->refreshToken($refresh_token);
-        $service = new Google_Service_Drive($drive);
+//        echo $Client;
+//        $drive = new Google_Client();
+//        $Client=get_servicedata();
+//        $ClientId=$Client[0];
+//        $ClientSecret=$Client[1];
+//        $RedirectUri=$Client[3];
+//        $DriveScopes=$Client[4];
+//        $CalenderScopes=$Client[5];
+//        $Refresh_Token=$Client[6];
+//        $drive->setClientId($ClientId);
+//        $drive->setClientSecret($ClientSecret);
+//        $drive->setRedirectUri($RedirectUri);
+//        $drive->setScopes(array($DriveScopes,$CalenderScopes));
+//        $drive->setAccessType('online');
+//        $authUrl = $drive->createAuthUrl();
+//        $refresh_token= $Refresh_Token;
+//        $drive->refreshToken($refresh_token);
+//        $service = new Google_Service_Drive($drive);
         //SERVICE
         $select_document_owner=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=14");
         if($row=mysqli_fetch_array($select_document_owner)){
