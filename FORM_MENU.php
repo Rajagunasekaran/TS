@@ -289,7 +289,7 @@ $Userstamp=json_encode($UserStamp);
                                     var file_name=filelist[count]+'.do';
                                 }
                                 else{
-                                    var file_name='ERROR_PAGE.do';
+                                    var file_name='ACCESSRIGHTS/ERROR_PAGE.do';
                                 }
                                 submenuItem='<li class="active"><a class="btnclass" data-pageurl="'+file_name+'" href="#"   id="'+ACRMENU_mainmenu[i]+'" >'+ARCMENU_first_submenu[j][k]+'</a></li></ul>'
                             }
@@ -304,7 +304,7 @@ $Userstamp=json_encode($UserStamp);
                                     var file_name=filelist[count][m]+'.do';
                                 }
                                 else{
-                                    var file_name='ERROR_PAGE.do';
+                                    var file_name='ACCESSRIGHTS/ERROR_PAGE.do';
                                 }
                                 sub_submenuItem='<li class="active"><a class="btnclass"  data-pageurl="'+file_name+'" href="#"   id="'+ARCMENU_first_submenu[j][k]+'" >'+ARCMENU_second_submenu[count][m]+'</a></li>'
 
