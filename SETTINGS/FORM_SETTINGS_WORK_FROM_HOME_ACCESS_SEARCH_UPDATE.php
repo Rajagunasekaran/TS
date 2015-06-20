@@ -5,11 +5,11 @@
 //VER 0.01-INITIAL VERSION, SD:22/04/2015 ED:27/04/2015,TRACKER NO:79
 //*********************************************************************************************************//
 <?php
-//include "TSLIB_HEADER.php";
 include "../TSLIB/TSLIB_HEADER.php";
-//include  "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
+<html>
+<head>
 <script>
 //GLOBAL DECLARATION
 var err_msg_array=[];
@@ -55,7 +55,7 @@ $(document).ready(function(){
             }
         }
         var option="common";
-        xmlhttp.open("GET","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+option);
+        xmlhttp.open("GET","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.php?option="+option);
         xmlhttp.send();
     }
 
@@ -177,7 +177,7 @@ $(document).ready(function(){
                 }
             }
             var option="check_flag";
-            xmlhttp.open("GET","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+option+"&loginid="+loginid);
+            xmlhttp.open("GET","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.php?option="+option+"&loginid="+loginid);
             xmlhttp.send(new FormData(formElement));
         }
     })
@@ -239,10 +239,9 @@ $(document).ready(function(){
             }
         }
         var choice="PROJECT_PROPETIES_SAVE"
-        xmlhttp.open("POST","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.do?option="+choice,true);
+        xmlhttp.open("POST","SETTINGS/DB_EMPLOYEE_WORK_FROM_HOME_ACCESS.php?option="+choice,true);
         xmlhttp.send(new FormData(formElement));
     });
-
 });
 //END DOCUMENT READY FUNCTION
 </script>
@@ -250,11 +249,9 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
-<!--    <div class="title text-center"><h4><b>EMPLOYEE WORK FROM HOME ACCESS</b></h4></div>-->
-    <div class="newtitle text-center"><b><h4>EMPLOYEE WORK FROM HOME ACCESS</h4></b></div>
-<!--    <div class="title" id="fhead" ><center><p><b><h3>EMPLOYEE WORK FROM HOME ACCESS</h3></b><p></center></div>-->
-    <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" >
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>EMPLOYEE WORK FROM HOME ACCESS</h4></b></div>
+    <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="form-horizontal content" role="form" >
         <div class="panel-body">
             <fieldset>
         <div class="row-fluid form-group">
@@ -264,12 +261,10 @@ $(document).ready(function(){
                     </select>
                 </div></div>
                 <div><label id="EMP_ENTRY_lbl_nologinid" name="EMP_ENTRY_lbl_nologinid" class="errormsg"></label></div>
-
                <div class="row-fluid form-group" style="position: relative; left: 10px" id="EMP_ENTRY_tble_projectlistbx"  hidden>
                   <label name="EMP_ENTRY_lbl_txtselectproj"  class="col-sm-3" id="EMP_ENTRY_lbl_txtselectproj">PROJECT NAME<em>*</em></label>
                     <div id="EMP_ENTRY_tble_frstsel_projectlistbx" class="col-sm-8" ></div>
                 </div>
-
 <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
                     <div class="col-sm-2" id="CONFIG_SRCH_UPD_tr_type"></div>
 <div class="col-sm-4">

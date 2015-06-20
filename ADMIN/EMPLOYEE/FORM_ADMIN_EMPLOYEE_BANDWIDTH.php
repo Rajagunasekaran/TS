@@ -12,7 +12,6 @@
 //************************************************************************************************************-->
 <?php
 include "../../TSLIB/TSLIB_HEADER.php";
-//include  "NEW_MENU.php";
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
 <style type="text/css" xmlns="http://www.w3.org/1999/html">
@@ -563,11 +562,9 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-<!--    <div class="title text-center"><h4><b>BANDWIDTH</b></h4></div>-->
-    <div class="newtitle text-center"><b><h4>BANDWIDTH</h4></b></div>
-    <!--    <div class="title"><p><center><h3><b>BANDWIDTH</b></h3></center><p></div>-->
-        <form   id="REP_BND_form_bandwidth" class="content" >
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>BANDWIDTH</h4></b></div>
+        <form   id="REP_BND_form_bandwidth"  class="form-horizontal content" role="form" >
             <div class="panel-body">
                 <fieldset>
                     <div class="row-fluid form-group">
@@ -584,36 +581,42 @@ $(document).ready(function(){
                         <div class="col-sm-4">
                             <input type="text" name="REP_BND_db_selectmnth" id="REP_BND_db_selectmnth" class="date-picker datemandtry validation" style="width:75px;" hidden>
                         </div></div>
+
                     <div class="row-fluid form-group">
                         <label name="REP_BND_lbl_selectmnth"  class="col-sm-3" id="REP_BND_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
                         <div class="col-sm-4">
                             <input type="text" name="REP_BND_db_selectmnth" id="REP_BND_db_selectmnth" class="date-picker datemandtry validation" style="width:75px;" hidden>
                         </div></div>
+
                     <div>
                         <input type="button" class="btn" name="REP_BND_btn_mysearch" id="REP_BND_btn_mysearch"  value="SEARCH" disabled>
                     </div>
+
                     <div>
                         <label id="src_lbl_error" class="srctitle"></label>
                     </div>
+
                     <div><input type="button" id="REP_BND_btn_mnth_pdf" class="btnpdf" value="PDF"></div>
                     <div><label id="REP_BND_nodata_pdflextble" name="REP_BND_nodata_pdflextble" class="errormsg"></label></div>
+
                     <div id ="REP_BND_div_monthyr" class="table-responsive" style="max-width: 400px" hidden>
                         <sections>
                         </sections>
                     </div>
+
                     <div id="REP_BND_tble_prjctrevactnonact" hidden>
                         <div class="row-fluid form-group">
                             <label name="REP_BND_lbl_actveemp" class="col-sm-2" id="REP_BND_lbl_actveemp"  hidden>
                                 <div class="radio">
                                     <input type="radio" name="REP_BND_rd_actveemp" id="REP_BND_rd_actveemp" value="EMPLOYEE" hidden >ACTIVE EMPLOYEE</label>
-
                         </div></div>
+                    
                     <div class="row-fluid form-group">
                         <label name="REP_BND_lbl_nonactveemp" class="col-sm-3" id="REP_BND_lbl_nonactveemp"  hidden>
                             <div class="radio">
                                 <input type="radio" name="REP_BND_rd_actveemp"  id="REP_BND_rd_nonemp"   value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE </label>
-
                     </div></div>
+            
             <div class="row-fluid form-group">
                 <label name="REP_BND_lbl_actveemps" id="REP_BND_lbl_actveemps" class="srctitle" hidden>ACTIVE EMPLOYEE</label>
             </div>
@@ -621,6 +624,7 @@ $(document).ready(function(){
                 <label name="REP_BND_lbl_nonactveemps" id="REP_BND_lbl_nonactveemps" class="srctitle" hidden>NON ACTIVE EMPLOYEE </label>
             </div>
     </div>
+
     <div><label id="REP_BND_nodata_lgnid" name="REP_BND_nodata_lgnid" class="errormsg"></label>
         <div class="row-fluid form-group">
             <label name="REP_BND_lbl_loginid"  class="col-sm-3" id="REP_BND_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
@@ -629,20 +633,25 @@ $(document).ready(function(){
                 </select>
             </div>
         </div></div>
+
     <div class="row-fluid form-group">
         <label name="REP_BND_lbl_selectmnths" class="col-sm-3" id="REP_BND_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
         <div class="col-sm-3">
             <input type="text" name="REP_BND_db_selectmnths" id="REP_BND_db_selectmnths" class="date-pickers datemandtry valid" style="width: 75px" hidden>
         </div></div>
+
     <div>
         <input type="button" class="btn" name="REP_BND_btn_search" id="REP_BND_btn_search"  value="SEARCH" disabled>
-
     </div>
+
     <div>
         <label id="src_lbl_error_login"></label>
     </div>
+
     <div><input type="button" id="REP_BND_btn_emp_pdf" class="btnpdf" value="PDF"></div>
+
     <div><label id="REV_nodata_pdflextbles" name="REP_BND_nodatas_pdflextble" class="errormsg"></label></div>
+
     <div id ="REP_BND_div_actvenon_dterange"class="table-responsive"  style="max-width: 500px" hidden>
         <section>
         </section>

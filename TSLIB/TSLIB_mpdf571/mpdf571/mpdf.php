@@ -1806,7 +1806,7 @@ function _resizeBackgroundImage($imw, $imh, $cw, $ch, $resize=0, $repx, $repy, $
 	// mPDF 5.6.10
 	if (isset($size['w']) && $size['w']) {
 		if ($size['w']=='contain') {
-		// Scale the image, while preserving its intrinsic aspect ratio (if any), to the largest size such that both its width and its height can fit inside the background positioning area. 
+		// Scale the images, while preserving its intrinsic aspect ratio (if any), to the largest size such that both its width and its height can fit inside the background positioning area.
 		// Same as resize==3
 			$h = $imh * $cw/$imw;
 			$w = $cw;
@@ -1816,7 +1816,7 @@ function _resizeBackgroundImage($imw, $imh, $cw, $ch, $resize=0, $repx, $repy, $
 			}
 		}
 		else if ($size['w']=='cover') {
-		// Scale the image, while preserving its intrinsic aspect ratio (if any), to the smallest size such that both its width and its height can completely cover the background positioning area. 
+		// Scale the images, while preserving its intrinsic aspect ratio (if any), to the smallest size such that both its width and its height can completely cover the background positioning area.
 			$h = $imh * $cw/$imw;
 			$w = $cw;
 			if ($h < $ch) {
@@ -1919,7 +1919,7 @@ function SetBackground(&$properties, &$maxwidth) {
 			$orig_w = $sizesarray['WIDTH']*_MPDFK;		// in user units i.e. mm
  			$orig_h = $sizesarray['HEIGHT']*_MPDFK;		// (using $this->img_dpi)
 			if (isset($properties['BACKGROUND-IMAGE-RESOLUTION'])) { 
-				if (preg_match('/from-image/i', $properties['BACKGROUND-IMAGE-RESOLUTION']) && isset($sizesarray['set-dpi']) && $sizesarray['set-dpi']>0) {
+				if (preg_match('/from-images/i', $properties['BACKGROUND-IMAGE-RESOLUTION']) && isset($sizesarray['set-dpi']) && $sizesarray['set-dpi']>0) {
 					$orig_w *= $this->img_dpi / $sizesarray['set-dpi'];
 					$orig_h *= $this->img_dpi / $sizesarray['set-dpi'];
 				}
@@ -2088,7 +2088,7 @@ function PrintPageBackgrounds($adjustmenty=0) {
 			$w = $pb['w']*_MPDFK;
 			$h = -$pb['h']*_MPDFK;
 			if (isset($pb['clippath']) && $pb['clippath']) { $s .= $pb['clippath']."\n"; }
-			if ($this->writingHTMLfooter || $this->writingHTMLheader) {	// Write each (tiles) image rather than use as a pattern
+			if ($this->writingHTMLfooter || $this->writingHTMLheader) {	// Write each (tiles) images rather than use as a pattern
 				$iw = $pb['orig_w']/_MPDFK;
 				$ih = $pb['orig_h']/_MPDFK;
 
@@ -2110,7 +2110,7 @@ function PrintPageBackgrounds($adjustmenty=0) {
 					$size = $pb['size'];
 
 					if ($size['w']=='contain') {
-					// Scale the image, while preserving its intrinsic aspect ratio (if any), to the largest size such that both its width and its height can fit inside the background positioning area. 
+					// Scale the images, while preserving its intrinsic aspect ratio (if any), to the largest size such that both its width and its height can fit inside the background positioning area.
 					// Same as resize==3
 						$ih = $ih * $pb['bpa']['w']/$iw;
 						$iw = $pb['bpa']['w'];
@@ -2120,7 +2120,7 @@ function PrintPageBackgrounds($adjustmenty=0) {
 						}
 					}
 					else if ($size['w']=='cover') {
-					// Scale the image, while preserving its intrinsic aspect ratio (if any), to the smallest size such that both its width and its height can completely cover the background positioning area. 
+					// Scale the images, while preserving its intrinsic aspect ratio (if any), to the smallest size such that both its width and its height can completely cover the background positioning area.
 						$ih = $ih * $pb['bpa']['w']/$iw;
 						$iw = $pb['bpa']['w'];
 						if ($ih < $pb['bpa']['h']) {
@@ -5069,7 +5069,7 @@ function finishFlowingBlock($endofblock=false, $next='') {
 		if (preg_match("/[".$this->CJKoverflow."]/u", $lastchar)) { $CJKoverflow = true; }
 		else {$CJKoverflow = false; } 
 		if ((((($contentWidth + $lastitalic) > $maxWidth) && ($content[count($content)-1] != ' ') )  ||
-			(!$endofblock && $align=='J' && ($next=='image' || $next=='select' || $next=='input' || $next=='textarea' || ($next=='br' && $this->justifyB4br))))  && !($CJKoverflow && $this->allowCJKoverflow) ) {	// mPDF 5.6.40
+			(!$endofblock && $align=='J' && ($next=='images' || $next=='select' || $next=='input' || $next=='textarea' || ($next=='br' && $this->justifyB4br))))  && !($CJKoverflow && $this->allowCJKoverflow) ) {	// mPDF 5.6.40
  		  // WORD SPACING
 			list($jcharspacing,$jws) = $this->GetJspacing($nb_carac,$nb_spaces,($maxWidth-$lastitalic-$contentWidth-$WidthCorrection-(($this->cMarginL+$this->cMarginR)*_MPDFK)-($paddingL+$paddingR +(($fpaddingL + $fpaddingR) * _MPDFK) )),$inclCursive);
 		}
@@ -5446,7 +5446,7 @@ function printobjectbuffer($is_table=false, $blockdir=false) {
 			$this->SetDColor($this->ConvertColor(0));
 		   }
 		// IMAGE
-		   if ($objattr['type'] == 'image') {
+		   if ($objattr['type'] == 'images') {
 			// mPDF 5.6.01  - LAYERS
 			if (isset($objattr['z-index']) && $objattr['z-index'] > 0 && $this->currentlayer==0) {
 				$this->BeginLayer($objattr['z-index']);
@@ -6838,7 +6838,7 @@ function Image($file,$x,$y,$w=0,$h=0,$type='',$link='',$paint=true, $constrain=t
 			$h = abs($info['h']) /_MPDFK;
 		}
 		else {
-			//Put image at default image dpi
+			//Put images at default images dpi
 			$w=($info['w']/_MPDFK) * (72/$this->img_dpi);
 			$h=($info['h']/_MPDFK) * (72/$this->img_dpi);
 		}
@@ -7001,15 +7001,15 @@ function Image($file,$x,$y,$w=0,$h=0,$type='',$link='',$paint=true, $constrain=t
 		$this->_out($outstring);
 		if($link) $this->Link($x,$y,$w,$h,$link);
 
-		// Avoid writing text on top of the image. // THIS WAS OUTSIDE THE if ($paint) bit!!!!!!!!!!!!!!!!
+		// Avoid writing text on top of the images. // THIS WAS OUTSIDE THE if ($paint) bit!!!!!!!!!!!!!!!!
 		$this->y = $y + $h;
 	}
 
 	//Return width-height array
 	$sizesarray['WIDTH'] = $w;
 	$sizesarray['HEIGHT'] = $h;
-	$sizesarray['X'] = $x; //Position before painting image
-	$sizesarray['Y'] = $y; //Position before painting image
+	$sizesarray['X'] = $x; //Position before painting images
+	$sizesarray['Y'] = $y; //Position before painting images
 	$sizesarray['OUTPUT'] = $outstring;
 
 	$sizesarray['IMAGE_ID'] = $info['i'];
@@ -7056,7 +7056,7 @@ function inlineObject($type,$x,$y,$objattr,$Lmargin,$widthUsed,$maxWidth,$lineHe
 	$extraWidth = ($objattr['border_left']['w'] + $objattr['border_right']['w'] + $objattr['margin_left']+ $objattr['margin_right'])/$k;
 	$extraHeight = ($objattr['border_top']['w'] + $objattr['border_bottom']['w'] + $objattr['margin_top']+ $objattr['margin_bottom'])/$k;
 
-	if ($type == 'image' || $type == 'barcode' || $type == 'textcircle') {
+	if ($type == 'images' || $type == 'barcode' || $type == 'textcircle') {
 		$extraWidth += ($objattr['padding_left'] + $objattr['padding_right'])/$k;
 		$extraHeight += ($objattr['padding_top'] + $objattr['padding_bottom'])/$k;
 	}
@@ -7064,7 +7064,7 @@ function inlineObject($type,$x,$y,$objattr,$Lmargin,$widthUsed,$maxWidth,$lineHe
 
    if (!isset($objattr['vertical-align'])) { $objattr['vertical-align'] = 'M'; }
 
-   if ($type == 'image' || (isset($objattr['subtype']) && $objattr['subtype'] == 'IMAGE')) {
+   if ($type == 'images' || (isset($objattr['subtype']) && $objattr['subtype'] == 'IMAGE')) {
     if (isset($objattr['itype']) && ($objattr['itype'] == 'wmf' || $objattr['itype'] == 'svg')) {
 	$file = $objattr['file'];
  	$info=$this->formobjects[$file];
@@ -7086,7 +7086,7 @@ function inlineObject($type,$x,$y,$objattr,$Lmargin,$widthUsed,$maxWidth,$lineHe
 		else { return array(1, $w ,$h ); } // new line
 	}
 	else {
-		if ($widthUsed > 0 && $w > $widthLeft && (!$is_table || $type != 'image')) { 	// New line needed
+		if ($widthUsed > 0 && $w > $widthLeft && (!$is_table || $type != 'images')) { 	// New line needed
 			if (($y + $h + $lineHeight > $this->PageBreakTrigger) && !$this->InFooter) { return array(-2,$w ,$h ); } // New page + new line
 			return array(1,$w ,$h ); // new line
 		}
@@ -7112,7 +7112,7 @@ function inlineObject($type,$x,$y,$objattr,$Lmargin,$widthUsed,$maxWidth,$lineHe
 	$objattr['INNER-Y'] = $y;
   }
 
-  if ($type == 'image') {
+  if ($type == 'images') {
 	// Automatically resize to width remaining
 	if ($w > $widthLeft  && !$is_table) {
 		$w = $widthLeft ;
@@ -9669,7 +9669,7 @@ function _dounderline($x,$y,$txt) {
 
 
 function _imageError($file, $firsttime, $msg) {
-	// Save re-trying image URL's which have already failed
+	// Save re-trying images URL's which have already failed
 	$this->failedimages[$file] = true;
 	if ($firsttime && ($this->showImageErrors || $this->debug)) {
 			$this->Error("IMAGE Error (".$file."): ".$msg);
@@ -9686,7 +9686,7 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 		$file = md5($data);
 	}
 	// mPDF 5.5.13
-	if (preg_match('/data:image\/(gif|jpeg|png);base64,(.*)/',$file, $v)) { 
+	if (preg_match('/data:images\/(gif|jpeg|png);base64,(.*)/',$file, $v)) {
 		$type = $v[1];
 		$data = base64_decode($v[2]);
 		$file = md5($data);
@@ -9701,7 +9701,7 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 	if (isset($this->images[$file])) { return $this->images[$file]; }
 	else if ($orig_srcpath && isset($this->formobjects[$orig_srcpath])) { $file=$orig_srcpath; return $this->formobjects[$file]; }
 	else if (isset($this->formobjects[$file])) { return $this->formobjects[$file]; }
-	// Save re-trying image URL's which have already failed
+	// Save re-trying images URL's which have already failed
 	else if ($firsttime && isset($this->failedimages[$file])) { return $this->_imageError($file, $firsttime, ''); } 
 	if (empty($data)) {
 		$type = '';
@@ -9728,9 +9728,9 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 		}
 
 	}
-	if (!$data) { return $this->_imageError($file, $firsttime, 'Could not find image file'); }
+	if (!$data) { return $this->_imageError($file, $firsttime, 'Could not find images file'); }
 	if (empty($type)) { $type = $this->_imageTypeFromString($data); }	
-	if (($type == 'wmf' || $type == 'svg') && !$allowvector) { return $this->_imageError($file, $firsttime, 'WMF or SVG image file not supported in this context'); }
+	if (($type == 'wmf' || $type == 'svg') && !$allowvector) { return $this->_imageError($file, $firsttime, 'WMF or SVG images file not supported in this context'); }
 
 	// SVG
 	if ($type == 'svg') {
@@ -9766,17 +9766,17 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 			}
 		}
 		if ($a[2] == 'DeviceCMYK' && (($this->PDFA && $this->restrictColorSpace!=3) || $this->restrictColorSpace==2)) {
-			// convert to RGB image
-			if (!function_exists("gd_info")) { $this->Error("JPG image may not use CMYK color space (".$file.")."); }
-			if ($this->PDFA && !$this->PDFAauto) { $this->PDFAXwarnings[] = "JPG image may not use CMYK color space - ".$file." - (Image converted to RGB. NB This will alter the colour profile of the image.)"; }
+			// convert to RGB images
+			if (!function_exists("gd_info")) { $this->Error("JPG images may not use CMYK color space (".$file.")."); }
+			if ($this->PDFA && !$this->PDFAauto) { $this->PDFAXwarnings[] = "JPG images may not use CMYK color space - ".$file." - (Image converted to RGB. NB This will alter the colour profile of the images.)"; }
 			$im = @imagecreatefromstring($data);
 			if ($im) {
 				$tempfile = _MPDF_TEMP_PATH.'_tempImgPNG'.md5($file).RAND(1,10000).'.png';
 				imageinterlace($im, false);
 				$check = @imagepng($im, $tempfile);
-				if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary file ('.$tempfile.') whilst using GD library to parse JPG(CMYK) image'); }
+				if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary file ('.$tempfile.') whilst using GD library to parse JPG(CMYK) images'); }
 				$info = $this->_getImage($tempfile, false);
-				if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse JPG(CMYK) image'); }
+				if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse JPG(CMYK) images'); }
 				imagedestroy($im);
 				unlink($tempfile);
 				$info['type']='jpg';
@@ -9786,22 +9786,22 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 				}
 				return $info;
 			}
-			else { return $this->_imageError($file, $firsttime, 'Error creating GD image file from JPG(CMYK) image'); }
+			else { return $this->_imageError($file, $firsttime, 'Error creating GD images file from JPG(CMYK) images'); }
 		}
 		else if ($a[2] == 'DeviceRGB' && ($this->PDFX || $this->restrictColorSpace==3)) {
-			// Convert to CMYK image stream - nominally returned as type='png'
+			// Convert to CMYK images stream - nominally returned as type='png'
 			$info = $this->_convImage($data, $a[2], 'DeviceCMYK', $a[0], $a[1], $ppUx, false);
-			if (($this->PDFA && !$this->PDFAauto) || ($this->PDFX && !$this->PDFXauto)) { $this->PDFAXwarnings[] = "JPG image may not use RGB color space - ".$file." - (Image converted to CMYK. NB This will alter the colour profile of the image.)"; }
+			if (($this->PDFA && !$this->PDFAauto) || ($this->PDFX && !$this->PDFXauto)) { $this->PDFAXwarnings[] = "JPG images may not use RGB color space - ".$file." - (Image converted to CMYK. NB This will alter the colour profile of the images.)"; }
 		}
 		else if (($a[2] == 'DeviceRGB' || $a[2] == 'DeviceCMYK') && $this->restrictColorSpace==1) {
-			// Convert to Grayscale image stream - nominally returned as type='png'
+			// Convert to Grayscale images stream - nominally returned as type='png'
 			$info = $this->_convImage($data, $a[2], 'DeviceGray', $a[0], $a[1], $ppUx, false);
 		}
 		else {
 			$info = array('w'=>$a[0],'h'=>$a[1],'cs'=>$a[2],'bpc'=>$a[3],'f'=>'DCTDecode','data'=>$data, 'type'=>'jpg');
 			if ($ppUx) { $info['set-dpi'] = $ppUx; }
 		}
-		if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing or converting JPG image'); }
+		if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing or converting JPG images'); }
 
 		if ($firsttime) {
 			$info['i']=count($this->images)+1;
@@ -9846,12 +9846,12 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 			}
 		}
 		if (($colspace == 'DeviceRGB' || $colspace == 'Indexed') && ($this->PDFX || $this->restrictColorSpace==3)) {
-			// Convert to CMYK image stream - nominally returned as type='png'
+			// Convert to CMYK images stream - nominally returned as type='png'
 			$info = $this->_convImage($data, $colspace, 'DeviceCMYK', $w, $h, $ppUx, $pngalpha);
-			if (($this->PDFA && !$this->PDFAauto) || ($this->PDFX && !$this->PDFXauto)) { $this->PDFAXwarnings[] = "PNG image may not use RGB color space - ".$file." - (Image converted to CMYK. NB This will alter the colour profile of the image.)"; }
+			if (($this->PDFA && !$this->PDFAauto) || ($this->PDFX && !$this->PDFXauto)) { $this->PDFAXwarnings[] = "PNG images may not use RGB color space - ".$file." - (Image converted to CMYK. NB This will alter the colour profile of the images.)"; }
 		}
 		else if (($colspace == 'DeviceRGB' || $colspace == 'Indexed') && $this->restrictColorSpace==1) {
-			// Convert to Grayscale image stream - nominally returned as type='png'
+			// Convert to Grayscale images stream - nominally returned as type='png'
 			$info = $this->_convImage($data, $colspace, 'DeviceGray', $w, $h, $ppUx, $pngalpha);
 		}
 		else if (($this->PDFA || $this->PDFX) && $pngalpha) {
@@ -9870,9 +9870,9 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 		else if ($errpng || $pngalpha) {
 			if (function_exists('gd_info')) { $gd = gd_info(); }
 			else {$gd = array(); }
-			if (!isset($gd['PNG Support'])) { return $this->_imageError($file, $firsttime, 'GD library required for PNG image ('.$errpng.')'); }
+			if (!isset($gd['PNG Support'])) { return $this->_imageError($file, $firsttime, 'GD library required for PNG images ('.$errpng.')'); }
 			$im = imagecreatefromstring($data);
-			if (!$im) { return $this->_imageError($file, $firsttime, 'Error creating GD image from PNG file ('.$errpng.')'); }
+			if (!$im) { return $this->_imageError($file, $firsttime, 'Error creating GD images from PNG file ('.$errpng.')'); }
 			$w = imagesx($im);
 			$h = imagesy($im);
 			if ($im) {
@@ -9898,26 +9898,26 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 				if (!is_writable(_MPDF_TEMP_PATH)) { 	// mPDF 5.7.2
 					ob_start(); 
 					$check = @imagepng($imgalpha);
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary image object whilst using GD library to parse PNG image'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary images object whilst using GD library to parse PNG images'); }
 					imagedestroy($imgalpha);
 					$this->_tempimg = ob_get_contents();
 					$this->_tempimglnk = 'var:_tempimg';
 					ob_end_clean();
-					// extract image without alpha channel
+					// extract images without alpha channel
 					$imgplain = imagecreatetruecolor($w, $h);
 					imagealphablending( $imgplain, false );	// mPDF 5.7.2
 					imagecopy($imgplain, $im, 0, 0, 0, 0, $w, $h);
-					// create temp image file
+					// create temp images file
 					$minfo = $this->_getImage($this->_tempimglnk, false);
-					if (!$minfo) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file image object created with GD library to parse PNG image'); }
+					if (!$minfo) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file images object created with GD library to parse PNG images'); }
 					ob_start(); 
 					$check = @imagepng($imgplain);
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary image object whilst using GD library to parse PNG image'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary images object whilst using GD library to parse PNG images'); }
 					$this->_tempimg = ob_get_contents();
 					$this->_tempimglnk = 'var:_tempimg';
 					ob_end_clean();
 					$info = $this->_getImage($this->_tempimglnk, false);
-					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file image object created with GD library to parse PNG image'); }
+					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file images object created with GD library to parse PNG images'); }
 					imagedestroy($imgplain);
 					$imgmask = count($this->images)+1;
 					$minfo['cs'] = 'DeviceGray';
@@ -9927,30 +9927,30 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 				}
 				else {
 					$check = @imagepng($imgalpha, $tempfile_alpha);
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Failed to create temporary image file ('.$tempfile_alpha.') parsing PNG image with alpha channel ('.$errpng.')'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Failed to create temporary images file ('.$tempfile_alpha.') parsing PNG images with alpha channel ('.$errpng.')'); }
 					imagedestroy($imgalpha);
 
-					// extract image without alpha channel
+					// extract images without alpha channel
 					$imgplain = imagecreatetruecolor($w, $h);
 					imagealphablending( $imgplain, false );	// mPDF 5.7.2
 					imagecopy($imgplain, $im, 0, 0, 0, 0, $w, $h);
 
-					// create temp image file
+					// create temp images file
 					$check = @imagepng($imgplain, $tempfile);
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Failed to create temporary image file ('.$tempfile.') parsing PNG image with alpha channel ('.$errpng.')'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Failed to create temporary images file ('.$tempfile.') parsing PNG images with alpha channel ('.$errpng.')'); }
 					imagedestroy($imgplain);
-					// embed mask image
+					// embed mask images
 					$minfo = $this->_getImage($tempfile_alpha, false);
 					unlink($tempfile_alpha);
-					if (!$minfo) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile_alpha.') created with GD library to parse PNG image'); }
+					if (!$minfo) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile_alpha.') created with GD library to parse PNG images'); }
 					$imgmask = count($this->images)+1;
 					$minfo['cs'] = 'DeviceGray';
 					$minfo['i']=$imgmask ;
 					$this->images[$tempfile_alpha] = $minfo;
-					// embed image, masked with previously embedded mask
+					// embed images, masked with previously embedded mask
 					$info = $this->_getImage($tempfile, false);
 					unlink($tempfile);
-					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse PNG image'); }
+					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse PNG images'); }
 
 				}
 				$info['masked'] = $imgmask;
@@ -9969,21 +9969,21 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 				if (!is_writable($tempfile)) { 
 					ob_start(); 
 					$check = @imagepng($im);
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary image object whilst using GD library to parse PNG image'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary images object whilst using GD library to parse PNG images'); }
 					$this->_tempimg = ob_get_contents();
 					$this->_tempimglnk = 'var:_tempimg';
 					ob_end_clean();
 					$info = $this->_getImage($this->_tempimglnk, false);
-					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file image object created with GD library to parse PNG image'); }
+					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file images object created with GD library to parse PNG images'); }
 					imagedestroy($im);
 				}
 				else {
 					$check = @imagepng($im, $tempfile );
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Failed to create temporary image file ('.$tempfile.') parsing PNG image ('.$errpng.')'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Failed to create temporary images file ('.$tempfile.') parsing PNG images ('.$errpng.')'); }
 					imagedestroy($im);
 					$info = $this->_getImage($tempfile, false) ;
 					unlink($tempfile ); 
-					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse PNG image'); }
+					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse PNG images'); }
 				}
 				if ($ppUx) { $info['set-dpi'] = $ppUx; }
 				$info['type']='png';
@@ -9998,7 +9998,7 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 
 		else {
 			$parms='/DecodeParms <</Predictor 15 /Colors '.($ct==2 ? 3 : 1).' /BitsPerComponent '.$bpc.' /Columns '.$w.'>>';
-			//Scan chunks looking for palette, transparency and image data
+			//Scan chunks looking for palette, transparency and images data
 			$pal='';
 			$trns='';
 			$pngdata='';
@@ -10029,17 +10029,17 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 				}
 				elseif($type=='IEND') { break; }
 				else if (preg_match('/[a-zA-Z]{4}/',$type)) { $p += $n+4; }
-				else { return $this->_imageError($file, $firsttime, 'Error parsing PNG image data'); }
+				else { return $this->_imageError($file, $firsttime, 'Error parsing PNG images data'); }
 			}
 			while($n);
-			if (!$pngdata) { return $this->_imageError($file, $firsttime, 'Error parsing PNG image data - no IDAT data found'); }
-			if($colspace=='Indexed' and empty($pal)) { return $this->_imageError($file, $firsttime, 'Error parsing PNG image data - missing colour palette'); }
+			if (!$pngdata) { return $this->_imageError($file, $firsttime, 'Error parsing PNG images data - no IDAT data found'); }
+			if($colspace=='Indexed' and empty($pal)) { return $this->_imageError($file, $firsttime, 'Error parsing PNG images data - missing colour palette'); }
 			$info = array('w'=>$w,'h'=>$h,'cs'=>$colspace,'bpc'=>$bpc,'f'=>'FlateDecode','parms'=>$parms,'pal'=>$pal,'trns'=>$trns,'data'=>$pngdata);
 			$info['type']='png';
 			if ($ppUx) { $info['set-dpi'] = $ppUx; }
 		}
 
-		if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing or converting PNG image'); }
+		if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing or converting PNG images'); }
 
 		if ($firsttime) {
 			$info['i']=count($this->images)+1;
@@ -10062,19 +10062,19 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 				if (!is_writable($tempfile)) { 
 					ob_start(); 
 					$check = @imagepng($im);
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary image object whilst using GD library to parse GIF image'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary images object whilst using GD library to parse GIF images'); }
 					$this->_tempimg = ob_get_contents();
 					$this->_tempimglnk = 'var:_tempimg';
 					ob_end_clean();
 					$info = $this->_getImage($this->_tempimglnk, false);
-					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file image object created with GD library to parse GIF image'); }
+					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file images object created with GD library to parse GIF images'); }
 					imagedestroy($im);
 				}
 				else {
 					$check = @imagepng($im, $tempfile);
-					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary file ('.$tempfile.') whilst using GD library to parse GIF image'); }
+					if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary file ('.$tempfile.') whilst using GD library to parse GIF images'); }
 					$info = $this->_getImage($tempfile, false);
-					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse GIF image'); }
+					if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse GIF images'); }
 					imagedestroy($im);
 					unlink($tempfile);
 				}
@@ -10085,7 +10085,7 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 				}
 				return $info;
 			}
-			else { return $this->_imageError($file, $firsttime, 'Error creating GD image file from GIF image'); }
+			else { return $this->_imageError($file, $firsttime, 'Error creating GD images file from GIF images'); }
 		}
 
 		if (!class_exists('gif', false)) { 
@@ -10128,7 +10128,7 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 		$gif->ClearData();
 
 		if($colspace=='Indexed' and empty($pal)) {
-			return $this->_imageError($file, $firsttime, 'Error parsing GIF image - missing colour palette'); 
+			return $this->_imageError($file, $firsttime, 'Error parsing GIF images - missing colour palette');
 		}
 		if ($this->compress) {
 			$gifdata=gzcompress($gifdata);
@@ -10169,7 +10169,7 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 		$wmfres = $this->wmf->_getWMFimage($data);
 	  if ($wmfres[0]==0) { 
 		if ($wmfres[1]) { return $this->_imageError($file, $firsttime, $wmfres[1]); }
-		return $this->_imageError($file, $firsttime, 'Error parsing WMF image'); 
+		return $this->_imageError($file, $firsttime, 'Error parsing WMF images');
 	  }
 	  $info = array('x'=>$wmfres[2][0],'y'=>$wmfres[2][1],'w'=>$wmfres[3][0],'h'=>$wmfres[3][1],'data'=>$wmfres[1]);
 	  $info['i']=count($this->formobjects)+1;
@@ -10185,17 +10185,17 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 		else {$gd = array(); }
 		if (isset($gd['PNG Support']) && $gd['PNG Support']) {
 			$im = @imagecreatefromstring($data);
-			if (!$im) { return $this->_imageError($file, $firsttime, 'Error parsing image file - image type not recognised, and not supported by GD imagecreate'); }
+			if (!$im) { return $this->_imageError($file, $firsttime, 'Error parsing images file - images type not recognised, and not supported by GD imagecreate'); }
 			$tempfile = _MPDF_TEMP_PATH.'_tempImgPNG'.md5($file).RAND(1,10000).'.png';
 			imagealphablending($im, false);
 			imagesavealpha($im, false); 
 			imageinterlace($im, false);
 			$check = @imagepng($im, $tempfile);
-			if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary file ('.$tempfile.') whilst using GD library to parse unknown image type'); }
+			if (!$check) { return $this->_imageError($file, $firsttime, 'Error creating temporary file ('.$tempfile.') whilst using GD library to parse unknown images type'); }
 			$info = $this->_getImage($tempfile, false);
 			imagedestroy($im);
 			unlink($tempfile);
-			if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse unknown image type'); }
+			if (!$info) { return $this->_imageError($file, $firsttime, 'Error parsing temporary file ('.$tempfile.') created with GD library to parse unknown images type'); }
 			$info['type']='png';
 			if ($firsttime) {
 				$info['i']=count($this->images)+1;
@@ -10205,7 +10205,7 @@ function _getImage(&$file, $firsttime=true, $allowvector=true, $orig_srcpath=fal
 		}
 	}
 
-	return $this->_imageError($file, $firsttime, 'Error parsing image file - image type not recognised'); 
+	return $this->_imageError($file, $firsttime, 'Error parsing images file - images type not recognised');
 }
 //==============================================================
 function _convImage(&$data, $colspace, $targetcs, $w, $h, $dpi, $mask) {
@@ -11658,9 +11658,9 @@ function TableHeaderFooter($content='',$tablestartpage='',$tablestartcolumn ='',
 		}
 	}
 
-	if (isset($tablehf['background-image']) && $paintcell){
-	  if ($tablehf['background-image']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $tablehf['background-image']['gradient'] )) {
-		$g = $this->grad->parseMozGradient( $tablehf['background-image']['gradient'] );
+	if (isset($tablehf['background-images']) && $paintcell){
+	  if ($tablehf['background-images']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $tablehf['background-images']['gradient'] )) {
+		$g = $this->grad->parseMozGradient( $tablehf['background-images']['gradient'] );
 		if ($g) {
  		  if ($table['borders_separate']) { 
  			$px = $x+ ($table['border_spacing_H']/2);
@@ -11682,7 +11682,7 @@ function TableHeaderFooter($content='',$tablestartpage='',$tablestartcolumn ='',
 		  }
 		}
 	  }
-	  else if ($tablehf['background-image']['image_id']) {	// Background pattern
+	  else if ($tablehf['background-images']['image_id']) {	// Background pattern
 		$n = count($this->patterns)+1;
  		if ($table['borders_separate']) { 
  			$px = $x+ ($table['border_spacing_H']/2);
@@ -11697,14 +11697,14 @@ function TableHeaderFooter($content='',$tablestartpage='',$tablestartcolumn ='',
 			$ph = $h;
 		}
 		if ($this->ColActive) {
-			list($orig_w, $orig_h, $x_repeat, $y_repeat) = $this->_resizeBackgroundImage($tablehf['background-image']['orig_w'], $tablehf['background-image']['orig_h'], $pw, $ph, $tablehf['background-image']['resize'], $tablehf['background-image']['x_repeat'] , $tablehf['background-image']['y_repeat']);
-			$this->patterns[$n] = array('x'=>$px, 'y'=>$py, 'w'=>$pw, 'h'=>$ph, 'pgh'=>$this->h, 'image_id'=>$tablehf['background-image']['image_id'], 'orig_w'=>$orig_w, 'orig_h'=>$orig_h, 'x_pos'=>$tablehf['background-image']['x_pos'] , 'y_pos'=>$tablehf['background-image']['y_pos'] , 'x_repeat'=>$x_repeat, 'y_repeat'=>$y_repeat, 'itype'=>$tablehf['background-image']['itype']);
-			if ($tablehf['background-image']['opacity']>0 && $tablehf['background-image']['opacity']<1) { $opac = $this->SetAlpha($tablehf['background-image']['opacity'],'Normal',true); }
+			list($orig_w, $orig_h, $x_repeat, $y_repeat) = $this->_resizeBackgroundImage($tablehf['background-images']['orig_w'], $tablehf['background-images']['orig_h'], $pw, $ph, $tablehf['background-images']['resize'], $tablehf['background-images']['x_repeat'] , $tablehf['background-images']['y_repeat']);
+			$this->patterns[$n] = array('x'=>$px, 'y'=>$py, 'w'=>$pw, 'h'=>$ph, 'pgh'=>$this->h, 'image_id'=>$tablehf['background-images']['image_id'], 'orig_w'=>$orig_w, 'orig_h'=>$orig_h, 'x_pos'=>$tablehf['background-images']['x_pos'] , 'y_pos'=>$tablehf['background-images']['y_pos'] , 'x_repeat'=>$x_repeat, 'y_repeat'=>$y_repeat, 'itype'=>$tablehf['background-images']['itype']);
+			if ($tablehf['background-images']['opacity']>0 && $tablehf['background-images']['opacity']<1) { $opac = $this->SetAlpha($tablehf['background-images']['opacity'],'Normal',true); }
 			else { $opac = ''; }
 			$this->_out(sprintf('q /Pattern cs /P%d scn %s %.3F %.3F %.3F %.3F re f Q', $n, $opac, $px*_MPDFK, ($this->h-$py)*_MPDFK, $pw*_MPDFK, -$ph*_MPDFK));
 		}
 		else {
-			$this->tableBackgrounds[$level*9+8][] = array('x'=>$px, 'y'=>$py, 'w'=>$pw, 'h'=>$ph, 'image_id'=>$tablehf['background-image']['image_id'], 'orig_w'=>$tablehf['background-image']['orig_w'], 'orig_h'=>$tablehf['background-image']['orig_h'], 'x_pos'=>$tablehf['background-image']['x_pos'], 'y_pos'=>$tablehf['background-image']['y_pos'], 'x_repeat'=>$tablehf['background-image']['x_repeat'], 'y_repeat'=>$tablehf['background-image']['y_repeat'], 'clippath'=>'', 'resize'=>$tablehf['background-image']['resize'], 'opacity'=>$tablehf['background-image']['opacity'], 'itype'=>$tablehf['background-image']['itype']);
+			$this->tableBackgrounds[$level*9+8][] = array('x'=>$px, 'y'=>$py, 'w'=>$pw, 'h'=>$ph, 'image_id'=>$tablehf['background-images']['image_id'], 'orig_w'=>$tablehf['background-images']['orig_w'], 'orig_h'=>$tablehf['background-images']['orig_h'], 'x_pos'=>$tablehf['background-images']['x_pos'], 'y_pos'=>$tablehf['background-images']['y_pos'], 'x_repeat'=>$tablehf['background-images']['x_repeat'], 'y_repeat'=>$tablehf['background-images']['y_repeat'], 'clippath'=>'', 'resize'=>$tablehf['background-images']['resize'], 'opacity'=>$tablehf['background-images']['opacity'], 'itype'=>$tablehf['background-images']['itype']);
 		}
 	  }
 	}
@@ -12456,7 +12456,7 @@ function Footer() {
 		$this->watermark( $this->watermarkText, 45, 120, $this->watermarkTextAlpha);	// Watermark text
   	}
 	if (($this->watermarkImage) && ($this->showWatermarkImage)) {
-		$this->watermarkImg( $this->watermarkImage, $this->watermarkImageAlpha);	// Watermark image
+		$this->watermarkImg( $this->watermarkImage, $this->watermarkImageAlpha);	// Watermark images
 	}
 /*-- END WATERMARK --*/
 	return;
@@ -12471,7 +12471,7 @@ function Footer() {
 	$this->watermark( $this->watermarkText, 45, 120, $this->watermarkTextAlpha);	// Watermark text
   }
   if (($this->watermarkImage) && ($this->showWatermarkImage)) {
-	$this->watermarkImg( $this->watermarkImage, $this->watermarkImageAlpha);	// Watermark image
+	$this->watermarkImg( $this->watermarkImage, $this->watermarkImageAlpha);	// Watermark images
   }
 /*-- END WATERMARK --*/
   $h = $this->footerDetails;
@@ -13723,7 +13723,7 @@ function WriteFixedPosHTML($html='',$x, $y, $w, $h, $overflow='visible', $boundi
 /*-- BACKGROUNDS --*/
 		if (isset($pb['BACKGROUND-IMAGE']) && $pb['BACKGROUND-IMAGE']) { 
 			$ret = $this->SetBackground($pb, $this->blk[1]['inner_width']);
-			if ($ret) { $this->blk[1]['background-image'] = $ret; }
+			if ($ret) { $this->blk[1]['background-images'] = $ret; }
 		}
 /*-- END BACKGROUNDS --*/
 
@@ -15348,7 +15348,7 @@ function OpenTag($tag,$attr)
 			$h = $maxHeight - $extraheight;
 			$w=abs($h*$info['w']/$info['h']);
 		}
-		$objattr['type'] = 'image';
+		$objattr['type'] = 'images';
 		$objattr['itype'] = $info['type'];
 
 		$objattr['orig_h'] = $info['h'];
@@ -15359,7 +15359,7 @@ function OpenTag($tag,$attr)
 		$objattr['width'] = $w + $extrawidth;
 		$objattr['image_height'] = $h;
 		$objattr['image_width'] = $w;
-		$e = "\xbb\xa4\xactype=image,objattr=".serialize($objattr)."\xbb\xa4\xac";
+		$e = "\xbb\xa4\xactype=images,objattr=".serialize($objattr)."\xbb\xa4\xac";
 		$properties = array();
 		if ($this->tableLevel) {
 			$this->_saveCellTextBuffer($e, $this->HREF);
@@ -15937,7 +15937,7 @@ function OpenTag($tag,$attr)
 /*-- BACKGROUNDS --*/
 	if (isset($properties['BACKGROUND-IMAGE']) && $properties['BACKGROUND-IMAGE'] && !$this->kwt && !$this->ColActive && !$this->keep_block_together) {
 		$ret = $this->SetBackground($properties, $currblk['inner_width']);
-		if ($ret) { $currblk['background-image'] = $ret; }
+		if ($ret) { $currblk['background-images'] = $ret; }
 	}
 /*-- END BACKGROUNDS --*/
 
@@ -16029,7 +16029,7 @@ function OpenTag($tag,$attr)
 
 	$objattr['type'] = 'hr';
 	$objattr['height'] = $objattr['linewidth'] + $objattr['margin_top'] + $objattr['margin_bottom'];
-	$e = "\xbb\xa4\xactype=image,objattr=".serialize($objattr)."\xbb\xa4\xac";
+	$e = "\xbb\xa4\xactype=images,objattr=".serialize($objattr)."\xbb\xa4\xac";
 
 	// Clear properties - tidy up
 	$properties = array();
@@ -16505,12 +16505,12 @@ function OpenTag($tag,$attr)
 				$h = abs($info['h'])/_MPDFK;
 			}
 			else {
-				//Put image at default image dpi
+				//Put images at default images dpi
 				$w=($info['w']/_MPDFK) * (72/$this->img_dpi);
 				$h=($info['h']/_MPDFK) * (72/$this->img_dpi);
 			}
 			if (isset($properties['IMAGE-RESOLUTION'])) { 
-				if (preg_match('/from-image/i', $properties['IMAGE-RESOLUTION']) && isset($info['set-dpi']) && $info['set-dpi']>0) {
+				if (preg_match('/from-images/i', $properties['IMAGE-RESOLUTION']) && isset($info['set-dpi']) && $info['set-dpi']>0) {
 					$w *= $this->img_dpi / $info['set-dpi'];
 					$h *= $this->img_dpi / $info['set-dpi'];
 				}
@@ -16540,7 +16540,7 @@ function OpenTag($tag,$attr)
 		}
 		$height = $h + $extraheight;
 		$width = $w + $extrawidth;
-		$objattr['type'] = 'image';
+		$objattr['type'] = 'images';
 		$objattr['itype'] = $info['type'];
 		$objattr['orig_h'] = $info['h'];
 		$objattr['orig_w'] = $info['w'];
@@ -16816,12 +16816,12 @@ function OpenTag($tag,$attr)
 				$h = abs($info['h'])/_MPDFK;
 			}
 			else {
-				//Put image at default image dpi
+				//Put images at default images dpi
 				$w=($info['w']/_MPDFK) * (72/$this->img_dpi);
 				$h=($info['h']/_MPDFK) * (72/$this->img_dpi);
 			}
 			if (isset($properties['IMAGE-RESOLUTION'])) { 
-				if (preg_match('/from-image/i', $properties['IMAGE-RESOLUTION']) && isset($info['set-dpi']) && $info['set-dpi']>0) {
+				if (preg_match('/from-images/i', $properties['IMAGE-RESOLUTION']) && isset($info['set-dpi']) && $info['set-dpi']>0) {
 					$w *= $this->img_dpi / $info['set-dpi'];
 					$h *= $this->img_dpi / $info['set-dpi'];
 				}
@@ -16857,7 +16857,7 @@ function OpenTag($tag,$attr)
 			$h = $maxHeight - $extraheight;
 			$w=abs($h*$info['w']/$info['h']);
 		}
-		$objattr['type'] = 'image';
+		$objattr['type'] = 'images';
 		$objattr['itype'] = $info['type'];
 
 		$objattr['orig_h'] = $info['h'];
@@ -16885,7 +16885,7 @@ function OpenTag($tag,$attr)
 		}
 /*-- END CSS-IMAGE-FLOAT --*/
 
-		$e = "\xbb\xa4\xactype=image,objattr=".serialize($objattr)."\xbb\xa4\xac";
+		$e = "\xbb\xa4\xactype=images,objattr=".serialize($objattr)."\xbb\xa4\xac";
 
 		// Clear properties - tidy up
 		$properties = array();
@@ -17067,7 +17067,7 @@ function OpenTag($tag,$attr)
 		$objattr['width'] = $w + $extrawidth;
 		$objattr['type'] = 'textcircle';
 
-		$e = "\xbb\xa4\xactype=image,objattr=".serialize($objattr)."\xbb\xa4\xac";
+		$e = "\xbb\xa4\xactype=images,objattr=".serialize($objattr)."\xbb\xa4\xac";
 
 		// Clear properties - tidy up
 		$properties = array();
@@ -17407,7 +17407,7 @@ function OpenTag($tag,$attr)
 
 	if (isset($properties['BACKGROUND-IMAGE']) && $properties['BACKGROUND-IMAGE'] && !$this->kwt && !$this->ColActive) {
 		$ret = $this->SetBackground($properties, $currblk['inner_width']);
-		if ($ret) { $table['background-image'] = $ret; }
+		if ($ret) { $table['background-images'] = $ret; }
 	}
 /*-- END BACKGROUNDS --*/
 
@@ -17782,7 +17782,7 @@ function OpenTag($tag,$attr)
 
 	if (isset($properties['BACKGROUND-IMAGE']) && $properties['BACKGROUND-IMAGE'] && !$this->keep_block_together) {
 		$ret = $this->SetBackground($properties, $this->blk[$this->blklvl]['inner_width']);
-		if ($ret) { $c['background-image'] = $ret; }
+		if ($ret) { $c['background-images'] = $ret; }
 	}
 /*-- END BACKGROUNDS --*/
 	if (isset($properties['VERTICAL-ALIGN'])) { $c['va']=$align[strtolower($properties['VERTICAL-ALIGN'])]; }
@@ -20302,7 +20302,7 @@ function printbuffer($arrayaux,$blockstate=0,$is_table=false,$is_list=false)
 			$this->AddPage($this->CurOrientation); 
 
 	  		// Added to correct Images already set on line before page advanced
-			// i.e. if second inline image on line is higher than first and forces new page
+			// i.e. if second inline images on line is higher than first and forces new page
 			if (count($this->objectbuffer)) {
 				$yadj = $iby - $this->y;
 				foreach($this->objectbuffer AS $ib=>$val) {
@@ -20343,7 +20343,7 @@ function printbuffer($arrayaux,$blockstate=0,$is_table=false,$is_list=false)
 /*-- END COLUMNS --*/
 
 /*-- CSS-IMAGE-FLOAT --*/
-		if ($objattr['type'] == 'image' && isset($objattr['float'])) { 
+		if ($objattr['type'] == 'images' && isset($objattr['float'])) {
 		  $fy = $this->y;
 
 		  // DIV TOP MARGIN/BORDER/PADDING
@@ -21552,15 +21552,15 @@ function PaintDivBB($divider='',$blockstate=0,$blvl=0) {
 			$this->pageBackgrounds[$blvl][] = array('gradient'=>true, 'x'=>$gx, 'y'=>$gy, 'w'=>$w, 'h'=>$h, 'gradtype'=>$g['type'], 'stops'=>$g['stops'], 'colorspace'=>$g['colorspace'], 'coords'=>$g['coords'], 'extend'=>$g['extend'], 'clippath'=>$s, 'visibility'=>$this->visibility, 'z-index'=>$this->current_layer);	// mPDF 5.6.01
 		}
 	}
-	if (isset($this->blk[$blvl]['background-image'])) { 
-	   if ($this->blk[$blvl]['background-image']['gradient']  && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $this->blk[$blvl]['background-image']['gradient'] )) {
-		$g = $this->grad->parseMozGradient( $this->blk[$blvl]['background-image']['gradient'] );
+	if (isset($this->blk[$blvl]['background-images'])) {
+	   if ($this->blk[$blvl]['background-images']['gradient']  && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $this->blk[$blvl]['background-images']['gradient'] )) {
+		$g = $this->grad->parseMozGradient( $this->blk[$blvl]['background-images']['gradient'] );
 		if ($g) {
 			$gx = $x0;
 			$gy = $y0;
 			// mPDF 5.6.11
 			// origin specifies the background-positioning-area (bpa)
-			if ($this->blk[$blvl]['background-image']['origin'] == 'padding-box') {
+			if ($this->blk[$blvl]['background-images']['origin'] == 'padding-box') {
 				$gx += $this->blk[$blvl]['border_left']['w'];
 				$w -= ($this->blk[$blvl]['border_left']['w'] + $this->blk[$blvl]['border_right']['w']);
 				if ($this->blk[$blvl]['border_top'] && $divider != 'pagetop' && !$continuingpage) {
@@ -21572,7 +21572,7 @@ function PaintDivBB($divider='',$blockstate=0,$blvl=0) {
 				else { $gy1 = $y1; }
 				$h = $gy1 - $gy;
 			}
-			else if ($this->blk[$blvl]['background-image']['origin'] == 'content-box') {
+			else if ($this->blk[$blvl]['background-images']['origin'] == 'content-box') {
 				$gx += $this->blk[$blvl]['border_left']['w'] + $this->blk[$blvl]['padding_left'];
 				$w -= ($this->blk[$blvl]['border_left']['w'] + $this->blk[$blvl]['padding_left'] + $this->blk[$blvl]['border_right']['w'] + $this->blk[$blvl]['padding_right']);
 				if ($this->blk[$blvl]['border_top'] && $divider != 'pagetop' && !$continuingpage) {
@@ -21585,8 +21585,8 @@ function PaintDivBB($divider='',$blockstate=0,$blvl=0) {
 				$h = $gy1 - $gy;
 			}
 
-			if (isset($this->blk[$blvl]['background-image']['size']['w']) && $this->blk[$blvl]['background-image']['size']['w']) {
-				$size = $this->blk[$blvl]['background-image']['size'];
+			if (isset($this->blk[$blvl]['background-images']['size']['w']) && $this->blk[$blvl]['background-images']['size']['w']) {
+				$size = $this->blk[$blvl]['background-images']['size'];
 				if ($size['w']!='contain' && $size['w']!='cover') {
 					if (stristr($size['w'] ,'%')) {
 						$size['w'] += 0; 
@@ -21610,21 +21610,21 @@ function PaintDivBB($divider='',$blockstate=0,$blvl=0) {
 		}
 	   }
 	   else { 
-		$image_id = $this->blk[$blvl]['background-image']['image_id'];
-		$orig_w = $this->blk[$blvl]['background-image']['orig_w'];
-		$orig_h = $this->blk[$blvl]['background-image']['orig_h'];
-		$x_pos = $this->blk[$blvl]['background-image']['x_pos'];
-		$y_pos = $this->blk[$blvl]['background-image']['y_pos'];
-		$x_repeat = $this->blk[$blvl]['background-image']['x_repeat'];
-		$y_repeat = $this->blk[$blvl]['background-image']['y_repeat'];
-		$resize = $this->blk[$blvl]['background-image']['resize'];
-		$opacity = $this->blk[$blvl]['background-image']['opacity'];
-		$itype = $this->blk[$blvl]['background-image']['itype'];
-		$size = $this->blk[$blvl]['background-image']['size'];	// mPDF 5.6.10
+		$image_id = $this->blk[$blvl]['background-images']['image_id'];
+		$orig_w = $this->blk[$blvl]['background-images']['orig_w'];
+		$orig_h = $this->blk[$blvl]['background-images']['orig_h'];
+		$x_pos = $this->blk[$blvl]['background-images']['x_pos'];
+		$y_pos = $this->blk[$blvl]['background-images']['y_pos'];
+		$x_repeat = $this->blk[$blvl]['background-images']['x_repeat'];
+		$y_repeat = $this->blk[$blvl]['background-images']['y_repeat'];
+		$resize = $this->blk[$blvl]['background-images']['resize'];
+		$opacity = $this->blk[$blvl]['background-images']['opacity'];
+		$itype = $this->blk[$blvl]['background-images']['itype'];
+		$size = $this->blk[$blvl]['background-images']['size'];	// mPDF 5.6.10
 		// mPDF 5.6.10
 		// origin specifies the background-positioning-area (bpa)
 		$bpa = array('x'=>$x0, 'y'=>$y0, 'w'=>$w, 'h'=>$h);
-		if ($this->blk[$blvl]['background-image']['origin'] == 'padding-box') {
+		if ($this->blk[$blvl]['background-images']['origin'] == 'padding-box') {
 			$bpa['x'] = $x0 + $this->blk[$blvl]['border_left']['w'];
 			$bpa['w'] = $w - ($this->blk[$blvl]['border_left']['w'] + $this->blk[$blvl]['border_right']['w']);
 			if ($this->blk[$blvl]['border_top'] && $divider != 'pagetop' && !$continuingpage) {
@@ -21638,7 +21638,7 @@ function PaintDivBB($divider='',$blockstate=0,$blvl=0) {
 			$bpa['h'] = $bpay - $bpa['y'];
 		}
 		// mPDF 5.6.09
-		else if ($this->blk[$blvl]['background-image']['origin'] == 'content-box') {
+		else if ($this->blk[$blvl]['background-images']['origin'] == 'content-box') {
 			$bpa['x'] = $x0 + $this->blk[$blvl]['border_left']['w'] + $this->blk[$blvl]['padding_left'];
 			$bpa['w'] = $w - ($this->blk[$blvl]['border_left']['w'] + $this->blk[$blvl]['padding_left'] + $this->blk[$blvl]['border_right']['w'] + $this->blk[$blvl]['padding_right']);
 			if ($this->blk[$blvl]['border_top'] && $divider != 'pagetop' && !$continuingpage) {
@@ -23324,20 +23324,20 @@ function _cacheCell($c, $file, $mode="A", $fh=null, $offset=0) {	// mode = Appen
 		$c['gradient']		/* A128 (128 bytes) [pos 44 + 19*D] */
 	);
 
-	if ($c['background-image']) { 
+	if ($c['background-images']) {
 		$data .= pack("n2d2A6A6n3dA4A128",
 		strlen($data),		/* offset in main data to start of bgimage data */
-		$c['background-image']['image_id'],	/* n */
-		$c['background-image']['orig_w'],	/* d NB machine-dependent size */
-		$c['background-image']['orig_h'],	/* d NB machine-dependent size */
-		$c['background-image']['x_pos'],	/* A6 calc size or "50%" */
-		$c['background-image']['y_pos'],	/* A6 calc size or "50%" */
-		$c['background-image']['x_repeat'],	/* n true or false*/
-		$c['background-image']['y_repeat'],	/* n true or false */
-		$c['background-image']['resize'],	/* n 0 - 6 */
-		$c['background-image']['opacity'],	/* d  0-1 */
-		$c['background-image']['itype'],	/* A4 jpg etc */
-		$c['background-image']['gradient']	/* A128 CSS string */
+		$c['background-images']['image_id'],	/* n */
+		$c['background-images']['orig_w'],	/* d NB machine-dependent size */
+		$c['background-images']['orig_h'],	/* d NB machine-dependent size */
+		$c['background-images']['x_pos'],	/* A6 calc size or "50%" */
+		$c['background-images']['y_pos'],	/* A6 calc size or "50%" */
+		$c['background-images']['x_repeat'],	/* n true or false*/
+		$c['background-images']['y_repeat'],	/* n true or false */
+		$c['background-images']['resize'],	/* n 0 - 6 */
+		$c['background-images']['opacity'],	/* d  0-1 */
+		$c['background-images']['itype'],	/* A4 jpg etc */
+		$c['background-images']['gradient']	/* A128 CSS string */
 		);
 	}
 	else $data .= pack("n",0);
@@ -23438,7 +23438,7 @@ function _uncacheCell($ptr, $file, $fh) {
 		  else $c['gradient'] = false;
 		if ($data['bgimage']>0) {
 			$bgidata = substr($str, ($data['bgimage']+2));
-			$c['background-image'] = unpack("nimage_id/dorig_w/dorig_h/A6x_pos/A6y_pos/nx_repeat/ny_repeat/nresize/dopacity/A4itype/A128gradient", $bgidata);
+			$c['background-images'] = unpack("nimage_id/dorig_w/dorig_h/A6x_pos/A6y_pos/nx_repeat/ny_repeat/nresize/dopacity/A4itype/A128gradient", $bgidata);
 		}
 
 	$tblen = $this->read_short($fh);				// Length of Textbuffer
@@ -23682,7 +23682,7 @@ function _tableColumnWidth(&$table,$firstpass=false){
 				}
 
 
-				// If minimum width has already been set by a nested table or inline object (image/form), use it
+				// If minimum width has already been set by a nested table or inline object (images/form), use it
 				if (isset($c['nestedmiw']) && $this->table[1][1]['overflow']!='visible') { $miw = $c['nestedmiw']; }
 				else  { $miw = $mw; }
 
@@ -25832,7 +25832,7 @@ function _tableWrite(&$table, $split=false, $startrow=0, $startcol=0, $splitpg=0
 				$tablefooter[$i][$js]['va'] = $cell['va'];
 				$tablefooter[$i][$js]['mih'] = $cell['mih'];
 				$tablefooter[$i][$js]['gradient'] = $cell['gradient'];	// *BACKGROUNDS*
-				$tablefooter[$i][$js]['background-image'] = $cell['background-image'];	// *BACKGROUNDS*
+				$tablefooter[$i][$js]['background-images'] = $cell['background-images'];	// *BACKGROUNDS*
 				//CELL FILL BGCOLOR
 				if (!$this->simpleTables){
 			 		if ($this->packTableData) {
@@ -26093,24 +26093,24 @@ function _tableWrite(&$table, $split=false, $startrow=0, $startcol=0, $splitpg=0
 								}
 							}
 
-							if (isset($table['background-image'])) { 
-							   if ($table['background-image']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $table['background-image']['gradient'] )) {
-								$g = $this->grad->parseMozGradient( $table['background-image']['gradient'] );
+							if (isset($table['background-images'])) {
+							   if ($table['background-images']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $table['background-images']['gradient'] )) {
+								$g = $this->grad->parseMozGradient( $table['background-images']['gradient'] );
 								if ($g) {
 								   $this->tableBackgrounds[$level*9+1][] = array('gradient'=>true, 'x'=>$bx, 'y'=>$by, 'w'=>$bw, 'h'=>$bh, 'gradtype'=>$g['type'], 'stops'=>$g['stops'], 'colorspace'=>$g['colorspace'], 'coords'=>$g['coords'], 'extend'=>$g['extend'], 'clippath'=>'');
 								}
 							   }
 							   else { 
-								$image_id = $table['background-image']['image_id'];
-								$orig_w = $table['background-image']['orig_w'];
-								$orig_h = $table['background-image']['orig_h'];
-								$x_pos = $table['background-image']['x_pos'];
-								$y_pos = $table['background-image']['y_pos'];
-								$x_repeat = $table['background-image']['x_repeat'];
-								$y_repeat = $table['background-image']['y_repeat'];
-								$resize = $table['background-image']['resize'];
-								$opacity = $table['background-image']['opacity'];
-								$itype = $table['background-image']['itype'];
+								$image_id = $table['background-images']['image_id'];
+								$orig_w = $table['background-images']['orig_w'];
+								$orig_h = $table['background-images']['orig_h'];
+								$x_pos = $table['background-images']['x_pos'];
+								$y_pos = $table['background-images']['y_pos'];
+								$x_repeat = $table['background-images']['x_repeat'];
+								$y_repeat = $table['background-images']['y_repeat'];
+								$resize = $table['background-images']['resize'];
+								$opacity = $table['background-images']['opacity'];
+								$itype = $table['background-images']['itype'];
 								$this->tableBackgrounds[$level*9+2][] = array('x'=>$bx, 'y'=>$by, 'w'=>$bw, 'h'=>$bh, 'image_id'=>$image_id, 'orig_w'=>$orig_w, 'orig_h'=>$orig_h, 'x_pos'=>$x_pos, 'y_pos'=>$y_pos, 'x_repeat'=>$x_repeat, 'y_repeat'=>$y_repeat, 'clippath'=>'', 'resize'=>$resize, 'opacity'=>$opacity, 'itype'=>$itype);
 							   }
 							}
@@ -26466,9 +26466,9 @@ function _tableWrite(&$table, $split=false, $startrow=0, $startcol=0, $splitpg=0
 				}
 			}
 
-			if (isset($cell['background-image']) && $paintcell) {
-			  if ($cell['background-image']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $cell['background-image']['gradient'] )) {
-				$g = $this->grad->parseMozGradient( $cell['background-image']['gradient'] );
+			if (isset($cell['background-images']) && $paintcell) {
+			  if ($cell['background-images']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $cell['background-images']['gradient'] )) {
+				$g = $this->grad->parseMozGradient( $cell['background-images']['gradient'] );
 				if ($g) {
  				  if ($table['borders_separate']) { 
  					$px = $x+ ($table['border_spacing_H']/2);
@@ -26490,7 +26490,7 @@ function _tableWrite(&$table, $split=false, $startrow=0, $startcol=0, $splitpg=0
 				  }
 				}
 			  }
-			  else if ($cell['background-image']['image_id']) {	// Background pattern
+			  else if ($cell['background-images']['image_id']) {	// Background pattern
 				$n = count($this->patterns)+1;
  				if ($table['borders_separate']) { 
  					$px = $x+ ($table['border_spacing_H']/2);
@@ -26505,23 +26505,23 @@ function _tableWrite(&$table, $split=false, $startrow=0, $startcol=0, $splitpg=0
 					$ph = $h;
 				}
 				if ($this->ColActive) {
-					list($orig_w, $orig_h, $x_repeat, $y_repeat) = $this->_resizeBackgroundImage($cell['background-image']['orig_w'], $cell['background-image']['orig_h'], $pw, $ph, $cell['background-image']['resize'], $cell['background-image']['x_repeat'], $cell['background-image']['y_repeat']);
-					$this->patterns[$n] = array('x'=>$px, 'y'=>$py, 'w'=>$pw, 'h'=>$ph, 'pgh'=>$this->h, 'image_id'=>$cell['background-image']['image_id'], 'orig_w'=>$orig_w, 'orig_h'=>$orig_h, 'x_pos'=>$cell['background-image']['x_pos'] , 'y_pos'=>$cell['background-image']['y_pos'] , 'x_repeat'=>$x_repeat, 'y_repeat'=>$y_repeat);
-					if ($cell['background-image']['opacity']>0 && $cell['background-image']['opacity']<1) { $opac = $this->SetAlpha($cell['background-image']['opacity'],'Normal',true); }
+					list($orig_w, $orig_h, $x_repeat, $y_repeat) = $this->_resizeBackgroundImage($cell['background-images']['orig_w'], $cell['background-images']['orig_h'], $pw, $ph, $cell['background-images']['resize'], $cell['background-images']['x_repeat'], $cell['background-images']['y_repeat']);
+					$this->patterns[$n] = array('x'=>$px, 'y'=>$py, 'w'=>$pw, 'h'=>$ph, 'pgh'=>$this->h, 'image_id'=>$cell['background-images']['image_id'], 'orig_w'=>$orig_w, 'orig_h'=>$orig_h, 'x_pos'=>$cell['background-images']['x_pos'] , 'y_pos'=>$cell['background-images']['y_pos'] , 'x_repeat'=>$x_repeat, 'y_repeat'=>$y_repeat);
+					if ($cell['background-images']['opacity']>0 && $cell['background-images']['opacity']<1) { $opac = $this->SetAlpha($cell['background-images']['opacity'],'Normal',true); }
 					else { $opac = ''; }
 					$this->_out(sprintf('q /Pattern cs /P%d scn %s %.3F %.3F %.3F %.3F re f Q', $n, $opac, $px*_MPDFK, ($this->h-$py)*_MPDFK, $pw*_MPDFK, -$ph*_MPDFK));
 				}
 				else {
-					$image_id = $cell['background-image']['image_id'];
-					$orig_w = $cell['background-image']['orig_w'];
-					$orig_h = $cell['background-image']['orig_h'];
-					$x_pos = $cell['background-image']['x_pos'];
-					$y_pos = $cell['background-image']['y_pos'];
-					$x_repeat = $cell['background-image']['x_repeat'];
-					$y_repeat = $cell['background-image']['y_repeat'];
-					$resize = $cell['background-image']['resize'];
-					$opacity = $cell['background-image']['opacity'];
-					$itype = $cell['background-image']['itype'];
+					$image_id = $cell['background-images']['image_id'];
+					$orig_w = $cell['background-images']['orig_w'];
+					$orig_h = $cell['background-images']['orig_h'];
+					$x_pos = $cell['background-images']['x_pos'];
+					$y_pos = $cell['background-images']['y_pos'];
+					$x_repeat = $cell['background-images']['x_repeat'];
+					$y_repeat = $cell['background-images']['y_repeat'];
+					$resize = $cell['background-images']['resize'];
+					$opacity = $cell['background-images']['opacity'];
+					$itype = $cell['background-images']['itype'];
 					$this->tableBackgrounds[$level*9+8][] = array('x'=>$px, 'y'=>$py, 'w'=>$pw, 'h'=>$ph, 'image_id'=>$image_id, 'orig_w'=>$orig_w, 'orig_h'=>$orig_h, 'x_pos'=>$x_pos, 'y_pos'=>$y_pos, 'x_repeat'=>$x_repeat, 'y_repeat'=>$y_repeat, 'clippath'=>'', 'resize'=>$resize, 'opacity'=>$opacity, 'itype'=>$itype);
 				}
 			  }
@@ -26568,7 +26568,7 @@ function _tableWrite(&$table, $split=false, $startrow=0, $startcol=0, $splitpg=0
 				$tableheader[$i][$j]['va'] = $cell['va'];
 				$tableheader[$i][$j]['mih'] = $cell['mih'];
 				$tableheader[$i][$j]['gradient'] = (isset($cell['gradient']) ? $cell['gradient'] : null);	// *BACKGROUNDS*
-				$tableheader[$i][$j]['background-image'] = (isset($cell['background-image']) ? $cell['background-image'] : null);	// *BACKGROUNDS*
+				$tableheader[$i][$j]['background-images'] = (isset($cell['background-images']) ? $cell['background-images'] : null);	// *BACKGROUNDS*
 				$tableheader[$i][$j]['rowspan'] = (isset($cell['rowspan']) ? $cell['rowspan'] : null);
 				$tableheader[$i][$j]['colspan'] = (isset($cell['colspan']) ? $cell['colspan'] : null);
 				$tableheader[$i][$j]['bgcolor'] = $cell['bgcolor'];
@@ -26990,24 +26990,24 @@ function _tableWrite(&$table, $split=false, $startrow=0, $startcol=0, $splitpg=0
 			}
 		}
 
-		if (isset($table['background-image'])) { 
-		   if ($table['background-image']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $table['background-image']['gradient'] )) {
-			$g = $this->grad->parseMozGradient( $table['background-image']['gradient'] );
+		if (isset($table['background-images'])) {
+		   if ($table['background-images']['gradient'] && preg_match('/(-moz-)*(repeating-)*(linear|radial)-gradient/', $table['background-images']['gradient'] )) {
+			$g = $this->grad->parseMozGradient( $table['background-images']['gradient'] );
 			if ($g) {
 			   $this->tableBackgrounds[$level*9+1][] = array('gradient'=>true, 'x'=>$bx, 'y'=>$by, 'w'=>$bw, 'h'=>$bh, 'gradtype'=>$g['type'], 'stops'=>$g['stops'], 'colorspace'=>$g['colorspace'], 'coords'=>$g['coords'], 'extend'=>$g['extend'], 'clippath'=>'');
 			}
 		   }
 		   else { 
-			$image_id = $table['background-image']['image_id'];
-			$orig_w = $table['background-image']['orig_w'];
-			$orig_h = $table['background-image']['orig_h'];
-			$x_pos = $table['background-image']['x_pos'];
-			$y_pos = $table['background-image']['y_pos'];
-			$x_repeat = $table['background-image']['x_repeat'];
-			$y_repeat = $table['background-image']['y_repeat'];
-			$resize = $table['background-image']['resize'];
-			$opacity = $table['background-image']['opacity'];
-			$itype = $table['background-image']['itype'];
+			$image_id = $table['background-images']['image_id'];
+			$orig_w = $table['background-images']['orig_w'];
+			$orig_h = $table['background-images']['orig_h'];
+			$x_pos = $table['background-images']['x_pos'];
+			$y_pos = $table['background-images']['y_pos'];
+			$x_repeat = $table['background-images']['x_repeat'];
+			$y_repeat = $table['background-images']['y_repeat'];
+			$resize = $table['background-images']['resize'];
+			$opacity = $table['background-images']['opacity'];
+			$itype = $table['background-images']['itype'];
 			$this->tableBackgrounds[$level*9+2][] = array('x'=>$bx, 'y'=>$by, 'w'=>$bw, 'h'=>$bh, 'image_id'=>$image_id, 'orig_w'=>$orig_w, 'orig_h'=>$orig_h, 'x_pos'=>$x_pos, 'y_pos'=>$y_pos, 'x_repeat'=>$x_repeat, 'y_repeat'=>$y_repeat, 'clippath'=>'', 'resize'=>$resize, 'opacity'=>$opacity, 'itype'=>$itype);
 		   }
 		}
@@ -30645,7 +30645,7 @@ function setHiEntitySubstitutions() {
   'zwj' => '8205',  'lrm' => '8206',  'rlm' => '8207',  'ndash' => '8211',  'mdash' => '8212',  'lsquo' => '8216',  'rsquo' => '8217',
   'sbquo' => '8218',  'ldquo' => '8220',  'rdquo' => '8221',  'bdquo' => '8222',  'dagger' => '8224',  'Dagger' => '8225',  'bull' => '8226',
   'hellip' => '8230',  'permil' => '8240',  'prime' => '8242',  'Prime' => '8243',  'lsaquo' => '8249',  'rsaquo' => '8250',  'oline' => '8254',
-  'frasl' => '8260',  'euro' => '8364',  'image' => '8465',  'weierp' => '8472',  'real' => '8476',  'trade' => '8482',  'alefsym' => '8501',
+  'frasl' => '8260',  'euro' => '8364',  'images' => '8465',  'weierp' => '8472',  'real' => '8476',  'trade' => '8482',  'alefsym' => '8501',
   'larr' => '8592',  'uarr' => '8593',  'rarr' => '8594',  'darr' => '8595',  'harr' => '8596',  'crarr' => '8629',  'lArr' => '8656',
   'uArr' => '8657',  'rArr' => '8658',  'dArr' => '8659',  'hArr' => '8660',  'forall' => '8704',  'part' => '8706',  'exist' => '8707',
   'empty' => '8709',  'nabla' => '8711',  'isin' => '8712',  'notin' => '8713',  'ni' => '8715',  'prod' => '8719',  'sum' => '8721',

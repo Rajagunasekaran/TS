@@ -23,7 +23,7 @@ $html = '
 		margin-left: 2cm;
 		margin-right: 1cm;
 		marks: cross crop;
-		background-image:  -moz-repeating-radial-gradient(rgba(255,0,0,0.1), rgba(0,0,255,0.1) 40px, rgba(255,0,0,0.1) 80px);
+		background-images:  -moz-repeating-radial-gradient(rgba(255,0,0,0.1), rgba(0,0,255,0.1) 40px, rgba(255,0,0,0.1) 80px);
 }
 body {
 	font-family: sans-serif;
@@ -45,17 +45,17 @@ table {
 	border: 7px dashed teal;
 }
 .table1 { 
-	background-image: -moz-linear-gradient(left, #07cdde 20%, #00f200 ); 
+	background-images: -moz-linear-gradient(left, #07cdde 20%, #00f200 );
 }
 .table1 tr.thisrow1 { 
-	background-image-resolution: 300dpi;
+	background-images-resolution: 300dpi;
 	background: transparent url(\'bayeux1.jpg\') repeat scroll left top;
 }
 .table1 tr.thisrow1 td { 
 	height: 28mm;
 }
 .table1 tr.thisrow2 { 
-	background-image: none; 
+	background-images: none;
 	background: -moz-linear-gradient(left, #c7Fdde 20%, #FF0000 ); 
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0.29, rgb(90,83,12)), color-stop(0.65, rgb(117,117,39)), color-stop(0.83, rgb(153,153,67)));
 }
@@ -192,7 +192,7 @@ The four values define the CMYK values used when the spot colour is not availabl
 Backgrounds/gradients/images now use the bleed box as their "container box", rather than the whole page. (See this document as an example.)
 <br />
 Crop- and cross-marks can now both be used together, and are more configurable.
-Also, background-image-opacity and background-image-resize have been extended to work with @page CSS.
+Also, background-images-opacity and background-images-resize have been extended to work with @page CSS.
 <br />
 The following values can be set in the configuration file, config.php:
 $this-&gt;bleedMargin<br />

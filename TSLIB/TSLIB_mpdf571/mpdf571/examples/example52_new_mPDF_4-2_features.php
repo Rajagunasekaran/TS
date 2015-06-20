@@ -113,7 +113,7 @@ mpdf-->
 
 <div class="gradient text">
 <ul>
-<li>image handling improved</li>
+<li>images handling improved</li>
 <li>table layout - additional control over resizing</li>
 <li>vertical-alignment of images - better support for all CSS types</li>
 <li>top and bottom margins collapse between block elements</li>
@@ -126,8 +126,8 @@ mpdf-->
 <li>CJK fonts to embed as subsets</li>
 <li>"double" border on block elements</li>
 <li>character substitution for missing characters in UTF-8 fonts</li>
-<li>direct passing of dynamically produced image data</li>
-<li>background-gradient and background-image can now co-exist </li>
+<li>direct passing of dynamically produced images data</li>
+<li>background-gradient and background-images can now co-exist </li>
 </ul>
 
 Note: automatic top- and bottom-margin to accomodate varying header/footer size was introduced in v4.0 but was not highlighted cf. AutoHeaderMargin in the Manual.
@@ -137,7 +137,7 @@ Note: automatic top- and bottom-margin to accomodate varying header/footer size 
 
 <div class="gradient text">
 <h4>Page backgrounds</h4>
-Background images, gradients and/or colours can be used together on the same page. On this page, the bars on the left hand side are created using a background-image, whilst a background-gradient sets the background to the whole page.
+Background images, gradients and/or colours can be used together on the same page. On this page, the bars on the left hand side are created using a background-images, whilst a background-gradient sets the background to the whole page.
 </div>
 <br />
 

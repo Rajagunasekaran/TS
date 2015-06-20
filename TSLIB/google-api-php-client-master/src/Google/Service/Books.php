@@ -1614,7 +1614,7 @@ class Google_Service_Books_LayersAnnotationData_Resource extends Google_Service_
    * trying to retrieve.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int scale The requested scale for the image.
+   * @opt_param int scale The requested scale for the images.
    * @opt_param string source String to identify the originator of this request.
    * @opt_param bool allowWebDefinitions For the dictionary layer. Whether or not
    * to allow web definitions.
@@ -1642,7 +1642,7 @@ class Google_Service_Books_LayersAnnotationData_Resource extends Google_Service_
    * @param string $contentVersion The content version for the requested volume.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int scale The requested scale for the image.
+   * @opt_param int scale The requested scale for the images.
    * @opt_param string source String to identify the originator of this request.
    * @opt_param string locale The locale information for the data. ISO-639-1
    * language and ISO-3166-1 country code. Ex: 'en_US'.

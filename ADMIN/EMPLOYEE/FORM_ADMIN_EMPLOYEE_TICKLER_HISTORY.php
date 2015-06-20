@@ -15,6 +15,9 @@
 include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
+<!--HTML TAG START-->
+<html>
+<head>
 <script>
     //READY FUNCTION START
     $(document).ready(function(){
@@ -221,11 +224,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <!--BODY TAG START-->
 <body>
 <div class="container">
-    <div class="preloader MaskPanel"><div class="preloader statusarea"><div style="padding-top:90px; text-align:center">
-                <img src="image/Loading.gif"/></div></div></div>
-    <!--    <div class="title" id="fhead"><center><b><h3>TICKLER HISTORY</h3></b></center></div>-->
-    <div class="newtitle text-center"><b><h4>TICKLER HISTORY</h4></b></div>
-    <form class="content" name="TH_form_employeeid" id="TH_form_employeeid">
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>TICKLER HISTORY</h4></b></div>
+    <form class="form-horizontal content" role="form" name="TH_form_employeeid" id="TH_form_employeeid">
         <div class="panel-body">
             <fieldset>
                 <div class="row-fluid form-group">
@@ -243,7 +244,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 </div>
                 <div id ="TH_div_flexdata_result"  class="table-responsive">
                     <section>
-
                     </section>
                 </div>
             </fieldset>

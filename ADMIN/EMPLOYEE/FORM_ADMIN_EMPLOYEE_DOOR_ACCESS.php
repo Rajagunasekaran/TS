@@ -14,6 +14,9 @@
 include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
+<!--HTML TAG START-->
+<html>
+<head>
 <!--SCRIPT TAG START-->
 <script>
     //DOCUMENT READY FUNCTION START
@@ -81,16 +84,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
 </head>
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
-<body class="dt-example">
+<body>
 <div class="container">
-    <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
-    <div class="newtitle text-center"><b><h4>DOOR ACCESS DETAILS</h4></b></div>
-<!--    <div class="title" id="fhead"><p style="padding-top: 30px;"><center><b><h3>DOOR ACCESS DETAILS</h3></b></center><p></div>-->
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>DOOR ACCESS DETAILS</h4></b></div>
     <form class="content" name="DR_ACC_form_user" id="DR_ACC_form_user" autocomplete="off" >
         <div class="panel-body">
             <fieldset>
         <div class="table-responsive">
-
             <div>
                 <label id="src_lbl_error" class="srctitle"></label><br><br>
                 <input type="button" id="DR_ACC_btn_pdf" class="btnpdf" value="PDF" hidden>
@@ -103,7 +104,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
         <div>
             <label id="DR_ACC_lbl_norole_err" name="DR_ACC_lbl_norole_err" class="errormsg"></label>
         </div>
-
        </fieldset>
             </div>
 </form>

@@ -1628,7 +1628,7 @@ class Google_Service_AndroidPublisher_EditsImages_Resource extends Google_Servic
 {
 
   /**
-   * Deletes the image (specified by id) from the edit. (images.delete)
+   * Deletes the images (specified by id) from the edit. (images.delete)
    *
    * @param string $packageName Unique identifier for the Android app that is
    * being updated; for example, "com.spiffygame".
@@ -1637,7 +1637,7 @@ class Google_Service_AndroidPublisher_EditsImages_Resource extends Google_Servic
    * localized listing whose images are to read or modified. For example, to
    * select Austrian German, pass "de-AT".
    * @param string $imageType
-   * @param string $imageId Unique identifier an image within the set of images
+   * @param string $imageId Unique identifier an images within the set of images
    * attached to this edit.
    * @param array $optParams Optional parameters.
    */
@@ -1649,7 +1649,7 @@ class Google_Service_AndroidPublisher_EditsImages_Resource extends Google_Servic
   }
 
   /**
-   * Deletes all images for the specified language and image type.
+   * Deletes all images for the specified language and images type.
    * (images.deleteall)
    *
    * @param string $packageName Unique identifier for the Android app that is
@@ -1670,7 +1670,7 @@ class Google_Service_AndroidPublisher_EditsImages_Resource extends Google_Servic
   }
 
   /**
-   * Lists all images for the specified language and image type.
+   * Lists all images for the specified language and images type.
    * (images.listEditsImages)
    *
    * @param string $packageName Unique identifier for the Android app that is
@@ -1691,8 +1691,8 @@ class Google_Service_AndroidPublisher_EditsImages_Resource extends Google_Servic
   }
 
   /**
-   * Uploads a new image and adds it to the list of images for the specified
-   * language and image type. (images.upload)
+   * Uploads a new images and adds it to the list of images for the specified
+   * language and images type. (images.upload)
    *
    * @param string $packageName Unique identifier for the Android app that is
    * being updated; for example, "com.spiffygame".

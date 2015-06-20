@@ -8,18 +8,19 @@
 //VER 0.02 SD:31/10/2014 ED:31/10/2014,TRACKER NO:79,Updated date sorting,Changed resize the width,Changed header name,Changed resize the width
 //VER 0.01-INITIAL VERSION,SD:11/10/2014 ED:11/10/2014,TRACKER NO:79
 //*********************************************************************************************************//
-<?PHP
-include "../TSLIB/TSLIB_HEADER.php";
-//include  "NEW_MENU.php";
+<?php
+include "TSLIB/TSLIB_HEADER.php";
 ?>
 <!--HTML TAG START-->
-
+<html>
+<head>
 <!--HEAD TAG START-->
 <script>
     //DOCUMENT READY FUNCTION START
     $(document).ready(function(){
+        $(".preloader").hide();
         $('#URSRC_btn_pdf').hide();
-//        $('.preloader', window.parent.document).show();
+        $('#STDTL_SEARCH_div_flexdata_result').hide();
         $(".preloader").show();
         var title;
         var values_arraystotal=[];
@@ -71,6 +72,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         }
                         USU_table_header+='</tbody></table>';
                         $('section').html(USU_table_header);
+                        $('#STDTL_SEARCH_div_flexdata_result').show();
                         $('#USD_SRC_SRC_tble_htmltable').DataTable( {
                             "aaSorting": [],
                             "pageLength": 10,
@@ -81,13 +83,14 @@ include "../TSLIB/TSLIB_HEADER.php";
                     }
                     else
                     {
+                        $('#STDTL_SEARCH_div_flexdata_result').hide();
                         $('#URSRC_lbl_norole_err').text(USD_SRC_errorAarray[0]).show();
                         $('#URSRC_lbl_title').hide();
                         $('#URSRC_btn_pdf').hide();
                     }
                 }
             }
-            $('#tablecontainer').show();
+//            $('#tablecontainer').show();
             xmlhttp.open("POST","ACCESSRIGHTS/DB_ACCESS_RIGHTS_USER_SEARCH_DETAIL.do",true);
             xmlhttp.send();
         }
@@ -122,17 +125,17 @@ include "../TSLIB/TSLIB_HEADER.php";
 </head>
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
-<body class="dt-example">
+<body>
 <div class="container">
-    <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"/></div></div></div>
-<div class="newtitle text-center"><b><h4>USER SEARCH DETAILS</h4></b></div>
-    <form class="newcontent" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+<div class="title text-center"><b><h4>USER SEARCH DETAILS</h4></b></div>
+    <form class="content" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
         <div class="panel-body">
             <fieldset>
         <div><label id="URSRC_lbl_title" name="URSRC_lbl_title" class="srctitle"></label></div>
         <div><input type="button" id='URSRC_btn_pdf' class="btnpdf" value="PDF"></div>
 
-            <div id="tablecontainer" class="table-responsive" hidden>
+            <div id="STDTL_SEARCH_div_flexdata_result" class="table-responsive" hidden>
                 <section style="width:900px;">
                 </section>
             </div>

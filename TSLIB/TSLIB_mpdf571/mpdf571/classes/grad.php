@@ -445,8 +445,8 @@ function Gradient($x, $y, $w, $h, $type, $stops=array(), $colorspace='RGB', $coo
 
 
 function parseMozGradient($bg) {
-   //	background[-image]: -moz-linear-gradient(left, #c7Fdde 20%, #FF0000 ); 
-   //	background[-image]: linear-gradient(left, #c7Fdde 20%, #FF0000 ); // CSS3
+   //	background[-images]: -moz-linear-gradient(left, #c7Fdde 20%, #FF0000 );
+   //	background[-images]: linear-gradient(left, #c7Fdde 20%, #FF0000 ); // CSS3
    if (preg_match('/repeating-/',$bg)) { $repeat = true; }
    else { $repeat = false; }
    if (preg_match('/linear-gradient\((.*)\)/',$bg,$m)) {

@@ -89,7 +89,7 @@ Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
 
 <h4>Background Images</h4>
 <div style="border:0.1mm solid #880000; background: transparent url(bg.jpg) repeat fixed right top; background-color:#ccffff; ">
-The CSS properties background-image, background-position, and background-repeat are supported as defined in CSS2, as well as the shorthand form "background".
+The CSS properties background-images, background-position, and background-repeat are supported as defined in CSS2, as well as the shorthand form "background".
 <br />
 The background has been set on this &lt;div&gt; element to:<br />
 <span style="font-family: mono; font-size: 9pt;">background: transparent url(\'bg.jpg\') repeat fixed right top;</span><br />
@@ -130,13 +130,13 @@ border-bottom-left-radius:  1em 3em;</span>
 <h4>Interlaced and alpha-channel-set PNG images supported</h4>
 <div class="rounded">
 Prior to version 3.0, mPDF has not supported PNG images which are interlaced, or images with transparency - now it does.
-<div style="float: left; width: 45%; background-color: #CCFFFF; margin-bottom: 0pt; ">With a blue background-color set, this PNG image with transparency appears like this:
+<div style="float: left; width: 45%; background-color: #CCFFFF; margin-bottom: 0pt; ">With a blue background-color set, this PNG images with transparency appears like this:
 <br /><img src="alpha.png" width="70" />
 </div>
-<div style="float: right; width: 45%; background-color: #FFFFCC; margin-bottom: 0pt; ">With a different background-color set, the same image appears like this:
+<div style="float: right; width: 45%; background-color: #FFFFCC; margin-bottom: 0pt; ">With a different background-color set, the same images appears like this:
 <br /><img src="alpha.png" width="70" />
 </div>
-<div style="clear: both; margin-bottom: 0pt; ">This will not work with background-gradient or background-image (the background-color is used to paint the transparent parts of the image).</div>
+<div style="clear: both; margin-bottom: 0pt; ">This will not work with background-gradient or background-images (the background-color is used to paint the transparent parts of the images).</div>
 </div>
 
 

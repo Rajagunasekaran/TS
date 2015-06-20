@@ -1943,14 +1943,14 @@ class Google_Service_YouTube_ChannelBanners_Resource extends Google_Service_Reso
 {
 
   /**
-   * Uploads a channel banner image to YouTube. This method represents the first
-   * two steps in a three-step process to update the banner image for a channel:
+   * Uploads a channel banner images to YouTube. This method represents the first
+   * two steps in a three-step process to update the banner images for a channel:
    *
-   * - Call the channelBanners.insert method to upload the binary image data to
-   * YouTube. The image must have a 16:9 aspect ratio and be at least 2120x1192
+   * - Call the channelBanners.insert method to upload the binary images data to
+   * YouTube. The images must have a 16:9 aspect ratio and be at least 2120x1192
    * pixels. - Extract the url property's value from the response that the API
    * returns for step 1. - Call the channels.update method to update the channel's
-   * branding settings. Set the brandingSettings.image.bannerExternalUrl
+   * branding settings. Set the brandingSettings.images.bannerExternalUrl
    * property's value to the URL obtained in step 2. (channelBanners.insert)
    *
    * @param Google_ChannelBannerResource $postBody
@@ -4349,7 +4349,7 @@ class Google_Service_YouTube_Watermarks_Resource extends Google_Service_Resource
 {
 
   /**
-   * Uploads a watermark image to YouTube and sets it for a channel.
+   * Uploads a watermark images to YouTube and sets it for a channel.
    * (watermarks.set)
    *
    * @param string $channelId The channelId parameter specifies a YouTube channel

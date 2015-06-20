@@ -9,6 +9,9 @@
 include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
+<!--HTML TAG START-->
+<html>
+<head>
 <!--SCRIPT TAG START-->
 <script>
     //GLOBAL DECLARATION
@@ -211,10 +214,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <!--BODY TAG START-->
 <body>
 <div class="container">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="newtitle text-center"><b><h4>COMPANY PROPERTY VERIFICATION</h4></b></div>
-<!--    <div class="title"><center><p><b><h3>COMPANY PROPERTY VERIFICATION</h3></b><p></center></div>-->
-    <form   id="CPVD_form_cmpnypropverfictn" class="content" >
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>COMPANY PROPERTY VERIFICATION</h4></b></div>
+    <form   id="CPVD_form_cmpnypropverfictn" class="form-horizontal content" role="form">
         <div class="panel-body">
             <fieldset>
         <div class="row-fluid form-group">
@@ -224,7 +226,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         <option>SELECT</option>
                     </select>
             </div></div>
+
            <div><label id="CPVD_lbl_nologinid" name="CPVD_lbl_nologinid" class="errormsg"></label></div>
+
         <div class="row-fluid form-group">
                     <label name="CPVD_lbl_laptopno"  class="col-sm-3" id="CPVD_lbl_laptopno" hidden>LAPTOP NUMBER</label>
             <div class="col-sm-8">
@@ -236,6 +240,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             <div class="col-sm-8">
             <input type="text" name="CPVD_tb_chargerno" id="CPVD_tb_chargerno" maxlength='25' class="alphanumeric sizefix form-control" style="display:none" hidden readonly>
             </div></div>
+
         <div class="row-fluid form-group">
                 <label name="CPVD_lbl_chckdby" class="col-sm-3" id="CPVD_lbl_chckdby" hidden>CHECKED BY<em>*</em></label>
             <div class="col-sm-6">
@@ -243,12 +248,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         <option>SELECT</option>
                     </select>
             </div></div>
+
         <div class="row-fluid form-group">
                <label name="CPVD_lbl_reason" class="col-sm-3"  id="CPVD_lbl_reason" hidden>COMMENTS<em>*</em></label>
             <div class="col-sm-8">
                <textarea rows="4" cols="50" name="CPVD_ta_reason" id="CPVD_ta_reason" hidden>
                     </textarea>
             </div></div>
+
             <div id="CPVD_btns_sendreset"   hidden>
                 <div>
                     <td width="150px" align="right"><input class="btn" type="button"  id="CPVD_btn_send" name="SAVE" value="SAVE" disabled hidden /></td>

@@ -10,6 +10,9 @@
 //}
 //echo "Connected successfully";
 //
+
+
+//$con=new mysqli("107.167.186.152","TS_DEV","TS_DEV","TSDEV");
 $con = new mysqli(null,
     'TSINT', // username
     'TSINT', // password

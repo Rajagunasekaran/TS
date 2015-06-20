@@ -9,6 +9,8 @@
 include "../TSLIB/TSLIB_HEADER.php";
 //include "NEW_MENU.php";
 ?>
+<html>
+<head>
 <!--SCRIPT TAG START-->
 <script>
 //GLOBAL DECLARATION
@@ -19,7 +21,7 @@ var USR_SITE_errorAarray=[];
 $(document).ready(function(){
     $('#USR_SITE_btn_submitbutton').attr("disabled", "disabled");
 //    $('.preloader', window.parent.document).show();
-    $(".preloader").hide();
+
     var USR_SITE_menuname=[];
     var USR_SITE_submenu=[];
     var USR_SITE_subsubmenu=[];
@@ -33,6 +35,7 @@ $(document).ready(function(){
 //            $('.preloader', window.parent.document).hide();
             $(".preloader").hide();
             value_array=JSON.parse(xmlhttp.responseText);
+            $(".preloader").hide();
             USR_SITE_tree_view(value_array)
         }
     }
@@ -343,11 +346,10 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
 <!--    //<div class="title" id="fhead"><center><p><b><h3>SITE MAINTENANCE</h3></b><p></center></div>-->
-<div class="newtitle text-center"><b><h4>SITE MAINTENANCE</h4></b></div>
-    <form class="content" name="USR_SITE_form_user" id="USR_SITE_form_user">
+<div class="title text-center"><b><h4>SITE MAINTENANCE</h4></b></div>
+    <form name="USR_SITE_form_user" id="USR_SITE_form_user" class="form-horizontal content" role="form" >
         <div class="panel-body">
             <fieldset>
                 <div id="USR_SITE_tble_menu" hidden>
