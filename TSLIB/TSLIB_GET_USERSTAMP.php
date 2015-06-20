@@ -7,6 +7,6 @@ $user = UserService::getCurrentUser();
 $UserStamp=$user->getEmail();
 
 $UserStamp=strtolower($UserStamp);
-//$UserStamp=strtolower('arthisena20@gmail.com');
+//$UserStamp=strtolower('lalitha.rajendiran@ssomens.com');
 
 ?>

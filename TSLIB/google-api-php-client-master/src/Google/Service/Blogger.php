@@ -1473,7 +1473,7 @@ class Google_Service_Blogger_Posts_Resource extends Google_Service_Resource
    * required, to help minimize traffic.
    * @opt_param string maxComments Maximum number of comments to pull back on a
    * post.
-   * @opt_param bool fetchImages Whether image URL metadata for each post is
+   * @opt_param bool fetchImages Whether images URL metadata for each post is
    * included (default: false).
    * @opt_param string view Access level with which to view the returned result.
    * Note that some fields require elevated access.
@@ -1513,7 +1513,7 @@ class Google_Service_Blogger_Posts_Resource extends Google_Service_Resource
    * @param Google_Post $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool fetchImages Whether image URL metadata for each post is
+   * @opt_param bool fetchImages Whether images URL metadata for each post is
    * included in the returned result (default: false).
    * @opt_param bool isDraft Whether to create the post as a draft (default:
    * false).
@@ -1541,7 +1541,7 @@ class Google_Service_Blogger_Posts_Resource extends Google_Service_Resource
    * 3339 formatting.
    * @opt_param string labels Comma-separated list of labels to search for.
    * @opt_param string maxResults Maximum number of posts to fetch.
-   * @opt_param bool fetchImages Whether image URL metadata for each post is
+   * @opt_param bool fetchImages Whether images URL metadata for each post is
    * included.
    * @opt_param string pageToken Continuation token if the request is paged.
    * @opt_param string status Statuses to include in the results.
@@ -1575,7 +1575,7 @@ class Google_Service_Blogger_Posts_Resource extends Google_Service_Resource
    * with the result (default: true).
    * @opt_param string maxComments Maximum number of comments to retrieve with the
    * returned post.
-   * @opt_param bool fetchImages Whether image URL metadata for each post is
+   * @opt_param bool fetchImages Whether images URL metadata for each post is
    * included in the returned result (default: false).
    * @return Google_Service_Blogger_Post
    */
@@ -1659,7 +1659,7 @@ class Google_Service_Blogger_Posts_Resource extends Google_Service_Resource
    * with the result (default: true).
    * @opt_param string maxComments Maximum number of comments to retrieve with the
    * returned post.
-   * @opt_param bool fetchImages Whether image URL metadata for each post is
+   * @opt_param bool fetchImages Whether images URL metadata for each post is
    * included in the returned result (default: false).
    * @return Google_Service_Blogger_Post
    */

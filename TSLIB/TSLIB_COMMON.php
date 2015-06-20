@@ -2,6 +2,7 @@
 <?php
 error_reporting(1);
 include "../TSLIB/TSLIB_CONNECTION.php";
+//include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;
 date_default_timezone_set('Asia/Kolkata');
@@ -36,7 +37,8 @@ function get_servicedata(){
 function get_uldid(){
     global $USERSTAMP;
     global $con;
-    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
+//    echo 'asdawqes';
+    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='".$USERSTAMP."'");
     while($row=mysqli_fetch_array($uld_id)){
         $ure_uld_id=$row["ULD_ID"];
     }
@@ -92,15 +94,17 @@ function get_joindate($ure_uld_id){
     return  $min_date;
 }
 if($_REQUEST["option"]=="user_report_entry"){
-//    echo $USERSTAMP;
     $get_permission_array=get_permission();
-    $ure_uld_id=get_uldid();
+    $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='".$USERSTAMP."'");
+    while($row=mysqli_fetch_array($uld_id)){
+        $ure_uld_id=$row["ULD_ID"];
+    }
+//    $ure_uld_id=get_uldid();
     $ure_empname=get_empname();
     $get_project_array=get_projectentry($ure_uld_id);
     $min_date=get_joindate($ure_uld_id);
     $error='3,4,5,6,7,8,16,17,18,67,115,120,142';
     $error_array=get_error_msg($error);
-
 
 //    $user_uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$USERSTAMP'");
 //    while($row=mysqli_fetch_array($user_uld_id)){
@@ -391,13 +395,13 @@ function restoreFile($service, $fileId) {
 //FUNCTION TO DELETE DRIVE FILE REMOVED VIA LOGIN UPDATE FORM
 function trashFile($folderid,$user_filelist) {
     global $ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
-      $Client=get_servicedata();
-       $ClientId=$Client[0];
-       $ClientSecret=$Client[1];
-       $RedirectUri=$Client[3];
-       $DriveScopes=$Client[4];
-       $CalenderScopes=$Client[5];
-       $Refresh_Token=$Client[6];
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[3];
+    $DriveScopes=$Client[4];
+    $CalenderScopes=$Client[5];
+    $Refresh_Token=$Client[6];
     $drive = new Google_Client();
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);

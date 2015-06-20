@@ -103,7 +103,7 @@ meter.pop  {
 }
 fieldset { border: 1px solid #000000; border-radius: 5px; padding: 10px; }
 div.folder { 
-	background: url(data:image/gif;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7) no-repeat 4px center;
+	background: url(data:images/gif;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7) no-repeat 4px center;
 	padding: 5px 0 5px 25px;
 	border: 1px solid #000000;
 }
@@ -267,12 +267,12 @@ HTML attributes width and height are supported, although not officially part of 
 <div class="gradient text">
 <h4></h4>
 <p><span class="css">min-height</span>, <span class="css">min-width</span>, <span class="css">max-height</span> and <span class="css">max-width</span> are now supported in CSS style sheets for &lt;img&gt; (only).</p>
-<p><span class="css">background: url(data:image/gif;base64,...)</span> is now supported in CSS style sheets (gif, png and jpeg).</p>
+<p><span class="css">background: url(data:images/gif;base64,...)</span> is now supported in CSS style sheets (gif, png and jpeg).</p>
 </div>
 
-<div class="folder">This &lt;div&gt; has the folder icon set as an embedded image in the CSS</div>
+<div class="folder">This &lt;div&gt; has the folder icon set as an embedded images in the CSS</div>
 <p class="code">div.folder { 
-	background: url(data:image/gif;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7) no-repeat 4px center;
+	background: url(data:images/gif;base64,R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAALAAAAAAQAA4AAARe8L1Ekyky67QZ1hLnjM5UUde0ECwLJoExKcppV0aCcGCmTIHEIUEqjgaORCMxIC6e0CcguWw6aFjsVMkkIr7g77ZKPJjPZqIyd7sJAgVGoEGv2xsBxqNgYPj/gAwXEQA7) no-repeat 4px center;
 	padding: 5px 0 5px 25px;
 	border: 1px solid #000000;
 }

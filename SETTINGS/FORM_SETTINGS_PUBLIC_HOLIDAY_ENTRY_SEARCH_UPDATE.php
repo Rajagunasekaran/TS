@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************PUBLIC HOLIDAY ENTRY*********************************************//
+/DONE BY:JAYAPRIYA
+//VER 0.06-SD:19/06/2015 ED:19/06/2015, CORRECT FORM TO BE RESPONSIVE,AFTER SAVED CLEARED THE TEXT BOX VALUES
 //DONE BY:RAJA
 //VER 0.05-SD:06/01/2015 ED:06/01/2015, TRACKER NO:179,DESC: SETTING PRELOADER POSITON AND MSGBOX POSITION
 //DONE BY:LALITHA
@@ -10,9 +12,7 @@
 //VER 0.01-INITIAL VERSION, SD:02/10/2014 ED:06/10/2014,TRACKER NO:74,Designed Form,Get data from ss nd insert in db part
 //*********************************************************************************************************//
 <?php
-//include "HEADER.php";
 include "../TSLIB/TSLIB_HEADER.php";
-//include "NEW_MENU.php";
 ?>
 <!--SCRIPT TAG START-->
 <script>
@@ -28,13 +28,13 @@ $(document).ready(function(){
             $('#PH_lbl_report_entry').html('PUBLIC HOLIDAY ENTRY');
             $('#PH_ENTRY_table').show();
             $('#publicsearch').hide();
-//            $('.preloader', window.parent.document).show();
+            $('#PH_ENTRY_tb_ss').val('');
+            $('#PH_ENTRY_tb_gid').val('');
             $(".preloader").show();
             //GETTING ERR MSG FROM DB
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                    $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
                     var value_array=JSON.parse(xmlhttp.responseText);
                     PH_ENTRY_errorAarray=value_array[0];
@@ -119,10 +119,6 @@ $(document).ready(function(){
                     $("#PH_ENTRY_btn_save").attr("disabled","disabled");
                 }
             });
-//            //RESET CLICK FUNCTION
-//            $(document).on('click','#PH_ENTRY_btn_reset',function(){
-//                PH_ENTRY_holiday_rset();
-//            });
             //CLEAR ALL FIELDS
             function PH_ENTRY_holiday_rset()
             {
@@ -145,17 +141,14 @@ $(document).ready(function(){
             $('#tablecontainer').hide();
             $('#PH_SRC_UP_btn_pdf').hide();
             $('#PH_SRC_UPD_btn_search').hide();
-//            $('.preloader', window.parent.document).show();
             $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var values_array=JSON.parse(xmlhttp.responseText);
-//                    $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
                     PH_SRC_UPD_yr_listbx=values_array[0];
                     err_msg_array=values_array[1];
-//            alert(values_array[1]);
                     if(PH_SRC_UPD_yr_listbx.length!=0){
                         var project_list='<option>SELECT</option>';
                         for (var i=0;i<PH_SRC_UPD_yr_listbx.length;i++) {
@@ -193,7 +186,6 @@ $(document).ready(function(){
             var values_array=[];
             var id;
             $(document).on('change','#PH_SRC_UPD_lb_yr',function(){
-//                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 $('#tablecontainer').hide();
                 $('#PH_SRC_UPD_tble_htmltable').html('');
@@ -257,7 +249,6 @@ $(document).ready(function(){
                                 $('#PH_SRC_UPD_tble_htmltable').html('');
 
                             }
-//                            $('.preloader', window.parent.document).hide();
                             $(".preloader").hide();
                         }
                     }
@@ -332,132 +323,38 @@ $(document).ready(function(){
                 else{
                     var babysdate=$('#start_date').val();
                 }
-//        alert('&option=update&pdid='+pdid+'&psid='+psid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate)
-//                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 $.ajax({
                     type: 'POST',
                     url: 'SETTINGS/DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do',
-//            data:'&rowid='+combineid+'&babypname='+babypname+'&babypdesc='+babypdesc+'&babystatus='+babystatus+'&babysdate='+babysdate+'&babyedate='+babyedate,
                     data:'&option=PROJECT_DETAILS_UPDATE&EMPSRC_UPD_DEL_rd_flxtbl='+pdid+'&PH_SRC_UPD_tb_des='+babypdesc+'&PH_SRC_UPD_tb_date='+babysdate,
                     success: function(data) {
-//                        alert(data)
                         var resultflag=data;
                         if(resultflag==1)
                         {
                           var msg=err_msg_array[0].replace("REPORT",'RECORD');
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
                           show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",msg,"success",true);
                           flex_table();
                         }
                         else
                         {
-                            //MESSAGE BOX FOR NOT UPDATED
-//                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
-                            show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[2],"success",true);
+                         show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[2],"success",true);
                             $(".preloader").hide();
                         }
-//                        $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
                     }
                 });
             });
 
-//            var values_array=[];
-//            //CLICK FUNCTION FOR SEARCH BTN
-//            $(document).on('click','#PH_SRC_UPD_btn_search',function(){
-//                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-//                $('#PH_SRC_UPD_updateform').show();
-//                $('#EMP_ENTRY_table_others').show();
-//                $("#PH_SRC_UPD_btn_search").attr("disabled","disabled");
-//                $("#EMPSRC_UPD_DEL_btn_update").attr("disabled","disabled");
-//                $('#EMPSRC_UPD_DEL_lbl_validnumber1').hide();
-//                $('#EMPSRC_UPD_DEL_lbl_validnumber').hide();
-//                var SRC_UPD_idradiovalue=$('input:radio[name=EMPSRC_UPD_DEL_rd_flxtbl]:checked').attr('id');
-//                for(var j=0;j<values_array.length;j++){
-//                    var id=values_array[j].id;
-//                    var PH_SRC_UPD_dateval=values_array[j].PH_SRC_UPD_date;
-//                    var PH_SRC_UPD_description=values_array[j].PH_SRC_UPD_descr;
-//                    if(id==SRC_UPD_idradiovalue)
-//                    {
-//
-//                        $('#PH_SRC_UPD_tb_date').val(PH_SRC_UPD_dateval).show();
-//                        $('#PH_SRC_UPD_tb_des').val(PH_SRC_UPD_description).show();
-//                    }
-//                }
-//                //MIN ND MAX DATE
-//                var year_val=$('#PH_SRC_UPD_lb_yr').val();
-//                var year=parseInt(year_val);
-//                var month=0;
-//                var date=parseInt('01');
-//                var minimumdate =new Date(year,month,date);
-//                $(".minmax").datepicker("option","minDate",minimumdate);
-//                var month=11;
-//                var date=parseInt('31');
-//                var maxdate =new Date(year,month,date);
-//                $(".minmax").datepicker("option","maxDate",maxdate);
-//            });
-//            //EMPLOYEE UPDATE BUTTON VALIDATION
-//            $(document).on('change','#PH_SRC_UPD_form',function(){
-//                var PH_SRC_UPD_date= $("#PH_SRC_UPD_tb_date").val();
-//                var PH_SRC_UPD_des =$("#PH_SRC_UPD_tb_des").val();
-//                if((PH_SRC_UPD_date!='') && (PH_SRC_UPD_des!='' ))
-//                {
-//                    $("#PH_SRC_UPD_btn_update").removeAttr("disabled");
-//                }
-//                else
-//                {
-//                    $("#PH_SRC_UPD_btn_update").attr("disabled","disabled");
-//                }
-//            });
-//CLICK FUNCTION FOR PDF BTN
-            $(document).on('click','.paginate_button',function(){
-                $("#PH_SRC_UPD_updateform").hide();
-                $('#PH_SRC_UPD_btn_search').hide();
-                $('input:radio[name=EMPSRC_UPD_DEL_rd_flxtbl]').attr('checked',false);
-            });
-            //CLICK EVENT FUCNTION FOR UPDATE
-//            $('#PH_SRC_UPD_btn_update').click(function()
-//            {
-//                $('.preloader', window.parent.document).show();
-//                var PH_SRC_UPD_date=$('#PH_SRC_UPD_tb_date').val();
-//                var PH_SRC_UPD_des=$('#PH_SRC_UPD_tb_des').val();
-//                var formElement = document.getElementById("PH_SRC_UPD_form");
-//                var xmlhttp=new XMLHttpRequest();
-//                xmlhttp.onreadystatechange=function() {
-//                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                        var ET_SRC_UPD_DEL_update_result=xmlhttp.responseText;
-//                        if(ET_SRC_UPD_DEL_update_result==1){
-//                            $("#PH_SRC_UPD_updateform").hide();
-//                            $('#PH_SRC_UPD_btn_search').hide();
-//                            var msg=err_msg_array[0].replace("REPORT",'RECORD');
-//                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
-//                            PH_SRC_UPD_detailrset()
-//                            flex_table();
-//                        }
-//                        else
-//                        {
-//                            //MESSAGE BOX FOR NOT UPDATED
-//                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
-//                        }
-//                        $('.preloader', window.parent.document).hide();
-//                    }
-//                }
-//                var choice="PROJECT_DETAILS_UPDATE"
-//                xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+choice,true);
-//                xmlhttp.send(new FormData(formElement));
-//            });
-            //CLICK EVENT FUCNTION FOR RESET
+         //CLICK EVENT FUCNTION FOR RESET
             $('#PH_SRC_UPD_btn_reset').click(function()
             {
-//                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 PH_SRC_UPD_detailrset()
             });
-//RESET ALL THE ELEMENT//
+       //RESET ALL THE ELEMENT
             function PH_SRC_UPD_detailrset()
             {
-//                $('.preloader', window.parent.document).hide();
                 $(".preloader").hide();
                 $('#PH_SRC_UPD_tb_date').val('');
                 $('#PH_SRC_UPD_tb_des').val('');
@@ -480,64 +377,10 @@ $(document).ready(function(){
                     return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
                 };
             }
-            //END DOCUMENT READY FUNCTION
-//            var previous_id;
-//            var combineid;
-//            var tdvalue;
-//            $(document).on('click','.date', function (){
-//                if(previous_id!=undefined){
-//                    $('#'+previous_id).replaceWith("<td class='data' id='"+previous_id+"' >"+tdvalue+"</td>");
-//                }
-//                var cid = $(this).attr('id');
-//                previous_id=cid;
-//                var id=cid.split('_');
-//                combineid=id[1];
-//                tdvalue=$(this).text();
-//                if(tdvalue!=''){
-//                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='name' name='data'  class='dateupdate' maxlength='50'  value='"+tdvalue+"'>");
-//                    $('.dateupdate').datepicker({
-//                        dateFormat:"dd-mm-yy",
-//                        changeYear: true,
-//                        changeMonth: true
-//                    });
-//                }
-//
-//            });
-//            $(document).on('change blur','.descriptionupdate',function(){
-////alert($(this).parent().attr('id')+'jj '+$(this).parent().attr('id').split('_')[1])
-//                var descriptionvalue=$(this).val().trim();
-////        alert(datevalue);
-//                if((descriptionvalue!='')){
-//                    var xmlhttp=new XMLHttpRequest();
-//                    xmlhttp.onreadystatechange=function() {
-//                        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                            var value=xmlhttp.responseText;
-//                            if(value==1)
-//                            {
-////                        alert('srs');
-//                                show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[0],"success",false);
-////                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:500}}});
-//                                PH_SRC_UPD_detailrset()
-//                                flex_table();
-//                            }
-//                            else
-//                            {
-//                                //MESSAGE BOX FOR NOT UPDATED
-//                                show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[2],"success",false);
-////                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"PUBLIC HOLIDAY SEARCH/UPDATE",msgcontent:err_msg_array[2],position:{top:150,left:500}}});
-//                            }
-////                    $('.preloader', window.parent.document).hide();
-//                        }
-//                    }
-//                    var OPTION="update1";
-//                    xmlhttp.open("POST","DB_PUBLIC_HOLIDAY_SEARCH_UPDATE.do?option="+OPTION+"&descriptionvalue="+descriptionvalue+"&id="+combineid,true);
-//                    xmlhttp.send();
-//                }
-//            });
+
         }
     });
-
-    //RESET CLICK FUNCTION
+ //RESET CLICK FUNCTION
             $(document).on('click','#PH_ENTRY_btn_reset',function(){
                // $(".preloader").show();
             //    alert('rest')
@@ -554,10 +397,8 @@ $(document).ready(function(){
 <!--BODY TAG START-->
 <body>
 <div class="container">
-        <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="../image/Loading.gif"  /></div></div></div>
-<!--        <div class="title" id="fhead"><center><b><h3 id="heading">PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h3></b></center></div>-->
-    <div class="newtitle text-center"><b><h4>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h4></b></div>
-<!--       <div class="title text-center"><h4><b>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</b></h4></div>-->
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h4></b></div>
         <form  name="PH_entry_form" id="PH_entry_form" class="content">
             <div class="panel-body">
                 <fieldset>
@@ -571,17 +412,6 @@ $(document).ready(function(){
               <label name="public_search" id="pub_search">
                <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>
                </div></div>
-
-<!--            <div class="row-fluid form-group">-->
-<!--                        <label name="public_entry" class="col-sm-12"  id="pub_entry">-->
-<!--                            <div class="radio">-->
-<!--                                <input type="radio" name="public" class="publicentry" id="entry" value="entry_click">PUBLIC HOLIDAY ENTRY</label>-->
-<!--                    </div></div>-->
-<!--            <div class="row-fluid form-group">-->
-<!--                <label name="public_search" class="col-sm-12"  id="pub_search">-->
-<!--                    <div class="radio">-->
-<!--                        <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>-->
-<!--            </div></div>-->
 
    <div class="row-fluid form-group">
     <label name="PH_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
@@ -608,7 +438,6 @@ $(document).ready(function(){
     </div>
     <!--search update part-->
     <div id="publicsearch" hidden>
-        <!--        <div id="PH_ENTRY_table" >-->
         <div class="row-fluid form-group">
             <label name="PH_SRC_UPD_lbl_yr" class="col-sm-3" id="PH_SRC_UPD_lbl_yr">SELECT A YEAR<em>*</em></label>
             <div class="col-sm-4">
@@ -650,8 +479,8 @@ $(document).ready(function(){
     </fieldset>
 </div>
 </form>
-</body>
 </div>
+</body>
 <!--BODY TAG END-->
 </html>
 <!--HTML TAG END-->

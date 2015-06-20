@@ -9,23 +9,23 @@ handlers:
 - url: /CSS
   static_dir: CSS
 
-- url: /jquery
-  static_dir: jquery
-
-- url: /image
-  static_dir: image
+- url: /JS
+  static_dir: JS
 
 - url: /bootstrap
   static_dir: bootstrap
+
+- url: /Data_table
+  static_dir: Data_table
+
+- url: /images
+  static_dir: images
 
 - url: /msgbox
   static_dir: msgbox
 
 - url: /menu
   static_dir: menu
-
-- url: /DATA TABLE 10.5
-  static_dir: DATA TABLE 10.5
 
 - url: /DB_MENU.do
   script: DB_MENU.php

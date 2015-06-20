@@ -15,30 +15,20 @@
 //************************************************************************************************************-->
 <?php
 include "../../TSLIB/TSLIB_HEADER.php";
-//include  "NEW_MENU.php";
 ?>
-
 <!--SCRIPT TAG START-->
 <script>
     //GLOBAL DECLARATION
     //GLOBAL DECLARATION
     var err_msg_array=[];
-    var values_array=[];
     //READY FUNCTION START
     $(document).ready(function(){
-        $('.REV_datepickeroption').datepicker(
-            {
-                dateFormat: 'dd-mm-yy',
-                changeYear: true,
-                changeMonth: true
-            });
-
+        $('.preloader').hide();
         var title;
         var employeetitles;
         var heading;
         var REV_lbl_dterangetitle;
         $('#REV_btn_totalhrs_pdf').hide();
-        $('#REV_btn_searchdaterange').hide();
         $('#REV_btn_emplist_pdf').hide();
         $('#REV_btn_emp_pdf').hide();
         $('#REV_btn_pdf').hide();
@@ -52,15 +42,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
         var REV_project_listbx=[];
         var err_msg_array=[];
         var REV_project_recver=[];
+        $('.preloader').show();
         var formElement = document.getElementById("REV_form_revenue");
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                //  alert(xmlhttp.responseText)
-                values_array=JSON.parse(xmlhttp.responseText);
-                $(".preloader").hide();
+                $('.preloader').hide();
+                var values_array=JSON.parse(xmlhttp.responseText);
                 REV_project_listbx=values_array[0];
-                // alert(REV_project_listbx)
                 REV_project_name=values_array[1];
                 REV_active_emp=values_array[2];
                 REV_nonactive_emp=values_array[3];
@@ -96,7 +85,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             return string[2]+'-'+ string[1]+'-'+string[0];
         }
 //DATE PICKER FUNCTION
-        $('.REV_datepicker').datepicker(
+        $('.REV_datepicker ').datepicker(
             {
                 dateFormat: 'dd-mm-yy',
                 changeYear: true,
@@ -137,8 +126,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
         //VALIDATION SEARCH BTN FOR PROJECT NAME BY DATE RANGE
         $(document).on('change','.validsrchbtn',function(){
             $('sectionprbydtrange').html('');
-            var REV_start_date= $('#REV_tb_strtdtebyrange1').val()
-            var REV_end_date=$('#REV_tb_enddtebyrange1').val();
+            var REV_start_date= $('#REV_tb_strtdtebyrange').val()
+            var REV_end_date=$('#REV_tb_enddtebyrange').val();
             $('#REV_tble_projctrevenue_bydaterange').html('');
             $('#REV_lbl_totaldays').hide();
             $('#REV_lbl_totalhrs').hide();
@@ -167,14 +156,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
         }
         // CHANGE EVENT FOR PROJECT LISTBOX
         $('#REV_lb_loginid').change(function(){
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
+            $('.preloader').show();
             var login_id=$('#REV_lb_loginid').val()
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                $('.preloader', window.parent.document).hide();
-                    $(".preloader").hide();
+                    $('.preloader').hide();
                     var values_array=JSON.parse(xmlhttp.responseText);
                     var project=[];
                     var REV_project_names=values_array[0];
@@ -218,7 +205,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_btn_emplist_pdf').hide();
             $('#REV_btn_pdf').hide();
             var option=$("#REV_lb_project").val();
-            //   alert(option)
             if(option=="SELECT")
             {
                 REV_hide(option);
@@ -314,12 +300,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_lbl_prjctnmedaterange').hide();
             $('#REV_tble_prjctrevenuedaterange').hide();
             $('#REV_tble_startdate').hide();
-            $("#startenddatebydterangeoption").hide();
-            $("#REV_lbl_strtdtebyrange").hide();
-            $("#REV_tb_strtdtebyrange1").hide();
-            $("#endstartdatebydterangeoption").hide();
-            $("#REV_lbl_enddtebyrange1").hide();
-            $("#REV_tb_enddtebyrange1").hide();
             $('#REV_tble_searchbtn').hide();
             $('#REV_rd_actveemp').attr("checked",false);
             $('#REV_tb_strtdtebyrange').hide();
@@ -335,8 +315,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 // CHANGE EVENT FOR PROJECT NAME
         var daterange_val=[];
         $('#REV_lb_projectname').change(function(){
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
+            $('.preloader').show();
             $('#REV_btn_prjctsrch').show();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_tble_searchbtn').html('');
             $('#REV_nodata_loginid').hide();
@@ -350,8 +329,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_btn_pdf').hide();
             if($('#REV_lb_projectname').val()=="SELECT")
             {
-//            $('.preloader', window.parent.document).hide();
-                $(".preloader").hide();
+                $('.preloader').hide();
                 $('#REV_lb_precver').hide();
                 $('#REV_lbl_precver').hide();
                 $('#REV_btn_prjctsrch').attr("disabled","disabled");
@@ -363,8 +341,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
             else
             {
-//            $('.preloader', window.parent.document).hide();
-                $(".preloader").hide();
+                $('.preloader').hide();
                 $('#REV_tble_searchbtn').show();
                 $('#REV_tble_startdate').show();
                 $('#REV_btn_prjctsrch').removeAttr("disabled");
@@ -466,8 +443,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         });
 // CHANGE EVENT FOR LOGINID
         $('#REV_lb_loginid').change(function(){
-//        $('.preloader', window.parent.document).hide();
-            $(".preloader").hide();
+            $('.preloader').hide();
             $('#REV_lbl_emptitle').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_btn_emplist_pdf').hide();
             $('#REV_tb_strtdte').hide();
@@ -599,7 +575,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
         });
         //CLICK EVENT FOR WITHOUTPROJECT
         $('#REV_rd_withoutproject').click(function(){
-            $(".preloader").hide();
             $('#REV_tb_strtdte').val('');
             $('#REV_tb_enddte').val('');
             $('#REV_lbl_emptitle').hide();
@@ -631,7 +606,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
             else if(option==9)
             {
-//            $('.preloader', window.parent.document).show();
+                $('.preloader').show();
                 $('#REV_lbl_empproject').hide();
                 $('#REV_lb_empproject').val("SELECT").hide();
                 $('#REV_lbl_recver').hide();
@@ -644,7 +619,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#REV_btn_search').show();
                 $("#REV_btn_search").attr("disabled","disabled");
                 //DATE PICKER FUNCTION
-                $('.REV_datepickerrnge').datepicker(
+                $('.REV_datepickerrnge ').datepicker(
                     {
                         dateFormat: 'dd-mm-yy',
                         changeYear: true,
@@ -660,9 +635,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         var values_array=JSON.parse(xmlhttp.responseText);
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
-                        //       alert(values_array[0]+'aaaa'+values_array[1])
+                        $('.preloader').hide();
                         if(values_array[0]!=null && values_array[0]!=''){
                             $('#REV_tb_strtdte,#REV_tb_enddte,#REV_lbl_strtdte,#REV_lbl_enddte,#REV_btn_search').show();$('#REV_err_msg_date').hide();
                             $('#REV_tb_strtdte,#REV_tb_enddte').datepicker("option","minDate",new Date(values_array[0]));
@@ -679,18 +652,11 @@ include "../../TSLIB/TSLIB_HEADER.php";
         });
 //CHANGE FUNCTION FOR PROJECT NAME
         $('#REV_lb_projectname').change(function(){
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
+            $('.preloader').show();
             $('section').html('');
             $('sectionprbydtrange').html('');
             $('#REV_btn_prjctsrch').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_tble_startdate').html('');
-            $("#startenddatebydterangeoption").hide();
-            $("#REV_lbl_strtdtebyrange").hide();
-            $("#REV_tb_strtdtebyrange1").hide();
-            $("#endstartdatebydterangeoption").hide();
-            $("#REV_lbl_enddtebyrange1").hide();
-            $("#REV_tb_enddtebyrange1").hide();
             $('#REV_btn_searchdaterange').hide();
             $('#REV_lb_precver').hide();
             $('#REV_lbl_precver').hide();
@@ -704,8 +670,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_div_loginid').hide();
             if($('#REV_lb_projectname').val()=="SELECT")
             {
-//            $('.preloader', window.parent.document).hide();
-                $(".preloader").hide();
+                $('.preloader').hide();
                 $('#REV_btn_empsrch').hide();
                 $('#REV_btn_empsrch').attr("disabled","disabled");
                 $('#REV_lbl_ttlprjct').hide();
@@ -722,8 +687,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         var values_array=JSON.parse(xmlhttp.responseText);
                         REV_project_recver=values_array;
                         var recver_list='<option>SELECT</option>';
@@ -798,15 +762,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('sectionprbydtrange').html('');
             $('#REV_btn_prjctsrch').hide();
             $('#REV_tble_startdate').html('');
-            $("#startenddatebydterangeoption").hide();
-            $("#REV_lbl_strtdtebyrange").hide();
-            $("#REV_tb_strtdtebyrange1").hide();
-            $("#endstartdatebydterangeoption").hide();
-            $("#REV_lbl_enddtebyrange1").hide();
-            $("#REV_tb_enddtebyrange1").hide();
-//            $('#REV_tble_searchbtn').html('');
+            $('#REV_tble_searchbtn').html('');
             $('#REV_btn_searchdaterange').hide();
-            $('#REV_tble_searchbtn').hide();
             var project_recver=$('#REV_lb_precver').val();
             var REV_loginids=$("#REV_lb_projectname").val();
             var option=$("#REV_lb_project").val();
@@ -824,7 +781,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#REV_tble_empday').hide();
                 $('#REV_div_loginid').hide();
                 $('#REV_btn_searchdaterange').hide();
-                $('#REV_tble_searchbtn').hide();
                 $('#REV_nodata_pdflextble').hide();
                 $('#REV_div_projecttotal_dtebyrange').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             }
@@ -851,41 +807,20 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     $('#REV_btn_search').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
 
                 }
-                else if(option=='10')
+                else if((option=='10'))
                 {
-                    //   alert('date');
-//                $('.preloader', window.parent.document).show();
-//                $(".preloader").show();
-                    $("#startenddatebydterangeoption").show();
-                    $("#REV_lbl_strtdtebyrange").show();
-                    $("#REV_tb_strtdtebyrange1").val('').show();
-                    $("#endstartdatebydterangeoption").show();
-                    $("#REV_lbl_enddtebyrange1").show();
-                    $("#REV_tb_enddtebyrange1").val('').show();
-                    //     alert('pppppppp')
-                    $("#REV_btn_searchdaterange").attr("disabled","disabled").show();
-                    $("#REV_tble_searchbtn").show();
-
-//                   $('<tr><td width="150"><label name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label></td><td><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange1" style="width:75px;" ></td></tr>').appendTo('#REV_tble_startdate')
-//                    $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange1" class="validsrchbtn clear  datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
-
-//                    $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_enddte" id="REV_lbl_enddtebyrange" >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddtebyrange" id="REV_tb_enddtebyrange" class=" validsrchbtn clear  datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
+                    $('.preloader').show();
+                    $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange" class="validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
+                    $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_enddte" id="REV_lbl_enddtebyrange" >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddtebyrange" id="REV_tb_enddtebyrange" class="validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
+                    $('<div class="row-fluid form-group col-sm-2"><input type="button" class="btn" name="REV_btn_searchdaterange" id="REV_btn_searchdaterange"  value="SEARCH" disabled></div>').appendTo('#REV_tble_searchbtn')
                     //DATE PICKER FUNCTION
-//                    alert('befdp')
-
-                    $("#REV_tb_strtdtebyrange1").datepicker({
-                        dateFormat: "dd-mm-yy" ,
-                        changeYear:true,
-                        changeMonth:true
-                    });
-                    $("#REV_tb_enddtebyrange1").datepicker({
-                        dateFormat: "dd-mm-yy" ,
-                        changeYear:true,
-                        changeMonth:true
-                    });
-                    //   alert('ppp')
-//                    $("#REV_tb_enddtebyrange").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
-//                    $('<div class="row-fluid form-group col-sm-2"><input type="button" class="btn" name="REV_btn_searchdaterange" id="REV_btn_searchdaterange"  value="SEARCH" disabled></div>').appendTo('#REV_tble_searchbtn')
+                    $('.REV_datepicker').datepicker(
+                        {
+                            dateFormat: 'dd-mm-yy',
+                            changeYear: true,
+                            changeMonth: true
+                        });
+                    //END DATE PICKER FUNCTION
                     var daterange_val=[];
                     var formElement = document.getElementById("REV_form_revenue");
                     var REV_project_name=$("#REV_lb_projectname").val();
@@ -893,40 +828,32 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                        $('.preloader', window.parent.document).hide();
-                            $(".preloader").hide();
+                            $('.preloader').hide();
                             daterange_val=JSON.parse(xmlhttp.responseText);
                             var REV_start_dates=daterange_val[0];
                             var REV_end_dates=daterange_val[1];
 //                        if(REV_end_dates!=null && REV_end_dates !=''){
-                            //      alert(REV_end_dates+'a'+REV_start_dates)
                             if(REV_end_dates!=null){
-//                                alert('sfsdsdfsd')
-//                                $("#REV_tb_strtdtebyrange1").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
-//                                $("#REV_tb_enddtebyrange1").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
-//                                $('#REV_lbl_selectdterange').show();
+                                $('#REV_lbl_selectdterange').show();
                                 $('#REV_btn_prjctsrch').hide();
                                 $('#REV_lbl_strtdtedaterange').show();
-                                $('#REV_tb_strtdtebyrange1').val('').show();
+                                $('#REV_tb_strtdtedaterange').val('').show();
                                 $('#REV_lbl_enddtedaterange').show();
-                                $('#REV_tb_enddtebyrange1').val('').show();
-                                $("#REV_btn_searchdaterange").show();
-                                $("#REV_tble_searchbtn").show();
+                                $('#REV_tb_enddtedaterange').val('').show();
                                 $('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
-                                $('#REV_tb_strtdtebyrange1').datepicker("option","minDate",new Date(REV_start_dates));
-                                $('#REV_tb_strtdtebyrange1').datepicker("option","maxDate",new Date(REV_end_dates));
-                                $('#REV_tb_enddtebyrange1').datepicker("option","minDate",new Date(REV_start_dates));
-                                $('#REV_tb_enddtebyrange1').datepicker("option","maxDate",new Date(REV_end_dates));
-                            }
+                                $('#REV_tb_strtdtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
+                                $('#REV_tb_strtdtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));
+                                $('#REV_tb_enddtebyrange').datepicker("option","minDate",new Date(REV_start_dates));
+                                $('#REV_tb_enddtebyrange').datepicker("option","maxDate",new Date(REV_end_dates));}
                             else if(REV_end_dates == null || REV_end_dates== ''){
                                 $('#REV_err_msg_date_project').show().text(err_msg_array[4]);
                                 $('#REV_tble_startdate,#REV_tble_searchbtn').hide();
-//                                $('#REV_lbl_selectdterange').hide();
+                                $('#REV_lbl_selectdterange').hide();
                                 $('#REV_btn_prjctsrch').hide();
-                                $('#REV_lbl_strtdtedaterange1').hide();
-                                $('#REV_tb_strtdtedaterange1').val('').hide();
-                                $('#REV_lbl_enddtedaterange1').hide();
-                                $('#REV_tb_enddtedaterange1').val('').hide();
+                                $('#REV_lbl_strtdtedaterange').hide();
+                                $('#REV_tb_strtdtedaterange').val('').hide();
+                                $('#REV_lbl_enddtedaterange').hide();
+                                $('#REV_tb_enddtedaterange').val('').hide();
                             }
                         }
                     }
@@ -934,15 +861,15 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?REV_project_name="+REV_project_name+"&option="+choice+"&project_recver="+project_recver,true);
                     xmlhttp.send(new FormData(formElement));
                     //SET END DATE
-                    $(document).on('change','#REV_tb_strtdtebyrange1',function(){
+                    $(document).on('change','#REV_tb_strtdtebyrange',function(){
                         $('#REV_lbl_emptitle').hide();
                         $('#REV_btn_emplist_pdf').hide();
-                        var USRC_UPD_startdate = $('#REV_tb_strtdtebyrange1').datepicker('getDate');
+                        var USRC_UPD_startdate = $('#REV_tb_strtdtebyrange').datepicker('getDate');
                         var date = new Date( Date.parse( USRC_UPD_startdate ));
                         date.setDate( date.getDate()  );
                         var USRC_UPD_todate = date.toDateString();
                         USRC_UPD_todate = new Date( Date.parse( USRC_UPD_todate ));
-                        $('#REV_tb_enddtebyrange1').datepicker("option","minDate",USRC_UPD_todate);
+                        $('#REV_tb_enddtebyrange').datepicker("option","minDate",USRC_UPD_todate);
                     });
 
                     $("#REV_btn_search").attr("disabled","disabled");
@@ -974,8 +901,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_div_loginid').hide();
             $('#REV_nodata_loginid').hide();
             var option=$("#REV_lb_project").val();
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
+            $('.preloader').show();
             var formElement = document.getElementById("REV_form_revenue");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -999,8 +925,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         $('#REV_tble_nonactive_bydaterange').html('');
                         $('#REV_lbl_recver').hide();
                         $('#REV_lb_recver').hide();
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                     }
                     else
                     {
@@ -1073,12 +998,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                $('.preloader', window.parent.document).hide();
-                    $(".preloader").hide();
+                    $('.preloader').hide();
                     date_val=JSON.parse(xmlhttp.responseText);
                     var REV_start_dates=date_val[0];
                     var REV_end_dates=date_val[1];
-                    //      alert(REV_start_dates+'assas'+REV_end_dates)
                     if(REV_start_dates!=null && REV_start_dates !='' && $('#REV_lb_project').val()!=8){
                         $('#REV_tb_strtdte,#REV_tb_enddte,#REV_btn_search,#REV_lbl_enddte,#REV_lbl_strtdte').show();$('#REV_err_msg_date').hide();
                         $('#REV_tb_strtdte').datepicker("option","minDate",new Date(REV_start_dates));
@@ -1181,16 +1104,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var project_recver=$('#REV_lb_precver').val();
             $('#REV_btn_prjctsrch').attr("disabled","disabled");
             var REV_projectname=$('#REV_lb_projectname').val();
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var projectvalues=JSON.parse(xmlhttp.responseText);
                     if(projectvalues)
                     {
-//                    $('.preloader',window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         if(REV_project_recver.length>1)
                         {
@@ -1221,8 +1142,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     }
                     else
                     {
-//                    $('.preloader',window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         var sd=err_msg_array[3].toString().replace("[NAME]",REV_projectname);
                         $('#REV_nodata_pdflextble').text(sd).show();
                         $('#REV_div_projecttotal').hide();
@@ -1251,17 +1171,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var REV_prjctname=$('#REV_lb_empproject').val();
             var seacrhby_prjct=$("input[name=REV_rd_project]:checked").val();
             var project_recver=$('#REV_lb_recver').val();
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
-
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     loginidvalues=JSON.parse(xmlhttp.responseText);
                     if(loginidvalues)
                     {
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         if(seacrhby_prjct=='project')
                         {
@@ -1298,7 +1215,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                 var project_days=loginidvalues[i].project_days;
                                 var project_hrs=loginidvalues[i].project_hrs;
                                 var project_mints=loginidvalues[i].project_mints;
-                                REV_table_header1+='<tr><td>'+projectdate+'</td><td  !important;">'+project_days+'</td><td !important;">'+project_hrs+'</td><td align="center" style="max-width:10px; !important;">'+project_mints+'</td></tr>';
+                                REV_table_header1+='<tr><td style="width:150px" nowrap align="center">'+projectdate+'</td><td align="center" style="max-width:10px; !important;">'+project_days+'</td><td align="center" style="max-width:10px; !important;">'+project_hrs+'</td><td align="center" style="max-width:10px; !important;">'+project_mints+'</td></tr>';
                             }
                         }
                         else
@@ -1312,7 +1229,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             employeetitles=err_msg_array[7].toString().replace("[LOGINID] FOR [PROJECTNAME]",$("#REV_lb_loginid option:selected").text());
                             $('#REV_lbl_emptitle').text(employeetitle).show();
                             $('#REV_btn_emplist_pdf').show();
-                            var REV_table_header1='<table id="REV_tble_empday_nonactveemp1" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column"nowrap>PROJECT NAME</th><th>DAYS</th><th>HOURS</th><th>MINUTES</th></tr></thead><tbody>'
+                            var REV_table_header1='<table id="REV_tble_empday_nonactveemp1" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:200px" nowrap>PROJECT NAME</th><th>DAYS</th><th>HOURS</th><th>MINUTES</th></tr></thead><tbody>'
                             for(var i=0;i<loginidvalues.length;i++){
                                 var projectname=loginidvalues[i].projectname;
                                 var project_days=loginidvalues[i].project_days;
@@ -1333,8 +1250,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     }
                     else
                     {
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         var sd=err_msg_array[2].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                         $('#REV_nodata_loginid').text(sd).show();
                         $('#REV_div_loginid').hide();
@@ -1363,16 +1279,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_btn_search').attr("disabled","disabled");
             var REV_loginid=$('#REV_lb_loginid').val();
             var REV_prjctname=$('#REV_lb_empproject').val();
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     loginidvalues=JSON.parse(xmlhttp.responseText);
                     if(loginidvalues)
                     {
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         if(seacrhby_prjct=='project')
                         {
@@ -1409,13 +1323,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             $('#REV_lbl_empday').text("TOTAL NO OF DAYS: "  +   total_days).show();
                             $('#REV_btn_emp_pdf').show();
                             //TABLE HEADER
-                            var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column">PROJECT DATE</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
+                            var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:150px" nowrap align="center">PROJECT DATE</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
                             for(var i=0;i<loginidvalues.length;i++){
                                 var projectdate=loginidvalues[i].projectdate;
                                 var project_days=loginidvalues[i].project_days;
                                 var project_hrs=loginidvalues[i].project_hrs;
                                 var project_mints=loginidvalues[i].project_mints;
-                                REV_tble_header+='<tr><td>'+projectdate+'</td><td>'+project_days+'</td><td>'+project_hrs+'</td><td>'+project_mints+'</td></tr>';
+                                REV_tble_header+='<tr><td style="width:150px" nowrap align="center">'+projectdate+'</td><td align="center">'+project_days+'</td><td align="center">'+project_hrs+'</td><td align="center">'+project_mints+'</td></tr>';
                             }
                         }
                         else
@@ -1433,13 +1347,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             var emptitle=err_msg_array[6].toString().replace("[MONTH]",$("#REV_lb_loginid option:selected").text());
                             var startdate=emptitle.replace("[STARTDATE]",REV_start_datevalue);
                             heading=startdate.replace("[ENDDATE]",REV_end_datevalue);
-                            var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column">PROJECT NAME</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
+                            var REV_tble_header='<table id="REV_tble_nonactive_bydaterange" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:250px" align="center">PROJECT NAME</th><th >DAYS</th><th >HRS</th><th >MINUTES</th></tr></thead><tbody>'
                             for(var i=0;i<loginidvalues.length;i++){
                                 var projectname=loginidvalues[i].projectname;
                                 var project_days=loginidvalues[i].project_days;
                                 var project_hrs=loginidvalues[i].project_hrs;
                                 var project_mints=loginidvalues[i].project_mints;
-                                REV_tble_header+='<tr><td>'+projectname+'</td><td>'+project_days+'</td><td>'+project_hrs+'</td><td>'+project_mints+'</td></tr>';
+                                REV_tble_header+='<tr><td style="width:250px">'+projectname+'</td><td align="center">'+project_days+'</td><td align="center">'+project_hrs+'</td><td align="center">'+project_mints+'</td></tr>';
                             }
                         }
                         REV_tble_header+='</tbody></table>';
@@ -1454,8 +1368,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     }
                     else
                     {
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         var sd=err_msg_array[1].toString().replace("[SDATE]",REV_start_datevalue);
                         var msg=sd.toString().replace("[EDATE]",REV_end_datevalue);
                         $('#REV_nodata_startenddate').text(msg).show();
@@ -1480,20 +1393,18 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_div_projecttotal_dtebyrange').hide();
             $('#REV_tble_projctrevenue_bydaterange').html('');
             $('#REV_btn_searchdaterange').attr("disabled","disabled");
-            var REV_start_datevalue=$('#REV_tb_strtdtebyrange1').val()
-            var REV_end_datevalue=$('#REV_tb_enddtebyrange1').val()
+            var REV_start_datevalue=$('#REV_tb_strtdtebyrange').val()
+            var REV_end_datevalue=$('#REV_tb_enddtebyrange').val()
             var REV_projectname=$('#REV_lb_projectname').val();
             var REV_project_recversion=$('#REV_lb_precver').val();
-//        $('.preloader', window.parent.document).show();
-            $(".preloader").show();
+            $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var projectvalues=JSON.parse(xmlhttp.responseText);
                     if(projectvalues)
                     {
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         if(REV_project_recver.length>1)
                         {
@@ -1511,13 +1422,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         $('#REV_lbl_totaldays_dterange').text("TOTAL NO OF  DAYS: "  +   working_day).show();
                         $('#REV_lbl_totalhrs_dterange').text("TOTAL NO OF HRS: "  +   REV_total_hrs).show();
                         $('#REV_btn_totalhrs_pdf').show();
-                        var REV_table_header='<table width="700px" id="REV_tble_projctrevenue_bydaterange" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white;width:2000px"><tr><th>EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
+                        var REV_table_header='<table width="700px" id="REV_tble_projctrevenue_bydaterange" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th width="200px">EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
                         for(var i=0;i<projectvalues.length;i++){
                             var username=projectvalues[i].username;
                             var noofdays=projectvalues[i].noofdays;
                             var total_hrs=projectvalues[i].total_hrs;
                             var total_minutes=projectvalues[i].total_minutes;
-                            REV_table_header+='<tr><td>'+username+'</td><td>'+noofdays+'</td><td>'+total_hrs+'</td><td>'+total_minutes+'</td></tr>';
+                            REV_table_header+='<tr><td>'+username+'</td><td align="center">'+noofdays+'</td><td align="center">'+total_hrs+'</td><td align="center">'+total_minutes+'</td></tr>';
                         }
                         REV_table_header+='</tbody></table>';
                         $('sectionprbydtrange').html(REV_table_header);
@@ -1526,8 +1437,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     }
                     else
                     {
-//                    $('.preloader', window.parent.document).hide();
-                        $(".preloader").hide();
+                        $('.preloader').hide();
                         var sd=err_msg_array[1].toString().replace("[SDATE]",REV_start_datevalue);
                         var msg=sd.toString().replace("[EDATE]",REV_end_datevalue);
                         $('#REV_nodata_staenddate').text(msg).show();
@@ -1563,7 +1473,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         $(document).on('click','#REV_btn_pdf',function(){
             var inputValOne=$("#REV_lb_projectname").val();
             var inputValTwo=$('#REV_lb_precver').val();
-            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
+            var url=document.location.href='COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
         });
         $(document).on('click','#REV_btn_emp_pdf',function(){
             if($("input[id=REV_rd_withproject]:checked").val()=="project"){
@@ -1575,10 +1485,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 var inputValFive=$('#REV_tb_enddte').val();
                 inputValFive = inputValFive.split("-").reverse().join("-");
                 if($('#REV_lb_project').val()==8){
-                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
+                    var url=document.location.href='COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
                 }
                 else if($('#REV_lb_project').val()==9){
-                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                    var url=document.location.href='COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
                 }
             }
         });
@@ -1590,21 +1500,21 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 var inputValFive=$('#REV_tb_enddte').val();
                 inputValFive = inputValFive.split("-").reverse().join("-");
                 if($('#REV_lb_project').val()==8){
-                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
+                    var url=document.location.href='COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
                 }
                 else if($('#REV_lb_project').val()==9){
-                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                    var url=document.location.href='COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
                 }
             }
         });
         $(document).on('click','#REV_btn_totalhrs_pdf',function(){
             var inputValOne=$("#REV_lb_projectname").val();
             var inputValTwo=$('#REV_lb_precver').val();
-            var inputValThree=$('#REV_tb_strtdtebyrange1').val();
+            var inputValThree=$('#REV_tb_strtdtebyrange').val();
             inputValThree = inputValThree.split("-").reverse().join("-");
-            var inputValFour=$('#REV_tb_enddtebyrange1').val();
+            var inputValFour=$('#REV_tb_enddtebyrange').val();
             inputValFour = inputValFour.split("-").reverse().join("-");
-            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
+            var url=document.location.href='COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
         });
     });
     //DOCUMENT READY FUNCTION END
@@ -1613,20 +1523,21 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <!--BODY TAG START-->
 <body>
 <div class="container">
-    <div  class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px;text-align:center"><img src="image/Loading.gif"  /></div></div></div>
-    <div class="newtitle text-center"><b><h4>REVENUE</h4></b></div>
-    <!--    <div class="title"><p><center><b><h3>REVENUE</h3></b></center><p></div>-->
-    <form   id="REV_form_revenue" class="content" >
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>REVENUE</h4></b></div>
+    <form   id="REV_form_revenue" class="content" role="form" >
         <div class="panel-body">
             <fieldset>
-                <!--        <div class="table-responsive">-->
+
                 <div class="row-fluid form-group">
                     <label class="col-sm-2" name="REV_lbl_prjct" id="REV_lbl_prjct">PROJECT<em>*</em></label>
                     <div class="col-sm-4">
                         <select id="REV_lb_project" class="form-control" style="display: inline" name="REV_lb_project" hidden>
                         </select>
                     </div></div>
+
                 <div><label id="REV_nodata_rc" name="REV_nodata_rc" class="errormsg"></label></div>
+
                 <div  id="REV_tble_prjctrevenue"  hidden>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="REV_lbl_prjctnme" id="REV_lbl_prjctnme">PROJECT NAME<em>*</em></label></td>
@@ -1635,40 +1546,47 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             </select>
                         </div>
                     </div></div>
+
                 <div class="row-fluid form-group">
                     <label class="col-sm-2"name="REV_lbl_precver" id="REV_lbl_precver" hidden>RECORD VERSION<em>*</em></label>
                     <div class="col-sm-4"> <select id="REV_lb_precver" name="REV_lb_precver" hidden>
                         </select>
                     </div>
                 </div>
+
                 <div><label id="REV_nodata_pd" class="col-sm-2" name="REV_nodata_pd" class="errormsg"></label></div>
-                <!--                <div id="REV_tble_startdate"></div>-->
-                <!--                4th 0ption-->
+                <div id="REV_tble_startdate"></div>
+                <div id="REV_tble_searchbtn"></div>
                 <div class="row-fluid form-group" id="startenddatebydterangeoption" hidden>
-                    <label class="col-sm-3" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label>
+                    <label class="col-sm-2" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label>
                     <div class="col-sm-4">
                         <input type="text"  id="REV_tb_strtdtebyrange1" class="validsrchbtn clear REV_datepickeroption datemandtry" style="width:75px;" hidden>
                     </div></div>
+
                 <div class="row-fluid form-group" id="endstartdatebydterangeoption" hidden>
-                    <label class="col-sm-3"  id="REV_lbl_enddtebyrange1" hidden >END DATE<em>*</em></label>
+                    <label class="col-sm-2"  id="REV_lbl_enddtebyrange1" hidden >END DATE<em>*</em></label>
                     <div class="col-sm-4">
                         <input type="text" id="REV_tb_enddtebyrange1" class="validsrchbtn clear REV_datepickeroption datemandtry" style="width:75px;" hidden>
                     </div></div>
-                <!--                <div id="REV_tble_searchbtn"></div>-->
-                <!--                <div  class="row-fluid form-group col-sm-2" id="REV_tble_searchbtn" hidden>-->
+
                 <input type="button" class="btn" id="REV_btn_searchdaterange"  value="SEARCH" disabled hidden>
-                <!--                </div>-->
+
                 <div id="REV_err_msg_date_project" class="col-sm-2" class="errormsg"></div>
+
                 <div class="row-fluid form-group col-sm-2">
                     <input type="button" id="REV_btn_prjctsrch"  name="REV_btn_prjctsrch" value="SEARCH" class="btn" disabled/>
                 </div>
+
                 <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_pdflextble" name="REV_nodata_pdflextble" class="errormsg"></label></div>
+
                 <div class="row-fluid form-group col-sm-2" >
                     <label id="REV_lbl_title" name="REV_lbl_title"  class="srctitle" hidden></label>
                 </div>
+
                 <div class="row-fluid form-group col-sm-2" >
                     <label id="REV_lbl_totaldays" name="REV_lbl_totaldays"  class="srctitle" hidden></label>
                 </div>
+
                 <div class="row-fluid form-group col-sm-2" >
                     <label id="REV_lbl_totalhrs" name="REV_lbl_totalhrs"  class="srctitle" hidden></label>
                 </div>
@@ -1680,15 +1598,21 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             </section>
                         </div>
                     </div></div>
+
                 <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_staenddate" name="REV_nodata_staenddate" class="errormsg"></label></div>
+
                 <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_dterangetitle" name="REV_lbl_dterangetitle" class="srctitle"></label>
                 </div>
+
                 <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_totaldays_dterange" name="REV_lbl_totaldays_dterange"  class="srctitle" hidden></label>
                 </div>
+
                 <div class="row-fluid form-group col-sm-2">
                     <label id="REV_lbl_totalhrs_dterange" name="REV_lbl_totalhrs_dterange"  class="srctitle" hidden></label>
                 </div>
+
                 <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_totalhrs_pdf" class="btnpdf" value="PDF"></div>
+
                 <div class="row-fluid form-group col-sm-2">
                     <div id ="REV_div_projecttotal_dtebyrange" class="table-responsive "  style="max-width:700px" hidden>
                         <sectionprbydtrange>
@@ -1697,44 +1621,51 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 </div>
 
                 <div id="REV_tble_prjctrevactnonact" hidden></div>
+
                 <div class="row-fluid form-group">
                     <label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden>
                         <div class="radio">
                             <input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>&nbsp;ACTIVE EMPLOYEE</label>
-                </div>
-        </div>
-        <div class="row-fluid form-group">
-            <label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp"  hidden>
+                        </div>
+               </div>
+
+                <div class="row-fluid form-group">
+                    <label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp"  hidden>
                 <div class="radio">
                     <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp"  value="EMPLOYEE" class='attnd' hidden>&nbsp;NON ACTIVE EMPLOYEE </label>
+                </div></div>
 
-        </div></div>
-<div class="row-fluid form-group">
-    <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-3 srctitle" hidden>ACTIVE EMPLOYEE</label>
-</div>
+               <div class="row-fluid form-group">
+                    <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-3 srctitle" hidden>ACTIVE EMPLOYEE</label>
+               </div>
+
 <div class="row-fluid form-group">
     <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-3" hidden>NON ACTIVE EMPLOYEE </label>
 </div>
+
 <div><label id="REV_nodata_uld" name="REV_nodata_uld" class="errormsg"></label></div>
+
 <div class="row-fluid form-group">
-    <label class="col-sm-3" name="REV_lbl_loginid" id="REV_lbl_loginid"  hidden>LOGIN ID<em>*</em></label>
+    <label class="col-sm-2" name="REV_lbl_loginid" id="REV_lbl_loginid"  hidden>LOGIN ID<em>*</em></label>
     <div class="col-sm-4">
         <select name="REV_lb_loginid" id="REV_lb_loginid" class="form-control" style="display: none">
         </select>
     </div></div>
+
 <div class="row-fluid form-group">
     <label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject"  hidden>
         <div class="radio">
             <input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>&nbsp;LIST REVENUE BY PROJECT</label>
 </div></div>
+
 <div class="row-fluid form-group">
     <label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden>
         <div class="radio">
             <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>&nbsp;LIST OF PROJECT REVENUE</label>
-</div>
-</div>
+</div></div>
+
 <div class="row-fluid form-group">
-    <label class="col-sm-3" name="REV_lbl_empproject" id="REV_lbl_empproject" hidden>PROJECT<em>*</em></label>
+    <label class="col-sm-2" name="REV_lbl_empproject" id="REV_lbl_empproject" hidden>PROJECT<em>*</em></label>
     <div class="col-sm-4">
         <select id="REV_lb_empproject" name="REV_lb_empproject" class="form-control" style="display: none">
         </select>
@@ -1746,54 +1677,63 @@ include "../../TSLIB/TSLIB_HEADER.php";
         <select id="REV_lb_recver" name="REV_lb_recver" hidden>
         </select>
     </div></div>
+
 <div class="row-fluid form-group col-sm-2">
     <input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/>
-
 </div>
+
 <div  class="row-fluid form-group col-sm-2"><label id="REV_nodata_loginid" name="REV_nodata_loginid" class="errormsg"></label></div>
+
 <div class="row-fluid form-group">
-    <label class="col-sm-3" name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label>
+    <label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label>
     <div class="col-sm-4">
         <input type="text" name="REV_tb_strtdte" id="REV_tb_strtdte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden>
     </div></div>
+
 <div class="row-fluid form-group">
-    <label class="col-sm-3"  name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label>
+    <label class="col-sm-2"  name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label>
     <div class="col-sm-4">
         <input type="text" name="REV_tb_enddte" id="REV_tb_enddte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden>
     </div></div>
+
 <div  class="row-fluid form-group col-sm-2" >
     <input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled>
 </div>
 
-
 <div id="REV_err_msg_date" class="errormsg row-fluid form-group col-sm-2"></div>
+
 <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_startenddate" name="REV_nodata_startenddate" class="errormsg"></label></div>
 
 <div class="row-fluid form-group col-sm-2">
     <label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label>
 </div>
+
 <div>
     <label id="REV_lbl_ttlprjct" name="REV_lbl_ttlprjct"  class="srctitle" hidden></label>
 </div>
+
 <div class="row-fluid form-group col-sm-2">
     <label id="REV_lbl_empday" name="REV_lbl_empday"  class="srctitle" hidden></label>
-</div >
+</div>
+
 <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emp_pdf" class="btnpdf" value="PDF">
     <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emplist_pdf" class="btnpdf" value="PDF"></div>
     <div></div>
     <div><label id="REV_lbl_eachproject_empday" name="REV_lbl_eachproject_empday"  class="srctitle" hidden></label>
     </div></div>
+
 <div  id ="REV_div_loginid" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px">
     <sections>
     </sections>
 </div>
+
 <div id ="REV_div_nonactve_dterange" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px">
     <sectionrnge>
     </sectionrnge>
 </div>
+
 </fieldset>
 </div>
-
 </form>
 </div>
 </body>

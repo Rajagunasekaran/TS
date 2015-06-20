@@ -1509,8 +1509,8 @@ Etiam id libero at magna pellentesque aliquet. Nulla sit amet ipsum id enim temp
 
 <!-- FULL IMAGES & BARCODE -->
 <pagebreak />
-<h3>Full Images & Barcode<bookmark content="Full Images &amp; Barcode" level="1" /><tocentry name="Figures" content="Full size image & Barcode" level="0" /><indexentry content="Image:full-size"  /><tocentry name="" content="Barcode" level="0" /><indexentry content="Barcode"  /></h3>
-<p>On the first and last page of this document, an image is reproduced full page size by placing it inside a DIV element with CSS "position:absolute". In all other situations, images are constrained to the width and height of the printable page (i.e. inside the margins). The image on the back page has CSS "opacity:0.5".</p>
+<h3>Full Images & Barcode<bookmark content="Full Images &amp; Barcode" level="1" /><tocentry name="Figures" content="Full size images & Barcode" level="0" /><indexentry content="Image:full-size"  /><tocentry name="" content="Barcode" level="0" /><indexentry content="Barcode"  /></h3>
+<p>On the first and last page of this document, an images is reproduced full page size by placing it inside a DIV element with CSS "position:absolute". In all other situations, images are constrained to the width and height of the printable page (i.e. inside the margins). The images on the back page has CSS "opacity:0.5".</p>
 
 
 <!-- EXAMPLE PHP CODE -->

@@ -226,7 +226,7 @@ class Google_Service_Customsearch_Cse_Resource extends Google_Service_Resource
    * @opt_param string gl Geolocation of end user.
    * @opt_param string relatedSite Specifies that all search results should be
    * pages that are related to the specified URL
-   * @opt_param string searchType Specifies the search type: image.
+   * @opt_param string searchType Specifies the search type: images.
    * @opt_param string fileType Returns images of a specified type. Some of the
    * allowed values are: bmp, gif, png, jpg, svg, pdf, ...
    * @opt_param string start The index of the first result to return

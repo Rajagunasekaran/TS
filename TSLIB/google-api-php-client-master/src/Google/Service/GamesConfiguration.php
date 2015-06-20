@@ -359,11 +359,11 @@ class Google_Service_GamesConfiguration_ImageConfigurations_Resource extends Goo
 {
 
   /**
-   * Uploads an image for a resource with the given ID and image type.
+   * Uploads an images for a resource with the given ID and images type.
    * (imageConfigurations.upload)
    *
    * @param string $resourceId The ID of the resource used by this method.
-   * @param string $imageType Selects which image in a resource for this method.
+   * @param string $imageType Selects which images in a resource for this method.
    * @param array $optParams Optional parameters.
    * @return Google_Service_GamesConfiguration_ImageConfiguration
    */

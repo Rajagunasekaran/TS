@@ -1030,7 +1030,7 @@ function _put_button_icon( $array , $w, $h ) {
 			}
 		}
 	}
-	if (!$info) { die("Cannot find Button image"); }
+	if (!$info) { die("Cannot find Button images"); }
 	$this->mpdf->_newobj();
 	$this->mpdf->_out('<<');
 	$this->mpdf->_out('/Type /XObject');
@@ -1205,7 +1205,7 @@ function _putform_bt( $form, $hPt ) {
 	}
 
 	if ( $form['subtype'] == 'js_button' ) {
-		// Icon / image
+		// Icon / images
 		if ( isset( $this->form_button_icon[ $form['T'] ] ) ) {
 			$cc++;
 			$temp .= '/TP '.$this->form_button_icon[$form['T']]['pos'].' ';

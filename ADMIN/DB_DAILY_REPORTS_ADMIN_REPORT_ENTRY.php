@@ -34,6 +34,7 @@ if($_REQUEST["option"]=="LOGINID"){
 }
 if($_REQUEST["option"]=="DATE")
 {
+    echo'eeee';
     $date=$_REQUEST['date_change'];
     $ADM_uld_id=$_REQUEST['login_id'];
     $ADM_date=date('Y-m-d',strtotime($date));

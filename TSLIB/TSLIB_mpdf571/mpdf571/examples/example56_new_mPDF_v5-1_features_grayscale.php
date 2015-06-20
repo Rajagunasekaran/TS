@@ -29,17 +29,17 @@ table {
 	border: 7px dashed teal;
 }
 .table1 { 
-	background-image: -moz-linear-gradient(left, #07cdde 20%, #00f200 ); 
+	background-images: -moz-linear-gradient(left, #07cdde 20%, #00f200 );
 }
 .table1 tr.thisrow1 { 
-	background-image-resolution: 300dpi;
+	background-images-resolution: 300dpi;
 	background: transparent url(\'bayeux1.jpg\') repeat scroll left top;
 }
 .table1 tr.thisrow1 td { 
 	height: 28mm;
 }
 .table1 tr.thisrow2 { 
-	background-image: none; 
+	background-images: none;
 	background: -moz-linear-gradient(left, #c7Fdde 20%, #FF0000 ); 
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0.29, rgb(90,83,12)), color-stop(0.65, rgb(117,117,39)), color-stop(0.83, rgb(153,153,67)));
 }
@@ -127,7 +127,7 @@ div.text {
 
 <table class="table1">
 <tbody><tr><td>Row 1</td><td>This is data</td><td>This is data</td></tr>
-<tr class="thisrow1"><td>This row has</td><td>a background-image</td><td>of the bayeux tapestry</td></tr>
+<tr class="thisrow1"><td>This row has</td><td>a background-images</td><td>of the bayeux tapestry</td></tr>
 <tr><td><p>Row 3</p></td><td><p>This is long data</p></td><td>This is data</td></tr>
 <tr class="thisrow2"><td>This row has</td><td>a gradient set</td><td>which spans all 3 cells</td></tr>
 <tr><td>Row 5</td><td>Also data</td><td>Also data</td></tr>
@@ -146,33 +146,33 @@ div.text {
 <!-- ============================================================== -->
 
 
-<div style="margin-top: 2em; height: 2mm; background-image: -moz-linear-gradient(45deg, red, blue);"> </div>
+<div style="margin-top: 2em; height: 2mm; background-images: -moz-linear-gradient(45deg, red, blue);"> </div>
 
 <div style="font-family: Arial; font-size: 18pt; color: rgb(49,124,209)">Mozilla and CSS3 gradient syntax</div>
 
-<div style="height: 2mm; background-image: -moz-linear-gradient(45deg, red, blue);"> </div>
+<div style="height: 2mm; background-images: -moz-linear-gradient(45deg, red, blue);"> </div>
 <h2>Linear gradients</h2>
 <h4> Angle set AND points e.g. -moz-linear-gradient(34% 84% 30deg, red, orange, yellow...</h4>
 <table style="border-collapse: collapse; repeat scroll left top; border: none;">
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(top right 210deg, red, orange, yellow, green, blue, indigo, violet);">top right 210 degrees&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(top right 210deg, red, orange, yellow, green, blue, indigo, violet);">top right 210 degrees&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(top right 210deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(top right 210deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(30% 80% 60deg, red, orange, yellow, green, blue, indigo, violet);">30% 80% 60 degrees&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(30% 80% 60deg, red, orange, yellow, green, blue, indigo, violet);">30% 80% 60 degrees&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(30% 80% 60deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(30% 80% 60deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(10px 40px 325deg, red, orange, yellow, green, blue, indigo, violet);">10px 40px 325 degrees&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(10px 40px 325deg, red, orange, yellow, green, blue, indigo, violet);">10px 40px 325 degrees&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(10px 40px 325deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(10px 40px 325deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(bottom left 135deg, red, orange, yellow, green, blue, indigo, violet);">bottom left 135deg&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(bottom left 135deg, red, orange, yellow, green, blue, indigo, violet);">bottom left 135deg&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(bottom left 135deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(bottom left 135deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 </table>
 
@@ -181,24 +181,24 @@ div.text {
 
 <table style="border-collapse: collapse; repeat scroll left top; border: none;">
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(bottom right, red, orange, yellow, green, blue, indigo, violet);">bottom right</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(bottom right, red, orange, yellow, green, blue, indigo, violet);">bottom right</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(bottom right, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(bottom right, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(top, red, orange, yellow, green, blue, indigo, violet);">top</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(top, red, orange, yellow, green, blue, indigo, violet);">top</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(top, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(top, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(10px 40px, red, orange, yellow, green, blue, indigo, violet);">10px 40px</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(10px 40px, red, orange, yellow, green, blue, indigo, violet);">10px 40px</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(10px 40px, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(10px 40px, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(30% 10%, red, orange, yellow, green, blue, indigo, violet);">30% 10%</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(30% 10%, red, orange, yellow, green, blue, indigo, violet);">30% 10%</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(30% 10%, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(30% 10%, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 </table>
 
@@ -208,24 +208,24 @@ div.text {
 
 <table style="border-collapse: collapse; repeat scroll left top; border: none;">
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);">90 degrees&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);">90 degrees&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(120deg, red, orange, yellow, green, blue, indigo, violet);">120 degrees&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(120deg, red, orange, yellow, green, blue, indigo, violet);">120 degrees&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(120deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(120deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);">180 degrees&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);">180 degrees&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 <tr>
-<td style="height: 25mm; width: 135mm; background-image: -moz-linear-gradient(210deg, red, orange, yellow, green, blue, indigo, violet);">210 degrees&nbsp;</td>
+<td style="height: 25mm; width: 135mm; background-images: -moz-linear-gradient(210deg, red, orange, yellow, green, blue, indigo, violet);">210 degrees&nbsp;</td>
 <td>&nbsp;</td>
-<td style="height: 25mm; width: 10mm; background-image: -moz-linear-gradient(210deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
+<td style="height: 25mm; width: 10mm; background-images: -moz-linear-gradient(210deg, red, orange, yellow, green, blue, indigo, violet);">&nbsp;</td>
 </tr>
 </table>
 
@@ -254,7 +254,7 @@ background: -moz-linear-gradient(top,  #cccccc,  #000000); /* for firefox 3.6+ *
 
 <p>mPDF versions <= 5.0 supported a custom style property <i>background-gradient</i> which accepted both linear and radial gradients. These continue to be supported (and both old and new forms can be used together); note the differences:</p>
 <ul>
-<li>mPDF background-gradients are output underneath background-images, and both can be specified; whereas the new CSS3/Mozilla-type gradients are defined as a type of background-image</li>
+<li>mPDF background-gradients are output underneath background-images, and both can be specified; whereas the new CSS3/Mozilla-type gradients are defined as a type of background-images</li>
 <li>CSS3/Mozilla gradients support multiple colour-stops, opacity, repeating-gradients, and a greater number of options for defining the gradient axis (linear gradients) or shape and extent (radial gradients)</li>
 </ul>
 
@@ -315,7 +315,7 @@ border-radius: 155px / 100px;
 -moz-border-radius: 155px / 100px;
 box-shadow: 10px 10px 25px #CCC;
 -moz-box-shadow: 5px 5px 25px #CCC;
-background-image: -moz-radial-gradient(70% 30%, ellipse , #ffffff 0%, #F56991 50%, #8A2624 100%);">&nbsp;</div>
+background-images: -moz-radial-gradient(70% 30%, ellipse , #ffffff 0%, #F56991 50%, #8A2624 100%);">&nbsp;</div>
 
 
 <div  style="float: left; width: 150px; height: 150px; padding: 15px; background: #F56991; color: #E8F3F8;
@@ -323,32 +323,32 @@ border-radius: 100px;
 -moz-border-radius: 100px;
 box-shadow: 10px 10px 25px #CCC;
 -moz-box-shadow: 5px 5px 25px #CCC;
-background-image: -moz-radial-gradient(70% 30%, circle , #ffffff 0%, #E56991 50%, #8A2624 100%);">&nbsp;</div>
+background-images: -moz-radial-gradient(70% 30%, circle , #ffffff 0%, #E56991 50%, #8A2624 100%);">&nbsp;</div>
 <br style="clear: both;" />
 
 
 <div  style="float: right; width: 150px; height: 150px; border: 0.2mm solid black;
 background: radial-gradient(bottom left, farthest-side, red, blue 50px, pink);
-background-image: -moz-radial-gradient(red, yellow, #1E90FF);
+background-images: -moz-radial-gradient(red, yellow, #1E90FF);
 background: -webkit-gradient(linear, left bottom, left top, color-stop(0.48, rgb(107,14,86)), color-stop(0.74, rgb(140,41,112)), color-stop(0.87, rgb(168,70,146)));">&nbsp;</div>
 
-<div  style="float: left; width: 150px; height: 150px; border: 0.2mm solid black; background-image: -moz-radial-gradient(red 5%, yellow 25%, #1E90FF 50%);">&nbsp;</div>
+<div  style="float: left; width: 150px; height: 150px; border: 0.2mm solid black; background-images: -moz-radial-gradient(red 5%, yellow 25%, #1E90FF 50%);">&nbsp;</div>
 <br style="clear: both;" />
 
-<div style="float: right; width: 300px; height: 150px; border: 0.2mm solid black; background-image: -moz-radial-gradient(bottom left, circle, red, yellow, #1E90FF);">&nbsp;</div>
+<div style="float: right; width: 300px; height: 150px; border: 0.2mm solid black; background-images: -moz-radial-gradient(bottom left, circle, red, yellow, #1E90FF);">&nbsp;</div>
 
-<div style="float: left; width: 300px; height: 150px; border: 0.2mm solid black; background-image: -moz-radial-gradient(bottom left, ellipse, red, yellow, #1E90FF);">&nbsp;</div>
+<div style="float: left; width: 300px; height: 150px; border: 0.2mm solid black; background-images: -moz-radial-gradient(bottom left, ellipse, red, yellow, #1E90FF);">&nbsp;</div>
 <br style="clear: both;" />
 
-<div style="float: right; width: 300px; height: 150px; border: 0.2mm solid black; background-image: -moz-radial-gradient(ellipse closest-side, red, yellow 10%, #1E90FF 50%, white);">&nbsp;</div>
+<div style="float: right; width: 300px; height: 150px; border: 0.2mm solid black; background-images: -moz-radial-gradient(ellipse closest-side, red, yellow 10%, #1E90FF 50%, white);">&nbsp;</div>
 
-<div style="float: left; width: 300px; height: 150px; border: 0.2mm solid black; background-image: -moz-radial-gradient(ellipse farthest-corner, red, yellow 10%, #1E90FF 50%, white);">&nbsp;</div>
+<div style="float: left; width: 300px; height: 150px; border: 0.2mm solid black; background-images: -moz-radial-gradient(ellipse farthest-corner, red, yellow 10%, #1E90FF 50%, white);">&nbsp;</div>
 <br style="clear: both;" />
 
 
-<p style="background-image: -moz-radial-gradient(center , red, orange, yellow, green, blue, indigo, violet);">&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;</p>
+<p style="background-images: -moz-radial-gradient(center , red, orange, yellow, green, blue, indigo, violet);">&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;</p>
 
-<p style="background-image: -moz-radial-gradient(center , circle closest-side, blue 0%, red 100%);">&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;</p>
+<p style="background-images: -moz-radial-gradient(center , circle closest-side, blue 0%, red 100%);">&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;<br />&nbsp;</p>
 
 
 
@@ -358,7 +358,7 @@ background: -webkit-gradient(linear, left bottom, left top, color-stop(0.48, rgb
 
 <div style="font-family: Arial; font-size: 18pt; color: rgb(49,124,209)">Gradient Image mask</div>
 
-<div class="rounded text">Gradients (linear or radial) can also be used to produce \'masks\' for images. The same syntax is used as for background gradients (e.g. -moz-linear-gradient) but is set using a custom mPDF style: <i>gradient-mask</i>. The rgba() method for defining colours is used: colours are ignored, but the opacity value is used to mask the image.</div>
+<div class="rounded text">Gradients (linear or radial) can also be used to produce \'masks\' for images. The same syntax is used as for background gradients (e.g. -moz-linear-gradient) but is set using a custom mPDF style: <i>gradient-mask</i>. The rgba() method for defining colours is used: colours are ignored, but the opacity value is used to mask the images.</div>
 
 <p class="code">&lt;img src="windmill.jpg" style="gradient-mask: -moz-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1), rgba(255,255,255,1) 30%, rgba(255,255,255,0) 90%, rgba(255,255,255,0));" /&gt;
 <br /><br />&lt;img src="windmill.jpg" style="gradient-mask: -moz-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1), rgba(255,255,255,1) 70%, rgba(255,255,255,0) 90%, rgba(255,255,255,0));" /&gt;
@@ -379,16 +379,16 @@ background: -webkit-gradient(linear, left bottom, left top, color-stop(0.48, rgb
 
 <div style="font-family: Arial; font-size: 18pt; color: rgb(49,124,209)">Image orientation</div>
 
-<div class="rounded text">Images can be rotated using a custom mPDF HTML attribute: rotate. mPDF now also supports the draft CSS3 property of image-orientation. Rotation can be expressed in degrees, radians or grad units; it is corrected if necessary to an orthogonal rotation i.e. 90, 180 or 270 degrees. NB This does not work on background-images.</div>
-<p class="code">&lt;img src="tiger2.png" style="image-orientation: -90deg" width="100" /&gt;
+<div class="rounded text">Images can be rotated using a custom mPDF HTML attribute: rotate. mPDF now also supports the draft CSS3 property of images-orientation. Rotation can be expressed in degrees, radians or grad units; it is corrected if necessary to an orthogonal rotation i.e. 90, 180 or 270 degrees. NB This does not work on background-images.</div>
+<p class="code">&lt;img src="tiger2.png" style="images-orientation: -90deg" width="100" /&gt;
 <br />
-&lt;img src="tiger2.png" style="image-orientation: 3.14159rad" width="100" /&gt;
+&lt;img src="tiger2.png" style="images-orientation: 3.14159rad" width="100" /&gt;
 </p>
 
 <img src="tiger2.png" width="100" /> 
-<img src="tiger2.png" style="image-orientation: 75deg;" width="100" /> 
-<img src="tiger2.png" style="image-orientation: 180deg; image-resolution: 300dpi; " width="100" /> 
-<img src="tiger2.png" style="image-orientation: -90deg" width="100" /> 
+<img src="tiger2.png" style="images-orientation: 75deg;" width="100" />
+<img src="tiger2.png" style="images-orientation: 180deg; images-resolution: 300dpi; " width="100" />
+<img src="tiger2.png" style="images-orientation: -90deg" width="100" />
 
 
 <br />
@@ -400,35 +400,35 @@ background: -webkit-gradient(linear, left bottom, left top, color-stop(0.48, rgb
 <div style="font-family: Arial; font-size: 18pt; color: rgb(49,124,209)">Image resolution</div>
 
 
-<div class="rounded text">Image files (which do not have an output width or height specified) are displayed in mPDF at the default resolution set by the variable $mpdf->img_dpi. This can be overridden using the draft CSS3 property \'image-resolution\', which can be applied to &lt;IMG&gt; or background-images.
+<div class="rounded text">Image files (which do not have an output width or height specified) are displayed in mPDF at the default resolution set by the variable $mpdf->img_dpi. This can be overridden using the draft CSS3 property \'images-resolution\', which can be applied to &lt;IMG&gt; or background-images.
 <br />
-The next 3 image files are identical (300px x 300px) but they have been saved with a different specified resolution: the first at 96dpi, the second at 300dpi.
+The next 3 images files are identical (300px x 300px) but they have been saved with a different specified resolution: the first at 96dpi, the second at 300dpi.
 <br />
-NB When used in combination with \'from-image\', a specified resolution is only used if the image does not have an intrinsic resolution. Only JPG, PNG and BMP files store a specified DPI resolution  in the file.</div>
+NB When used in combination with \'from-images\', a specified resolution is only used if the images does not have an intrinsic resolution. Only JPG, PNG and BMP files store a specified DPI resolution  in the file.</div>
 
-<p class="code">&lt;img src="tiger300px300dpi.png" style="image-resolution: from-image;" /&gt;
-<br />&lt;img src="tiger300px300dpi.png" style="image-resolution: 150dpi;" /&gt;
-<br />&lt;img src="tiger300px96dpi.png" style="image-resolution: from-image;" /&gt;</p>
+<p class="code">&lt;img src="tiger300px300dpi.png" style="images-resolution: from-images;" /&gt;
+<br />&lt;img src="tiger300px300dpi.png" style="images-resolution: 150dpi;" /&gt;
+<br />&lt;img src="tiger300px96dpi.png" style="images-resolution: from-images;" /&gt;</p>
 
-<img src="tiger300px300dpi.png" style="image-resolution: from-image;" /> 
-<img src="tiger300px300dpi.png" style="image-resolution: 150dpi;" /> 
-<img src="tiger300px96dpi.png" style="image-resolution: from-image;" /> 
+<img src="tiger300px300dpi.png" style="images-resolution: from-images;" />
+<img src="tiger300px300dpi.png" style="images-resolution: 150dpi;" />
+<img src="tiger300px96dpi.png" style="images-resolution: from-images;" />
 <br /> <br />
 
 
 
 <pagebreak />
 
-<div class="rounded text">Image resolution can also be applied to a background-image. This can be used as an alternative to the custom mPDF style property - \'background-image-resize\'</div>
+<div class="rounded text">Image resolution can also be applied to a background-images. This can be used as an alternative to the custom mPDF style property - \'background-images-resize\'</div>
 
-<p class="code">&lt;div height="300px" width="300px" style="background: #FFCCEE url(tiger300px96dpi.png); background-image-resolution: from-image; border: 0.2mm solid black;"&gt;</p>
-<div height="300px" width="300px" style="background: #FFCCEE url(tiger300px96dpi.png); background-image-resolution: from-image; border: 0.2mm solid black;">Hallo<br />world
+<p class="code">&lt;div height="300px" width="300px" style="background: #FFCCEE url(tiger300px96dpi.png); background-images-resolution: from-images; border: 0.2mm solid black;"&gt;</p>
+<div height="300px" width="300px" style="background: #FFCCEE url(tiger300px96dpi.png); background-images-resolution: from-images; border: 0.2mm solid black;">Hallo<br />world
 </div>
 
 <br />
 
-<p class="code">&lt;div height="300px" width="300px" style="background-image: url(tiger300px300dpi.png); background-image-resolution: from-image; border: 0.2mm solid black;"&gt;</p>
-<div height="300px" width="300px" style="background-image: url(tiger300px300dpi.png); background-image-resolution: from-image; border: 0.2mm solid black;">
+<p class="code">&lt;div height="300px" width="300px" style="background-images: url(tiger300px300dpi.png); background-images-resolution: from-images; border: 0.2mm solid black;"&gt;</p>
+<div height="300px" width="300px" style="background-images: url(tiger300px300dpi.png); background-images-resolution: from-images; border: 0.2mm solid black;">
 </div>
 
 
@@ -446,12 +446,12 @@ NB When used in combination with \'from-image\', a specified resolution is only 
 <div style="padding: 15px; background: url(flowers-pattern.jpg) repeat right; border-radius: 90px;background-color: #00f200 ;  ">
 <div style="padding: 15px; background: -moz-linear-gradient(top right, red, orange, yellow, green, blue, indigo, violet); border-radius: 75px; ">
 <div style="padding: 15px; background-gradient: linear #07cdde #00f200 0 0 0.5 1; border-radius: 60px; ">
-<div style="padding: 15px; background: url(flowers-pattern.jpg) repeat right; border-radius: 45px; background-image-resolution: 180dpi; ">
+<div style="padding: 15px; background: url(flowers-pattern.jpg) repeat right; border-radius: 45px; background-images-resolution: 180dpi; ">
 <div style="padding: 15px; background: -moz-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet); border-radius: 30px; ">
-<div style="padding: 15px; background: url(alpha3.png) repeat top left; border-radius: 15px; background-image-resolution: 180dpi; ">
+<div style="padding: 15px; background: url(alpha3.png) repeat top left; border-radius: 15px; background-images-resolution: 180dpi; ">
 Hallo World
 </div>
-<div style="padding: 15px; background: url(alpha3.png) repeat top left; border-radius: 15px; background-image-resolution: 360dpi; ">
+<div style="padding: 15px; background: url(alpha3.png) repeat top left; border-radius: 15px; background-images-resolution: 360dpi; ">
 Hallo World
 </div>
 </div>
@@ -462,7 +462,7 @@ Hallo World
 
 <br />
 
-<div style="background-color:#FF0000 ; width:180px; background-image: -moz-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1), rgba(255,255,255,1) 70%, rgba(255,255,255,0) 90%, rgba(255,255,255,0));">
+<div style="background-color:#FF0000 ; width:180px; background-images: -moz-radial-gradient(center, ellipse closest-side, rgba(255,255,255,1), rgba(255,255,255,1) 70%, rgba(255,255,255,0) 90%, rgba(255,255,255,0));">
 <img src="tux.svg" width="180" />
 </div>
 

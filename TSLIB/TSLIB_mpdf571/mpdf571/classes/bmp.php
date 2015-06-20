@@ -39,8 +39,8 @@ function _getBMPimage($data, $file) {
 		}
 
 		if ($this->mpdf->restrictColorSpace==1 || $this->mpdf->PDFX || $this->mpdf->restrictColorSpace==3) {
-			if (($this->mpdf->PDFA && !$this->mpdf->PDFAauto) || ($this->mpdf->PDFX && !$this->mpdf->PDFXauto)) { $this->mpdf->PDFAXwarnings[] = "Image cannot be converted to suitable colour space for PDFA or PDFX file - ".$file." - (Image replaced by 'no-image'.)"; }
-			return array('error' => "BMP Image cannot be converted to suitable colour space - ".$file." - (Image replaced by 'no-image'.)"); 
+			if (($this->mpdf->PDFA && !$this->mpdf->PDFAauto) || ($this->mpdf->PDFX && !$this->mpdf->PDFXauto)) { $this->mpdf->PDFAXwarnings[] = "Image cannot be converted to suitable colour space for PDFA or PDFX file - ".$file." - (Image replaced by 'no-images'.)"; }
+			return array('error' => "BMP Image cannot be converted to suitable colour space - ".$file." - (Image replaced by 'no-images'.)");
 		}
 
 		$biXPelsPerMeter=$this->_fourbytes2int_le(substr($data,38,4));	// horizontal pixels per meter, usually set to zero
@@ -131,7 +131,7 @@ function _getBMPimage($data, $file) {
 			break;
 
 		  default:
-			return array('error' => 'Error parsing BMP image - Unsupported image biBitCount'); 
+			return array('error' => 'Error parsing BMP images - Unsupported images biBitCount');
 		}
 		if ($this->mpdf->compress) {
 			$bmpdata=gzcompress($bmpdata);

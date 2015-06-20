@@ -174,7 +174,7 @@ function ReadCSS($html) {
 				for ($i=0;$i<count($cxtem[0]);$i++) {
 					// path is relative to original stlyesheet!!
 					$embedded = $cxtem[2][$i];
-					if (!preg_match('/^data:image/i', $embedded)) {	// mPDF 5.5.13
+					if (!preg_match('/^data:images/i', $embedded)) {	// mPDF 5.5.13
 						$this->mpdf->GetFullPath($embedded, $cssBasePath );
 						$CSSextblock = preg_replace('/'.preg_quote($cxtem[0][$i],'/').'/', ($cxtem[1][$i].$embedded.$cxtem[3][$i]), $CSSextblock);
 					}
@@ -197,7 +197,7 @@ function ReadCSS($html) {
 		if ($xem) { 
 		   for ($i=0;$i<count($cxtem[0]);$i++) {
 			$embedded = $cxtem[2][$i];
-			if (!preg_match('/^data:image/i', $embedded)) {	// mPDF 5.5.13
+			if (!preg_match('/^data:images/i', $embedded)) {	// mPDF 5.5.13
 				$this->mpdf->GetFullPath($embedded);
 				$tmpCSSstr = preg_replace('/'.preg_quote($cxtem[0][$i],'/').'/', ($cxtem[1][$i].$embedded.$cxtem[3][$i]), $tmpCSSstr );
 			}
@@ -221,8 +221,8 @@ function ReadCSS($html) {
 		}
 	}
 
-	// Replace any background: url(data:image... with temporary image file reference
-	preg_match_all("/(url\(data:image\/(jpeg|gif|png);base64,(.*?)\))/si", $CSSstr, $idata);	// mPDF 5.7.2
+	// Replace any background: url(data:images... with temporary images file reference
+	preg_match_all("/(url\(data:images\/(jpeg|gif|png);base64,(.*?)\))/si", $CSSstr, $idata);	// mPDF 5.7.2
 	if (count($idata[0])) { 
 		for($i=0;$i<count($idata[0]);$i++) {
 			$file = _MPDF_TEMP_PATH.'_tempCSSidata'.RAND(1,10000).'_'.$i.'.'.$idata[2][$i];

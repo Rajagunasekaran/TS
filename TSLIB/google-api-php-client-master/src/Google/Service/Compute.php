@@ -1128,7 +1128,7 @@ class Google_Service_Compute extends Google_Service
         array(
           'methods' => array(
             'delete' => array(
-              'path' => '{project}/global/images/{image}',
+              'path' => '{project}/global/images/{images}',
               'httpMethod' => 'DELETE',
               'parameters' => array(
                 'project' => array(
@@ -1136,14 +1136,14 @@ class Google_Service_Compute extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'image' => array(
+                'images' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
                 ),
               ),
             ),'deprecate' => array(
-              'path' => '{project}/global/images/{image}/deprecate',
+              'path' => '{project}/global/images/{images}/deprecate',
               'httpMethod' => 'POST',
               'parameters' => array(
                 'project' => array(
@@ -1151,14 +1151,14 @@ class Google_Service_Compute extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'image' => array(
+                'images' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
                 ),
               ),
             ),'get' => array(
-              'path' => '{project}/global/images/{image}',
+              'path' => '{project}/global/images/{images}',
               'httpMethod' => 'GET',
               'parameters' => array(
                 'project' => array(
@@ -1166,7 +1166,7 @@ class Google_Service_Compute extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
-                'image' => array(
+                'images' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -3474,7 +3474,7 @@ class Google_Service_Compute_Disks_Resource extends Google_Service_Resource
    * @param Google_Disk $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string sourceImage Optional. Source image to restore onto a disk.
+   * @opt_param string sourceImage Optional. Source images to restore onto a disk.
    * @return Google_Service_Compute_Operation
    */
   public function insert($project, $zone, Google_Service_Compute_Disk $postBody, $optParams = array())
@@ -4139,22 +4139,22 @@ class Google_Service_Compute_Images_Resource extends Google_Service_Resource
 {
 
   /**
-   * Deletes the specified image resource. (images.delete)
+   * Deletes the specified images resource. (images.delete)
    *
    * @param string $project Project ID for this request.
-   * @param string $image Name of the image resource to delete.
+   * @param string $image Name of the images resource to delete.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Compute_Operation
    */
   public function delete($project, $image, $optParams = array())
   {
-    $params = array('project' => $project, 'image' => $image);
+    $params = array('project' => $project, 'images' => $image);
     $params = array_merge($params, $optParams);
     return $this->call('delete', array($params), "Google_Service_Compute_Operation");
   }
 
   /**
-   * Sets the deprecation status of an image.
+   * Sets the deprecation status of an images.
    *
    * If an empty request body is given, clears the deprecation status instead.
    * (images.deprecate)
@@ -4167,28 +4167,28 @@ class Google_Service_Compute_Images_Resource extends Google_Service_Resource
    */
   public function deprecate($project, $image, Google_Service_Compute_DeprecationStatus $postBody, $optParams = array())
   {
-    $params = array('project' => $project, 'image' => $image, 'postBody' => $postBody);
+    $params = array('project' => $project, 'images' => $image, 'postBody' => $postBody);
     $params = array_merge($params, $optParams);
     return $this->call('deprecate', array($params), "Google_Service_Compute_Operation");
   }
 
   /**
-   * Returns the specified image resource. (images.get)
+   * Returns the specified images resource. (images.get)
    *
    * @param string $project Project ID for this request.
-   * @param string $image Name of the image resource to return.
+   * @param string $image Name of the images resource to return.
    * @param array $optParams Optional parameters.
    * @return Google_Service_Compute_Image
    */
   public function get($project, $image, $optParams = array())
   {
-    $params = array('project' => $project, 'image' => $image);
+    $params = array('project' => $project, 'images' => $image);
     $params = array_merge($params, $optParams);
     return $this->call('get', array($params), "Google_Service_Compute_Image");
   }
 
   /**
-   * Creates an image resource in the specified project using the data included in
+   * Creates an images resource in the specified project using the data included in
    * the request. (images.insert)
    *
    * @param string $project Project ID for this request.
@@ -4204,7 +4204,7 @@ class Google_Service_Compute_Images_Resource extends Google_Service_Resource
   }
 
   /**
-   * Retrieves the list of image resources available to the specified project.
+   * Retrieves the list of images resources available to the specified project.
    * (images.listImages)
    *
    * @param string $project Project ID for this request.

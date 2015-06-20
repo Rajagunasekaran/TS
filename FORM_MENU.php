@@ -14,6 +14,8 @@ include "TSLIB/TSLIB_GET_USERSTAMP.php";
 include "TSLIB/TSLIB_HEADER.php";
 $Userstamp=json_encode($UserStamp);
 ?>
+<html>
+<head>
 <script>
     var ErrorControl ={MsgBox:'false'}
     var MenuPage=1;
@@ -67,7 +69,6 @@ $Userstamp=json_encode($UserStamp);
                 if(request.readyState == 4 && request.status == 200){
                     var data = JSON.parse(request.responseText);
                     address = data.results[0];
-//                alert(ipcheckflag)
                     $('#location').text(address.formatted_address);
                     geoflag=1;
                     if(ipcheckflag==1)
@@ -158,9 +159,7 @@ $Userstamp=json_encode($UserStamp);
 
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 $(".preloader").hide();
-//                alert(xmlhttp.responseText)
                 var value_array=JSON.parse(xmlhttp.responseText);
-//                alert(value_array);
                 all_menu_array= value_array[0];
                 checkintime=value_array[1];
                 checkinerrormsg=value_array[2];
@@ -207,7 +206,6 @@ $Userstamp=json_encode($UserStamp);
                         $('#liveclock').hide();
                         $('#checkin').hide();
                         $('#clockmsg').hide();
-
                     }
                 }
                 else{
@@ -234,20 +232,13 @@ $Userstamp=json_encode($UserStamp);
         }
         var option="MENU";
         xmlhttp.open("POST","DB_MENU.do?option="+option,true);
-//    xmlhttp.open("POST","DB_MENU.php?option="+option,true);
-
         xmlhttp.send();
-
         $(document).on('click','.menuconfirm',function(){
-//        alert('sdgsdgsdgsd')
             $(".preloader").show();
             $('#buttondiv').css('display','none');
             $('#liveclock').hide();
             $('#checkin').hide();
-//            $('#clockmsg').hide();
-
             if(Page_url){
-//            $('#menu_frame').attr('src', Page_url)
                 $('#menu_frame').load(Page_url);
 //            window.location.href=Page_url;
                 init();
@@ -257,7 +248,6 @@ $Userstamp=json_encode($UserStamp);
 //FUNCTION TO SET ALL MENUS
         function ACRMENU_getallmenu_result(all_menu_array)
         {
-
             var ACRMENU_mainmenu=all_menu_array[0];//['ACCESS RIGHTS','DAILY REPORTS','PROJECT','REPORT']//main menu
             var ARCMENU_first_submenu=all_menu_array[1];
             //[['ACCESS RIGHTS-SEARCH/UPDATE','TERMINATE-SEARCH/UPDATE','USER SEARCH DETAILS'],['ADMIN ','USER '],['PROJECT ENTRY','PROJECT SEARCH/UPDATE'],['ATTENDANCE','REVENUE']]//submenu
@@ -273,24 +263,16 @@ $Userstamp=json_encode($UserStamp);
             {
                 var main='mainmenu'+i
                 var submen='submenu'+i;
-//            var filename=filelist[count]+'.php';
                 var filename=filelist[count]+'.do';
 
                 if(ARCMENU_first_submenu.length==0)
                 {
-//                mainmenuItem='<li class="active"><a data-pageurl="'+filename+'" href="#"  id="'+ACRMENU_mainmenu[i]+'" >'+ACRMENU_mainmenu[i]+'</a></li>'
                     mainmenuItem='<li class="active"><a data-pageurl="'+filename+'" href="#"  id="'+ACRMENU_mainmenu[i]+'" >'+ACRMENU_mainmenu[i]+'</a></li>'
-
-
                 }
                 else
 
                 {
-//                mainmenuItem='<li class="dropdown"><a tabindex="0" href="#" data-toggle="dropdown">'+ACRMENU_mainmenu[i]+'<b class="caret"></b></a><ul class="dropdown-menu fa-ul '+submen+'">'
-//                mainmenuItem='<li class="has-sub"><a href="#" >'+ACRMENU_mainmenu[i]+'</a><ul class='+submen+'>'
                     mainmenuItem='<li class="has-sub dropdown"><a tabindex="0" href="#" data-toggle="dropdown">'+ACRMENU_mainmenu[i]+'<b class="caret"></b></a><ul class="dropdown-menu fa-ul '+submen+'">'
-
-
                 }
                 $("#ACRMENU_ulclass_mainmenu").append(mainmenuItem);
 
@@ -304,48 +286,26 @@ $Userstamp=json_encode($UserStamp);
                             if(ARCMENU_second_submenu[count].length==0)
                             {
                                 if(script_flag[count]!='X'){
-//                                var file_name=filelist[count]+'.php';
                                     var file_name=filelist[count]+'.do';
-
-
                                 }
                                 else{
-
-//                                var file_name='ERROR_PAGE.php';
-                                    var file_name='ACCESSRIGHTS/ERROR_PAGE.do';
-
+                                    var file_name='ERROR_PAGE.do';
                                 }
-
-//                            submenuItem='<li class="active"><a data-pageurl="'+file_name+'" href="'+file_name+'"   id="'+ACRMENU_mainmenu[i]+'" class=" btnclass"   >'+ARCMENU_first_submenu[j][k]+'</a></li></ul>'
                                 submenuItem='<li class="active"><a class="btnclass" data-pageurl="'+file_name+'" href="#"   id="'+ACRMENU_mainmenu[i]+'" >'+ARCMENU_first_submenu[j][k]+'</a></li></ul>'
-
-
                             }
                             else
                             {
-
-//                            submenuItem='<li class="has-sub"><a href="#" >'+ARCMENU_first_submenu[j][k]+'</a><ul class='+sub_submenu+'>'
                                 submenuItem='<li class="has-sub dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'+ARCMENU_first_submenu[j][k]+'</a><ul class="dropdown-menu '+sub_submenu+'" role="menu">'
-
-
                             }
                             $("."+submen).append(submenuItem);
                             for(var m=0;m<ARCMENU_second_submenu[count].length;m++)//add submenu2
                             {
                                 if(script_flag[count][m]!='X'){
-//                                    var file_name=filelist[count][m]
-//                                var file_name=filelist[count][m]+'.php';
                                     var file_name=filelist[count][m]+'.do';
-
-
                                 }
                                 else{
-//                                var file_name='ERROR_PAGE.php';
-                                    var file_name='ACCESSRIGHTS/ERROR_PAGE.do';
-
+                                    var file_name='ERROR_PAGE.do';
                                 }
-
-//                            sub_submenuItem='<li class="active"><a data-pageurl="'+file_name+'" href="'+file_name+'"   id="'+ARCMENU_first_submenu[j][k]+'" class=" btnclass"     >'+ARCMENU_second_submenu[count][m]+'</a></li>'
                                 sub_submenuItem='<li class="active"><a class="btnclass"  data-pageurl="'+file_name+'" href="#"   id="'+ARCMENU_first_submenu[j][k]+'" >'+ARCMENU_second_submenu[count][m]+'</a></li>'
 
                                 $("."+sub_submenu).append(sub_submenuItem);
@@ -363,11 +323,7 @@ $Userstamp=json_encode($UserStamp);
             CheckPageStatus();
         }
         $('#checkin').click(function(){
-//        var newPos= adjustPosition($("#checkin").position(),100,270);
-//        resetPreloader(newPos);
-//        $('.maskpanel',window.parent.document).css("height","276px").show();
-//        $('.preloader').show();
-            $('.preloader',window.parent.document).show();
+        $('.preloader').show();
             var locationaddress=address.formatted_address;
             var button_value=$('#checkin').val();
             var currentTime = new Date ();
@@ -379,16 +335,11 @@ $Userstamp=json_encode($UserStamp);
                     if(button_value=="CLOCK IN"){
                         if(response[0]==1)
                         {
-//                        $('.maskpanel',window.parent.document).removeAttr('style').hide();
-//                        $('.preloader').hide();
-
                             var msg=checkinerrormsg[1].toString().replace("[TIME]",response[1]);
                             $('#clockmsg').text(msg).show();
                             $('#liveclock').show();
-                            $('#checkin').val("CLOCK OUT").show();;
+                            $('#checkin').val("CLOCK OUT").show();
                             $('#buttondiv').removeAttr('style');
-
-
                         }
 //                    else{
 //
@@ -405,27 +356,26 @@ $Userstamp=json_encode($UserStamp);
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"CLOCK IN/OUT",msgcontent:response[0]}});
 //                    }
                     }
-                    $('.preloader',window.parent.document).hide();
+                    $(".preloader").hide();
                 }
 
             }
             var option="CLOCK";
-            xmlhttp.open("POST","DB_MENU.do" +
-            "?option="+option+"&location="+locationaddress+"&btn_value="+button_value);
+            xmlhttp.open("POST","DB_MENU.do" +"?option="+option+"&location="+locationaddress+"&btn_value="+button_value);
             xmlhttp.send();
         });
     });
 </script>
 <title>SSOMENS TIME SHEET</title>
 </head>
-<body >
+<body>
 <div class="container-fluid">
     <div class="wrapper" >
 
-        <div  class="preloader MaskPanel"><div class="statusarea"><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
+        <div class="preloader" hidden><span class="Centerer"></span><img class="preloaderimg"/> </div>
         <!--    <tr>-->
         <!--        <td style="width:1300px";>-->
-        <img src="image/SSOMENS_TIME_SHEET.jpg" style="width:350px" align="middle"/>
+        <img src="images/SSOMENS_TIME_SHEET.jpg" style="width:350px" align="middle"/>
         <!--    </tr>-->
         <!--    </table>-->
 

@@ -9,7 +9,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
 <!--HTML TAG START-->
-
+<html>
+<head>
 <!--HEAD TAG START-->
 <script>
     //DOCUMENT READY FUNCTION START
@@ -178,32 +179,24 @@ include "../../TSLIB/TSLIB_HEADER.php";
 </head>
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
-<body class="dt-example">
+<body>
 <div class="container">
-    <div class="preloader MaskPanel"><div class="preloader statusarea" ><div style="padding-top:90px; text-align:center"><img src="image/Loading.gif"/></div></div></div>
-    <div class="newtitle text-center"><b><h4>EMPLOYEE DETAILS</h4></b></div>
-<!--    <div class="newtitle1" id="fhead"><center><p><b><h3>EMPLOYEE DETAILS</h3></b><p></center></div>-->
-
-    <form class="newcontent1" name="ED_form_user" id="ED_form_user" autocomplete="off" >
+    <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
+    <div class="title text-center"><b><h4>EMPLOYEE DETAILS</h4></b></div>
+    <form class="form-horizontal content" role="form"  name="ED_form_user" id="ED_form_user" autocomplete="off" >
         <div class="panel-body">
             <fieldset>
         <div><label id="ED_lbl_title" name="ED_lbl_title" class="srctitle"></label></div>
-
         <div><input type="button" id='ED_btn_pdf' class="btnpdf" value="PDF"></div>
-
-
             <div class="table-responsive" id="tablecontainer" hidden>
                 <section>
                 </section>
             </div>
-
         <div><label id="ED_lbl_norole_err" name="ED_lbl_norole_err" class="errormsg"></label></div>
                 </fieldset>
             </div>
     </form>
-
 </div>
-
 </body>
 <!--BODY TAG END-->
 </html>
