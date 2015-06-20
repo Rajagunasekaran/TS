@@ -398,7 +398,7 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</h4></b></div>
+    <div class="title text-center"><h4><b>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</b></h4></div>
         <form  name="PH_entry_form" id="PH_entry_form" class="content">
             <div class="panel-body">
                 <fieldset>

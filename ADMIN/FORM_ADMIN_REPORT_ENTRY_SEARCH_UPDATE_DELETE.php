@@ -3302,7 +3302,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>ADMIN REPORT ENTRY /SEARCH /UPDATE</h4></b></div>
+    <div class="title text-center"><h4><b>ADMIN REPORT ENTRY /SEARCH /UPDATE</b></h4></div>
     <form id="ARE_form_adminreportentry" class="content">
         <div class="panel-body">
             <fieldset>

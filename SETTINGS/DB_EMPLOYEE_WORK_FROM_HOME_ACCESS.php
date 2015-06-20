@@ -13,7 +13,7 @@ if(isset($_REQUEST)){
     include "../TSLIB/TSLIB_GET_USERSTAMP.php";
     $USERSTAMP=$UserStamp;
     global $con;
-    $project_result=mysqli_query($con,"SELECT AC_ID,AC_DATA FROM ATTENDANCE_CONFIGURATION WHERE AC_ID=15 ");
+    $project_result=mysqli_query($con,"SELECT AC_ID,AC_DATA FROM ATTENDANCE_CONFIGURATION WHERE AC_ID=15");
     $get_project_array=array();
     while($row=mysqli_fetch_array($project_result)){
         $get_project_array[]=array($row["AC_DATA"],$row["AC_ID"]);

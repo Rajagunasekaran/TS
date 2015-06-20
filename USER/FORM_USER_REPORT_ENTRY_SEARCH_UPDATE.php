@@ -623,6 +623,8 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URE_tble_enterthereport,#URE_ta_reason,#URE_tble_bandwidth').html('');
                                 $('#URE_rd_permission').attr('checked',false);
                                 $('#URE_rd_nopermission').attr("checked",false);
+                                $('#URE_rd_permission').removeAttr("disabled");
+                                $('#URE_rd_nopermission').removeAttr("disabled");
                                 $('#USRC_UPD_tb_strtdte').hide();
                                 $('#USRC_UPD_lbl_strtdte').hide();
                                 $('#USRC_UPD_lbl_enddte').hide();
@@ -2002,7 +2004,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>USER REPORT ENTRY SEARCH/UPDATE</h4></b></div>
+    <div class="title text-center"><h4><b>USER REPORT ENTRY SEARCH/UPDATE</b></h4></div>
     <form id="URE_form_dailyuserentry" name="URE_form_dailyuserentry" class="content" role="form" >
         <div class="panel-body">
             <fieldset>

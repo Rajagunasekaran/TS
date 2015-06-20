@@ -1,5 +1,5 @@
 <?php
-require_once('../mpdf571/mpdf571/mpdf.php');
+require_once('../TSLIB/TSLIB_mpdf571/mpdf571/mpdf.php');
 include "../TSLIB/TSLIB_CONNECTION.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
 $USERSTAMP=$UserStamp;

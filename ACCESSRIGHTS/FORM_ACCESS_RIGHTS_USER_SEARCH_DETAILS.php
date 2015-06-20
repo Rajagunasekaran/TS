@@ -128,7 +128,7 @@ include "TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-<div class="title text-center"><b><h4>USER SEARCH DETAILS</h4></b></div>
+<div class="title text-center"><h4><b>USER SEARCH DETAILS</b></h4></div>
     <form class="content" name="USD_SRC_SRC_form_user" id="USD_SRC_SRC_form_user" autocomplete="off" >
         <div class="panel-body">
             <fieldset>

@@ -404,8 +404,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>ATTENDANCE</h4></b></div>
-    <form   id="REP_form_attendance" class="form-horizontal content" role="form" >
+    <div class="title text-center"><h4><b>ATTENDANCE</b></h4></div>
+    <form   id="REP_form_attendance" class="content" role="form" >
         <div class="panel-body">
             <fieldset>
                 <div class="row-fluid form-group">

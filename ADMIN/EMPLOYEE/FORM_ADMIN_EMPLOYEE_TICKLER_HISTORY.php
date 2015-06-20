@@ -225,7 +225,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>TICKLER HISTORY</h4></b></div>
+    <div class="title text-center"><h4><b>TICKLER HISTORY</b></h4></div>
     <form class="form-horizontal content" role="form" name="TH_form_employeeid" id="TH_form_employeeid">
         <div class="panel-body">
             <fieldset>

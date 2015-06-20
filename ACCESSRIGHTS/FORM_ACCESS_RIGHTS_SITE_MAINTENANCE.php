@@ -348,7 +348,7 @@ $(document).ready(function(){
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
 <!--    //<div class="title" id="fhead"><center><p><b><h3>SITE MAINTENANCE</h3></b><p></center></div>-->
-<div class="title text-center"><b><h4>SITE MAINTENANCE</h4></b></div>
+<div class="title text-center"><h4><b>SITE MAINTENANCE</b></h4></div>
     <form name="USR_SITE_form_user" id="USR_SITE_form_user" class="form-horizontal content" role="form" >
         <div class="panel-body">
             <fieldset>

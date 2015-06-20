@@ -563,7 +563,7 @@ $(document).ready(function(){
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>BANDWIDTH</h4></b></div>
+    <div class="title text-center"><h4><b>BANDWIDTH</b></h4></div>
         <form   id="REP_BND_form_bandwidth"  class="form-horizontal content" role="form" >
             <div class="panel-body">
                 <fieldset>
