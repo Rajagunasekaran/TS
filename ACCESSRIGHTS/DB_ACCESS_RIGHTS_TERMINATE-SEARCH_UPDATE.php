@@ -167,8 +167,24 @@ if(isset($_REQUEST))
         }
         //EMPLOYEE DETAILS
         $login_id_result = $_REQUEST['URT_SRC_loggin'];
-        $loginsearch_fetchingdata= mysqli_query($con,"SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
-           FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD.ULD_ID='$login_id_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result' ) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
+//        $loginsearch_fetchingdata= mysqli_query($con,"SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
+//           FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD.ULD_ID='$login_id_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result' ) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
+        $loginsearch_fetchingdata= mysqli_query($con,"SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,ED.ED_DESIGNATION AS EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,URC2.URC_DATA AS EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_HOUSE_NO,EMP.EMP_STREET_NAME,EMP.EMP_AREA,EMP.EMP_PIN_CODE,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,
+EMP.EMP_IFSC_CODE,URC3.URC_DATA AS EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,CP.CP_LAPTOP_NUMBER,
+CP.CP_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,
+CPD.CPD_ID_CARD,CPD.CPD_HEADSET,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,
+EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,ULD.ULD_LOGINID,
+DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP FROM
+EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID left join
+COMPANY_PROPERTIES CP ON CPD.CP_ID = CP.CP_ID,
+USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION
+URC1,EMPLOYEE_DESIGNATION ED,USER_RIGHTS_CONFIGURATION URC2,USER_RIGHTS_CONFIGURATION URC3,
+ROLE_CREATION RC WHERE EMP.ULD_ID=ULD.ULD_ID AND
+UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and
+RC.RC_ID=UA.RC_ID and ED.ED_ID=EMP.EMP_DESIGNATION AND URC2.URC_ID=EMP.EMP_RELATIONHOOD AND
+URC3.URC_ID=EMP.EMP_ACCOUNT_TYPE AND ULD.ULD_ID='$login_id_result' and
+UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where
+ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         while($row=mysqli_fetch_array($loginsearch_fetchingdata)){
             $URSRC_role=$row['URC_DATA'];
             $URSRC_firstname=$row['EMP_FIRST_NAME'];
@@ -459,14 +475,14 @@ if(isset($_REQUEST))
                 $mail_subject=$row["ETD_EMAIL_SUBJECT"];
                 $body=$row["ETD_EMAIL_BODY"];
             }
+            $drive = new Google_Client();
             $Client=get_servicedata();
             $ClientId=$Client[0];
             $ClientSecret=$Client[1];
-            $RedirectUri=$Client[3];
-            $DriveScopes=$Client[4];
-            $CalenderScopes=$Client[5];
-            $Refresh_Token=$Client[6];
-            $drive = new Google_Client();
+            $RedirectUri=$Client[2];
+            $DriveScopes=$Client[3];
+            $CalenderScopes=$Client[4];
+            $Refresh_Token=$Client[5];
             $drive->setClientId($ClientId);
             $drive->setClientSecret($ClientSecret);
             $drive->setRedirectUri($RedirectUri);
@@ -584,20 +600,20 @@ if(isset($_REQUEST))
                 $final_message=$final_message.'<br>'.$newphrase;
 
 //                //SENDING MAIL OPTIONS
-                $name = 'REJOIN';
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($loggin);
-                $message1->addCc($admin);
-                $message1->setSubject($mail_subject);
-                $message1->setHtmlBody($final_message);
-
-                try {
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+//                $name = 'REJOIN';
+//                $from = $admin;
+//                $message1 = new Message();
+//                $message1->setSender($name.'<'.$from.'>');
+//                $message1->addTo($loggin);
+//                $message1->addCc($admin);
+//                $message1->setSubject($mail_subject);
+//                $message1->setHtmlBody($final_message);
+//
+//                try {
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
 
                 $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                 $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
@@ -617,115 +633,181 @@ if(isset($_REQUEST))
                 $cc_array=get_active_login_id();
 //                $cc_array=['safiyullah.mohideen@ssomens.com'];
 //                //SENDING MAIL OPTIONS
-                $name = 'REJOIN';
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($cc_array);
-                $message1->setSubject($intro_mail_subject);
-                $message1->setHtmlBody($intro_message);
-
-                try {
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+//                $name = 'REJOIN';
+//                $from = $admin;
+//                $message1 = new Message();
+//                $message1->setSender($name.'<'.$from.'>');
+//                $message1->addTo($cc_array);
+//                $message1->setSubject($intro_mail_subject);
+//                $message1->setHtmlBody($intro_message);
+//
+//                try {
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
             }
-            $flag_array=[$flag,'1','1','1','1','1'];
+            $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
+//            $flag_array=[$flag,'1','1','1','1','1'];
 //
-//        }
-//        else{
-//
-//            $flag_array=[$flag];
-//
-//        }
-            $con->commit();
-            echo json_encode($flag_array);
         }
-        else if($_REQUEST['option']=='TERMINATE')
-        {
-            set_time_limit(0);
-            $reason_termin=$_POST['URT_SRC_ta_nreasontermination'];
-            $reason_termin=$con->real_escape_string($reason_termin);
-            $loggin=$_REQUEST['loggin'];
-            $date=$_POST['URT_SRC_tb_ndatepickertermination'];
-            $enddate = date("Y-m-d",strtotime($date));
-            $con->autocommit(false);
-            $select_loggin=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID= $loggin");
-            if($row=mysqli_fetch_array($select_loggin)){
-                $loginid=$row["ULD_LOGINID"];
-                $emp_name=$row["EMPLOYEE_NAME"];
+        else{
 
-            }
+            $flag_array=[$flag];
+
+        }
+        $con->commit();
+        echo json_encode($flag_array);
+    }
+    else if($_REQUEST['option']=='TERMINATE')
+    {
+        set_time_limit(0);
+        $reason_termin=$_POST['URT_SRC_ta_nreasontermination'];
+        $reason_termin=$con->real_escape_string($reason_termin);
+        $loggin=$_REQUEST['loggin'];
+        $date=$_POST['URT_SRC_tb_ndatepickertermination'];
+        $enddate = date("Y-m-d",strtotime($date));
+        $con->autocommit(false);
+        $select_loggin=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID= $loggin");
+        if($row=mysqli_fetch_array($select_loggin)){
+            $loginid=$row["ULD_LOGINID"];
+            $emp_name=$row["EMPLOYEE_NAME"];
+
+        }
 //        echo "CALL SP_TS_LOGIN_TERMINATE_SAVE($loggin,'$enddate','$reason_termin','$userstamp',@success_flag)";
-            $result = $con->query("CALL SP_TS_LOGIN_TERMINATE_SAVE($loggin,'$enddate','$reason_termin','$userstamp',@success_flag)");
-            if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
-            $select = $con->query('SELECT @success_flag');
-            $result = $select->fetch_assoc();
-            $flag=$result['@success_flag'];
-            if($flag==1){
+        $result = $con->query("CALL SP_TS_LOGIN_TERMINATE_SAVE($loggin,'$enddate','$reason_termin','$userstamp',@success_flag)");
+        if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+        $select = $con->query('SELECT @success_flag');
+        $result = $select->fetch_assoc();
+        $flag=$result['@success_flag'];
+        if($flag==1){
 
-                $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
-                if($row=mysqli_fetch_array($select_fileid)){
-                    $ss_fileid=$row["URC_DATA"];
-                }
-                $loginid_name = strtoupper(substr($loginid, 0, strpos($loginid, '@')));
-                if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
+            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=9");
+            if($row=mysqli_fetch_array($select_fileid)){
+                $ss_fileid=$row["URC_DATA"];
+            }
+            $loginid_name = strtoupper(substr($loginid, 0, strpos($loginid, '@')));
+            if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
 
-                    $loginid_name = strtoupper(substr($loginid_name, 0, strpos($loginid_name, '.')));
-                }
-                else{
-                    $loginid_name=$loginid_name;
-                }
-                $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loginid'");
-                while($row=mysqli_fetch_array($uld_id)){
-                    $URSC_uld_id=$row["ULD_ID"];
-                }
-                $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
-                if($row=mysqli_fetch_array($select_calenderid)){
-                    $calenderid=$row["URC_DATA"];
-                }
-                $fileId=$ss_fileid;
-//
-                $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE','','','','');
-                $ss_flag=$return_array[0];
-                $cal_flag=$return_array[1];
-                if($ss_flag==0){
-                    $con->rollback();
-                }
-                if($cal_flag==0){
-                    share_document($loginid,$fileId);
-                    $con->rollback();
-                }
-                $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
+                $loginid_name = strtoupper(substr($loginid_name, 0, strpos($loginid_name, '.')));
             }
             else{
-                $flag_array=[$flag];
+                $loginid_name=$loginid_name;
             }
-            $con->commit();
-            echo json_encode($flag_array);
+            $uld_id=mysqli_query($con,"select ULD_ID from USER_LOGIN_DETAILS where ULD_LOGINID='$loginid'");
+            while($row=mysqli_fetch_array($uld_id)){
+                $URSC_uld_id=$row["ULD_ID"];
+            }
+            $select_calenderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=10");
+            if($row=mysqli_fetch_array($select_calenderid)){
+                $calenderid=$row["URC_DATA"];
+            }
+            $fileId=$ss_fileid;
+//
+            $return_array=URSRC_calendar_create($loginid,$fileId,$emp_name,$URSC_uld_id,$enddate,$calenderid,'TERMINATE DATE','TERMINATE','','','','');
+            $ss_flag=$return_array[0];
+            $cal_flag=$return_array[1];
+            if($ss_flag==0){
+                $con->rollback();
+            }
+            if($cal_flag==0){
+                share_document($loginid,$fileId);
+                $con->rollback();
+            }
+            $flag_array=[$flag,$ss_flag,$cal_flag,$fileId];
+        }
+        else{
+            $flag_array=[$flag];
+        }
+        $con->commit();
+        echo json_encode($flag_array);
+    }
+}
+//FUNCTION FOR CALENDAR SHARING DOCUMENT
+function share_document($loggin,$fileId){
+    global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+    $drive = new Google_Client();
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
+    $drive->setClientId($ClientId);
+    $drive->setClientSecret($ClientSecret);
+    $drive->setRedirectUri($RedirectUri);
+    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+    $drive->setAccessType('online');
+    $authUrl = $drive->createAuthUrl();
+    $refresh_token= $Refresh_Token;
+    $drive->refreshToken($refresh_token);
+    $service = new Google_Service_Drive($drive);
+    $value=$loggin;
+    $type='user';
+    $role='reader';
+    $email=$loggin;
+    $newPermission = new Google_Service_Drive_Permission();
+    $newPermission->setValue($value);
+    $newPermission->setType($type);
+    $newPermission->setRole($role);
+    $newPermission->setEmailAddress($email);
+    try {
+        $service->permissions->insert($fileId, $newPermission);
+        $ss_flag=1;
+    } catch (Exception $e) {
+        $ss_flag=0;
+    }
+}
+//FUNCTION FOR CALENDAR CREATION
+function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$finaldate,$calenderid,$status,$form,$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid){
+    global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+    $drive = new Google_Client();
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
+    $drive->setClientId($ClientId);
+    $drive->setClientSecret($ClientSecret);
+    $drive->setRedirectUri($RedirectUri);
+    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+    $drive->setAccessType('online');
+    $authUrl = $drive->createAuthUrl();
+    $refresh_token= $Refresh_Token;
+    $drive->refreshToken($refresh_token);
+    $service = new Google_Service_Drive($drive);
+//    print_r($service);
+
+    if($form=='TERMINATE'){
+        $file_arraycount=1;
+        try {
+            $permissions = $service->permissions->listPermissions($fileId);
+            $return_value= $permissions->getItems();
+        } catch (Exception $e) {
+            $ss_flag=0;
+        }
+        foreach ($return_value as $key => $value) {
+            if ($value->emailAddress==$loggin) {
+                $permission_id=$value->id;
+            }
+        }
+        if($permission_id!=''){
+            try {
+                $service->permissions->delete($fileId, $permission_id);
+                $ss_flag=1;
+            } catch (Exception $e) {
+                $ss_flag=0;
+            }
+        }
+        else{
+
+            $ss_flag=1;
         }
     }
-//FUNCTION FOR CALENDAR SHARING DOCUMENT
-    function share_document($loggin,$fileId){
-        global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
-        $Client=get_servicedata();
-        $ClientId=$Client[0];
-        $ClientSecret=$Client[1];
-        $RedirectUri=$Client[3];
-        $DriveScopes=$Client[4];
-        $CalenderScopes=$Client[5];
-        $Refresh_Token=$Client[6];
-        $drive = new Google_Client();
-        $drive->setClientId($ClientId);
-        $drive->setClientSecret($ClientSecret);
-        $drive->setRedirectUri($RedirectUri);
-        $drive->setScopes(array($DriveScopes,$CalenderScopes));
-        $drive->setAccessType('online');
-        $authUrl = $drive->createAuthUrl();
-        $refresh_token= $Refresh_Token;
-        $drive->refreshToken($refresh_token);
-        $service = new Google_Service_Drive($drive);
+    else{
         $value=$loggin;
         $type='user';
         $role='reader';
@@ -741,204 +823,139 @@ if(isset($_REQUEST))
         } catch (Exception $e) {
             $ss_flag=0;
         }
-    }
-//FUNCTION FOR CALENDAR CREATION
-    function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$finaldate,$calenderid,$status,$form,$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid){
-        global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
 
-        $Client=get_servicedata();
-        $ClientId=$Client[0];
-        $ClientSecret=$Client[1];
-        $RedirectUri=$Client[3];
-        $DriveScopes=$Client[4];
-        $CalenderScopes=$Client[5];
-        $Refresh_Token=$Client[6];
-
-        $drive = new Google_Client();
-        $drive->setClientId($ClientId);
-        $drive->setClientSecret($ClientSecret);
-        $drive->setRedirectUri($RedirectUri);
-        $drive->setScopes(array($DriveScopes,$CalenderScopes));
-        $drive->setAccessType('online');
-        $authUrl = $drive->createAuthUrl();
-        $refresh_token= $Refresh_Token;
-        $drive->refreshToken($refresh_token);
-        $service = new Google_Service_Drive($drive);
-        if($form=='TERMINATE'){
-            $file_arraycount=1;
-            try {
-                $permissions = $service->permissions->listPermissions($fileId);
-                $return_value= $permissions->getItems();
-            } catch (Exception $e) {
-                $ss_flag=0;
-            }
-            foreach ($return_value as $key => $value) {
-                if ($value->emailAddress==$loggin) {
-                    $permission_id=$value->id;
+        if($ss_flag==1){
+            if($filesarray!='')
+            {
+                $file_array=array();
+                $allfilearray=(explode(",",$filesarray));
+                foreach ($allfilearray as $value)
+                {
+                    $uploadfilename=$value;
+                    $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
+                    $extension =(explode(".",$uploadfilename));
+                    if($extension[1]=='pdf'){$mimeType='application/pdf';}
+                    if($extension[1]=='jpg'){$mimeType='image/jpeg';}
+                    if($extension[1]=='png'){$mimeType='image/png';}
+                    $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
+                    if($file_id_value!=''){
+                        array_push($file_array,$file_id_value);
+                    }
                 }
-            }
-            if($permission_id!=''){
-                try {
-                    $service->permissions->delete($fileId, $permission_id);
-                    $ss_flag=1;
-                } catch (Exception $e) {
-                    $ss_flag=0;
-                }
+                $file_arraycount=count($file_array);
             }
             else{
-
-                $ss_flag=1;
+                $file_arraycount=1;
             }
         }
-        else{
-            $value=$loggin;
-            $type='user';
-            $role='reader';
-            $email=$loggin;
-            $newPermission = new Google_Service_Drive_Permission();
-            $newPermission->setValue($value);
-            $newPermission->setType($type);
-            $newPermission->setRole($role);
-            $newPermission->setEmailAddress($email);
-            try {
-                $service->permissions->insert($fileId, $newPermission);
-                $ss_flag=1;
-            } catch (Exception $e) {
-                $ss_flag=0;
-            }
-
-            if($ss_flag==1){
-                if($filesarray!='')
-                {
-                    $file_array=array();
-                    $allfilearray=(explode(",",$filesarray));
-                    foreach ($allfilearray as $value)
-                    {
-                        $uploadfilename=$value;
-                        $drivefilename=$URSRC_firstname.' '.$URSRC_lastname.'-'.$uploadfilename;
-                        $extension =(explode(".",$uploadfilename));
-                        if($extension[1]=='pdf'){$mimeType='application/pdf';}
-                        if($extension[1]=='jpg'){$mimeType='image/jpeg';}
-                        if($extension[1]=='png'){$mimeType='image/png';}
-                        $file_id_value =insertFile($service,$drivefilename,'PersonalDetails',$folderid,$mimeType,$uploadfilename);
-                        if($file_id_value!=''){
-                            array_push($file_array,$file_id_value);
-                        }
-                    }
-                    $file_arraycount=count($file_array);
-                }
-                else{
-                    $file_arraycount=1;
-                }
-            }
 
 
-        }
-        if($ss_flag==1 && $file_arraycount>0){
-            $cal = new Google_Service_Calendar($drive);
-            $event = new Google_Service_Calendar_Event();
-            $event->setsummary($loginid_name.'  '.$status);
-            $event->setDescription($URSC_uld_id);
-            $start = new Google_Service_Calendar_EventDateTime();
-            $start->setDate($finaldate);//setDate('2014-11-18');
-            $event->setStart($start);
-            $event->setEnd($start);
-            try{
-                $createdEvent = $cal->events->insert($calenderid, $event);
-                $cal_flag=1;
-            }
-            catch(Exception $e){
-                $cal_flag=0;
-            }
-        }
-        $flag_array=[$ss_flag,$cal_flag,$file_id_value,$file_array];
-        return $flag_array;
     }
+    if($ss_flag==1 && $file_arraycount>0){
+        $cal = new Google_Service_Calendar($drive);
+        $event = new Google_Service_Calendar_Event();
+        $event->setsummary($loginid_name.'  '.$status);
+        $event->setDescription($URSC_uld_id);
+        $start = new Google_Service_Calendar_EventDateTime();
+        $start->setDate($finaldate);//setDate('2014-11-18');
+        $event->setStart($start);
+        $event->setEnd($start);
+        try{
+            $createdEvent = $cal->events->insert($calenderid, $event);
+            $cal_flag=1;
+        }
+        catch(Exception $e){
+            $cal_flag=0;
+        }
+    }
+    $flag_array=[$ss_flag,$cal_flag,$file_id_value,$file_array];
+    return $flag_array;
+}
 //File Upload Function Script
-    function insertFile($service, $title, $description, $parentId,$mimeType,$uploadfilename)
+function insertFile($service, $title, $description, $parentId,$mimeType,$uploadfilename)
+{
+    $file = new Google_Service_Drive_DriveFile();
+    $file->setTitle($title);
+    $file->setDescription($description);
+    $file->setMimeType($mimeType);
+    if ($parentId != null) {
+        $parent = new Google_Service_Drive_ParentReference();
+        $parent->setId($parentId);
+        $file->setParents(array($parent));
+    }
+    try
     {
-        $file = new Google_Service_Drive_DriveFile();
-        $file->setTitle($title);
-        $file->setDescription($description);
-        $file->setMimeType($mimeType);
-        if ($parentId != null) {
-            $parent = new Google_Service_Drive_ParentReference();
-            $parent->setId($parentId);
-            $file->setParents(array($parent));
-        }
-        try
-        {
-            $data =file_get_contents($uploadfilename);
-            $createdFile = $service->files->insert($file, array(
-                'data' => $data,
-                'mimeType' => $mimeType,
-                'uploadType' => 'media',
-            ));
+        $data =file_get_contents($uploadfilename);
+        $createdFile = $service->files->insert($file, array(
+            'data' => $data,
+            'mimeType' => $mimeType,
+            'uploadType' => 'media',
+        ));
 
-            $fileid = $createdFile->getId();
+        $fileid = $createdFile->getId();
 
-        }
-        catch (Exception $e)
-        {
-            $file_flag=0;
+    }
+    catch (Exception $e)
+    {
+        $file_flag=0;
 
-        }
-        return $fileid;
+    }
+    return $fileid;
 //    return $file_flag;
 
-    }
-    function URSRC_unshare_document($loggin,$fileId){
+}
+function URSRC_unshare_document($loggin,$fileId){
 
-        global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
-        $Client=get_servicedata();
-        $ClientId=$Client[0];
-        $ClientSecret=$Client[1];
-        $RedirectUri=$Client[3];
-        $DriveScopes=$Client[4];
-        $CalenderScopes=$Client[5];
-        $Refresh_Token=$Client[6];
-        $drive = new Google_Client();
-        $drive->setClientId($ClientId);
-        $drive->setClientSecret($ClientSecret);
-        $drive->setRedirectUri($RedirectUri);
-        $drive->setScopes(array($DriveScopes,$CalenderScopes));
-        $drive->setAccessType('online');
-        $authUrl = $drive->createAuthUrl();
-        $refresh_token= $Refresh_Token;
-        $drive->refreshToken($refresh_token);
-        $service = new Google_Service_Drive($drive);
+    global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+    $drive = new Google_Client();
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
+    $drive->setClientId($ClientId);
+    $drive->setClientSecret($ClientSecret);
+    $drive->setRedirectUri($RedirectUri);
+    $drive->setScopes(array($DriveScopes,$CalenderScopes));
+    $drive->setAccessType('online');
+    $authUrl = $drive->createAuthUrl();
+    $refresh_token= $Refresh_Token;
+    $drive->refreshToken($refresh_token);
+    $service = new Google_Service_Drive($drive);
 
 
-        try {
-            $permissions = $service->permissions->listPermissions($fileId);
-            $return_value= $permissions->getItems();
-        } catch (Exception $e) {
+    try {
+        $permissions = $service->permissions->listPermissions($fileId);
+        $return_value= $permissions->getItems();
+    } catch (Exception $e) {
 //        print "An error occurred: " . $e->getMessage();
-            $ss_flag=0;
+        $ss_flag=0;
+    }
+    foreach ($return_value as $key => $value) {
+        if ($value->emailAddress==$loggin) {
+            $permission_id=$value->id;
         }
-        foreach ($return_value as $key => $value) {
-            if ($value->emailAddress==$loggin) {
-                $permission_id=$value->id;
-            }
-        }
-        if($permission_id!=''){
-            try {
-                $service->permissions->delete($fileId, $permission_id);
+    }
+    if($permission_id!=''){
+        try {
+            $service->permissions->delete($fileId, $permission_id);
 //        $ss_flag=1;
-            } catch (Exception $e) {
+        } catch (Exception $e) {
 //        print "An error occurred: " . $e->getMessage();
 //        $ss_flag=0;
-            }
         }
-
     }
-    function delete_file($service,$fileid){
 
-        try {
-            $f=$service->files->delete($fileid);
-        } catch (Exception $e) {
-            $f= "An error occurred: " . $e->getMessage();
-        }
-        return $f;
+}
+function delete_file($service,$fileid){
 
-    }}
+    try {
+        $f=$service->files->delete($fileid);
+    } catch (Exception $e) {
+        $f= "An error occurred: " . $e->getMessage();
+    }
+    return $f;
+
+}

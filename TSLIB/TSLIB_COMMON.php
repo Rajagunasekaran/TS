@@ -395,14 +395,14 @@ function restoreFile($service, $fileId) {
 //FUNCTION TO DELETE DRIVE FILE REMOVED VIA LOGIN UPDATE FORM
 function trashFile($folderid,$user_filelist) {
     global $ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
+    $drive = new Google_Client();
     $Client=get_servicedata();
     $ClientId=$Client[0];
     $ClientSecret=$Client[1];
-    $RedirectUri=$Client[3];
-    $DriveScopes=$Client[4];
-    $CalenderScopes=$Client[5];
-    $Refresh_Token=$Client[6];
-    $drive = new Google_Client();
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
     $drive->setRedirectUri($RedirectUri);
@@ -481,6 +481,13 @@ function UploadEmployeeFiles($formname,$loginid_result)
         $folderid=$row["URC_DATA"];
     }
     $drive = new Google_Client();
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
     $drive->setRedirectUri($RedirectUri);
@@ -589,6 +596,7 @@ if($_REQUEST["option"]=="ACCESS_RIGHTS_SEARCH_UPDATE")
         $URSRC_basicrole=$row["URC_DATA"];
 
     }
+//    $URSRC_basicroleid_array_result=mysqli_query($con,"select * from USER_RIGHTS_CONFIGURATION URC,BASIC_ROLE_PROFILE BRP where URC.URC_DATA='".$URSRC_basicrole."' and URC.URC_ID=BRP.URC_ID");
     $URSRC_basicroleid_array_result=mysqli_query($con,"select * from USER_RIGHTS_CONFIGURATION URC,BASIC_ROLE_PROFILE BRP where URC.URC_DATA='".$URSRC_basicrole."' and URC.URC_ID=BRP.URC_ID");
     $URSRC_basicroleid_array=array();
     while($row=mysqli_fetch_array($URSRC_basicroleid_array_result)){

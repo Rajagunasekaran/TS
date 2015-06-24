@@ -323,6 +323,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             $('#URSRC_lbl_header').text("BASIC ROLE MENU SEARCH UPDATE").show()
             $('#URSRC_lbl_login_role').hide();
+            $('#URSRC_rolesearch_roles > div').remove()
             $('#URSRC_lbl_joindate').hide().val("");
             $('#URSRC_lbl_nodetails_err').hide()
             $('#URSRC_tb_joindate').hide().val("");
@@ -1027,6 +1028,11 @@ include  "../TSLIB/TSLIB_HEADER.php";
         $('#URSRC_radio_loginsearchupdate').click(function(){
             button_vflag=1;
             $('#URSRC_tble_rolecreation').hide();
+            $('#URSRC_lbl_selectrole').hide();
+            $('#URSRC_tble_rolesearch').hide();
+            $('#URSRC_lbl_selectrole').hide();
+            $('#URSRC_rolesearch_roles > div').remove()
+            $('#URSRC_lb_selectrole').hide();
 //        $('.preloader',window.parent.document).show();
             $(".preloader").show();
             flag=0;
@@ -1460,7 +1466,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     processData:false,
                     success: function(data)
                     {
-//                    alert(data);
                         if(data.toLowerCase().match("error")){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
@@ -2229,8 +2234,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
     });
     //END DOCUMENT READY FUNCTION
 </script>
-<!--SCRIPT TAG END-->
-<!--BODY TAG START-->
+    <!--SCRIPT TAG END-->
+    <!--BODY TAG START-->
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
@@ -2287,7 +2292,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label class="col-sm-2">ROLE<em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_customrole" id="URSRC_tb_customrole" maxlength="15" class="autosize" /><label id="URSRC_lbl_role_err" class="errormsg"></label>
+                            <input type="text" name="URSRC_tb_customrole" id="URSRC_tb_customrole" maxlength="15" class="autosize form-control" /><label id="URSRC_lbl_role_err" class="errormsg"></label>
                         </div></div>
 
                     <div id="URSRC_tble_roles" hidden ></div>
@@ -2298,24 +2303,24 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" id="URSRC_lbl_loginid">LOGIN ID<em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_loginid" id="URSRC_tb_loginid" class="login_submitvalidate URSRC_email_validate " hidden /><label id="URSRC_lbl_email_err" class="errormsg"></label>
+                            <input type="text" name="URSRC_tb_loginid" id="URSRC_tb_loginid" class="login_submitvalidate URSRC_email_validate form-control" hidden /><label id="URSRC_lbl_email_err" class="errormsg"></label>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" id="URSRC_lbl_selectloginid">EMPLOYEE NAME<em>*</em></label>
                         <div class="col-sm-4">
-                            <select id='URSRC_lb_selectloginid' name="URSRC_lb_loginid" title="LOGIN ID" maxlength="40"   >
+                            <select id='URSRC_lb_selectloginid' name="URSRC_lb_loginid" title="LOGIN ID" maxlength="40" class="form-control" >
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" id="URSRC_lbl_loginidupd">LOGIN ID<em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_loginidupd" id="URSRC_tb_loginidupd" class="login_submitvalidate URSRC_email_validate " hidden /><label id="URSRC_lbl_email_errupd" class="errormsg"></label>
+                            <input type="text" name="URSRC_tb_loginidupd" id="URSRC_tb_loginidupd" class="login_submitvalidate URSRC_email_validate form-control" hidden /><label id="URSRC_lbl_email_errupd" class="errormsg"></label>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" id="URSRC_lbl_emptype" hidden>SELECT EMPLOYEE TYPE<em>*</em></label>
                         <div class="col-sm-4">
-                            <select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype"  maxlength="40" class="login_submitvalidate " hidden  >
+                            <select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype"  maxlength="40" class="login_submitvalidate form-control" hidden  >
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                         </div></div>
@@ -2326,8 +2331,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div id="joindate" class="row-fluid form-group" >
 
                         <label class="col-sm-2" id="URSRC_lbl_joindate" hidden >SELECT A JOIN DATE<em>*</em></label>
-                        <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_joindate" id="URSRC_tb_joindate" class="datepicker login_submitvalidate datemandtry" style="width:75px;" hidden  />
+                        <div class="col-sm-2">
+                            <input type="text" name="URSRC_tb_joindate" id="URSRC_tb_joindate" class="datepicker login_submitvalidate datemandtry form-control" hidden  />
                         </div></div>
 
 
@@ -2339,33 +2344,33 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
 
                         <label class="col-sm-2" name="URSRC_lbl_firstname" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label>
-                        <div class="col-sm-10">
-                            <input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >
+                        <div class="col-sm-4">
+                            <input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate form-control" >
                         </div></div>
                     <div class="row-fluid form-group">
 
                         <label class="col-sm-2" name="URSRC_lbl_lastname" id="URSRC_lbl_lastname">LAST NAME <em>*</em></label>
-                        <div class="col-sm-10">
-                            <input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+                        <div class="col-sm-4">
+                            <input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate form-control">
                         </div></div>
                     <div class="row-fluid form-group">
 
                         <label class="col-sm-2" name="URSRC_lbl_dob" id="URSRC_lbl_dob">DATE OF BIRTH<em>*</em></label>
-                        <div class="col-sm-10">
-                            <input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate" style="width:75px;">
+                        <div class="col-sm-2">
+                            <input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate form-control">
                         </div></div>
                     <div class="row-fluid form-group">
 
                         <label class="col-sm-2" name="URSRC_lbl_designation" id="URSRC_lbl_designation">DESIGNATION<em>*</em></label>
                         <div class="col-sm-4">
-                            <select  name="URSRC_tb_designation" id="URSRC_tb_designation" class="alphanumericuppercse login_submitvalidate">
+                            <select  name="URSRC_tb_designation" id="URSRC_tb_designation" class="alphanumericuppercse login_submitvalidate form-control">
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_permobile" id="URSRC_lbl_permobile">PERSONAL MOBILE<em>*</em></label>
-                        <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate" style="width:75px">
+                        <div class="col-sm-2">
+                            <input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate form-control">
 
                             <label id="URSRC_lbl_validnumber" name="URSRC_lbl_validnumber" class="errormsg"></label>
                         </div></div>
@@ -2373,41 +2378,41 @@ include  "../TSLIB/TSLIB_HEADER.php";
 
                         <label  class="col-sm-2" name="URSRC_lbl_kinname" id="URSRC_lbl_kinname">NEXT KIN NAME<em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+                            <input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate form-control">
                         </div></div>
                     <div class="row-fluid form-group">
                         <label  class="col-sm-2" id="URSRC_lbl_relationhd">RELATION HOOD <em>*</em></label>
                         <div class="col-sm-4">
-                            <select id='URSRC_lb_selectrelationhd' name="URSRC_lb_selectrelationhd" class="relationhd_submitvalidate ">
+                            <select id='URSRC_lb_selectrelationhd' name="URSRC_lb_selectrelationhd" class="relationhd_submitvalidate form-control">
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_mobile" id="URSRC_lbl_mobile">MOBILE NO<em>*</em></label>
-                        <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate" maxlength='10' style="width:75px">
+                        <div class="col-sm-2">
+                            <input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate form-control" maxlength='10' >
                             <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label>
 
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
-                        <div class="col-sm-4">
-                            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid login_submitvalidate"  maxlength='7' style="width:75px">
+                        <div class="col-sm-2">
+                            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid login_submitvalidate form-control"  maxlength='7'>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_strtname" id="URSRC_lbl_strtname">STREET NAME<em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_strtname" id="URSRC_tb_strtname" class="alphanumericuppercse sizefix login_submitvalidate">
+                            <input type="text" name="URSRC_tb_strtname" id="URSRC_tb_strtname" class="alphanumericuppercse sizefix login_submitvalidate form-control">
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_area" id="URSRC_lbl_area">AREA<em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_area" id="URSRC_tb_area" class="alphanumericuppercse sizefix login_submitvalidate">
+                            <input type="text" name="URSRC_tb_area" id="URSRC_tb_area" class="alphanumericuppercse sizefix login_submitvalidate form-control">
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_pstlcode" id="URSRC_lbl_pstlccode">POSTAL CODE<em>*</em></label>
-                        <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='8' class="sizefix pstlcode login_submitvalidate" style="width:75px">
+                        <div class="col-sm-2">
+                            <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='8' class="sizefix pstlcode login_submitvalidate form-control" >
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="srctitle"  name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
@@ -2415,32 +2420,32 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_bnkname" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                            <input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate form-control" >
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_brnchname" id="URSRC_lbl_brnchname">BRANCH NAME <em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                            <input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate form-control" >
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_accntname" id="URSRC_lbl_accntname">ACCOUNT NAME <em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                            <input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate form-control" >
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_accntno" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" >
+                            <input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate form-control" >
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_ifsccode" id="URSRC_lbl_ifsccode">IFSC CODE<em>*</em></label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                            <input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate form-control" >
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_accntyp" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label>
                         <div class="col-sm-4">
-                            <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="alphanumericuppercse login_submitvalidate" >
+                            <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="alphanumericuppercse login_submitvalidate form-control" >
 
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
@@ -2456,7 +2461,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label></td>
                         <div class="col-sm-4">
-                            <select id='URSRC_lb_selectlaptopno' name="URSRC_lb_selectlaptopno"  maxlength="40" class="selectlaptopno_submitvalidate ">
+                            <select id='URSRC_lb_selectlaptopno' name="URSRC_lb_selectlaptopno"  maxlength="40" class="selectlaptopno_submitvalidate form-control">
 
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
@@ -2464,7 +2469,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label  class="col-sm-2" name="URSRC_lbl_chargerno" id="URSRC_lbl_chargerno">CHARGER NO</label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate" readonly>
+                            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
                         </div></div>
 
 
@@ -2523,7 +2528,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <div class="row-fluid form-group">
                             <label class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
                             <div class="col-sm-offset-6">
-                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea>
+                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate form-control"></textarea>
                             </div></div>
 
                         <div ID="filetableuploads">
@@ -2566,5 +2571,4 @@ include  "../TSLIB/TSLIB_HEADER.php";
 <!--BODY TAG END-->
 </html>
 <!--HTML TAG END-->
-
 

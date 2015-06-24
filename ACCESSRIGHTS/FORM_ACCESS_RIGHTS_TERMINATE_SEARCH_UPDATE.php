@@ -12,7 +12,7 @@ done by :safi
 //VER 0.01-INITIAL VERSION, SD:20/08/2014 ED:11/09/2014,TRACKER NO:81
 //*********************************************************************************************************//-->
 <?php
-//include "../TSLIB/TSLIB_COMMON.php";
+include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
 ?>
@@ -166,27 +166,23 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 $('#URSRC_lb_selectemptype').html(emp_type);
                 var rdesgn_result='<option value="SELECT">SELECT</option>';
-//            alert(URSRC_desg_array);
                 for(var k=0;k<URSRC_desg_array.length;k++){
                     rdesgn_result += '<option value="' + URSRC_desg_array[k] + '">' + URSRC_desg_array[k] + '</option>';
 
                 }
                 $('#URSRC_tb_designation').html(rdesgn_result);
                 var rname_result='<option value="SELECT">SELECT</option>';
-//            alert( URSRC_rela_array);
                 for(var k=0;k<URSRC_rela_array.length;k++){
                     rname_result += '<option value="' + URSRC_rela_array[k] + '">' + URSRC_rela_array[k] + '</option>';
                 }
                 $('#URSRC_tb_relationhd').html(rname_result);
                 var acctype_result='<option value="SELECT">SELECT</option>';
-//            alert(URSRC_accty_array);
                 for(var k=0;k<URSRC_accty_array.length;k++){
                     acctype_result += '<option value="' + URSRC_accty_array[k] + '">' + URSRC_accty_array[k] + '</option>';
                 }
                 $('#URSRC_tb_accntyp').html(acctype_result);
 
                 var laptype_result='<option value="SELECT">SELECT</option>';
-//            alert(URSRC_lapty_array);
                 for(var k=0;k<URSRC_lapty_array.length;k++){
                     laptype_result += '<option value="' + URSRC_lapty_array[k] + '">' + URSRC_lapty_array[k] + '</option>';
                 }
@@ -296,7 +292,6 @@ include "../TSLIB/TSLIB_HEADER.php";
             if(URSRC_submitbtnvalue=="REJOIN")
             {
                 var login_id=$("#URT_SRC_lb_loginrejoin").val();
-//            alert(login_id);
                 var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
                 var formElement = document.getElementById("URT_SRC_form_terminatesearchupdate");
                 $.ajax({
@@ -738,7 +733,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 show_msgbox("REJOIN",js_errormsg_array[13],"success",false);
                             }
                             else{
-
                                 $('#URSRC_lbl_login_role').show();
                                 $('#URT_SRC_lbl_datepickerrejoin').show();
                                 $('#URT_SRC_tb_datepickerrejoin').show();
@@ -787,7 +781,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_lbl_validnumber').hide();
                                 $('#URSRC_lbl_validnumber1').hide();
                                 $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
-//                            alert(xmlhttp.responseText);
                                 var values_array=JSON.parse(xmlhttp.responseText);
                                 var min_date=values_array[0][1];
                                 var firstname=values_array[0][0].firstname;
@@ -1347,7 +1340,8 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 else
                 {
-                    $("#URT_SRC_btn_termination").attr("disabled", "disabled");
+                    $("#URT_SRC_btn_termination").removeAttr("disabled");
+//                    $("#URT_SRC_btn_termination").attr("disabled", "disabled");
                 }
             }
             if(Selectedradiooption=='URT_SRC_radio_valueloginsearchupdate')

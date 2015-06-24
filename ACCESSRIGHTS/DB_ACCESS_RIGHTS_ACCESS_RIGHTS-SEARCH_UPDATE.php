@@ -9,7 +9,7 @@ include 'google-api-php-client-master/src/Google/Service/Calendar.php';
 include "../TSLIB/TSLIB_CONNECTION.php";
 include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
-include "../TSLIB/TSLIB_CONFIG.php";
+//include "../TSLIB/TSLIB_CONFIG.php";
 //use google\appengine\api\mail\Message;
 //error_reporting(0);
 set_time_limit(0);
@@ -253,6 +253,13 @@ if(isset($_REQUEST)){
                 $body=$row["ETD_EMAIL_BODY"];
             }
             $drive = new Google_Client();
+            $Client=get_servicedata();
+            $ClientId=$Client[0];
+            $ClientSecret=$Client[1];
+            $RedirectUri=$Client[2];
+            $DriveScopes=$Client[3];
+            $CalenderScopes=$Client[4];
+            $Refresh_Token=$Client[5];
             $drive->setClientId($ClientId);
             $drive->setClientSecret($ClientSecret);
             $drive->setRedirectUri($RedirectUri);
@@ -797,6 +804,13 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                 }
 
                 $drive = new Google_Client();
+                $Client=get_servicedata();
+                $ClientId=$Client[0];
+                $ClientSecret=$Client[1];
+                $RedirectUri=$Client[2];
+                $DriveScopes=$Client[3];
+                $CalenderScopes=$Client[4];
+                $Refresh_Token=$Client[5];
                 $drive->setClientId($ClientId);
                 $drive->setClientSecret($ClientSecret);
                 $drive->setRedirectUri($RedirectUri);
@@ -853,6 +867,13 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                                 $ufiletempname=$_FILES['UPD_uploaded_files']['tmp_name'][$idx];
                                 $ufiletype=$_FILES['UPD_uploaded_files']['type'][$idx];
                                 $drive = new Google_Client();
+                                $Client=get_servicedata();
+                                $ClientId=$Client[0];
+                                $ClientSecret=$Client[1];
+                                $RedirectUri=$Client[2];
+                                $DriveScopes=$Client[3];
+                                $CalenderScopes=$Client[4];
+                                $Refresh_Token=$Client[5];
                                 $drive->setClientId($ClientId);
                                 $drive->setClientSecret($ClientSecret);
                                 $drive->setRedirectUri($RedirectUri);
@@ -1065,6 +1086,13 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                             $ufiletempname=$_FILES['UPD_uploaded_files']['tmp_name'][$idx];
                             $ufiletype=$_FILES['UPD_uploaded_files']['type'][$idx];
                             $drive = new Google_Client();
+                            $Client=get_servicedata();
+                            $ClientId=$Client[0];
+                            $ClientSecret=$Client[1];
+                            $RedirectUri=$Client[2];
+                            $DriveScopes=$Client[3];
+                            $CalenderScopes=$Client[4];
+                            $Refresh_Token=$Client[5];
                             $drive->setClientId($ClientId);
                             $drive->setClientSecret($ClientSecret);
                             $drive->setRedirectUri($RedirectUri);
@@ -1432,6 +1460,13 @@ function URSRC_unshare_document($loggin,$fileId){
 
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
     $drive = new Google_Client();
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
     $drive->setRedirectUri($RedirectUri);
@@ -1470,6 +1505,13 @@ function URSRC_calendar_create($loginid_name,$URSC_uld_id,$finaldate,$calenderid
 
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
     $drive = new Google_Client();
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
     $drive->setRedirectUri($RedirectUri);
@@ -1508,6 +1550,13 @@ function URSRC_delete_create_calendarevent($ULD_id,$loginid_name,$finaldate){
         $calenderid=$row["URC_DATA"];
     }
     $drive = new Google_Client();
+    $Client=get_servicedata();
+    $ClientId=$Client[0];
+    $ClientSecret=$Client[1];
+    $RedirectUri=$Client[2];
+    $DriveScopes=$Client[3];
+    $CalenderScopes=$Client[4];
+    $Refresh_Token=$Client[5];
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
     $drive->setRedirectUri($RedirectUri);
