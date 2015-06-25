@@ -408,7 +408,7 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
         $result = $select->fetch_assoc();
         $flag= $result['@success_flag'];
         if($flag==1){
-            $select_loggin=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID= $login_id");
+            $select_loggin=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where ULD_ID= $loggin");
             if($row=mysqli_fetch_array($select_loggin)){
                 $loggin=$row["ULD_LOGINID"];
 
@@ -492,6 +492,8 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
             $refresh_token= $Refresh_Token;
             $drive->refreshToken($refresh_token);
             $service = new Google_Service_Drive($drive);
+//            echo "URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN',$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid)";
+
             $return_array=URSRC_calendar_create($loggin,$fileId,$URSRC_firstname,$URSC_uld_id,$joindate,$calenderid,'REJOIN DATE','REJOIN',$filesarray,$URSRC_firstname,$URSRC_lastname,$folderid);
 //           print_r($return_array);
 
@@ -764,12 +766,12 @@ function URSRC_calendar_create($loggin,$fileId,$loginid_name,$URSC_uld_id,$final
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
     $drive = new Google_Client();
     $Client=get_servicedata();
-    $ClientId=$Client[0];
-    $ClientSecret=$Client[1];
-    $RedirectUri=$Client[2];
-    $DriveScopes=$Client[3];
-    $CalenderScopes=$Client[4];
-    $Refresh_Token=$Client[5];
+    $ClientId="651424197810-72ki9kr1k58v3qec0034q1bfj2og6ss8.apps.googleusercontent.com";//$Client[0];
+    $ClientSecret="NRY1PYuUK-NeJAZVJxUvXBeb";//$Client[1];
+    $RedirectUri="https://developers.google.com/oauthplayground";//$Client[2];
+    $DriveScopes="https://www.googleapis.com/auth/drive";//$Client[3];
+    $CalenderScopes="https://www.googleapis.com/auth/calendar";//$Client[4];
+    $Refresh_Token="1/YkIO518mEEVO9z5bdieivdpf9XVBnZN4PWZPLStyGzk";//$Client[5];
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
     $drive->setRedirectUri($RedirectUri);
@@ -908,13 +910,6 @@ function URSRC_unshare_document($loggin,$fileId){
 
     global $con,$ClientId,$ClientSecret,$RedirectUri,$DriveScopes,$CalenderScopes,$Refresh_Token;
     $drive = new Google_Client();
-    $Client=get_servicedata();
-    $ClientId=$Client[0];
-    $ClientSecret=$Client[1];
-    $RedirectUri=$Client[2];
-    $DriveScopes=$Client[3];
-    $CalenderScopes=$Client[4];
-    $Refresh_Token=$Client[5];
     $drive->setClientId($ClientId);
     $drive->setClientSecret($ClientSecret);
     $drive->setRedirectUri($RedirectUri);

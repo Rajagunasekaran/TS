@@ -663,14 +663,14 @@ include "../TSLIB/TSLIB_HEADER.php";
 //                    }
 //                    $('#URSRC_tb_relationhd').html(rel)
 //                }
-//                if(laptop.length!=0)
-//                {
-//                    var ltp='<option value="SELECT">SELECT</option>'
-//                    for(var l=0;l<laptop.length;l++){
-//                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
-//                    }
-//                    $('#URSRC_tb_laptopno').html(ltp)
-//                }
+                if(laptop.length!=0)
+                {
+                    var ltp='<option value="SELECT">SELECT</option>'
+                    for(var l=0;l<laptop.length;l++){
+                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+                    }
+                    $('#URSRC_tb_laptopno').html(ltp)
+                }
 //                if(acc_type.length!=0)
 //                {
 //                    var acc='<option value="SELECT">SELECT</option>'
@@ -897,11 +897,19 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_tb_strtname').val(street);
                                 $('#URSRC_tb_area').val(area);
                                 $('#URSRC_tb_pstlcode').val(postal_code);
-                                if(laptop!=null){
-                                    var emp_laptop=laptop.length;
-//                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
-                                    $('#URSRC_tb_laptopno').val(laptop);
-                                }
+                                if(laptop.length!=0)
+                {
+                    var ltp='<option value="SELECT">SELECT</option>'
+                    for(var l=0;l<laptop.length;l++){
+                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+                    }
+                    $('#URSRC_tb_laptopno').html(ltp)
+                }
+//                                if(laptop!=null){
+//                                    var emp_laptop=laptop.length;
+////                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+//                                    $('#URSRC_tb_laptopno').val(laptop);
+//                                }
                                 else{
                                     $('#URSRC_tb_laptopno').val('SELECT');
                                 }
