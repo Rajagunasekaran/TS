@@ -274,8 +274,10 @@ include "../TSLIB/TSLIB_HEADER.php";
                 dateFormat: 'MM-yy',    //set date format
                 //ONCLOSE FUNCTION
                 onClose: function(dateText, inst) {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+//                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    var month =inst.selectedMonth;
+                    var year = inst.selectedYear;
                     $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
 //            $(this).blur();//remove focus input box
                     $("#CLK_btn_search").attr("disabled");

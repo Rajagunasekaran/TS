@@ -314,6 +314,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_role_err').hide();
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
+            $('#URSRC_lbl_validnumberhouseno').hide();
             $("#filetableuploads tr").remove();
             $('#attachafile').text('Attach a file');
         });
@@ -352,6 +353,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_role_err').hide();
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
+            $('#URSRC_lbl_validnumberhouseno').hide();
             $("#filetableuploads tr").remove();
             $('#attachafile').text('Attach a file');
         });
@@ -390,6 +392,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_table_others').hide();
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
+            $('#URSRC_lbl_validnumberhouseno').hide();
             $("#filetableuploads tr").remove();
             $('#attachafile').text('Attach a file');
 
@@ -629,6 +632,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_role_err').hide();
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
+            $('#URSRC_lbl_validnumberhouseno').hide();
             $("#filetableuploads tr").remove();
             $('#attachafile').text('Attach a file');
         });
@@ -1020,6 +1024,26 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     $('#URSRC_lbl_validnumber1').text(URSRC_errorAarray[24]).show();
             }
         });
+        //BLUR FUNCTION FOR MOBILE NUMBER VALIDATION
+        $(document).on('blur','.validhouseno',function(){
+            var URSRC_houseno=$(this).attr("id");
+            var URSRC_housenoval=$(this).val();
+            alert(URSRC_housenoval.length)
+            if(URSRC_housenoval.length==15)
+            {
+                if(URSRC_houseno=='URSRC_tb_houseno')
+                    $('#URSRC_lbl_validnumberhouseno').hide();
+                else
+                    $('#URSRC_lbl_validnumber1').hide();
+            }
+            else
+            {
+                if(URSRC_houseno=='URSRC_tb_houseno')
+                    $('#URSRC_lbl_validnumberhouseno').text("HOUSE NO SHOULD BE 15 DIGITS").show();
+                else
+                    $('#URSRC_lbl_validnumber1').text(URSRC_errorAarray[24]).show();
+            }
+        });
         //LOGIN SEARCH/UPDATE CLICK FUNCTION
         var relation;
         var desgn;
@@ -1080,6 +1104,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_role_err').hide();
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
+            $('#URSRC_lbl_validnumberhouseno').hide();
             $("#filetableuploads tr").remove();
             $('#attachafile').text('Attach a file');
             var PE_startdate=(URSRC_comp_sdate).split('-');
@@ -1466,6 +1491,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     processData:false,
                     success: function(data)
                     {
+                        alert(data)
                         if(data.toLowerCase().match("error")){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
@@ -1559,7 +1585,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     processData:false,
                     success: function(data)
                     {
-//                    alert(data);
+                    alert(data);
                         if(data.match("Error:Folder id Not present")){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[32],"success",false);
@@ -2084,6 +2110,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_role_err').hide();
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
+            $('#URSRC_lbl_validnumberhouseno').hide();
             //REQUEST SENDING
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -2229,7 +2256,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+option+"&URSRC_lb_laptopno="+URSRC_lb_laptopno );
                 xmlhttp.send();
             }
-//
+            else{
+                $(".preloader").hide();
+                $('#URSRC_tb_chargerno').val('');
+            }
         });
     });
     //END DOCUMENT READY FUNCTION
@@ -2398,6 +2428,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
                         <div class="col-sm-2">
                             <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid login_submitvalidate form-control"  maxlength='7'>
+                            <label id="URSRC_lbl_validnumberhouseno" name="URSRC_lbl_validnumberhouseno" class="errormsg"></label>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_strtname" id="URSRC_lbl_strtname">STREET NAME<em>*</em></label>

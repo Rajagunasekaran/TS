@@ -112,6 +112,14 @@ if(isset($_REQUEST)){
         $URSRC_laptopno=$_POST['URSRC_lb_selectlaptopno'];
 //        echo $URSRC_laptopno;
 //        exit;
+        if($URSRC_laptopno=='SELECT')
+        {
+            $URSRC_laptopno='';
+
+        }
+     else{
+         $URSRC_laptopno;
+     }
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
         $URSRC_aadharno=$_POST['URSRC_tb_aadharno'];
         $URSRC_passportno=$_POST['URSRC_tb_passportno'];
@@ -200,8 +208,6 @@ if(isset($_REQUEST)){
             $URSRC_voterid='';
         }
         $con->autocommit(false);
-//        echo "CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)";
-//        exit;
 //        echo "CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)";
         $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
 //        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
@@ -614,7 +620,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         $URSRC_designation=$_POST['URSRC_tb_designation'];
         $URSRC_Mobileno=$_POST['URSRC_tb_permobile'];
         $URSRC_kinname=$_POST['URSRC_tb_kinname'];
-        $URSRC_relationhd=$_POST['URSRC_tb_relationhd'];
+        $URSRC_relationhd=$_POST['URSRC_lb_selectrelationhd'];
         $URSRC_mobile=$_POST['URSRC_tb_mobile'];
         $URSRC_Houseno=$_POST['URSRC_tb_houseno'];
         $URSRC_Streetname=$_POST['URSRC_tb_strtname'];
@@ -628,7 +634,15 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         $URSRC_acctype=$_POST['URSRC_tb_accntyp'];
         $URSRC_branchaddr1=$_POST['URSRC_ta_brnchaddr'];
         $URSRC_branchaddr= $con->real_escape_string($URSRC_branchaddr1);
-        $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+        $URSRC_laptopno=$_POST['URSRC_lb_selectlaptopno'];
+        if($URSRC_laptopno=='SELECT')
+        {
+            $URSRC_laptopno='';
+
+        }
+        else{
+            $URSRC_laptopno;
+        }
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
         $URSRC_aadharno=$_POST['URSRC_tb_aadharno'];
         $URSRC_passportno=$_POST['URSRC_tb_passportno'];
@@ -732,6 +746,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         }
         $con->autocommit(false);
 //        echo "CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)";
+//        exit;
 //exit;
         $result = $con->query("CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
