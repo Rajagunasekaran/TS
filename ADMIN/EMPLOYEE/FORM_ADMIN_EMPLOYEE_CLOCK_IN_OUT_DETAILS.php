@@ -1,6 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************CLOCK IN/OUT DETAILS*********************************************//
 //DONE BY:LALITHA
+//VER 0.03-SD:26/06/2015 ED:26/01/2015,ISSUE CLEARED FOR FORM LOADING PROPERLY PROBLEM ND MONTH/YEAR DP
+//DONE BY:LALITHA
 //VER 0.02-SD:09/01/2015 ED:10/01/2015,TRACKER NO:74,Updated Sorting function
 //VER 0.01-INITIAL VERSION, SD:03/01/2015 ED:05/01/2015,TRACKER NO:74
 //*********************************************************************************************************//
@@ -892,8 +894,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             dateFormat: 'MM-yy',    //set date format
                             //ONCLOSE FUNCTION
                             onClose: function(dateText, inst) {
-                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+//                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                                var month =inst.selectedMonth;
+                                var year = inst.selectedYear;
                                 $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
                                 $(this).blur();//remove focus input box
                                 $("#CLK_btn_mysearch").attr("disabled");
@@ -1097,8 +1101,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             dateFormat: 'MM-yy',    //set date format
                             //ONCLOSE FUNCTION
                             onClose: function(dateText, inst) {
-                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+//                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                                var month =inst.selectedMonth;
+                                var year = inst.selectedYear;
                                 $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
                                 $(this).blur();//remove focus input box
                                 $("#CLK_btn_search").attr("disabled");

@@ -1,6 +1,6 @@
 <?php
-//require_once 'google/appengine/api/mail/Message.php';
-//use google\appengine\api\mail\Message;
+require_once 'google/appengine/api/mail/Message.php';
+use google\appengine\api\mail\Message;
 error_reporting(0);
 if(isset($_REQUEST)){
 
@@ -31,11 +31,11 @@ if(isset($_REQUEST)){
             $mindate_array=$row["UA_JOIN_DATE"];
             $min_date = date('d-m-Y',strtotime($mindate_array));
         }
-    $select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID='$ADM_uld_id'");
-    while($row=mysqli_fetch_array($select_wfh))
-    {
-        $wfh_flag=$row['WFHA_FLAG'];
-    }
+        $select_wfh=mysqli_query($con,"select WFHA_FLAG from WORK_FROM_HOME_ACCESS where ULD_ID='$ADM_uld_id'");
+        while($row=mysqli_fetch_array($select_wfh))
+        {
+            $wfh_flag=$row['WFHA_FLAG'];
+        }
         $get_project_array=get_project($ADM_uld_id);
         $finalvalue=array($admin_min_date,$admin_max_date,$min_date,$get_project_array,$wfh_flag);
         echo JSON_ENCODE($finalvalue);
@@ -427,7 +427,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
                 $sub=str_replace("[LOGINID]","$loginid",$body);
                 $sub=$sub.'<br>';
 
-//                SENDING MAIL OPTIONS
+               // SENDING MAIL OPTIONS
                 $name = $mail_subject;
                 $from = $admin;
                 $message1 = new Message();

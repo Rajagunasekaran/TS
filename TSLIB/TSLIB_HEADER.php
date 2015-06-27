@@ -31,16 +31,16 @@
     <link rel="stylesheet" href ="msgbox/jquery-confirm.css"/>
     <script src="msgbox/jquery-confirm.js"></script>
     <!--MENU PART-->
-    <link rel="stylesheet" href ="'menu/bootstrap-submenu.min.css"/>
-    <link rel="stylesheet" href ="menu/docs.min.css"/>
-    <script src="menu/bootstrap-submenu.min.js"></script>
-    <script src="JS/SetCase%20.js"></script>
-    <script src="menu/docs.js"></script>
-    <link rel="stylesheet" href ="menu/bootstrap-submenu.min.css"/>
-    <link rel="stylesheet" href ="menu/docs.min.css"/>
-    <script src="menu/bootstrap-submenu.min.js"></script>
-    <script src="JS/SetCase%20.js"></script>
-    <script src="menu/docs.js"></script>
+<!--    <link rel="stylesheet" href ="'menu/bootstrap-submenu.min.css"/>-->
+<!--    <link rel="stylesheet" href ="menu/docs.min.css"/>-->
+<!--    <script src="menu/bootstrap-submenu.min.js"></script>-->
+<!--    <script src="JS/SetCase%20.js"></script>-->
+<!--    <script src="menu/docs.js"></script>-->
+<!--    <link rel="stylesheet" href ="menu/bootstrap-submenu.min.css"/>-->
+<!--    <link rel="stylesheet" href ="menu/docs.min.css"/>-->
+<!--    <script src="menu/bootstrap-submenu.min.js"></script>-->
+<!--    <script src="JS/SetCase%20.js"></script>-->
+<!--    <script src="menu/docs.js"></script>-->
 
     <link rel="stylesheet" href ="CSS/StyleSheet.css"  />
 

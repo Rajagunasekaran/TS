@@ -1,7 +1,5 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN SEARCH UPDATE DELETE***********************************//
-//DONE BY:LALITHA
-//VER 0.14-SD:19/06/2015 ED:19/06/2015,DESC:CORRECTED ISSUES OF LOADING LIST BOX PROPERLY,DATA TBLE ND DP SHOWNED WITH MIN ND MAX DATE FIXED
 //DONE BY:ARTHI
 //VER 0.13-SD:02/06/2015 ED:05/06/2015,DESC:MERGED ADMIN ENTRY AND SEARCH,RESPONSIVE FORM,UPDATED THAT FORM IS RUNNING ONLY ONCES
 //DONE BY:RAJA
@@ -109,6 +107,9 @@ include '../TSLIB/TSLIB_HEADER.php';
             $(document).on('click','.radio_click',function(){
                 $(".preloader").show();
                 var click=$(this).val();
+                $("#ARE_tb_dte").hide();
+                $('#ARE_lbl_dte').hide();
+                $('#ARE_tble_ondutyentry').hide();
                 if(click=="entries")
                 {
                     ASRC_UPD_DEL_clear();
@@ -119,10 +120,13 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ARE_rd_mulentry').prop('checked', false);
                     $('#entries').show();
                     $('#search').hide();
+                    $('#ARE_msg').hide();
+                    $('#ARE_lbl_date_err').text(err_msg[10]).hide();
                     $('#ARE_lbl_optn').show();
                     $('#option').val('SELECT').show();
                     $('#ARE_lb_loginid').val('SELECT').hide();
                     $('#ARE_tb_date').val('').hide();
+                    $('#ARE_lbl_dte').hide();
                     $('#ARE_tble_attendence').hide();
                     $('#ARE_tbl_attendence').hide();
                     $('#ARE_btn_save').hide();
@@ -140,6 +144,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             min_date=value_array[2];
                             err_msg=value_array[3];
                             login_id=value_array[4];
+//                            alert(login_id)
                             var login_list='<option>SELECT</option>';
                             for (var i=0;i<login_id.length;i++) {
                                 login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
@@ -173,15 +178,16 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#search').show();
                     entryclear();
                     ARE_clear();
+                    $('#ASRC_UPD_DEL_btn_search').hide();
                     $('#ASRC_UPD_DEL_div_ondutytablecontainer').hide();
                     $('#ASRC_UPD_DEL_div_headers').hide();
+                    $('#ASRC_UPD_DEL_btn_allsearch').hide();
                     $('#ASRC_UPD_DEL_od_btn').hide();
                     $('#ASRC_UPD_DEL_lbl_sdte').hide();
                     $('#ASRC_UPD_DEL_tb_sdte').hide();
                     $('#ASRC_UPD_DEL_lbl_edte').hide();
                     $('#ASRC_UPD_DEL_tb_edte').hide();
                     $('#ASRC_UPD_DEL_lbl_nopermission').hide();
-//           $('#ASRC_UPD_DEL_lbl_optn').show();
                     $('#ASRC_UPD_btn_pdf').hide();
                     $('#ASRC_UPD_btn_od_pdf').hide();
                     $('#ASRC_UPD_DEL_tble_attendence').hide();
@@ -198,12 +204,21 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $(".preloader").hide();
                             var value_array=JSON.parse(xmlhttp.responseText);
                             permission_array=value_array[0];
-//            project_array=value_array[1];
                             allmindate=value_array[2];
                             err_msg=value_array[3];
                             if(allmindate=='01-01-1970')
                             {
-                                $('#ARE_form_adminreportentry').replaceWith('<p><label class="errormsg">'+err_msg[10]+'</label></p>');
+                                $('#reports_entry').show();
+                                $('#reports_search').show();
+                                $('#admin_report_entry').show();
+                                $('#admin_report_search').show();
+                                $('#ARE_lbl_optn').hide();
+                                $('#ASRC_UPD_DEL_lbl_optn').hide();
+                                $('#options').hide();
+                                $('#ARE_lbl_report_entry').hide();
+                                $('#option').hide();
+                                $('#ARE_lbl_date_err').text(err_msg[10]).show();
+//                                $('#ARE_form_adminreportentry').replaceWith('<p><label class="errormsg">'+err_msg[10]+'</label></p>');
                             }
                             else
                             {
@@ -1010,7 +1025,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                     ARE_mulclear()
                     $('#ARE_lbl_errmsg').text('').show();
                     $("#ARE_ta_des").val('');
-                    $("#ARE_tb_dte").val('');
+                    $("#ARE_tb_dte").val('').show();
+                    $('#ARE_lbl_dte').show();
                     $("#ARE_btn_odsubmit").attr("disabled", "disabled");
                     $("#ARE_lbl_sinentry").hide();
                     $("#ARE_rd_sinentry").hide();
@@ -1410,14 +1426,18 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $(".preloader").hide();
                         show_msgbox("ONDUTY ENTRY",msg_alert,"success",false);
                         $('#ARE_tb_dte').val('');
+                        $('#ARE_tb_dte').hide();
                         $('#ARE_ta_des').val('');
                         $('#ARE_lbl_des').hide();
                         $("#ARE_ta_des").hide();
+                        $("#ARE_lbl_dte").hide();
                         $("#ARE_btn_odsubmit").hide();
+                        $('#ARE_lbl_dte').hide();
+                        $('#ARE_tble_ondutyentry').hide();
                     }
                 }
                 var choice="ONDUTY";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+choice,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice,true);
                 xmlhttp.send(new FormData(formElement));
             });
 
@@ -1798,11 +1818,28 @@ include '../TSLIB/TSLIB_HEADER.php';
 //    var min_date;
 //        $(document).on('change','#ASRC_UPD_DEL_lb_loginid',function(){
             $(document).on('change','.emplistbxactve',function(){
-                var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginid").val();
+//                var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginid").val();
+                var ASRC_UPD_DEL_loginidlist =$('#ASRC_UPD_DEL_lb_loginid').find('option:selected').text();
                 $(".preloader").show();
                 $('#ASRC_UPD_DEL_errmsg').hide();
+                $('#ASRC_UPD_DEL_div_header').hide();
+                $('#ASRC_UPD_btn_pdf').hide();
+                $('section').html('');
+                $('#ASRC_UPD_DEL_btn_srch').hide();
+                $('#ASRC_UPD_DEL_btn_del').hide();
+                $('#ASRC_UPD_DEL_ta_reportdate').hide();
+                $('#ASRC_UPD_DEL_lbl_reportdte').hide();
+                $('#ASRC_UPD_DEL_lb_attendance').hide();
+                $('#ASRC_UPD_DEL_lbl_attendance').hide();
+                $('#ASRC_UPD_DEL_rd_nopermission').hide();
+                $('#ASRC_UPD_DEL_lbl_txtselectproj').hide();
+                $('#ASRC_UPD_DEL_nopermission').hide();
+                $('#ASRC_UPD_DEL_lbl_nopermission').hide();
+                $('#ASRC_UPD_DEL_tble_frstsel_projectlistbx').html('');
+                $('#ASRC_UPD_DEL_btn_submit').hide();
                 if(ASRC_UPD_DEL_loginidlist=='SELECT')
                 {
+                    $(".preloader").hide();
                     $('#ASRC_UPD_DEL_lbl_session').hide();
                     $('#ASRC_UPD_DEL_lbl_strtdte').hide();
                     $('#ASRC_UPD_DEL_tb_strtdte').hide();
@@ -1811,6 +1848,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_btn_search').hide();
                     $('#ASRC_UPD_DEL_tb_strtdte').val('').hide();
                     $('#ASRC_UPD_DEL_tb_enddte').val('').hide();
+                    $('section').html('');
                     $('#ASRC_UPD_DEL_tbl_htmltable').hide();
                     $("#ASRC_UPD_DEL_btn_search").attr("disabled", "disabled");
                     $('#ASRC_UPD_DEL_tble_attendence').hide();
@@ -1852,7 +1890,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ASRC_UPD_DEL_lbl_session').hide();
                             if(min_date=='01-01-1970')
                             {
-                                $('#ASRC_UPD_DEL_errmsg').replaceWith('<p><label class="errormsg" id="ASRC_UPD_DEL_errmsg">'+ err_msg[10] +'</label></p>');
+//                                $('#ASRC_UPD_DEL_errmsg').replaceWith('<p><label class="errormsg" id="ASRC_UPD_DEL_errmsg">'+ err_msg[10] +'</label></p>');
                                 $('#ASRC_UPD_DEL_errmsg').text(err_msg[10]).show();
                                 $('#ASRC_UPD_DEL_lbl_strtdte').hide();
                                 $('#ASRC_UPD_DEL_tb_strtdte').hide();
@@ -1928,6 +1966,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             // FUNCTION FOR DATATABLE
             function flextablerange(){
                 var ure_after_mrg;
+                $('#ASRC_UPD_DEL_lbl_attendance').show();
                 var start_date=$('#ASRC_UPD_DEL_tb_strtdte').val();
                 var end_date=$('#ASRC_UPD_DEL_tb_enddte').val();
                 var activeloginid=$('#ASRC_UPD_DEL_lb_loginid').val();
@@ -3316,6 +3355,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_search" value="search">SEARCH/UPDATE</label>
                     </div>
                 </div>
+                <label id="ARE_lbl_date_err" name="ARE_lbl_date_err" class="errormsg" ></label>
                 <div class="row-fluid form-group">
                     <label name="ARE_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>

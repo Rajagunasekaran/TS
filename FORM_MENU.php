@@ -16,7 +16,55 @@ $Userstamp=json_encode($UserStamp);
 ?>
 <html>
 <head>
+    <link rel="stylesheet" href="menu/CSS/one.css">
+    <link rel="stylesheet" href="menu/CSS/two.css">
+    <link rel="stylesheet" href="menu/CSS/thr.css">
+    <link rel="stylesheet" href="menu/CSS/four.css'">
+    <link rel="stylesheet" href="menu/CSS/five.css">
+    <link rel="stylesheet" href="menu/CSS/six.css">
+
+
+    <script src="menu/JS/one.js" ></script>
+    <script src="menu/JS/two.js" ></script>
+    <script src="menu/JS/thr.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js" defer></script>
+    <script src="menu/JS/four.js" ></script>
+    <style>
+        .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
+            background-image: linear-gradient(to bottom, #498af3 0%, #498af3 100%);
+            background-repeat: repeat-x;
+            box-shadow: 0px 3px 9px #498af3 inset;
+        }
+    </style>
 <script>
+    function callFuncAfterMenu(){
+        'use strict';
+        $(function() {
+            $('#scroll_top').on('click', function() {
+                this.disabled = true;
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 800, function() {
+                    this.disabled = false;
+                }.bind(this));
+                this.blur();
+            });
+
+            // Dropdown fix
+            $('.dropdown > a[tabindex]').on('keydown', function(event) {
+                // 13: Return
+                if (event.keyCode == 13) {
+                    $(this).dropdown('toggle');
+                }
+            });
+            // Предотвращаем закрытие при клике на неактивный элемент списка
+            $('.dropdown-menu > .disabled, .dropdown-header').on('click.bs.dropdown.data-api', function(event) {
+                event.stopPropagation();
+            });
+            $('.dropdown-submenu > a').submenupicker();
+            hljs.initHighlighting();
+        });
+    }
     var ErrorControl ={MsgBox:'false'}
     var MenuPage=1;
     var SubPage=2;
@@ -114,8 +162,8 @@ $Userstamp=json_encode($UserStamp);
         setInterval('updateClock()', 1000);
         var Page_url;
         $(document).on("click",'.btnclass', function (){
-
-            Page_url =$(this).data('pageurl');
+            Page_url =$(this).attr('page');
+//            Page_url =$(this).data('pageurl');
             var attr_id=$(this).attr("id");
             if(attr_id==undefined)
             {
@@ -267,12 +315,16 @@ $Userstamp=json_encode($UserStamp);
 
                 if(ARCMENU_first_submenu.length==0)
                 {
-                    mainmenuItem='<li class="active"><a data-pageurl="'+filename+'" href="#"  id="'+ACRMENU_mainmenu[i]+'" >'+ACRMENU_mainmenu[i]+'</a></li>'
+                    mainmenuItem='<li><a class="btnclass" tabindex="0"  page="'+filename+'" href="#"  id="'+ACRMENU_mainmenu[i]+'">'+ACRMENU_mainmenu[i]+'</a></li>'
+
+//                    mainmenuItem='<li class="active"><a data-pageurl="'+filename+'" href="#"  id="'+ACRMENU_mainmenu[i]+'" >'+ACRMENU_mainmenu[i]+'</a></li>'
                 }
                 else
 
                 {
-                    mainmenuItem='<li class="has-sub dropdown"><a tabindex="0" href="#" data-toggle="dropdown">'+ACRMENU_mainmenu[i]+'<b class="caret"></b></a><ul class="dropdown-menu fa-ul '+submen+'">'
+                    mainmenuItem='<li class="dropdown"><a tabindex="0" data-toggle="dropdown">'+ACRMENU_mainmenu[i]+'<span class="caret"></span></a><ul class="dropdown-menu '+submen+'" role="menu">'
+
+//                    mainmenuItem='<li class="has-sub dropdown"><a tabindex="0" href="#" data-toggle="dropdown">'+ACRMENU_mainmenu[i]+'<b class="caret"></b></a><ul class="dropdown-menu fa-ul '+submen+'">'
                 }
                 $("#ACRMENU_ulclass_mainmenu").append(mainmenuItem);
 
@@ -291,11 +343,15 @@ $Userstamp=json_encode($UserStamp);
                                 else{
                                     var file_name='ACCESSRIGHTS/ERROR_PAGE.do';
                                 }
-                                submenuItem='<li class="active"><a class="btnclass" data-pageurl="'+file_name+'" href="#"   id="'+ACRMENU_mainmenu[i]+'" >'+ARCMENU_first_submenu[j][k]+'</a></li></ul>'
+                                submenuItem='<li><a tabindex="0" page="'+file_name+'" href="#" class="btnclass"  id="'+ACRMENU_mainmenu[i]+'" >'+ARCMENU_first_submenu[j][k]+'</a></li>'
+
+//                                submenuItem='<li class="active"><a class="btnclass" data-pageurl="'+file_name+'" href="#"   id="'+ACRMENU_mainmenu[i]+'" >'+ARCMENU_first_submenu[j][k]+'</a></li></ul>'
                             }
                             else
                             {
-                                submenuItem='<li class="has-sub dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'+ARCMENU_first_submenu[j][k]+'</a><ul class="dropdown-menu '+sub_submenu+'" role="menu">'
+                                submenuItem='<li class="dropdown-submenu">  <a tabindex="0" data-toggle="dropdown">'+ARCMENU_first_submenu[j][k]+'</a><ul class="dropdown-menu '+sub_submenu+'" >'
+
+//                                submenuItem='<li class="has-sub dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'+ARCMENU_first_submenu[j][k]+'</a><ul class="dropdown-menu '+sub_submenu+'" role="menu">'
                             }
                             $("."+submen).append(submenuItem);
                             for(var m=0;m<ARCMENU_second_submenu[count].length;m++)//add submenu2
@@ -306,7 +362,9 @@ $Userstamp=json_encode($UserStamp);
                                 else{
                                     var file_name='ACCESSRIGHTS/ERROR_PAGE.do';
                                 }
-                                sub_submenuItem='<li class="active"><a class="btnclass"  data-pageurl="'+file_name+'" href="#"   id="'+ARCMENU_first_submenu[j][k]+'" >'+ARCMENU_second_submenu[count][m]+'</a></li>'
+                                sub_submenuItem='<li ><a tabindex="0" page="'+file_name+'" href="#" class="btnclass"  id="'+ARCMENU_first_submenu[j][k]+'" >'+ARCMENU_second_submenu[count][m]+'</a></li>'
+
+//                                sub_submenuItem='<li class="active"><a class="btnclass"  data-pageurl="'+file_name+'" href="#"   id="'+ARCMENU_first_submenu[j][k]+'" >'+ARCMENU_second_submenu[count][m]+'</a></li>'
 
                                 $("."+sub_submenu).append(sub_submenuItem);
                             }
@@ -317,6 +375,7 @@ $Userstamp=json_encode($UserStamp);
                 }
                 $("#ACRMENU_ulclass_mainmenu").append('</li>');
             }
+            callFuncAfterMenu();
             $("#cssmenu").show()
             $(".preloader").hide();
             MenuPage=0;

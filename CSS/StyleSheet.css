@@ -1,14 +1,14 @@
 
 /******************** MENU START ******************************/
 
-.nav li.dropdown:hover> ul.dropdown-menu{
-    display: block;
-    margin: 0;
-}
-.dropdown-menu li.dropdown-submenu:hover>ul{
-    display: block;
-    margin: 0;
-}
+/*.nav li.dropdown:hover> ul.dropdown-menu{*/
+    /*display: block;*/
+    /*margin: 0;*/
+/*}*/
+/*.dropdown-menu li.dropdown-submenu:hover>ul{*/
+    /*display: block;*/
+    /*margin: 0;*/
+/*}*/
 .navbar-collapse.collapse{
 
     background:#498af3!important;
@@ -631,13 +631,18 @@ input, textarea{
 
 /******************SET TEXTAREA WIDTH N HEIGHT***********************/
 
+/*textarea {*/
+/*max-width: 250px;*/
+/*min-width: 250px;*/
+/*min-height: 100px;*/
+
+/*}*/
 textarea {
     max-width: 400px;
     min-width: 400px;
     min-height: 200px;
 
 }
-
 .tarea{
     min-height: 250px !important;
     max-width: 500px !important;

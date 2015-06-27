@@ -402,7 +402,7 @@ if($_REQUEST["option"]=="ODDATE")
     }
     echo $flag;
 }
-if($_REQUEST["option"]=="ONDUTY REPORT ENTRY")
+if($_REQUEST["choice"]=="ONDUTY")
 {
     $ondutydate=$_POST['ARE_tb_dte'];
     $ondutydes=$_POST['ARE_ta_des'];
@@ -412,7 +412,6 @@ if($_REQUEST["option"]=="ONDUTY REPORT ENTRY")
         $ADM_uld_id=$row["ULD_ID"];
     }
     $ondutydes= $con->real_escape_string($ondutydes);
-
     $sql="INSERT INTO ONDUTY_ENTRY_DETAILS (OED_DATE,OED_DESCRIPTION,ULD_ID) VALUES ('$oddate','$ondutydes','$ADM_uld_id')";
     if (!mysqli_query($con,$sql)) {
         die('Error: ' . mysqli_error($con));

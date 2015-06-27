@@ -1,6 +1,6 @@
 <?php
-//require_once 'google/appengine/api/mail/Message.php';
-//use google\appengine\api\mail\Message;
+require_once 'google/appengine/api/mail/Message.php';
+use google\appengine\api\mail\Message;
 //error_reporting(0);
 if(isset($_REQUEST)){
     include "../TSLIB/TSLIB_CONNECTION.php";
@@ -355,20 +355,20 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 $sub=$sub.'<br>';
 
                 //SENDING MAIL OPTIONS
-//                $name = $mail_subject;
-//                $from = $admin;
-//                $message1 = new Message();
-//                $message1->setSender($name.'<'.$from.'>');
-//                $message1->addTo($admin);
-//                $message1->addCc($sadmin);
-//                $message1->setSubject($mail_subject);
-//                $message1->setHtmlBody($sub.$values);
-//
-//                try {
-//                    $message1->send();
-//                } catch (\InvalidArgumentException $e) {
-//                    echo $e;
-//                }
+                $name = $mail_subject;
+                $from = $admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
+                $message1->addTo($admin);
+                $message1->addCc($sadmin);
+                $message1->setSubject($mail_subject);
+                $message1->setHtmlBody($sub.$values);
+
+                try {
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
             }
             $drop_query="DROP TABLE $temp_tickler_history ";
             mysqli_query($con,$drop_query);
