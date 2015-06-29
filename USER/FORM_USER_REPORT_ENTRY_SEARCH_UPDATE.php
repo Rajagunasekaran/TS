@@ -870,6 +870,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             show_msgbox("USER REPORT ENTRY",err_msg[0],"success",false);
                             UARD_clear();
                             $('#URE_tb_date').val('');
+                            $('#ok').addClass('reload');
                         }
                         else if(msg_alert==0)
                         {
@@ -888,6 +889,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                 var option="SINGLE DAY ENTRY";
                 xmlhttp.open("POST","USER/DB_DAILY_REPORTS_USER_REPORT_ENTRY.do?option="+option+"&checkoutlocation="+checkoutlocation,false);
                 xmlhttp.send(new FormData(formElement));
+            });
+            //CLICL FUNCTION FOR RELOAD THE PAGE
+            $(document).on('click','.reload',function(){
+                $(".preloader").show();
+                window.location.reload();
+                $(".preloader").hide();
             });
             // CHANGE EVENT FOR MULTIPLE DAY SAVE BUTTON
             $('#URE_btn_save').click(function(){

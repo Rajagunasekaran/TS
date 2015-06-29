@@ -77,6 +77,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                     xmlhttp.onreadystatechange=function() {
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                             $(".preloader").hide();
+
                             var CONFIG_SRCH_UPD_values=JSON.parse(xmlhttp.responseText);
                             CONFIG_SRCH_UPD_errmsg=CONFIG_SRCH_UPD_values[0];
                             var CONFIG_SRCH_UPD_typ_opt='<option value="SELECT">SELECT</option>';
@@ -161,7 +162,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                         $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">DATA<em>*</em></label><div class="col-sm-4"><input type="text" id="CONFIG_ENTRY_tb_data" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
                         $('#CONFIG_ENTRY_tr_data').show();
                     }
-                    $('#CONFIG_ENTRY_tr_btn').append('<td align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" onclick="openAdd()" disabled></td><br><td><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></td>');
+                    $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid col-sm-2"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
                     // <div class="row form-group"><div class="col-lg-offset-2 col-lg-3"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="CREATE" disabled>         <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>   </div>
                     //$('#CONFIG_ENTRY_tr_btn').append('<div class="row form-group" align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE"></div><div class="row-fluid form-group">' + '<input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
                     //   $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid form-group"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></div> <div> <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
@@ -289,20 +290,23 @@ include "../TSLIB/TSLIB/HEADER.php";
                 }
             });
 //FUNCTION FOR FETCHING DATA FOR FLEX TABLE
+
             function CONFIG_SRCH_UPD_fetch_configdata(){
                 flag=0;
+
                 var formElement = document.getElementById("CONFIG_ENTRY_form");
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $(".preloader").hide();
                         var CONFIG_SRCH_UPD_values=JSON.parse(xmlhttp.responseText);
-                        $('#CONFIG_SRCH_UPD_tble_config_wrapper').show();
-                        $('#CONFIG_SRCH_UPD_tr_type').show();
                         $('section').html(CONFIG_SRCH_UPD_values);
-                        var oTable= $('#CONFIG_SRCH_UPD_tble_config').DataTable( {
+                        $('#CONFIG_SRCH_UPD_tble_config').show();
+                        $('#CONFIG_SRCH_UPD_tr_type').show();
+                        var oTable=$('#CONFIG_SRCH_UPD_tble_config').DataTable( {
                             "aaSorting": [],
                             "pageLength": 10,
+                            "responsive": true,
                             "sPaginationType":"full_numbers"
                         });
                         if(oTable.rows().data().length==0){
@@ -339,7 +343,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                 }
             });
 //EDIT CLICK FUNCTION FOR UPDATE FORM
-            $(document).one('click','.edit',function(evt){
+            $(document).on('click','.edit',function(evt){
                 evt.stopPropagation();
                 evt.preventDefault();
                 evt.stopImmediatePropagation();
@@ -359,6 +363,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                 $('.delete').attr("disabled","disabled");
                 $(this).next().removeAttr("disabled","disabled");
                 var edittrid=$(this).parent().parent().attr('id');
+//        alert(edittrid);
                 var tds = $('#'+edittrid).children('td');
                 var td=$(tds[0]).attr('id');
                 pre_tds = $(tds[0]).html();
@@ -458,6 +463,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                         }
                         else if(CONFIG_SRCH_UPD_msg_alert!=0){
                             CONFIG_SRCH_UPD_fetch_configdata();
+//                    first();
                         }
                         else if(failure_flag==0){
                             $(".preloader").hide();
@@ -498,6 +504,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                             $(".delete").attr("disabled","disabled");
                             show_msgbox("CONFIGURATION SEARCH/UPDATE/DELETE",CONFIG_SRCH_UPD_errmsg[6].replace('[MODULE NAME]',$("#CONFIG_SRCH_UPD_lb_type option:selected").text()),"success",false);
                             CONFIG_SRCH_UPD_fetch_configdata();
+//                    first();
                             flag=1;
 
                         }
@@ -562,7 +569,7 @@ include "../TSLIB/TSLIB/HEADER.php";
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>CONFIGURATION ENTRY</h4></b></div>
+    <div class="title text-center"><h4><b>CONFIGURATION ENTRY</b></h4></div>
     <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
         <div class="panel-body">
             <fieldset>
@@ -595,11 +602,14 @@ include "../TSLIB/TSLIB/HEADER.php";
                         </div></div>
                     <div id="CONFIG_SRCH_UPD_div_errMod" hidden class="errormsg"></div>
                     <br>
-                    <div class="table-responsive" id="CONFIG_SRCH_UPD_tr_type"></div>
-                    <section style="max-width:500px;">
-
-                    </section>
+                    <div id="CONFIG_SRCH_UPD_tr_type"></div>
+                    <div class="table-responsive" >
+                        <section style="max-width:500px;">
+                        </section>
+                    </div>
                     <div><label id="CONFIG_SRCH_UPD_err_flex" name="CONFIG_SRCH_UPD_err_flex" class="errormsg" hidden></label></div>
+                    <div class="table-responsive">
+                    </div>
                 </div>
             </fieldset>
         </div>

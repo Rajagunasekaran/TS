@@ -182,13 +182,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 $('#URSRC_tb_accntyp').html(acctype_result);
 
-                var laptype_result='<option value="SELECT">SELECT</option>';
-                for(var k=0;k<URSRC_lapty_array.length;k++){
-                    laptype_result += '<option value="' + URSRC_lapty_array[k] + '">' + URSRC_lapty_array[k] + '</option>';
-                }
-                $('#URSRC_tb_laptopno').html(laptype_result);
-
-
             }
         }
         var choice="USER_RIGHTS_TERMINATE";
@@ -663,14 +656,14 @@ include "../TSLIB/TSLIB_HEADER.php";
 //                    }
 //                    $('#URSRC_tb_relationhd').html(rel)
 //                }
-                if(laptop.length!=0)
-                {
-                    var ltp='<option value="SELECT">SELECT</option>'
-                    for(var l=0;l<laptop.length;l++){
-                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+                    if(laptop.length!=0)
+                    {
+                        var ltp='<option value="SELECT">SELECT</option>'
+                        for(var l=0;l<laptop.length;l++){
+                            ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+                        }
+                        $('#URSRC_tb_laptopno').html(ltp)
                     }
-                    $('#URSRC_tb_laptopno').html(ltp)
-                }
 //                if(acc_type.length!=0)
 //                {
 //                    var acc='<option value="SELECT">SELECT</option>'
@@ -688,7 +681,6 @@ include "../TSLIB/TSLIB_HEADER.php";
 
         //CHANGE FUNCTION FOR REJOIN LOGIN ID LISTBOX
         $('#URT_SRC_lb_loginrejoin').change(function(){
-
             $("#filetableuploads tr").remove();
             $('#attachprompt').show();
             var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
@@ -780,6 +772,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $("input[name=URSRC_chk_votersid]:checked").attr('checked',false);
                                 $('#URSRC_lbl_validnumber').hide();
                                 $('#URSRC_lbl_validnumber1').hide();
+                                $('#URSRC_lbl_validnumberhouseno').hide();
                                 $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
                                 var values_array=JSON.parse(xmlhttp.responseText);
                                 var min_date=values_array[0][1];
@@ -836,6 +829,18 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 {
                                     $('#URSRC_tb_accntyp').val(accountype);
                                 }
+//                            if(laptop.length!=0)
+//                            {
+//                                var ltp='<option value="SELECT">SELECT</option>'
+//                                for(var l=0;l<laptop.length;l++){
+//                                    ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+//                                }
+//                                $('#URSRC_tb_laptopno').html(ltp)
+//                            }
+//                            else{
+//                                $('#URSRC_tb_laptopno').val('SELECT');
+//                            }
+
 //                            alert(values_array[0][3])
 //                            alert(values_array[0][2])
 //                            for(var f=0;f<values_array[0][3].length;f++)
@@ -898,21 +903,21 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_tb_area').val(area);
                                 $('#URSRC_tb_pstlcode').val(postal_code);
                                 if(laptop.length!=0)
-                {
-                    var ltp='<option value="SELECT">SELECT</option>'
-                    for(var l=0;l<laptop.length;l++){
-                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
-                    }
-                    $('#URSRC_tb_laptopno').html(ltp)
-                }
-//                                if(laptop!=null){
-//                                    var emp_laptop=laptop.length;
-////                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
-//                                    $('#URSRC_tb_laptopno').val(laptop);
-//                                }
-                                else{
-                                    $('#URSRC_tb_laptopno').val('SELECT');
+                                {
+                                    var ltp='<option value="SELECT">SELECT</option>'
+                                    for(var l=0;l<laptop.length;l++){
+                                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+                                    }
+                                    $('#URSRC_tb_laptopno').html(ltp)
                                 }
+////                                if(laptop!=null){
+////                                    var emp_laptop=laptop.length;
+//////                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
+////                                    $('#URSRC_tb_laptopno').val(laptop);
+////                                }
+//                            else{
+//                                $('#URSRC_tb_laptopno').val('SELECT');
+//                            }
                                 if(chargerno!=null){
                                     var emp_cahrgerno=chargerno.length;
                                     $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+2);
@@ -1375,7 +1380,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 var URT_SRC_votersidno=$('#URSRC_tb_votersid').val();
                 if(Selectedsearchradiooption=='URT_SRC_radio_valuerejoin')
                 {
-                    if(button_vflag==1&&($("#URT_SRC_lbl_loginupdate").val()!='SELECT') &&($('#URSRC_lb_selectemptype').val()!='SELECT') && ($("#URT_SRC_tb_datepickerrejoin").val()!="")&& ($("input[name=URT_SRC_radio_nrole]").is(":checked")==true)&&(URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) &&($('#URSRC_tb_designation').val()!='SELECT')&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& ($('#URSRC_tb_relationhd').val()!='SELECT') && (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&($('#URSRC_tb_accntyp').val()!='SELECT') &&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
+                    if(button_vflag==1&&($("#URT_SRC_lbl_loginupdate").val()!='SELECT') &&($('#URSRC_lb_selectemptype').val()!='SELECT') && ($("#URT_SRC_tb_datepickerrejoin").val()!="")&& ($("input[name=URT_SRC_radio_nrole]").is(":checked")==true)&&(URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) &&($('#URSRC_tb_designation').val()!='SELECT')&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& ($('#URSRC_tb_relationhd').val()!='SELECT') && (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&($('#URSRC_tb_accntyp').val()!='SELECT')&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
                     {
                         $("#URT_SRC_btn_rejoin").removeAttr("disabled");
                         if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)){
@@ -1421,6 +1426,27 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#URSRC_lbl_validnumber').text(js_errormsg_array[7]).show();
                 else
                     $('#URSRC_lbl_validnumber1').text(js_errormsg_array[7]).show();
+            }
+        });
+        //BLUR FUNCTION FOR MOBILE NUMBER VALIDATION
+        $(document).on('blur','.validhouseno',function(){
+            $('#URSRC_lbl_validnumber').hide();
+            $('#URSRC_lbl_validnumber1').hide();
+            var URSRC_houseno=$(this).attr("id");
+            var URSRC_housenoval=$(this).val();
+            if(URSRC_housenoval.length==15)
+            {
+                if(URSRC_houseno=='URSRC_tb_houseno')
+                    $('#URSRC_lbl_validnumberhouseno').hide();
+                else
+                    $('#URSRC_lbl_validnumber1').hide();
+            }
+            else
+            {
+                if(URSRC_houseno=='URSRC_tb_houseno')
+                    $('#URSRC_lbl_validnumberhouseno').text("HOUSE NO SHOULD BE 15 DIGITS").show();
+                else
+                    $('#URSRC_lbl_validnumber1').show();
             }
         });
     });
@@ -1562,7 +1588,8 @@ include "../TSLIB/TSLIB_HEADER.php";
     <div class="row-fluid form-group">
         <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
         <div class="col-sm-4">
-            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid login_submitvalidate"  maxlength='7' style="width:75px">
+            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid validhouseno login_submitvalidate"  maxlength='15' style="width:75px">
+            <label id="URSRC_lbl_validnumberhouseno" name="URSRC_lbl_validnumberhouseno" class="errormsg"></label>
         </div></div>
     <div class="row-fluid form-group">
         <label class="col-sm-2" name="URSRC_lbl_strtname" id="URSRC_lbl_strtname">STREET NAME<em>*</em></label>
@@ -1621,21 +1648,20 @@ include "../TSLIB/TSLIB_HEADER.php";
             <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea>
         </div></div>
     <div class="row-fluid  form-group">
-
         <label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
     </div>
     <div class="row-fluid form-group">
         <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label>
-        <div class="col-sm-10">
+        <div class="col-sm-4">
             <!--            <input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='10' class="alphanumeric sizefix login_submitvalidate">-->
-            <select id='URSRC_tb_laptopno' name="URSRC_tb_laptopno"  class="selectlaptopno_submitvalidate"class="form-control" style="display: inline">
+            <select id='URSRC_tb_laptopno' name="URSRC_tb_laptopno"  class="selectlaptopno_submitvalidate form-control" style="display: inline">
                 <option value='SELECT' selected="selected"> SELECT</option>
             </select>
         </div></div>
     <div class="row-fluid form-group">
         <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">CHARGER NO</label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate" readonly>
+        <div class="col-sm-5">
+            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
         </div></div>
 
     <div id="URSRC_table_others" style="width:500px" hidden>
