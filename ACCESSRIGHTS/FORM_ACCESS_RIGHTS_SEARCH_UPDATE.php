@@ -972,7 +972,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 var URSRC_aadharno=$('#URSRC_tb_aadharno').val();
                 var URSRC_passportno=$('#URSRC_tb_passportno').val();
                 var URSRC_voterid=$('#URSRC_tb_votersid').val();
-                if(button_vflag==1&&(login_id!="SELECT")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(updatedloginid!='')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="")){
+                if(button_vflag==1&&(login_id!="SELECT")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(updatedloginid!='')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="") &&($('#URSRC_tb_houseno').val()!='')&&($('#URSRC_tb_strtname').val()!='')&&($('#URSRC_tb_area').val()!='')&&($('#URSRC_tb_pstlcode').val()!='')){
                     $("#URSRC_submitupdate").removeAttr("disabled")
 //                $('#attachprompt').show();
                     if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true))
@@ -1040,6 +1040,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
         var acc_type;
         $('#URSRC_radio_loginsearchupdate').click(function(){
             button_vflag=1;
+            var loinid_lap_val=$('#URSRC_lb_selectloginid').val();
             $('#URSRC_tble_rolecreation').hide();
             $('#URSRC_lbl_selectrole').hide();
             $('#URSRC_tble_rolesearch').hide();
@@ -1169,12 +1170,14 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 }
             }
             var choice="login_db";
-            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
+            xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?loinid_lap_val="+loinid_lap_val+"&option="+choice,true);
             xmlhttp.send();
         });
+
         //LOGIN SEARCH ND UPDATE FOR LOGIN ID CHANGE FUNCTION
         $('#URSRC_lb_selectloginid').change(function(){
 //        alert('hhhh')
+            var loinid_lap_val=$('#URSRC_lb_selectloginid').val();
             $('#attachprompt').show();
             $("#filetableuploads tr").remove();
             $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
@@ -1216,7 +1219,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         }
                         $('#URSRC_tble_rolecreation').empty();
                         var values_array=JSON.parse(xmlhttp.responseText);
-//                   alert(values_array[0][0]);
                         for(var f=0;f<values_array[0][3].length;f++)
                         {
                             var tablerowCount = $('#filetableuploads tr').length;
@@ -1236,6 +1238,14 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         if(values_array[0][2].length==4)
                         {
                             $('#attachprompt').hide();
+                        }
+                        if(values_array[0][5].length!=0)
+                        {
+                            var ltp='<option>SELECT</option>'
+                            for(var l=0;l<values_array[0][5].length;l++){
+                                ltp+= '<option value="' + values_array[0][5][l]+ '">' + values_array[0][5][l]+ '</option>';
+                            }
+                            $('#URSRC_lb_selectlaptopno').html(ltp)
                         }
                         var join_date=values_array[0][0].joindate;
                         var rc_name=values_array[0][0].rcname;
@@ -1405,7 +1415,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             $('#URSRC_chk_aadharno').attr('checked',false);
                             $('#URSRC_tb_aadharno').val('').hide();
                         }
-                        if(passportno!=null)
+                        if(passportno!='')
                         {
                             $('#URSRC_chk_passportno').attr('checked',true);
                             var emp_passportno=passportno.length;
@@ -1440,7 +1450,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     }
                 }
                 var choice="loginfetch"
-                xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_login_id="+URSRC_login_id+"&option="+choice,true);
+                xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?URSRC_login_id="+URSRC_login_id+"&loinid_lap_val="+loinid_lap_val+"&option="+choice,true);
                 xmlhttp.send();
             }
             else{
@@ -1480,7 +1490,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     processData:false,
                     success: function(data)
                     {
-                        alert(data)
                         if(data.toLowerCase().match("error")){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
@@ -1574,7 +1583,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     processData:false,
                     success: function(data)
                     {
-                    alert(data);
                         if(data.match("Error:Folder id Not present")){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[32],"success",false);
@@ -2223,19 +2231,14 @@ include  "../TSLIB/TSLIB_HEADER.php";
         $('#URSRC_btn_submitbutton').hide();
 
         $(document).on('change','#URSRC_lb_selectlaptopno',function(){
-//        $('.preloader', window.parent.document).show();
             $(".preloader").show();
             var URSRC_lb_laptopno=$('#URSRC_lb_selectlaptopno').find('option:selected').text();
-//        alert(URSRC_lb_laptopno)
-//        alert('URSRC_lb_loginid')
             if(URSRC_lb_laptopno!='SELECT')
             {
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                    $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
-//                                alert(xmlhttp.responseText)
                         var value_array=(xmlhttp.responseText);
                         $('#URSRC_tb_chargerno').val(value_array);
                         loginbuttonvalidation()
@@ -2417,7 +2420,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
                         <div class="col-sm-2">
-                            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid validhouseno login_submitvalidate form-control"  maxlength='15'>
+                            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos   login_submitvalidate form-control"  maxlength='15'>
                             <label id="URSRC_lbl_validnumberhouseno" name="URSRC_lbl_validnumberhouseno" class="errormsg"></label>
                         </div></div>
                     <div class="row-fluid form-group">

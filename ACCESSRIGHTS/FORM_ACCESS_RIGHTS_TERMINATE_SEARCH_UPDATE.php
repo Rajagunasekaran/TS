@@ -758,6 +758,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_ta_brnchaddr').val('');
                                 $('#URSRC_tb_laptopno').val('');
                                 $('#URSRC_tb_chargerno').val('');
+                                $('#URSRC_tb_houseno').val('');
+                                $('#URSRC_tb_area').val('');
+                                $('#URSRC_tb_pstlcode').val('');
+                                $('#URSRC_ta_brnchaddr').val('');
+                                $('#URSRC_tb_strtname').val('');
+                                $('#URSRC_tb_chargerno').val('');
                                 $('#URSRC_ta_comments').val('');
                                 $('#URSRC_tb_aadharno').val('').hide();
                                 $('#URSRC_tb_passportno').val('').hide();
@@ -812,6 +818,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 var year=mindate[2];
                                 var date=parseInt(mindate[0])+1;
                                 var minimumdate = new Date(year,month,date);
+
                                 //load old files start
                                 if(emp_role!='')
                                 {
@@ -829,14 +836,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 {
                                     $('#URSRC_tb_accntyp').val(accountype);
                                 }
-//                            if(laptop.length!=0)
-//                            {
-//                                var ltp='<option value="SELECT">SELECT</option>'
-//                                for(var l=0;l<laptop.length;l++){
-//                                    ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
-//                                }
-//                                $('#URSRC_tb_laptopno').html(ltp)
-//                            }
+                                if(laptop!='')
+                                {
+                                    $('#URSRC_tb_laptopno').val('SELECT');
+                                }
+
+
 //                            else{
 //                                $('#URSRC_tb_laptopno').val('SELECT');
 //                            }
@@ -897,19 +902,21 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 var emp_accountype=accountype.length;
 //                            $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
 //                            $('#URSRC_tb_accntyp').val(accountype);
+//                                var emp_laptop=laptop.length;
                                 $('#URSRC_ta_brnchaddr').val(branchaddr);
                                 $('#URSRC_tb_houseno').val(house);
                                 $('#URSRC_tb_strtname').val(street);
                                 $('#URSRC_tb_area').val(area);
                                 $('#URSRC_tb_pstlcode').val(postal_code);
-                                if(laptop.length!=0)
-                                {
-                                    var ltp='<option value="SELECT">SELECT</option>'
-                                    for(var l=0;l<laptop.length;l++){
-                                        ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
-                                    }
-                                    $('#URSRC_tb_laptopno').html(ltp)
-                                }
+//                            if(laptop.length!='')
+//                            {
+////                                var ltp='<option value="SELECT">SELECT</option>'
+////                                for(var l=0;l<laptop.length;l++){
+////                                    ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
+////                                }
+//                                $('#URSRC_tb_laptopno').val('SELECT');
+//                            }
+
 ////                                if(laptop!=null){
 ////                                    var emp_laptop=laptop.length;
 //////                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
@@ -1021,12 +1028,17 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $(".preloader").hide();
                         var value_array=(xmlhttp.responseText);
                         $('#URSRC_tb_chargerno').val(value_array);
-
+                        URT_SRC_validation();
                     }
                 }
                 var option="COMPANY_PROPERTY";
                 xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?option="+option+"&URSRC_lb_laptopno="+URSRC_lb_laptopno );
                 xmlhttp.send();
+            }
+            else{
+                $(".preloader").hide();
+                $('#URSRC_tb_chargerno').val('');
+                URT_SRC_validation();
             }
         });
 
@@ -1380,7 +1392,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 var URT_SRC_votersidno=$('#URSRC_tb_votersid').val();
                 if(Selectedsearchradiooption=='URT_SRC_radio_valuerejoin')
                 {
-                    if(button_vflag==1&&($("#URT_SRC_lbl_loginupdate").val()!='SELECT') &&($('#URSRC_lb_selectemptype').val()!='SELECT') && ($("#URT_SRC_tb_datepickerrejoin").val()!="")&& ($("input[name=URT_SRC_radio_nrole]").is(":checked")==true)&&(URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) &&($('#URSRC_tb_designation').val()!='SELECT')&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& ($('#URSRC_tb_relationhd').val()!='SELECT') && (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&($('#URSRC_tb_accntyp').val()!='SELECT')&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
+                    if(button_vflag==1&&($("#URT_SRC_lbl_loginupdate").val()!='SELECT') &&($('#URSRC_lb_selectemptype').val()!='SELECT') && ($("#URT_SRC_tb_datepickerrejoin").val()!="")&& ($("input[name=URT_SRC_radio_nrole]").is(":checked")==true)&&(URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) &&($('#URSRC_tb_designation').val()!='SELECT')&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& ($('#URSRC_tb_relationhd').val()!='SELECT') && (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&($('#URSRC_tb_accntyp').val()!='SELECT')&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="") &&($('#URSRC_tb_houseno').val()!='') &&($('#URSRC_tb_strtname').val()!='')&&($('#URSRC_tb_area').val()!='')&&($('#URSRC_tb_pstlcode').val()!=''))
                     {
                         $("#URT_SRC_btn_rejoin").removeAttr("disabled");
                         if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)){
@@ -1411,6 +1423,8 @@ include "../TSLIB/TSLIB_HEADER.php";
         }
         //BLUR FUNCTION FOR MOBILE NUMBER VALIDATION
         $(document).on('blur','.valid',function(){
+            $('#URSRC_lbl_validnumber').hide();
+            $('#URSRC_lbl_validnumber1').hide();
             var URSRC_Mobileno=$(this).attr("id");
             var URSRC_Mobilenoval=$(this).val();
             if(URSRC_Mobilenoval.length==10)
@@ -1588,7 +1602,7 @@ include "../TSLIB/TSLIB_HEADER.php";
     <div class="row-fluid form-group">
         <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
         <div class="col-sm-4">
-            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos valid validhouseno login_submitvalidate"  maxlength='15' style="width:75px">
+            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos   login_submitvalidate"  maxlength='15' style="width:75px">
             <label id="URSRC_lbl_validnumberhouseno" name="URSRC_lbl_validnumberhouseno" class="errormsg"></label>
         </div></div>
     <div class="row-fluid form-group">
@@ -1648,6 +1662,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea>
         </div></div>
     <div class="row-fluid  form-group">
+
         <label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
     </div>
     <div class="row-fluid form-group">

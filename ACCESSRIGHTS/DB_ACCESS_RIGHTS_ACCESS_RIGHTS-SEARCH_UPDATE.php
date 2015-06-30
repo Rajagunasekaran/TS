@@ -502,6 +502,20 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="loginfetch")
     {
         $loginid_result = $_REQUEST['URSRC_login_id'];
+        $ACR_loginid= $_REQUEST['loinid_lap_val'];
+        //RELATIONHOOD
+        $ULDID_result=mysqli_query($con," SELECT ULD_ID FROM VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS WHERE ULD_LOGINID='$ACR_loginid'");
+//        $get_uldid_array=array();
+        while($row=mysqli_fetch_array($ULDID_result)){
+            $get_uldid_array=$row["ULD_ID"];
+        }
+        //LAPTOP NUMBER
+//        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_FLAG IS NULL  ORDER BY CP_LAPTOP_NUMBER");
+        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_ID=(SELECT CP_ID FROM COMPANY_PROPERTIES_DETAILS WHERE EMP_ID=(SELECT EMP_ID FROM EMPLOYEE_DETAILS WHERE ULD_ID='$get_uldid_array'))UNION SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_FLAG IS NULL");
+        $get_lname_array=array();
+        while($row=mysqli_fetch_array($lname_result)){
+            $get_lname_array[]=$row["CP_LAPTOP_NUMBER"];
+        }
         $emp_uploadfilelist=array();
         $emp_uploadfilelist=UploadEmployeeFiles("login_fetch",$loginid_result);
 //        $loginsearch_fetchingdata= mysqli_query($con," SELECT DISTINCT RC.RC_NAME,UA.UA_JOIN_DATE,URC1.URC_DATA,EMP.EMP_ID,EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME,DATE_FORMAT(EMP.EMP_DOB,'%d-%m-%Y') AS EMP_DOB,EMP.EMP_DESIGNATION,EMP.EMP_MOBILE_NUMBER,EMP.EMP_NEXT_KIN_NAME,EMP.EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,EMP.EMP_ACCOUNT_TYPE,EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,CPD.CPD_LAPTOP_NUMBER,CPD.CPD_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP FROM EMPLOYEE_DETAILS EMP left join COMPANY_PROPERTIES_DETAILS CPD on EMP.EMP_ID=CPD.EMP_ID,USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,ROLE_CREATION RC  WHERE EMP.ULD_ID=ULD.ULD_ID AND UA.UA_EMP_TYPE=URC1.URC_ID and ULD.ULD_ID=UA.ULD_ID and URC.URC_ID=RC.URC_ID and RC.RC_ID=UA.RC_ID and ULD_LOGINID='$loginid_result' and UA.UA_REC_VER=(select max(UA_REC_VER) from USER_ACCESS UA,USER_LOGIN_DETAILS ULD where ULD.ULD_ID=UA.ULD_ID and ULD_LOGINID='$loginid_result' and UA_JOIN is not null) ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
@@ -566,13 +580,22 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
             $URSRC_comment=$row['EMP_COMMENTS'];
             $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'Houseno'=>$URSRC_Houseno,'Streetname'=>$URSRC_Streetname,'Area'=>$URSRC_Area,'Postalcode'=>$URSRC_Postalcode,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'aadharno'=>$URSRC_aadharno,'passportno'=>$URSRC_passportno,'voterid'=>$URSRC_voterid,'comment'=>$URSRC_comment];
         }
-        $URSRC_values[]=array($final_values,$get_rolecreation_array,$emp_uploadfilelist[0],$emp_uploadfilelist[1],$emp_uploadfilelist[2]);
+        $URSRC_values[]=array($final_values,$get_rolecreation_array,$emp_uploadfilelist[0],$emp_uploadfilelist[1],$emp_uploadfilelist[2],$get_lname_array);
         echo json_encode($URSRC_values);
     }
 
     if($_REQUEST['option']=="login_db"){
+//        $ACR_loginid= $_REQUEST['loinid_lap_val'];
+//        echo $ACR_loginid;
+//        exit;
         $active_emp=get_active_emp_id();
 
+        //RELATIONHOOD
+//        $ULDID_result=mysqli_query($con," SELECT ULD_ID FROM VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS WHERE ULD_LOGINID='$ACR_loginid'");
+//        $get_uldid_array=array();
+//        while($row=mysqli_fetch_array($ULDID_result)){
+//            $get_uldid_array[]=$row["ULD_ID"];
+//        }
         //RELATIONHOOD
         $rname_result=mysqli_query($con,"SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE CGN_ID=22 ORDER BY URC_DATA");
         $get_rname_array=array();
@@ -581,10 +604,13 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         }
         //LAPTOP NUMBER
         $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_FLAG IS NULL  ORDER BY CP_LAPTOP_NUMBER");
+//        $lname_result=mysqli_query($con,"SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_ID=(SELECT CP_ID FROM COMPANY_PROPERTIES_DETAILS WHERE EMP_ID=(SELECT EMP_ID FROM EMPLOYEE_DETAILS WHERE ULD_ID='$get_uldid_array'))UNION SELECT CP_LAPTOP_NUMBER FROM COMPANY_PROPERTIES WHERE CP_FLAG IS NULL");
         $get_lname_array=array();
         while($row=mysqli_fetch_array($lname_result)){
             $get_lname_array[]=$row["CP_LAPTOP_NUMBER"];
         }
+//        print_r($get_uldid_array);
+//        exit;
         //DESIGNATION
         $rdesgn_result=mysqli_query($con,"SELECT * FROM EMPLOYEE_DESIGNATION ORDER BY ED_DESIGNATION");
         $get_rdesgn_array=array();

@@ -151,7 +151,8 @@ if($_REQUEST["option"]=="user_search_update"){
 function get_active_login_id(){
     global $con;
 //    $loginid=mysqli_query($con,"SELECT ULD_LOGINID from VW_ACCESS_RIGHTS_TERMINATE_LOGINID where URC_DATA!='SUPER ADMIN' ORDER BY ULD_LOGINID");
-    $loginid=mysqli_query($con,"SELECT ULD_LOGINID from VW_TS_ALL_ACTIVE_LOGIN_ID where URC_DATA!='SUPER ADMIN' ORDER BY ULD_LOGINID");
+//    $loginid=mysqli_query($con,"SELECT ULD_LOGINID from VW_TS_ALL_ACTIVE_LOGIN_ID where URC_DATA!='SUPER ADMIN' ORDER BY ULD_LOGINID");
+    $loginid=mysqli_query($con,"SELECT * FROM VW_TS_ALL_ACTIVE_LOGIN_ID");
     $login_array=array();
     while($row=mysqli_fetch_array($loginid)){
         $login_array[]=$row["ULD_LOGINID"];

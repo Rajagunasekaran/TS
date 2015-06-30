@@ -1,6 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS ADMIN SEARCH UPDATE DELETE***********************************//
 //DONE BY:ARTHI
+//VER 0.13-SD:30/06/2015 ED:30/06/2015,DESC: reduce the space for onduty entry in admin entry,done recreate for date
+//DONE BY:ARTHI
 //VER 0.13-SD:02/06/2015 ED:05/06/2015,DESC:MERGED ADMIN ENTRY AND SEARCH,RESPONSIVE FORM,UPDATED THAT FORM IS RUNNING ONLY ONCES
 //DONE BY:RAJA
 //VER 0.12-SD:10/01/2015 ED:10/01/2015, TRACKER NO:74,DESC:ADDED LOCATION COLUMN IN DATATABLE, CHANGED PRELOADER POSITON AND
@@ -1005,6 +1007,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ARE_lbl_checkmsg').hide();
                 if(adminselectoptionvalue=='ADMIN REPORT ENTRY')
                 {
+                    $('#day_entry').show();
                     $("#ARE_lbl_sinentry").show();
                     $("#ARE_rd_sinentry").show();
                     $("#ARE_lbl_mulentry").show();
@@ -1017,6 +1020,19 @@ include '../TSLIB/TSLIB_HEADER.php';
                 else if((adminselectoptionvalue=='ONDUTY REPORT ENTRY'))
                 {
                     $('#ARE_tble_ondutyentry').show();
+                    $('#onduty_date').html('').append('<div class="row-fluid form-group"><label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte">DATE</label><div class="col-sm-8"><input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class="proj datemandtry enable ondutydayentry" style="width:75px;"/></div></div>');
+                    $('#onduty_date').show();
+                    $('#day_entry').hide();
+                    $('#ARE_tble_singledayentry').hide();
+                    $('#ARE_lbl_emp').hide();
+                    $('#onduty_des').hide();
+                    $('#ARE_btn_odsubmit').hide();
+                    $('#ARE_lbl_multipleday').hide();
+                    $('#ARE_tb_dte').datepicker({
+                        dateFormat:"dd-mm-yy",
+                        changeYear: true,
+                        changeMonth: true
+                    });
                     $('#ARE_lbl_session').hide();
                     $('#ARE_tble_singledayentry').hide();
                     $('#ARE_tble_mutipledayentry').hide();
@@ -1370,7 +1386,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ARE_lbl_norole_err').hide();
             }
             // ONDUTY ENTRY VALIDATION STARTS
-            $('.enable').change(function(){
+            $('#onduty_des').change(function(){
+//                alert('2');
                 if($("#ARE_ta_des").val()=='')
                 {
                     $("#ARE_btn_odsubmit").attr("disabled", "disabled");
@@ -1382,8 +1399,10 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
             });
             //CHANGE EVENT ONDUTY ENTRY DATE FUNCTION
-//        $('#ARE_tb_dte').change(function(){
-            $('.ondutydayentry').change(function(){
+        $('#onduty_date').change(function(){
+//            $('.ondutydayentry').change(function(){
+//                alert('1');
+
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
 //                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
@@ -1404,7 +1423,12 @@ include '../TSLIB/TSLIB_HEADER.php';
                         {
                             $('#ARE_lbl_oderrmsg').text(msg).hide();
                             $('#ARE_lbl_des').show();
+                            $('#onduty_des').html('').append('<div class="row-fluid form-group"><label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label><div class="col-sm-8"><textarea id="ARE_ta_des" name="ARE_ta_des" class="enable" hidden></textarea></div></div>');
+                            $('#onduty_des').show();
+                            $("#ARE_lbl_des").show();
                             $("#ARE_ta_des").show();
+                            $('#onduty_buttton').html('').append('<input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />');
+                            $('#onduty_button').show();
                             $("#ARE_btn_odsubmit").show();
                         }
                     }
@@ -1416,6 +1440,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
 // CLICK EVENT ONDUTY SAVE BUTTON
             $('#ARE_btn_odsubmit').click(function(){
+//                alert('3');
 //                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 var formElement = document.getElementById("ARE_form_adminreportentry");
@@ -3345,7 +3370,7 @@ include '../TSLIB/TSLIB_HEADER.php';
     <form id="ARE_form_adminreportentry" class="content">
         <div class="panel-body">
             <fieldset>
-                <div style="padding-bottom: 15px">
+                <div style="padding-bottom: 15px" >
                     <div class="radio">
                         <label name="reports_entry"  id="reports_entry">
                             <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_entry" value="entries">ENTRY</label>
@@ -3369,17 +3394,17 @@ include '../TSLIB/TSLIB_HEADER.php';
                                 <option>ONDUTY REPORT ENTRY</option>
                             </select>
                         </div></div>
-
+                    <div id="day_entry">
                     <div class="row-fluid form-group">
                         <label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden>
                             <div class="col-sm-4"><div class="radio">
                                     <input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label>
                     </div></div></div>
-        <div class="row-fluid form-group">
+                <div class="row-fluid form-group">
             <label name="entry" class="col-sm-8" id="ARE_lbl_mulentry" hidden>
                 <div class="col-sm-4"><div class="radio">
                         <input type="radio" id="ARE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY" hidden/>MULTIPLE DAY ENTRY</label>
-        </div></div></div>
+        </div></div></div></div>
 <div class="row-fluid form-group">
     <div class="radio">
         <label name="ARE_lbl_multipleday" id="ARE_lbl_multipleday" class="srctitle col-sm-12" hidden>MULTIPLE DAY ENTRY</label>
@@ -3500,17 +3525,19 @@ include '../TSLIB/TSLIB_HEADER.php';
 <div><label id="ARE_msg" name="ARE_msg" class="errormsg"></label></div>
 
 <div id="ARE_tble_ondutyentry" hidden>
-    <div  class="row-fluid form-group">
-        <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte">DATE</label>
-        <div class="col-sm-8">
-            <input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class='proj datemandtry enable ondutydayentry' style="width:75px;"/>
-        </div></div>
-    <div class="row-fluid form-group">
-        <label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label>
-        <div class="col-sm-8">
-            <textarea id="ARE_ta_des" name="ARE_ta_des" class='enable' hidden></textarea>
-        </div></div>
-
+    <div id="onduty_date"></div>
+<!--    <div  class="row-fluid form-group">-->
+<!--        <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte">DATE</label>-->
+<!--        <div class="col-sm-8">-->
+<!--            <input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class='proj datemandtry enable ondutydayentry' style="width:75px;"/>-->
+<!--        </div></div>-->
+    <div id="onduty_des"></div>
+<!--    <div class="row-fluid form-group">-->
+<!--        <label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label>-->
+<!--        <div class="col-sm-8">-->
+<!--            <textarea id="ARE_ta_des" name="ARE_ta_des" class='enable' hidden></textarea>-->
+<!--        </div></div>-->
+<div id="onduty_button"></div>
     <input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />
 
     <div><label id="ARE_lbl_oderrmsg" name="ARE_lbl_oderrmsg" class="errormsg"></label></div>
