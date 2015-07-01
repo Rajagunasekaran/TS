@@ -2,12 +2,12 @@
 /******************** MENU START ******************************/
 
 /*.nav li.dropdown:hover> ul.dropdown-menu{*/
-    /*display: block;*/
-    /*margin: 0;*/
+/*display: block;*/
+/*margin: 0;*/
 /*}*/
 /*.dropdown-menu li.dropdown-submenu:hover>ul{*/
-    /*display: block;*/
-    /*margin: 0;*/
+/*display: block;*/
+/*margin: 0;*/
 /*}*/
 .navbar-collapse.collapse{
 
@@ -380,7 +380,9 @@ label {
     font-weight: normal !important;
 }
 
-
+.locbold {
+    font-weight: bold !important;
+}
 /****************TO SET COLOR FOR MOUSE OVER INPUT FIELD***************************/
 
 /*input:not([readonly="readonly"]):not([type="button"]):not([disabled]):hover{
@@ -532,10 +534,10 @@ em{
     color:#FF0000;
 
 }
-/*body{*/
-/*font-family:Helvetica Neue!important;*/
+body{
+    font-family:Helvetica Neue!important;
 
-/*}*/
+}
 
 /*****************SEARCH TABLE HEADER COLOR****************************/
 
@@ -637,12 +639,12 @@ input, textarea{
 /*min-height: 100px;*/
 
 /*}*/
-textarea {
-    max-width: 400px;
-    min-width: 400px;
-    min-height: 200px;
+/*textarea {*/
+    /*max-width: 400px;*/
+    /*min-width: 400px;*/
+    /*min-height: 200px;*/
 
-}
+/*}*/
 .tarea{
     min-height: 250px !important;
     max-width: 500px !important;

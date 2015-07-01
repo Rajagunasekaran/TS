@@ -66,6 +66,7 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     $ADM_uld_id=$_POST['ARE_lb_loginid'];
     $finaldate = date('Y-m-d',strtotime($date));
     $reportlocation=$_REQUEST['checkoutlocation'];
+    $reportlocation= $con->real_escape_string($reportlocation);
     $length=count($project);
     $projectid;
     for($i=0;$i<$length;$i++){
@@ -309,6 +310,7 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
     $bandwidth='';
     $project='';
     $reportlocation=$_REQUEST['reportlocation'];
+    $reportlocation= $con->real_escape_string($reportlocation);
     $ADM_uld_id=$_POST['ARE_lb_lgnid'];
     $first_date = date('Y-m-d',strtotime($firstdate));
     $second_date = date('Y-m-d',strtotime($seconddate));

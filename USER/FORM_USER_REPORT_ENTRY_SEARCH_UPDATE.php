@@ -332,17 +332,17 @@ include "../TSLIB/TSLIB_HEADER.php";
             });
             // FUNCTION FOR REASON
             function URE_tble_reason(){
-                $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-sm-4"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="form-control "></textarea></div></div>').appendTo($("#URE_tble_reasonlbltxtarea"));
+                $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="tarea form-control "></textarea></div></div>').appendTo($("#URE_tble_reasonlbltxtarea"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR MULTIPLE DAY REASON
             function URE_mulreason(){
-                $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-sm-4"><textarea  name="URE_ta_reason" id="URE_ta_reason" ></textarea></div></div>').appendTo($("#URE_tble_reason"));
+                $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="tarea form-control " ></textarea></div></div>').appendTo($("#URE_tble_reason"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR REPORT TEXTAREA
             function URE_report(){
-                $('<div class="row-fluid form-group"><label name="URE_lbl_report" class="col-sm-2" id="URE_lbl_report" >REPORT<em>*</em></label><div class="col-sm-4"><textarea  name="URE_ta_report" id="URE_ta_report" ></textarea></div></div>').appendTo($("#URE_tble_enterthereport"));
+                $('<div class="row-fluid form-group"><label name="URE_lbl_report" class="col-sm-2" id="URE_lbl_report" >REPORT<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_report" id="URE_ta_report" class="tarea form-control " ></textarea></div></div>').appendTo($("#URE_tble_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUCNTION FOR BANDWIDTH
@@ -1402,7 +1402,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_lb_ampm').val("FULLDAY");
 //            USRC_UPD_reason()
                     $('#USRC_UPD_tble_reasonlbltxtarea').show()
-                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-sm-8"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
                     $('textarea').autogrow({onInitialize: true});
                     $('#USRC_UPD_ta_reason').val(reason).show();
                     $('#USRC_UPD_btn_submit').show();
@@ -1467,7 +1467,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#search_update').show()
                     //FUNCTION FOR REASON
 //            function USRC_UPD_reason(){
-                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-sm-8"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
                     $('textarea').autogrow({onInitialize: true});
                     $('#USRC_UPD_ta_reason').val(reason).show();
                     $('#USRC_UPD_btn_submit').show();
@@ -1759,7 +1759,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#search_update').show()
                     //FUNCTION FOR REASON
 //            function USRC_UPD_reason(){
-                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-sm-8"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
 //            }
                     $('textarea').autogrow({onInitialize: true});
                     $('#USRC_UPD_tble_projectlistbx').hide();
@@ -1836,12 +1836,12 @@ include "../TSLIB/TSLIB_HEADER.php";
             }
             //FUNCTION FOR REASON
             function USRC_UPD_reason(){
-                $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-sm-8"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTIO FOR REPORT
             function USRC_UPD_report(){
-                $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_report" class="col-sm-2" id="USRC_UPD_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-sm-8"><textarea  name="USRC_UPD_ta_report" id="USRC_UPD_ta_report" class="update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_enterthereport"));
+                $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_report" class="col-sm-2" id="USRC_UPD_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_report" id="USRC_UPD_ta_report" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR BANDWIDTH

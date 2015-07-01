@@ -111,6 +111,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
         $ampm=$_POST['USRC_UPD_lb_ampm'];
         $project=$_POST['checkbox'];
         $reportlocation=$_REQUEST['reportlocation'];
+        $reportlocation= $con->real_escape_string($reportlocation);
         $finaldate = date('Y-m-d',strtotime($date));
         if($perm_time=='SELECT')
         {

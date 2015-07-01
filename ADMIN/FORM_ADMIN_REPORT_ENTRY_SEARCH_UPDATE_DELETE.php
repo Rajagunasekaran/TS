@@ -827,17 +827,17 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
             //FUNCTION FOR REASON
             function ARE_reason(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_reason" class="col-sm-2"  id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-sm-8"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" ></textarea></div></div>').appendTo($("#ARE_tble_reasonlbltxtarea"));
+                $('<div class="row-fluid form-group"><label name="ARE_lbl_reason" class="col-sm-2"  id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tble_reasonlbltxtarea"));
                 $('textarea').autogrow({onInitialize: true});
             }
             //FUNCTION FOR MULTIPLE ENTRY REASON
             function ARE_mulreason(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_reason"  class="col-sm-2" id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-sm-8"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" ></textarea></div></div>').appendTo($("#ARE_tbl_reason"));
+                $('<div class="row-fluid form-group"><label name="ARE_lbl_reason"  class="col-sm-2" id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tbl_reason"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR REPORT
             function ARE_report(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_report" class="col-sm-2" id="ARE_lbl_report">ENTER THE REPORT<em>*</em></label><textarea  name="ARE_ta_report" id="ARE_ta_report" ></textarea></div>').appendTo($("#ARE_tbl_enterthereport"));
+                $('<div class="row-fluid form-group"><label name="ARE_lbl_report" class="col-sm-2" id="ARE_lbl_report">ENTER THE REPORT<em>*</em></label><textarea  name="ARE_ta_report" id="ARE_ta_report" class="form-control tarea"></textarea></div>').appendTo($("#ARE_tbl_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR BANDWIDTH
@@ -1423,7 +1423,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         {
                             $('#ARE_lbl_oderrmsg').text(msg).hide();
                             $('#ARE_lbl_des').show();
-                            $('#onduty_des').html('').append('<div class="row-fluid form-group"><label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label><div class="col-sm-8"><textarea id="ARE_ta_des" name="ARE_ta_des" class="enable" hidden></textarea></div></div>');
+                            $('#onduty_des').html('').append('<div class="row-fluid form-group"><label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label><div class="col-lg-10"><textarea id="ARE_ta_des" name="ARE_ta_des" class="enable form-control tarea" hidden></textarea></div></div>');
                             $('#onduty_des').show();
                             $("#ARE_lbl_des").show();
                             $("#ARE_ta_des").show();
@@ -2853,12 +2853,12 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
             // FUNCTION FOR REASON
             function ASRC_UPD_DEL_reason(){
-                $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_reason"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_reason">REASON<em>*</em></label><div class="col-sm-8"><textarea  name="ASRC_UPD_DEL_ta_reason" id="ASRC_UPD_DEL_ta_reason" class="update_validate"></textarea></div>').appendTo($("#ASRC_UPD_DEL_tble_reasonlbltxtarea"));
+                $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_reason"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_reason">REASON<em>*</em></label><div class="col-lg-10"><textarea  name="ASRC_UPD_DEL_ta_reason" id="ASRC_UPD_DEL_ta_reason" class="update_validate form-control tarea"></textarea></div>').appendTo($("#ASRC_UPD_DEL_tble_reasonlbltxtarea"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR REPORT
             function ASRC_UPD_DEL_report(){
-                $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_report" class="col-sm-2" id="ASRC_UPD_DEL_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-sm-8"><textarea  name="ASRC_UPD_DEL_ta_report" id="ASRC_UPD_DEL_ta_report" class="update_validate"></textarea></div>').appendTo($("#ASRC_UPD_DEL_tble_enterthereport"));
+                $('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_report" class="col-sm-2" id="ASRC_UPD_DEL_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-lg-10"><textarea  name="ASRC_UPD_DEL_ta_report" id="ASRC_UPD_DEL_ta_report" class="update_validate form-control tarea"></textarea></div>').appendTo($("#ASRC_UPD_DEL_tble_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
 //    FUNCTION FOR BANDWIDTH
@@ -3737,8 +3737,8 @@ include '../TSLIB/TSLIB_HEADER.php';
 
         <div class="row-fluid form-group">
             <label name="ASRC_UPD_DEL_lbl_des" class="col-sm-2" id="ASRC_UPD_DEL_lbl_des">DESCRIPTION</label>
-            <div class="col-sm-8">
-                <textarea id="ASRC_UPD_DEL_ta_des" name="ASRC_UPD_DEL_ta_des" class='odenable'></textarea>
+            <div class="col-lg-10">
+                <textarea id="ASRC_UPD_DEL_ta_des" name="ASRC_UPD_DEL_ta_des" class='odenable form-control tarea'></textarea>
             </div></div>
         <div>
             <input type="button" id="ASRC_UPD_DEL_odsubmit" name="ASRC_UPD_DEL_odsubmit" value="UPDATE" class="btn" disabled  />

@@ -57,6 +57,7 @@ if($_REQUEST["option"]=="SINGLE DAY ENTRY")
     $project=$_POST['checkbox'];
     $finaldate = date('Y-m-d',strtotime($date));
     $location=$_REQUEST['checkoutlocation'];
+    $location= $con->real_escape_string($location);
     if($perm_time=='SELECT')
     {
         $perm_time='';
@@ -249,6 +250,7 @@ if($_REQUEST["option"]=="MULTIPLE DAY ENTRY")
     $bandwidth='';
     $project='';
     $location=$_REQUEST['checkoutlocation'];
+    $location= $con->real_escape_string($location);
     $fdate = date('Y-m-d',strtotime($firstdate));
     $tdate = date('Y-m-d',strtotime($seconddate));
     $urc_id=mysqli_query($con,"SELECT URC_ID FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE ULD_LOGINID='$USERSTAMP'");

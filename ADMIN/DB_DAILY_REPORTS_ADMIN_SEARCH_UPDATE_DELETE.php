@@ -80,6 +80,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
             $ure_afternoonsession=$row["UARD_PM_SESSION"];
             $ure_flag=$row["ABSENT_FLAG"];
             $location=$row['CIORL_LOCATION'];
+            $location= $con->real_escape_string($location);
 //STRING REPLACED
             if($ure_reprt!=null){
                 $ure_report='';
@@ -125,6 +126,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
             $ure_afternoonsession=$row["UARD_PM_SESSION"];
             $ure_permission=$row["PERMISSION"];
             $location=$row['CIORL_LOCATION'];
+            $location= $con->real_escape_string($location);
             if($adm_reprt!=null){
                 $adm_report='';
                 $body_msg =explode("\n", $adm_reprt);
@@ -168,6 +170,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
         $flag_abs=$_POST['flag'];
         $finaldate = date('Y-m-d',strtotime($date));
         $reportlocation=$_REQUEST['reportlocation'];
+        $reportlocation= $con->real_escape_string($reportlocation);
         $length=count($project);
         if($flag_abs=='on'){
 
