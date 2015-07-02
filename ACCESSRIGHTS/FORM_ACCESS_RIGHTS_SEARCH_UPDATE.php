@@ -27,6 +27,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
     $(document).ready(function(){
 //    $('.preloader',window.parent.document).show();
         $(".preloader").show();
+        $('textarea').autogrow({onInitialize: true});
         //reomve file upload row
 //    FUNCTION TO GET DIFFERENCE ARRAY
         function getDifferenceArray(outfilearray,infilearray)
@@ -146,6 +147,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             var tablerowCount = $('#filetableuploads tr').length;
             filerowcount=filerowcount+1;
             var uploadfileid="upload_filename"+filerowcount;
+         //var appendfile='<tr><td ><input type="file" accept="application/pdf" name="UPD_uploaded_files[]"  id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';//ths line for only showing pdf file in choden file
             var appendfile='<tr><td ><input type="file" name="UPD_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
             $('#filetableuploads').append(appendfile);
             ValidateSubmitbutton()
@@ -543,6 +545,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
         $('#URSRC_radio_logincreation').click(function(){
             $('#attachprompt').show();
             $('#URSRC_tble_rolecreation').empty();
+            $('#URSRC_rolesearch_roles > div').remove()
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             flag=0;
             exist_flag=1;
@@ -1192,6 +1195,15 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_email_errupd').hide();
             $('#URSRC_lbl_loginidupd').hide();
             $('#URSRC_tb_loginidupd').hide();
+            $('#URSRC_tb_chargerno').val('');
+            $('#URSRC_tb_aadharno').val('');
+            $('#URSRC_tb_passportno').val('');
+            $('#URSRC_tb_votersid').val('');
+            $('#URSRC_chk_passportno').attr('checked',false);
+            $('#URSRC_tb_passportno').val('').hide();
+            $('#URSRC_chk_votersid').attr('checked',false);
+            $('#URSRC_tb_votersid').val('').hide();
+            $('#URSRC_ta_comments').val('');
             if(URSRC_login_id!="SELECT"){
                 $('#URSRC_tble_rolecreation').show();
                 $('#URSRC_lbl_loginidupd').show();
@@ -1415,7 +1427,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             $('#URSRC_chk_aadharno').attr('checked',false);
                             $('#URSRC_tb_aadharno').val('').hide();
                         }
-                        if(passportno!='')
+                        if(passportno!=null && passportno!='')
                         {
                             $('#URSRC_chk_passportno').attr('checked',true);
                             var emp_passportno=passportno.length;
@@ -1435,7 +1447,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         else
                         {
                             $('#URSRC_chk_votersid').attr('checked',false);
-                            $('#URSRC_tb_votersid').val('').hide();;
+                            $('#URSRC_tb_votersid').val('').hide();
                         }
                         if(comment!=null)
                         {
@@ -1445,8 +1457,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         {
                             $('#URSRC_ta_comments').val('').show();
                         }
-
-                        $('<tr><td align="left"><input type=submit  class="btn" name="URSRC_submitupdate" id="URSRC_submitupdate"  value="UPDATE" disabled></td></tr>').appendTo($("#URSRC_btn_update"));
+//                        $('<tr><td align="left"><input type=submit  class="btn" name="URSRC_submitupdate" id="URSRC_submitupdate"  value="UPDATE" disabled></td></tr>').appendTo($("#URSRC_btn_update"));
+                        var btn_recreat='<input type=submit  class="btn" name="URSRC_submitupdate" id="URSRC_submitupdate"  value="UPDATE" disabled>';
+                        $('#URSRC_btn_update').html(btn_recreat);
+//                        $('<input type="button"  class="btn" name="URSRC_submitupdate" id="URSRC_submitupdate"  value="UPDATE" disabled>').appendTo($("#URSRC_btn_update"));
                     }
                 }
                 var choice="loginfetch"
@@ -2477,7 +2491,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_brnchaddr" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label>
                         <div class="col-sm-4">
-                            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea>
+                            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate tarea form-control"></textarea>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="srctitle col-sm-2"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
@@ -2552,7 +2566,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <div class="row-fluid form-group">
                             <label class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
                             <div class="col-sm-offset-6">
-                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate form-control"></textarea>
+                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate tareacomments form-control"></textarea>
                             </div></div>
 
                         <div ID="filetableuploads">
@@ -2574,19 +2588,21 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div><label id="URSRC_lbl_norole_err" class="errormsg"></label></div>
                     <div class="row-fluid form-group">
                         <lable class="col-sm-2" id="URSRC_lbl_selectrole">SELECT A ROLE<em>*</em></lable>
-                        <select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate' >
-                            <div class="col-sm-4">
+                        <div class="col-sm-4">
+                        <select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate form-control' >
+
                                 <option value='SELECT' selected="selected"> SELECT</option>
                         </select>
                     </div>
                 </div>
                 <div id="URSRC_rolesearch_roles"></div>
-                <div id="URSRC_btn_update"></div>
+
                 <label id="URSRC_lbl_nodetails_err" class="errormsg"></label>
                 <div id="URSRC_tble_menu" hidden ></div>
                 <div id="URSRC_tble_folder" hidden></div>
                 <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
         </div>
+                <div id="URSRC_btn_update"></div>
         </fieldset>
         <!--                                </div>-->
     </form>
