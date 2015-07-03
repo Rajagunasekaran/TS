@@ -23,7 +23,8 @@ include "../TSLIB/TSLIB_HEADER.php";
     $(document).ready(function(){
 //    $('.preloader', window.parent.document).show();
         $(".preloader").show();
-
+         $('#URT_SRC_ta_reasontermination').hide();
+         $('#URT_SRC_ta_reasonupdate').hide();
         $('textarea').autogrow({onInitialize: true});
         //reomve file upload row
         $(document).on('click', 'button.removebutton', function () {
@@ -595,8 +596,11 @@ include "../TSLIB/TSLIB_HEADER.php";
         });
         var err_flag=0;
         $('#URT_SRC_tb_datepickertermination').change(function(){
+//        $(document).on("change",'#URT_SRC_tb_datepickertermination', function (){
 //        $('.preloader', window.parent.document).show();
             $(".preloader").show();
+            $('#URT_SRC_errdate').hide();
+            $('#URT_SRC_ta_reasontermination').val('');
             var URT_SRC_loggin=$('#URT_SRC_lb_loginterminate').val();
             var date_value=$('#URT_SRC_tb_datepickertermination').val();
             var xmlhttp=new XMLHttpRequest();
@@ -604,6 +608,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
+//                    alert(xmlhttp.responseText+'response')
                     var final_value=xmlhttp.responseText;
                     if(final_value!=''){
                         err_flag=1;
@@ -625,7 +630,11 @@ include "../TSLIB/TSLIB_HEADER.php";
             xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?URT_SRC_loggin="+URT_SRC_loggin+"&option="+option+"&date_value="+date_value,true);
             xmlhttp.send();
         });
-
+//             $('#URT_SRC_ta_reasontermination').change(function(){
+//                 err_flag=0;
+//                 URT_SRC_validation();
+//                 $('#URT_SRC_errdate').hide();
+//             });
         function list()
         {
             var xmlhttp=new XMLHttpRequest();
@@ -1472,7 +1481,7 @@ include "../TSLIB/TSLIB_HEADER.php";
     <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
         <div class="panel-body">
             <fieldset>
-                <div class="form-group">
+                <div style="padding-top: 15px" style="padding-left:50px>
                     <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidden>
                         <div class="radio">
                             <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
@@ -1496,13 +1505,13 @@ include "../TSLIB/TSLIB_HEADER.php";
     <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class=" col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
     <div class="col-sm-4">
         <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden>
-        <!--     <label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label>-->
+             <label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label>
     </div>
 </div>
 <div class="row-fluid form-group">
     <label name="URT_SRC_lbl_nreasontermination" id="URT_SRC_lbl_reasontermination" class=" col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
     <div class="col-sm-4">
-        <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" hidden> </textarea>
+        <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" class="form-control tarea" hidden> </textarea>
     </div>
 </div>
 <div>
@@ -1512,7 +1521,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 <div class="row-fluid form-group" >
     <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle" hidden> SELECT A OPTION </label>
 </div>
-<div class=" form-group form-inline col-sm-12">
+<div class="form-group form-inline col-sm-12">
     <label name="URT_SRC_lbl_nselectrejoin"  id="URT_SRC_lbl_selectrejoin"  hidden>
         <div class="radio">
             <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>&nbsp; REJOIN </label>
@@ -1768,7 +1777,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 <div class="row-fluid form-group">
     <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class="form-inline col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
     <div class="col-sm-4">
-        <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate" hidden> </textarea>
+        <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate"  class="form-control tarea"hidden> </textarea>
     </div></div>
 <div>
     <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:100px">

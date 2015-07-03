@@ -148,11 +148,11 @@ include  "../TSLIB/TSLIB_HEADER.php";
             filerowcount=filerowcount+1;
             var uploadfileid="upload_filename"+filerowcount;
          //var appendfile='<tr><td ><input type="file" accept="application/pdf" name="UPD_uploaded_files[]"  id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';//ths line for only showing pdf file in choden file
-            var appendfile='<tr><td ><input type="file" name="UPD_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
+            var appendfile='<div class="col-sm-offset-2 col-sm-10"><input type="file" name="UPD_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></div></br>';
+//            var appendfile='<div class="col-sm-offset-2 col-sm-10"><label class="inline"><input type="file" style="max-width:250px " class="fileextensionchk form-control" name='+uploadfileid+' id='+uploadfileid+'></label><label class="inline" ><button  class="removebutton" value="" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;"></button></label></div>';
             $('#filetableuploads').append(appendfile);
             ValidateSubmitbutton()
         });
-
         var URSRC_menuname=[];
         var URSRC_submenu=[];
         var URSRC_subsubmenu=[];
@@ -1236,7 +1236,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             var tablerowCount = $('#filetableuploads tr').length;
                             var uploadfileid="upload_filename"+tablerowCount;
                             var uploadfilename="filename"+tablerowCount;
-                            var appendfile='<tr><td ><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
+//                            var appendfile='<div class="col-sm-offset-2 col-sm-10"><label class="inline"><input type="file" style="max-width:250px " class="fileextensionchk form-control" name='+uploadfileid+' id='+uploadfileid+'></label><label class="inline" ><button  class="removebutton" value="" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;"></button></label></div>';
+                            var appendfile='<div class="col-sm-offset-2 col-sm-10"><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></div></br>';
                             $('#filetableuploads').append(appendfile);
                         }
                         if(values_array[0][2].length>0)
@@ -2276,7 +2277,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><h4><b>ACCESS RIGHTS:SEARCH/UPDATE</b></h4></div>
+    <div class="title text-center"><h4><b>ACCESS RIGHTS:SEARCH/ UPDATE</b></h4></div>
     <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
         <div class="panel-body">
             <fieldset>
