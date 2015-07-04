@@ -606,14 +606,11 @@ include "../TSLIB/TSLIB_HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
-//                    alert(xmlhttp.responseText+'response')
-                    var final_value=xmlhttp.responseText;
+                    var final_value=JSON.parse(xmlhttp.responseText);
                     if(final_value!=''){
                         err_flag=1;
                         var URT_loginid_val=$("#URT_SRC_lb_loginterminate option:selected").text();
-
                         var msg=js_errormsg_array[10].replace('[LOGIN ID]',URT_loginid_val);
                         msg=msg.replace('[DATE]',final_value);
                         $('#URT_SRC_errdate').text(msg).show();
@@ -630,19 +627,12 @@ include "../TSLIB/TSLIB_HEADER.php";
             xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_TERMINATE-SEARCH_UPDATE.do?URT_SRC_loggin="+URT_SRC_loggin+"&option="+option+"&date_value="+date_value,true);
             xmlhttp.send();
         });
-//             $('#URT_SRC_ta_reasontermination').change(function(){
-//                 err_flag=0;
-//                 URT_SRC_validation();
-//                 $('#URT_SRC_errdate').hide();
-//             });
         function list()
         {
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//            $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
-//                alert(xmlhttp.responseText);
                     var listbox_value=JSON.parse(xmlhttp.responseText);
 
                     var desgn=listbox_value[0];
@@ -1374,8 +1364,8 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 else
                 {
-                    $("#URT_SRC_btn_termination").removeAttr("disabled");
-//                    $("#URT_SRC_btn_termination").attr("disabled", "disabled");
+//                    $("#URT_SRC_btn_termination").removeAttr("disabled");
+                    $("#URT_SRC_btn_termination").attr("disabled", "disabled");
                 }
             }
             if(Selectedradiooption=='URT_SRC_radio_valueloginsearchupdate')

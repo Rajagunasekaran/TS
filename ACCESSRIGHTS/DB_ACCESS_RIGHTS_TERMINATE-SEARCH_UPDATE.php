@@ -240,15 +240,20 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
         $loginid = $_REQUEST['URT_SRC_loggin'];
         $date_value = $_REQUEST['date_value'];
         $final_date = date('Y-m-d',strtotime( $date_value));
+//        echo "SELECT  MAX(UARD_DATE) AS UARD_DATE from USER_ADMIN_REPORT_DETAILS WHERE UARD_DATE>'$final_date' AND ULD_ID='$loginid'";
         $select_data="SELECT  MAX(UARD_DATE) AS UARD_DATE from USER_ADMIN_REPORT_DETAILS WHERE UARD_DATE>'$final_date' AND ULD_ID='$loginid'";
         $select_data_rs=mysqli_query($con,$select_data);
         if($row=mysqli_fetch_array($select_data_rs)){
             $finaldate=$row['UARD_DATE'];
-            if($finaldate!=''){
+            if($finaldate!=null){
                 $finaldate = date('d-m-Y',strtotime($finaldate));
             }
+            else
+                $finaldate='';
         }
-        echo $finaldate;
+        $flag_array=[$finaldate];
+        echo json_encode($flag_array);
+//        echo $finaldate;
     }
     else if($_REQUEST['option']=='UPDATE')
     {
