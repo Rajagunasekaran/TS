@@ -28,6 +28,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
         var employeetitles;
         var heading;
         var REV_lbl_dterangetitle;
+        $('#REV_div_nonactve_dterange').hide();
+        $('#REV_div_loginid').hide();
         $('#REV_btn_totalhrs_pdf').hide();
         $('#REV_btn_emplist_pdf').hide();
         $('#REV_btn_emp_pdf').hide();
@@ -42,6 +44,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
         var REV_project_listbx=[];
         var err_msg_array=[];
         var REV_project_recver=[];
+        var unique_prj_name=[];
+        var REV_project_names=[];
         $('.preloader').show();
         var formElement = document.getElementById("REV_form_revenue");
         var xmlhttp=new XMLHttpRequest();
@@ -117,10 +121,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
             if((REV_start_date!='') && (REV_end_date!='' ))
             {
                 $("#REV_btn_search").removeAttr("disabled");
+                $('#REV_btn_searchdivid').removeAttr("disabled");
             }
             else
             {
                 $("#REV_btn_search").attr("disabled","disabled");
+                $("#REV_btn_searchdivid").attr("disabled","disabled");
             }
         });
         //VALIDATION SEARCH BTN FOR PROJECT NAME BY DATE RANGE
@@ -155,7 +161,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             return result;
         }
         // CHANGE EVENT FOR PROJECT LISTBOX
-        $('#REV_lb_loginid').change(function(){
+        $(document).on('change','#REV_lb_loginid',function(){
             $('.preloader').show();
             var login_id=$('#REV_lb_loginid').val()
             var xmlhttp=new XMLHttpRequest();
@@ -169,6 +175,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         project.push(REV_project_names[i][0]);
                     }
                     var unique_prj_name=STDLY_INPUT_unique(project)
+//                alert(unique_prj_name)
                     var project_names='<option>SELECT</option>';
                     for (var j=0;j<unique_prj_name.length;j++) {
                         project_names += '<option value="' + unique_prj_name[j] + '">' + unique_prj_name[j] + '</option>';
@@ -181,8 +188,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
             xmlhttp.send();
         });
 // CHANGE EVENT FOR PROJECT LISTBOX
-        $('#REV_lb_project').change(function(){
+        $(document).on('change','#REV_lb_project',function(){
             REV_hide();
+            $('#REV_lbl_loginid').html('');
             $('#REV_lb_projectname').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_lbl_prjctnme').hide();
             $('#REV_nodata_uld').hide();
@@ -208,6 +216,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             if(option=="SELECT")
             {
                 REV_hide(option);
+                $('REV_lbl_loginid').html('');
                 $('#REV_lbl_prjctnme').hide();
                 $('#REV_lb_projectname').hide();
             }
@@ -215,6 +224,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             {
                 if(REV_project_name.length!=0)
                 {
+                    $('#REV_lbl_actveempsdivid').html('');
+                    $('#REV_rd_veempactdivid').html('');
+                    $('#REV_lbl_nonactveempsdivid').html('');
+                    $('#REV_rd_veempnonactdivid').html('');
                     $('#REV_tble_prjctrevenue').show();
                     $('#REV_lbl_prjctnme').show();
                     $('#REV_lb_projectname').val("SELECT").show();
@@ -227,14 +240,29 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
             else if(option=='8')
             {
+//            alert(option)
+                $('#REV_lbl_loginid').html('');
                 $('#REV_tble_prjctrevactnonact').show();
+                $('#project_act').html('').append('<div class="row-fluid"><label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden><div class="radio"><input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>&nbsp;ACTIVE EMPLOYEE</label></div></div> ');
+                $('#project_nonact').html('').append('<div class="row-fluid"  style="padding-bottom: 10px"><label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp" hidden> <div class="radio"> <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp" value="EMPLOYEE" hidden>&nbsp;NON ACTIVE EMPLOYEE </label> </div></div>');
+                $('#project_act').show();
+                $('#project_nonact').show();
                 $('#REV_rd_actveemp').show();
                 $('#REV_rd_nonactveemp').show();
                 $('#REV_lbl_actveemp').show();
                 $('#REV_lbl_nonactveemp').show();
+                $('#REV_lbl_loginid').html('');
             }
             else if(option=='9')
             {
+//            alert(option)
+                $('#REV_lbl_loginid').html('');
+                $('#project_act').html('').append('<div class="row-fluid"><label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden><div class="radio"><input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label></div></div>');
+                $('#project_nonact').html('').append('<div class="row-fluid" style="padding-bottom: 10px"><label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp" hidden> <div class="radio"> <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp" value="EMPLOYEE" hidden>NON ACTIVE EMPLOYEE </label> </div></div>');
+                $('#project_act').show();
+                $('#project_nonact').show();
+                $('#REV_rd_veempnonactdivid').html('');
+                $('#REV_rd_veempactdivid').html('');
                 $('#REV_tble_prjctrevactnonact').show();
                 $('#REV_rd_actveemp').show();
                 $('#REV_rd_nonactveemp').show();
@@ -243,8 +271,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
             else if(option=='10')
             {
+                $('#REV_lbl_loginid').html('');
                 if(REV_project_name.length!=0)
                 {
+                    $('#REV_lbl_loginid').html('');
                     $('#REV_tble_prjctrevenue').show();
                     $('#REV_lbl_prjctnme').show();
                     $('#REV_lb_projectname').val("SELECT").show();
@@ -262,7 +292,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_lbl_totaldays').hide();$('#REV_err_msg_date').hide()
             $('#REV_lbl_totalhrs').hide();
             $('#REV_tble_totaldays').hide();
-            $('#REV_lbl_loginid').hide();
+            $('#REV_actlbl_loginid').hide();
+            $('#REV_nonactlbl_loginid').hide();
             $('#REV_lb_loginid').hide();
             $('#REV_btn_empsrch').hide();
             $('#REV_lbl_ttlprjct').hide();
@@ -314,9 +345,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
         }
 // CHANGE EVENT FOR PROJECT NAME
         var daterange_val=[];
-        $('#REV_lb_projectname').change(function(){
+        $(document).on('change','#REV_lb_projectname',function(){
+//        alert('bbbb')
             $('.preloader').show();
-            $('#REV_btn_prjctsrch').show();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
+            $('#REV_btn_prjctsrch').show();
+            $('#REV_btn_prjctsrchdivid').show();
+            $('#REV_err_msg_date').hide();
+            $('#REV_err_msg_date_project').hide();
             $('#REV_tble_searchbtn').html('');
             $('#REV_nodata_loginid').hide();
             $('#REV_div_projecttotal').hide();
@@ -333,6 +368,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#REV_lb_precver').hide();
                 $('#REV_lbl_precver').hide();
                 $('#REV_btn_prjctsrch').attr("disabled","disabled");
+                $('#REV_btn_prjctsrchdivid').attr("disabled","disabled");
                 $('#REV_tble_totaldays').hide();
                 $('#REV_lbl_totaldays').hide();
                 $('#REV_lbl_totalhrs').hide();
@@ -345,13 +381,44 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#REV_tble_searchbtn').show();
                 $('#REV_tble_startdate').show();
                 $('#REV_btn_prjctsrch').removeAttr("disabled");
+                $('#REV_btn_prjctsrchdivid').removeAttr("disabled");
                 $('#REV_tble_totaldays').hide();
                 $('#REV_lbl_totaldays').hide();
                 $('#REV_lbl_totalhrs').hide();
             }
         });
 // CLICK EVENT FOR ACTIVE RADIO BUTTON
-        $('#REV_rd_actveemp').click(function(){
+        $(document).on('click','#REV_rd_actveemp',function(){
+//        alert('active')
+            $('#REV_lbl_nonactveempsdivid').html('');
+            $('#REV_div_projecttotal_dtebyrangedivid').html('');
+            $('#REV_rd_veempnonactdivid').html('');
+            $('#REV_tble_prjctrevenue').hide();
+            $('#REV_lbl_totaldays_dterangedivid').html('');
+            $('#REV_lbl_totalhrs_dterangedivid').html('');
+            $('#REV_btn_totalhrs_pdfdivid').html('');
+            $('#REV_lbl_dterangetitledivid').html('');
+            $('#REV_tble_startdate').html('');
+            $('#REV_tble_searchbtn').html('');
+            $('#REV_tb_strtdtebyrange').html('');
+            $('#REV_tb_enddtebyrange').html('');
+            $('#REV_tble_searchbtn').html('');
+            $('#REV_btn_prjctsrchdivid').html('');
+            $('#REV_lbl_titledivid').html('');
+            $('#REV_lbl_totaldaysdivid').html('');
+            $('#REV_lbl_totalhrsdivid').html('');
+            $('#REV_btn_pdfdivid').html('')
+            $('#REV_div_projecttotaldivid').html('');
+            $('#REV_lbl_dterangetitle').hide();
+            $('#REV_lbl_totaldays_dterange').hide();
+            $('#REV_lbl_totalhrs_dterange').hide();
+            $('#REV_btn_totalhrs_pdf').hide();
+            $('#REV_lbl_actveempsdivid').html('').append('<div class="row-fluid form-group" style="padding-bottom: 10px"><label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-3 srctitle" hidden>ACTIVE EMPLOYEE</label></div>');
+            $('#REV_rd_veempactdivid').html('').append('<div class="row-fluid form-group"> <label class="col-sm-2" name="REV_lbl_loginid" id="REV_lbl_loginid">LOGIN ID<em>*</em></label><div class="col-sm-4"> <select name="REV_lb_loginid" id="REV_lb_loginid" class="form-control" style="display: none"> </select></div></div>');
+            $('#REV_rd_veempactdivid').show();
+            $('#REV_lbl_actveemps').show();
+            $('#REV_lbl_actveempsdivid').show();
+            $('#REV_rd_veempnonactdivid').html('');
             $('#REV_div_loginid').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_lbl_emptitle').hide();
             $('#REV_btn_emplist_pdf').hide();
@@ -359,7 +426,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_nodata_loginid').hide();
             $('#REV_div_nonactve_dterange').hide();
             $('#REV_nodata_startenddate').hide();
-            $('#REV_lbl_actveemps').show();
             if(REV_active_emp.length!=0)
             {
                 var active_employee='<option>SELECT</option>';
@@ -367,7 +433,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     active_employee += '<option value="' + REV_active_emp[i][1] + '">' + REV_active_emp[i][0] + '</option>';
                 }
                 $('#REV_lb_loginid').html(active_employee);
-
                 $('#REV_lbl_loginid').show();
                 $('#REV_lb_loginid').show();
             }
@@ -397,7 +462,35 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_lbl_withoutproject').hide();
         });
 // CLICK EVENT FOR NONACTIVE RADIO BUTTON
-        $('#REV_rd_nonactveemp').click(function(){
+        $(document).on('click','#REV_rd_nonactveemp',function(){
+//       alert('nonactive')
+            $('#REV_div_projecttotal_dtebyrangedivid').html('');
+            $('#REV_tble_prjctrevenue').hide();
+            $('#REV_lbl_totaldays_dterangedivid').html('');
+            $('#REV_lbl_totalhrs_dterangedivid').html('');
+            $('#REV_btn_totalhrs_pdfdivid').html('');
+            $('#REV_lbl_dterangetitledivid').html('');
+            $('#REV_tble_startdate').html('');
+            $('#REV_tble_searchbtn').html('');
+            $('#REV_tb_strtdtebyrange').html('');
+            $('#REV_tb_enddtebyrange').html('');
+            $('#REV_btn_prjctsrchdivid').html('');
+            $('#REV_lbl_titledivid').html('');
+            $('#REV_lbl_totaldaysdivid').html('');
+            $('#REV_lbl_totalhrsdivid').html('');
+            $('#REV_btn_pdfdivid').html('')
+            $('#REV_div_projecttotaldivid').html('');
+            $('#REV_lbl_dterangetitle').hide();
+            $('#REV_lbl_totaldays_dterange').hide();
+            $('#REV_lbl_totalhrs_dterange').hide();
+            $('#REV_btn_totalhrs_pdf').hide();
+            $('#REV_lbl_actveempsdivid').html('');
+            $('#REV_lbl_nonactveempsdivid').html('').append('<div class="row-fluid form-group" style="padding-bottom: 10px"> <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-3" hidden>NON ACTIVE EMPLOYEE </label></div>');
+            $('#REV_rd_veempnonactdivid').html('').append('<div class="row-fluid form-group"> <label class="col-sm-2" name="REV_lbl_loginid" id="REV_lbl_loginid">LOGIN ID<em>*</em></label><div class="col-sm-4"> <select name="REV_lb_loginid" id="REV_lb_loginid" class="form-control" style="display: none"> </select></div></div>');
+            $('#REV_rd_veempnonactdivid').show();
+            $('#REV_lbl_nonactveemps').show();
+            $('#REV_lbl_nonactveempsdivid').show();
+            $('#REV_rd_veempactdivid').html('');
             $('#REV_div_loginid').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_lbl_emptitle').hide();
             $('#REV_btn_emplist_pdf').hide();
@@ -412,7 +505,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     nonactive_employee += '<option value="' + REV_nonactive_emp[i][1] + '">' + REV_nonactive_emp[i][0] + '</option>';
                 }
                 $('#REV_lb_loginid').html(nonactive_employee);
-                $('#REV_lbl_nonactveemps').show();
                 $('#REV_lbl_loginid').show();
                 $('#REV_lb_loginid').show();
             }
@@ -442,7 +534,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_lbl_withoutproject').hide();
         });
 // CHANGE EVENT FOR LOGINID
-        $('#REV_lb_loginid').change(function(){
+        $(document).on('change','#REV_lb_loginid',function(){
             $('.preloader').hide();
             $('#REV_lbl_emptitle').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_btn_emplist_pdf').hide();
@@ -505,6 +597,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
             {
                 if(option=='8')
                 {
+//                alert(option)
+                    $('#REV_lbl_revenulist').html('').append('<div class="row-fluid"><label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject"  hidden><div class="radio"><input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>&nbsp;LIST REVENUE BY PROJECT</label></div></div>')
+                    $('#REV_lbl_projectlist').html('').append('<div class="row-fluid" style="padding-bottom: 10px"><label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden> <div class="radio"> <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>&nbsp;LIST OF PROJECT REVENUE</label></div></div>')
                     $('#REV_lbl_ttlprjct').hide();
                     $('#REV_lbl_empday').hide();
                     $('#REV_btn_emp_pdf').hide();
@@ -520,6 +615,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     $('#REV_lbl_enddte').hide();
                     $('#REV_tb_enddte').hide();
                     $('#REV_btn_search').hide();
+                    $('#REV_lbl_revenulist').show();
+                    $('#REV_lbl_revenulist').show();
                     $('#REV_rd_withproject').show();
                     $('#REV_rd_withproject').attr("checked",false);
                     $('#REV_lbl_withproject').show();
@@ -529,6 +626,11 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 }
                 else if(option=='9')
                 {
+//                alert(option);
+                    $('#REV_lbl_revenulist').html('').append('<div class="row-fluid"><label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject"  hidden><div class="radio"><input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>&nbsp;LIST REVENUE BY PROJECT</label></div></div>')
+                    $('#REV_lbl_projectlist').html('').append('<div class="row-fluid  style="padding-bottom: 10px"><label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden> <div class="radio"> <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject" value="withoutproject" hidden>&nbsp;LIST OF PROJECT REVENUE</label></div></div>')
+                    $('#REV_lbl_revenulist').show();
+                    $('#REV_lbl_revenulist').show();
                     $('#REV_btn_empsrch').hide();
                     $('#REV_div_loginid').hide();
                     $('#REV_rd_withproject').show();
@@ -542,10 +644,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
         });
         //CLICK EVENT FOR WITHPROJECT
-        $('#REV_rd_withproject').click(function(){
+        $(document).on('click','#REV_rd_withproject',function(){
+//        alert('success');
 
-            $('#REV_lbl_empproject').show();
+            $('#REV_btn_empsrchdivid').html('');
+            $('#REV_lbl_empprojectdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_empproject" id="REV_lbl_empproject">PROJECT<em>*</em></label> <div class="col-sm-4"> <select id="REV_lb_empproject" name="REV_lb_empproject" class="form-control"> </select></div></div>');
+            $('#REV_lbl_empprojectdivid').show();
             $('#REV_lb_empproject').val("SELECT").show();
+            $('#REV_lbl_empproject').show();
             $('#REV_lbl_recver').hide();
             $('#REV_lb_recver').hide();
             $('#REV_btn_empsrch').hide();
@@ -565,16 +671,34 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_tb_strtdte').val('');
             $('#REV_tb_enddte').val('');
             $('#REV_btn_empsrch').attr("disabled","disabled");
-            if ($("#REV_lb_empproject option").length > 1) {
-                $('#REV_lb_empproject,#REV_lbl_empproject').show();$('#REV_err_msg_date').hide();
+            var login_id=$('#REV_lb_loginid').val()
+//        alert(login_id);
+            var xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    $('.preloader').hide();
+//                alert(xmlhttp.responseText)
+                    var values_array=JSON.parse(xmlhttp.responseText);
+                    var project=[];
+                    var REV_project_names=values_array[0];
+                    for (var i=0;i<REV_project_names.length;i++) {
+                        project.push(REV_project_names[i][0]);
+                    }
+                    var unique_prj_name=STDLY_INPUT_unique(project)
+//                alert(unique_prj_name)
+                    var project_names='<option>SELECT</option>';
+                    for (var j=0;j<unique_prj_name.length;j++) {
+                        project_names += '<option value="' + unique_prj_name[j] + '">' + unique_prj_name[j] + '</option>';
+                    }
+                    $('#REV_lb_empproject').html(project_names);
+                }
             }
-            else{
-                $('#REV_lb_empproject,#REV_lbl_empproject').hide();
-                $('#REV_err_msg_date').show().text(err_msg_array[4]);
-            }
+            var option="SPECICIFIED_PROJECT_NAME";
+            xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&login_id="+login_id);
+            xmlhttp.send();
         });
         //CLICK EVENT FOR WITHOUTPROJECT
-        $('#REV_rd_withoutproject').click(function(){
+        $(document).on('change','#REV_rd_withoutproject',function(){
             $('#REV_tb_strtdte').val('');
             $('#REV_tb_enddte').val('');
             $('#REV_lbl_emptitle').hide();
@@ -593,6 +717,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var option=$("#REV_lb_project").val();
             if(option==8)
             {
+                $('#REV_lbl_empprojectdivid').html('');
+                $('#REV_btn_empsrchdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>');
+                $('#REV_btn_empsrchdivid').show();
                 $('#REV_lbl_empproject').hide();
                 $('#REV_lb_empproject').val("SELECT").hide();
                 $('#REV_lbl_recver').hide();
@@ -606,6 +733,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
             else if(option==9)
             {
+                $('#REV_lbl_empprojectdivid').html('');
                 $('.preloader').show();
                 $('#REV_lbl_empproject').hide();
                 $('#REV_lb_empproject').val("SELECT").hide();
@@ -651,11 +779,17 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
         });
 //CHANGE FUNCTION FOR PROJECT NAME
-        $('#REV_lb_projectname').change(function(){
+        $(document).on('change','#REV_lb_projectname',function(){
+//        alert('aaaa')
             $('.preloader').show();
+            $('#REV_lbl_actveempsdivid').html('');
+            $('#REV_rd_veempactdivid').html('');
             $('section').html('');
             $('sectionprbydtrange').html('');
-            $('#REV_btn_prjctsrch').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
+            $('#REV_btn_prjctsrch').hide();
+            $('#REV_btn_prjctsrchdivid').hide();
+            $('#REV_err_msg_date').hide();
+            $('#REV_err_msg_date_project').hide();
             $('#REV_tble_startdate').html('');
             $('#REV_btn_searchdaterange').hide();
             $('#REV_lb_precver').hide();
@@ -684,6 +818,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#REV_div_projecttotal_dtebyrange').hide();
             }
             else{
+                $('#REV_lbl_precverdivid').html('').append('<div class="row-fluid form-group"> <label class="col-sm-2"name="REV_lbl_precver" id="REV_lbl_precver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"> <select id="REV_lb_precver" class="form-control" style="display: none" name="REV_lb_precver"> </select></div></div>')
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -697,13 +832,20 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         $('#REV_lb_precver').html(recver_list);
                         if(REV_project_recver.length>1)
                         {
+                            $('#REV_lbl_precverdivid').show();
                             $('#REV_lb_precver').show();
                             $('#REV_lbl_precver').show();
+                            $('#REV_btn_prjctsrchdivid').show();
                         }
                         else
                         {
                             if(project_name==7){
+//                            alert('77777')
+                                $('#REV_btn_prjctsrchdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_prjctsrch"  name="REV_btn_prjctsrch" value="SEARCH" class="btn" disabled/></div>')
                                 $('#REV_btn_prjctsrch').show();
+                                $('#REV_btn_prjctsrchdivid').show();
+                                $('#REV_btn_prjctsrch').removeAttr("disabled");
+                                $('#REV_btn_prjctsrchdivid').removeAttr("disabled");
                                 $('#REV_lb_precver').prop('selectedIndex',1);
                                 $('#REV_lb_precver').hide();
                                 $('#REV_lbl_precver').hide();
@@ -711,6 +853,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             }
                             else if(project_name==10)
                             {
+//                            alert('projectlboption2-10')
+                                $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange" class="validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
+                                $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_enddte" id="REV_lbl_enddtebyrange" >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddtebyrange" id="REV_tb_enddtebyrange" class="validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
+                                $('<div class="row-fluid form-group col-sm-2"><input type="button" class="btn" name="REV_btn_searchdaterange" id="REV_btn_searchdaterange"  value="SEARCH" disabled></div>').appendTo('#REV_tble_searchbtn')
+                                $('#REV_tble_startdate').show();
+                                $('#REV_tble_searchbtn').show();
                                 $('#REV_lb_precver').hide();
                                 $('#REV_lbl_precver').hide();
                                 $('#REV_lb_precver').prop('selectedIndex',1);
@@ -725,7 +873,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
         });
 //CHANGE FUNCTION FOR RECORD VERSION
-        $('#REV_lb_precver').change(function(){
+        $(document).on('change','#REV_lb_precver',function(){
             $('#REV_btn_searchdaterange').html('');
             $('#REV_lbl_dterangetitle').hide();
             $('#REV_nodata_staenddate').hide();
@@ -741,7 +889,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var project_recver=$('#REV_lb_precver').val();
             if( project_recver!="SELECT" && projectname==7)
             {
+//            alert(projectname)
+                $('#REV_btn_prjctsrchdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_prjctsrch"  name="REV_btn_prjctsrch" value="SEARCH" class="btn" disabled/></div>');
                 $('#REV_btn_prjctsrch').removeAttr("disabled");
+                $('#REV_btn_prjctsrchdivid').removeAttr("disabled").show();
                 $('#REV_lbl_title').hide();
                 $('#REV_btn_pdf').hide();
             }
@@ -750,7 +901,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
         });
         // CHANGE EVENT FOR PROJECT NAME
-        $('#REV_lb_precver').change(function(){
+        $(document).on('change','#REV_lb_precver',function(){
             REV_showform();
 //        var newPos= adjustPosition($(this).position(),100,270);
 //        resetPreloader(newPos);
@@ -758,6 +909,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 //        $('.preloader').show();
         });
         function REV_showform(){
+//        alert('optionrev10')
             $('section').html('');
             $('sectionprbydtrange').html('');
             $('#REV_btn_prjctsrch').hide();
@@ -767,9 +919,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var project_recver=$('#REV_lb_precver').val();
             var REV_loginids=$("#REV_lb_projectname").val();
             var option=$("#REV_lb_project").val();
+//        alert(option)
+//        alert($("#REV_lb_project").val());
             $('#REV_div_loginid').hide();
+//        alert($('#REV_lb_precver').val());
             if($('#REV_lb_precver').val()=="SELECT")
             {
+//            alert('revoptionselect')
 //            $('.maskpanel',window.parent.document).removeAttr('style').hide();
 //            $('.preloader').hide();
                 $('#REV_btn_empsrch').hide();
@@ -788,8 +944,11 @@ include "../../TSLIB/TSLIB_HEADER.php";
             {
                 if(option=='7')
                 {
+//                alert('optionrev7')
+                    $('#REV_btn_prjctsrchdivid').show();
                     $('#REV_btn_prjctsrch').show();
                     $('#REV_btn_prjctsrch').removeAttr("disabled");
+                    $('#REV_btn_prjctsrchdivid').removeAttr("disabled").show();
                     $('#REV_lbl_ttlprjct').hide();
                     $('#REV_lbl_empday').hide();
                     $('#REV_btn_emp_pdf').hide();
@@ -809,10 +968,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 }
                 else if((option=='10'))
                 {
+//                alert('revoption10append')
                     $('.preloader').show();
                     $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_strtdtebyrange" id="REV_tb_strtdtebyrange" class="validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
                     $('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_enddte" id="REV_lbl_enddtebyrange" >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddtebyrange" id="REV_tb_enddtebyrange" class="validsrchbtn clear REV_datepicker datemandtry" style="width:75px;" ></div></div>').appendTo('#REV_tble_startdate');
                     $('<div class="row-fluid form-group col-sm-2"><input type="button" class="btn" name="REV_btn_searchdaterange" id="REV_btn_searchdaterange"  value="SEARCH" disabled></div>').appendTo('#REV_tble_searchbtn')
+                    $('#REV_tble_startdate').show();
+                    $('#REV_tble_searchbtn').show();
                     //DATE PICKER FUNCTION
                     $('.REV_datepicker').datepicker(
                         {
@@ -878,7 +1040,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
         }
 // CHANGE EVENT FOR EMPLOYEE PROJECT SEARCH BUTTON
-        $('#REV_lb_empproject').change(function(){
+        $(document).on('change','#REV_lb_empproject',function(){
+//        alert('employeeproject')
             $('#REV_lbl_emptitle').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
             $('#REV_btn_emplist_pdf').hide();
             $('#REV_lbl_ttlprjct').hide();
@@ -936,16 +1099,40 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         $('#REV_lb_recver').html(recver_list);
                         if(option==8)
                         {
+//                        alert(option)
                             if(REV_project_recver.length>1)
                             {
+                                $('#REV_lb_recverdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" class="form-control" name="REV_lb_recver" ></select></div></div>')
+                                $('#REV_btn_empsrchdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>')
+                                //  $('#REV_lb_recverdivid').show();
+                                // $('#REV_btn_empsrchdivid').show();
+                                var recver_list='<option>SELECT</option>';
+                                for (var i=0;i<REV_project_recver.length;i++) {
+                                    recver_list += '<option value="' + REV_project_recver[i] + '">' + REV_project_recver[i] + '</option>';
+                                }
+                                $('#REV_lb_recver').html(recver_list);
                                 $('#REV_lb_recver').val("SELECT").show();
                                 $('#REV_lbl_recver').show();
                                 $('#REV_btn_empsrch').show();
+                                $('REV_btn_empsrch').removeAttr("disabled");
+                                $('#REV_btn_empsrchdivid').show();
+                                $('REV_btn_empsrchdivid').removeAttr("disabled");
+                                $('#REV_lb_recverdivid').show();
                                 daterange();
                             }
-                            else
-                            {
-                                $('#REV_btn_empsrch').removeAttr("disabled","disabled").show();
+                            else {
+                                $('#REV_lb_recverdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" class="form-control" name="REV_lb_recver" ></select></div></div>')
+                                $('#REV_btn_empsrchdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>')
+                                $('#REV_btn_empsrchdivid').show();
+                                var recver_list='<option>SELECT</option>';
+                                for (var i=0;i<REV_project_recver.length;i++) {
+                                    recver_list += '<option value="' + REV_project_recver[i] + '">' + REV_project_recver[i] + '</option>';
+                                }
+                                $('#REV_lb_recver').html(recver_list);
+//                            $('#REV_lb_recver').val("SELECT").show();
+                                $('#REV_lbl_recver').hide();
+                                $('#REV_btn_empsrch').removeAttr("disabled","disabled").show()
+                                $('#REV_btn_empsrchdivid').removeAttr("disabled").show();
                                 $('#REV_lb_recver').prop('selectedIndex',1);
                                 $('#REV_lb_recver').hide();
                                 $('#REV_lbl_recver').hide();
@@ -954,14 +1141,42 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         }
                         if(option==9)
                         {
+//                        alert(option)
                             if(REV_project_recver.length>1)
                             {
+//                            alert('recvcond')
+                                $('#REV_lb_recverdivid').html('').append(' <div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" class="form-control" name="REV_lb_recver"></select></div></div>');
+                                $('#REV_tb_strtdtedivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label> <div class="col-sm-4"><input type="text" name="REV_tb_strtdte" id="REV_tb_strtdte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></div></div>');
+                                $('#REV_tb_enddtedivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2"  name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddte" id="REV_tb_enddte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></div></div>')
+                                $('#REV_btn_searchdivid').html('').append(' <div  class="row-fluid form-group col-sm-2" ><input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled></div>');
+                                $('#REV_lb_recverdivid').show();
+                                $('#REV_btn_searchdivid').show();
+                                $('#REV_tb_strtdtedivid').show();
+                                $('#REV_tb_enddtedivid').show();
+                                $("#REV_tb_strtdte,#REV_tb_enddte").datepicker(
+                                    {
+                                        dateFormat: 'dd-mm-yy',
+                                        changeYear: true,
+                                        changeMonth: true
+                                    });
+                                var recver_list='<option>SELECT</option>';
+                                for (var i=0;i<REV_project_recver.length;i++) {
+                                    recver_list += '<option value="' + REV_project_recver[i] + '">' + REV_project_recver[i] + '</option>';
+                                }
+                                $('#REV_lb_recver').html(recver_list);
                                 $('#REV_lbl_recver').show();
                                 $('#REV_lb_recver').val("SELECT").show();
                                 daterange();
                             }
                             else
                             {
+//                            alert('elsecon')
+                                $('#REV_tb_strtdtedivid').html('').append(' <div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label> <div class="col-sm-4"><input type="text" name="REV_tb_strtdte" id="REV_tb_strtdte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></div></div>');
+                                $('#REV_tb_enddtedivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2"  name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddte" id="REV_tb_enddte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></div></div>')
+                                $('#REV_btn_searchdivid').html('').append('<div  class="row-fluid form-group col-sm-2" ><input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled></div>')
+                                $('#REV_tb_strtdtedivid').show();
+                                $('#REV_tb_enddtedivid').show();
+                                $('#REV_btn_searchdivid').show();
                                 $('#REV_tb_strtdte').val('').show();
                                 $('#REV_lbl_strtdte').show();
                                 $('#REV_lb_recver').prop('selectedIndex',1);
@@ -969,6 +1184,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                 $('#REV_tb_enddte').val('').show();
                                 $('#REV_btn_search').show();
                                 daterange();
+                                $("#REV_tb_strtdte,#REV_tb_enddte").datepicker(
+                                    {
+                                        dateFormat: 'dd-mm-yy',
+                                        changeYear: true,
+                                        changeMonth: true
+                                    });
                             }
                             $("#REV_btn_search").attr("disabled","disabled");
                             //DATE PICKER FUNCTION
@@ -1031,12 +1252,15 @@ include "../../TSLIB/TSLIB_HEADER.php";
             });
         }
         //click event for project rec ver
-        $('#REV_lb_recver').change(function(){
+        $(document).on('change','#REV_lb_recver',function(){
+//        alert('recvproj')
             $('#REV_tb_strtdte').val('');
             $('#REV_tb_enddte').val('');
             var formElement = document.getElementById("REV_form_revenue");
+//        alert(formElement)
             var REV_loginids=$("#REV_lb_loginid").val();
             var project_recverss=$('#REV_lb_recver').val();
+//        alert(project_recverss)
             var project_namess=$('#REV_lb_empproject').val();
             var date_val=[];
             $('#REV_lbl_title').hide();
@@ -1059,6 +1283,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var project_recver=$('#REV_lb_recver').val();
             var projectname=$('#REV_lb_project').val();
             if(emp_project!='SELECT'&& project_recver!="SELECT" && projectname==9){
+//            alert('recvnotequaltoselect')
                 daterange()
                 $('#REV_tb_strtdte').val('').show();
                 $('#REV_lbl_strtdte').show();
@@ -1066,14 +1291,19 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#REV_tb_enddte').val('').show();
                 $('#REV_btn_search').show();
                 $('#REV_btn_empsrch').removeAttr("disabled");
+                $('#REV_btn_empsrchdivid').removeAttr("disabled");
             }
             else if(emp_project!='SELECT'&& project_recver!="SELECT" && projectname==8){
-                $('#REV_tb_strtdte').hide();$('#REV_err_msg_date').hide();$('#REV_err_msg_date_project').hide();
+//            alert('elseifemprecr');
+                $('#REV_tb_strtdte').hide();
+                $('#REV_err_msg_date').hide();
+                $('#REV_err_msg_date_project').hide();
                 $('#REV_lbl_strtdte').hide();
                 $('#REV_lbl_enddte').hide();
                 $('#REV_tb_enddte').hide();
                 $('#REV_btn_search').hide();
                 $('#REV_btn_empsrch').removeAttr("disabled");
+                $('#REV_btn_empsrchdivid').removeAttr("disabled");
             }
             else{
                 $('#REV_btn_empsrch').attr("disabled","disabled");
@@ -1102,8 +1332,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_lbl_totalhrs').hide();
             $('#REV_tble_totaldays').html('');
             var project_recver=$('#REV_lb_precver').val();
+//        alert(project_recver)
             $('#REV_btn_prjctsrch').attr("disabled","disabled");
             var REV_projectname=$('#REV_lb_projectname').val();
+//        alert(REV_projectname)
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -1121,12 +1353,20 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         {
                             title=err_msg_array[8].toString().replace("[PROJECTNAME]",REV_projectname);
                         }
+                        $('#REV_lbl_titledivid').html('').append('<div class="row-fluid form-group col-sm-2" ><label id="REV_lbl_title" name="REV_lbl_title"  class="srctitle" hidden></label></div>')
+                        $('#REV_lbl_titledivid').show();
                         $('#REV_lbl_title').text(title).show();
+                        $('#REV_btn_pdfdivid').html('').append('<div class="row-fluid form-group col-sm-2" ><input type="button" id="REV_btn_pdf" class="btnpdf" value="PDF"></div>');
                         $('#REV_btn_pdf').show();
+                        $('#REV_btn_pdfdivid').show();
                         var total_days= projectvalues[0].working_day;
                         var total_hrs= projectvalues[0].REV_total_hrs;
+                        $('#REV_lbl_totaldaysdivid').html('').append('<div class="row-fluid form-group col-sm-2" ><label id="REV_lbl_totaldays" name="REV_lbl_totaldays"  class="srctitle" hidden></label></div>')
                         $('#REV_lbl_totaldays').text("TOTAL NO OF  DAYS: "  +   total_days).show();
+                        $('#REV_lbl_totaldaysdivid').show();
+                        $('#REV_lbl_totalhrsdivid').html('').append('<div class="row-fluid form-group col-sm-2" ><label id="REV_lbl_totalhrs" name="REV_lbl_totalhrs"  class="srctitle" hidden></label></div>')
                         $('#REV_lbl_totalhrs').text("TOTAL NO OF HRS: "  +   total_hrs).show();
+                        $('#REV_lbl_totalhrsdivid').show();
                         var REV_table_header='<table id="REV_tble_totaldays" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th style="width:150px">EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
                         for(var i=0;i<projectvalues.length;i++){
                             var username=projectvalues[i].username;
@@ -1136,6 +1376,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             REV_table_header+='<tr><td>'+username+'</td><td align="center">'+noofdays+'</td><td align="center">'+total_hrs+'</td><td align="center">'+total_minutes+'</td></tr>';
                         }
                         REV_table_header+='</tbody></table>';
+//                    alert(REV_table_header)
                         $('section').html(REV_table_header);
                         $('#REV_tble_totaldays').DataTable({
                         });
@@ -1150,7 +1391,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                 }
             }
+            $('#REV_div_projecttotaldivid').html('').append('<div id ="REV_div_projecttotal" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px"><section></section></div>');
             $('#REV_div_projecttotal').show();
+            $('#REV_div_projecttotaldivid').show();
             var option="projectname";
             xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&REV_projectname="+REV_projectname+"&project_recver="+project_recver);
             xmlhttp.send();
@@ -1158,6 +1401,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 // CLICK EVENT FOR LOGINID SEARCH BUTTON
         var loginidvalues=[];
         $(document).on('click','#REV_btn_empsrch',function(){
+//        alert('search')
             $('sections').html('');
             var REV_withproject=$('#REV_rd_withproject').val();
             $('#REV_nodata_loginid').hide();
@@ -1165,16 +1409,27 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_div_loginid').hide();
             $('#REV_tble_empday_nonactveemp1').html('');
             var REV_loginid=$('#REV_lb_loginid').val();
+//        alert('login')
+//        alert($('#REV_lb_loginid').val());
             var REV_withproject=$('#REV_rd_withproject').val();
+//        alert('revwithproject')
+//        alert(REV_withproject)
             var rec_ver=$('#REV_lb_recver').val();
+//        alert('recver')
+//        alert(rec_ver)
             var formElement = document.getElementById("REV_form_revenue");
             var REV_prjctname=$('#REV_lb_empproject').val();
+//        alert('projectname')
+//        alert(REV_prjctname)
             var seacrhby_prjct=$("input[name=REV_rd_project]:checked").val();
             var project_recver=$('#REV_lb_recver').val();
+//        alert(project_recver)
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                alert(xmlhttp.responseText)
+//                alert(loginidvalues)
                     loginidvalues=JSON.parse(xmlhttp.responseText);
                     if(loginidvalues)
                     {
@@ -1189,21 +1444,30 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             }
                             var emptitle=err_msg_array[7].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                             var employeetitle=emptitle.replace("[PROJECTNAME]",REV_prjctname);
+
                             if(REV_project_recver.length>1)
                             {
+//                            alert('ifrecv')
+//                            $('#REV_lbl_emptitledivid').html('').append('<div class="row-fluid form-group col-sm-2"><label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label></div>');
                                 $('#REV_lbl_emptitle').text(employeetitle+' '+'VER'+ - +rec_ver).show();
+//                            $('#REV_lbl_emptitledivid').show();
                             }
                             else
                             {
+//                            alert('elserecv')
+//                            $('#REV_lbl_emptitledivid').html('').append('<div class="row-fluid form-group col-sm-2"><label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label></div>');
                                 $('#REV_lbl_emptitle').text(employeetitle).show();
+//                            $('#REV_lbl_emptitledivid').show();
                             }
                             var emptitle=err_msg_array[7].toString().replace("[LOGINID]",$("#REV_lb_loginid option:selected").text());
                             if(REV_project_recver.length>1)
                             {
+//                            alert('ifprojver')
                                 employeetitles=emptitle.replace("[PROJECTNAME]",REV_prjctname+' '+'VER'+ - +rec_ver);
                             }
                             else
                             {
+//                            alert('elserecv')
                                 employeetitles=emptitle.replace("[PROJECTNAME]",REV_prjctname);
                             }
                             var total_days= loginidvalues[0].working_day;
@@ -1227,6 +1491,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             }
                             var employeetitle=err_msg_array[7].toString().replace("[LOGINID] FOR [PROJECTNAME]",$("#REV_lb_loginid option:selected").text());
                             employeetitles=err_msg_array[7].toString().replace("[LOGINID] FOR [PROJECTNAME]",$("#REV_lb_loginid option:selected").text());
+//                        $('#REV_lbl_emptitledivid').show();
                             $('#REV_lbl_emptitle').text(employeetitle).show();
                             $('#REV_btn_emplist_pdf').show();
                             var REV_table_header1='<table id="REV_tble_empday_nonactveemp1" border="1"  cellspacing="0" class="srcresult" style="width:500px";><thead  bgcolor="#6495ed" style="color:white"><tr><th class="uk-date-column" style="width:200px" nowrap>PROJECT NAME</th><th>DAYS</th><th>HOURS</th><th>MINUTES</th></tr></thead><tbody>'
@@ -1264,7 +1529,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
             xmlhttp.send(formElement);
             sorting();
         });
-// CLICK EVENT FOR LOGINID SEARCH BUTTON
         var loginidvalues=[];
         $(document).on('click','#REV_btn_search',function(){
             $('#REV_nodata_startenddate').hide();
@@ -1387,6 +1651,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             xmlhttp.send();
             sorting();
         });
+
 // CLICK EVENT FOR PROJECT SEARCH BUTTON
         var projectvalues=[];
         $(document).on('click','#REV_btn_searchdaterange',function(){
@@ -1394,14 +1659,23 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_tble_projctrevenue_bydaterange').html('');
             $('#REV_btn_searchdaterange').attr("disabled","disabled");
             var REV_start_datevalue=$('#REV_tb_strtdtebyrange').val()
+//        alert('startdate')
+//        alert(REV_start_datevalue)
             var REV_end_datevalue=$('#REV_tb_enddtebyrange').val()
+//        alert('endate')
+//        alert(REV_end_datevalue)
             var REV_projectname=$('#REV_lb_projectname').val();
+//        alert('projectname')
+//        alert(REV_projectname)
             var REV_project_recversion=$('#REV_lb_precver').val();
+//        alert('recv')
+//        alert(REV_project_recversion)
             $('.preloader').show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     var projectvalues=JSON.parse(xmlhttp.responseText);
+//                alert(xmlhttp.responseText)
                     if(projectvalues)
                     {
                         $('.preloader').hide();
@@ -1416,12 +1690,21 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         }
                         var sd=replaceprjct.replace("[STARTDATE]",REV_start_datevalue);
                         REV_lbl_dterangetitle=sd.replace("[ENDDATE]",REV_end_datevalue);
+                        $('#REV_lbl_dterangetitledivid').html('').append('<div class="row-fluid form-group col-sm-2"><label id="REV_lbl_dterangetitle" name="REV_lbl_dterangetitle" class="srctitle"></label></div>')
                         $('#REV_lbl_dterangetitle').text(REV_lbl_dterangetitle).show();
+                        $('#REV_lbl_dterangetitledivid').show();
                         var working_day= projectvalues[0].working_day;
                         var REV_total_hrs= projectvalues[0].REV_total_hrs;
+                        $('#REV_lbl_totaldays_dterangedivid').html('').append('<div class="row-fluid form-group col-sm-2"><label id="REV_lbl_totaldays_dterange" name="REV_lbl_totaldays_dterange"  class="srctitle" hidden></label></div>')
+                        $('#REV_lbl_totalhrs_dterangedivid').html('').append('<div class="row-fluid form-group col-sm-2"><label id="REV_lbl_totalhrs_dterange" name="REV_lbl_totalhrs_dterange"  class="srctitle" hidden></label></div>')
+                        $('#REV_btn_totalhrs_pdfdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_totalhrs_pdf" class="btnpdf" value="PDF"></div>')
+                        $('#REV_div_projecttotal_dtebyrangedivid').html('').append('<div class="row-fluid form-group col-sm-2"><div id ="REV_div_projecttotal_dtebyrange" class="table-responsive row-fluid form-group col-sm-2" style="max-width:700px"><sectionprbydtrange></sectionprbydtrange></div></div>')
                         $('#REV_lbl_totaldays_dterange').text("TOTAL NO OF  DAYS: "  +   working_day).show();
                         $('#REV_lbl_totalhrs_dterange').text("TOTAL NO OF HRS: "  +   REV_total_hrs).show();
                         $('#REV_btn_totalhrs_pdf').show();
+                        $('#REV_lbl_totaldays_dterangedivid').show();
+                        $('#REV_lbl_totalhrs_dterangedivid').show();
+                        $('#REV_btn_totalhrs_pdfdivid').show();
                         var REV_table_header='<table width="700px" id="REV_tble_projctrevenue_bydaterange" border="1"  cellspacing="0" class="srcresult" ><thead  bgcolor="#6495ed" style="color:white"><tr><th width="200px">EMPLOYEE NAME</th><th>NUMBER OF DAYS</th><th>NUMBER OF HRS</th><th>NUMBER OF MINUTES</th></tr></thead><tbody>'
                         for(var i=0;i<projectvalues.length;i++){
                             var username=projectvalues[i].username;
@@ -1431,6 +1714,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             REV_table_header+='<tr><td>'+username+'</td><td align="center">'+noofdays+'</td><td align="center">'+total_hrs+'</td><td align="center">'+total_minutes+'</td></tr>';
                         }
                         REV_table_header+='</tbody></table>';
+//                    alert(REV_table_header)
                         $('sectionprbydtrange').html(REV_table_header);
                         $('#REV_tble_projctrevenue_bydaterange').DataTable({
                         });
@@ -1451,6 +1735,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 }
             }
             $('#REV_div_projecttotal_dtebyrange').show();
+            $('#REV_div_projecttotal_dtebyrangedivid').show();
             var option="projectname_dtebyrange";
             xmlhttp.open("GET","ADMIN/EMPLOYEE/DB_REPORT_REVENUE.do?option="+option+"&REV_projectname="+REV_projectname+"&REV_start_datevalue="+REV_start_datevalue+"&REV_end_datevalue="+REV_end_datevalue+"&REV_project_recver="+REV_project_recversion);
             xmlhttp.send();
@@ -1473,7 +1758,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         $(document).on('click','#REV_btn_pdf',function(){
             var inputValOne=$("#REV_lb_projectname").val();
             var inputValTwo=$('#REV_lb_precver').val();
-            var url=document.location.href='COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=5&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+title;
         });
         $(document).on('click','#REV_btn_emp_pdf',function(){
             if($("input[id=REV_rd_withproject]:checked").val()=="project"){
@@ -1485,10 +1770,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 var inputValFive=$('#REV_tb_enddte').val();
                 inputValFive = inputValFive.split("-").reverse().join("-");
                 if($('#REV_lb_project').val()==8){
-                    var url=document.location.href='COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
+                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
                 }
                 else if($('#REV_lb_project').val()==9){
-                    var url=document.location.href='COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=8&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
                 }
             }
         });
@@ -1500,10 +1785,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 var inputValFive=$('#REV_tb_enddte').val();
                 inputValFive = inputValFive.split("-").reverse().join("-");
                 if($('#REV_lb_project').val()==8){
-                    var url=document.location.href='COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
+                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=7&inputValOne='+inputValOne+'&title='+employeetitles;
                 }
                 else if($('#REV_lb_project').val()==9){
-                    var url=document.location.href='COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
+                    var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=9&inputValOne='+inputValOne+'&inputValFour='+inputValFour+'&inputValFive='+inputValFive+'&title='+heading;
                 }
             }
         });
@@ -1514,7 +1799,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             inputValThree = inputValThree.split("-").reverse().join("-");
             var inputValFour=$('#REV_tb_enddtebyrange').val();
             inputValFour = inputValFour.split("-").reverse().join("-");
-            var url=document.location.href='COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
+            var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=10&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&inputValFour='+inputValFour+'&title='+REV_lbl_dterangetitle;
         });
     });
     //DOCUMENT READY FUNCTION END
@@ -1528,213 +1813,177 @@ include "../../TSLIB/TSLIB_HEADER.php";
     <form   id="REV_form_revenue" class="content" role="form" >
         <div class="panel-body">
             <fieldset>
-
                 <div class="row-fluid form-group">
                     <label class="col-sm-2" name="REV_lbl_prjct" id="REV_lbl_prjct">PROJECT<em>*</em></label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <select id="REV_lb_project" class="form-control" style="display: inline" name="REV_lb_project" hidden>
                         </select>
-                    </div></div>
+                    </div>
+                </div>
+
+                <div id="project_act"></div>
+                <div id="project_nonact"></div>
 
                 <div><label id="REV_nodata_rc" name="REV_nodata_rc" class="errormsg"></label></div>
 
                 <div  id="REV_tble_prjctrevenue"  hidden>
                     <div class="row-fluid form-group">
-                        <label class="col-sm-2" name="REV_lbl_prjctnme" id="REV_lbl_prjctnme">PROJECT NAME<em>*</em></label></td>
+                        <label class="col-sm-2" name="REV_lbl_prjctnme" id="REV_lbl_prjctnme">PROJECT NAME<em>*</em></label>
                         <div class="col-sm-4">
                             <select id="REV_lb_projectname" class="form-control" style="display: inline" name="REV_lb_projectname" hidden>
                             </select>
                         </div>
                     </div></div>
 
-                <div class="row-fluid form-group">
-                    <label class="col-sm-2"name="REV_lbl_precver" id="REV_lbl_precver" hidden>RECORD VERSION<em>*</em></label>
-                    <div class="col-sm-4"> <select id="REV_lb_precver" name="REV_lb_precver" hidden>
-                        </select>
-                    </div>
-                </div>
+                <!--      <div class="row-fluid form-group"> <label class="col-sm-2"name="REV_lbl_precver" id="REV_lbl_precver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"> <select id="REV_lb_precver" name="REV_lb_precver" hidden> </select></div></div>-->
+                <div id="REV_lbl_precverdivid"></div>
 
-                <div><label id="REV_nodata_pd" class="col-sm-2" name="REV_nodata_pd" class="errormsg"></label></div>
+                <!--                <div><label id="REV_nodata_pd" class="col-sm-2" name="REV_nodata_pd" class="errormsg"></label></div>-->
                 <div id="REV_tble_startdate"></div>
                 <div id="REV_tble_searchbtn"></div>
-                <div class="row-fluid form-group" id="startenddatebydterangeoption" hidden>
-                    <label class="col-sm-2" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label>
-                    <div class="col-sm-4">
-                        <input type="text"  id="REV_tb_strtdtebyrange1" class="validsrchbtn clear REV_datepickeroption datemandtry" style="width:75px;" hidden>
-                    </div></div>
-
-                <div class="row-fluid form-group" id="endstartdatebydterangeoption" hidden>
-                    <label class="col-sm-2"  id="REV_lbl_enddtebyrange1" hidden >END DATE<em>*</em></label>
-                    <div class="col-sm-4">
-                        <input type="text" id="REV_tb_enddtebyrange1" class="validsrchbtn clear REV_datepickeroption datemandtry" style="width:75px;" hidden>
-                    </div></div>
-
+                <!--                <div class="row-fluid form-group" id="startenddatebydterangeoption" hidden>-->
+                <!--                    <label class="col-sm-2" id="REV_lbl_strtdtebyrange" >START DATE<em>*</em></label>-->
+                <div class="col-sm-4"><input type="text"  id="REV_tb_strtdtebyrange1" class="validsrchbtn clear REV_datepickeroption datemandtry" style="width:75px;" hidden></div>
+                <!--        </div>-->
+                <!---->
+                <!--                <div class="row-fluid form-group" id="endstartdatebydterangeoption" hidden>-->
+                <!--                    <label class="col-sm-2"  id="REV_lbl_enddtebyrange1" hidden >END DATE<em>*</em></label>-->
+                <!--                    <div class="col-sm-4">-->
+                <!--                        <input type="text" id="REV_tb_enddtebyrange1" class="validsrchbtn clear REV_datepickeroption datemandtry" style="width:75px;" hidden>-->
+                <!--                    </div></div>-->
+                <!---->
                 <input type="button" class="btn" id="REV_btn_searchdaterange"  value="SEARCH" disabled hidden>
 
+
                 <div id="REV_err_msg_date_project" class="col-sm-2" class="errormsg"></div>
+                <!---->
+                <!--                <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_prjctsrch"  name="REV_btn_prjctsrch" value="SEARCH" class="btn" disabled/></div>-->
+                <div id="REV_btn_prjctsrchdivid"></div>
+                <!---->
 
-                <div class="row-fluid form-group col-sm-2">
-                    <input type="button" id="REV_btn_prjctsrch"  name="REV_btn_prjctsrch" value="SEARCH" class="btn" disabled/>
-                </div>
-
-                <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_pdflextble" name="REV_nodata_pdflextble" class="errormsg"></label></div>
-
-                <div class="row-fluid form-group col-sm-2" >
-                    <label id="REV_lbl_title" name="REV_lbl_title"  class="srctitle" hidden></label>
-                </div>
-
-                <div class="row-fluid form-group col-sm-2" >
-                    <label id="REV_lbl_totaldays" name="REV_lbl_totaldays"  class="srctitle" hidden></label>
-                </div>
-
-                <div class="row-fluid form-group col-sm-2" >
-                    <label id="REV_lbl_totalhrs" name="REV_lbl_totalhrs"  class="srctitle" hidden></label>
-                </div>
-
-                <div class="row-fluid form-group col-sm-2" ><input type="button" id="REV_btn_pdf" class="btnpdf" value="PDF">
-                    <div>
-                        <div id ="REV_div_projecttotal" class="table-responsive" style="max-width:500px">
-                            <section>
-                            </section>
-                        </div>
-                    </div></div>
-
+                <!--                <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_pdflextble" name="REV_nodata_pdflextble" class="errormsg"></label></div>-->
+                <!---->
+                <!--              <div class="row-fluid form-group col-sm-2" ><label id="REV_lbl_title" name="REV_lbl_title"  class="srctitle" hidden></label></div>-->
+                <div id="REV_lbl_titledivid"></div>
+                <!---->
+                <!--              <div class="row-fluid form-group col-sm-2" ><label id="REV_lbl_totaldays" name="REV_lbl_totaldays"  class="srctitle" hidden></label></div>-->
+                <div id="REV_lbl_totaldaysdivid"></div>
+                <!---->
+                <!--               <div class="row-fluid form-group col-sm-2" ><label id="REV_lbl_totalhrs" name="REV_lbl_totalhrs"  class="srctitle" hidden></label></div>-->
+                <div id="REV_lbl_totalhrsdivid"></div>
+                <!---->
+                <!--               <div class="row-fluid form-group col-sm-2" ><input type="button" id="REV_btn_pdf" class="btnpdf" value="PDF"></div>-->
+                <div id="REV_btn_pdfdivid"></div>
+                <!--             <div id ="REV_div_projecttotal" style="max-width:500px"><section></section></div>-->
+                <div id="REV_div_projecttotaldivid"></div>
+                <!--                    <section></section>-->
+                <!--                </div>-->
+                <!--                    </div></div>-->
+                <!---->
                 <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_staenddate" name="REV_nodata_staenddate" class="errormsg"></label></div>
+                <!---->
+                <!--             <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_dterangetitle" name="REV_lbl_dterangetitle" class="srctitle"></label></div>-->
+                <div id="REV_lbl_dterangetitledivid"></div>
 
-                <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_dterangetitle" name="REV_lbl_dterangetitle" class="srctitle"></label>
-                </div>
+                <!--             <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_totaldays_dterange" name="REV_lbl_totaldays_dterange"  class="srctitle" hidden></label></div>-->
+                <div id="REV_lbl_totaldays_dterangedivid"></div>
+                <!---->
+                <!--             <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_totalhrs_dterange" name="REV_lbl_totalhrs_dterange"  class="srctitle" hidden></label></div>-->
+                <div id="REV_lbl_totalhrs_dterangedivid"></div>
+                <!---->
+                <!--                <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_totalhrs_pdf" class="btnpdf" value="PDF"></div>-->
+                <div id="REV_btn_totalhrs_pdfdivid"></div>
 
-                <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_totaldays_dterange" name="REV_lbl_totaldays_dterange"  class="srctitle" hidden></label>
-                </div>
-
-                <div class="row-fluid form-group col-sm-2">
-                    <label id="REV_lbl_totalhrs_dterange" name="REV_lbl_totalhrs_dterange"  class="srctitle" hidden></label>
-                </div>
-
-                <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_totalhrs_pdf" class="btnpdf" value="PDF"></div>
-
-                <div class="row-fluid form-group col-sm-2">
-                    <div id ="REV_div_projecttotal_dtebyrange" class="table-responsive "  style="max-width:700px" hidden>
-                        <sectionprbydtrange>
-                        </sectionprbydtrange>
-                    </div>
-                </div>
+                <!--                <div class="row-fluid form-group col-sm-2"><div id ="REV_div_projecttotal_dtebyrange" class="table-responsive row-fluid form-group col-sm-2" style="max-width:700px"hidden><sectionprbydtrange></sectionprbydtrange></div></div>-->
+                <div id="REV_div_projecttotal_dtebyrangedivid"></div>
 
                 <div id="REV_tble_prjctrevactnonact" hidden></div>
 
-                <div class="row-fluid form-group">
-                    <label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden>
-                        <div class="radio">
-                            <input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>&nbsp;ACTIVE EMPLOYEE</label>
+                <!--                <div class="row-fluid form-group">-->
+                <!--                    <label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden>-->
+                <!--                        <div class="radio">-->
+                <!--                            <input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>&nbsp;ACTIVE EMPLOYEE</label>-->
+                <!--                </div>-->
+                <!--        </div>-->
+                <div id="REV_lbl_actveempsdivid"></div>
+                <div id="REV_rd_veempactdivid"></div>
+                <div id="REV_lbl_nonactveempsdivid"></div>
+                <div id="REV_rd_veempnonactdivid"></div>
+                <!--        <div class="row-fluid form-group">-->
+                <!--         <label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp"  hidden>-->
+                <!--         <div class="radio"> <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp"  value="EMPLOYEE" class='attnd' hidden>&nbsp;NON ACTIVE EMPLOYEE </label> </div></div>-->
+
+
+                <!--<div class="row-fluid form-group"><label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-3 srctitle" hidden>ACTIVE EMPLOYEE</label></div>-->
+
+                <!---->
+                <!--<div class="row-fluid form-group"> <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-3" hidden>NON ACTIVE EMPLOYEE </label></div>-->
+                <!---->
+                <!--<div><label id="REV_nodata_uld" name="REV_nodata_uld" class="errormsg"></label></div>-->
+
+                <!--<div class="row-fluid form-group"> <label class="col-sm-2" name="REV_lbl_loginid" id="REV_lbl_loginid"  hidden>LOGIN ID<em>*</em></label><div class="col-sm-4"> <select name="REV_lb_loginid" id="REV_lb_loginid" class="form-control" style="display: none"> </select></div></div>-->
+                <div id="REV_lbl_revenulist"></div>
+                <div id="REV_lbl_projectlist"></div>
+
+                <!--<div class="row-fluid form-group"><label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject"  hidden><div class="radio"><input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>&nbsp;LIST REVENUE BY PROJECT</label></div></div>-->
+                <!---->
+                <!--<div class="row-fluid form-group"><label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden> <div class="radio"> <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>&nbsp;LIST OF PROJECT REVENUE</label></div></div>-->
+                <!---->
+                <!--<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_empproject" id="REV_lbl_empproject" hidden>PROJECT<em>*</em></label> <div class="col-sm-4"> <select id="REV_lb_empproject" name="REV_lb_empproject" class="form-control" style="display: none"> </select></div></div>-->
+                <!---->
+                <div id="REV_lbl_empprojectdivid"></div>
+                <!--                <div class="row-fluid form-group"><label class="col-sm-3" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" name="REV_lb_recver" hidden></select></div></div>-->
+                <div id="REV_lb_recverdivid"></div>
+                <!---->
+                <!--                <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>-->
+                <div id="REV_btn_empsrchdivid"></div>
+                <!---->
+                <div  class="row-fluid form-group col-sm-2"><label id="REV_nodata_loginid" name="REV_nodata_loginid" class="errormsg"></label></div>
+                <!---->
+                <!--                <div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label> <div class="col-sm-4"><input type="text" name="REV_tb_strtdte" id="REV_tb_strtdte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></div></div>-->
+                <div id="REV_tb_strtdtedivid"></div>
+
+                <!---->
+                <!--                <div class="row-fluid form-group"><label class="col-sm-2"  name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REV_tb_enddte" id="REV_tb_enddte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden></div></div>-->
+                <div id="REV_tb_enddtedivid"></div>
+                <!---->
+                <!--                <div  class="row-fluid form-group col-sm-2" ><input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled></div>-->
+                <div id="REV_btn_searchdivid"></div>
+                <!---->
+                <div id="REV_err_msg_date" class="errormsg row-fluid form-group col-sm-2"></div>
+                <!---->
+                <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_startenddate" name="REV_nodata_startenddate" class="errormsg"></label></div>
+                <!---->
+                <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label></div>
+                <!--                <div id="REV_lbl_emptitledivid"></div>-->
+                <!---->
+                <div>
+                    <label id="REV_lbl_ttlprjct" name="REV_lbl_ttlprjct"  class="srctitle" hidden></label>
+                </div>
+                <!---->
+                <div class="row-fluid form-group col-sm-2">
+                    <label id="REV_lbl_empday" name="REV_lbl_empday"  class="srctitle" hidden></label>
+                </div>
+                <!---->
+                <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emp_pdf" class="btnpdf" value="PDF">
+                    <!--    <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emplist_pdf" class="btnpdf" value="PDF"></div>-->
+                    <!--    <div></div>-->
+                    <div><label id="REV_lbl_eachproject_empday" name="REV_lbl_eachproject_empday"  class="srctitle" hidden></label>
+                        <!--    </div></div>-->
+
+                        <div  id ="REV_div_loginid" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px">
+                            <sections>
+                            </sections>
                         </div>
-               </div>
 
-                <div class="row-fluid form-group">
-                    <label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp"  hidden>
-                <div class="radio">
-                    <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp"  value="EMPLOYEE" class='attnd' hidden>&nbsp;NON ACTIVE EMPLOYEE </label>
-                </div></div>
+                        <div id ="REV_div_nonactve_dterange" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px">
+                            <sectionrnge>
+                            </sectionrnge>
+                        </div>
 
-               <div class="row-fluid form-group">
-                    <label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-3 srctitle" hidden>ACTIVE EMPLOYEE</label>
-               </div>
-
-<div class="row-fluid form-group">
-    <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-3" hidden>NON ACTIVE EMPLOYEE </label>
-</div>
-
-<div><label id="REV_nodata_uld" name="REV_nodata_uld" class="errormsg"></label></div>
-
-<div class="row-fluid form-group">
-    <label class="col-sm-2" name="REV_lbl_loginid" id="REV_lbl_loginid"  hidden>LOGIN ID<em>*</em></label>
-    <div class="col-sm-4">
-        <select name="REV_lb_loginid" id="REV_lb_loginid" class="form-control" style="display: none">
-        </select>
-    </div></div>
-
-<div class="row-fluid form-group">
-    <label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject"  hidden>
-        <div class="radio">
-            <input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>&nbsp;LIST REVENUE BY PROJECT</label>
-</div></div>
-
-<div class="row-fluid form-group">
-    <label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden>
-        <div class="radio">
-            <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>&nbsp;LIST OF PROJECT REVENUE</label>
-</div></div>
-
-<div class="row-fluid form-group">
-    <label class="col-sm-2" name="REV_lbl_empproject" id="REV_lbl_empproject" hidden>PROJECT<em>*</em></label>
-    <div class="col-sm-4">
-        <select id="REV_lb_empproject" name="REV_lb_empproject" class="form-control" style="display: none">
-        </select>
-    </div></div>
-
-<div class="row-fluid form-group">
-    <label class="col-sm-3" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label>
-    <div class="col-sm-4">
-        <select id="REV_lb_recver" name="REV_lb_recver" hidden>
-        </select>
-    </div></div>
-
-<div class="row-fluid form-group col-sm-2">
-    <input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/>
-</div>
-
-<div  class="row-fluid form-group col-sm-2"><label id="REV_nodata_loginid" name="REV_nodata_loginid" class="errormsg"></label></div>
-
-<div class="row-fluid form-group">
-    <label class="col-sm-2" name="REV_lbl_strtdte" id="REV_lbl_strtdte" hidden>START DATE<em>*</em></label>
-    <div class="col-sm-4">
-        <input type="text" name="REV_tb_strtdte" id="REV_tb_strtdte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden>
-    </div></div>
-
-<div class="row-fluid form-group">
-    <label class="col-sm-2"  name="REV_lbl_enddte" id="REV_lbl_enddte" hidden >END DATE<em>*</em></label>
-    <div class="col-sm-4">
-        <input type="text" name="REV_tb_enddte" id="REV_tb_enddte" class=" valid clear REV_datepicker datemandtry" style="width:75px;" hidden>
-    </div></div>
-
-<div  class="row-fluid form-group col-sm-2" >
-    <input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled>
-</div>
-
-<div id="REV_err_msg_date" class="errormsg row-fluid form-group col-sm-2"></div>
-
-<div class="row-fluid form-group col-sm-2"><label id="REV_nodata_startenddate" name="REV_nodata_startenddate" class="errormsg"></label></div>
-
-<div class="row-fluid form-group col-sm-2">
-    <label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label>
-</div>
-
-<div>
-    <label id="REV_lbl_ttlprjct" name="REV_lbl_ttlprjct"  class="srctitle" hidden></label>
-</div>
-
-<div class="row-fluid form-group col-sm-2">
-    <label id="REV_lbl_empday" name="REV_lbl_empday"  class="srctitle" hidden></label>
-</div>
-
-<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emp_pdf" class="btnpdf" value="PDF">
-    <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emplist_pdf" class="btnpdf" value="PDF"></div>
-    <div></div>
-    <div><label id="REV_lbl_eachproject_empday" name="REV_lbl_eachproject_empday"  class="srctitle" hidden></label>
-    </div></div>
-
-<div  id ="REV_div_loginid" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px">
-    <sections>
-    </sections>
-</div>
-
-<div id ="REV_div_nonactve_dterange" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px">
-    <sectionrnge>
-    </sectionrnge>
-</div>
-
-</fieldset>
-</div>
-</form>
+            </fieldset>
+        </div>
+    </form>
 </div>
 </body>
 <!--BODY TAG END-->

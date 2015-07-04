@@ -125,6 +125,7 @@ if(isset($_REQUEST)){
         $URSRC_passportno=$_POST['URSRC_tb_passportno'];
         $URSRC_voterid=$_POST['URSRC_tb_votersid'];
         $comment=$_POST['URSRC_ta_comments'];
+        $comment= $con->real_escape_string($comment);
         $URSRC_bag=$_POST['URSRC_chk_bag'];
         if($URSRC_bag=='on')
         {

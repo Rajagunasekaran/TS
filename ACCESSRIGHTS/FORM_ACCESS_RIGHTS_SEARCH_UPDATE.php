@@ -112,7 +112,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 
             });
             loginbuttonvalidation();
-            var rowCount = $('#filetableuploads tr').length;
+            var rowCount = $('#filetableuploads div').length;
             if(rowCount!=0)
             {
                 $('#attachafile').text('Attach another file');
@@ -144,11 +144,11 @@ include  "../TSLIB/TSLIB_HEADER.php";
         //add file upload row
         $(document).on("click",'#attachprompt', function (){
             button_vflag=0;
-            var tablerowCount = $('#filetableuploads tr').length;
+            var tablerowCount = $('#filetableuploads div').length;
             filerowcount=filerowcount+1;
             var uploadfileid="upload_filename"+filerowcount;
          //var appendfile='<tr><td ><input type="file" accept="application/pdf" name="UPD_uploaded_files[]"  id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';//ths line for only showing pdf file in choden file
-            var appendfile='<div class="col-sm-offset-2 col-sm-10"><input type="file" name="UPD_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></div></br>';
+            var appendfile='<div class="col-sm-offset-6 col-sm-10"><input type="file" name="UPD_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></div></br>';
 //            var appendfile='<div class="col-sm-offset-2 col-sm-10"><label class="inline"><input type="file" style="max-width:250px " class="fileextensionchk form-control" name='+uploadfileid+' id='+uploadfileid+'></label><label class="inline" ><button  class="removebutton" value="" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;"></button></label></div>';
             $('#filetableuploads').append(appendfile);
             ValidateSubmitbutton()
@@ -289,7 +289,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             $('#URSRC_lbl_header').text("BASIC ROLE MENU CREATION").show();
             $('#URSRC_tble_basicroles').show();
-            $('#URSRC_lbl_nodetails_err').hide()
+            $('#URSRC_lbl_nodetails_err').hide();
             $('#URSRC_tble_basicrolemenucreation').show();
             $('#URSRC_lbl_login_role').hide();
             $('#URSRC_lbl_joindate').hide().val("");
@@ -317,7 +317,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
             $('#URSRC_lbl_validnumberhouseno').hide();
-            $("#filetableuploads tr").remove();
+            $("#filetableuploads div").remove();
             $('#attachafile').text('Attach a file');
         });
         //BASIC ROLE MENU SEARCH/UPDATE CLICK FUNCTION
@@ -356,7 +356,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
             $('#URSRC_lbl_validnumberhouseno').hide();
-            $("#filetableuploads tr").remove();
+            $("#filetableuploads div").remove();
             $('#attachafile').text('Attach a file');
         });
         //ROLE CREATION CLICK FUNCTION
@@ -365,12 +365,17 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             // $('#joindate').hide();
             $('#URSRC_lbl_joindate').hide();
+            $('#URSRC_lb_rolename').hide();
+            $('#URSRC_lbl_selectrole').hide();
             $('#URSRC_tb_joindate').hide();
             $('#URSRC_tble_roles').hide();
             $('#URSRC_rolesearch_roles').hide();
             $('#URSRC_tble_basicroles').hide();
             $('#URSRC_lbl_header').text("ROLE CREATION").show()
             $('#URSRC_submitupdate').hide();
+            $('#URSRC_rolesearch_roles > div').remove()
+
+            $('#URSRC_tb_customrole').val('');
             $('#URSRC_tble_search').hide();
             $('#URSRC_tble_login').hide();
             $('#URSRC_lbl_nodetails_err').hide()
@@ -395,7 +400,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
             $('#URSRC_lbl_validnumberhouseno').hide();
-            $("#filetableuploads tr").remove();
+            $("#filetableuploads div").remove();
             $('#attachafile').text('Attach a file');
 
         });
@@ -405,6 +410,9 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        $('.preloader',window.parent.document).show();
             $(".preloader").show();
             $('#URSRC_btn_submitbutton').hide();
+            $('#URSRC_lbl_selectrole').hide();
+            $('#URSRC_lb_selectrole').hide();
+
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             $('input[type=checkbox]').attr('checked', false);
             URSRC_basicradio_value=$(this).val();
@@ -636,7 +644,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
             $('#URSRC_lbl_validnumberhouseno').hide();
-            $("#filetableuploads tr").remove();
+            $("#filetableuploads div").remove();
             $('#attachafile').text('Attach a file');
         });
         var error_valid='valid';
@@ -1098,7 +1106,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_validnumber').hide();
             $('#URSRC_lbl_validnumber1').hide();
             $('#URSRC_lbl_validnumberhouseno').hide();
-            $("#filetableuploads tr").remove();
+            $("#filetableuploads div").remove();
             $('#attachafile').text('Attach a file');
             var PE_startdate=(URSRC_comp_sdate).split('-');
             var day=PE_startdate[0];
@@ -1182,7 +1190,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        alert('hhhh')
             var loinid_lap_val=$('#URSRC_lb_selectloginid').val();
             $('#attachprompt').show();
-            $("#filetableuploads tr").remove();
+            $("#filetableuploads div").remove();
             $("html, body").animate({ scrollTop: $(document).height() }, 1000);//worked
 //        $('.preloader',window.parent.document).show();
             $(".preloader").show();
@@ -1233,11 +1241,11 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         var values_array=JSON.parse(xmlhttp.responseText);
                         for(var f=0;f<values_array[0][3].length;f++)
                         {
-                            var tablerowCount = $('#filetableuploads tr').length;
+                            var tablerowCount = $('#filetableuploads div').length;
                             var uploadfileid="upload_filename"+tablerowCount;
                             var uploadfilename="filename"+tablerowCount;
 //                            var appendfile='<div class="col-sm-offset-2 col-sm-10"><label class="inline"><input type="file" style="max-width:250px " class="fileextensionchk form-control" name='+uploadfileid+' id='+uploadfileid+'></label><label class="inline" ><button  class="removebutton" value="" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;"></button></label></div>';
-                            var appendfile='<div class="col-sm-offset-2 col-sm-10"><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></div></br>';
+                            var appendfile='<div class="col-sm-offset-6 col-sm-10"><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></div></br>';
                             $('#filetableuploads').append(appendfile);
                         }
                         if(values_array[0][2].length>0)
@@ -1544,7 +1552,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             $('#URSRC_tb_joindate').val("");
                             $('#URSRC_tb_loginid').val("");
                             $('input[name=URSRC_mainradiobutton]:checked').attr('checked',false);
-                            $("#filetableuploads tr").remove();
+                            $("#filetableuploads div").remove();
                             $('#attachafile').text('Attach a file');
                         }
                         if(success_flag==0)
@@ -1639,7 +1647,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             $('input:radio[name=URSRC_mainradiobutton]').attr('checked',false);
                             $('#URSRC_table_employeetbl').hide();
                             $('#URSRC_lbl_selectloginid').hide();
-                            $("#filetableuploads tr").remove();
+                            $("#filetableuploads div").remove();
                             $('#attachafile').text('Attach a file');
                         }
                         if(success_flag==0){
@@ -1709,6 +1717,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
         $(document).on("click",'.URSRC_class_basicroles', function (){
 //        $('.preloader',window.parent.document).show();
             $(".preloader").show();
+            $('#URSRC_lb_selectrole').hide();
             var radio_value=$(this).val();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -1819,6 +1828,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 }
             }
             $('#URSRC_btn_submitbutton').show()
+            $('#URSRC_tble_rolesearch').show()
         }
         //TREE VIEW EXPANDING
         $(document).on("click",'.exp,.collapse2', function (){
@@ -2023,6 +2033,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         {
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[9] ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[9],"success",false);
+                            $('#URSRC_rolesearch_roles > div').remove()
                             $('#URSRC_tble_menu').hide();
                             $('#URSRC_tble_folder').hide();
                             $('#URSRC_tble_roles').hide();
@@ -2201,7 +2212,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             }
             $('#URSRC_tble_menu').hide();
             $('#URSRC_tble_folder').hide();
-            $('#URSRC_rolesearch_roles tr').remove();
+            $('#URSRC_rolesearch_roles div').remove();
             $('#URSRC_btn_submitbutton').hide();
         });
 
@@ -2315,11 +2326,9 @@ include  "../TSLIB/TSLIB_HEADER.php";
 
                 </div>
                 <div id="URSRC_tble_basicrolemenucreation" hidden>
-
                     <div id="URSRC_tble_basicroles" hidden ></div>
-
-                    <lable id="URSRC_lbl_basicrole_err" class="errormsg"></lable>
-                </div>
+                </div><br>
+                <lable id="URSRC_lbl_basicrole_err" class="errormsg"></lable>
                 <div id="URSRC_tble_basicrolemenusearch" hidden>
 
                     <div id="URSRC_tble_search_basicroles" hidden ></div>
@@ -2484,8 +2493,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_accntyp" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label>
                         <div class="col-sm-4">
-                            <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="alphanumericuppercse login_submitvalidate form-control" >
-
+                            <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="login_submitvalidate form-control" >
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                         </div></div>
@@ -2580,10 +2588,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         </span>
 
                         </div>
-                    </div>
-                    <div>
-                        <input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden />
-                    </div>
+                    </div><br>
+                </div><br><br>
+                <div>
+                    <input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden />
                 </div>
                 <div id="URSRC_tble_rolesearch" hidden>
                     <div><label id="URSRC_lbl_norole_err" class="errormsg"></label></div>
@@ -2602,7 +2610,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 <div id="URSRC_tble_menu" hidden ></div>
                 <div id="URSRC_tble_folder" hidden></div>
                 <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
-        </div>
+        </div><br>
                 <div id="URSRC_btn_update"></div>
         </fieldset>
         <!--                                </div>-->

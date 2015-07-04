@@ -73,7 +73,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#REP_tablecontainer_bydaterange').hide();
                     $('.date-pickers').html('');
                     $('#CLK_nodata_rc').hide();
-                    $('#REP_lbl_report_entry').hide();
+//                    $('#REP_lbl_report_entry').hide();
                     $('CLK_btn_search').hide();
                     $('CLK_lbl_selectmnths').hide();
                     uld_id;
@@ -82,9 +82,9 @@ include "../TSLIB/TSLIB_HEADER.php";
                     errmsg;
                     pdferrmsg;
                     msg;
+                    err();
                     $(".ui-datepicker-calendar").hide();
                     $('#CLK_btn_emp_pdf').hide();
-                    err();
                     $(".preloader").show();
                     function err(){
                         var xmlhttp=new XMLHttpRequest();
@@ -166,6 +166,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 
             // CHANGE EVENT FOR STARTDATE AND ENDDATE
             $(document).on('change','.valid',function(){
+
                 $('#section').html('');
                 $('#REP_tablecontainer_bydaterange').hide();
                 if(($("#REP_tb_strtdtebyrange").val()=='')||($("#REP_tb_enddtebyrange").val()==''))
@@ -297,6 +298,8 @@ include "../TSLIB/TSLIB_HEADER.php";
 
 
             //FUNCTION FOR SETTINF MIN ND MAX DATE
+//
+
             $(".preloader").show();
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
@@ -319,6 +322,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $(".date-pickers").datepicker("option","maxDate", new Date(CLK_end_dates));
                     }
                     else{
+
                         $('#CLK_btn_search').hide();
                         $('#CLK_lbl_selectmnths').hide();
                         $('#CLK_db_selectmnths').hide();
@@ -441,71 +445,70 @@ include "../TSLIB/TSLIB_HEADER.php";
     <form  id="REP_chk_form_details" class="content" role="form">
         <div class="panel-body">
             <fieldset>
-                <div style="padding-bottom: 15px">
+                <div style="padding-left: 15px" >
                     <div class="radio">
                         <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
                             <input type="radio" name="clock" class="clock_click" id="clock_in_out" value=clockinout>CLOCK IN-OUT DETAILS</label>
-                    </div>
+                    </div></div>
+                <div style="padding-left: 15px">
                     <div class="radio">
                         <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
-
                             <input type="radio" name="clock" class="clock_click" id="clock_missed" value="clockmissed">CLOCK-OUT-MISSED DETAILS</label>
-                    </div>
-                </div>
-                <div class="row-fluid form-group">
+                    </div></div>
+                <div class="row-fluid form-group" style="padding-top: 15px">
                     <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
                 <div id="clockinout" hidden>
-                    <div class="form-group">
+                    <div class="form-group" >
                         <label name="REP_lbl_strtdtebyrange" class="col-sm-2" id="REP_lbl_strtdtebyrange" >START DATE<em>*</em></label>
-                        <div class="col-sm-offset-1">
+                        <div class="col-sm-offset-1"style="padding-left: 15px" >
                             <input type="text" id="REP_tb_strtdtebyrange" name="REP_tb_strtdtebyrange"  class='valid REP_datepicker datemandtry' style="width:75px;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="padding-right: 20px">
                         <label name="REP_lbl_enddte" class="col-sm-2" id="REP_lbl_enddte" >END DATE<em>*</em></label>
-                        <div class="col-sm-offset-1">
+                        <div class="col-sm-offset-1"style="padding-left: 15px">
                             <input type="text" id="REP_tb_enddtebyrange" name="REP_tb_enddtebyrange"  class='valid REP_datepicker datemandtry' style="width:75px;"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="padding-left:10px">
                         <input type="button" id="REP_btn_searchdaterange" name="REP_btn_searchdaterange"  value="SEARCH" class="btn"  disabled />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="padding-left:15px">
                         <label id="REP_lbl_daterange" name="REP_lbl_daterange"  class="srctitle" hidden></label>
                     </div>
-                    <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
-
-                    <div id="REP_tablecontainer_bydaterange" style="width:auto" class="table-responsive" hidden>
+                    <div style="padding-left:15px">
+                        <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
+                    </div>
+                    <div id="REP_tablecontainer_bydaterange" style="width:auto; padding-left:15px" class="table-responsive" hidden>
                         <section style="width:1000px;">
                         </section>
                     </div>
                 </div>
                 <div id="clockmissed" hidden>
                     <div class="form-group"><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></div>
-                    <div class="row-fluid form-group" >
+                    <div class="row-fluid">
                         <label name="CLK_lbl_selectmnths" class="col-sm-2" id="CLK_lbl_selectmnths">SELECT MONTH<em>*</em></label>
                         <div class="col-sm-offset-1">
                             <input type="text" name="CLK_db_selectmnths" id="CLK_db_selectmnths" class="date-pickers datemandtry valid" style="width:110px;"><br>
                         </div>
                     </div>
-
-                    <div class="form-group">
+                    <div class="form-group" style="padding-left:15px ">
                         <input type="button" class="btn" name="CLK_btn_search" id="CLK_btn_search"  value="SEARCH" disabled>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="padding-left:15px ">
                         <label id="no_of_days" class="srctitle"></label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="padding-left:15px ">
                         <label id="src_lbl_error_login" class="srctitle"></label>
                     </div>
 
-                    <div class="form-group"><input type="button" id="CLK_btn_emp_pdf" class="btnpdf" value="PDF"></div>
+                    <div class="form-group" style="padding-left:15px "><input type="button" id="CLK_btn_emp_pdf" class="btnpdf" value="PDF"></div>
 
-                    <div class="form-group"><label id="CLK_nodata_pdflextbles" name="CLK_nodatas_pdflextble" class="errormsg" hidden></label></div>
+                    <div class="form-group" style="padding-left:15px "><label id="CLK_nodata_pdflextbles" name="CLK_nodatas_pdflextble" class="errormsg" hidden></label></div>
 
-                    <div class="table-responsive" id ="CLK_div_actvenon_dterange" style="width:auto" hidden>
+                    <div class="table-responsive" id ="CLK_div_actvenon_dterange" style="width:auto;padding-left:15px" hidden>
                         <section style="width:400px;">
                         </section>
                     </div>
