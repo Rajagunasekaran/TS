@@ -645,8 +645,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         });
         //CLICK EVENT FOR WITHPROJECT
         $(document).on('click','#REV_rd_withproject',function(){
-//        alert('success');
-
+            $('.preloader').show();
             $('#REV_btn_empsrchdivid').html('');
             $('#REV_lbl_empprojectdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_empproject" id="REV_lbl_empproject">PROJECT<em>*</em></label> <div class="col-sm-4"> <select id="REV_lb_empproject" name="REV_lb_empproject" class="form-control"> </select></div></div>');
             $('#REV_lbl_empprojectdivid').show();
@@ -676,9 +675,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    $('.preloader').hide();
-//                alert(xmlhttp.responseText)
                     var values_array=JSON.parse(xmlhttp.responseText);
+                    $('.preloader').hide();
                     var project=[];
                     var REV_project_names=values_array[0];
                     for (var i=0;i<REV_project_names.length;i++) {
@@ -1254,6 +1252,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         //click event for project rec ver
         $(document).on('change','#REV_lb_recver',function(){
 //        alert('recvproj')
+            $('#REV_div_loginid').hide();
             $('#REV_tb_strtdte').val('');
             $('#REV_tb_enddte').val('');
             var formElement = document.getElementById("REV_form_revenue");
@@ -1284,6 +1283,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var projectname=$('#REV_lb_project').val();
             if(emp_project!='SELECT'&& project_recver!="SELECT" && projectname==9){
 //            alert('recvnotequaltoselect')
+                $('#REV_div_loginid').hide();
+                $('#REV_div_nonactve_dterange').hide();
                 daterange()
                 $('#REV_tb_strtdte').val('').show();
                 $('#REV_lbl_strtdte').show();
@@ -1295,6 +1296,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             }
             else if(emp_project!='SELECT'&& project_recver!="SELECT" && projectname==8){
 //            alert('elseifemprecr');
+                $('#REV_div_loginid').hide();
                 $('#REV_tb_strtdte').hide();
                 $('#REV_err_msg_date').hide();
                 $('#REV_err_msg_date_project').hide();
@@ -1402,6 +1404,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         var loginidvalues=[];
         $(document).on('click','#REV_btn_empsrch',function(){
 //        alert('search')
+            $('.preloader').show();
             $('sections').html('');
             var REV_withproject=$('#REV_rd_withproject').val();
             $('#REV_nodata_loginid').hide();
@@ -1431,6 +1434,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 //                alert(xmlhttp.responseText)
 //                alert(loginidvalues)
                     loginidvalues=JSON.parse(xmlhttp.responseText);
+                    $('.preloader').hide();
                     if(loginidvalues)
                     {
                         $('.preloader').hide();

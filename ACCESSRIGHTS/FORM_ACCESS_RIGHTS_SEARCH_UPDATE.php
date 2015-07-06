@@ -411,6 +411,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $(".preloader").show();
             $('#URSRC_btn_submitbutton').hide();
             $('#URSRC_lbl_selectrole').hide();
+            $('#URSRC_tble_rolesearch').hide();
             $('#URSRC_lb_selectrole').hide();
 
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
@@ -1498,8 +1499,9 @@ include  "../TSLIB/TSLIB_HEADER.php";
         //VALIDATION FOR UPDATE BUTTON LOGIN SEARCH ND UPDATE
         $('form').submit(function (e){
             e.preventDefault();
+            var URSRCT_radioid_val=$('input[name=URSRC_mainradiobutton]:checked').val();//$("input:radio[name=URSRC_mainradiobutton]").is(":checked");
             var URSRC_submitbtnvalue= $(this).find("input[type=submit]:focus").val();
-            if(URSRC_submitbtnvalue=="CREATE")
+            if(URSRC_submitbtnvalue=="CREATE" && URSRCT_radioid_val!='ROLE CREATION')
             {
 //            $('.preloader',window.parent.document).show();
                 $(".preloader").show();
@@ -1831,7 +1833,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_tble_rolesearch').show()
         }
         //TREE VIEW EXPANDING
-        $(document).on("click",'.exp,.collapse2', function (){
+        $(document).on("click",'.exp,.collapse2', function (evt){
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
             var button_id=$(this).attr("id")
             var btnid=button_id.split("_");
             var menu_btnid=btnid[1]
@@ -1859,7 +1864,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
             }
         });
         //TREE VIEW EXPANDING
-        $(document).on("click",'.exp1,.collapse1', function (){
+        $(document).on("click",'.exp1,.collapse1', function (evt){
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
             var sub_buttonid=$(this).attr("id")
             var btnid=sub_buttonid.split("_");
             var menu_btnid=btnid[2]

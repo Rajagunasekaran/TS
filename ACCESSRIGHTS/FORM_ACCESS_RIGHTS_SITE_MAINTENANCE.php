@@ -1,6 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************SITE MAINTENANCE*********************************************//
 //DONE BY:LALITHA
+//VER 0.03-SD:06/07/2015 ED:06/07/2015,GITHUB VER:7.4,issue cleared tree view loaded at static menu time in previous initialy nly loaded
 //VER 0.02-SD:01/12/2014 ED:01/12/2014,TRACKER NO:74,Changed Preloder funct
 //VER 0.01-INITIAL VERSION, SD:24/09/2014 ED:29/09/2014,TRACKER NO:79
 //*********************************************************************************************************//
@@ -164,7 +165,10 @@ $(document).ready(function(){
     });
 
     //TREE VIEW EXPANDING
-    $(document).on("click",'.exp,.collapse2', function (){
+    $(document).on("click",'.exp,.collapse2', function (evt){
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.stopImmediatePropagation();
         var button_id=$(this).attr("id")
         var btnid=button_id.split("_");
         var menu_btnid=btnid[1]
@@ -190,7 +194,10 @@ $(document).ready(function(){
         }
     });
     //TREE VIEW EXPANDING
-    $(document).on("click",'.exp1,.collapse1', function (){
+    $(document).on("click",'.exp1,.collapse1', function (evt){
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.stopImmediatePropagation();
         var sub_buttonid=$(this).attr("id")
         var btnid=sub_buttonid.split("_");
         var menu_btnid=btnid[2]

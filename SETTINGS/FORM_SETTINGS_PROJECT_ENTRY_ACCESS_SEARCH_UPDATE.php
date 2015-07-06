@@ -1158,7 +1158,7 @@ include "../TSLIB/TSLIB_HEADER.php";
         <div class="form-group">
             <label class="col-lg-4" name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label>
             <div class="col-lg-8">
-                <textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  valid"></textarea>
+                <textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  tarea form-control valid"></textarea>
             </div> </div>
 
         <div>
