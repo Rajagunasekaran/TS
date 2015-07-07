@@ -12,14 +12,14 @@
 //require_once 'google-api-php-client-master/src/Google/Client.php';
 //require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 require_once('../TSLIB/TSLIB_mpdf571/mpdf571/mpdf.php');
-//require_once 'google/appengine/api/mail/Message.php';
-//use google\appengine\api\mail\Message;
+require_once 'google/appengine/api/mail/Message.php';
+use google\appengine\api\mail\Message;
 include "../TSLIB/TSLIB_COMMON_FUNCTIONS.php";
 include "../TSLIB/TSLIB_CONNECTION.php";
 //include "../TSLIB/CONFIG.php";
 $month_end = date('Y-m-d',strtotime('first day of this month'));
 $current_date=date('Y-m-d');
-if($month_end==$current_date){
+if($month_end!=$current_date){
     $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
     $select_sadmin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='SUPER ADMIN'";
     $admin_rs=mysqli_query($con,$select_admin);
@@ -81,6 +81,8 @@ if($month_end==$current_date){
         . '<td align="center" width=90 nowrap style="border: 1px solid black;color:white;"><b>NO OF ONDUTY</b></td>'
         . '<td align="center" width=120 nowrap style="border: 1px solid black;color:white;"><b>PERMISSION HOUR(S)</b></td>'
         . '<td align="center" width=100 nowrap style="border: 1px solid black;color:white;"><b>REPORT ENTRY MISSED</b></td>'
+        . '<td align="center" width=100 nowrap style="border: 1px solid black;color:white;"><b>WORK FORM HOME</b></td>'
+        . '<td align="center" width=100 nowrap style="border: 1px solid black;color:white;"><b>ABSENT NOT INFORM</b></td>'
         . '<td align="center" width=100 nowrap style="border: 1px solid black;color:white;"><b>WORKED IN HOLIDAYS</b></td></tr></th>';
 
     while($row=mysqli_fetch_array($select_data_rs)){
@@ -90,6 +92,8 @@ if($month_end==$current_date){
         $no_of_onduty=$row['NO_OF_ONDUTY'];
         $permission=$row['PERMISSION_HRS'];
         $login_id=$row['LOGINID'];
+        $work_from_home=$row['WORK_FROM_HOME'];
+        $absent_not_inform=$row['ABSENT_NOT_INFORM'];
         $work_in_holiday=$row['WORKING_IN_HOLIDAYS'];
         if($permission<0.5){
             $permission=' ';
@@ -106,7 +110,7 @@ if($month_end==$current_date){
         if($work_in_holiday<0.5){
             $work_in_holiday= ' ';
         }
-        $message=$message. "<tr style='border: 1px solid black;' height=25px ><td style='border: 1px solid black;'>".$login_id."</td><td align='center' style='border: 1px solid black;'>".$no_of_present."</td><td align='center' style='border: 1px solid black;'>".$no_of_absent."</td><td align='center' style='border: 1px solid black;'>".$no_of_onduty."</td><td align='center' style='border: 1px solid black;'>".$permission."</td><td align='center' style='border: 1px solid black;'>".$absent_count."</td><td align='center' style='border: 1px solid black;'>".$work_in_holiday."</td></tr>";
+        $message=$message. "<tr style='border: 1px solid black;' height=25px ><td style='border: 1px solid black;'>".$login_id."</td><td align='center' style='border: 1px solid black;'>".$no_of_present."</td><td align='center' style='border: 1px solid black;'>".$no_of_absent."</td><td align='center' style='border: 1px solid black;'>".$no_of_onduty."</td><td align='center' style='border: 1px solid black;'>".$permission."</td><td align='center' style='border: 1px solid black;'>".$absent_count."</td><td align='center' style='border: 1px solid black;'>".$work_from_home."</td><td align='center' style='border: 1px solid black;'>".$absent_not_inform."</td><td align='center' style='border: 1px solid black;'>".$work_in_holiday."</td></tr>";
     }
     $drop_query="DROP TABLE $temp_table_name ";
     $drop_query1="DROP TABLE $temp_table_name1 ";

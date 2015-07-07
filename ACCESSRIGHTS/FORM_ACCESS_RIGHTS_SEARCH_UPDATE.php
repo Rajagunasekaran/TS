@@ -20,9 +20,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
 
 <!--SCRIPT TAG START-->
 <script>
-
     var button_vflag=1;
-
+    var err_msg_array=[];
+    var EMP_ENTRY_loginid=[];
+    var project_array=[];
     //START DOCUMENT READY FUNCTION
     $(document).ready(function(){
 //    $('.preloader',window.parent.document).show();
@@ -147,7 +148,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             var tablerowCount = $('#filetableuploads div').length;
             filerowcount=filerowcount+1;
             var uploadfileid="upload_filename"+filerowcount;
-         //var appendfile='<tr><td ><input type="file" accept="application/pdf" name="UPD_uploaded_files[]"  id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';//ths line for only showing pdf file in choden file
+            //var appendfile='<tr><td ><input type="file" accept="application/pdf" name="UPD_uploaded_files[]"  id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';//ths line for only showing pdf file in choden file
             var appendfile='<div class="col-sm-offset-6 col-sm-10"><input type="file" name="UPD_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></div></br>';
 //            var appendfile='<div class="col-sm-offset-2 col-sm-10"><label class="inline"><input type="file" style="max-width:250px " class="fileextensionchk form-control" name='+uploadfileid+' id='+uploadfileid+'></label><label class="inline" ><button  class="removebutton" value="" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;"></button></label></div>';
             $('#filetableuploads').append(appendfile);
@@ -289,6 +290,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             $('#URSRC_lbl_header').text("BASIC ROLE MENU CREATION").show();
             $('#URSRC_tble_basicroles').show();
+            $('#URSRC_workfromhome').hide();
             $('#URSRC_lbl_nodetails_err').hide();
             $('#URSRC_tble_basicrolemenucreation').show();
             $('#URSRC_lbl_login_role').hide();
@@ -326,6 +328,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             $('#URSRC_lbl_header').text("BASIC ROLE MENU SEARCH UPDATE").show()
             $('#URSRC_lbl_login_role').hide();
+            $('#URSRC_workfromhome').hide();
             $('#URSRC_rolesearch_roles > div').remove()
             $('#URSRC_lbl_joindate').hide().val("");
             $('#URSRC_lbl_nodetails_err').hide()
@@ -364,6 +367,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             flag=0;
 //        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             // $('#joindate').hide();
+            $('#URSRC_workfromhome').hide();
             $('#URSRC_lbl_joindate').hide();
             $('#URSRC_lb_rolename').hide();
             $('#URSRC_lbl_selectrole').hide();
@@ -552,6 +556,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
         });
         //LOGIN CREATION CLICK FUNCTION
         $('#URSRC_radio_logincreation').click(function(){
+            $('#URSRC_workfromhome').hide();
             $('#attachprompt').show();
             $('#URSRC_tble_rolecreation').empty();
             $('#URSRC_rolesearch_roles > div').remove()
@@ -1052,12 +1057,13 @@ include  "../TSLIB/TSLIB_HEADER.php";
         var acc_type;
         $('#URSRC_radio_loginsearchupdate').click(function(){
             button_vflag=1;
+            $('#URSRC_workfromhome').hide();
+            $('#CONFIG_SRCH_UPD_tr_type').empty();
             var loinid_lap_val=$('#URSRC_lb_selectloginid').val();
             $('#URSRC_tble_rolecreation').hide();
             $('#URSRC_lbl_selectrole').hide();
             $('#URSRC_tble_rolesearch').hide();
-            $('#URSRC_lbl_selectrole').hide();
-            $('#URSRC_rolesearch_roles > div').remove()
+            $('#URSRC_rolesearch_roles > div').remove();
             $('#URSRC_lb_selectrole').hide();
 //        $('.preloader',window.parent.document).show();
             $(".preloader").show();
@@ -2051,7 +2057,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             $('input[name=URSRC_mainradiobutton]:checked').attr('checked',false);
                             $('#URSRC_lbl_header').hide();
                             $('#URSRC_lb_selectrole').hide();
-                            $('#URSRC_lbl_selectrole').hide()
+                            $('#URSRC_lbl_selectrole').hide();
                         }
                         else
                         {
@@ -2112,6 +2118,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_lbl_header').text("ROLE SEARCH/UPDATE").show()
 //        $('.preloader',window.parent.document).show();
             $(".preloader").show();
+            $('#URSRC_workfromhome').hide();
             $('#URSRC_btn_submitbutton').val('UPDATE').hide();
             $('#URSRC_tble_role').hide();
             $('#URSRC_tble_menu').hide();
@@ -2288,11 +2295,268 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 loginbuttonvalidation()
             }
         });
+        $(document).on('click','#URSRC_radio_workfromhome',function(){
+            $(".preloader").show();
+            $('#URSRC_lbl_header').text("WORK FROM HOME ACCESS").show();
+            $('#EMP_ENTRY_lbl_txtselectproj').hide();
+            $('#EMP_ENTRY_tble_frstsel_projectlistbx').hide();
+            $('#CONFIG_SRCH_UPD_tr_type').empty();
+            $('#EMP_ENTRY_btn_save').hide();
+            $('#URSRC_lbl_nodetails_err').hide();
+            $('#URSRC_lbl_login_role').hide();
+            $('#URSRC_lbl_joindate').hide().val("");
+            $('#URSRC_tb_joindate').hide().val("");
+            $('#URSRC_tb_loginid').hide();
+            $('#URSRC_lbl_loginid').hide();
+            $('#URSRC_btn_submitbutton').val("CREATE").hide()
+            $('#URSRC_tble_rolesearch').hide();
+            $('#URSRC_btn_login_submitbutton').attr("disabled","disabled").hide();
+            $('#URSRC_tb_customrole').val("");
+            $('#URSRC_tble_rolecreation tr').remove().hide();
+            $('#URSRC_tble_role').hide();
+            $('#URSRC_tble_login').hide();
+            $('#URSRC_lbl_basicrole_err').hide()
+            $('#URSRC_tble_menu').hide();
+            $('#URSRC_tble_folder').hide();
+            $('#URSRC_tble_roles').hide()
+            $('#URSRC_tble_basicroles_chk ').hide()
+            $('input:radio[name=URSRC_radio_basicroles1]').attr('checked',false);
+            $('input[name=URSRC_cb_basicroles1]').attr('checked',false);
+            $('#URSRC_table_employeetbl').hide();
+            $('#URSRC_table_others').hide();
+            $('#URSRC_submitupdate').hide();
+            $('#URSRC_lbl_role_err').hide();
+            $('#URSRC_lbl_validnumber').hide();
+            $('#URSRC_lbl_validnumber1').hide();
+            $('#URSRC_lbl_validnumberhouseno').hide();
+            $("#filetableuploads div").remove();
+            $('#attachafile').text('Attach a file');
+            $('#URSRC_lbl_basicrole_err').hide();
+            $('#URSRC_workfromhome').show();
+            $('#EMP_ENTRY_btn_reset').hide();
+            var EMP_ENTRY_empname;
+            initialload();
+            //FUNCTION FOR GETTING ERR MSG,LOGIN ID
+            function initialload(){
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.onreadystatechange=function() {
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                        $(".preloader").hide();
+                        var values_array=JSON.parse(xmlhttp.responseText);
+                        EMP_ENTRY_loginid=values_array[0];
+                        project_array=values_array[1];
+                        err_msg_array=values_array[2];
+                        if(EMP_ENTRY_loginid.length!=0)
+                        {
+                            var active_employee='<option>SELECT</option>';
+                            for (var i=0;i<EMP_ENTRY_loginid.length;i++) {
+                                active_employee += '<option value="' + EMP_ENTRY_loginid[i][1]+ '">' + EMP_ENTRY_loginid[i][0]+ '</option>';
+                            }
+                            $('#EMP_ENTRY_lb_loginid').html(active_employee);
+                            $('#EMP_ENTRY_lbl_loginid').show();
+                            $('#EMP_ENTRY_lb_loginid').show();
+                        }
+                        else
+                        {
+                            $('#EMP_ENTRY_lbl_nologinid').text(err_msg_array[1]).show();
+                            $('#EMP_ENTRY_lbl_loginid').hide();
+                            $('#EMP_ENTRY_lb_loginid').hide();
+                        }
+                    }
+                }
+                var option="common";
+                xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+option);
+                xmlhttp.send();
+            }
+            //FUNCTION FOR PROJECT LIST
+            function projectlist(){
+                $('#EMP_ENTRY_tble_frstsel_projectlistbx').html('');
+                var project_list;
+                for (var i=0;i<project_array.length;i++) {
+                    project_list += '<tr><td><input type="checkbox" id ="checkbox" name="checkbox[]" value="' + project_array[i][1] + '">' + project_array[i][0] +'</td></tr>';
+                }
+                $('#EMP_ENTRY_tble_frstsel_projectlistbx').append(project_list).show();
+            }
+            //CHANGE EVENT FOR ACTIVE LOGIN ID
+            $('#EMP_ENTRY_lb_loginid').change(function(){
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+                //PRELOADER ADJUST FUNCTION
+                $(".preloader").show();
+                $('input:checkbox[id=checkbox]').attr('checked',false);
+                $('#checkbox').attr('checked',false);
+                EMP_ENTRY_empname=$("#EMP_ENTRY_lb_loginid option:selected").text();
+                if(EMP_ENTRY_empname=="SELECT")
+                {
+                    $(".preloader").hide();
+                    $('#EMP_ENTRY_btn_reset').hide();
+                    $('#EMP_ENTRY_tble_frstsel_projectlistbx').hide();
+                    $('#EMP_ENTRY_tble_projectlistbx').hide();
+                    $('#EMP_ENTRY_lbl_txtselectproj').hide();
+                }
+                else
+                {
+                    projectlist();
+                    $(".preloader").hide();
+                    $('#EMP_ENTRY_lb_loginid').show();
+                    $('#EMP_ENTRY_lbl_loginid').show();
+                    $('#CONFIG_SRCH_UPD_tr_type').append('<div class="row-fluid form-group"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save" value="SAVE" disabled></div>');
+                    $('#EMP_ENTRY_btn_reset').show();
+                    $('#checkbox').attr('checked',false).show();
+                    $('#EMP_ENTRY_tble_projectlistbx').show();
+                    $('#EMP_ENTRY_lbl_txtselectproj').show();
+                }
+            });
+            //CLICK EVENT FUCNTION FOR RESET
+            $('#EMP_ENTRY_btn_reset').click(function()
+            {
+                EMP_ENTRY_rset()
+            });
+            //CLEAR ALL FIELDS
+            function EMP_ENTRY_rset()
+            {
+                $('#EMP_ENTRY_lb_loginid').val('SELECT');
+                $('#EMP_ENTRY_btn_reset').hide();
+                $('#EMP_ENTRY_btn_save').hide();
+                $('#CONFIG_SRCH_UPD_tr_type').empty();
+                $('#EMP_ENTRY_tble_frstsel_projectlistbx').hide();
+                $('#EMP_ENTRY_tble_projectlistbx').hide();
+                $('#EMP_ENTRY_lbl_txtselectproj').hide();
+            }
+            //FORM VALIDATION
+            $(document).on('change','#URE_attendanceentry',function(){
+                $("#EMP_ENTRY_btn_save").attr("disabled", "disabled");
+                var EMP_ENTRY_loginid = $("#EMP_ENTRY_lb_loginid").val();
+//            alert('login')
+//            alert(EMP_ENTRY_loginid)
+                var EMP_ENTRY_projectselectlistbx = $("input[id=checkbox]").is(":checked");
+//            alert('project5')
+//            alert(EMP_ENTRY_projectselectlistbx)
+                var button_val=$('#EMP_ENTRY_btn_save').val();
+//            alert('button')
+//            alert(button_val)
+                if(button_val == 'SAVE')
+                {
+                    if((EMP_ENTRY_loginid!='SELECT')&&( EMP_ENTRY_projectselectlistbx==true))
+                    {
+                        $("#EMP_ENTRY_btn_save").removeAttr("disabled");
+                    }
+                    else
+                    {
+                        $("#EMP_ENTRY_btn_save").attr("disabled", "disabled");
+                    }
+                }
+                else if(button_val == 'UPDATE')
+                {
+                    if((EMP_ENTRY_loginid!='SELECT')&& ( EMP_ENTRY_projectselectlistbx==false))
+                    {
+                        $("#EMP_ENTRY_btn_save").removeAttr("disabled");
+                    }
+                    else
+                    {
+                        $("#EMP_ENTRY_btn_save").attr("disabled", "disabled");
+                    }
+                }
+            });
+            $(document).on('change','#EMP_ENTRY_lb_loginid',function(evt){
+                evt.stopPropagation();
+                evt.preventDefault();
+                evt.stopImmediatePropagation();
+//            alert('corrected')
+                $('#CONFIG_SRCH_UPD_tr_type').empty();
+                if($(this).val() == 'SELECT')
+                {
+                    $('#CONFIG_SRCH_UPD_tr_type').empty();
+                    $("#EMP_ENTRY_btn_save").hide();
+                    $('#EMP_ENTRY_tble_projectlistbx').hide();
+                }
+                else{
+                    $('#EMP_ENTRY_tble_projectlistbx').show();
+                    var loginid=$('#EMP_ENTRY_lb_loginid').val();
+                    var formElement = document.getElementById("URE_attendanceentry");
+                    var flag;
+//            $('.preloader', window.parent.document).show();
+                    $(".preloader").show();
+                    var xmlhttp=new XMLHttpRequest();
+                    xmlhttp.onreadystatechange=function() {
+                        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                    $('.preloader', window.parent.document).hide();
+                            $(".preloader").hide();
+                            var values_array=JSON.parse(xmlhttp.responseText);
+                            flag=values_array[0];
+                            if(flag == "X")
+                            {
+                                $('input:checkbox[id=checkbox]').attr('checked',true)
+                                $('#CONFIG_SRCH_UPD_tr_type').append('<div class="row-fluid form-group"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="UPDATE" disabled></div>')
+                            }
+                            else{
+                                $('input:checkbox[id=checkbox]').attr('checked',false)
+                                $('#CONFIG_SRCH_UPD_tr_type').append('<div class="row-fluid form-group"><input type="button" class="btn" name="EMP_ENTRY_btn_save" id="EMP_ENTRY_btn_save"   value="SAVE" disabled></div>')
+                            }
+                        }
+                    }
+                    var option="check_flag";
+                    xmlhttp.open("GET","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+option+"&loginid="+loginid);
+                    xmlhttp.send(new FormData(formElement));
+                }
+            })
+
+            //CLICK EVENT FOR SAVE BUTTON
+            $(document).on('click','#EMP_ENTRY_btn_save',function(){
+                //PRELOADER ADJUST FUNCTION
+                $('#CONFIG_SRCH_UPD_tr_type').empty();
+                $(".preloader").show();
+                var loginid=$("#EMP_ENTRY_lb_loginid option:selected").text();
+                var formElement = document.getElementById("URE_attendanceentry");
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.onreadystatechange=function() {
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                        var msg_alert=JSON.parse(xmlhttp.responseText);
+                        if(msg_alert[1]=='SAVE')
+                        {
+                            if(msg_alert[0]==1)
+                            {
+                                $(".preloader").hide();
+                                var msg=err_msg_array[2].replace("[UNAME]",loginid);
+                                show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",true);
+                                EMP_ENTRY_rset()
+                                initialload();
+                            }
+                            else
+                            {
+                                $(".preloader").hide();
+                                show_msgbox("EMPLOYEE WORK FROM ACCESS",err_msg_array[0],"success",true);
+                            }
+                        }
+                        else
+                        {
+                            if(msg_alert[0]==1)
+                            {
+                                $(".preloader").hide();
+                                var msg=err_msg_array[3].replace("[UNAME]",loginid);
+                                show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",false);
+                                EMP_ENTRY_rset()
+                                initialload();
+                            }
+                            else
+                            {
+                                $(".preloader").hide();
+                                show_msgbox("EMPLOYEE WORK FROM ACCESS",err_msg_array[0],"success",false);
+
+                            }
+
+                        }
+                    }
+                }
+                var choice="PROJECT_PROPETIES_SAVE"
+                xmlhttp.open("POST","ACCESSRIGHTS/DB_ACCESS_RIGHTS_ACCESS_RIGHTS-SEARCH_UPDATE.do?option="+choice,true);
+                xmlhttp.send(new FormData(formElement));
+            });
+        });
     });
     //END DOCUMENT READY FUNCTION
 </script>
-    <!--SCRIPT TAG END-->
-    <!--BODY TAG START-->
+<!--SCRIPT TAG END-->
+<!--BODY TAG START-->
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
@@ -2329,7 +2593,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <div class="radio">
                             <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_loginsearchupdate' value='LOGIN SEARCH UPDATE'>  &nbsp;LOGIN SEARCH/UPDATE
                         </div></div>
-
+                    <div class="row-fluid form-group form-inline col-sm-5">
+                        <div class="radio">
+                            <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_workfromhome' value='WORK FROM HOME'>  &nbsp;WORK FROM HOME ACCESS
+                        </div></div>
                     <label id="URSRC_lbl_header" class="srctitle"></label>
 
                 </div>
@@ -2606,22 +2873,40 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <lable class="col-sm-2" id="URSRC_lbl_selectrole">SELECT A ROLE<em>*</em></lable>
                         <div class="col-sm-4">
-                        <select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate form-control' >
+                            <select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate form-control' >
 
                                 <option value='SELECT' selected="selected"> SELECT</option>
-                        </select>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div id="URSRC_rolesearch_roles"></div>
+                    <div id="URSRC_rolesearch_roles"></div>
 
-                <label id="URSRC_lbl_nodetails_err" class="errormsg"></label>
-                <div id="URSRC_tble_menu" hidden ></div>
-                <div id="URSRC_tble_folder" hidden></div>
-                <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
-        </div><br>
+                    <label id="URSRC_lbl_nodetails_err" class="errormsg"></label>
+                    <div id="URSRC_tble_menu" hidden ></div>
+                    <div id="URSRC_tble_folder" hidden></div>
+                    <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
+                </div><br>
                 <div id="URSRC_btn_update"></div>
-        </fieldset>
-        <!--                                </div>-->
+                <div id="URSRC_workfromhome" hidden>
+                    <div class="row-fluid form-group">
+                        <label name="EMP_ENTRY_lbl_loginid" class="col-sm-2" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
+                        <div class="col-sm-4"><select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" class="form-control" style="display: none">
+                            </select>
+                        </div></div>
+                    <div><label id="EMP_ENTRY_lbl_nologinid" name="EMP_ENTRY_lbl_nologinid" class="errormsg"></label></div>
+                    <div class="row-fluid form-group" id="EMP_ENTRY_tble_projectlistbx"  hidden>
+                        <label name="EMP_ENTRY_lbl_txtselectproj"  class="col-sm-2" id="EMP_ENTRY_lbl_txtselectproj">PROJECT NAME<em>*</em></label>
+                        <div id="EMP_ENTRY_tble_frstsel_projectlistbx" class="col-sm-8" ></div>
+                    </div>
+                    <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
+                        <div class="col-sm-2" id="CONFIG_SRCH_UPD_tr_type"></div>
+                        <div class="col-sm-4">
+                            <input type="button" class="btn" name="EMP_ENTRY_btn_reset" id="EMP_ENTRY_btn_reset"  value="RESET" hidden>
+                        </div></div>
+
+                </div>
+            </fieldset>
+            <!--                                </div>-->
     </form>
 </div>
 </body>
