@@ -44,6 +44,15 @@ if(isset($_REQUEST)){
     $ure_values=array();
     if($_REQUEST['option']=='DATERANGE')
     {
+        $notinformed= $_POST['notinformed'];
+        if($notinformed=='NOTINFORMED')
+        {
+            $notinformed= 'X';
+        }
+        else
+        {
+            $notinformed= '';
+        }
         $sdate = $_REQUEST['start_date'];
         $edate = $_REQUEST['end_date'];
         $active_loginid=$_REQUEST['actionloginid'];
@@ -157,6 +166,15 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
     }
     if($_REQUEST['option']=='ADMIN REPORT SEARCH UPDATE DELETE')
     {
+        $notinformed= $_POST['notinformed'];
+        if($notinformed=='NOTINFORMED')
+        {
+            $notinformed= 'X';
+        }
+        else
+        {
+            $notinformed= '';
+        }
         $date = $_POST['ASRC_UPD_DEL_ta_reportdate'];
         $id=$_POST['ASRC_UPD_DEL_rd_flxtbl'];
         $attendance=$_POST['ASRC_UPD_DEL_lb_attendance'];
@@ -358,9 +376,8 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
         }
         $report= $con->real_escape_string($report);
         $reason= $con->real_escape_string($reason);
-//        echo "CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation',@success_flag)";
-//        exit;
-        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation',@success_flag)");
+//        echo "CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation','$notinformed',@success_flag)";
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation','$notinformed',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -430,21 +447,21 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
                 $sub=str_replace("[LOGINID]","$loginid",$body);
                 $sub=$sub.'<br>';
 
-               // SENDING MAIL OPTIONS
-                $name = $mail_subject;
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($admin);
-                $message1->addCc($sadmin);
-                $message1->setSubject($mail_subject);
-                $message1->setHtmlBody($sub.$values);
-
-                try {
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+//               // SENDING MAIL OPTIONS
+//                $name = $mail_subject;
+//                $from = $admin;
+//                $message1 = new Message();
+//                $message1->setSender($name.'<'.$from.'>');
+//                $message1->addTo($admin);
+//                $message1->addCc($sadmin);
+//                $message1->setSubject($mail_subject);
+//                $message1->setHtmlBody($sub.$values);
+//
+//                try {
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
 
             }
             $drop_query="DROP TABLE $temp_tickler_history ";
