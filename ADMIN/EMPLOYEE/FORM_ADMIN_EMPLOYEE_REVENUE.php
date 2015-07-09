@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //**********************************************REVENUE*******************************************************//
+//DONE BY:JAYAPRIYA
+//VER 0.09-SD:29/06/2015 ED:04/07/2015, RECREATE ALL OPTIONS IN ORDER TO REMOVE THE EMPTY SPACE AND FIX THE DT HIDING ISSUES FOR THE  OPTION ACTIVE,NONACTIVE
 //DONE BY:SARADAMBAL
 //VER 0.08-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,INCLUDE PRELOADER WHILE SETTING MIN AND MAX DATE,CHANGED LOGIN ID INTO EMPLOYEE NAME,REMOVED DP VALIDATION IF DATE IS NULL
 //DONE BY:RAJA
@@ -1769,10 +1771,19 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 var inputValOne=$('#REV_lb_loginid').val();
                 var inputValTwo=$('#REV_lb_empproject').val();
                 var inputValThree=$('#REV_lb_recver').val();
-                var inputValFour=$('#REV_tb_strtdte').val();
-                inputValFour = inputValFour.split("-").reverse().join("-");
-                var inputValFive=$('#REV_tb_enddte').val();
-                inputValFive = inputValFive.split("-").reverse().join("-");
+                var pdfoption=$('#REV_lb_project').val();
+                if(pdfoption==9)
+                {
+                    var inputValFour=$('#REV_tb_strtdte').val();
+                    inputValFour = inputValFour.split("-").reverse().join("-");
+                    var inputValFive=$('#REV_tb_enddte').val();
+                    inputValFive = inputValFive.split("-").reverse().join("-");
+                }
+                else
+                {
+                    var inputValFour='';
+                    var inputValFive='';
+                }
                 if($('#REV_lb_project').val()==8){
                     var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=6&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+employeetitles;
                 }
@@ -1813,7 +1824,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <body>
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
-    <div class="title text-center"><b><h4>REVENUE</h4></b></div>
+    <div class="title text-center"><h4><b>REVENUE</b></h4></div>
     <form   id="REV_form_revenue" class="content" role="form" >
         <div class="panel-body">
             <fieldset>
@@ -1993,3 +2004,4 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <!--BODY TAG END-->
 </html>
 <!--HTML TAG END-->
+

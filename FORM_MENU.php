@@ -434,7 +434,7 @@ $Userstamp=json_encode($UserStamp);
         <div class="preloader" hidden><span class="Centerer"></span><img class="preloaderimg"/> </div>
         <!--    <tr>-->
         <!--        <td style="width:1300px";>-->
-        <img src="images/SSOMENS_TIME_SHEET.jpg" style="width:350px" align="middle"/>
+        <img src="images/SSOMENS_TIME_SHEET.jpg" style="width:290px" align="middle"/>
         <!--    </tr>-->
         <!--    </table>-->
 
@@ -443,7 +443,7 @@ $Userstamp=json_encode($UserStamp);
                 <td style="width:1000px"><b><h4><span style="font-family:Helvetica Neue" id="clock"></span></h4></b></td><td><b><?php echo $UserStamp ?></b></td>
             </tr>
             <tr>
-                <td><b><label id="clockmsg" name="clockmsg" ></label></b> </td><td><b><label id="location"></label></b></td>
+                <td><b><label id="clockmsg" name="clockmsg" class="locbold" ></label></b> </td><td><b><label id="location" class="locbold"></label></b></td>
             </tr>
         </table>
         <!--    <nav id='cssmenu' width="1500">-->

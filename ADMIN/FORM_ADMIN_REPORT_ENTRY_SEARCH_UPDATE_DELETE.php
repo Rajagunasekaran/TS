@@ -808,6 +808,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             //CHANGE EVENT FOR REPORT TEXTAREA
             $(document).on('change','#ARE_ta_report',function(){
+
                 $('#ARE_btn_submit').show();
                 $('#ARE_btn_submit').attr('disabled','disabled');
                 $('#ARE_lbl_errmsg').hide();
@@ -856,7 +857,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
             }
             //FORM VALIDATION
-            $(document).on('change blur','#ARE_form_adminreportentry',function(){
+            $(document).on('change','#ARE_form_adminreportentry',function(){
                 if($("input[name=entry]:checked").val()=="SINGLE DAY ENTRY"){
                     var ARE_sessionlstbx= $("#ARE_lb_ampm").val();
                     var ARE_reasontxtarea =$("#ARE_ta_reason").val();
@@ -930,22 +931,30 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                     else if(ARE_presenthalfdysvld=='2')
                     {
+//                        alert(ARE_reportenter);
+//                        alert(ARE_projectselectlistbx);
                         if(((ARE_reportenter.trim()!="")&&( ARE_projectselectlistbx==true)))
-//                if((ARE_reportenter.trim()!=""))
-                        {
-                            if(ARE_permissionlstbx!='SELECT')
+
+                            if((ARE_reportenter.trim()!=""))
                             {
-                                $("#ARE_btn_submit").removeAttr("disabled");
+//                        alert(ARE_reportenter);
+//                        alert(ARE_permissionlstbx);
+                                if(ARE_permissionlstbx!="")
+                                {
+
+                                    $("#ARE_btn_submit").removeAttr("disabled");
+                                }
+                                else
+                                {
+
+                                    $("#ARE_btn_submit").attr("disabled", "disabled");
+                                }
                             }
                             else
                             {
+//                        alert('3');
                                 $("#ARE_btn_submit").attr("disabled", "disabled");
                             }
-                        }
-                        else
-                        {
-                            $("#ARE_btn_submit").attr("disabled", "disabled");
-                        }
                     }
                 }
                 else if($("input[name=entry]:checked").val()=="MULTIPLE DAY ENTRY"){
@@ -1026,11 +1035,11 @@ include '../TSLIB/TSLIB_HEADER.php';
                 if(adminselectoptionvalue=='ADMIN REPORT ENTRY')
                 {
 
-                    $('#day_entry').html('').append('<div style="padding-bottom: 15px"><div class="radio"><label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label></div></div></div>');
+                    $('#day_entry').html('').append('<div class="row-fluid form-group"><div class="radio"><label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label></div></div></div>');
                     $('#day_entry').show();
-                    $('#multiple_day').html('').append(' <div style="padding-top: 10px"><div class="radio"><label name="entry" class="col-sm-8" id="ARE_lbl_mulentry" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY" hidden/>MULTIPLE DAY ENTRY</label></div></div></div>');
+                    $('#multiple_day').html('').append(' <div class="row-fluid form-group"><div class="radio"><label name="entry" class="col-sm-8" id="ARE_lbl_mulentry" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY" hidden/>MULTIPLE DAY ENTRY</label></div></div></div>');
                     $('#multiple_day').show();
-                    $('#multiple_label').html('').append('<div style="padding-top: 30px"><label name="ARE_lbl_multipleday" id="ARE_lbl_multipleday" class="srctitle col-sm-12" hidden>MULTIPLE DAY ENTRY</label></div>');
+                    $('#multiple_label').html('').append('<div class="row-fluid form-group"  style="padding-top: 10px"><label name="ARE_lbl_multipleday" id="ARE_lbl_multipleday" class="srctitle col-sm-12" hidden>MULTIPLE DAY ENTRY</label></div>');
                     $("#ARE_lbl_sinentry").show();
                     $("#ARE_rd_sinentry").show();
                     $("#ARE_lbl_mulentry").show();
@@ -1145,6 +1154,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $("#ARE_lbl_multipleday").show();
 //        $('#multiple_label').show();
                 $("#ARE_rd_sinemp").show();
+                $('#ARE_lb_attdnce').hide();
+                $('#ARE_lbl_attdnce').hide();
                 $("#ARE_lbl_sinemp").show();
                 $("#ARE_rd_allemp").show();
                 $("#ARE_lbl_allemp").show();
@@ -1162,6 +1173,8 @@ include '../TSLIB/TSLIB_HEADER.php';
             //CLICK EVENT FOR SINGLE EMPLOYEE RADIO BUTTON
             $("#single_emp").click(function(){
                 $('#ARE_chk1_notinfrmd').html('');
+//                $('#ARE_lb_attdnce').hide();
+//                $('#ARE_lbl_attdnce').hide();
                 $('#ARE_tble_mutipledayentry').show();
                 $('#ARE_tble_singledayentry').hide();
                 $('#ARE_lbl_lgnid').show();
@@ -1240,6 +1253,9 @@ include '../TSLIB/TSLIB_HEADER.php';
                 {
                     $('#ARE_table_attendence').hide();
                     $("#ARE_lbl_sdte").hide();
+                    $('#ARE_lb_attdnce').hide();
+                    $('#ARE_msg').hide();
+                    $('#ARE_lbl_attdnce').hide();
                     $("#ARE_tb_sdate").hide()
                     $("#ARE_lbl_edte").hide();
                     $("#ARE_tb_edate").hide();
@@ -1289,11 +1305,13 @@ include '../TSLIB/TSLIB_HEADER.php';
             $(document).on('change','#ARE_tb_sdate',function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                 var ARE_fromdate = $('#ARE_tb_sdate').datepicker('getDate');
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var date = new Date( Date.parse( ARE_fromdate ));
                 date.setDate( date.getDate()  );
                 var ARE_todate = date.toDateString();
                 ARE_todate = new Date( Date.parse( ARE_todate ));
                 $('#ARE_tb_edate').datepicker("option","minDate",ARE_todate);
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var max_date=new Date();
                 var month=max_date.getMonth()+1;
                 var year=max_date.getFullYear();
@@ -1445,10 +1463,12 @@ include '../TSLIB/TSLIB_HEADER.php';
 //                alert('2');
                 if($("#ARE_ta_des").val()=='')
                 {
+//            alert('3');
                     $("#ARE_btn_odsubmit").attr("disabled", "disabled");
                 }
                 else
                 {
+//            alert('4');
                     $("#ARE_btn_odsubmit").removeAttr("disabled");
                     $("#ARE_btn_odsubmit").show();
                 }
@@ -1462,6 +1482,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 //                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 var reportdate=$('#ARE_tb_dte').val();
+                $('#ARE_btn_odsubmit').attr('disabled','disabled');
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -1475,6 +1496,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_lbl_oderrmsg').text(msg).show();
                             $('#ARE_tb_dte').val('').show();
                             $('#onduty_des').hide();
+
                             $('#ARE_btn_odsubmit').hide();
                         }
                         else
@@ -1493,7 +1515,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#onduty_des').show();
                             $("#ARE_lbl_des").show();
                             $("#ARE_ta_des").show();
-                            $('#onduty_buttton').html('').append('<input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />');
+                            $('#onduty_button').html('').append('<input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />');
                             $('#onduty_button').show();
                             $("#ARE_btn_odsubmit").show();
                         }
@@ -1505,7 +1527,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 xmlhttp.send();
             });
 // CLICK EVENT ONDUTY SAVE BUTTON
-            $('#onduty_buttton').click(function(){
+            $('#onduty_button').click(function(){
 //                alert('3');
 //                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
@@ -1577,10 +1599,12 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ASRC_UPD_btn_od_pdf').hide();
                 $("#ASRC_UPD_DEL_startdate").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                 var ASRC_UPD_DEL_startdate = $('#ASRC_UPD_DEL_tb_strtdte').datepicker('getDate');
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var date = new Date( Date.parse( ASRC_UPD_DEL_startdate ));
                 date.setDate( date.getDate()  );
                 $("#ASRC_UPD_DEL_todate").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                 var ASRC_UPD_DEL_todate = date.toDateString();
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 ASRC_UPD_DEL_todate = new Date( Date.parse( ASRC_UPD_DEL_todate ));
                 $('#ASRC_UPD_DEL_tb_enddte').datepicker("option","minDate",ASRC_UPD_DEL_todate);
             });
@@ -1717,7 +1741,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             //CHANGE EVENT FOR BETWEEN RANGE RADIO BTN
             $(document).on('change','#ASRC_UPD_DEL_rd_btwnrange',function(){
-                $('#between_range').html('').append('<div style="padding-bottom: 25px"><label name="ASRC_UPD_DEL_lbl_btwnranges" id="ASRC_UPD_DEL_lbl_btwnranges" class="srctitle col-sm-12" hidden>BETWEEN RANGE</label></div>');
+                $('#between_range').html('').append('<div  class="row-fluid form-group" ><label name="ASRC_UPD_DEL_lbl_btwnranges" id="ASRC_UPD_DEL_lbl_btwnranges" class="srctitle col-sm-12" hidden>BETWEEN RANGE</label></div>');
                 $('#between_range').show();
                 $('#active_emp').html('').append('<div class="row-fluid form-group"><div class="radio"><label name="ASRC_UPD_DEL_lbl_actveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_actveemp"  hidden><div class="col-sm-4"><input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label></div></div></div>');
                 $('#active_emp').show();
@@ -1801,7 +1825,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             //CHANGE EVENT FOR ALL ACTIVE  RANGE RADIO BTN
             $(document).on('change','#ASRC_UPD_DEL_rd_allactveemp',function(){
-                $('#date_click').html('').append('<div class="row-fluid form-group" style="padding-top: 35px"><label name="ASRC_UPD_DEL_lbl_dte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_dte" hidden>DATE</label><div class="col-sm-8"><input type="text" name="ASRC_UPD_DEL_tb_dte" id="ASRC_UPD_DEL_tb_dte" class="ASRC_UPD_DEL_date valid enable"   style="width:75px;"  hidden ></div></div>');
+                $('#date_click').html('').append('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_dte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_dte" hidden>DATE</label><div class="col-sm-8"><input type="text" name="ASRC_UPD_DEL_tb_dte" id="ASRC_UPD_DEL_tb_dte" class="ASRC_UPD_DEL_date valid enable"   style="width:75px;"  hidden ></div></div>');
                 $('#date_click').show();
                 $('#search_click').html('').append('<div class="row-fluid form-group" style="padding-left: 15px" ><input type="button" class="btn" id="ASRC_UPD_DEL_btn_allsearch" onclick="buttonchange()"  value="SEARCH" hidden disabled></div>');
                 $('#search_click').show();
@@ -3463,26 +3487,20 @@ include '../TSLIB/TSLIB_HEADER.php';
                 xmlhttp.send(new FormData(formElement));
             });
             $(document).on('click','#ASRC_UPD_btn_pdf',function(){
-                alert('1');
                 var inputValOne=$('#ASRC_UPD_DEL_lb_loginid').val();
-                alert(inputValOne);
                 var inputValTwo=$('#ASRC_UPD_DEL_tb_strtdte').val();
-                alert(inputValTwo);
                 inputValTwo = inputValTwo.split("-").reverse().join("-");
                 var inputValThree=$('#ASRC_UPD_DEL_tb_enddte').val();
-                alert(inputValThree);
                 inputValThree = inputValThree.split("-").reverse().join("-");
 
                 if($("input[id=ASRC_UPD_DEL_rd_btwnrange]:checked").val()=='RANGES'){
-                    alert('1');
                     var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=22&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+pdfmsg;
                 }
                 else if($("input[id=ASRC_UPD_DEL_rd_allactveemp]:checked").val()=='RANGES'){
-                    alert($('#ASRC_UPD_DEL_tb_dte').val());
+
                     var inputValFour=$('#ASRC_UPD_DEL_tb_dte').val();
-//                alert(inputValFour);
                     inputValFour = inputValFour.split("-").reverse().join("-");
-                    alert('2');
+
                     var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=21&inputValFour='+inputValFour+'&title='+pdfmsg;
                 }
             });
@@ -3503,20 +3521,20 @@ include '../TSLIB/TSLIB_HEADER.php';
     <form id="ARE_form_adminreportentry" class="content">
         <div class="panel-body">
             <fieldset>
-                <div style="padding-top: 20px" >
+                <div style="padding-top: 10px" >
                     <div class="radio">
                         <label name="reports_entry" class="col-sm-8"  id="reports_entry">
                             <div class="col-sm-2">
                                 <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_entry" value="entries">ENTRY</label>
                     </div></div></div>
-        <div style="padding-top: 15px" >
+        <div style="padding-top: 10px" >
             <div class="radio">
                 <label id="reports_search" class="col-sm-8"  name="reports_search">
                     <div class="col-sm-2">
                         <input type="radio" name="admin_report_entry" class="radio_click" id="admin_report_search" value="search">SEARCH/UPDATE</label>
             </div></div></div>
 <label id="ARE_lbl_date_err" name="ARE_lbl_date_err" class="errormsg" ></label>
-<div style="padding-top: 30px">
+<div class="row-fluid form-group" >
     <label name="ARE_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
 </div>
 <div id="entries" hidden>
@@ -3564,7 +3582,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 
     <div id="ARE_tble_singledayentry" hidden>
         <!--    <div class="row-fluid form-group">-->
-        <div class="row-fluid form-group" style="padding-bottom: 30px">
+        <div class="row-fluid form-group">
             <label name="ARE_lbl_loginid" id="ARE_lbl_loginid" class="col-sm-2">EMPLOYEE NAME</label>
             <div class="col-sm-4">
                 <select name="ARE_lb_loginid" id="ARE_lb_loginid" class="form-control" style="display: inline">
@@ -3572,12 +3590,12 @@ include '../TSLIB/TSLIB_HEADER.php';
                 </select><br>
                 <label id="ARE_lbl_norole_err" name="ARE_lbl_norole_err" class="errormsg" ></label>
             </div></div>
-        <div class="row-fluid form-group" style="padding-bottom: 30px">
+        <div class="row-fluid form-group">
             <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte" hidden>DATE</label>
             <div class="col-sm-4">
                 <input type ="text" id="ARE_tb_date" class='tb_date proj datemandtry singledayentry' hidden name="ARE_tb_date" style="width:75px;" />
             </div></div>
-        <div id="ARE_tble_attendence" class="row-fluid form-group" style="padding-bottom: 30px">
+        <div id="ARE_tble_attendence" class="row-fluid form-group">
             <label name="ARE_lbl_attendance" class="col-sm-2" id="ARE_lbl_attendance" >ATTENDANCE</label>
             <div class="col-sm-4">
                 <select id="ARE_lb_attendance" name="ARE_lb_attendance" class="form-control">
@@ -3674,7 +3692,7 @@ include '../TSLIB/TSLIB_HEADER.php';
     <!--        <div class="col-sm-8">-->
     <!--            <input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class='proj datemandtry enable ondutydayentry' style="width:75px;"/>-->
     <!--        </div></div>-->
-<!--    <div id="ARE_notinfrmd"></div>-->
+    <!--    <div id="ARE_notinfrmd"></div>-->
     <div id="onduty_des"></div>
 
     <!--    <div class="row-fluid form-group">-->
@@ -3683,14 +3701,14 @@ include '../TSLIB/TSLIB_HEADER.php';
     <!--            <textarea id="ARE_ta_des" name="ARE_ta_des" class='enable' hidden></textarea>-->
     <!--        </div></div>-->
     <div id="onduty_button"></div>
-    <input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />
+    <!--    <input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />-->
 
     <div><label id="ARE_lbl_oderrmsg" name="ARE_lbl_oderrmsg" class="errormsg"></label></div>
 </div>
 </div>
 <!--search update-->
 <div id="search" hidden>
-    <div class="row-fluid form-group"  style="padding-top: 30px">
+    <div class="row-fluid form-group">
         <label name="ASRC_UPD_DEL_lbl_optn" class="col-sm-2" id="ASRC_UPD_DEL_lbl_optn">SELECT A OPTION<em>*</em></label>
         <div class="col-sm-4">
             <select id="options" name="option"class="form-control" style="display: inline">
@@ -3702,21 +3720,21 @@ include '../TSLIB/TSLIB_HEADER.php';
 
     <div id="ASRC_UPD_DEL_tble_dailyuserentry" hidden>
         <div id="ASRC_UPD_DEL_tbl_entry" hidden>
-            <div  style="padding-bottom: 15px">
+            <div class="row-fluid form-group" >
                 <div class="radio">
                     <label name="ASRC_UPD_DEL_lbl_btwnrange" class="col-sm-8" id="ASRC_UPD_DEL_lbl_btwnrange">
                         <div class="col-sm-4">
                             <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_btwnrange" value="RANGES" class='attnd'>BETWEEN RANGE</label>
                 </div></div>
         </div>
-        <div  style="padding-top: 10px">
+        <div  class="row-fluid form-group">
             <div class="radio">
                 <label name="ASRC_UPD_DEL_lbl_allactveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_allactveemp">
                     <div class="col-sm-4">
                         <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_allactveemp"   value="RANGES" class='attnd'>ALL ACTIVE EMPLOYEE</label>
             </div></div>
     </div>
-    <div style="padding-top: 30px">
+    <div class="row-fluid form-group" >
         <label name="ASRC_UPD_DEL_lbl_allactveemps" id="ASRC_UPD_DEL_lbl_allactveemps" class="srctitle  col-sm-12" hidden>ALL ACTIVE EMPLOYEE</label>
     </div>
     <div id="date_click"></div>
@@ -3749,7 +3767,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 <!--<div class="row-fluid form-group">-->
 <!--    <input type="button" class="btn" id="ASRC_UPD_DEL_btn_allsearch" onclick="buttonchange()"  value="SEARCH" hidden disabled>-->
 <!--</div>-->
-<div class="row-fluid form-group" style="padding-top: 20px">
+<div class="row-fluid form-group">
     <label name="ASRC_UPD_DELlbl_loginid" class="col-sm-2" id="ASRC_UPD_DEL_lbl_loginid"  hidden>EMPLOYEE NAME</label>
     <div class="col-sm-4">
         <select name="ASRC_UPD_DEL_lb_loginid" id="ASRC_UPD_DEL_lb_loginid" class="form-control emplistbxactve" hidden>
@@ -3774,12 +3792,12 @@ include '../TSLIB/TSLIB_HEADER.php';
 
 <div style="padding-left: 15px"><input type="button" id='ASRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
 <div style="padding-left: 15px">
-<div id="ASRC_UPD_DEL_div_tablecontainer" class="table-responsive"  hidden>
-    <section>
-    </section>
-</div>
+    <div id="ASRC_UPD_DEL_div_tablecontainer" class="table-responsive"  hidden>
+        <section>
+        </section>
     </div>
-<div><input type="button" id="ASRC_UPD_DEL_btn_srch" class="btn" name="ASRC_UPD_DEL_btn_srch" value="SEARCH" hidden/>
+</div>
+<div style="padding-left: 15px"><input type="button" id="ASRC_UPD_DEL_btn_srch" class="btn" name="ASRC_UPD_DEL_btn_srch" value="SEARCH" hidden/>
     <input type="button" id="ASRC_UPD_DEL_btn_del" class="btn" name="ASRC_UPD_DEL_btn_del" value="DELETE" hidden disabled/>
 </div>
 <div class="row-fluid form-group" style="padding-top: 25px">
@@ -3846,7 +3864,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 <div>
     <label id="ASRC_UPD_DEL_banerrmsg" name="ASRC_UPD_DEL_banerrmsg" class="errormsg"></label>
 </div>
-<div>
+<div style="padding-left: 15px">
     <input type="button"  class="btn" name="ASRC_UPD_DEL_btn_submit" id="ASRC_UPD_DEL_btn_submit"  value="UPDATE" disabled>
 </div>
 

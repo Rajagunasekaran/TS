@@ -327,21 +327,21 @@ $(document).ready(function(){
                     <div class="row-fluid form-group">
                         <label class="col-lg-2" name="ET_ENTRY_lbl_scriptname" id="ET_ENTRY_lbl_scriptname">SCRIPT NAME<em>*</em></label>
                         <div class="col-lg-10">
-                            <input type="text" name="ET_ENTRY_tb_scriptname" id="ET_ENTRY_tb_scriptname"maxlength="100">
+                            <input type="text" name="ET_ENTRY_tb_scriptname" id="ET_ENTRY_tb_scriptname" maxlength="100">
                             <label id="ET_ENTRY_lbl_validid" name="ET_ENTRY_lbl_validid" class="errormsg" disabled=""></label>
                         </div>
                     </div>
                     <div class="row-fluid form-group">
                         <label class="col-lg-2" name="ET_ENTRY_lbl_subject" id="ET_ENTRY_lbl_subject">SUBJECT<em>*</em></label>
                         <div class="col-lg-10">
-                            <textarea rows="4" cols="50" name="ET_ENTRY_ta_subject" id="ET_ENTRY_ta_subject" class="maxlength"maxlength="1000"></textarea>
+                            <textarea rows="4" cols="50" name="ET_ENTRY_ta_subject" id="ET_ENTRY_ta_subject" class="tarea form-control maxlength" maxlength="1000"></textarea>
                         </div>
                     </div>
 
                     <div class="row-fluid form-group">
                         <label class="col-lg-2" name="ET_ENTRY_lbl_body" id="ET_ENTRY_lbl_body">BODY<em>*</em></label>
                         <div class="col-lg-10">
-                            <textarea rows="4" cols="50" name="ET_ENTRY_ta_body" id="ET_ENTRY_ta_body" class="maxlength"maxlength="50"></textarea>
+                            <textarea rows="4" cols="50" name="ET_ENTRY_ta_body" id="ET_ENTRY_ta_body" class="tarea form-control maxlength" maxlength="50"></textarea>
                         </div>
                     </div>
                     <div class="row-fluid form-group">

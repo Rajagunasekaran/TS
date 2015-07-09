@@ -12,12 +12,12 @@ cron:
 #
 #- description: scrape xml
 #  url: /REPORT_MAIL
-#  schedule: every day 21:00
+#  schedule: every day 12:11
 #  timezone: Asia/Kolkata
 #
 #- description: scrape xml
 #  url: /YESTERDAY_REPORT_MAIL
-#  schedule: every day 04:00
+#  schedule: every day 18:23
 #  timezone: Asia/Kolkata
 #
 #- description: scrape xml
@@ -43,7 +43,7 @@ cron:
 #
 #- description: scrape xml
 #  url: /ATTENDANCE_REPORT_MAIL
-#  schedule: every day 04:00
+#  schedule: every day 18:23
 #  timezone: Asia/Kolkata
 #
 #- description: scrape xml

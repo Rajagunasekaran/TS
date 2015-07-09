@@ -397,13 +397,13 @@ include "../../TSLIB/TSLIB_COMMON.php";
                 var inputValOne=$('#REP_date').val();
                 var inputValTwo=$('#REP_lb_loginid').val();
                 if($('#REP_lb_attendance').val()==1){
-                    var url=document.location.href='TSLIB/COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
+                    var url=document.location.href='../TSLIB/TSLIB_COMMON_PDF.do?flag=11&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdferrmsg;
                 }
                 else if($('#REP_lb_attendance').val()==2){
-                    var url=document.location.href='TSLIB/COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
+                    var url=document.location.href='../TSLIB/TSLIB_COMMON_PDF.do?flag=12&inputValOne='+inputValOne+'&title='+pdferrmsg;
                 }
                 else if($('#REP_lb_attendance').val()==6){
-                    var url=document.location.href='TSLIB/COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
+                    var url=document.location.href='../TSLIB/TSLIB_COMMON_PDF.do?flag=13&inputValOne='+inputValOne+'&title='+pdferrmsg;
                 }
             });
         });

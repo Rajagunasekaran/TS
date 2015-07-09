@@ -482,7 +482,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 inputValOne = inputValOne.split("-").reverse().join("-");
                 var inputValTwo=$('#AWSU_tb_enddtes').val();
                 inputValTwo = inputValTwo.split("-").reverse().join("-");
-                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
+                var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=19&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&title='+pdfmsg;
             });
 
 //    });

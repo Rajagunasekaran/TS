@@ -18,6 +18,8 @@
 //VER 0.01-INITIAL VERSION, SD:16/09/2014 ED:08/10/2014,TRACKER NO:82
 //*********************************************************************************************************//-->
 <?php
+echo 'asdasd';
+exit;
 require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
 include "../TSLIB/TSLIB_COMMON_FUNCTIONS.php";
