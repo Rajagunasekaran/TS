@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************DAILY REPORTS USER REPORT ENTRY **************************************//
+//DONE BY:ARTHI
+//VER 0.08-SD:10/07/2015 ED:10/07/2015, ALIGN RADIO BUTTON,CHECK THE PDF ISSUE
 //DONE BY:JAYAPRIYA
 //VER 0.08-SD:11/06/2015 ED:11/06/2015, CHANGE THE FORM TO BE RESPONSIVE
 //DONE BY:RAJA
@@ -1025,11 +1027,13 @@ include "../TSLIB/TSLIB_HEADER.php";
             $(document).on('change','#USRC_UPD_tb_strtdte',function(){
                 $('#USRC_UPD_div_header').hide();
                 $('#USRC_UPD_btn_pdf').hide();
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var USRC_UPD_startdate = $('#USRC_UPD_tb_strtdte').datepicker('getDate');
                 var date = new Date( Date.parse( USRC_UPD_startdate ));
                 date.setDate( date.getDate()  );
                 var USRC_UPD_todate = date.toDateString();
                 USRC_UPD_todate = new Date( Date.parse( USRC_UPD_todate ));
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 $('#USRC_UPD_tb_enddte').datepicker("option","minDate",USRC_UPD_todate);
             });
             var values_array=[];
@@ -2016,79 +2020,80 @@ include "../TSLIB/TSLIB_HEADER.php";
         <div class="panel-body">
             <fieldset>
                 <div style="padding-bottom: 15px">
-                    <div class="radio">
-                        <label><input type="radio" name="UR_ESU" value="entry" class="rdclick">ENTRY</label>
+                    <div style="padding-left: 15px" >
+                        <div class="radio">
+                            <label><input type="radio" name="UR_ESU" value="entry" class="rdclick">ENTRY</label>
+                        </div>
                     </div>
-                    <div class="radio">
-                        <label><input type="radio" name="UR_ESU" value="search_update" class="rdclick">SEARCH/UPDATE/DELETE</label>
+                    <div style="padding-left: 15px">
+                        <div class="radio">
+                            <label><input type="radio" name="UR_ESU" value="search_update" class="rdclick">SEARCH/UPDATE/DELETE</label>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row-fluid form-group">
+                <div class="row-fluid form-group" style="padding-right:9px">
                     <label name="URE_report_entry" id="URE_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
-
                 <div id="entry" hidden>
-                    <div class="row-fluid form-group">
-                        <label name="entry" class="col-sm-12" id="URE_lbl_sinentry" >
+                    <div style="padding-bottom: 15px">
+                        <div style="padding-left: 15px" >
                             <div class="radio">
-                                <input type="radio" id="URE_rd_sinentry" name="entry" value="SINGLE DAY ENTRY"/>SINGLE DAY ENTRY</label>
+                                <label name="entry"  id="URE_lbl_sinentry"><input type="radio" id="URE_rd_sinentry" name="entry" value="SINGLE DAY ENTRY"/>SINGLE DAY ENTRY</label>
+                            </div></div>
+                        <div style="padding-left: 15px">
+                            <div class="radio">
+                                <label name="entry" id="URE_lbl_mulentry" >
+                                    <input type="radio" id="URE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY"/>MULTIPLE DAY ENTRY</label>
+                            </div></div></div>
 
+                    <div id="URE_tbl_singleday" hidden>
+                        <div class="row-fluid form-group">
+                            <label name="URE_lbl_dte" class="col-sm-2" id="URE_lbl_dte" >DATE</label>
+                            <div class="col-sm-4">
+                                <input type ="text" id="URE_tb_date" class='proj datemandtry formshown' name="URE_tb_date" style="width:75px;" />
+                            </div></div>
+
+                        <div id="URE_tble_attendence" hidden>
+                            <div class="row-fluid form-group">
+                                <label name="URE_lbl_attendance"  class="col-sm-2"  id="URE_lbl_attendance">ATTENDANCE</label>
+                                <div class="col-sm-4">
+                                    <select id="URE_lb_attendance" name="URE_lb_attendance" class="form-control">
+                                        <option>SELECT</option>
+                                        <option value="1">PRESENT</option>
+                                        <option value="0">ABSENT</option>
+                                        <option value="OD">ONDUTY</option>
+                                        <!--                        <option value="2">WORK FROM HOME</option>-->
+                                    </select>
+                                </div></div>
+                            <div class="row-fluid form-group">
+                                <label name="URE_permission" class="col-sm-8" id="URE_lbl_permission">
+                                    <div class="col-sm-3"> <div class="radio">
+                                            <input type="radio" id="URE_rd_permission" name="permission" value="PERMISSION"/>PERMISSION<em>*</em></label>
+                            </div></div>
+
+                        <div class="col-sm-4">
+                            <select name="URE_lb_timing" id="URE_lb_timing" class="form-control" style="display: none" >
+                            </select>
+                        </div></div>
+
+                    <div class="row-fluid form-group">
+                        <label name="URE_nopermission" class="col-sm-10" id="URE_lbl_nopermission">
+                            <div class="col-sm-3"><div class="radio">
+                                    <input type="radio" id="URE_rd_nopermission" name="permission" value="NOPERMISSION"/>NO PERMISSION<em>*</em></label>
                     </div></div>
-
-                <div class="row-fluid form-group">
-                    <label name="entry" class="col-sm-12" id="URE_lbl_mulentry" >
-                        <div class="radio">
-                            <input type="radio" id="URE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY"/>MULTIPLE DAY ENTRY</label>
-                </div></div>
-
-        <div id="URE_tbl_singleday" hidden>
-            <div class="row-fluid form-group">
-                <label name="URE_lbl_dte" class="col-sm-2" id="URE_lbl_dte" >DATE</label>
-                <div class="col-sm-10">
-                    <input type ="text" id="URE_tb_date" class='proj datemandtry formshown' name="URE_tb_date" style="width:75px;" />
-                </div></div>
-
-            <div id="URE_tble_attendence" hidden>
-                <div class="row-fluid form-group">
-                    <label name="URE_lbl_attendance"  class="col-sm-2"  id="URE_lbl_attendance">ATTENDANCE</label>
-                    <div class="col-sm-4">
-                        <select id="URE_lb_attendance" name="URE_lb_attendance" class="form-control">
-                            <option>SELECT</option>
-                            <option value="1">PRESENT</option>
-                            <option value="0">ABSENT</option>
-                            <option value="OD">ONDUTY</option>
-                            <!--                        <option value="2">WORK FROM HOME</option>-->
-                        </select>
-                    </div></div>
-                <div class="row-fluid form-group">
-                    <label name="URE_permission" class="col-sm-8" id="URE_lbl_permission">
-                        <div class="col-sm-3"> <div class="radio">
-                                <input type="radio" id="URE_rd_permission" name="permission" value="PERMISSION"/>PERMISSION<em>*</em></label>
-                </div></div>
-
-            <div class="col-sm-4">
-                <select name="URE_lb_timing" id="URE_lb_timing" class="form-control" style="display: none" >
-                </select>
-            </div></div>
+        </div>
 
         <div class="row-fluid form-group">
-            <label name="URE_nopermission" class="col-sm-10" id="URE_lbl_nopermission">
-                <div class="col-sm-3"><div class="radio">
-                        <input type="radio" id="URE_rd_nopermission" name="permission" value="NOPERMISSION"/>NO PERMISSION<em>*</em></label>
-        </div></div>
-</div>
-
-<div class="row-fluid form-group">
-    <label name="URE_lbl_session" class="col-sm-2" id="URE_lbl_session" hidden >SESSION</label>
-    <div class="col-sm-4">
-        <select name="URE_lb_ampm" id="URE_lb_ampm" class="form-control" >
-            <option>SELECT</option>
-            <option>FULLDAY</option>
-            <option>AM</option>
-            <option>PM</option>
-        </select>
-    </div></div>
+            <label name="URE_lbl_session" class="col-sm-2" id="URE_lbl_session" hidden >SESSION</label>
+            <div class="col-sm-4">
+                <select name="URE_lb_ampm" id="URE_lb_ampm" class="form-control" >
+                    <option>SELECT</option>
+                    <option>FULLDAY</option>
+                    <option>AM</option>
+                    <option>PM</option>
+                </select>
+            </div></div>
 </div>
 
 <div id="URE_tble_reasonlbltxtarea"></div>
@@ -2099,9 +2104,9 @@ include "../TSLIB/TSLIB_HEADER.php";
 
 <div id="URE_tble_enterthereport"></div>
 <div id="URE_tble_bandwidth"></div>
-<div> <input type="button"  class="btn" name="URE_btn_submit" id="URE_btn_submit"  value="SAVE" disabled></div>
+<div style="padding-left: 15px"><input type="button"  class="btn" name="URE_btn_submit" id="URE_btn_submit"  value="SAVE" disabled></div>
 
-<div><label id="URE_lbl_errmsg" name="URE_lbl_errmsg" class="errormsg"></label></div>
+<div  style="padding-left: 15px"><label id="URE_lbl_errmsg" name="URE_lbl_errmsg" class="errormsg"></label></div>
 </div>
 
 <div id="URE_tbl_multipleday" hidden>
@@ -2129,13 +2134,13 @@ include "../TSLIB/TSLIB_HEADER.php";
     </div>
 
     <div id="URE_tble_reason"></div>
-    <div>
+    <div style="padding-left: 15px">
         <input type="button"  class="btn" name="URE_btn_save" id="URE_btn_save"  value="SAVE" disabled>
     </div>
 </div>
 
-<div><label id="URE_lbl_msg" name="URE_lbl_msg" class="errormsg"></label></div>
-<div><label id="URE_lbl_checkmsg" name="URE_lbl_checkmsg" class="errormsg"></label></div>
+<div style="padding-left: 15px"><label id="URE_lbl_msg" name="URE_lbl_msg" class="errormsg"></label></div>
+<div style="padding-left: 15px"><label id="URE_lbl_checkmsg" name="URE_lbl_checkmsg" class="errormsg"></label></div>
 </div>
 
 <div id="search_update" hidden>
@@ -2151,19 +2156,19 @@ include "../TSLIB/TSLIB_HEADER.php";
             <input type="text" name="USRC_UPD_tb_enddte" id="USRC_UPD_tb_enddte" class="USRC_UPD_tb_date valid clear" style="width:75px;">
         </div></div>
 
-    <div><input type="button" class="btn" name="USRC_UPD_btn_search" id="USRC_UPD_btn_search" value="SEARCH" disabled ></div>
+    <div style="padding-left: 15px"><input type="button" class="btn" name="USRC_UPD_btn_search" id="USRC_UPD_btn_search" value="SEARCH" disabled ></div>
 
-    <div class="srctitle" name="USRC_UPD_div_header" id="USRC_UPD_div_header" hidden></div>
-    <div><input type="button" id='USRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
+    <div style="padding-left: 15px" class="srctitle" name="USRC_UPD_div_header" id="USRC_UPD_div_header" hidden></div>
+    <div style="padding-left: 15px"><input type="button" id='USRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
     <!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
-    <div id="USRC_UPD_div_tablecontainer" style="max-width: 800px" class="table-responsive" hidden>
+    <div id="USRC_UPD_div_tablecontainer" style="max-width: 800px; padding-left: 15px" class="table-responsive" hidden>
         <section>
         </section>
     </div>
 
-    <div><input type="button" id="USRC_UPD_btn_srch" class="btn" name="USRC_UPD_btn_srch" value="SEARCH" hidden/></div>
+    <div style="padding-left: 15px"><input type="button" id="USRC_UPD_btn_srch" class="btn" name="USRC_UPD_btn_srch" value="SEARCH" hidden/></div>
 
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group" style="padding-top: 10px">
         <label name="USRC_UPD_lbl_dte"  class="col-sm-2" id="USRC_UPD_lbl_dte" hidden>DATE</label>
         <div class="col-sm-8">
             <input type ="text" id="USRC_UPD_tb_date" class='proj datemandtry formshown update_validate' name="USRC_UPD_tb_date" style="width:130px;" hidden/><label id="USRC_UPD_errmsg" name="USRC_UPD_errmsg" class="errormsg" hidden></label>
@@ -2224,7 +2229,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 
 <div> <label id="USRC_UPD_banderrmsg" name="USRC_UPD_banderrmsg" class="errormsg" hidden></label></div>
 
-<div>
+<div style="padding-left: 15px">
     <input type="button"  class="btn" name="USRC_UPD_btn_submit" id="USRC_UPD_btn_submit"  value="UPDATE" disabled ></div>
 
 <div id="USRC_UPD_btn_submit"></div>

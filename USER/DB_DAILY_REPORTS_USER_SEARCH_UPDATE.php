@@ -1,6 +1,6 @@
 <?php
-require_once 'google/appengine/api/mail/Message.php';
-use google\appengine\api\mail\Message;
+//require_once 'google/appengine/api/mail/Message.php';
+//use google\appengine\api\mail\Message;
 //error_reporting(0);
 if(isset($_REQUEST)){
     include "../TSLIB/TSLIB_CONNECTION.php";
@@ -110,6 +110,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
         $bandwidth=$_POST['USRC_UPD_tb_band'];
         $ampm=$_POST['USRC_UPD_lb_ampm'];
         $project=$_POST['checkbox'];
+        $notinformed=null;
         $reportlocation=$_REQUEST['reportlocation'];
         $reportlocation= $con->real_escape_string($reportlocation);
         $finaldate = date('Y-m-d',strtotime($date));
@@ -283,8 +284,8 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
         }
         $report= $con->real_escape_string($report);
         $reason= $con->real_escape_string($reason);
-//        echo "CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','','$reportlocation',@success_flag)";
-        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','','$reportlocation',@success_flag)");
+//        echo "CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','','$reportlocation','$notinformed',@success_flag)";
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ure_urc_id,'$USERSTAMP','$perm_time','$ure_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','','$reportlocation','$notinformed',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -356,20 +357,20 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' AND UARD.ULD_ID='$ure_uld_id
                 $sub=$sub.'<br>';
 
                 //SENDING MAIL OPTIONS
-                $name = $mail_subject;
-                $from = $admin;
-                $message1 = new Message();
-                $message1->setSender($name.'<'.$from.'>');
-                $message1->addTo($admin);
-                $message1->addCc($sadmin);
-                $message1->setSubject($mail_subject);
-                $message1->setHtmlBody($sub.$values);
-
-                try {
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+//                $name = $mail_subject;
+//                $from = $admin;
+//                $message1 = new Message();
+//                $message1->setSender($name.'<'.$from.'>');
+//                $message1->addTo($admin);
+//                $message1->addCc($sadmin);
+//                $message1->setSubject($mail_subject);
+//                $message1->setHtmlBody($sub.$values);
+//
+//                try {
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
             }
             $drop_query="DROP TABLE $temp_tickler_history ";
             mysqli_query($con,$drop_query);

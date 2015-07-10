@@ -23,8 +23,8 @@ include "../TSLIB/TSLIB_HEADER.php";
     $(document).ready(function(){
 //    $('.preloader', window.parent.document).show();
         $(".preloader").show();
-         $('#URT_SRC_ta_reasontermination').hide();
-         $('#URT_SRC_ta_reasonupdate').hide();
+        $('#URT_SRC_ta_reasontermination').hide();
+        $('#URT_SRC_ta_reasonupdate').hide();
         $('textarea').autogrow({onInitialize: true});
         //reomve file upload row
         $(document).on('click', 'button.removebutton', function () {
@@ -224,6 +224,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $("#URT_SRC_lbl_datepickertermination").hide();
                         $("#URT_SRC_lb_loginterminate").hide();
                         $("#URT_SRC_lbl_loginterminate").hide();
+                        $("#terminate").hide();
                         $("#URT_SRC_tb_datepickertermination").hide();
                         $("#URT_SRC_lbl_reasontermination").hide();
                         $("#URT_SRC_ta_reasontermination").hide();
@@ -238,6 +239,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $("#URT_SRC_lbl_datepickertermination").hide();
                         $("#URT_SRC_lb_loginterminate").hide();
                         $("#URT_SRC_lbl_loginterminate").hide();
+                        $("#terminate").hide();
                         $("#URT_SRC_tb_datepickertermination").hide();
                         $("#URT_SRC_lbl_reasontermination").hide();
                         $("#URT_SRC_ta_reasontermination").hide();
@@ -421,6 +423,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     }
                     $('#URT_SRC_lbl_loginrejoin').hide();
                     $('#URT_SRC_lb_loginrejoin').hide();
+                    $('#terminate').hide();
                     $('#URT_SRC_lbl_loginterminate').hide();
                     $('#URT_SRC_lb_loginterminate').hide();
                     $("#URT_SRC_tble_roles").hide();
@@ -1075,6 +1078,8 @@ include "../TSLIB/TSLIB_HEADER.php";
 //        $('.preloader', window.parent.document).show();
             $(".preloader").show();
             $("#URT_SRC_lbl_datepickertermination").hide();
+            $("#URT_SRC_tb_datepickerrejoin").hide();
+            $("#URT_SRC_lbl_datepickertermination").hide();
             $("#URT_SRC_tb_datepickertermination").hide();
             $("#URT_SRC_lbl_reasontermination").hide();
             $("#URT_SRC_ta_reasontermination").hide();
@@ -1209,6 +1214,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             $("#URT_SRC_btn_rejoin").hide();
             $("#URT_SRC_lbl_loginterminate").val("SELECT");
             $("#URT_SRC_lb_loginterminate").show();
+            $("#terminate").show();
             $("#URT_SRC_lbl_selectoption").hide();
             $("#URSRC_lbl_emptype").hide();
             $('#URSRC_lb_selectemptype').hide();
@@ -1281,6 +1287,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             $("#URT_SRC_lbl_selectsearchupdate").show();
             $("#URT_SRC_radio_selectsearchupdate").show();
             $("#URT_SRC_lbl_loginterminate").hide();
+            $("#terminate").hide();
             $("#URSRC_lbl_emptype").hide();
             $('#URT_SRC_lb_recordversion').hide();
             $('#URT_SRC_lbl_recordversion').hide();
@@ -1300,6 +1307,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             $('#URT_SRC_lbl_loginrejoin').hide();
             $('#URT_SRC_lb_loginrejoin').hide();
             $('#URT_SRC_lbl_loginterminate').hide();
+            $('#terminate').hide();
             $('#URT_SRC_lb_loginterminate').hide();
             $("#URT_SRC_tble_roles").hide();
             $('#URSRC_table_employeetbl').hide();
@@ -1471,311 +1479,312 @@ include "../TSLIB/TSLIB_HEADER.php";
     <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
         <div class="panel-body">
             <fieldset>
-                <div style="padding-top: 15px" style="padding-left:50px>
-                    <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidden>
+                <!--                <div style="padding-bottom: 15px">-->
+                <div style="padding-left: 15px" >
+                    <div class="radio">
+                        <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidde><input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
+                    </div></div>
+
+                <div class="form-group">
+                    <div style="padding-left: 15px" >
                         <div class="radio">
-                            <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
-                </div></div>
+                            <label  name="URT_SRC_lbl_nloginsearchupdate" class="col-sm-12" id="URT_SRC_lbl_loginsearchupdate"  hidden><input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" >SEARCH/UPDATE</label>
+                        </div></div>
+                </div>
+                <!--</div>-->
+                <div id="terminate" hidden>
+                    <div class="row-fluid form-group">
+                        <label name="URT_SRC_lbl_nloginterminate" id="URT_SRC_lbl_loginterminate" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em> </label>
+                        <div class="col-sm-4">
+                            <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <label  name="URT_SRC_lbl_nloginsearchupdate" class="col-sm-12" id="URT_SRC_lbl_loginsearchupdate"  hidden>
-                <div class="radio">
-                    <input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" >SEARCH/UPDATE</label>
-        </div></div>
+                    <div class="row-fluid form-group">
+                        <!-- <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class="srctitle col-lg-8 control-label col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>-->
+                        <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class=" col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
+                        <div class="col-sm-4">
+                            <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden>
+                            <label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label>
+                        </div>
+                    </div>
+                    <div class="row-fluid form-group">
+                        <label name="URT_SRC_lbl_nreasontermination" id="URT_SRC_lbl_reasontermination" class=" col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
+                        <div class="col-sm-4">
+                            <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" class="form-control tarea" hidden> </textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="button"  value="TERMINATE" id="URT_SRC_btn_termination" class="maxbtn" hidden>
+                    </div>
+                </div>
+                <!--select an option-->
+                <div class="row-fluid form-group" >
+                    <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle col-sm-12" hidden> SELECT A OPTION </label>
+                </div>
+                <div style="padding-left: 15px" >
+                    <div class="radio">
+                        <label name="URT_SRC_lbl_nselectrejoin"  id="URT_SRC_lbl_selectrejoin"  class="col-sm-12" hidden><input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>&nbsp; REJOIN </label>
+                    </div></div>
+                <div style="padding-left: 15px" >
+                    <div class="radio">
+                        <label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate"  class="col-sm-12" hidden><input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectsearchupdate" hidden>&nbsp;SEARCH/UPDATE </label>
+                    </div></div>
+                <!--terminate rejoin-->
+                <div class="row-fluid form-group">
+                    <label name="URT_SRC_lbl_nloginrejoin" id="URT_SRC_lbl_loginrejoin" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em></label>
+                    <div class="col-sm-4">
+                        <select name="URT_SRC_lb_nloginrejoin" id="URT_SRC_lb_loginrejoin" class="form-control"style="display: none" hidden ><option>SELECT</option></select>
+                    </div></div>
+                <div class="row-fluid form-group"  width="185">
+                    <label id="URSRC_lbl_emptype" class=" col-lg-2" hidden>SELECT TYPE OF EMPLOYEE<em>*</em></label>
+                    <div class="col-sm-3">
+                        <select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype" class="form-control" style="display: none"hidden  >
+                            <option value='SELECT' selected="selected"> SELECT</option>
+                        </select>
+                    </div></div>
+                <div id="URT_SRC_tble_roles"></div>
+                <div class="row-fluid form-group">
+                    <label name="URT_SRC_lbl_ndatepickerrejoin" id="URT_SRC_lbl_datepickerrejoin" class="col-lg-2" hidden> SELECT A REJOIN DATE<em>*</em></label>
+                    <div class="col-sm-10" width="185">
+                        <input type="text" name="URT_SRC_tb_ndatepickerrejoin" id="URT_SRC_tb_datepickerrejoin" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" style="width:75px;" hidden>
+                    </div></div>
+                <!--EMPLOYEE DETAILS-->
+                <div id="URSRC_table_employeetbl" hidden>
+                    <div class="row-fluid form-group">
+                        <label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
+                    </div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="row URSRC_lbl_firstname" class="col-lg-2" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >
+                        </div></div>
 
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nloginterminate" id="URT_SRC_lbl_loginterminate" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em> </label>
-    <div class="col-sm-4">
-        <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
-    </div>
-</div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_lastname" class="col-sm-2" id="URSRC_lbl_lastname">LAST NAME <em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+                        </div></div>
 
-<div class="row-fluid form-group">
-    <!-- <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class="srctitle col-lg-8 control-label col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>-->
-    <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class=" col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
-    <div class="col-sm-4">
-        <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden>
-             <label id="URT_SRC_errdate" name="URT_SRC_errdate" class="errormsg"></label>
-    </div>
-</div>
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nreasontermination" id="URT_SRC_lbl_reasontermination" class=" col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
-    <div class="col-sm-4">
-        <textarea name="URT_SRC_ta_nreasontermination" id="URT_SRC_ta_reasontermination" class="form-control tarea" hidden> </textarea>
-    </div>
-</div>
-<div>
-    <input type="button"  value="TERMINATE" id="URT_SRC_btn_termination" class="maxbtn" hidden>
-</div>
-<!--select an option-->
-<div class="row-fluid form-group" >
-    <label name="URT_SRC_lbl_nselectoption" id="URT_SRC_lbl_selectoption" class="srctitle" hidden> SELECT A OPTION </label>
-</div>
-<div class="form-group form-inline col-sm-12">
-    <label name="URT_SRC_lbl_nselectrejoin"  id="URT_SRC_lbl_selectrejoin"  hidden>
-        <div class="radio">
-            <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectrejoin"  value="URT_SRC_radio_valuerejoin" hidden>&nbsp; REJOIN </label>
-</div></div>
-<div class=" form-group form-inline col-sm-12">
-    <label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate"  hidden>
-        <div class="radio">
-            <input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectsearchupdate" hidden>&nbsp;SEARCH/UPDATE </label>
-</div></div>
-<!--terminate rejoin-->
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nloginrejoin" id="URT_SRC_lbl_loginrejoin" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em></label>
-    <div class="col-sm-4">
-        <select name="URT_SRC_lb_nloginrejoin" id="URT_SRC_lb_loginrejoin" class="form-control"style="display: none" hidden ><option>SELECT</option></select>
-    </div></div>
-<div class="row-fluid form-group"  width="185">
-    <label id="URSRC_lbl_emptype" class=" col-lg-2" hidden>SELECT TYPE OF EMPLOYEE<em>*</em></label>
-    <div class="col-sm-3">
-        <select id='URSRC_lb_selectemptype' name="URSRC_lb_selectemptype" class="form-control" style="display: none"hidden  >
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_dob" class="col-sm-2" id="URSRC_lbl_dob">DATE OF BIRTH<em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate" style="width:75px;">
+                        </div></div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_designation" class="col-sm-2" id="URSRC_lbl_designation">DESIGNATION<em>*</em></label>
+                        <div class="col-sm-4">
+                            <!--            <input type="text" name="URSRC_tb_designation" id="URSRC_tb_designation" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate">-->
+                            <select  name="URSRC_tb_designation" id="URSRC_tb_designation" class="form-control" style="display: inline">
+                                <option value='SELECT'  selected="selected"> SELECT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row-fluid form-group" width="175">
+
+                        <label name="URSRC_lbl_permobile" class="col-sm-2" id="URSRC_lbl_permobile">PERSONAL MOBILE<em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate" style="width:75px" >
+                            <label id="URSRC_lbl_validnumber" name="URSRC_lbl_validnumber" class="errormsg"></label>
+                        </div></div>
+                    <div class="row-fluid  form-group" width="175">
+                        <label name="URSRC_lbl_kinname" class="col-sm-2" id="URSRC_lbl_kinname">NEXT KIN NAME<em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
+                        </div></div>
+
+                    <div class="row-fluid form-group">
+                        <label name="URSRC_lbl_relationhd" class="col-sm-2" id="URSRC_lbl_relationhd">RELATION HOOD<em>*</em></label>
+                        <div class="col-sm-4">
+                            <!--            <input type="text" name="URSRC_tb_relationhd" id="URSRC_tb_relationhd" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >-->
+                            <select id='URSRC_tb_relationhd' name="URSRC_tb_relationhd" class="relationhd_submitvalidate form-control" style="display: inline>
             <option value='SELECT' selected="selected"> SELECT</option>
-        </select>
-    </div></div>
-<div id="URT_SRC_tble_roles"></div>
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_ndatepickerrejoin" id="URT_SRC_lbl_datepickerrejoin" class="col-lg-2" hidden> SELECT A REJOIN DATE<em>*</em></label>
-    <div class="col-sm-10" width="185">
-        <input type="text" name="URT_SRC_tb_ndatepickerrejoin" id="URT_SRC_tb_datepickerrejoin" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" style="width:75px;" hidden>
-    </div></div>
-<!--EMPLOYEE DETAILS-->
-<div id="URSRC_table_employeetbl" hidden>
-    <div class="row-fluid form-group">
-        <label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
-    </div>
-    <div class="row-fluid form-group" width="175">
-        <label name="row URSRC_lbl_firstname" class="col-lg-2" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_firstname" id="URSRC_tb_firstname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >
-        </div></div>
+                            </select>
+                        </div></div>
+                    <div class="row-fluid  form-group">
+                        <label name="URSRC_lbl_mobile" class="col-sm-2" id="URSRC_lbl_mobile">MOBILE NO<em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate" maxlength='10' style="width:75px">
+                            <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label>
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
+                        <div class="col-sm-4">
+                            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos   login_submitvalidate"  maxlength='15' style="width:75px">
+                            <label id="URSRC_lbl_validnumberhouseno" name="URSRC_lbl_validnumberhouseno" class="errormsg"></label>
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label class="col-sm-2" name="URSRC_lbl_strtname" id="URSRC_lbl_strtname">STREET NAME<em>*</em></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="URSRC_tb_strtname" id="URSRC_tb_strtname" class="alphanumericuppercse sizefix login_submitvalidate">
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label class="col-sm-2" name="URSRC_lbl_area" id="URSRC_lbl_area">AREA<em>*</em></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="URSRC_tb_area" id="URSRC_tb_area" class="alphanumericuppercse sizefix login_submitvalidate">
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label class="col-sm-2" name="URSRC_lbl_pstlcode" id="URSRC_lbl_pstlccode">POSTAL CODE<em>*</em></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='6' class="sizefix pstlcode login_submitvalidate" style="width:75px">
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label class="srctitle" class="col-sm-2" name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
+                    </div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_bnkname" class="col-sm-2" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                        </div></div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_brnchname" class="col-sm-2" id="URSRC_lbl_brnchname">BRANCH NAME <em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                        </div></div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_accntname" class="col-sm-2" id="URSRC_lbl_accntname">ACCOUNT NAME <em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                        </div></div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_accntno" class="col-sm-2" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" >
+                        </div></div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_ifsccode" class="col-sm-2" id="URSRC_lbl_ifsccode">IFSC CODE<em>*</em></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
+                        </div></div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_accntyp" class="col-sm-2" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label>
+                        <div class="col-sm-4">
+                            <!--            <input type="text" name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" maxlength='15' class="alphanumericuppercse sizefix login_submitvalidate" >-->
+                            <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="alphanumericuppercse login_submitvalidate form-control" style="display: inline" >
+                                <option value='SELECT' selected="selected"> SELECT</option>
+                            </select>
+                        </div></div>
+                    <div class="row-fluid form-group" width="175">
+                        <label name="URSRC_lbl_brnchaddr" class="col-sm-2" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label>
+                        <div class="col-sm-10">
+                            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate tarea form-control "></textarea>
+                        </div></div>
+                    <div class="row-fluid  form-group">
 
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_lastname" class="col-sm-2" id="URSRC_lbl_lastname">LAST NAME <em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_lastname" id="URSRC_tb_lastname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
-        </div></div>
+                        <label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
+                    </div>
+                    <div class="row-fluid form-group">
+                        <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label>
+                        <div class="col-sm-4">
+                            <!--            <input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='10' class="alphanumeric sizefix login_submitvalidate">-->
+                            <select id='URSRC_tb_laptopno' name="URSRC_tb_laptopno"  class="selectlaptopno_submitvalidate form-control" style="display: inline">
+                                <option value='SELECT' selected="selected"> SELECT</option>
+                            </select>
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">CHARGER NO</label>
+                        <div class="col-sm-5">
+                            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
+                        </div></div>
 
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_dob" class="col-sm-2" id="URSRC_lbl_dob">DATE OF BIRTH<em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_dob" id="URSRC_tb_dob" class="datepickerdob datemandtry login_submitvalidate" style="width:75px;">
-        </div></div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_designation" class="col-sm-2" id="URSRC_lbl_designation">DESIGNATION<em>*</em></label>
-        <div class="col-sm-4">
-            <!--            <input type="text" name="URSRC_tb_designation" id="URSRC_tb_designation" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate">-->
-            <select  name="URSRC_tb_designation" id="URSRC_tb_designation" class="form-control" style="display: inline">
-                <option value='SELECT'  selected="selected"> SELECT</option>
-            </select>
-        </div>
-    </div>
-    <div class="row-fluid form-group" width="175">
+                    <div id="URSRC_table_others" style="width:500px" hidden>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">&nbsp;&nbsp;LAPTOP BAG</label>
+                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;&nbsp;MOUSE</label>
+                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;&nbsp;DOOR ACCESS</label>
+                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;&nbsp;ID CARD</label>
+                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;&nbsp;HEAD SET</label>
+                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">&nbsp;&nbsp;AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate" hidden>
 
-        <label name="URSRC_lbl_permobile" class="col-sm-2" id="URSRC_lbl_permobile">PERSONAL MOBILE<em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_permobile" id="URSRC_tb_permobile"  maxlength='10' class="mobileno title_nos valid login_submitvalidate" style="width:75px" >
-            <label id="URSRC_lbl_validnumber" name="URSRC_lbl_validnumber" class="errormsg"></label>
-        </div></div>
-    <div class="row-fluid  form-group" width="175">
-        <label name="URSRC_lbl_kinname" class="col-sm-2" id="URSRC_lbl_kinname">NEXT KIN NAME<em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_kinname" id="URSRC_tb_kinname" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate">
-        </div></div>
+                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">&nbsp;&nbsp;PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
+                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
+                            <div class="form-inline col-lg-1"><div class="checkbox">
+                                    <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
+                                </div></div>
+                            <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">&nbsp;&nbsp;VOTERS ID NO</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
+                        </div>
 
-    <div class="row-fluid form-group">
-        <label name="URSRC_lbl_relationhd" class="col-sm-2" id="URSRC_lbl_relationhd">RELATION HOOD<em>*</em></label>
-        <div class="col-sm-4">
-            <!--            <input type="text" name="URSRC_tb_relationhd" id="URSRC_tb_relationhd" maxlength='30' class="autosizealph sizefix title_alpha login_submitvalidate" >-->
-            <select id='URSRC_tb_relationhd' name="URSRC_tb_relationhd" class="relationhd_submitvalidate form-control" style="display: inline>
-            <option value='SELECT' selected="selected"> SELECT</option>
-            </select>
-        </div></div>
-    <div class="row-fluid  form-group">
-        <label name="URSRC_lbl_mobile" class="col-sm-2" id="URSRC_lbl_mobile">MOBILE NO<em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate" maxlength='10' style="width:75px">
-            <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label>
-        </div></div>
-    <div class="row-fluid form-group">
-        <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
-        <div class="col-sm-4">
-            <input type="" name="URSRC_tb_houseno" id="URSRC_tb_houseno" class="houseno title_nos   login_submitvalidate"  maxlength='15' style="width:75px">
-            <label id="URSRC_lbl_validnumberhouseno" name="URSRC_lbl_validnumberhouseno" class="errormsg"></label>
-        </div></div>
-    <div class="row-fluid form-group">
-        <label class="col-sm-2" name="URSRC_lbl_strtname" id="URSRC_lbl_strtname">STREET NAME<em>*</em></label>
-        <div class="col-sm-4">
-            <input type="text" name="URSRC_tb_strtname" id="URSRC_tb_strtname" class="alphanumericuppercse sizefix login_submitvalidate">
-        </div></div>
-    <div class="row-fluid form-group">
-        <label class="col-sm-2" name="URSRC_lbl_area" id="URSRC_lbl_area">AREA<em>*</em></label>
-        <div class="col-sm-4">
-            <input type="text" name="URSRC_tb_area" id="URSRC_tb_area" class="alphanumericuppercse sizefix login_submitvalidate">
-        </div></div>
-    <div class="row-fluid form-group">
-        <label class="col-sm-2" name="URSRC_lbl_pstlcode" id="URSRC_lbl_pstlccode">POSTAL CODE<em>*</em></label>
-        <div class="col-sm-4">
-            <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='6' class="sizefix pstlcode login_submitvalidate" style="width:75px">
-        </div></div>
-    <div class="row-fluid form-group">
-        <label class="srctitle" class="col-sm-2" name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
-    </div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_bnkname" class="col-sm-2" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_bnkname" id="URSRC_tb_bnkname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
-        </div></div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_brnchname" class="col-sm-2" id="URSRC_lbl_brnchname">BRANCH NAME <em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_brnchname" id="URSRC_tb_brnchname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
-        </div></div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_accntname" class="col-sm-2" id="URSRC_lbl_accntname">ACCOUNT NAME <em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_accntname" id="URSRC_tb_accntname" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
-        </div></div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_accntno" class="col-sm-2" id="URSRC_lbl_accntno">ACCOUNT NUMBER <em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_accntno" id="URSRC_tb_accntno" maxlength='50' class=" sizefix accntno login_submitvalidate" >
-        </div></div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_ifsccode" class="col-sm-2" id="URSRC_lbl_ifsccode">IFSC CODE<em>*</em></label>
-        <div class="col-sm-10">
-            <input type="text" name="URSRC_tb_ifsccode" id="URSRC_tb_ifsccode" maxlength='50' class="alphanumericuppercse sizefix login_submitvalidate" >
-        </div></div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_accntyp" class="col-sm-2" id="URSRC_lbl_accntyp">ACCOUNT TYPE<em>*</em></label>
-        <div class="col-sm-4">
-            <!--            <input type="text" name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" maxlength='15' class="alphanumericuppercse sizefix login_submitvalidate" >-->
-            <select name="URSRC_tb_accntyp" id="URSRC_tb_accntyp" class="alphanumericuppercse login_submitvalidate form-control" style="display: inline" >
-                <option value='SELECT' selected="selected"> SELECT</option>
-            </select>
-        </div></div>
-    <div class="row-fluid form-group" width="175">
-        <label name="URSRC_lbl_brnchaddr" class="col-sm-2" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label>
-        <div class="col-sm-10">
-            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate"></textarea>
-        </div></div>
-    <div class="row-fluid  form-group">
+                        <div class="row-fluid form-group">
+                            <label  class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
+                            <div class="col-sm-offset-5">
+                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength tarea form-control login_submitvalidate"></textarea>
+                            </div></div>
 
-        <label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
-    </div>
-    <div class="row-fluid form-group">
-        <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label>
-        <div class="col-sm-4">
-            <!--            <input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='10' class="alphanumeric sizefix login_submitvalidate">-->
-            <select id='URSRC_tb_laptopno' name="URSRC_tb_laptopno"  class="selectlaptopno_submitvalidate form-control" style="display: inline">
-                <option value='SELECT' selected="selected"> SELECT</option>
-            </select>
-        </div></div>
-    <div class="row-fluid form-group">
-        <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">CHARGER NO</label>
-        <div class="col-sm-5">
-            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
-        </div></div>
-
-    <div id="URSRC_table_others" style="width:500px" hidden>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">&nbsp;&nbsp;LAPTOP BAG</label>
-        </div>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;&nbsp;MOUSE</label>
-        </div>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;&nbsp;DOOR ACCESS</label>
-        </div>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;&nbsp;ID CARD</label>
-        </div>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;&nbsp;HEAD SET</label>
-        </div>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">&nbsp;&nbsp;AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate" hidden>
-
-        </div>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">&nbsp;&nbsp;PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
-        </div>
-        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-            <div class="form-inline col-lg-1"><div class="checkbox">
-                    <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
-                </div></div>
-            <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">&nbsp;&nbsp;VOTERS ID NO</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
-        </div>
-
-        <div class="row-fluid form-group">
-            <label  class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
-            <div class="col-sm-offset-5">
-                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate"></textarea>
-            </div></div>
-
-        <div id="filetableuploads"></div>
+                        <div id="filetableuploads"></div>
 
 
-        <div>
+                        <div>
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span>
-        </div>
-    </div>
+                        </div>
+                    </div>
 
-    <!--EMPL DETAILS-->
-    <div><input align="right" type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden></div>
-</div>
-<!--terminate updation-->
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="form-inline col-sm-2" hidden>LOGIN ID<em>*</em></label>
-    <div class="col-sm-4">
-        <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
-    </div></div>
-<div class="row-fluid form-group">
-    <label id="URT_SRC_lbl_recordversion" class=" col-sm-2" hidden >RECORD VERSION<em>*</em></label>
-    <div class="col-sm-10">
-        <select name="URT_SRC_lb_recordversion" id="URT_SRC_lb_recordversion" hidden ></select>
-    </div></div>
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" form-inline col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
-    <div class="col-sm-10">
-        <input type="text" name="URT_SRC_tb_ndatepickerupdate" id="URT_SRC_tb_datepickerupdate" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" hidden>
-    </div></div>
-<div class="row-fluid form-group">
-    <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class="form-inline col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
-    <div class="col-sm-4">
-        <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate"  class="form-control tarea"hidden> </textarea>
-    </div></div>
-<div>
-    <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:100px">
-</div>
-</fieldset>
-</div>
-<!--</div>-->
-</form>
+                    <!--EMPL DETAILS-->
+                    <div><input align="right" type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden></div>
+                </div>
+                <!--terminate updation-->
+                <div class="row-fluid form-group">
+                    <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="form-inline col-sm-2" hidden>LOGIN ID<em>*</em></label>
+                    <div class="col-sm-4">
+                        <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
+                    </div></div>
+                <div class="row-fluid form-group">
+                    <label id="URT_SRC_lbl_recordversion" class=" col-sm-2" hidden >RECORD VERSION<em>*</em></label>
+                    <div class="col-sm-10">
+                        <select name="URT_SRC_lb_recordversion" id="URT_SRC_lb_recordversion" hidden ></select>
+                    </div></div>
+                <div class="row-fluid form-group">
+                    <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" form-inline col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
+                    <div class="col-sm-10">
+                        <input type="text" name="URT_SRC_tb_ndatepickerupdate" id="URT_SRC_tb_datepickerupdate" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" hidden>
+                    </div></div>
+                <div class="row-fluid form-group">
+                    <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class="form-inline col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
+                    <div class="col-sm-4">
+                        <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate"  class="form-control tarea"hidden> </textarea>
+                    </div></div>
+                <div>
+                    <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:100px">
+                </div>
+            </fieldset>
+        </div>
+        <!--</div>-->
+    </form>
 </div>
 </body>
 </html>

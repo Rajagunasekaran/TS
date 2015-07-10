@@ -2,6 +2,11 @@
 include "../TSLIB/TSLIB_HEADER.php";
 //include "NEW_MENU.php";
 ?>
+<style type="text/css" xmlns="http://www.w3.org/1999/html">
+    .calendar-off table.ui-datepicker-calendar {
+        display:none !important;
+    }
+</style>
 <html>
 <head>
     <!--SCRIPT TAG START-->
@@ -9,7 +14,9 @@ include "../TSLIB/TSLIB_HEADER.php";
         //READY FUNCTION START
         $(document).ready(function(){
             $(".preloader").hide();
-            $("#REP_tb_strtdtebyrange").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+            $("#REP_tb_strtdtebyrange").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true,beforeShow:function(input, inst) {
+                $(inst.dpDiv).removeClass('calendar-off');
+            }});
             $("#REP_tb_enddtebyrange").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
             var REP_chk_errorAarray=[];
             var uld_id;
@@ -265,14 +272,18 @@ include "../TSLIB/TSLIB_HEADER.php";
                 var inputValTwo=$('#REP_tb_enddtebyrange').val();
                 inputValTwo = inputValTwo.split("-").reverse().join("-");
                 var inputValThree=uld_id;
-                var url=document.location.href='TSLIB/COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
+                var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
             });
             //DATE PICKER FUNCTION
             $('.date-pickers').datepicker( {
                 changeMonth: true,      //provide option to select Month
                 changeYear: true,       //provide option to select year
                 showButtonPanel: true,   // button panel having today and done button
-                dateFormat: 'MM-yy',    //set date format
+                dateFormat: 'MM-yy',
+                beforeShow:function(input, inst) {
+                    $(inst.dpDiv).addClass('calendar-off');
+                },
+                //set date format
                 //ONCLOSE FUNCTION
                 onClose: function(dateText, inst) {
 //                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
@@ -286,15 +297,15 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
             });
 
-            //FOCUS FUNCTION
-            $(".date-pickers").focus(function () {
-                $(".ui-datepicker-calendar").hide();
-                $("#ui-datepicker-div").position({
-                    my: "center top",
-                    at: "center bottom",
-                    of: $(this)
-                });
-            });
+//            //FOCUS FUNCTION
+//            $(".date-pickers").focus(function () {
+//                $(".ui-datepicker-calendar").hide();
+//                $("#ui-datepicker-div").position({
+//                    my: "center top",
+//                    at: "center bottom",
+//                    of: $(this)
+//                });
+//            });
 
 
             //FUNCTION FOR SETTINF MIN ND MAX DATE
@@ -450,11 +461,11 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
                             <input type="radio" name="clock" class="clock_click" id="clock_in_out" value=clockinout>CLOCK IN-OUT DETAILS</label>
                     </div></div>
-                <div style="padding-left: 15px">
+        <div style="padding-left: 15px">
                     <div class="radio">
                         <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
                             <input type="radio" name="clock" class="clock_click" id="clock_missed" value="clockmissed">CLOCK-OUT-MISSED DETAILS</label>
-                    </div></div>
+                </div></div>
                 <div class="row-fluid form-group" style="padding-top: 15px">
                     <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
@@ -478,8 +489,8 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <label id="REP_lbl_daterange" name="REP_lbl_daterange"  class="srctitle" hidden></label>
                     </div>
                     <div style="padding-left:15px">
-                        <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
-                    </div>
+                    <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
+</div>
                     <div id="REP_tablecontainer_bydaterange" style="width:auto; padding-left:15px" class="table-responsive" hidden>
                         <section style="width:1000px;">
                         </section>

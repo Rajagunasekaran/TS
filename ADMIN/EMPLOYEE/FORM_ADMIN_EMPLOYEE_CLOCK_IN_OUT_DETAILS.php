@@ -1,6 +1,8 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************CLOCK IN/OUT DETAILS*********************************************//
 //DONE BY:ARTHI
+//VER 0.04-SD:10/07/2015 ED:10/07/2015,fixed the konth nd year date picker issue and pdf issue
+//DONE BY:ARTHI
 //VER 0.04-SD:03/07/2015 ED:03/07/2015,REDUCE THE SPACE AND DONE RECREATION
 //DONE BY:LALITHA
 //VER 0.03-SD:26/06/2015 ED:26/01/2015,ISSUE CLEARED FOR FORM LOADING PROPERLY PROBLEM ND MONTH/YEAR DP
@@ -11,9 +13,13 @@
 <?php
 include "../../TSLIB/TSLIB_HEADER.php";
 //include  "NEW_MENU.php";
+
 ?>
 <!--HIDE THE CALENDER EVENT FOR DATE PICKER-->
 <style type="text/css" xmlns="http://www.w3.org/1999/html">
+    .calendar-off table.ui-datepicker-calendar {
+        display:none !important;
+    }
 </style>
 <!--HTML START TAG-->
 <html>
@@ -31,7 +37,9 @@ var CLK_errorAarray=[];
 $(document).ready(function(){
     $(".preloader").hide();
     $("#REP_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
-    $("#REP_tb_strtdtebyrange").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
+    $("#REP_tb_strtdtebyrange").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true,beforeShow:function(input, inst) {
+        $(inst.dpDiv).removeClass('calendar-off');
+    } });
     $("#REP_tb_enddtebyrange").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
     var REP_strtend_errmsgs;
     var REP_allactve_msg;
@@ -57,10 +65,9 @@ $(document).ready(function(){
             $('#CLK_lb_loginid').hide();
             $('#CLK_btn_search').hide();
             $('#CLK_lbl_selectmnths').hide();
-            $('#CLK_db_selectmnths').hide();
+            $('#CLK_selectmnths').hide();
             $('#CLK_div_monthyr').hide();
             $('#CLK_div_actvenon_dterange').hide();
-            $('#CLK_div_monthyr').hide();
             $('#CLK_lbl_actveemps').hide();
             $('#CLK_lbl_nonactveemps').hide();
             $('#CLK_nodata_pdflextble').hide();
@@ -134,12 +141,8 @@ $(document).ready(function(){
             $('#REP_tble_searchbtn').hide();
             $('#REP_chk_lbl_btwnrange').hide();
             $('#REP_chk_rd_allactveemp').hide();
-            $('#REP_chk_lbl_allactveemp').hide();
             $('#REP_chk_lbl_btwnranges').hide();
             $('#REP_chk_rd_btwnrange').hide();
-            $('#REP_chk_rd_btwnrange').hide();
-            $('#REP_chk_lbl_btwnrange').hide();
-            $('#REP_chk_rd_allactveemp').hide();
             $('#REP_chk_lbl_allactveemp').hide();
             $('#CLK_div_actvenon_dterange').hide();
             $('#REP_chk_tble_actnonact').hide();
@@ -322,11 +325,14 @@ $(document).ready(function(){
 //        alert('1');
         $('#REP_tble_date').html('').append(' <div class="row-fluid form-group" style="padding-top: 15px"><label class="col-sm-3" name="REP_lbl_date" id="REP_lbl_date" >DATE<em>*</em></label><div class="col-sm-4"><input type="text" name="REP_tb_date" id="REP_tb_date" class="enable clear REP_date_picker datemandtry" style="width:75px;"></div></div>');
         $('#REP_tble_date').show();
-        $('.REP_tble_date').datepicker(
+        $('#REP_tb_date').datepicker(
             {
                 dateFormat: 'dd-mm-yy',
                 changeYear: true,
-                changeMonth: true
+                changeMonth: true,
+                beforeShow:function(input, inst) {
+                    $(inst.dpDiv).removeClass('calendar-off');
+                }
             });
         $('#REP_tb_date').val('');
         $('#REP_tb_date').show();
@@ -418,11 +424,11 @@ $(document).ready(function(){
     });
     //CHANGE FUNCTION FOR BETWEEN  RANGE
     $(document).on('click','#REP_chk_rd_btwnrange',function(){
-        $('#between').html('').append('<div style="padding-bottom: 30px"><label name="REP_chk_lbl_btwnranges" id="REP_chk_lbl_btwnranges" class="srctitle col-sm-12" hidden>BETWEEN RANGE</label></div>');
+        $('#between').html('').append('<div class="row-fluid form-group"><label name="REP_chk_lbl_btwnranges" id="REP_chk_lbl_btwnranges" class="srctitle col-sm-12" hidden>BETWEEN RANGE</label></div>');
         $('#between').show();
-        $('#active_emp').html('').append('<div  style="padding-bottom: 15px"><div class="radio"><label name="REP_chk_lbl_actveemp" class="col-sm-8" id="REP_chk_lbl_actveemp"  hidden><div class="col-sm-4"><input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_actveemp" value="EMPLOYEE" hidden >ACTIVE EMPLOYEE</label></div></div></div>');
+        $('#active_emp').html('').append('<div class="row-fluid form-group"><div class="radio"><label name="REP_chk_lbl_actveemp" class="col-sm-8" id="REP_chk_lbl_actveemp"  hidden><div class="col-sm-4"><input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_actveemp" value="EMPLOYEE" hidden >ACTIVE EMPLOYEE</label></div></div></div>');
         $('#active_emp').show();
-        $('#non_active').html('').append('<div  style="padding-top: 10px"><div class="radio"><label name="REP_chk_lbl_nonactveemp" class="col-sm-8" id="REP_chk_lbl_nonactveemp"  hidden><div class="col-sm-4"><input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_nonemp"   value="EMPLOYEE" class="attnd" hidden>NON ACTIVE EMPLOYEE </label></div></div></div>');
+        $('#non_active').html('').append('<div class="row-fluid form-group"><div class="radio"><label name="REP_chk_lbl_nonactveemp" class="col-sm-8" id="REP_chk_lbl_nonactveemp"  hidden><div class="col-sm-4"><input type="radio" name="REP_chk_rd_actveemp" id="REP_chk_rd_nonemp"   value="EMPLOYEE" class="attnd" hidden>NON ACTIVE EMPLOYEE </label></div></div></div>');
         $('#non_active').show();
         $('#REP_tble_date').html();
         $('#REP_nodata_btwrange').hide();
@@ -842,13 +848,13 @@ $(document).ready(function(){
         var inputValTwo=$('#REP_tb_enddtebyrange').val();
         inputValTwo = inputValTwo.split("-").reverse().join("-");
         var inputValThree=$('#REP_lb_loginid').val();
-        var url=document.location.href='../TSLIB/TSLIB_COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=24&inputValOne='+inputValOne+'&inputValTwo='+inputValTwo+'&inputValThree='+inputValThree+'&title='+REP_strtend_errmsgs;
     });
     //CLICK FUNCTION FOR PDF BUTTON
     $(document).on('click','#REP_btn_pdfs',function(){
         var inputValFour=$('#REP_tb_date').val();
         inputValFour = inputValFour.split("-").reverse().join("-");
-        var url=document.location.href='../TSLIB/TSLIB_COMMON_PDF.do?flag=23&inputValFour='+inputValFour+'&title='+REP_allactve_msg;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=23&inputValFour='+inputValFour+'&title='+REP_allactve_msg;
     });
     //FUNCTION FOR SORTING
     function sorting(){
@@ -882,7 +888,7 @@ $(document).ready(function(){
         $('#CLK_btn_search').hide();
         $('#CLK_div_actvenon_dterange').hide();
         $('#CLK_lbl_selectmnths').hide();
-        $('#CLK_db_selectmnths').hide();
+        $('#CLK_selectmnths').hide();
         $('#CLK_div_monthyr').hide();
         $('#CLK_div_monthyr').hide();
         $('#CLK_lbl_actveemps').hide();
@@ -914,7 +920,7 @@ $(document).ready(function(){
         //BANDWIDTH BY MONTH
         else if(option=='14')
         {
-//            alert('14');
+
 //                $('.preloader', window.parent.document).show();
             $(".preloader").show();
             //FUNCTION FOR SETTING MIN ND MAX DATE
@@ -932,38 +938,66 @@ $(document).ready(function(){
 //                        $('.preloader', window.parent.document).hide();
 
                 }
-                //DATE PICKER FUNCTION START
-                $('#CLK_db_selectmnth').datepicker({
-                    changeMonth: true,      //provide option to select Month
-                    changeYear: true,       //provide option to select year
-                    showButtonPanel: true,   // button panel having today and done button
-                    dateFormat: 'MM-yy',    //set date format
-                    //ONCLOSE FUNCTION
+                $(".date-pickers").datepicker({
+                     dateFormat: 'MM yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    beforeShow:function(input, inst) {
+                        $(inst.dpDiv).addClass('calendar-off');
+                    },
                     onClose: function(dateText, inst) {
-//                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-//                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+//                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                         var month =inst.selectedMonth;
                         var year = inst.selectedYear;
-                        $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
-                        $(this).blur();//remove focus input box
+                    $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
                         $("#CLK_btn_mysearch").attr("disabled");
                         dpvalidation()
-                    }
-                });
-                //FOCUS FUNCTION
-                $('#CLK_db_selectmnth').focus(function () {
-                    $(".ui-datepicker-calendar").hide();
-                    $("#ui-datepicker-div").position({
-                        my: "center top",
-                        at: "center bottom",
-                        of: $(this)
-                    });
-                });
+                }
+            });
+
+//            $(".date-pickers").focus(function () {
+//                $(".ui-datepicker-calendar").hide();
+//                $("#ui-datepicker-div").position({
+//                    my: "center top",
+//                    at: "center bottom",
+//                    of: $(this)
+//                });
+//            });
+//                //DATE PICKER FUNCTION START
+//                $('.date-pickers').datepicker({
+//                    changeMonth: true,      //provide option to select Month
+//                    changeYear: true,       //provide option to select year
+//                    showButtonPanel: true,   // button panel having today and done button
+//                    dateFormat: 'MM-yy',    //set date format
+//                    //ONCLOSE FUNCTION
+//                    onClose: function(dateText, inst) {
+////                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+////                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//                        var month =inst.selectedMonth;
+//                        var year = inst.selectedYear;
+//                        $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
+//                        $(this).blur();//remove focus input box
+//                        $("#CLK_btn_mysearch").attr("disabled");
+//                        dpvalidation()
+//                    }
+//                });
+//                //FOCUS FUNCTION
+//                $('.datepickers').focus(function () {
+//                    $(".ui-datepicker-calendar").show();
+//                    $("#ui-datepicker-div").position({
+//                        my: "center top",
+//                        at: "center bottom",
+//                        of: $(this)
+//                    });
+//                });
                 if(CLK_start_dates!='' &&CLK_start_dates !=null){
                     $('#CLK_db_selectmnth').datepicker("option","minDate", new Date(CLK_start_dates));
                     $('#CLK_db_selectmnth').datepicker("option","maxDate", new Date(CLK_end_dates));}
                 //VALIDATION FNCTION FOR DATE BX OF BW BY MONTH
                 function dpvalidation(){
+
                     $('section').html('');
                     $('sections').html('');
                     $('#CLK_div_monthyr').hide();
@@ -976,17 +1010,17 @@ $(document).ready(function(){
                     $("#CLK_btn_mysearch").attr("disabled","disabled");
                     if($("#CLK_db_selectmnth").val()=='')
                     {
-//                        alert('db');
+//
                         $("#CLK_btn_mysearch").attr("disabled","disabled");
                     }
                     if(($('#CLK_db_selectmnth').val()!='undefined')&&($('#CLK_db_selectmnth').val()!=''))
                     {
-//                        alert('testing');
+
                         $("#CLK_btn_mysearch").removeAttr("disabled");
                     }
                     else
                     {
-//                        alert('searching');
+
                         $("#CLK_btn_mysearch").attr("disabled");
                     }
                 }
@@ -1024,7 +1058,7 @@ $(document).ready(function(){
         $('#CLK_db_selectmnth').hide();
         $('#CLK_lbl_selectmnth').hide();
         $('#CLK_lbl_selectmnths').hide();
-        $('#CLK_db_selectmnths').hide();
+        $('#CLK_selectmnths').hide();
         $('#CLK_nodata_uld').hide();
         $('#CLK_nodata_loginid').hide();
         $('#CLK_div_nonactve_dterange').hide();
@@ -1056,13 +1090,13 @@ $(document).ready(function(){
     });
     // CLICK EVENT FOR NON ACTIVE RADIO BUTTON
     $(document).on('click','#CLK_rd_nonemp',function(){
-        $('#CLK_db_selectmnths').val('');
+        $('#CLK_selectmnths').val('');
         $('#CLK_btn_search').hide();
         $('#CLK_db_selectmnth').hide();
         $('#CLK_lbl_selectmnth').hide();
         $('#CLK_db_selectmnth').hide();
         $('#CLK_lbl_selectmnths').hide();
-        $('#CLK_db_selectmnths').hide();
+        $('#CLK_selectmnths').hide();
         $('#CLK_nodata_uld').hide();
         $('#CLK_nodata_loginid').hide();
         $('#CLK_div_nonactve_dterange').hide();
@@ -1093,15 +1127,18 @@ $(document).ready(function(){
         }
     });
     // CHANGE EVENT FOR LOGIN ID LIST BX
-    $(document).on('change','#CLK_lb_loginid',function(){
+    $(document).on('change','#CLK_lb_loginid',function(evt){
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.stopImmediatePropagation();
         var formElement = document.getElementById("REP_chk_form_details");
         var date_val=[];
-        $('#CLK_db_selectmnths').val('');
+        $('#CLK_selectmnths').val('');
         $('#CLK_btn_search').attr("disabled","disabled");
         $('#CLK_db_selectmnth').show();
         $('#CLK_lbl_selectmnth').show();
         $('#CLK_lbl_selectmnths').hide();
-        $('#CLK_db_selectmnths').hide();
+        $('#CLK_selectmnths').hide();
         $('#CLK_db_selectmnth').hide();
         $('#CLK_nodata_pdflextbles').hide();
         $('#CLK_lbl_selectmnth').hide();
@@ -1118,7 +1155,7 @@ $(document).ready(function(){
             $('#CLK_btn_search').hide();
             $('#CLK_btn_search').attr("disabled","disabled");
             $('#CLK_lbl_selectmnths').hide();
-            $('#CLK_db_selectmnths').hide();
+            $('#CLK_selectmnths').hide();
             $('#src_lbl_error').hide();
             $('#CLK_btn_mnth_pdf').hide();
             $('#src_lbl_error_login').hide();
@@ -1140,17 +1177,21 @@ $(document).ready(function(){
                     var CLK_end_dates=date_val[1];
                 }
                 //DATE PICKER FUNCTION
-                $('.date-pickers').datepicker( {
+                $('.datepickers').datepicker( {
                     changeMonth: true,      //provide option to select Month
                     changeYear: true,       //provide option to select year
                     showButtonPanel: true,   // button panel having today and done button
-                    dateFormat: 'MM-yy',    //set date format
+                    dateFormat: 'MM-yy',
+                    beforeShow:function(input, inst) {
+                        $(inst.dpDiv).addClass('calendar-off');
+                    },
                     //ONCLOSE FUNCTION
                     onClose: function(dateText, inst) {
 //                                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
 //                                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
                         var month =inst.selectedMonth;
                         var year = inst.selectedYear;
+
                         $(this).datepicker('setDate', new Date(year, month, 1));//here set the date when closing.
                         $(this).blur();//remove focus input box
                         $("#CLK_btn_search").attr("disabled");
@@ -1158,35 +1199,37 @@ $(document).ready(function(){
                     }
                 });
                 //FOCUS FUNCTION
-                $(".date-pickers").focus(function () {
-                    $(".ui-datepicker-calendar").hide();
-                    $("#ui-datepicker-div").position({
-                        my: "center top",
-                        at: "center bottom",
-                        of: $(this)
-                    });
-                });
+//                $(".date-pickers").focus(function () {
+//                    $(".ui-datepicker-calendar").hide();
+//                    $(this).datepicker('setDate', $(this).val());
+//                    $("#ui-datepicker-div").position({
+//                        my: "center",
+//                        at: "center",
+//                        of: $(this)
+//                    });
+//                });
                 if(CLK_start_dates!=null && CLK_start_dates!=''){
 
                     $('#CLK_btn_search').show();
                     $('#CLK_lbl_selectmnths').show();
-                    $('#CLK_db_selectmnths').show();
+                    $('#CLK_selectmnths').show();
 //                    $('#CLK_nodata_lgnid').hide();
                     $('#src_lbl_error_login').hide();
                     $('#no_of_days').hide();
-                    $(".date-pickers").datepicker("option","minDate", new Date(CLK_start_dates));
-                    $(".date-pickers").datepicker("option","maxDate", new Date(CLK_end_dates));
+                    $(".datepickers").datepicker("option","minDate", new Date(CLK_start_dates));
+                    $(".datepickers").datepicker("option","maxDate", new Date(CLK_end_dates));
                 }
                 else{
                     $('#CLK_btn_search').hide();
                     $('#CLK_lbl_selectmnths').hide();
-                    $('#CLK_db_selectmnths').hide();
+                    $('#CLK_selectmnths').hide();
                     $('#src_lbl_error_login').text(CLK_errorAarray[2]).addClass('errormsg').removeClass('srctitle').show();
 //                    $('#CLK_nodata_lgnid').text(CLK_errorAarray[2]).show();
 //                    $('#CLK_nodata_lgnid')
                 }
                 //VALIDATION FOR DATE BX
                 function validationdp(){
+
                     $('section').html('');
                     $('sections').html('');
                     $('#CLK_div_actvenon_dterange').hide();
@@ -1197,16 +1240,19 @@ $(document).ready(function(){
                     $('#src_lbl_error_login').hide();
                     $('#CLK_btn_emp_pdf').hide();
                     $("#CLK_btn_search").attr("disabled","disabled");
-                    if($("#CLK_db_selectmnths").val()=='')
+                    if($("#CLK_selectmnths").val()=='')
                     {
+
                         $("#CLK_btn_search").attr("disabled","disabled");
                     }
-                    if(($('#CLK_db_selectmnths').val()!='undefined')&&($('#CLK_db_selectmnths').val()!='')&&($('#CLK_lb_loginid').val()!="SELECT"))
+                    if(($('#CLK_selectmnths').val()!='undefined')&&($('#CLK_selectmnths').val()!='')&&($('#CLK_lb_loginid').val()!="SELECT"))
                     {
+
                         $("#CLK_btn_search").removeAttr("disabled");
                     }
                     else
                     {
+
                         $("#CLK_btn_search").attr("disabled","disabled");
                     }
                 }
@@ -1224,7 +1270,7 @@ $(document).ready(function(){
         $('#CLK_div_actvenon_dterange').hide();
         $('#CLK_tble_lgn').html('');
         $('#CLK_btn_search').attr("disabled","disabled");
-        var CLK_monthyear=$('#CLK_db_selectmnths').val();
+        var CLK_monthyear=$('#CLK_selectmnths').val();
         var CLK_loginid=$('#CLK_lb_loginid').val();
 //            $('.preloader', window.parent.document).show();
         $(".preloader").show();
@@ -1337,12 +1383,12 @@ $(document).ready(function(){
     //CLICK EVENT FOR PDF BUTTON
     $(document).on('click','#CLK_btn_mnth_pdf',function(){
         var inputValOne=$('#CLK_db_selectmnth').val();
-        var url=document.location.href='../TSLIB/TSLIB_COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=26&inputValOne='+inputValOne+'&title='+msg;
     });
     $(document).on('click','#CLK_btn_emp_pdf',function(){
-        var inputValOne=$("#CLK_db_selectmnths").val();
+        var inputValOne=$("#CLK_selectmnths").val();
         var inputValThree =$('#CLK_lb_loginid').val();
-        var url=document.location.href='../TSLIB/TSLIB_COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
+        var url=document.location.href='TSLIB/TSLIB_COMMON_PDF.do?flag=27&inputValOne='+inputValOne+'&inputValThree='+inputValThree+'&title='+errmsg;
     });
 });
 <!--SCRIPT TAG END-->
@@ -1363,9 +1409,10 @@ $(document).ready(function(){
                     </div></div>
                 <div style="padding-left: 15px">
                     <div class="radio">
-                        <label><input type="radio" name="clock"  class="clock_out" id="clock_missed" value="clockmissed">CLOCK OUT/MISSED DETAILS</label>
+                        <label>
+                            <input type="radio" name="clock"  class="clock_out" id="clock_missed" value="clockmissed">CLOCK OUT/MISSED DETAILS</label>
                     </div></div>
-                <div class="row-fluid form-group">
+                <div>
                     <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
 
@@ -1381,21 +1428,18 @@ $(document).ready(function(){
 
                     <div id="REP_tble_startdate"></div>
                     <div id="REP_tble_searchbtn"></div>
-                    <div  style="padding-bottom: 15px">
+<!--                    <div style="padding-bottom: 15px">-->
+                        <div style="padding-left: 15px" >
                         <div class="radio">
-                            <label name="REP_chk_lbl_btwnrange" class="col-sm-8" id="REP_chk_lbl_btwnrange" hidden>
-                                <div class="col-sm-4">
-                                    <input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_btwnrange" value="RANGES" class='attnd' hidden>BETWEEN RANGE</label>
+                            <label name="REP_chk_lbl_btwnrange" id="REP_chk_lbl_btwnrange" hidden> <input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_btwnrange" value="RANGES" class='attnd' hidden>BETWEEN RANGE</label>
                         </div>
-                    </div></div>
-                <div  style="padding-top: 10px">
-                    <div class="radio">
-                        <label name="REP_chk_lbl_allactveemp"  class="col-sm-8" id="REP_chk_lbl_allactveemp" hidden>
-                            <div class="col-sm-4">
-                                <input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_allactveemp"   value="RANGES" class='attnd' hidden>ALL ACTIVE EMPLOYEE</label>
                     </div>
-                </div></div>
-        <div  style="padding-top: 30px">
+                <div  style="padding-left: 15px">
+                    <div class="radio">
+                        <label name="REP_chk_lbl_allactveemp" id="REP_chk_lbl_allactveemp" hidden><input type="radio" name="REP_chk_rd_btwnrange" id="REP_chk_rd_allactveemp"   value="RANGES" class='attnd' hidden>ALL ACTIVE EMPLOYEE</label>
+                    </div>
+                </div>
+        <div class="row-fluid form-group">
             <label name="REP_chk_lbl_allactveemps" id="REP_chk_lbl_allactveemps" class="srctitle col-sm-12" hidden>ALL ACTIVE EMPLOYEE</label>
         </div>
         <div id="REP_tble_date"></div>
@@ -1494,15 +1538,15 @@ $(document).ready(function(){
     <div class="row-fluid form-group">
         <label class="col-sm-2" name="CLK_lbl_reportconfig" id="CLK_lbl_reportconfig" hidden>SEARCH BY<em>*</em></label>
         <div class="col-sm-4">
-            <select id="CLK_lb_reportconfig" name="CLK_lb_reportconfig" class="form-control"  hidden>
+            <select id="CLK_lb_reportconfig" name="CLK_lb_reportconfig" class="form-control" style="display: inline"  hidden>
             </select>
         </div>
     </div>
     <div><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></div>
-    <div class="row-fluid">
+    <div class="row-fluid form-group">
         <label class="col-sm-2" name="CLK_lbl_selectmnth" id="CLK_lbl_selectmnth" hidden>SELECT MONTH<em>*</em></label>
         <div class="col-sm-3">
-            <input type="text" name="CLK_db_selectmnth" id="CLK_db_selectmnth" class="date datemandtry validation" style="width:75px;" hidden>
+            <input type="text" name="CLK_db_selectmnth" id="CLK_db_selectmnth" class="date-pickers datemandtry test validation form-control" style="width:100px;" hidden>
         </div></div>
     <div style="padding-left: 15px">
         <input type="button" class="btn" name="CLK_btn_mysearch" id="CLK_btn_mysearch"  value="SEARCH" disabled>
@@ -1547,7 +1591,7 @@ $(document).ready(function(){
 <div class="row-fluid form-group">
     <label class="col-sm-2" name="CLK_lbl_selectmnths" id="CLK_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
     <div class="col-sm-4">
-        <input type="text" name="CLK_db_selectmnths" id="CLK_db_selectmnths" class="date-pickers datemandtry valid" style="width:110px;" hidden>
+        <input type="text" name="CLK_selectmnths" id="CLK_selectmnths" class="datepickers datemandtry valid" style="width:110px;" hidden>
     </div></div>
 <div style="padding-left: 15px">
     <input type="button" class="btn" name="CLK_btn_search" id="CLK_btn_search"  value="SEARCH" disabled>

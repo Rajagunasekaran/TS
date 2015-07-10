@@ -13,11 +13,11 @@
 //*********************************************************************************************************//-->
 
 set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
-//require_once 'google/appengine/api/mail/Message.php';
+require_once 'google/appengine/api/mail/Message.php';
 require_once 'google-api-php-client-master/src/Google/Client.php';
 require_once 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
-//use google\appengine\api\mail\Message;
+use google\appengine\api\mail\Message;
 include "../TSLIB/TSLIB_CONNECTION.php";
 include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
@@ -441,6 +441,10 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
             if($row=mysqli_fetch_array($select_fileid)){
                 $ss_fileid=$row["URC_DATA"];
             }
+            $select_fileid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=35");
+            if($row=mysqli_fetch_array($select_fileid)){
+                $ss_codefileid=$row["URC_DATA"];
+            }
             $loginid_name = strtoupper(substr($loggin, 0, strpos($loggin, '@')));
             if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
 
@@ -467,6 +471,11 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
             $select_youtubelink=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=12");
             if($row=mysqli_fetch_array($select_youtubelink)){
                 $youtubelink=$row["URC_DATA"];
+            }
+            //CODE  OPTIMIZATION
+            $select_code=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=34");
+            if($row=mysqli_fetch_array($select_code)){
+                $codeoptimi=$row["URC_DATA"];
             }
             $select_folderid=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=13");
             if($row=mysqli_fetch_array($select_folderid)){
@@ -538,8 +547,8 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                 for($i=0;$i<$length;$i++){
                     $email_body.=$body_msg[$i].'<br><br>';
                 }
-                $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]","[DES]");
-                $str_replaced  = array($URSRC_firstname,$site_link, $ss_link, $youtubelink,'<b>'.$URSRC_designation.'</b>');
+                $replace= array("[LOGINID]", "[LINK]","[SSLINK]", "[VLINK]","[DES]","[CLINK]");
+                $str_replaced  = array($URSRC_firstname,$site_link, $ss_link, $youtubelink,'<b>'.$URSRC_designation.'</b>',$codeoptimi);
                 $final_message = str_replace($replace, $str_replaced, $email_body);
 
                 $select_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=10";
@@ -595,32 +604,39 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                 for($i=0;$i<$length;$i++){
                     $emp_email_body.=$body_msg[$i].'<br><br>';
                 }
+                $comment_per =explode("\n", $URSRC_comments);
+                $commnet_length=count($comment_per);
+                for($i=0;$i<$commnet_length;$i++){
+                    $comment_msgper.=$comment_per[$i].'<br>';
+                }
                 $comment =explode("\n", $URSRC_branchaddr1);
                 $commnet_length=count($comment);
                 for($i=0;$i<$commnet_length;$i++){
                     $comment_msg.=$comment[$i].'<br>';
                 }
-                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
-                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
+
+                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]");
+                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_house,$URSRC_street,$URSRC_postal,$URSRC_area,$comment_msgper);
 
                 $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                 $final_message=$final_message.'<br>'.$newphrase;
 
-//                //SENDING MAIL OPTIONS
-//                $name = 'REJOIN';
-//                $from = $admin;
-//                $message1 = new Message();
-//                $message1->setSender($name.'<'.$from.'>');
+                //SENDING MAIL OPTIONS
+                $name = 'REJOIN';
+                $from = 'lalitha.rajendiran@ssomens.com';//$admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
 //                $message1->addTo($loggin);
+                $message1->addTo('lalitha.rajendiran@ssomens.com');
 //                $message1->addCc($admin);
-//                $message1->setSubject($mail_subject);
-//                $message1->setHtmlBody($final_message);
-//
-//                try {
-//                    $message1->send();
-//                } catch (\InvalidArgumentException $e) {
-//                    echo $e;
-//                }
+                $message1->setSubject($mail_subject);
+                $message1->setHtmlBody($final_message);
+
+                try {
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
 
                 $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                 $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
@@ -639,20 +655,21 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                 $intro_message = str_replace($replace, $str_replaced, $intro_email_body);
                 $cc_array=get_active_login_id();
 //                $cc_array=['safiyullah.mohideen@ssomens.com'];
-//                //SENDING MAIL OPTIONS
-//                $name = 'REJOIN';
-//                $from = $admin;
-//                $message1 = new Message();
-//                $message1->setSender($name.'<'.$from.'>');
+                //SENDING MAIL OPTIONS
+                $name = 'REJOIN';
+                $from = 'lalitha.rajendiran@ssomens.com';//$admin;
+                $message1 = new Message();
+                $message1->setSender($name.'<'.$from.'>');
 //                $message1->addTo($cc_array);
-//                $message1->setSubject($intro_mail_subject);
-//                $message1->setHtmlBody($intro_message);
-//
-//                try {
-//                    $message1->send();
-//                } catch (\InvalidArgumentException $e) {
-//                    echo $e;
-//                }
+                $message1->addTo('lalitha.rajendiran@ssomens.com');
+                $message1->setSubject($intro_mail_subject);
+                $message1->setHtmlBody($intro_message);
+
+                try {
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
             }
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
 //            $flag_array=[$flag,'1','1','1','1','1'];
@@ -693,6 +710,7 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
             if($row=mysqli_fetch_array($select_fileid)){
                 $ss_fileid=$row["URC_DATA"];
             }
+
             $loginid_name = strtoupper(substr($loginid, 0, strpos($loginid, '@')));
             if(substr($loginid_name, 0, strpos($loginid_name, '.'))){
 
