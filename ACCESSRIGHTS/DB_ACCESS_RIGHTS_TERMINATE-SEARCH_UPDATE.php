@@ -558,7 +558,7 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                     $body=$row["ETD_EMAIL_BODY"];
                 }
                 //not aplicable
-                if($URSRC_laptopno=='')
+                if($URSRC_laptopno=='' || $URSRC_laptopno=='SELECT')
                 {
                     $URSRC_laptopno="N/A";
                 }

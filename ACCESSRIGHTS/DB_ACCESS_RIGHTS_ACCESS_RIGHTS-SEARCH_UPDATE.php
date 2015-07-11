@@ -126,7 +126,6 @@ if(isset($_REQUEST)){
         $URSRC_voterid=$_POST['URSRC_tb_votersid'];
         $comment=$_POST['URSRC_ta_comments'];
         $comment= $con->real_escape_string($comment);
-        echo $comment_permsg;
         $URSRC_bag=$_POST['URSRC_chk_bag'];
         if($URSRC_bag=='on')
         {

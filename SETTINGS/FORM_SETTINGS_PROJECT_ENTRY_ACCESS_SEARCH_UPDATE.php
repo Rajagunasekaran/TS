@@ -1069,23 +1069,23 @@ include "../TSLIB/TSLIB_HEADER.php";
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/></div>
     <div class="title text-center"><h4><b>PROJECT ENTRY /ACCESS /SEARCH /UPDATE</b></h4></div>
-    <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content" role="form" >
+    <form  name="EMP_ENTRY_form_employeename" id="EMP_ENTRY_form_employeename" class="content form-horizontal" role="form" >
         <div class="panel-body">
             <fieldset>
-                <div style="padding-bottom:15px">
+                <div style="padding-left: 15px">
                     <label>
                         <div class="radio">
                             <input type="radio" name="project" class="project" id="project">PROJECT ACCESS</label>
                 </div>
 
-                <div id="prj"hidden>
-                    <div class="row-fluid form-group ">
+                <div id="prj" hidden>
+                    <div class="row-fluid form-group" style="padding-left: 15px">
                         <label name="reports_entry" class="col-sm-2"  id="reports_entry">
                             <div class="radio">
                                 <input type="radio" name="entry" class="prjclick"  id="project_access" value="access">ACCESS</label>
                     </div>
                 </div>
-                <div class="row-fluid  form-group">
+                <div class="row-fluid form-group" style="padding-left: 15px">
                     <label id="reports_search" class="col-sm-2"   name="reports_search">
                         <div class="radio">
                             <input type="radio" name="entry" class="prjclick"  id="project_search" value="search">SEARCH/UPDATE</label>
@@ -1104,11 +1104,11 @@ include "../TSLIB/TSLIB_HEADER.php";
 <div class="row-fluid form-group">
     <label name="EMP_report_search" id="EMP_lbl_report_search" class="srctitle col-sm-12"></label>
 </div>
-<div class="row-fluid form-group">
-    <label name="EMP_report_entry" id="EMP_lbl_report_entrys" class="srctitle col-sm-12"></label>
+<div class="form-group" style="padding-left: 15px">
+    <label name="EMP_report_entry" id="EMP_lbl_report_entrys" class="srctitle"></label>
 </div>
 <div id="access" hidden>
-    <div class="row-fluid form-group">
+    <div class="row-fluid form-group" >
         <label name="EMP_ENTRY_lbl_loginid" class="col-sm-2" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
         <div class="col-sm-4">
             <select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" class="form-control" hidden>
@@ -1148,48 +1148,49 @@ include "../TSLIB/TSLIB_HEADER.php";
     </div>
 </div>
 <div id="entry" hidden>
+
+    <div class="form-group">
+        <label class="col-lg-2" name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label>
+        <div class="col-lg-3">
+            <input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize form-control" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label>
+        </div></div>
+
+    <div class="form-group">
+        <label class="col-lg-2" name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label>
+        <div class="col-lg-4">
+            <textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength tarea valid form-control"></textarea>
+        </div> </div>
+
+    <div class="form-group">
+        <label class="col-lg-2" name="PE_lbl_status" id="PE_lbl_status" >STATUS<em>*</em></label>
+        <div class="col-lg-3">
+            <input type="text" id="PE_tb_status" name="PE_tb_status" class="valid form-control" readonly>
+        </div></div>
+
+    <div class="form-group">
+        <label class="col-lg-2" name="PE_lbl_sdate" id="PE_lbl_sdate" >START DATE<em>*</em></label>
+        <div class="col-lg-4">
+            <input type="text" name="PE_tb_sdate" id="PE_tb_sdate"  class="PE_tb_sdatedatepicker form-control valid datemandtry" style="width: 100px">
+        </div> </div>
+
+    <div class="form-group">
+        <label class="col-lg-2" name="PE_lbl_edate" id="PE_lbl_edate" >END DATE<em>*</em></label>
+        <div class="col-lg-4">
+            <input type="text" name="PE_tb_edate" id="PE_tb_edate" class="PE_tb_edatedatepicker form-control valid datemandtry" style="width: 100px">
+        </div></div>
+
+    <div>
+        <input type="button" class="btn" name="PE_btn_save" id="PE_btn_save"  value="SAVE" disabled>
+    </div>
+
+    <div>
+        <label class="errormsg" id="PE_nodataerrormsg" hidden></label>
+    </div>
+    <div>
+        <label class="srctitle" id="PE_lbl_title" hidden></label>
+    </div>
+    <div><input type="button" id="PE_btn_pdf" class="btnpdf" value="PDF"></div>
     <div class="table-responsive">
-        <div class="form-group">
-            <label class="col-lg-4" name="PE_lbl_prjectname" id="PE_lbl_prjectname">PROJECT NAME<em>*</em></label>
-            <div class="col-lg-8">
-                <input type="text" name="PE_tb_prjectname" id="PE_tb_prjectname" class="valid autosize" maxlength='50'>  <label id="PE_lbl_erromsg" class="errormsg"></label>
-            </div></div>
-
-        <div class="form-group">
-            <label class="col-lg-4" name="PE_lbl_prjdescrptn" id="PE_lbl_prjdescrptn">PROJECT DESCRIPTION<em>*</em></label>
-            <div class="col-lg-8">
-                <textarea  name="PE_ta_prjdescrptn" id="PE_ta_prjdescrptn" class="maxlength  tarea form-control valid"></textarea>
-            </div> </div>
-
-        <div>
-            <label class="col-lg-4" name="PE_lbl_status" id="PE_lbl_status" >STATUS<em>*</em></label>
-            <div class="col-lg-8">
-                <input type="text" id="PE_tb_status" name="PE_tb_status" class="valid" readonly>
-            </div></div>
-
-        <div class="form-group">
-            <label class="col-lg-4" name="PE_lbl_sdate" id="PE_lbl_sdate" >START DATE<em>*</em></label>
-            <div class="col-lg-8">
-                <input type="text" name="PE_tb_sdate" id="PE_tb_sdate"  class="PE_tb_sdatedatepicker valid datemandtry" style="width: 75px">
-            </div> </div>
-
-        <div class="form-group">
-            <label class="col-lg-4" name="PE_lbl_edate" id="PE_lbl_edate" >END DATE<em>*</em></label>
-            <div class="col-lg-8">
-                <input type="text" name="PE_tb_edate" id="PE_tb_edate" class="PE_tb_edatedatepicker valid datemandtry" style="width: 75px">
-            </div></div>
-
-        <div>
-            <input type="button" class="btn" name="PE_btn_save" id="PE_btn_save"  value="SAVE" disabled>
-        </div>
-
-        <div>
-            <label class="errormsg" id="PE_nodataerrormsg" hidden></label>
-        </div>
-        <div>
-            <label class="srctitle" id="PE_lbl_title" hidden></label>
-        </div>
-        <div><input type="button" id="PE_btn_pdf" class="btnpdf" value="PDF"></div>
         <section>
         </section>
     </div>

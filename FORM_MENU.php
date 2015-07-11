@@ -430,28 +430,18 @@ $Userstamp=json_encode($UserStamp);
 <body>
 <div class="container-fluid">
     <div class="wrapper" >
-
         <div class="preloader" hidden><span class="Centerer"></span><img class="preloaderimg"/> </div>
-        <!--    <tr>-->
-        <!--        <td style="width:1300px";>-->
-        <img src="images/SSOMENS_TIME_SHEET.jpg" style="width:290px" align="middle"/>
-        <!--    </tr>-->
-        <!--    </table>-->
+        <img src="images/SSOMENS_TIME_SHEET.jpg"  class="img-responsive" alt="Responsive image" align="middle"/>
+        <div>
+            <div>
+                <div style="width:1000px"><b><h4><span style="font-family:Helvetica Neue" id="clock"></span></h4></b></div>
+                <div align="right"><b><?php echo $UserStamp ?></b></div>
+            </div>
 
-        <table>
-            <tr>
-                <td style="width:1000px"><b><h4><span style="font-family:Helvetica Neue" id="clock"></span></h4></b></td><td><b><?php echo $UserStamp ?></b></td>
-            </tr>
-            <tr>
-                <td><b><label id="clockmsg" name="clockmsg" class="locbold" ></label></b> </td><td><b><label id="location" class="locbold"></label></b></td>
-            </tr>
-        </table>
-        <!--    <nav id='cssmenu' width="1500">-->
-        <!--        <div class="navbar-header">-->
-        <!--        <ul class="nav" id="ACRMENU_ulclass_mainmenu">-->
-        <!--        </ul>-->
-        <!--            </div>-->
-        <!--    </nav>-->
+            <div>
+                <div><b><label  id="clockmsg" name="clockmsg" class="locbold" ></label></b> </div><div align="right"><b><label id="location" class="locbold"></label></b></div>
+            </div>
+        </div>
         <nav class="navbar navbar-default" id="menu_nav">
             <div class="navbar-header">
                 <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -460,7 +450,6 @@ $Userstamp=json_encode($UserStamp);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
             </div>
             <div class="collapse navbar-collapse" id="menu" >
                 <ul class="nav navbar-nav" id="ACRMENU_ulclass_mainmenu">
@@ -470,13 +459,8 @@ $Userstamp=json_encode($UserStamp);
 
         <div class="space" id="buttondiv" style="display: none" >
             <lable id="errmsg" class="errormsg" width="40px" hidden ></lable>
-            <!--        <div class="col-lg-3 col-lg-offset-4">-->
         </div>
         <center><input  style="align-content: center" type="button" id="checkin" class="maxbtn" name="checkin" value="CLOCK IN" disabled /></center>
-        <!--            </div>-->
-        <!--        <br>-->
-
-
         <div style="padding-top: 20px">
             <div id="liveclock" class="outer_face">
                 <div class="marker oneseven"></div>

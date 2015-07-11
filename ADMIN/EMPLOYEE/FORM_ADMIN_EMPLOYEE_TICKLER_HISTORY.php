@@ -230,11 +230,11 @@ include "../../TSLIB/TSLIB_HEADER.php";
         <div class="panel-body">
             <fieldset>
                 <div class="row-fluid form-group">
-                    <label class="col-sm-3" name="TH_lbl_employeeid" id="TH_lbl_employeeid">EMPLOYEE NAME</label>
+                    <label class="col-sm-3" style="padding-left: 15px" name="TH_lbl_employeeid" id="TH_lbl_employeeid">EMPLOYEE NAME</label>
                     <div class="col-sm-4">
-                        <input type="text" class="autosize form-control" name="TH_tb_empid" id="TH_tb_empid" style="width:300px"/></div><label id="TH_lbl_notmatch" name="TH_lbl_notmatch" class="errormsg" hidden></label>
+                        <input type="text" class="autosize form-control" name="TH_tb_empid" id="TH_tb_empid" style="width:220px"/></div><label id="TH_lbl_notmatch" name="TH_lbl_notmatch" class="errormsg" hidden></label>
                 </div>
-                <div class="row-fluid form-group">
+                <div class="row-fluid form-group" style="padding-left: 15px">
                     <input type="button" name="TH_btn_search" class='btn' value="SEARCH" id="TH_btn_search" disabled/>
                 </div>
                 <div>

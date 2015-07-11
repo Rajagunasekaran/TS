@@ -927,6 +927,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 //                            else{
 //                                $('#URSRC_tb_laptopno').val('SELECT');
 //                            }
+
                                 if(chargerno!=null){
                                     var emp_cahrgerno=chargerno.length;
                                     $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+2);
@@ -1491,9 +1492,9 @@ include "../TSLIB/TSLIB_HEADER.php";
                             <label  name="URT_SRC_lbl_nloginsearchupdate" class="col-sm-12" id="URT_SRC_lbl_loginsearchupdate"  hidden><input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_loginsearchupdate" value="URT_SRC_radio_valueloginsearchupdate" >SEARCH/UPDATE</label>
                         </div></div>
                 </div>
-                <!--</div>-->
+                <!--</div>--><br><br>
                 <div id="terminate" hidden>
-                    <div class="row-fluid form-group">
+                    <div class="row-fluid form-group" style="padding-top: 0px">
                         <label name="URT_SRC_lbl_nloginterminate" id="URT_SRC_lbl_loginterminate" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em> </label>
                         <div class="col-sm-4">
                             <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
@@ -1529,9 +1530,9 @@ include "../TSLIB/TSLIB_HEADER.php";
                 <div style="padding-left: 15px" >
                     <div class="radio">
                         <label name="URT_SRC_lbl_nselectsearchupdate" id="URT_SRC_lbl_selectsearchupdate"  class="col-sm-12" hidden><input type="radio" name="URT_SRC_radio_nselectoption" id="URT_SRC_radio_selectsearchupdate" hidden>&nbsp;SEARCH/UPDATE </label>
-                    </div></div>
+                    </div></div><br><br>
                 <!--terminate rejoin-->
-                <div class="row-fluid form-group">
+                <div class="row-fluid form-group" style="padding-top: 0px">
                     <label name="URT_SRC_lbl_nloginrejoin" id="URT_SRC_lbl_loginrejoin" class=" col-sm-2" hidden>EMPLOYEE NAME<em>*</em></label>
                     <div class="col-sm-4">
                         <select name="URT_SRC_lb_nloginrejoin" id="URT_SRC_lb_loginrejoin" class="form-control"style="display: none" hidden ><option>SELECT</option></select>

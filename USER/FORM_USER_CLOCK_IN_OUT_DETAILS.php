@@ -459,12 +459,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                 <div style="padding-left: 15px" >
                     <div class="radio">
                         <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
-                            <input type="radio" name="clock" class="clock_click" id="clock_in_out" value=clockinout>CLOCK IN-OUT DETAILS</label>
+                            <input type="radio" name="clock" class="clock_click" id="clock_in_out" value=clockinout>CLOCK IN/OUT DETAILS</label>
                     </div></div>
         <div style="padding-left: 15px">
                     <div class="radio">
                         <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
-                            <input type="radio" name="clock" class="clock_click" id="clock_missed" value="clockmissed">CLOCK-OUT-MISSED DETAILS</label>
+                            <input type="radio" name="clock" class="clock_click" id="clock_missed" value="clockmissed">CLOCK MISSED DETAILS</label>
                 </div></div>
                 <div class="row-fluid form-group" style="padding-top: 15px">
                     <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>

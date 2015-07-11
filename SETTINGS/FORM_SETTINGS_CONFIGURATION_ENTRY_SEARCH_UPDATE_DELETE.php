@@ -165,7 +165,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                         $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">DATA<em>*</em></label><div class="col-sm-4"><input type="text" id="CONFIG_ENTRY_tb_data" name="CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
                         $('#CONFIG_ENTRY_tr_data').show();
                     }
-                    $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid form-group"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled><input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
+                    $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid" style="padding-left: 15px"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled>&nbsp;&nbsp;<input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
                     // <div class="row form-group"><div class="col-lg-offset-2 col-lg-3"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="CREATE" disabled>         <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>   </div>
                     //$('#CONFIG_ENTRY_tr_btn').append('<div class="row form-group" align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE"></div><div class="row-fluid form-group">' + '<input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
                     //   $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid form-group"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></div> <div> <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
@@ -581,7 +581,7 @@ include "../TSLIB/TSLIB/HEADER.php";
     <form class="content" name="CONFIG_ENTRY_form" id="CONFIG_ENTRY_form" autocomplete="off" >
         <div class="panel-body">
             <fieldset>
-                <div style="padding-bottom: 15px">
+                <div style="padding-left: 15px">
                     <div class="radio">
                         <label name="UR_lbl_entry" id="UR_lbl_entry">
                             <input type="radio" name="UR_ESU" id="UR_ENTRY" class="crclick" value="entry">ENTRY</label>
@@ -612,7 +612,7 @@ include "../TSLIB/TSLIB/HEADER.php";
                     <br>
                     <div id="CONFIG_SRCH_UPD_tr_type"></div>
                     <!--                    <div class="table-responsive">-->
-                    <div id="STDTL_SEARCH_div_flexdata_result" class="table-responsive" hidden>
+                    <div id="STDTL_SEARCH_div_flexdata_result" style="padding-left: 15px" class="table-responsive" hidden>
                         <section style="max-width:500px;">
                         </section>
                     </div>

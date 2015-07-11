@@ -73,9 +73,9 @@ if($_REQUEST['option']=='update')
 {
     $awsu_id=$_REQUEST['id'];
     $report=$_REQUEST['reportvalue'];
-//    $ET_SRC_UPD_DEL_subject= $con->real_escape_string($ET_SRC_UPD_DEL_subject);
+    $report1= $con->real_escape_string($report);
 //    echo("UPDATE  ADMIN_WEEKLY_REPORT_DETAILS  SET ETD_EMAIL_SUBJECT='$ET_SRC_UPD_DEL_subject' WHERE ETD_ID=$ET_SRC_UPD_DEL_el_id");
-    $update="UPDATE ADMIN_WEEKLY_REPORT_DETAILS SET AWRD_REPORT='$report' WHERE AWRD_ID= $awsu_id";
+    $update="UPDATE ADMIN_WEEKLY_REPORT_DETAILS SET AWRD_REPORT='$report1' WHERE AWRD_ID= $awsu_id";
     if ($con->query($update) === TRUE) {
         $flag= 1;
     }

@@ -1,5 +1,7 @@
 <!--//*******************************************FILE DESCRIPTION*********************************************//
 //*********************************ADMIN WEEKLY REPORT ENTRY******************************************//
+//DONE BY:LALITHA
+//VER 0.06-SD:11/07/2015 ED:11/07/2015,github ver:,updated real escape string funct,changed txt bx as textarea fr report inline editing,in search option dnt hve record na showned err msg
 //DONE BY:ARTHI
 //VER 0.05-SD:09/06/2015 ED:10/06/2015,DID RESPONSIVE,INITIALLY DATE PICKER IS NOT LOADING FIXED THAT ISSUE.
 //DONE BY:LALITHA
@@ -19,6 +21,7 @@ include "../TSLIB/TSLIB_HEADER.php";
         // READY FUNCTION STARTS
         $(document).ready(function(){
             $(".preloader").hide();
+            $("#AWRE_SRC_ta_enterreport").hide();
             var maxdate;
             var js_errormsg_array=[];
             var js_min_date=[];
@@ -164,7 +167,8 @@ include "../TSLIB/TSLIB_HEADER.php";
 //                    alert(AWSU_weekly_mindate)
                             if(AWSU_weekly_mindate=='1970-01-01' || AWSU_weekly_mindate==null)
                             {
-                                $('#AWRE_SRC_form_reportentry').replaceWith('<p><label class="errormsg">'+ js_errormsg_array[3] +'</label></p>');
+                                $('#ARE_lbl_nodata_srcherrmsg').text(js_errormsg_array[3]).show();
+//                                $('#AWRE_SRC_form_reportentry').replaceWith('<p><label class="errormsg">'+ js_errormsg_array[3] +'</label></p>');
                             }
                             else
                             {
@@ -259,7 +263,6 @@ include "../TSLIB/TSLIB_HEADER.php";
             function validation(){
 
                 $('#AWRE_errmsg').text(msg).hide();
-                $('textarea').height(50).width(60);
                 var checkreportdate=$('#AWRE_SRC_tb_date').val();//$(this).val();
                 var y=0;
                 var array1=[];
@@ -440,7 +443,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 tdvalue=$(this).text();
 
                 if(tdvalue!=''){
-                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='name' name='data'  class='reportupdate' maxlength='50'  value='"+tdvalue+"'>");
+                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><textarea type='text' id='name' name='data'  class='reportupdate' maxlength='50'  value='"+tdvalue+"'>'"+tdvalue+"'</textarea></td>");
                 }
 
             } );
@@ -459,6 +462,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 //                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN WEEKLY SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
                                 show_msgbox("ADMIN WEEKLY SEARCH/UPDATE",js_errormsg_array[0],"success",false);
                                 showTable();
+                                previous_id=undefined;
                             }
                             else
                             {
@@ -646,10 +650,9 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $('#AWSU_lbl_title').text(titlemsg).show();
                         $('#AWSU_btn_pdf').show();
                         values_array=JSON.parse(response);
+                        $(".preloader").hide();
                         if(values_array)
                         {
-//                        $('.preloader', window.parent.document).hide();
-                            $(".preloader").hide();
                             var AWSU_tableheader='<table id="AWSU_tble_adminweeklysearchupdate" border="1" class="display"  cellspacing="0" ><thead bgcolor="#6495ed" style="color:white"><tr class="head"><th   class="uk-week-column" nowrap >WEEK</th><th>WEEKLY REPORT</th><th>USERSTAMP</th><th class="uk-timestp-column" nowrap>TIMESTAMP</th></tr></thead><tbody>';
                             for(var j=0;j<values_array.length;j++)
                             {
@@ -839,7 +842,6 @@ include "../TSLIB/TSLIB_HEADER.php";
             $('section').on('click','.AWSU_btn_update',function(){
 //            $('.preloader', window.parent.document).show();
                 $(".preloader").show();
-                $('textarea').height(50).width(60);
                 var edittrid = $(this).parent().parent().attr('id');
                 var AWSU_tb_report = $('#AWSU_tb_report').val();
                 data ="&report="+AWSU_tb_report+"&editid="+edittrid+"&option=updateData";
@@ -882,7 +884,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/></div>
     <div class="title text-center"><h4><b>ADMIN WEEKLY REPORT/SEARCH/UPDATE</b></h4></div>
-    <form id="AWRE_SRC_form_reportentry"  class="content" role="form">
+    <form id="AWRE_SRC_form_reportentry"  class="form-horizontal content" role="form">
         <div class="panel-body">
             <fieldset>
                 <div style="padding-bottom: 15px">
@@ -899,18 +901,17 @@ include "../TSLIB/TSLIB_HEADER.php";
                 </div>
                 <div id="report_entry" hidden>
                     <div class="row-fluid form-group">
-
                         <label name="AWRE_SRC_lbl_selectdate"  class="col-sm-2" id="AWRE_SRC_lbl_selectdate" >SELECT A DATE<em>*</em></label>
                         <div class="col-sm-8">
                             <input type="text" name="AWRE_SRC_tb_selectdate" id="AWRE_SRC_tb_selectdate" style="width:160px;" class="AWRE_SRC_tb_datepicker valid datemandtry">
                             <input type="text" name="AWRE_SRC_tb_date" id="AWRE_SRC_tb_date" style="width:170px;" class="AWRE_SRC_tb_datepicker valid datemandtry" hidden >
                         </div></div>
-                    <div class="row-fluid form-group">
+                    <div class="form-group">
                         <label name="AWRE_SRC_lbl_enterreport" class="col-sm-2" id="AWRE_SRC_lbl_enterreport" hidden>ENTER THE REPORT<em>*</em></label>
-                        <div class="col-sm-8">
-                            <textarea name="AWRE_SRC_ta_enterreport" id="AWRE_SRC_ta_enterreport" class="valid" hidden></textarea>
+                        <div class="col-sm-4">
+                            <textarea name="AWRE_SRC_ta_enterreport" id="AWRE_SRC_ta_enterreport" style="height: 154px" rows="5" class="valid  form-control" hidden></textarea>
                         </div></div>
-                    <div class="row-fluid form-group">
+                    <div class="form-group" style="padding-left:15px">
                         <input type="button" value="SUBMIT" id="AWRE_SRC_btn_submit" class="btn" disabled>
                         <input type="button" value="RESET" id="AWRE_SRC_btn_reset" class="btn">
 
@@ -931,7 +932,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             <input type="text" name="AWSU_tb_enddtes" id="AWSU_tb_enddtes" class="AWSU_tb_datepicker" style="width:170px;" hidden >
                         </div></div>
                     <div><input type="button" class="btn"  id="AWSU_btn_search" value="SEARCH" disabled></div>
-
+                    <div><label id="ARE_lbl_errmsg" name="ARE_lbl_nodata_srcherrmsg" class="errormsg"></label></div>
                     <div><label id="AWSU_nodata_startenddate" name="AWSU_nodata_startenddate" class="errormsg"></label></div>
                     <div><label id="AWSU_lbl_title" name="AWSU_lbl_title" class="srctitle"></label></div>
                     <div><input type="button" id='AWSU_btn_pdf' class="btnpdf" value="PDF"></div>
