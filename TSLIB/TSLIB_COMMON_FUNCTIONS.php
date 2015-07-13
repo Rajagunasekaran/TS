@@ -100,3 +100,11 @@ function get_uldid($name){
     }
     return $ure_uld_id;
 }
+function get_displayname(){
+    global $con;
+    $urcdata_id=mysqli_query($con,"SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=27");
+    while($row=mysqli_fetch_array($urcdata_id)){
+        $ure_data_id=$row["URC_DATA"];
+    }
+    return $ure_data_id;
+}

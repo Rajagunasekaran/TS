@@ -182,6 +182,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 $('#REV_lbl_empprojectdivid').hide();
                 $('#REV_btn_empsrch').removeAttr("disabled").show();
                 $('#REV_lb_recver').hide();
+                $('#REV_nodata_loginid').hide();
                 $('#REV_lb_recverdivid').hide();
                 $('#REV_lbl_recver').hide();
                 $('#REV_btn_emp_pdf').hide();
@@ -376,14 +377,15 @@ include "../TSLIB/TSLIB_HEADER.php";
     <form   id="REV_form_revenue" class="content">
         <div class="panel-body">
             <fieldset>
-                <div class="row-fluid form-group"style="padding-left:10px">
-                    <input type="radio" name="REV_rd_project" id="REV_rd_withproject" value="project">
-                    <label name="REV_lbl_withproject" id="REV_lbl_withproject">LIST REVENUE BY PROJECT</label>
-                </div>
-                <div class="row-fluid form-group"style="padding-left:10px">
-                    <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject">
-                    <label name="REV_lbl_withoutproject" id="REV_lbl_withoutproject">LIST OF PROJECT REVENUE</label>
-                </div>
+                <div style="padding-bottom: 15px">
+                    <div style="padding-left:10px">
+                        <input type="radio" name="REV_rd_project" id="REV_rd_withproject" value="project">
+                        <label name="REV_lbl_withproject" id="REV_lbl_withproject">LIST REVENUE BY PROJECT</label>
+                    </div>
+                    <div style="padding-left:10px">
+                        <input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject">
+                        <label name="REV_lbl_withoutproject" id="REV_lbl_withoutproject">LIST OF PROJECT REVENUE</label>
+                    </div></div>
                 <div class="row-fluid form-group" id="REV_lbl_empprojectdivid">
                     <label name="REV_lbl_empproject" class="col-sm-2" id="REV_lbl_empproject"  hidden>PROJECT<em>*</em></label>
                     <div class="col-sm-4">

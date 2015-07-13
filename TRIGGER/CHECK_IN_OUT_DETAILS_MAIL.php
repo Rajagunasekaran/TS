@@ -30,6 +30,9 @@ if($month_sdate==$current_date){
         $mail_subject=$row["ETD_EMAIL_SUBJECT"];
         $body=$row["ETD_EMAIL_BODY"];
     }
+
+    $get_displayname=get_displayname();
+
     if($row=mysqli_fetch_array($admin_rs)){
         $admin=$row["ULD_LOGINID"];//get admin
     }
@@ -77,7 +80,7 @@ if($month_sdate==$current_date){
     ob_end_clean();
     $FILENAME='CLOCK IN/OUT DETAILS ' .$month_year. '.pdf';
     //SENDING MAIL OPTIONS
-    $name = 'CLOCK IN/OUT DETAILS';
+    $name = $get_displayname;
     $from = $admin;
     $message1 = new Message();
     $message1->setSender($name.'<'.$from.'>');

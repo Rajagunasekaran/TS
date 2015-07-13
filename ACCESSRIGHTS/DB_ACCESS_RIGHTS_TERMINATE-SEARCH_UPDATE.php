@@ -77,33 +77,11 @@ if(isset($_REQUEST))
         while($row=mysqli_fetch_array($acctype_result)){
             $get_acctype_array[]=$row["URC_DATA"];
         }
-//        function get_data(){
-//            global $USERSTAMP;
-//            global $con;
-//            $service=mysqli_query($con," select URC_DATA from USER_RIGHTS_CONFIGURATION where URC_ID in (28,29,30,31,32,33)");
-//            while($row=mysqli_fetch_array($service)){
-//                $Client[]=$row["URC_DATA"];
-//            }
-//            return $Client;
-//
-//
-
         $final_array=array($get_rdesgn_array,$get_rname_array,$get_lname_array,$get_acctype_array);
         echo json_encode($final_array);
     }
     else if($_REQUEST['option']=='FETCH')
     {
-
-////
-//        $Client=get_servicedata();
-//        $ClientId=$Client[0];
-//        $ClientSecret=$Client[1];
-//        $RedirectUri=$Client[3];
-//        $DriveScopes=$Client[4];
-//        $CalenderScopes=$Client[5];
-//        $Refresh_Token=$Client[6];
-
-
         $URT_SRC_uld_id = $_REQUEST['URT_SRC_loggin'];
         $select_recver="SELECT UA_REC_VER FROM USER_ACCESS WHERE ULD_ID =(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_ID='$URT_SRC_uld_id') AND UA_TERMINATE='X'";
         $selectrecver_rs=mysqli_query($con,$select_recver);
@@ -489,6 +467,11 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                 $mail_subject=$row["ETD_EMAIL_SUBJECT"];
                 $body=$row["ETD_EMAIL_BODY"];
             }
+            $select_displayname="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+            $select_displayname_rs=mysqli_query($con,$select_displayname);
+            if($row=mysqli_fetch_array($select_displayname_rs)){
+                $mail_displayname=$row["URC_DATA"];
+            }
             $drive = new Google_Client();
             $Client=get_servicedata();
             $ClientId=$Client[0];
@@ -622,7 +605,7 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                 $final_message=$final_message.'<br>'.$newphrase;
 
                 //SENDING MAIL OPTIONS
-                $name = 'REJOIN';
+                $name = $mail_displayname;
                 $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                 $message1 = new Message();
                 $message1->setSender($name.'<'.$from.'>');
@@ -644,6 +627,11 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                     $intro_mail_subject=$row["ETD_EMAIL_SUBJECT"];
                     $intro_body=$row["ETD_EMAIL_BODY"];
                 }
+                $select_intro_displayname="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+                $select_displayname_rs=mysqli_query($con,$select_intro_displayname);
+                if($row=mysqli_fetch_array($select_displayname_rs)){
+                    $intro_mail_displayname=$row["URC_DATA"];
+                }
                 $intro_email_body;
                 $intro_body_msg =explode("^", $intro_body);
                 $intro_length=count($intro_body_msg);
@@ -656,7 +644,7 @@ ULD.ULD_ID=UA.ULD_ID and ULD.ULD_ID='$login_id_result') ORDER BY EMP.EMP_FIRST_N
                 $cc_array=get_active_login_id();
 //                $cc_array=['safiyullah.mohideen@ssomens.com'];
                 //SENDING MAIL OPTIONS
-                $name = 'REJOIN';
+                $name = $intro_mail_displayname;
                 $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                 $message1 = new Message();
                 $message1->setSender($name.'<'.$from.'>');

@@ -40,6 +40,9 @@ if($row=mysqli_fetch_array($select_template_rs)){
     $mail_subject=$row["ETD_EMAIL_SUBJECT"];
     $body=$row["ETD_EMAIL_BODY"];
 }
+
+$get_displayname=get_displayname();
+
 $mail_subject=str_replace("[DATE]",date("d/m/Y"),$mail_subject);
 if($Current_day!='Sunday'){
     if($check_ph==0 && $check_onduty==0){
@@ -65,7 +68,7 @@ if($Current_day!='Sunday'){
                 }
                 echo "</table>";
                 //SENDING MAIL OPTIONS
-                $name = 'REPORT ENTRY MISSED';
+                $name = $get_displayname;//'REPORT ENTRY MISSED';
                 $from = $admin;
                 $message = new Message();
                 $message->setSender($name.'<'.$from.'>');

@@ -116,6 +116,11 @@ if(isset($_REQUEST)){
                 $mail_subject=$row["ETD_EMAIL_SUBJECT"];
                 $body=$row["ETD_EMAIL_BODY"];
             }
+            $select_displayname="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+            $select_displayname_rs=mysqli_query($con,$select_displayname);
+            if($row=mysqli_fetch_array($select_displayname_rs)){
+                $mail_displayname=$row["URC_DATA"];
+            }
             $email_body;
             $body_msg =explode("^", $body);
             $length=count($body_msg);
@@ -132,7 +137,7 @@ if(isset($_REQUEST)){
             $main_body = str_replace($replace, $str_replaced, $email_body);
 
             //SENDING MAIL OPTIONS
-            $name = $mail_subject;
+            $name = $mail_displayname;
             $from = $admin;
             $message = new Message();
             $message->setSender($name.'<'.$from.'>');

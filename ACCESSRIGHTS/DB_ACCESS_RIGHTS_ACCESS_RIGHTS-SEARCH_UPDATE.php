@@ -272,6 +272,11 @@ if(isset($_REQUEST)){
                 $mail_subject=$row["ETD_EMAIL_SUBJECT"];
                 $body=$row["ETD_EMAIL_BODY"];
             }
+            $select_displayname="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+            $select_displayname_rs=mysqli_query($con,$select_displayname);
+            if($row=mysqli_fetch_array($select_displayname_rs)){
+                $mail_displayname=$row["URC_DATA"];
+            }
             $drive = new Google_Client();
             $Client=get_servicedata();
             $ClientId=$Client[0];
@@ -466,7 +471,7 @@ if(isset($_REQUEST)){
                 $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                 $final_message=$final_message.'<br>'.$newphrase;
                 //SENDING MAIL OPTIONS
-                $name = $mail_subject;
+                $name = $mail_displayname;
                 $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                 try {
                     $message1 = new Message();
@@ -485,6 +490,11 @@ if(isset($_REQUEST)){
                     $intro_mail_subject=$row["ETD_EMAIL_SUBJECT"];
                     $intro_body=$row["ETD_EMAIL_BODY"];
                 }
+                $select_intro_displayname="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+                $select_displayname_rs=mysqli_query($con,$select_intro_displayname);
+                if($row=mysqli_fetch_array($select_displayname_rs)){
+                    $intro_mail_displayname=$row["URC_DATA"];
+                }
                 $intro_email_body;
                 $intro_body_msg =explode("^", $intro_body);
                 $intro_length=count($intro_body_msg);
@@ -498,7 +508,7 @@ if(isset($_REQUEST)){
 //                $cc_array=['punitha.shanmugam@ssomens.com'];
                 //SENDING MAIL OPTIONS
                 try {
-                    $name = $intro_mail_subject;
+                    $name = $intro_mail_displayname;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                     $message1 = new Message();
                     $message1->setSender($name.'<'.$from.'>');
@@ -1041,6 +1051,11 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                         $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
                         $body=$row["ETD_EMAIL_BODY"];
                     }
+                    $select_displayname="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+                    $select_displayname_rs=mysqli_query($con,$select_displayname);
+                    if($row=mysqli_fetch_array($select_displayname_rs)){
+                        $mail_dispalyname1=$row["URC_DATA"];
+                    }
                     //not aplicable
                     if($URSRC_laptopno=='')
                     {
@@ -1105,7 +1120,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                    $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                     $final_message=$final_message.'<br>'.$newphrase;
                     //SENDING MAIL OPTIONS
-                    $name = $mail_subject1;
+                    $name = $mail_dispalyname1;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                     try {
                         $message1 = new Message();
@@ -1124,6 +1139,11 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                         $intro_mail_subject=$row["ETD_EMAIL_SUBJECT"];
                         $intro_body=$row["ETD_EMAIL_BODY"];
                     }
+                    $select_intro_displayname="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+                    $select_displayname_rs=mysqli_query($con,$select_intro_displayname);
+                    if($row=mysqli_fetch_array($select_displayname_rs)){
+                        $intro_mail_displayname=$row["URC_DATA"];
+                    }
                     $intro_email_body;
                     $intro_body_msg =explode("^", $intro_body);
                     $intro_length=count($intro_body_msg);
@@ -1136,7 +1156,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     $cc_array=get_active_login_id();
 //                    $cc_array=['punitha.shanmugam@ssomens.com'];
                     //SENDING MAIL OPTIONS
-                    $name = $intro_mail_subject;
+                    $name = $intro_mail_displayname;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                     try {
                         $message1 = new Message();
@@ -1220,6 +1240,11 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     $mail_subject1=$row["ETD_EMAIL_SUBJECT"];
                     $body=$row["ETD_EMAIL_BODY"];
                 }
+                $select_template="SELECT URC_DATA FROM USER_RIGHTS_CONFIGURATION WHERE URC_ID=26";
+                $select_template_rs=mysqli_query($con,$select_template);
+                if($row=mysqli_fetch_array($select_template_rs)){
+                    $mail_display1=$row["URC_DATA"];
+                }
                 //not aplicable
                 if($URSRC_laptopno=='')
                 {
@@ -1288,7 +1313,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                 //SENDING MAIL OPTIONS
                 if(($lastdate!=$finaldate) && ($updatemailflag==1)){
 
-                    $name = $mail_subject1;
+                    $name = $mail_display1;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                     try {
                         $message1 = new Message();
@@ -1309,7 +1334,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     if($lastdate==$finaldate){
                         $cal_flag=1;
 
-                        $name = $mail_subject1;
+                        $name = $mail_display1;
                         $from = 'lalitha.rajendiran@ssomens.com';//$admin;
                         try {
                             $message1 = new Message();

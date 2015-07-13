@@ -17,7 +17,7 @@
 //VER 0.01-INITIAL VERSION, SD:31/10/2014 ED:31/10/2014,TRACKER NO:74
 //*********************************************************************************************************//-->
 <?php
-//require_once 'google/appengine/api/mail/Message.php';
+require_once 'google/appengine/api/mail/Message.php';
 use google\appengine\api\mail\Message;
 include "../TSLIB/TSLIB_COMMON_FUNCTIONS.php";
 include "../TSLIB/TSLIB_CONNECTION.php";
@@ -34,6 +34,9 @@ if($row=mysqli_fetch_array($select_template_rs)){
     $mail_subject=$row["ETD_EMAIL_SUBJECT"];
     $body=$row["ETD_EMAIL_BODY"];
 }
+
+$get_displayname=get_displayname();
+
 if($row=mysqli_fetch_array($admin_rs)){
     $admin=$row["ULD_LOGINID"];//get admin
 }
@@ -149,7 +152,7 @@ if($x>0){
 
 
     //SENDING MAIL OPTIONS
-    $name = $mail_subject;
+    $name = $get_displayname;// $mail_subject;
     $from ='lalitha.rajendiran@ssomens.com';// $admin;
     $message1 = new Message();
     $message1->setSender($name.'<'.$from.'>');

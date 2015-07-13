@@ -39,6 +39,7 @@ if($row=mysqli_fetch_array($select_template_rs)){
     $mail_subject=$row["ETD_EMAIL_SUBJECT"];
     $body=$row["ETD_EMAIL_BODY"];
 }
+$get_displayname=get_displayname();
 if($Current_day!='Sunday'){
     if($check_ph==0 && $check_onduty==0 ){
         $remainder_array=array_diff($get_active_user,$get_login_id);
@@ -55,7 +56,7 @@ if($Current_day!='Sunday'){
             $message_body=str_replace("[DATE]",date('l jS F Y '),$bodyscript);
 
             //SENDING MAIL OPTIONS
-            $name = $mail_subject;
+            $name = $get_displayname;
             $from = $admin;
             $message = new Message();
             $message->setSender($name.'<'.$from.'>');

@@ -31,6 +31,9 @@ if($row=mysqli_fetch_array($select_template_rs)){
     $mail_subject=$row["ETD_EMAIL_SUBJECT"];
     $body=$row["ETD_EMAIL_BODY"];
 }
+
+$get_displayname=get_displayname();
+
 $select_admin="SELECT * FROM VW_ACCESS_RIGHTS_TERMINATE_LOGINID WHERE URC_DATA='ADMIN'";
 $admin_rs=mysqli_query($con,$select_admin);
 if($row=mysqli_fetch_array($admin_rs)){
@@ -82,7 +85,7 @@ if($Current_day!='Sunday'){
                 if($num_count>0){
 
                     //SENDING MAIL OPTIONS
-                    $name = $mail_subject;
+                    $name = $get_displayname;
                     $from = $admin;
                     $message1 = new Message();
                     $message1->setSender($name.'<'.$from.'>');

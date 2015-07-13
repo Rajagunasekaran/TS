@@ -114,6 +114,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#URE_tb_date').val('').hide();
                     $('#entry').show();
                     $('#search_update').hide();
+                    $('#URE_lbl_checkmsg').hide();
                     $('#USRC_UPD_lbl_report,#USRC_UPD_ta_report,#USRC_UPD_tble_enterthereport').empty();
                     $('#USRC_UPD_tb_strtdte').val('');
                     $('#USRC_UPD_tb_enddte').val('');
@@ -500,10 +501,14 @@ include "../TSLIB/TSLIB_HEADER.php";
             });
             // CHANGE EVENT FOR FROM DATE
             $(document).on('change','#URE_ta_fromdate',function(){
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var URE_fromdate = $('#URE_ta_fromdate').datepicker('getDate');
                 var date = new Date( Date.parse( URE_fromdate ));
                 date.setDate( date.getDate()  );
+//                $('.preloader').show();
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var URE_todate = date.toDateString();
+//                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 URE_todate = new Date( Date.parse( URE_todate ));
                 $('#URE_ta_todate').datepicker("option","minDate",URE_todate);
                 max_date=new Date();
@@ -511,6 +516,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 year=max_date.getFullYear();
                 date=max_date.getDate();
                 max_date = new Date(year,month,date);
+//                $('.preloader').hide();
                 $('#URE_ta_todate').datepicker("option","maxDate",max_date);
             });
             // CHANGE EVENT FOR MUTIPLE DAY ATTENDANCE
@@ -546,7 +552,9 @@ include "../TSLIB/TSLIB_HEADER.php";
             $(document).on('change','#URE_tb_date',function(){
                 $(".preloader").show();
                 $('#URE_rd_permission').hide();
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var reportdate=$('#URE_tb_date').val();
+
                 $('#URE_lbl_checkmsg').hide();
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
@@ -579,6 +587,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 $('#URE_tble_frstsel_projectlistbx').html('');
                 $('#URE_btn_submit').attr('disabled','disabled');
                 $('#URE_tble_reasonlbltxtarea').html('');
+                $('#noopermission').show();
                 if($('#URE_lb_attendance').val()=='SELECT')
                 {
                     $('#URE_lbl_permission').hide();
@@ -596,6 +605,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 else if($('#URE_lb_attendance').val()=='1')
                 {
+
                     $(".preloader").show();
                     var reportdate=$('#URE_tb_date').val();
                     var xmlhttp=new XMLHttpRequest();
@@ -606,16 +616,19 @@ include "../TSLIB/TSLIB_HEADER.php";
                             if(response==1)
                             {
                                 $('#entry').show();
+
                                 $('#URE_lbl_checkmsg').text(err_msg[11]).show();
                                 $('#URE_lb_timing').hide();
                                 $('#URE_lbl_permission').hide();
                                 $('#URE_rd_permission').hide();
                                 $('#URE_rd_nopermission').hide();
                                 $('#URE_lbl_nopermission').hide();
+                                $('#noopermission').hide();
                                 $('#URE_lbl_session').hide();
                                 $('#URE_lb_ampm').hide();
                                 $('#URE_tble_projectlistbx').hide();
                                 $('#URE_btn_submit').hide();
+
                                 $('#URE_rd_permission').removeAttr("disabled");
                                 $('#URE_rd_nopermission').removeAttr("disabled");
                                 $('#URE_lbl_errmsg').hide();
@@ -664,8 +677,11 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 else if($('#URE_lb_attendance').val()=='0')
                 {
+
+
                     $('#URE_rd_permission').attr('checked',false);
                     $('#URE_rd_nopermission').attr("checked",false);
+                    $('#noopermission').show();
                     $('#URE_lb_timing').hide();
                     $('#URE_lbl_permission').show();
                     $('#URE_rd_permission').show();
@@ -675,6 +691,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     for (var i=0;i<4;i++) {
                         permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
                     }
+
                     $('#URE_lb_timing').html(permission_list);
                     $('#URE_lbl_session').show();
                     $('#URE_lb_ampm').val('SELECT').show();
@@ -783,10 +800,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#URE_btn_submit').hide();
                     $('#URE_lbl_errmsg').hide();
                     $('#URE_lbl_checkmsg').hide();
+                    $('#noopermission').hide();
                 }
                 else if($('#URE_lb_ampm').val()=='FULLDAY')
                 {
                     $('#URE_tble_projectlistbx').hide();
+                    $('#noopermission').hide();
                     URE_tble_reason();
                     $('#URE_rd_permission').attr('disabled','disabled');
                     $('#URE_rd_nopermission').attr('disabled','disabled');
@@ -801,6 +820,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 else
                 {
+
                     $(".preloader").show();
                     var reportdate=$('#URE_tb_date').val();
                     var xmlhttp=new XMLHttpRequest();
@@ -822,9 +842,11 @@ include "../TSLIB/TSLIB_HEADER.php";
                             }
                             else
                             {
+
                                 $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                                 $('#URE_rd_permission').attr('checked',false);
                                 $('#URE_rd_nopermission').attr("checked",false);
+                                $('#noopermission').show();
                                 $('#URE_rd_permission').removeAttr('disabled');
                                 $('#URE_rd_nopermission').removeAttr('disabled');
                                 $('#URE_tble_projectlistbx').show();
@@ -941,7 +963,9 @@ include "../TSLIB/TSLIB_HEADER.php";
                 xmlhttp.send(new FormData(formElement));
             });
             // CHANGE FUNCTION FOR TO DATE ALEREADY EXISTS
-            $('.valid' ).change(function(){
+            $('.valid_date' ).change(function(){
+//                alert('sss');
+//                if(($("#URE_ta_fromdate").val()=='')||($("#URE_ta_todate").val()==''))
                 var fromdate=$('#URE_ta_fromdate').val();
                 var todate=$('#URE_ta_todate').val();
                 if(fromdate!='' && todate!='')
@@ -1032,9 +1056,10 @@ include "../TSLIB/TSLIB_HEADER.php";
                 var USRC_UPD_startdate = $('#USRC_UPD_tb_strtdte').datepicker('getDate');
                 var date = new Date( Date.parse( USRC_UPD_startdate ));
                 date.setDate( date.getDate()  );
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var USRC_UPD_todate = date.toDateString();
                 USRC_UPD_todate = new Date( Date.parse( USRC_UPD_todate ));
-                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+
                 $('#USRC_UPD_tb_enddte').datepicker("option","minDate",USRC_UPD_todate);
             });
             var values_array=[];
@@ -1328,6 +1353,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $("#USRC_UPD_rd_nopermission").attr("checked", false);
                     $('#USRC_UPD_rd_permission').removeAttr("disabled");
                     $('#USRC_UPD_rd_nopermission').removeAttr("disabled");
+                    $('#permission_hide').show();
                     $('#USRC_UPD_lbl_dte').show();
                     $('#USRC_UPD_tb_date').show();
                     $('#USRC_UPD_tb_date').val(date);
@@ -1375,6 +1401,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_lb_attendance').val('2');
                     $('#USRC_UPD_rd_permission').hide();
                     $('#USRC_UPD_lbl_permission').hide();
+                    $('#permission_hide').hide();
                     $('#USRC_UPD_rd_nopermission').hide();
                     $('#USRC_UPD_lbl_nopermission').hide();
                     $('#USRC_UPD_lbl_session').hide();
@@ -1400,6 +1427,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_lb_attendance').val('0');
                     $('#USRC_UPD_rd_permission').hide();
                     $('#USRC_UPD_lbl_permission').hide();
+                    $('#permission_hide').hide();
                     $('#USRC_UPD_rd_nopermission').hide();
                     $('#USRC_UPD_lbl_nopermission').hide();
                     $('#USRC_UPD_lbl_session').show();
@@ -1461,6 +1489,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_tb_date').val(date);
                     $('#USRC_UPD_rd_permission').hide();
                     $('#USRC_UPD_lbl_permission').hide();
+                    $('#permission_hide').hide();
                     $('#USRC_UPD_lb_timing').hide();
                     $('#USRC_UPD_rd_nopermission').hide();
                     $('#USRC_UPD_lbl_nopermission').hide();
@@ -1572,6 +1601,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 //            $('#USRC_UPD_lb_attendance').change(function(){
                 err_flag=0;
                 $('#USRC_UPD_lbl_txtselectproj').hide();
+                $('#permission_hide').show();
                 if(attendance==$('#USRC_UPD_lb_attendance').val())
                 {
                     $('#USRC_UPD_tble_reasonlbltxtarea').html('');
@@ -1621,6 +1651,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
                         $('#USRC_UPD_btn_submit').hide();
                         $('#USRC_UPD_lb_timing').prop('selectedIndex',0);
+                        $('#permission_hide').show();
                         $('#USRC_UPD_rd_permission').removeAttr("disabled");
                         $('#USRC_UPD_rd_nopermission').removeAttr("disabled");
                         $('#USRC_UPD_errmsg').hide();
@@ -1633,6 +1664,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $('#USRC_UPD_rd_permission').attr('checked',false);
                         $('#USRC_UPD_rd_nopermission').attr('checked',false);
                         $('#USRC_UPD_lb_timing').hide();
+                        $('#permission_hide').show();
                         //   $('#USRC_UPD_lbl_txtselectproj').hide();
                         $('#USRC_UPD_lbl_permission').show();
                         $('#USRC_UPD_rd_permission').show();
@@ -1756,10 +1788,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_tble_bandwidth').html('');
                     $('#USRC_UPD_btn_submit').hide();
                     $('#USRC_UPD_banderrmsg').hide();
+                    $('#permission_hide').hide();
                 }
                 else if($('#USRC_UPD_lb_ampm').val()=='FULLDAY')
                 {
 //            USRC_UPD_reason();
+                    $('#permission_hide').hide();
                     $('#USRC_UPD_tble_reasonlbltxtarea').show()
                     $('#search_update').show()
                     //FUNCTION FOR REASON
@@ -1788,6 +1822,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $("html, body").animate({ scrollTop: $(document).height() }, "fast");
                     $('#USRC_UPD_rd_permission').attr('checked',false);
                     $('#USRC_UPD_rd_nopermission').attr('checked',false);
+                    $('#permission_hide').show();
                     $('#USRC_UPD_rd_permission').removeAttr("disabled");
                     $('#USRC_UPD_rd_nopermission').removeAttr("disabled");
                     $('#USRC_UPD_lbl_permission').show();
@@ -2065,27 +2100,28 @@ include "../TSLIB/TSLIB_HEADER.php";
                                         <!--                        <option value="2">WORK FROM HOME</option>-->
                                     </select>
                                 </div></div>
-                            <div class="form-group">
-                                <label class="col-sm-2"></label>
-                                <div class="col-sm-9">
-                                    <div class="form-group">
-                                        <div class="col-md-2">
-                                            <div class="radio">
-                                                <label name="URE_permission"  id="URE_lbl_permission">
-                                                    <input type="radio" id="URE_rd_permission" name="permission" value="PERMISSION"/>PERMISSION<em>*</em></label>
+                            <div id="noopermission" hidden>
+                                <div class="form-group">
+                                    <label class="col-sm-2"></label>
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="radio">
+                                                    <label name="URE_permission"  id="URE_lbl_permission">
+                                                        <input type="radio" id="URE_rd_permission" name="permission" value="PERMISSION"/>PERMISSION<em>*</em></label>
+                                                </div></div>
+                                            <div class="col-sm-2">
+                                                <select name="URE_lb_timing" id="URE_lb_timing" class="form-control" style="display: none" >
+                                                </select>
                                             </div></div>
-                                        <div class="col-sm-2">
-                                            <select name="URE_lb_timing" id="URE_lb_timing" class="form-control" style="display: none" >
-                                            </select>
-                                        </div></div>
-                                    <div class="form-group">
-                                        <div class="col-md-3">
-                                            <div class="radio">
-                                                <label name="URE_nopermission"  id="URE_lbl_nopermission">
-                                                    <input type="radio" id="URE_rd_nopermission" name="permission" value="NOPERMISSION"/>NO PERMISSION<em>*</em></label>
-                                            </div></div>
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <div class="radio">
+                                                    <label name="URE_nopermission"  id="URE_lbl_nopermission">
+                                                        <input type="radio" id="URE_rd_nopermission" name="permission" value="NOPERMISSION"/>NO PERMISSION<em>*</em></label>
+                                                </div></div>
 
-                                    </div></div></div>
+                                        </div></div></div></div>
 
                             <div class="form-group">
                                 <label name="URE_lbl_session" class="col-sm-2" id="URE_lbl_session" hidden >SESSION</label>
@@ -2122,7 +2158,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <div class="row-fluid form-group">
                             <label name="URE_lbl_edte" class="col-sm-2" id="URE_lbl_dte" >TO DATE</label>
                             <div class="col-sm-8">
-                                <input type ="text" id="URE_ta_todate" class='proj datemandtry formshown dtpic valid' name="URE_ta_todate" style="width:75px;" />
+                                <input type ="text" id="URE_ta_todate" class='proj datemandtry formshown dtpic valid_date' name="URE_ta_todate" style="width:75px;" />
                             </div></div>
 
                         <div id="URE_tbl_attendence" class="row-fluid form-group" hidden>
@@ -2187,28 +2223,29 @@ include "../TSLIB/TSLIB_HEADER.php";
                                     <option value="OD">ONDUTY</option>
                                 </select>
                             </div></div>
-                        <div class="form-group">
-                            <label class="col-sm-2"></label>
-                            <div class="col-sm-9">
-                                <div class="form-group">
-                                    <div class="col-md-2">
-                                        <div class="radio">
-                                            <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission"><input type="radio" id="USRC_UPD_rd_permission" name="permission" value="PERMISSION" class="update_validate"/>PERMISSION<em>*</em>
+                        <div id="permission_hide" hidden>
+                            <div class="form-group">
+                                <label class="col-sm-2"></label>
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="radio">
+                                                <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission"><input type="radio" id="USRC_UPD_rd_permission" name="permission" value="PERMISSION" class="update_validate"/>PERMISSION<em>*</em>
+                                            </div>
+                                            </label>
                                         </div>
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <select  name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate form-control" style="display:none">
-                                            <option>SELECT</option>
-                                        </select>
-                                    </div></div>
-                                <div class="row form-group">
-                                    <div class="col-md-4">
-                                        <div class="radio">
-                                            <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_nopermission" ><input type="radio" id="USRC_UPD_rd_nopermission" name="permission" value="NOPERMISSION" class="update_validate"/>NO PERMISSION<em>*</em></label>
-                                        </div></div></div>
+                                        <div class="col-sm-2">
+                                            <select  name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate form-control" style="display:none">
+                                                <option>SELECT</option>
+                                            </select>
+                                        </div></div>
+                                    <div class="row form-group">
+                                        <div class="col-md-4">
+                                            <div class="radio">
+                                                <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_nopermission" ><input type="radio" id="USRC_UPD_rd_nopermission" name="permission" value="NOPERMISSION" class="update_validate"/>NO PERMISSION<em>*</em></label>
+                                            </div></div></div>
 
-                            </div></div>
+                                </div></div></div>
                         <!--        <div style="padding-left: 190px">-->
                         <!--            <div class="col-sm-2">-->
                         <!--                <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission" >-->

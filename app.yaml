@@ -198,6 +198,12 @@ handlers:
 - url: /SETTINGS/DB_EMPLOYEE_PROJECT_SEARCH_UPDATE.do
   script: SETTINGS/DB_EMPLOYEE_PROJECT_SEARCH_UPDATE.php
 
+- url: /ADMIN/EMPLOYEE/DB_PETTY_CASH.do
+  script: ADMIN/EMPLOYEE/DB_PETTY_CASH.php
+
+- url: /ADMIN/EMPLOYEE/FORM_PETTY_CASH.do
+  script: ADMIN/EMPLOYEE/FORM_PETTY_CASH.php
+
 - url: /_ah/login_required
   script: do_openid_login.py
 

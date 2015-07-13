@@ -21,6 +21,7 @@ if($row=mysqli_fetch_array($select_template_rs)){
     $mail_subject=$row["ETD_EMAIL_SUBJECT"];
     $body=$row["ETD_EMAIL_BODY"];
 }
+$mail_subject=get_displayname();
 if($row=mysqli_fetch_array($admin_rs)){
     $admin=$row["ULD_LOGINID"];//get admin
 }
