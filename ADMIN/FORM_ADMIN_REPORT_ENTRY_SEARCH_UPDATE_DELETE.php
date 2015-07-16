@@ -113,6 +113,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ARE_lbl_dte').hide();
                 $("#ARE_chk_notinfrmd").html('')
                 $('#ARE_tble_ondutyentry').hide();
+                $('#ASRC_chk_notinformed').hide();
+                $('#ASRC_UPD_DEL_btn_srch').hide();
                 if(click=="entries")
                 {
                     ASRC_UPD_DEL_clear();
@@ -391,7 +393,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var choice="login_id"
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
                     ARE_clear()
                     $('#ARE_lbl_dte').show();
@@ -452,7 +454,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="DATE"
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?date_change="+reportdate+"&login_id="+loginid+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?date_change="+reportdate+"&login_id="+loginid+"&option="+choice,true);
                 xmlhttp.send();
             });
             // CHANGE EVENT FOR ATTENDANCE
@@ -537,7 +539,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var option="PRESENT";
-                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
+                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
                     xmlhttp.send();
                 }
                 else if($('#ARE_lb_attendance').val()=='2')
@@ -568,60 +570,26 @@ include '../TSLIB/TSLIB_HEADER.php';
                             }
                             else{
                                 $('#ARE_tbl_enterthereport,#ARE_ta_reason,#ARE_tble_bandwidth').html('');
-//            $('#ARE_rd_permission').attr('checked',false);
-//            $('#ARE_rd_nopermission').attr('checked',false);
                                 $('#ARE_lb_timing').hide();
                                 $('#ARE_rd_permission').hide();
                                 $('#ARE_lbl_permission').hide();
                                 $('#ARE_rd_nopermission').hide();
                                 $('#ARE_lbl_nopermission').hide();
-//            var permission_list='<option>SELECT</option>';
-//            for (var i=0;i<permission_array.length;i++) {
-//                permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
-//            }
-//            $('#ARE_lb_timing').html(permission_list);
                                 $('#ARE_lbl_session').hide();
                                 $('#ARE_lb_ampm').hide();
                                 $('#ARE_lbl_txtselectproj').show();
                                 $('#ARE_tble_projectlistbx').show();
                                 projectlist();
                                 ARE_report();
-//            ARE_tble_bandwidth();
                                 $('#ARE_btn_submit').hide();
-//
                                 $('#ARE_lbl_errmsg').hide();
                                 $('#ARE_lbl_checkmsg').hide();
                             }
                         }
                     }
                     var option="PRESENT";
-                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
+                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
                     xmlhttp.send();
-//                $('#ARE_tbl_enterthereport,#ARE_ta_reason,#ARE_tble_bandwidth').html('');
-////            $('#ARE_rd_permission').attr('checked',false);
-////            $('#ARE_rd_nopermission').attr('checked',false);
-//                $('#ARE_lb_timing').hide();
-//                $('#ARE_rd_permission').hide();
-//                $('#ARE_lbl_permission').hide();
-//                $('#ARE_rd_nopermission').hide();
-//                $('#ARE_lbl_nopermission').hide();
-////            var permission_list='<option>SELECT</option>';
-////            for (var i=0;i<permission_array.length;i++) {
-////                permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
-////            }
-////            $('#ARE_lb_timing').html(permission_list);
-//                $('#ARE_lbl_session').hide();
-//                $('#ARE_lb_ampm').hide();
-//                $('#ARE_lbl_txtselectproj').show();
-//                $('#ARE_tble_projectlistbx').show();
-//                projectlist();
-//                ARE_report();
-////            ARE_tble_bandwidth();
-//                $('#ARE_btn_submit').hide();
-////            $('#ARE_rd_permission').removeAttr("disabled");
-////            $('#ARE_rd_nopermission').removeAttr("disabled");
-//                $('#ARE_lbl_errmsg').hide();
-//                $('#ARE_lbl_checkmsg').hide();
                 }
                 else if($('#ARE_lb_attendance').val()=='0')
                 {
@@ -748,6 +716,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ARE_lbl_permission').hide();
                     $('#ARE_rd_nopermission').hide();
                     $('#ARE_lbl_nopermission').hide();
+                    $('#permission').hide();
                     $('#ARE_rd_permission').attr('disabled','disabled');
                     $('#ARE_rd_nopermission').attr('disabled','disabled');
                     $('#ARE_btn_submit').show();
@@ -774,6 +743,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                                 $('#ARE_rd_permission').hide();
                                 $('#ARE_lbl_permission').hide();
                                 $('#ARE_rd_nopermission').hide();
+                                $('#permission').hide();
                                 $('#ARE_lbl_nopermission').hide();
                                 $('#ARE_lb_timing').hide();
                                 $('#ARE_tble_projectlistbx').hide();
@@ -792,6 +762,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                                 $('#ARE_lbl_permission').show();
                                 $('#ARE_rd_nopermission').show();
                                 $('#ARE_lbl_nopermission').show();
+                                $('#permission').show();
                                 $('#ARE_lb_timing').hide();
                                 $('#ARE_tble_projectlistbx').show();
                                 $('#ARE_lbl_txtselectproj').show();
@@ -804,7 +775,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var option="HALFDAYABSENT";
-                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&logind="+loginid);
+                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate+"&logind="+loginid);
                     xmlhttp.send();
                 }
             });
@@ -977,14 +948,13 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             // CLICK EVENT FOR SAVE BUTTON
             $(document).on('click','#ARE_btn_submit',function(){
-                $('#ARE_chk_notinfrmd').html('');
+//                $('#ARE_chk_notinfrmd').html('');
 //                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 var formElement = document.getElementById("ARE_form_adminreportentry");
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                        alert(xmlhttp.responseText);
                         var msg_alert=xmlhttp.responseText;
 //                        $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
@@ -998,6 +968,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_tb_date').hide();
                             ARE_clear();
                             $("#ARE_lb_loginid").val('SELECT').show();
+                            $('#ARE_chk_notinfrmd').hide();
                         }
 //                        }
                         else if(msg_alert==0)
@@ -1009,6 +980,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_tb_date').hide();
                             ARE_clear();
                             $("#ARE_lb_loginid").val('SELECT').show();
+                            $('#ARE_chk_notinfrmd').hide();
                         }
                         else
                         {
@@ -1017,12 +989,13 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_tb_date').hide();
                             ARE_clear();
                             $("#ARE_lb_loginid").val('SELECT').show();
+                            $('#ARE_chk_notinfrmd').hide();
                         }
 
                     }
                 }
                 var choice="SINGLE DAY ENTRY";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice+"&checkoutlocation="+checkoutlocation,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?choice="+choice+"&checkoutlocation="+checkoutlocation,true);
                 xmlhttp.send(new FormData(formElement));
             });
             // CHANGE EVENT FOR OPTION BUTTON
@@ -1208,7 +1181,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="ALLEMPDATE"
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?&option="+choice,true);
                 xmlhttp.send();
                 $('#ARE_tble_mutipledayentry').show();
                 $('#ARE_tble_singledayentry').hide();
@@ -1288,7 +1261,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var choice="LOGINID"
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
 
                     ARE_clear()
@@ -1325,6 +1298,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             // CHANGE FUNCTIOn FOR TODATE
             $(document).on('change','.valid',function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+                $('#ASRC_chk_notinformed').hide();
                 var loginid=$('#ARE_lb_lgnid').val();
                 var fromdate=$('#ARE_tb_sdate').val();
                 var todate=$('#ARE_tb_edate').val();
@@ -1367,7 +1341,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var option="BETWEEN DATE";
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&fromdate="+fromdate+"&todate="+todate+"&loginid="+loginid,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&fromdate="+fromdate+"&todate="+todate+"&loginid="+loginid,true);
                     xmlhttp.send();
                 }
             });
@@ -1409,6 +1383,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                        alert(xmlhttp.responseText)
                         var msg_alert=xmlhttp.responseText;
                         $(".preloader").hide();
                         if(msg_alert==1){
@@ -1442,7 +1417,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="MULTIPLE DAY ENTRY";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice+"&reportlocation="+checkoutlocation,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?choice="+choice+"&reportlocation="+checkoutlocation,true);
                 xmlhttp.send(new FormData(formElement));
             });
 // FUNCTION FORM MULTIPLE ENTRY CLEAR FUNCTION
@@ -1526,7 +1501,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                 }
                 var choice="ODDATE"
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?date_change="+reportdate+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?date_change="+reportdate+"&option="+choice,true);
                 xmlhttp.send();
             });
 // CLICK EVENT ONDUTY SAVE BUTTON
@@ -1553,7 +1528,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="ONDUTY";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?choice="+choice,true);
                 xmlhttp.send(new FormData(formElement));
             });
 
@@ -1738,7 +1713,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 $('#ASRC_UPD_DEL_div_tablecontainer').show();
                 var choice='ALLDATE';
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?alldate="+date+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?alldate="+date+"&option="+choice,true);
                 xmlhttp.send();
                 sorting()
             });
@@ -1968,6 +1943,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ASRC_UPD_btn_pdf').hide();
                 $('section').html('');
                 $('#ASRC_UPD_DEL_btn_srch').hide();
+                $('#ASRC_chk_notinformed').hide();
+                $('#ASRC_UPD_DEL_btn_srch').hide();
                 $('#ASRC_UPD_DEL_btn_del').hide();
                 $('#ASRC_UPD_DEL_ta_reportdate').hide();
                 $('#ASRC_UPD_DEL_lbl_reportdte').hide();
@@ -2003,6 +1980,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_lbl_report').hide();
                     $('#ASRC_UPD_DEL_ta_report').hide();
                     $('#ASRC_UPD_DEL_lbl_permission').hide();
+                    $('#permissionupd').hide();
                     $('#ASRC_UPD_DEL_chk_permission').hide();
                     $('#ASRC_UPD_DEL_lb_timing').hide();
                     $('#ASRC_UPD_DEL_lbl_band').hide();
@@ -2062,6 +2040,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ASRC_UPD_DEL_lbl_report').hide();
                             $('#ASRC_UPD_DEL_ta_report').hide();
                             $('#ASRC_UPD_DEL_lbl_permission').hide();
+                            $('#permissionupd').hide();
                             $('#ASRC_UPD_DEL_chk_permission').hide();
                             $('#ASRC_UPD_DEL_lb_timing').hide();
                             $('#ASRC_UPD_DEL_lbl_band').hide();
@@ -2069,7 +2048,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var choice="login_id";
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
 
                 }
@@ -2230,7 +2209,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 $('#ASRC_UPD_DEL_div_tablecontainer').show();
                 var choice='DATERANGE';
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?start_date="+start_date+"&end_date="+end_date+"&option="+choice+"&actionloginid="+activeloginid,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?start_date="+start_date+"&end_date="+end_date+"&option="+choice+"&actionloginid="+activeloginid,true);
                 xmlhttp.send();
                 sorting()
             }
@@ -2281,6 +2260,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ASRC_UPD_DEL_lbl_report').hide();
                 $('#ASRC_UPD_DEL_chk_permission').hide();
                 $('#ASRC_UPD_DEL_lbl_permission').hide();
+                $('#permissionupd').hide();
                 $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                 $('#ASRC_UPD_DEL_lb_timing').hide();
                 $('#ASRC_UPD_DEL_lbl_session').hide();
@@ -2333,7 +2313,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="DELETE";
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?del_id="+delid+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?del_id="+delid+"&option="+choice,true);
                 xmlhttp.send();
             });
             // CLICK EVENT FOR SEARCH BUTTON
@@ -2370,6 +2350,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         timestamp=values_array[j].timestamp;
                         reason=values_array[j].reason1;
                         permission=values_array[j].permission;
+                        alert(permission)
                         attendance=values_array[j].attendance;
                         pdid=values_array[j].pdid;
                         morningsession=values_array[j].morningsession;
@@ -2377,6 +2358,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         bandwidth=values_array[j].bandwidth;
                         flag=values_array[j].flag;
                         var not_informed=values_array[j].notinformed;
+                        alert(not_informed)
                         if(attendance=='1')
                         {
 
@@ -2407,8 +2389,14 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ASRC_UPD_DEL_lb_attendance').replaceWith(
                                 "<select id='ASRC_UPD_DEL_lb_attendance' name='ASRC_UPD_DEL_lb_attendance' class='update_validate form-control'> <option value='1'>PRESENT</option><option value='0'>ABSENT</option><option value='OD'>ONDUTY</option></select>");
                         }
-                        $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-4"><div class="form-group"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
-                        $('#ASRC_chk_notinformed').show();
+                        if(not_informed!=null) {
+                            $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-4"><div class="form-group"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" checked >NOT INFORMED</label></div></div></div></div></div>');
+                            $('#ASRC_chk_notinformed').show();
+                        }
+                        else {
+                            $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-4"><div class="form-group"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
+                            $('#ASRC_chk_notinformed').show();
+                        }
                         $('#ARE_lbl_notinformed').show();
                         $('#ARE_rd_notinformed').show();
                         $('#ASRC_UPD_DEL_tble_attendence').show();
@@ -2442,7 +2430,9 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').show();
                     $('#ASRC_UPD_DEL_lbl_nopermission').show();
                     $('#ASRC_UPD_DEL_rd_nopermission').show();
+                    $('#permissionupd').show();
                     $('#ASRC_UPD_DEL_lbl_session').hide();
+                    $('#ASRC_chk_notinformed').hide();
                     $('#ASRC_UPD_DEL_lb_ampm').hide();
                     $('#ASRC_UPD_DEL_tble_projectlistbx').show();
                     $('#ASRC_UPD_DEL_lbl_txtselectproj').show();
@@ -2468,6 +2458,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').hide();
                     $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                     $('#ASRC_UPD_DEL_rd_nopermission').hide();
+                    $('#permissionupd').hide();
                     $('#ASRC_UPD_DEL_lbl_session').hide();
                     $('#ASRC_UPD_DEL_lb_ampm').hide();
                     $('#ASRC_UPD_DEL_tble_projectlistbx').show();
@@ -2492,6 +2483,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').hide();
                     $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                     $('#ASRC_UPD_DEL_rd_nopermission').hide();
+                    $('#permissionupd').hide();
                     $('#ASRC_UPD_DEL_rd_permission').attr("disabled","disabled");
                     $('#ASRC_UPD_DEL_rd_nopermission').attr("disabled","disabled");
                     $('#ASRC_UPD_DEL_lbl_session').show();
@@ -2524,6 +2516,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').show();
                     $('#ASRC_UPD_DEL_lbl_nopermission').show();
                     $('#ASRC_UPD_DEL_rd_nopermission').show();
+                    $('#permissionupd').show();
                     $('#ASRC_UPD_DEL_rd_permission').removeAttr("disabled");
                     $('#ASRC_UPD_DEL_rd_nopermission').removeAttr("disabled");
                     $('#ASRC_UPD_DEL_lbl_session').show();
@@ -2565,6 +2558,8 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').hide();
                     $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                     $('#ASRC_UPD_DEL_rd_nopermission').hide();
+                    $('#permissionupd').hide();
+                    $('#ASRC_chk_notinformed').hide();
                     $('#ASRC_UPD_DEL_lbl_session').show();
                     $('#ASRC_UPD_DEL_lb_ampm').show();
                     $('#ASRC_UPD_DEL_lb_ampm').val("FULLDAY");
@@ -2585,6 +2580,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').show();
                     $('#ASRC_UPD_DEL_lbl_nopermission').show();
                     $('#ASRC_UPD_DEL_rd_nopermission').show();
+                    $('#permissionupd').show();
                     $('#ASRC_UPD_DEL_rd_permission').removeAttr("disabled");
                     $('#ASRC_UPD_DEL_rd_nopermission').removeAttr("disabled");
                     $('#ASRC_UPD_DEL_lbl_session').show();
@@ -2644,6 +2640,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').hide();
                     $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                     $('#ASRC_UPD_DEL_rd_nopermission').hide();
+                    $('#permissionupd').hide();
                     $('#ASRC_UPD_DEL_tble_projectlistbx').hide();
                     form_show(attendance)
                     $("#ASRC_UPD_DEL_btn_submit").attr("disabled", "disabled");
@@ -2668,6 +2665,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $('#ASRC_UPD_DEL_rd_permission').show();
                         $('#ASRC_UPD_DEL_lbl_nopermission').show();
                         $('#ASRC_UPD_DEL_rd_nopermission').show();
+                        $('#permissionupd').show();
                         var permission_list='<option>SELECT</option>';
                         for (var i=0;i<permission_array.length;i++) {
                             permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
@@ -2696,6 +2694,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $('#ASRC_UPD_DEL_rd_permission').hide();
                         $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                         $('#ASRC_UPD_DEL_rd_nopermission').hide();
+                        $('#permissionupd').hide();
 //                var permission_list='<option>SELECT</option>';
 //                for (var i=0;i<permission_array.length;i++) {
 //                    permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
@@ -2719,7 +2718,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $('#ASRC_UPD_DEL_rd_permission').attr('checked',false);
                         $('#ASRC_UPD_DEL_rd_nopermission').attr('checked',false);
                         $('#ASRC_chk_notinformed').html('').append('test')
-                        $('#ASRC_chk_notinformed').html('').append('<div class="row-fluid form-group"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><div class="col-sm-3"><div class="checkbox"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div>');
+                        $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="form-group"><div class="col-md-4"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-10" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
                         $('#ASRC_chk_notinformed').show();
                         $('#ARE_lbl_notinformed').show();
                         $('#ARE_rd_notinformed').show();
@@ -2728,6 +2727,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $('#ASRC_UPD_DEL_rd_permission').show();
                         $('#ASRC_UPD_DEL_lbl_nopermission').show();
                         $('#ASRC_UPD_DEL_rd_nopermission').show();
+                        $('#permissionupd').show();
                         var permission_list='<option>SELECT</option>';
                         for (var i=0;i<4;i++) {
                             permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
@@ -2751,13 +2751,14 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $('#ASRC_UPD_DEL_rd_permission').attr('checked',false);
                         $('#ASRC_UPD_DEL_rd_nopermission').attr('checked',false);
                         $('#ASRC_chk_notinformed').html('').append('test')
-                        $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-2"><div class="form-group"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
-                        $('#ASRC_chk_notinformed').show();
+//                        $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="form-group"><div class="col-md-4"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-10" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
+                        $('#ASRC_chk_notinformed').hide();
                         $('#ASRC_UPD_DEL_lb_timing').hide();
                         $('#ASRC_UPD_DEL_lbl_permission').show();
                         $('#ASRC_UPD_DEL_rd_permission').show();
                         $('#ASRC_UPD_DEL_lbl_nopermission').show();
                         $('#ASRC_UPD_DEL_rd_nopermission').show();
+                        $('#permissionupd').show();
                         var permission_list='<option>SELECT</option>';
                         for (var i=0;i<4;i++) {
                             permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
@@ -2818,7 +2819,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                     }
                     var choice="DATE"
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?reportdate="+reportdate+"&login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?reportdate="+reportdate+"&login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
                 }
                 else{
@@ -2891,6 +2892,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ASRC_UPD_DEL_btn_allsearch').html('');
                 $('#ASRC_UPD_DEL_lbl_session').hide();
                 $('#ASRC_UPD_DEL_lbl_permission').hide();
+                $('#permissionupd').hide();
                 $('#ASRC_UPD_DEL_rd_permission').hide();
                 $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                 $('#ASRC_UPD_DEL_rd_nopermission').hide();
@@ -2924,6 +2926,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 else if($('#ASRC_UPD_DEL_lb_ampm').val()=='FULLDAY')
                 {
+                    alert('oo')
                     $('#ASRC_UPD_DEL_tble_projectlistbx').hide();
                     ASRC_UPD_DEL_reason();
                     $('#ASRC_UPD_DEL_rd_permission').attr('checked',false);
@@ -2935,7 +2938,11 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').hide();
                     $('#ASRC_UPD_DEL_lbl_nopermission').hide();
                     $('#ASRC_UPD_DEL_rd_nopermission').hide();
+                    $('#permissionupd').hide();
+                    $('#permission').hide();
                     $('#ASRC_UPD_DEL_btn_submit').show();
+                    $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="form-group"><div class="col-md-4"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-10" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
+                    $('#ASRC_chk_notinformed').show();
 //            $("#ASRC_UPD_DEL_chk_flag").show();
 //            $("#ASRC_UPD_DEL_lbl_flag").show();
                     $('#ASRC_UPD_DEL_banerrmsg').hide();
@@ -2949,10 +2956,12 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ASRC_UPD_DEL_rd_permission').attr('checked',false);
                     $('#ASRC_UPD_DEL_rd_nopermission').attr('checked',false);
                     $('#ASRC_UPD_DEL_lb_timing').hide();
+                    $('#permissionupd').show();
                     $('#ASRC_UPD_DEL_lbl_permission').show();
                     $('#ASRC_UPD_DEL_rd_permission').show();
                     $('#ASRC_UPD_DEL_lbl_nopermission').show();
                     $('#ASRC_UPD_DEL_rd_nopermission').show();
+                    $('#permissionupd').show();
                     var permission_list='<option>SELECT</option>';
                     for (var i=0;i<4;i++) {
                         permission_list += '<option value="' + permission_array[i] + '">' + permission_array[i] + '</option>';
@@ -3137,6 +3146,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ASRC_UPD_DEL_lbl_reportdte').hide();
                             $('#ASRC_UPD_DEL_ta_reportdate').hide();
                             $('#ASRC_UPD_DEL_errmsg').hide();
+                            $('#ASRC_chk_notinformed').hide();
                         }
                         else if(msg_alert==0)
                         {
@@ -3149,6 +3159,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ASRC_UPD_DEL_lbl_reportdte').hide();
                             $('#ASRC_UPD_DEL_ta_reportdate').hide();
                             $('#ASRC_UPD_DEL_errmsg').hide();
+                            $('#ASRC_chk_notinformed').hide();
                         }
                         else
                         {
@@ -3160,12 +3171,13 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ASRC_UPD_DEL_lbl_reportdte').hide();
                             $('#ASRC_UPD_DEL_ta_reportdate').hide();
                             $('#ASRC_UPD_DEL_errmsg').hide();
+                            $('#ASRC_chk_notinformed').hide();
                         }
                     }
 
                 }
                 var option="UPDATE"
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?option="+option+"&reportlocation="+checkoutlocation,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?option="+option+"&reportlocation="+checkoutlocation,true);
                 xmlhttp.send(new FormData(formElement));
             });
             // CHANGE EVENT FOR OPTION LIST BOX
@@ -3413,7 +3425,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 $('#ASRC_UPD_DEL_div_ondutytablecontainer').show();
                 var choice='ONDUTY';
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?sdate="+sdate+"&edate="+edate+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?sdate="+sdate+"&edate="+edate+"&option="+choice,true);
                 xmlhttp.send();
                 sorting()
             }
@@ -3485,7 +3497,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var option="ONDUTYUPDATE";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?option="+option,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?option="+option,true);
                 xmlhttp.send(new FormData(formElement));
             });
             $(document).on('click','#ASRC_UPD_btn_pdf',function(){
@@ -3605,47 +3617,29 @@ include '../TSLIB/TSLIB_HEADER.php';
                             </div>
                         </div>
                         <div id="ARE_chk_notinfrmd"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2"></label>
-                            <div class="col-sm-9">
-                                <div class="form-group">
-                                    <div class="col-md-2">
-                                        <div class="radio">
-                                            <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">
-                                                <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em>
+                        <div id="permission" hidden>
+                            <div class="form-group">
+                                <label class="col-sm-2"></label>
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="radio">
+                                                <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">
+                                                    <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em>
+                                            </div></div>
+                                        <div class="col-sm-2">
+                                            <select name="ARE_lb_timing" id="ARE_lb_timing" class="form-control" style="display:none" hidden>
+                                                <option>SELECT</option>
+                                            </select>
                                         </div></div>
-                                    <div class="col-sm-2">
-                                        <select name="ARE_lb_timing" id="ARE_lb_timing" class="form-control" style="display:none" hidden>
-                                            <option>SELECT</option>
-                                        </select>
-                                    </div></div>
-                                <div class="form-group">
-                                    <div class="col-md-4">
-                                        <div class="radio">
-                                            <label name="ARE_nopermission" class="col-sm-8" id="ARE_lbl_nopermission">
-                                                <input type="radio" name="permission" id="ARE_rd_nopermission" class='permissn' value="NOPERMISSION" hidden >NO PERMISSION<em>*</em></label>
-                                        </div></div>
-
-                                </div></div></div>
-
-                        <!--        <div class="row-fluid form-group">-->
-                        <!--            <div class="col-sm-2">-->
-                        <!--                <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">-->
-                        <!--                    <div class="radio">-->
-                        <!--                        <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em>-->
-                        <!--                    </div>-->
-                        <!--                </label>-->
-                        <!--            </div>-->
-                        <!--            <div class="col-lg-2">-->
-                        <!--                <select name="ARE_lb_timing" id="ARE_lb_timing" class="form-control" style="display:none" hidden>-->
-                        <!--                    <option>SELECT</option>-->
-                        <!--                </select>-->
-                        <!--            </div></div>-->
-                        <!--        <div class="row-fluid form-group">-->
-                        <!--            <label name="ARE_nopermission" class="col-sm-8" id="ARE_lbl_nopermission">-->
-                        <!--                <div class="col-sm-3"><div class="radio">-->
-                        <!--                        <input type="radio" name="permission" id="ARE_rd_nopermission" class='permissn' value="NOPERMISSION" hidden >NO PERMISSION<em>*</em></label>-->
-                        <!--        </div></div></div>-->
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="radio">
+                                                <label name="ARE_nopermission" class="col-sm-8" id="ARE_lbl_nopermission">
+                                                    <input type="radio" name="permission" id="ARE_rd_nopermission" class='permissn' value="NOPERMISSION" hidden >NO PERMISSION<em>*</em></label>
+                                            </div></div>
+                                    </div></div></div>
+                        </div>
                         <div class="row-fluid form-group">
                             <label name="ARE_lbl_session" class="col-sm-2" id="ARE_lbl_session" hidden >SESSION</label>
                             <div class="col-sm-4">
@@ -3708,21 +3702,8 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                     <div id="ARE_tble_ondutyentry" hidden>
                         <div id="onduty_date"></div>
-                        <!--    <div  class="row-fluid form-group">-->
-                        <!--        <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte">DATE</label>-->
-                        <!--        <div class="col-sm-8">-->
-                        <!--            <input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class='proj datemandtry enable ondutydayentry' style="width:75px;"/>-->
-                        <!--        </div></div>-->
-                        <!--    <div id="ARE_notinfrmd"></div>-->
                         <div id="onduty_des"></div>
-
-                        <!--    <div class="row-fluid form-group">-->
-                        <!--        <label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label>-->
-                        <!--        <div class="col-sm-8">-->
-                        <!--            <textarea id="ARE_ta_des" name="ARE_ta_des" class='enable' hidden></textarea>-->
-                        <!--        </div></div>-->
                         <div id="onduty_button"></div>
-                        <!--    <input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />-->
 
                         <div><label id="ARE_lbl_oderrmsg" name="ARE_lbl_oderrmsg" class="errormsg"></label></div>
                     </div>
@@ -3759,35 +3740,16 @@ include '../TSLIB/TSLIB_HEADER.php';
                         <label name="ASRC_UPD_DEL_lbl_allactveemps" id="ASRC_UPD_DEL_lbl_allactveemps" class="srctitle  col-sm-12" hidden>ALL ACTIVE EMPLOYEE</label>
                     </div>
                     <div id="date_click"></div>
-                    <!--<div class="row-fluid form-group" style="padding-top: 35px">-->
-                    <!--    <label name="ASRC_UPD_DEL_lbl_dte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_dte" hidden>DATE</label>-->
-                    <!--    <div class="col-sm-8">-->
-                    <!--        <input type="text" name="ASRC_UPD_DEL_tb_dte" id="ASRC_UPD_DEL_tb_dte" class="ASRC_UPD_DEL_date valid enable"   style="width:75px;"  hidden >-->
-                    <!--    </div></div>-->
+
                     <div id="between_range"></div>
-                    <!--<div class="row-fluid form-group">-->
-                    <!--    <label name="ASRC_UPD_DEL_lbl_btwnranges" id="ASRC_UPD_DEL_lbl_btwnranges" class="srctitle col-sm-12" hidden>BETWEEN RANGE</label>-->
-                    <!--</div>-->
+
                     <div id="active_emp"></div>
-                    <!--<div class="row-fluid form-group">-->
-                    <!--    <div class="radio">-->
-                    <!--    <label name="ASRC_UPD_DEL_lbl_actveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_actveemp"  hidden>-->
-                    <!--        <div class="col-sm-4">-->
-                    <!--                <input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label>-->
-                    <!--</div></div>-->
-                    <!--</div>-->
+
                     <div id="non_active"></div>
-                    <!--<div style="padding-bottom: 25px">-->
-                    <!--    <div class="radio">-->
-                    <!--    <label name="ASRC_UPD_DEL_lbl_nonactveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_nonactveemp"  hidden>-->
-                    <!--        <div class="col-sm-4">-->
-                    <!--                <input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_nonactveemp"  value="EMPLOYEE" class='attnd' hidden>NON ACTIVE EMPLOYEE</label>-->
-                    <!--</div></div></div>-->
+
                 </div>
                 <div id="search_click"></div>
-                <!--<div class="row-fluid form-group">-->
-                <!--    <input type="button" class="btn" id="ASRC_UPD_DEL_btn_allsearch" onclick="buttonchange()"  value="SEARCH" hidden disabled>-->
-                <!--</div>-->
+
                 <div class="row-fluid form-group">
                     <label name="ASRC_UPD_DELlbl_loginid" class="col-sm-2" id="ASRC_UPD_DEL_lbl_loginid"  hidden>EMPLOYEE NAME</label>
                     <div class="col-sm-4">
@@ -3837,47 +3799,30 @@ include '../TSLIB/TSLIB_HEADER.php';
                         </select>
                     </div></div>
                 <div id="ASRC_chk_notinformed"></div>
-                <div class="form-group">
-                    <label class="col-sm-2"></label>
-                    <div class="col-sm-9">
-                        <div class="form-group">
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label name="ASRC_UPD_DEL_permission" class="col-sm-8" id="ASRC_UPD_DEL_lbl_permission" hidden>  <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden>PERMISSION<em>*</em>
+                <div id="permissionupd" hidden>
+                    <div class="form-group">
+                        <label class="col-sm-2"></label>
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <div class="radio">
+                                        <label name="ASRC_UPD_DEL_permission" class="col-sm-8" id="ASRC_UPD_DEL_lbl_permission" hidden>  <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden>PERMISSION<em>*</em>
+                                    </div>
+                                    </label>
                                 </div>
-                                </label>
-                            </div>
-                            <div class="col-sm-2">
-                                <select name="ASRC_UPD_DEL_lb_timing" id="ASRC_UPD_DEL_lb_timing" class="update_validate form-control">
-                                </select>
-                                </select>
-                            </div></div>
-                        <div class="row form-group">
-                            <div class="col-md-4">
-                                <div class="radio">
-                                    <label name="ASRC_UPD_DEL_nopermission" class="col-sm-10"  id="ASRC_UPD_DEL_lbl_nopermission" hidden> <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_nopermission" value="NOPERMISSION" class='permissn update_validate'  hidden>NO PERMISSION<em>*</em></label>
-                                </div></div></div>
+                                <div class="col-sm-2">
+                                    <select name="ASRC_UPD_DEL_lb_timing" id="ASRC_UPD_DEL_lb_timing" class="update_validate form-control">
+                                    </select>
+                                    </select>
+                                </div></div>
+                            <div class="row form-group">
+                                <div class="col-md-4">
+                                    <div class="radio">
+                                        <label name="ASRC_UPD_DEL_nopermission" class="col-sm-10"  id="ASRC_UPD_DEL_lbl_nopermission" hidden> <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_nopermission" value="NOPERMISSION" class='permissn update_validate'  hidden>NO PERMISSION<em>*</em></label>
+                                    </div></div></div>
 
-                    </div></div>
-                <!--<div  class="row-fluid form-group">-->
-                <!--    <div class="col-sm-2">-->
-                <!--        <label name="ASRC_UPD_DEL_permission" class="col-sm-8" id="ASRC_UPD_DEL_lbl_permission" hidden>-->
-                <!--            <div class="radio">-->
-                <!--                <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden>PERMISSION<em>*</em>-->
-                <!--            </div>-->
-                <!--        </label>-->
-                <!--    </div>-->
-                <!--    <div class="col-lg-2">-->
-                <!--        <select name="ASRC_UPD_DEL_lb_timing" id="ASRC_UPD_DEL_lb_timing" class="update_validate form-control">-->
-                <!--        </select>-->
-                <!--    </div></div>-->
-                <!---->
-                <!--<div   class="row-fluid form-group">-->
-                <!--    <label name="ASRC_UPD_DEL_nopermission" class="col-sm-10"  id="ASRC_UPD_DEL_lbl_nopermission" hiddeen>-->
-                <!--        <div class="col-sm-3"> <div class="radio">-->
-                <!--                <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_nopermission" value="NOPERMISSION" class='permissn update_validate'  hidden>NO PERMISSION<em>*</em></label>-->
-                <!--</div></div>-->
-                <!--</div>-->
+                        </div></div></div>
+
                 <div class="row-fluid form-group">
                     <label name="ASRC_UPD_DEL_lbl_session"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_session" hidden >SESSION</label>
                     <div class="col-sm-2">

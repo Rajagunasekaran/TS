@@ -63,7 +63,7 @@ if(isset($_REQUEST)){
 //            $ure_uld_id=$row["ULD_ID"];
 //        }
         $ure_uld_id=$active_loginid;
-        $date= mysqli_query($con,"SELECT UARD_ID,UARD_REPORT,UARD_REASON,UARD_DATE,b.AC_DATA as UARD_PERMISSION, c.AC_DATA as UARD_ATTENDANCE,UARD.UARD_PSID,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,I.ULD_LOGINID AS ULD_ID,DATE_FORMAT(CONVERT_TZ(UARD.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP,UARD_BANDWIDTH,ULD.ULD_LOGINID as UARD_USERSTAMP_ID,ABSENT_FLAG,J.CIORL_LOCATION FROM USER_ADMIN_REPORT_DETAILS UARD
+        $date= mysqli_query($con,"SELECT UARD_ID,UARD_REPORT,UARD_REASON,UARD_DATE,b.AC_DATA as UARD_PERMISSION, c.AC_DATA as UARD_ATTENDANCE,UARD.UARD_PSID,G.AC_DATA AS UARD_AM_SESSION,H.AC_DATA AS UARD_PM_SESSION,I.ULD_LOGINID AS ULD_ID,DATE_FORMAT(CONVERT_TZ(UARD.UARD_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS UARD_TIMESTAMP,UARD_BANDWIDTH,ULD.ULD_LOGINID as UARD_USERSTAMP_ID,ABSENT_FLAG,J.CIORL_LOCATION,UARD.UARD_ABSENT_NOT_INFORM_FLAG FROM USER_ADMIN_REPORT_DETAILS UARD
 LEFT JOIN ATTENDANCE_CONFIGURATION b ON b.AC_ID=UARD.UARD_PERMISSION
 left JOIN ATTENDANCE_CONFIGURATION c on c.AC_ID=UARD.UARD_ATTENDANCE
 LEFT JOIN ATTENDANCE_CONFIGURATION G ON G.AC_ID=UARD.UARD_AM_SESSION
@@ -89,6 +89,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
             $ure_afternoonsession=$row["UARD_PM_SESSION"];
             $ure_flag=$row["ABSENT_FLAG"];
             $location=$row['CIORL_LOCATION'];
+            $informationflag=$row['UARD_ABSENT_NOT_INFORM_FLAG'];
             $location= $con->real_escape_string($location);
 //STRING REPLACED
             if($ure_reprt!=null){
@@ -113,7 +114,7 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
             else{
                 $ure_reason=null;
             }
-            $final_values=(object) ['id'=>$ure_id,'date' => $ure_date,'report' =>$ure_report,'report1' =>$ure_reprt,'userstamp'=> $ure_userstamp,'timestamp'=>$ure_timestamp,'reason'=>$ure_reason,'reason1'=>$ure_reason_txt,'permission'=>$ure_permission,'attendance'=>$ure_attendance,'pdid'=>$ure_pdid,'morningsession'=>$ure_morningsession,'afternoonsession'=>$ure_afternoonsession,'bandwidth'=>$ure_bandwidth,'user_stamp'=>$userstamp,'flag'=>$ure_flag,'location'=>$location];
+            $final_values=(object) ['id'=>$ure_id,'date' => $ure_date,'report' =>$ure_report,'report1' =>$ure_reprt,'userstamp'=> $ure_userstamp,'timestamp'=>$ure_timestamp,'reason'=>$ure_reason,'reason1'=>$ure_reason_txt,'permission'=>$ure_permission,'attendance'=>$ure_attendance,'pdid'=>$ure_pdid,'morningsession'=>$ure_morningsession,'afternoonsession'=>$ure_afternoonsession,'bandwidth'=>$ure_bandwidth,'user_stamp'=>$userstamp,'flag'=>$ure_flag,'location'=>$location,'notinformed'=>$informationflag];
             $ure_values[]=$final_values;
         }
         echo json_encode($ure_values);
@@ -167,13 +168,14 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
     if($_REQUEST['option']=='ADMIN REPORT SEARCH UPDATE DELETE')
     {
         $notinformed= $_POST['notinformed'];
+//        echo $notinformed;
         if($notinformed=='NOTINFORMED')
         {
-            $notinformed= 'X';
+            $notinformed= "'X'";
         }
         else
         {
-            $notinformed= '';
+            $notinformed= 'NULL';
         }
         $date = $_POST['ASRC_UPD_DEL_ta_reportdate'];
         $id=$_POST['ASRC_UPD_DEL_rd_flxtbl'];
@@ -376,8 +378,8 @@ where UARD_DATE BETWEEN '$startdate' AND '$enddate' and UARD.ULD_ID='$ure_uld_id
         }
         $report= $con->real_escape_string($report);
         $reason= $con->real_escape_string($reason);
-//        echo "CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation','$notinformed',@success_flag)";
-        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation','$notinformed',@success_flag)");
+//        echo "CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation',$notinformed,@success_flag)";
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_SEARCH_UPDATE($id,'$report','$reason','$finaldate',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$USERSTAMP','$flag_absent','$reportlocation',$notinformed,@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();

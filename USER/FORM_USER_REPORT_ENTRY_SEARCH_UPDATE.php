@@ -1993,7 +1993,10 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
             }
             // CHANGE EVENT FOR UPDATE BUTTON
-            $(document).on('click','#USRC_UPD_btn_submit',function(){
+            $(document).on('click','#USRC_UPD_btn_submit',function(evt){
+                evt.stopPropagation();
+                evt.preventDefault();
+                evt.stopImmediatePropagation();
                 $(".preloader").show();
                 formElement = document.getElementById("URE_form_dailyuserentry");
                 var xmlhttp=new XMLHttpRequest();

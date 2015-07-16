@@ -57,11 +57,11 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     $notinformed= $_POST['notinformed'];
     if($notinformed=='NOTINFORMED')
     {
-        $notinformed= 'X';
+        $notinformed= "'X'";
     }
     else
     {
-        $notinformed= '';
+        $notinformed= 'NULL';
     }
     $date = $_POST['ARE_tb_date'];
     $seconddate="null";
@@ -255,8 +255,8 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     $reason= $con->real_escape_string($reason);
     if($login_id==$USERSTAMP)
     {
-//        echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP','$notinformed',@success_flag)";
-        $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP','$notinformed',@success_flag)");
+//        echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)";
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -271,8 +271,8 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
         $row=mysqli_num_rows($sql_result);
         if($row>0)
         {
-
-            $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP','$notinformed',@success_flag)");
+//      echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)";
+            $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)");
             if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
             $select = $con->query('SELECT @success_flag');
             $result = $select->fetch_assoc();
@@ -283,6 +283,7 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
         }
         else
         {
+//            echo "CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE(1,'$ADM_uld_id','$finaldate','$time','$reportlocation','$ADM_userstamp_id',@success_flag)";
             $result = $con->query("CALL SP_TS_EMPLOYEE_CHECK_IN_OUT_DETAILS_INSERT_UPDATE(1,'$ADM_uld_id','$finaldate','$time','$reportlocation','$ADM_userstamp_id',@success_flag)");
             if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
             $select = $con->query('SELECT @success_flag');
@@ -290,8 +291,8 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
             $flag= $result['@success_flag'];
             if($flag==1)
             {
-
-                $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP','$notinformed',@success_flag)");
+//echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)";
+                $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)");
                 if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
                 $select = $con->query('SELECT @success_flag');
                 $result = $select->fetch_assoc();
@@ -303,8 +304,8 @@ if($_REQUEST["choice"]=="SINGLE DAY ENTRY")
     }
     else
     {
-
-        $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP','$notinformed',@success_flag)");
+//echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)";
+        $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$finaldate',$seconddate,$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -317,11 +318,11 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
     $notinformed= $_POST['notinformed'];
     if($notinformed=='NOTINFORMED')
     {
-        $notinformed= 'X';
+        $notinformed= "'X'";
     }
     else
     {
-        $notinformed= '';
+        $notinformed= 'NULL';
     }
     $firstdate = $_POST['ARE_tb_sdate'];
     $seconddate=$_POST['ARE_tb_edate'];
@@ -400,8 +401,8 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
 
     $report= $con->real_escape_string($report);
     $reason= $con->real_escape_string($reason);
-// echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP','$notinformed',@success_flag)";
-    $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP','$notinformed',@success_flag)");
+ echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)";
+    $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)");
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query('SELECT @success_flag');
     $result = $select->fetch_assoc();
