@@ -424,9 +424,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             }
             //CLICK EVENT FOR SEARCH BUTTON
             $(document).on("click",'#AWSU_btn_search', function (){
-//            alert('search');
                 $("#AWSU_btn_search").attr("disabled", "disabled");
-//            alert(showTable());
                 showTable();
             });
             var previous_id;
@@ -443,7 +441,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 tdvalue=$(this).text();
 
                 if(tdvalue!=''){
-                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><textarea type='text' id='name' name='data'  class='reportupdate' maxlength='50'  value='"+tdvalue+"'>'"+tdvalue+"'</textarea></td>");
+                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><textarea type='text' id='name' name='data'  class='reportupdate' maxlength='50'  value='"+tdvalue+"'>"+tdvalue+"</textarea></td>");
                 }
 
             } );

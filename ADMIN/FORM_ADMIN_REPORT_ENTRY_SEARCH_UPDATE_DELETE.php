@@ -144,12 +144,9 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $(".preloader").hide();
                             var value_array=JSON.parse(xmlhttp.responseText);
                             permission_array=value_array[0];
-//                  project_array=value_array[1];
-//                    $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                             min_date=value_array[2];
                             err_msg=value_array[3];
                             login_id=value_array[4];
-//                            alert(login_id)
                             var login_list='<option>SELECT</option>';
                             for (var i=0;i<login_id.length;i++) {
                                 login_list += '<option value="' + login_id[i][1] + '">' + login_id[i][0] + '</option>';
@@ -393,7 +390,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var choice="login_id"
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
                     ARE_clear()
                     $('#ARE_lbl_dte').show();
@@ -421,7 +418,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             //JQUERY LIB VALIDATION END
             // CHANGE EVENT FOR DATE
             $(document).on('change','.singledayentry',function(){
-
+                $('#ARE_chk_notinfrmd').html('');
 //            $("#ARE_tb_date").datepicker({dateFormat: "dd-mm-yy" ,changeYear:true,changeMonth:true });
                 $(".preloader").show();
                 var loginid=$('#ARE_lb_loginid').val();
@@ -454,7 +451,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="DATE"
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?date_change="+reportdate+"&login_id="+loginid+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?date_change="+reportdate+"&login_id="+loginid+"&option="+choice,true);
                 xmlhttp.send();
             });
             // CHANGE EVENT FOR ATTENDANCE
@@ -539,7 +536,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var option="PRESENT";
-                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
+                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
                     xmlhttp.send();
                 }
                 else if($('#ARE_lb_attendance').val()=='2')
@@ -588,7 +585,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var option="PRESENT";
-                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
+                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&loginid="+loginid);
                     xmlhttp.send();
                 }
                 else if($('#ARE_lb_attendance').val()=='0')
@@ -775,7 +772,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var option="HALFDAYABSENT";
-                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&reportdate="+reportdate+"&logind="+loginid);
+                    xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&reportdate="+reportdate+"&logind="+loginid);
                     xmlhttp.send();
                 }
             });
@@ -821,7 +818,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
             // FUNCTION FOR REPORT
             function ARE_report(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_report" class="col-sm-2" id="ARE_lbl_report">ENTER THE REPORT<em>*</em></label><textarea  name="ARE_ta_report" id="ARE_ta_report" class="form-control tarea"></textarea></div>').appendTo($("#ARE_tbl_enterthereport"));
+                $('<div class="row-fluid form-group"><label name="ARE_lbl_report" class="col-sm-2" id="ARE_lbl_report">ENTER THE REPORT<em>*</em></label><div class="col-sm-8"><textarea  name="ARE_ta_report" id="ARE_ta_report" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tbl_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR BANDWIDTH
@@ -904,14 +901,10 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                     else if(ARE_presenthalfdysvld=='2')
                     {
-//                        alert(ARE_reportenter);
-//                        alert(ARE_projectselectlistbx);
                         if(((ARE_reportenter.trim()!="")&&( ARE_projectselectlistbx==true)))
 
                             if((ARE_reportenter.trim()!=""))
                             {
-//                        alert(ARE_reportenter);
-//                        alert(ARE_permissionlstbx);
                                 if(ARE_permissionlstbx!="")
                                 {
 
@@ -925,7 +918,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                             }
                             else
                             {
-//                        alert('3');
                                 $("#ARE_btn_submit").attr("disabled", "disabled");
                             }
                     }
@@ -956,7 +948,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         var msg_alert=xmlhttp.responseText;
-//                        $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
                         if(msg_alert==1){
 //                            if(flag == "X")
@@ -995,7 +986,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="SINGLE DAY ENTRY";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?choice="+choice+"&checkoutlocation="+checkoutlocation,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice+"&checkoutlocation="+checkoutlocation,true);
                 xmlhttp.send(new FormData(formElement));
             });
             // CHANGE EVENT FOR OPTION BUTTON
@@ -1006,6 +997,9 @@ include '../TSLIB/TSLIB_HEADER.php';
                 $('#ARE_rd_mulentry').attr('checked',false);
                 $('#ARE_form_dailyuserentry').hide();
                 $('#ARE_lbl_checkmsg').hide();
+                $('#ARE_lbl_multipleday').hide();
+                $('#single_emp').hide();
+                $('#all_emp').hide();
                 $("#ARE_chk_notinfrmd").html('')
                 if(adminselectoptionvalue=='ADMIN REPORT ENTRY')
                 {
@@ -1181,7 +1175,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="ALLEMPDATE"
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?&option="+choice,true);
                 xmlhttp.send();
                 $('#ARE_tble_mutipledayentry').show();
                 $('#ARE_tble_singledayentry').hide();
@@ -1222,6 +1216,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             $(document).on('change','#ARE_lb_lgnid',function(){
 //        $("html, body").animate({ scrollTop: $(document).height() }, "1000");
                 $('#ARE_lbl_errmsg').hide();
+                $('#ARE_chk1_notinfrmd').hide();
                 $('#ARE_msg').hide();
                 var ARE_loginidlist= $("#ARE_lb_lgnid").val();
                 $('#ARE_tble_attendence').hide();
@@ -1261,7 +1256,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var choice="LOGINID"
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
 
                     ARE_clear()
@@ -1294,6 +1289,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 var date=max_date.getDate();
                 var max_date = new Date(year,month,date);
                 $('#ARE_tb_edate').datepicker("option","maxDate",max_date);
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             });
             // CHANGE FUNCTIOn FOR TODATE
             $(document).on('change','.valid',function(){
@@ -1341,7 +1337,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var option="BETWEEN DATE";
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?option="+option+"&fromdate="+fromdate+"&todate="+todate+"&loginid="+loginid,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?option="+option+"&fromdate="+fromdate+"&todate="+todate+"&loginid="+loginid,true);
                     xmlhttp.send();
                 }
             });
@@ -1377,13 +1373,11 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             //CLICK EVENT FOR MULTIPLEDAY SAVE BUTTON
             $('#ARE_btn_save').click(function(){
-                $('#ARE_chk1_notinfrmd').html('');
                 $(".preloader").show();
                 var formElement = document.getElementById("ARE_form_adminreportentry");
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                        alert(xmlhttp.responseText)
                         var msg_alert=xmlhttp.responseText;
                         $(".preloader").hide();
                         if(msg_alert==1){
@@ -1394,6 +1388,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_lb_lgnid').hide();
                             $('#ARE_rd_sinemp').attr('checked',false);
                             $('#ARE_rd_allemp').attr('checked',false);
+                            $('#ARE_chk1_notinfrmd').html('');
                         }
                         else if(msg_alert==0)
                         {
@@ -1404,6 +1399,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_lb_lgnid').hide();
                             $('#ARE_rd_sinemp').attr('checked',false);
                             $('#ARE_rd_allemp').attr('checked',false);
+                            $('#ARE_chk1_notinfrmd').html('');
                         }
                         else
                         {
@@ -1413,11 +1409,12 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_lb_lgnid').hide();
                             $('#ARE_rd_sinemp').attr('checked',false);
                             $('#ARE_rd_allemp').attr('checked',false);
+                            $('#ARE_chk1_notinfrmd').html('');
                         }
                     }
                 }
                 var choice="MULTIPLE DAY ENTRY";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?choice="+choice+"&reportlocation="+checkoutlocation,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice+"&reportlocation="+checkoutlocation,true);
                 xmlhttp.send(new FormData(formElement));
             });
 // FUNCTION FORM MULTIPLE ENTRY CLEAR FUNCTION
@@ -1438,26 +1435,18 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
             // ONDUTY ENTRY VALIDATION STARTS
             $('#onduty_des').change(function(){
-//                alert('2');
                 if($("#ARE_ta_des").val()=='')
                 {
-//            alert('3');
                     $("#ARE_btn_odsubmit").attr("disabled", "disabled");
                 }
                 else
                 {
-//            alert('4');
                     $("#ARE_btn_odsubmit").removeAttr("disabled");
                     $("#ARE_btn_odsubmit").show();
                 }
             });
             //CHANGE EVENT ONDUTY ENTRY DATE FUNCTION
             $('#onduty_date').change(function(){
-//            $('.ondutydayentry').change(function(){
-//                alert('1');
-
-//        $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-//                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 var reportdate=$('#ARE_tb_dte').val();
                 $('#ARE_btn_odsubmit').attr('disabled','disabled');
@@ -1465,7 +1454,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         var msgalert=xmlhttp.responseText;
-//                        $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
                         if(msgalert==1)
                         {
@@ -1479,13 +1467,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                         else
                         {
-//alert('onduty')
                             $('#ARE_lbl_oderrmsg').text(msg).hide();
-//                            var ARE_chk_notinformed=' <div class="row-fluid form-group"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><div class="col-sm-3"><div class="checkbox"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div>';
-//                            $('#ARE_chk_notinfrmd').html(ARE_chk_notinformed);
-//                            $('#ARE_chk_notinfrmd').html('').append('test')
-//                            $('#ARE_notinfrmd').html('').append('<div class="row-fluid form-group"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><div class="col-sm-3"><div class="checkbox"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div>');
-//                            $('#ARE_notinfrmd').show();
                             $('#ARE_rd_notinformed').show();
                             $('#ARE_lbl_notinformed').show();
                             $('#ARE_lbl_des').show();
@@ -1501,13 +1483,11 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                 }
                 var choice="ODDATE"
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?date_change="+reportdate+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?date_change="+reportdate+"&option="+choice,true);
                 xmlhttp.send();
             });
 // CLICK EVENT ONDUTY SAVE BUTTON
             $('#onduty_button').click(function(){
-//                alert('3');
-//                $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 var formElement = document.getElementById("ARE_form_adminreportentry");
                 var xmlhttp=new XMLHttpRequest();
@@ -1528,7 +1508,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="ONDUTY";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.php?choice="+choice,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_REPORT_ENTRY.do?choice="+choice,true);
                 xmlhttp.send(new FormData(formElement));
             });
 
@@ -1548,6 +1528,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             //CHANGE EVENT FOR STARTDATE AND ENDDATE
             $(document).on('change','#ASRC_UPD_DEL_tb_strtdte,#ASRC_UPD_DEL_tb_enddte',function(){
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 ASRC_UPD_DEL_clear()
                 $('#ASRC_UPD_DEL_div_header').hide();
                 $('#ASRC_UPD_btn_pdf').hide();
@@ -1605,6 +1586,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 //                        $('.preloader', window.parent.document).hide();
+                        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         $(".preloader").hide();
                         allvalues_array=JSON.parse(xmlhttp.responseText);
                         if(allvalues_array!=''){
@@ -1713,7 +1695,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 $('#ASRC_UPD_DEL_div_tablecontainer').show();
                 var choice='ALLDATE';
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?alldate="+date+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?alldate="+date+"&option="+choice,true);
                 xmlhttp.send();
                 sorting()
             });
@@ -2048,7 +2030,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                     }
                     var choice="login_id";
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
 
                 }
@@ -2209,7 +2191,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 $('#ASRC_UPD_DEL_div_tablecontainer').show();
                 var choice='DATERANGE';
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?start_date="+start_date+"&end_date="+end_date+"&option="+choice+"&actionloginid="+activeloginid,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?start_date="+start_date+"&end_date="+end_date+"&option="+choice+"&actionloginid="+activeloginid,true);
                 xmlhttp.send();
                 sorting()
             }
@@ -2313,7 +2295,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var choice="DELETE";
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?del_id="+delid+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?del_id="+delid+"&option="+choice,true);
                 xmlhttp.send();
             });
             // CLICK EVENT FOR SEARCH BUTTON
@@ -2350,7 +2332,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                         timestamp=values_array[j].timestamp;
                         reason=values_array[j].reason1;
                         permission=values_array[j].permission;
-                        alert(permission)
                         attendance=values_array[j].attendance;
                         pdid=values_array[j].pdid;
                         morningsession=values_array[j].morningsession;
@@ -2358,7 +2339,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                         bandwidth=values_array[j].bandwidth;
                         flag=values_array[j].flag;
                         var not_informed=values_array[j].notinformed;
-                        alert(not_informed)
                         if(attendance=='1')
                         {
 
@@ -2819,7 +2799,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                     }
                     var choice="DATE"
-                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?reportdate="+reportdate+"&login_id="+loginid+"&option="+choice,true);
+                    xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?reportdate="+reportdate+"&login_id="+loginid+"&option="+choice,true);
                     xmlhttp.send();
                 }
                 else{
@@ -2926,7 +2906,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 else if($('#ASRC_UPD_DEL_lb_ampm').val()=='FULLDAY')
                 {
-                    alert('oo')
                     $('#ASRC_UPD_DEL_tble_projectlistbx').hide();
                     ASRC_UPD_DEL_reason();
                     $('#ASRC_UPD_DEL_rd_permission').attr('checked',false);
@@ -3134,7 +3113,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                         var msg_alert=xmlhttp.responseText;
                         if(msg_alert==1)
                         {
-//                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:err_msg[1],position:{top:150,left:500}}});
                             show_msgbox("ADMIN SEARCH AND UPDATE",err_msg[1],"success",false);
                             ASRC_UPD_DEL_clear()
                             flextablerange()
@@ -3150,7 +3128,6 @@ include '../TSLIB/TSLIB_HEADER.php';
                         }
                         else if(msg_alert==0)
                         {
-//                            $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ADMIN SEARCH AND UPDATE",msgcontent:err_msg[7],position:{top:150,left:500}}});
                             show_msgbox("ADMIN SEARCH AND UPDATE",err_msg[7],"success",false);
                             ASRC_UPD_DEL_clear()
                             flextablerange()
@@ -3177,12 +3154,11 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                 }
                 var option="UPDATE"
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?option="+option+"&reportlocation="+checkoutlocation,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?option="+option+"&reportlocation="+checkoutlocation,true);
                 xmlhttp.send(new FormData(formElement));
             });
             // CHANGE EVENT FOR OPTION LIST BOX
             $(document).on('change','#options',function(){
-
                 $('#ASRC_UPD_DEL_div_header').hide();
                 $('#ASRC_UPD_btn_pdf').hide();
                 $('#ASRC_UPD_DEL_tble_dailyuserentry').hide();
@@ -3342,6 +3318,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 
             });
             $(document).on('change','#ASRC_UPD_DEL_tb_sdte,#ASRC_UPD_DEL_tb_edte',function(){
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 $('#ASRC_UPD_DEL_tbl_ondutyhtmltable').html('');
                 $('#ASRC_UPD_DEL_oderrmsg').hide();
                 $('#ASRC_UPD_DEL_odsrch_btn').hide();
@@ -3425,7 +3402,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 }
                 $('#ASRC_UPD_DEL_div_ondutytablecontainer').show();
                 var choice='ONDUTY';
-                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?sdate="+sdate+"&edate="+edate+"&option="+choice,true);
+                xmlhttp.open("GET","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?sdate="+sdate+"&edate="+edate+"&option="+choice,true);
                 xmlhttp.send();
                 sorting()
             }
@@ -3497,7 +3474,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     }
                 }
                 var option="ONDUTYUPDATE";
-                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.php?option="+option,true);
+                xmlhttp.open("POST","ADMIN/DB_DAILY_REPORTS_ADMIN_SEARCH_UPDATE_DELETE.do?option="+option,true);
                 xmlhttp.send(new FormData(formElement));
             });
             $(document).on('click','#ASRC_UPD_btn_pdf',function(){

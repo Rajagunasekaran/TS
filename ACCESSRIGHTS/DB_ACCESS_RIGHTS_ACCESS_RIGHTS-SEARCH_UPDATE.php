@@ -333,12 +333,17 @@ if(isset($_REQUEST)){
                 //end create folder
                 if(!empty($_FILES))
                 {
+//                    echo 'asdsad';
+//                    echo $_FILES;
                     foreach($_FILES['UPD_uploaded_files']['name'] as $idx => $name) {
+//                        echo 'fr';
+//                        print_r($_FILES);
                         if($name=="")continue;
                         $upload_flag=1;
                         $ufilename=$name;
                         $ufiletempname=$_FILES['UPD_uploaded_files']['tmp_name'][$idx];
                         $ufiletype=$_FILES['UPD_uploaded_files']['type'][$idx];
+//                        $file_id_value='';
                         $file_id_value =insertFile($service,$ufilename,'PersonalDetails',$new_empfolderid,$ufiletype,$ufiletempname);
                         if($file_id_value!=''){
                             array_push($file_array,$file_id_value);

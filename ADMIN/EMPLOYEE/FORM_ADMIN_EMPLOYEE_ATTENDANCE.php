@@ -436,7 +436,7 @@ include "../../TSLIB/TSLIB_COMMON.php";
                 <div class="row-fluid form-group">
                     <label name="REP_lbl_dte" id="REP_lbl_dte" class="col-sm-3" hidden>DATE<em>*</em></label>
                     <div class="col-sm-6">
-                        <input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:75px;" />
+                        <input type ="text" id="REP_date" class='date-pickers datemandtry' hidden name="date" style="width:100px;" />
                     </div></div>
 
                 <div class="row-fluid form-group  col-sm-2">

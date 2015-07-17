@@ -597,7 +597,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 if(ifcondition=='pdesc')
                 {
-                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><textarea id='project_des' name='project_des'  class='update' maxlength='50'  value='"+tdvalue+"'>'"+tdvalue+"'</textarea></td>");
+                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><textarea id='project_des' name='project_des'  class='update' maxlength='50'  value='"+tdvalue+"'>"+tdvalue+"</textarea></td>");
                 }
                 if(ifcondition=='status')
                 {

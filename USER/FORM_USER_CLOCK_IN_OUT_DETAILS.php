@@ -173,7 +173,9 @@ include "../TSLIB/TSLIB_HEADER.php";
 
             // CHANGE EVENT FOR STARTDATE AND ENDDATE
             $(document).on('change','.valid',function(){
-
+                $('#REV_lbl_emptitle').hide();
+                $('#REP_lbl_daterange').hide();
+                $('#REP_btn_pdf').hide();
                 $('#section').html('');
                 $('#REP_tablecontainer_bydaterange').hide();
                 if(($("#REP_tb_strtdtebyrange").val()=='')||($("#REP_tb_enddtebyrange").val()==''))
@@ -394,7 +396,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $(".preloader").hide();
                         var CLK_actnon_values=JSON.parse(xmlhttp.responseText);
-
                         if(CLK_actnon_values[0].length!=0)
                         {
                             var CLK_reportdate= CLK_actnon_values[0];
@@ -461,11 +462,11 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <label name="clock_in_entry" class="col-sm-12"  id="clock_in_entry">
                             <input type="radio" name="clock" class="clock_click" id="clock_in_out" value=clockinout>CLOCK IN/OUT DETAILS</label>
                     </div></div>
-        <div style="padding-left: 15px">
+                <div style="padding-left: 15px">
                     <div class="radio">
                         <label name="clock_missed_details" class="col-sm-12"  id="clock_missed_details">
                             <input type="radio" name="clock" class="clock_click" id="clock_missed" value="clockmissed">CLOCK MISSED DETAILS</label>
-                </div></div>
+                    </div></div>
                 <div class="row-fluid form-group" style="padding-top: 15px">
                     <label name="REP_report_entry" id="REP_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
@@ -489,8 +490,8 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <label id="REP_lbl_daterange" name="REP_lbl_daterange"  class="srctitle" hidden></label>
                     </div>
                     <div style="padding-left:15px">
-                    <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
-</div>
+                        <input type="button" id="REP_btn_pdf" class="btnpdf" value="PDF">
+                    </div>
                     <div id="REP_tablecontainer_bydaterange" style="width:auto; padding-left:15px" class="table-responsive" hidden>
                         <section style="width:1000px;">
                         </section>
@@ -500,7 +501,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     <div class="form-group"><label id="CLK_nodata_rc" name="CLK_nodata_rc" class="errormsg"></label></div>
                     <div class="row-fluid">
                         <label name="CLK_lbl_selectmnths" class="col-sm-2" id="CLK_lbl_selectmnths">SELECT MONTH<em>*</em></label>
-                        <div class="col-sm-offset-1">
+                        <div class="col-sm-offset-1" style="padding-left:15px" >
                             <input type="text" name="CLK_db_selectmnths" id="CLK_db_selectmnths" class="date-pickers datemandtry valid" style="width:110px;"><br>
                         </div>
                     </div>

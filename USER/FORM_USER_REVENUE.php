@@ -225,7 +225,6 @@ include "../TSLIB/TSLIB_HEADER.php";
             var employeetitles;
             var heading="DETAILS FOR WORKED PROJECTS";
             $(document).on('click','#REV_btn_empsrch',function(){
-
                 $('sections').html('');
                 var REV_withproject=$('#REV_rd_withproject').val();
                 $('#REV_nodata_loginid').hide();
@@ -263,6 +262,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 var xmlhttp=new XMLHttpRequest();
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         $(".preloader").hide();
                         loginidvalues=JSON.parse(xmlhttp.responseText);
                         if(loginidvalues==false)

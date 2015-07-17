@@ -12,7 +12,7 @@
 //VER 0.01-SD:06/01/2015 ED:06/01/2015,TRACKER NO:74,IMPLEMENTED PRELOADER POSITION,CHANGED LOGIN ID INTO EMPLOYEE NAME
 //*********************************************************************************************************//
 <?php
-include "../TSLIB/TSLIB/HEADER.php";
+include "../TSLIB/TSLIB_HEADER.php";
 ?>
 <!--SCRIPT TAG START-->
 <html>

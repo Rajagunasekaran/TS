@@ -335,12 +335,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                             if(resultflag==1)
                             {
                                 var msg=err_msg_array[0].replace("REPORT",'RECORD');
-                                show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",msg,"success",true);
+                                show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",msg,"success",false);
                                 flex_table();
                             }
                             else
                             {
-                                show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[2],"success",true);
+                                show_msgbox("PUBLIC HOLIDAY SEARCH/UPDATE",err_msg_array[2],"success",false);
                                 $(".preloader").hide();
                             }
                             $(".preloader").hide();
@@ -401,33 +401,33 @@ include "../TSLIB/TSLIB_HEADER.php";
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
     <div class="title text-center"><h4><b>PUBLIC HOLIDAY ENTRY/SEARCH/UPDATE</b></h4></div>
-    <form  name="PH_entry_form" id="PH_entry_form" class="content">
+    <form  name="PH_entry_form" id="PH_entry_form" class="content form-horizontal">
         <div class="panel-body">
             <fieldset>
-                <div style="padding-left: 15px">
-                    <div class="radio">
-                        <label name="public_entry" id="pub_entry">
-                            <input type="radio" name="public" id="entry" class="publicentry" value="entry_click">PUBLIC HOLIDAY ENTRY</label>
-                    </div>
 
-                    <div class="radio">
-                        <label name="public_search" id="pub_search">
-                            <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>
-                    </div>
+                <div class="radio">
+                    <label name="public_entry" id="pub_entry">
+                        <input type="radio" name="public" id="entry" class="publicentry" value="entry_click">PUBLIC HOLIDAY ENTRY</label>
                 </div>
 
-                <div class="row-fluid form-group">
+                <div class="radio">
+                    <label name="public_search" id="pub_search">
+                        <input type="radio" name="public" class="publicentry" id="search" value="search_click">PUBLIC HOLIDAY SEARCH/UPDATE</label>
+
+                </div>
+
+                <div class="form-group">
                     <label name="PH_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
                 <!--entry part-->
                 <div id="PH_ENTRY_table" hidden>
-                    <div class="row-fluid form-group">
+                    <div class="form-group">
                         <label class="col-sm-2" name="PH_ENTRY_lbl_ss" id="PH_ENTRY_lbl_ss">SS KEY<em>*</em></label>
                         <div class="col-sm-4"> <input type="text" name="PH_ENTRY_tb_ss" id="PH_ENTRY_tb_ss"  class="autosizealph sizefix title_alpha" >
                             <label id="PH_ENTRY_lbl_valid" name="PH_ENTRY_lbl_valid" class="errormsg"></label>
                         </div></div>
 
-                    <div class=" row-fluid form-group">
+                    <div class="form-group">
                         <label class="col-sm-2" name="PH_ENTRY_lbl_gid" id="PH_ENTRY_lbl_gid">GID <em>*</em></label>
                         <div class="col-sm-4">
                             <input type="text" name="PH_ENTRY_tb_gid" id="PH_ENTRY_tb_gid"  class="autosizealph sizefix title_alpha">
@@ -441,34 +441,34 @@ include "../TSLIB/TSLIB_HEADER.php";
                 </div>
                 <!--search update part-->
                 <div id="publicsearch" hidden>
-                    <div class="row-fluid form-group">
-                        <label name="PH_SRC_UPD_lbl_yr" class="col-sm-3" id="PH_SRC_UPD_lbl_yr">SELECT A YEAR<em>*</em></label>
-                        <div class="col-sm-4">
+                    <div class="form-group">
+                        <label name="PH_SRC_UPD_lbl_yr" class="col-sm-2" id="PH_SRC_UPD_lbl_yr">SELECT A YEAR<em>*</em></label>
+                        <div class="col-sm-3">
                             <select id="PH_SRC_UPD_lb_yr" name="PH_SRC_UPD_lb_yr" class="form-control">
                             </select>
                         </div></div>
                     <div><label id="PH_SRC_UPD_nodaterr" name="PH_SRC_UPD_nodaterr" class="errormsg"></label></div>
                     <!--        </div>-->
-                    <div  style="padding-left: 15px" class="srctitle" name="PH_SRC_UPD_nodate" id="PH_SRC_UPD_nodate" hidden></div>
-                    <div style="padding-left: 15px"><input type="button" id="PH_SRC_UP_btn_pdf" class="btnpdf" value="PDF"></div>
+                    <div  class="srctitle" name="PH_SRC_UPD_nodate" id="PH_SRC_UPD_nodate" hidden></div>
+                    <div ><input type="button" id="PH_SRC_UP_btn_pdf" class="btnpdf" value="PDF"></div>
                     <div><label id="UPH_SRC_UPD_lbl_header" name="UPH_SRC_UPD_lbl_header" class="errormsg"></label></div>
-                    <div  id="tablecontainer" style="max-width:800px; padding-left:15px" class="table-responsive" hidden>
+                    <div  id="tablecontainer" style="max-width:800px" class="table-responsive" hidden>
                         <section>
                         </section>
                     </div>
                     <div><label id="PH_SRC_UPD_lbl_norole_err" name="PH_SRC_UPD_lbl_norole_err" class="errormsg"></label></div>
 
-                    <div class="row-fluid form-group">
+                    <div class="form-group">
                         <input class="btn" type="button" id="PH_SRC_UPD_btn_search" name="PH_SRC_UPD_btn_search" value="SEARCH" hidden />
                     </div>
 
                     <div id="PH_SRC_UPD_updateform" hidden>
-                        <div class="row-fluid form-group">
+                        <div class="form-group">
                             <label name="PH_SRC_UPD_lbl_dte" class="col-sm-2"  id="PH_SRC_UPD_lbl_dte">DATE</label>
                             <div class="col-sm-8">
                                 <input type ="text" id="PH_SRC_UPD_tb_date" class='PH_SRC_UPD_tb_dates minmax proj datemandtry formshown update_validate' name="PH_SRC_UPD_tb_date" style="width:75px;"/>
                             </div></div>
-                        <div class="row-fluid form-group">
+                        <div class="form-group">
                             <label name="PH_SRC_UPD_lbl_des"  class="col-sm-2" id="PH_SRC_UPD_lbl_des">DESCRIPTION</label>
                             <div class="col-sm-8">
                                 <textarea rows="5" cols="100" name="PH_SRC_UPD_tb_des" id="PH_SRC_UPD_tb_des" class="validation uppercase maxlength"></textarea>

@@ -114,6 +114,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         //CHANGE FUNCTION FOR PERMANENT RADIO BTN
         $(document).on('change','.valid',function(){
             $('sectionrnge').html('');
+            $('#REV_div_nonactve_dterange').hide();
             var REV_start_date= $('#REV_tb_strtdte').val()
             var REV_end_date=$('#REV_tb_enddte').val()
             $('#REV_tble_nonactive_bydaterange').hide();
@@ -170,7 +171,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
         // CHANGE EVENT FOR PROJECT LISTBOX
         $(document).on('change','#REV_lb_loginid',function(){
             $('.preloader').show();
-            var login_id=$('#REV_lb_loginid').val()
+            $('#REV_lbl_revenulist').hide();
+            $('#REV_lbl_projectlist').hide();
+            $('#REV_lbl_revenulist').hide();
+            $('#REV_lbl_projectlist').hide();
+            var login_id=$('#REV_lb_loginid').val();
+            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -257,10 +263,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             {
                 $('#REV_lbl_loginid').html('');
                 $('#REV_tble_prjctrevactnonact').show();
-                $('#project_act_lbl').html('').append('<div class="row-fluid" style="padding-left: 10px"><label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden></label></div>');
-                $('#project_nonact_lbl').html('').append('<div class="row-fluid"  style="padding-left: 10px"><label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp" hidden></label></div>');
-                $('#project_act').html('').append('<div class="row-fluid form-group"style="padding-left:15px "><input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</div> ');
-                $('#project_nonact').html('').append(' <div class="row-fluid"style="padding-left:15px "><input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp" value="EMPLOYEE" hidden>NON ACTIVE EMPLOYEE</div>');
+                $('#project_act_lbl').html('').append('<div class="row-fluid"><label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden></label></div>');
+                $('#project_nonact_lbl').html('').append('<div class="row-fluid"><label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp" hidden></label></div>');
+                $('#project_act').html('').append('<div class=" form-group" style="padding-left: 35px"><div class="radio"><input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</div></div>');
+                $('#project_nonact').html('').append('<div class="form-group" style="padding-left: 35px"><div class="radio"><input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp" value="EMPLOYEE" hidden>NON ACTIVE EMPLOYEE</div></div>');
                 $('#project_act_lbl').show();
                 $('#project_nonact_lbl').show();
                 $('#project_act').show();
@@ -275,10 +281,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             {
 //            alert(option)
                 $('#REV_lbl_loginid').html('');
-                $('#project_act_lbl').html('').append('<div class="row-fluid" style="padding-left: 10px"><label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden></label></div>');
-                $('#project_nonact_lbl').html('').append('<div class="row-fluid"  style="padding-left: 10px"><label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp" hidden></label></div>');
-                $('#project_act').html('').append('<div class="row-fluid form-group" style="padding-left:15px "><input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label></div></div>');
-                $('#project_nonact').html('').append(' <div class="row-fluid" style="padding-left:15px "> <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp" value="EMPLOYEE" hidden>NON ACTIVE EMPLOYEE </label> </div></div>');
+                $('#project_act_lbl').html('').append('<div class="row-fluid"><label name="REV_lbl_actveemp" class="form-inline col-sm-3" id="REV_lbl_actveemp" hidden></label></div>');
+                $('#project_nonact_lbl').html('').append('<div class="row-fluid"><label name="REV_lbl_nonactveemp" class="form-inline col-sm-3" id="REV_lbl_nonactveemp" hidden></label></div>');
+                $('#project_act').html('').append('<div class="form-group" style="padding-left:35px "><div class="radio"><input type="radio" name="REV_rd_veemp"  id="REV_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label></div></div>');
+                $('#project_nonact').html('').append(' <div class="form-group" style="padding-left:35px "><div class="radio"> <input type="radio" name="REV_rd_veemp" id="REV_rd_nonactveemp" value="EMPLOYEE" hidden>NON ACTIVE EMPLOYEE </label></div></div>');
                 $('#project_act_lbl').show();
                 $('#project_nonact_lbl').show();
                 $('#project_act').show();
@@ -440,7 +446,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_lbl_totaldays_dterange').hide();
             $('#REV_lbl_totalhrs_dterange').hide();
             $('#REV_btn_totalhrs_pdf').hide();
-            $('#REV_lbl_actveempsdivid').html('').append('<div class="row-fluid form-group" style="padding-bottom: 10px"><label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-3 srctitle" hidden>ACTIVE EMPLOYEE</label></div>');
+            $('#REV_lbl_actveempsdivid').html('').append('<div class="form-group" style="padding-bottom: 10px"><label name="REV_lbl_actveemps" id="REV_lbl_actveemps" class="col-sm-12 srctitle" hidden>ACTIVE EMPLOYEE</label></div>');
             $('#REV_rd_veempactdivid').html('').append('<div class="row-fluid form-group"> <label class="col-sm-2" name="REV_lbl_loginid" id="REV_lbl_loginid">LOGIN ID<em>*</em></label><div class="col-sm-4"> <select name="REV_lb_loginid" id="REV_lb_loginid" class="form-control" style="display: none"> </select></div></div>');
             $('#REV_rd_veempactdivid').show();
             $('#REV_lbl_actveemps').show();
@@ -517,7 +523,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#REV_lbl_totalhrs_dterange').hide();
             $('#REV_btn_totalhrs_pdf').hide();
             $('#REV_lbl_actveempsdivid').html('');
-            $('#REV_lbl_nonactveempsdivid').html('').append('<div class="row-fluid form-group" style="padding-bottom: 10px"> <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-3" hidden>NON ACTIVE EMPLOYEE </label></div>');
+            $('#REV_lbl_nonactveempsdivid').html('').append('<div class="form-group" style="padding-bottom: 10px"> <label name="REV_lbl_nonactveemps" id="REV_lbl_nonactveemps" class="srctitle col-sm-12" hidden>NON ACTIVE EMPLOYEE </label></div>');
             $('#REV_rd_veempnonactdivid').html('').append('<div class="row-fluid form-group"> <label class="col-sm-2" name="REV_lbl_loginid" id="REV_lbl_loginid">LOGIN ID<em>*</em></label><div class="col-sm-4"> <select name="REV_lb_loginid" id="REV_lb_loginid" class="form-control" style="display: none"> </select></div></div>');
             $('#REV_rd_veempnonactdivid').show();
             $('#REV_lbl_nonactveemps').show();
@@ -629,10 +635,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
             {
                 if(option=='8')
                 {
-                    $('#REV_lbl_revenulistlbl').html('').append('<div class="row-fluid" style="padding-left: 10px"><label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject" hidden></label></div>')
-                    $('#REV_lbl_projectlistlbl').html('').append('<div class="row-fluid" style="padding-left: 10px"><label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden></label></div>')
-                    $('#REV_lbl_revenulist').html('').append('<div class="row-fluid form-group" style="padding-left: 15px"><input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>LIST REVENUE BY PROJECT</div>')
-                    $('#REV_lbl_projectlist').html('').append('<div class="row-fluid form-group" style="padding-left: 15px"><input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>LIST OF PROJECT REVENUE</div>')
+                    $('#REV_lbl_revenulistlbl').html('').append('<div class="form-group"><label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject" hidden></label></div>');
+                    $('#REV_lbl_projectlistlbl').html('').append('<div class="form-group"><label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden></label></div>');
+                    $('#REV_lbl_revenulist').html('').append('<div class="form-group" style="padding-left: 35px"><div class="radio"><input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>LIST REVENUE BY PROJECT</div></div>');
+                    $('#REV_lbl_projectlist').html('').append('<div class="form-group" style="padding-left: 35px"><div class="radio"><input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>LIST OF PROJECT REVENUE</div></div>');
                     $('#REV_lbl_ttlprjct').hide();
                     $('#REV_lbl_empday').hide();
                     $('#REV_btn_emp_pdf').hide();
@@ -662,10 +668,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 else if(option=='9')
                 {
 //                alert(option);
-                    $('#REV_lbl_revenulistlbl').html('').append('<div class="row-fluid" style="padding-left: 10px"><label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject" hidden></label></div>')
-                    $('#REV_lbl_projectlistlbl').html('').append('<div class="row-fluid" style="padding-left: 10px"><label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden></label></div>')
-                    $('#REV_lbl_revenulist').html('').append('<div class="row-fluid form-group" style="padding-left: 15px"><input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>LIST REVENUE BY PROJECT</div>')
-                    $('#REV_lbl_projectlist').html('').append('<div class="row-fluid form-group" style="padding-left: 15px"><input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>LIST OF PROJECT REVENUE</div>')
+                    $('#REV_lbl_revenulistlbl').html('').append('<div class="form-group" ><label name="REV_lbl_withproject"class="form-inline col-sm-3"  id="REV_lbl_withproject" hidden></label></div>');
+                    $('#REV_lbl_projectlistlbl').html('').append('<div class="form-group"><label name="REV_lbl_withoutproject"class="form-inline col-sm-3"  id="REV_lbl_withoutproject"  hidden></label></div>');
+                    $('#REV_lbl_revenulist').html('').append('<div class="form-group" style="padding-left: 35px"><div class="radio"><input type="radio" name="REV_rd_project" id="REV_rd_withproject"  value="project" hidden>LIST REVENUE BY PROJECT</div></div>');
+                    $('#REV_lbl_projectlist').html('').append('<div class="form-group" style="padding-left: 35px"><div class="radio"><input type="radio" name="REV_rd_project" id="REV_rd_withoutproject"   value="withoutproject" hidden>LIST OF PROJECT REVENUE</div></div>');
                     $('#REV_lbl_revenulistlbl').show();
                     $('#REV_lbl_projectlistlbl').show();
                     $('#REV_lbl_revenulist').show();
@@ -686,7 +692,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
         $(document).on('click','#REV_rd_withproject',function(){
             $('.preloader').show();
             $('#REV_btn_empsrchdivid').html('');
-            $('#REV_lbl_empprojectdivid').html('').append('<div class="row-fluid"><label class="col-sm-2" name="REV_lbl_empproject" id="REV_lbl_empproject">PROJECT<em>*</em></label> <div class="col-sm-4"> <select id="REV_lb_empproject" name="REV_lb_empproject" class="form-control"> </select></div></div>');
+            $('#REV_lbl_empprojectdivid').html('').append('<div class="form-group" style="padding-right: 15px"><label class="col-sm-2" name="REV_lbl_empproject" id="REV_lbl_empproject">PROJECT<em>*</em></label> <div class="col-sm-4"> <select id="REV_lb_empproject" name="REV_lb_empproject" class="form-control"> </select></div></div>');
             $('#REV_lbl_empprojectdivid').show();
             $('#REV_lb_empproject').val("SELECT").show();
             $('#REV_lbl_empproject').show();
@@ -755,7 +761,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             if(option==8)
             {
                 $('#REV_lbl_empprojectdivid').html('');
-                $('#REV_btn_empsrchdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>');
+                $('#REV_btn_empsrchdivid').html('').append('<div class="form-group col-sm-12" style="padding-right: 35px"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>');
                 $('#REV_btn_empsrchdivid').show();
                 $('#REV_lbl_empproject').hide();
                 $('#REV_lb_empproject').val("SELECT").hide();
@@ -1063,9 +1069,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     $(document).on('change','#REV_tb_strtdtebyrange',function(){
                         $('#REV_lbl_emptitle').hide();
                         $('#REV_btn_emplist_pdf').hide();
+                        $('#REV_div_nonactve_dterange').hide();
+                        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         var USRC_UPD_startdate = $('#REV_tb_strtdtebyrange').datepicker('getDate');
                         var date = new Date( Date.parse( USRC_UPD_startdate ));
                         date.setDate( date.getDate()  );
+                        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         var USRC_UPD_todate = date.toDateString();
                         USRC_UPD_todate = new Date( Date.parse( USRC_UPD_todate ));
                         $('#REV_tb_enddtebyrange').datepicker("option","minDate",USRC_UPD_todate);
@@ -1139,8 +1148,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
 //                        alert(option)
                             if(REV_project_recver.length>1)
                             {
-                                $('#REV_lb_recverdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" class="form-control" name="REV_lb_recver" ></select></div></div>')
-                                $('#REV_btn_empsrchdivid').html('').append('<div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>')
+                                $('#REV_lb_recverdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" class="form-control" name="REV_lb_recver" ></select></div></div>');
+                                $('#REV_btn_empsrchdivid').html('').append('<div class="form-group" style="padding-left: 9px"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn col-sm-12" disabled/></div>');
                                 //  $('#REV_lb_recverdivid').show();
                                 // $('#REV_btn_empsrchdivid').show();
                                 var recver_list='<option>SELECT</option>';
@@ -1158,8 +1167,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                 daterange();
                             }
                             else {
-                                $('#REV_lb_recverdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" class="form-control" name="REV_lb_recver" ></select></div></div>')
-                                $('#REV_btn_empsrchdivid').html('').append('<div class="row-fluid col-sm-2"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn" disabled/></div>')
+                                $('#REV_lb_recverdivid').html('').append('<div class="row-fluid form-group"><label class="col-sm-2" name="REV_lbl_recver" id="REV_lbl_recver" hidden>RECORD VERSION<em>*</em></label><div class="col-sm-4"><select id="REV_lb_recver" class="form-control" name="REV_lb_recver" ></select></div></div>');
+                                $('#REV_btn_empsrchdivid').html('').append('<div class="form-group"  style="padding-left: 9px"><input type="button" id="REV_btn_empsrch" name="REV_btn_empsrch" value="SEARCH" class="btn col-sm-12" disabled/></div>');
                                 $('#REV_btn_empsrchdivid').show();
                                 var recver_list='<option>SELECT</option>';
                                 for (var i=0;i<REV_project_recver.length;i++) {
@@ -1287,6 +1296,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $(document).on('change','#REV_tb_strtdte',function(){
                 $('#REV_lbl_emptitle').hide();
                 $('#REV_btn_emplist_pdf').hide();
+                $('#REV_div_nonactve_dterange').hide();
                 var USRC_UPD_startdate = $('#REV_tb_strtdte').datepicker('getDate');
                 var date = new Date( Date.parse( USRC_UPD_startdate ));
                 date.setDate( date.getDate()  );
@@ -1873,10 +1883,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <div class="container">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
     <div class="title text-center"><h4><b>REVENUE</b></h4></div>
-    <form   id="REV_form_revenue" class="content" role="form" >
+    <form   id="REV_form_revenue" class="content form-horizontal" role="form" >
         <div class="panel-body">
             <fieldset>
-                <div class="row-fluid form-group">
+                <div class="form-group">
                     <label class="col-sm-2" name="REV_lbl_prjct" id="REV_lbl_prjct">PROJECT REVENUE<em>*</em></label>
                     <div class="col-sm-4">
                         <select id="REV_lb_project" class="form-control" style="display: inline;" name="REV_lb_project" hidden>
@@ -1891,7 +1901,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 <div id="REV_nodata_rcdivid"><label id="REV_nodata_rc" name="REV_nodata_rc" class="errormsg"></label></div>
 
                 <div  id="REV_tble_prjctrevenue"  hidden>
-                    <div class="row-fluid form-group">
+                    <div class="form-group">
                         <label class="col-sm-2" name="REV_lbl_prjctnme" id="REV_lbl_prjctnme">PROJECT NAME<em>*</em></label>
                         <div class="col-sm-4">
                             <select id="REV_lb_projectname" class="form-control" style="display: inline" name="REV_lb_projectname" hidden>
@@ -1944,7 +1954,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 <!--                </div>-->
                 <!--                    </div></div>-->
                 <!---->
-                <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_staenddate" name="REV_nodata_staenddate" class="errormsg"></label></div>
+                <div class="form-group col-sm-2"><label id="REV_nodata_staenddate" name="REV_nodata_staenddate" class="errormsg"></label></div>
                 <!---->
                 <!--             <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_dterangetitle" name="REV_lbl_dterangetitle" class="srctitle"></label></div>-->
                 <div id="REV_lbl_dterangetitledivid"></div>
@@ -2016,33 +2026,33 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 <!--                <div  class="row-fluid form-group col-sm-2" ><input type="button" class="btn" name="REV_btn_search" id="REV_btn_search"  value="SEARCH" disabled></div>-->
                 <div id="REV_btn_searchdivid"></div>
                 <!---->
-                <div id="REV_err_msg_date" class="errormsg row-fluid form-group col-sm-2"></div>
+                <div id="REV_err_msg_date" class="errormsg row-fluid form-group col-sm-12"></div>
                 <!---->
-                <div class="row-fluid form-group col-sm-2"><label id="REV_nodata_startenddate" name="REV_nodata_startenddate" class="errormsg"></label></div>
+                <div class="form-group col-sm-12"><label id="REV_nodata_startenddate" name="REV_nodata_startenddate" class="errormsg"></label></div>
                 <!---->
-                <div class="row-fluid form-group col-sm-2"><label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label></div>
+                <div class="form-group col-sm-12"><label id="REV_lbl_emptitle" name="REV_lbl_emptitle"  class="srctitle" hidden></label></div>
                 <!--                <div id="REV_lbl_emptitledivid"></div>-->
                 <!---->
                 <div>
                     <label id="REV_lbl_ttlprjct" name="REV_lbl_ttlprjct"  class="srctitle" hidden></label>
                 </div>
                 <!---->
-                <div class="row-fluid form-group col-sm-2">
+                <div class="form-group col-sm-12">
                     <label id="REV_lbl_empday" name="REV_lbl_empday"  class="srctitle" hidden></label>
                 </div>
                 <!---->
-                <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emp_pdf" class="btnpdf" value="PDF">
+                <div class="form-group col-sm-12"><input type="button" id="REV_btn_emp_pdf" class="btnpdf" value="PDF">
                     <!--    <div class="row-fluid form-group col-sm-2"><input type="button" id="REV_btn_emplist_pdf" class="btnpdf" value="PDF"></div>-->
                     <!--    <div></div>-->
-                    <div><label id="REV_lbl_eachproject_empday" name="REV_lbl_eachproject_empday"  class="srctitle" hidden></label>
+                    <div class="form-group"><label id="REV_lbl_eachproject_empday" name="REV_lbl_eachproject_empday"  class="srctitle" hidden></label>
                         <!--    </div></div>-->
 
-                        <div  id ="REV_div_loginid" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px;">
+                        <div  id ="REV_div_loginid" class="table-responsive col-sm-12" style="max-width:550px;padding-right: 8px">
                             <sections>
                             </sections>
                         </div>
 
-                        <div id ="REV_div_nonactve_dterange" class="table-responsive row-fluid form-group col-sm-2" style="max-width:550px;">
+                        <div id ="REV_div_nonactve_dterange" class="table-responsive col-sm-12" style="max-width:550px;padding-right: 8px">
                             <sectionrnge>
                             </sectionrnge>
                         </div>

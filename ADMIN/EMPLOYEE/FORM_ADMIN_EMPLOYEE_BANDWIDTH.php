@@ -645,7 +645,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 <div class="row-fluid form-group">
     <label name="REP_BND_lbl_selectmnths" class="col-sm-3" id="REP_BND_lbl_selectmnths" hidden>SELECT MONTH<em>*</em></label>
     <div class="col-sm-3">
-        <input type="text" name="REP_BND_db_selectmnths" id="REP_BND_db_selectmnths" class="date-pickers datemandtry valid" style="width: 75px" hidden>
+        <input type="text" name="REP_BND_db_selectmnths" id="REP_BND_db_selectmnths" class="date-pickers datemandtry valid" style="width: 100px" hidden>
     </div></div>
 
 <div>

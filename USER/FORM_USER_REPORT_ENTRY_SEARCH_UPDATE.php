@@ -1052,15 +1052,13 @@ include "../TSLIB/TSLIB_HEADER.php";
             $(document).on('change','#USRC_UPD_tb_strtdte',function(){
                 $('#USRC_UPD_div_header').hide();
                 $('#USRC_UPD_btn_pdf').hide();
-                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var USRC_UPD_startdate = $('#USRC_UPD_tb_strtdte').datepicker('getDate');
                 var date = new Date( Date.parse( USRC_UPD_startdate ));
                 date.setDate( date.getDate()  );
-                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 var USRC_UPD_todate = date.toDateString();
                 USRC_UPD_todate = new Date( Date.parse( USRC_UPD_todate ));
-
                 $('#USRC_UPD_tb_enddte').datepicker("option","minDate",USRC_UPD_todate);
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             });
             var values_array=[];
             $(document).on('click','#USRC_UPD_btn_search',function(){

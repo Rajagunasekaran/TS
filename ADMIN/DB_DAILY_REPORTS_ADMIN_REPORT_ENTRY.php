@@ -34,7 +34,6 @@ if($_REQUEST["option"]=="LOGINID"){
 }
 if($_REQUEST["option"]=="DATE")
 {
-    echo'eeee';
     $date=$_REQUEST['date_change'];
     $ADM_uld_id=$_REQUEST['login_id'];
     $ADM_date=date('Y-m-d',strtotime($date));
@@ -401,7 +400,7 @@ if($_REQUEST["choice"]=="MULTIPLE DAY ENTRY")
 
     $report= $con->real_escape_string($report);
     $reason= $con->real_escape_string($reason);
- echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)";
+// echo "CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)";
     $result = $con->query("CALL SP_TS_DAILY_REPORT_INSERT('$report','$reason','$first_date','$second_date',$ADM_urc_id,'$login_id','$perm_time','$ADM_attendance','$projectid','$uard_morning_session','$uard_afternoon_session',$bandwidth,'$reportlocation','$USERSTAMP',$notinformed,@success_flag)");
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query('SELECT @success_flag');

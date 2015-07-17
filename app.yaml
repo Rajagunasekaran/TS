@@ -204,6 +204,12 @@ handlers:
 - url: /ADMIN/EMPLOYEE/FORM_PETTY_CASH.do
   script: ADMIN/EMPLOYEE/FORM_PETTY_CASH.php
 
+- url: /ADMIN/EMPLOYEE/DB_PAYROLL.do
+  script: ADMIN/EMPLOYEE/DB_PAYROLL.php
+
+- url: /ADMIN/EMPLOYEE/FORM_PAYROLL.do
+  script: ADMIN/EMPLOYEE/FORM_PAYROLL.php
+
 - url: /_ah/login_required
   script: do_openid_login.py
 

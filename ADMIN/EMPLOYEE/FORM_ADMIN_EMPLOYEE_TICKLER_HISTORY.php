@@ -23,8 +23,8 @@ include "../../TSLIB/TSLIB_HEADER.php";
     $(document).ready(function(){
         var pdferrmsg;
         $('#TH_btn_pdf').hide();
-//        $('.preloader', window.parent.document).show();
-        $(".preloader").show();
+        $('#TH_div_flexdata_result').hide();
+        $(".preloader").hide();
         var TH_err_msg=[];
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
