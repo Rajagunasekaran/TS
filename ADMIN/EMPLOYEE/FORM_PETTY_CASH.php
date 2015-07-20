@@ -1,7 +1,10 @@
 <!--//******************************************FILE DESCRIPTION********************************************//
 //********************************PETTY CASH**********************************//
 //DONE BY:KAVIN KARNAN
-//VER 0.1-SD:30/06/2015 ED:11/07/2015,DESC: CREATE PETTY CASH FORM-->
+//VER 0.1-SD:30/06/2015 ED:11/07/2015,DESC: CREATE PETTY CASH FORM
+ DONE BY :KAVIN KARNAN
+  VER 0.2-SD:16-07-2015 ED:16-07-2015,DESC: SP APPYED PETTY CASH FORM
+-->
 
 <?php
 include "../../TSLIB/TSLIB_HEADER.php";
@@ -21,26 +24,33 @@ include "../../TSLIB/TSLIB_HEADER.php";
     <script>
         $(document).ready(function()
         {
+            var errmsg=[];
 //alert('Ready fun');
             $(".preloader").hide();
             first()
-
+            $("#PC_tb_atm").prop("title",errmsg[0]);
             var option="load";
             $.ajax({
                 type: "POST",
                 url: "ADMIN/EMPLOYEE/DB_PETTY_CASH.do",
                 data:'&Option='+ option,
+
                 success: function (data)
                 {
 //           alert(data);
-                    $('#PC_tb_BALANCE').val(data)
+                    var values=JSON.parse(data);
+                    errmsg=values[1];
+//            alert(errmsg);
+                    $('#PC_tb_BALANCE').val(values[0]);
 
                 },
                 error: function (data)
                 {
                     alert('error in getting' + JSON.stringify(data));
                 }
+
             });
+
 
             $('#PC_tb_DATE').datepicker(
                 {
@@ -62,30 +72,25 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 }
             });
 
-            $(document).on('click','#PC_bnt_back',function()//FOR HIDEING FORM
-            {
-//            alert('a');
-                $('#select').show();
-                $('#petty_cash').hide();
-                $('#datatables').hide();
-            });
+
             $(document).on('click','.entry',function()//FOR HIDEING FORM
             {
-//            alert('a');
+
                 $('#petty_cash').show();
-                $('#select').hide();
+//        $('#select').hide();
                 $('#datatables').hide();
             });
             $(document).on('click','.search',function()//FOR HIDEING FORM
             {
-//            alert('a');
+
                 $('#petty_cash').hide();
                 $('#datatables').show();
-                $('#select').hide();
+
             });
 
             $(document).on('click','#PC_bnt_Submit',function()//FRO INSERT THE DATA
             {
+                $('.preloader').show();
                 var formelement = $('#pettycashform').serialize();
                 var option='Insert';
                 $.ajax({
@@ -95,12 +100,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                     success: function (data)
                     {
+                        $('.preloader').hide();
 //                alert(data)
                         var values=JSON.parse(data);
-                        $('#PC_tb_BALANCE').val(values[0])
-                        if (values[1] == 1)
+//                $('#PC_tb_BALANCE').val(values[0]);
+                        if (values== 1)
                         {
-                            alert('value inserted');
+                            show_msgbox("PETTY CASH",errmsg[2],"success",false);
+//                    alert('value inserted');
                             first()
                             $('#PC_tb_DATE').val('');
                             $('#PC_tb_INVOICE_ITEMS').val('');
@@ -111,7 +118,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         }
                         else
                         {
-                            alert('Record not inserted');
+                            show_msgbox("PETTY CASH",errmsg[4],"success",false);
                         }
                     },
                     error: function (data)
@@ -138,16 +145,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                 "aaSorting": [],
                                 "pageLength": 10,
                                 "responsive": true,
-                                "sPaginationType":"full_numbers",
+                                "sPaginationType":"full_numbers"
 
-                                "sDom":"Rlfrtip",
-                                "deferRender":true,
-                                "dom":"frtiS",
-                                "scrollY": 400,
-                                "scrollX": true,
-                                "scrollCollapse": true
-
-
+//                        "sDom":"Rlfrtip",
+//                        "deferRender":true,
+//                        "dom":"frtiS",
+//                        "scrollY": 400,
+//                        "scrollX": true,
+//                        "scrollCollapse": true
                             });
                     },
                     error: function (data)
@@ -164,7 +169,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 var  amt=$("#PC_tb_atm").val();
                 var  invoice=$("#PC_tb_INVOICE_ITEMS").val();
 
-                if(date!=''&& report!=''&& amt!='' && invoice!='')
+                if(date!=''&& report!=''&& amt!='' && invoice!='' )
                 {
                     $('#PC_bnt_Submit').removeAttr('disabled');
                 }
@@ -182,6 +187,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var ifcondition;
             $(document).on('click','.edit', function ()
             {
+
                 if(previous_id!=undefined){
                     $('#'+previous_id).replaceWith("<td class='edit' id='"+previous_id+"' >"+tdvalue+"</td>");
                 }
@@ -192,64 +198,15 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 pcid=id[1];
                 tdvalue=$(this).text();
 
-                if(ifcondition=='PCDATE')
-                {
-                    $('#'+cid).replaceWith("<td  class='new' id='"+previous_id+"'><input type='text' id='PCDATE' name='PCDATE'  class='update date-picker' style='width: 110px'  value='"+tdvalue+"'></td>");
-                    $(".date-picker").datepicker({dateFormat:'dd-mm-yy',
-                        changeYear: true,
-                        changeMonth: true
-                    });
-                    $('.date-picker').datepicker("option","maxDate",new Date());
-                }
-                if(ifcondition=='PCCASHIN')
-                {
-                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='PCCASHIN' name='PCCASHIN'  class='update' maxlength='50'  value='"+tdvalue+"'></td>");
-                    $("#PCCASHIN").keypress(function (e)
-                    {
-
-                        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
-                        {
-
-                            return false;
-                        }
-                    });
-                }
-                if(ifcondition=='PCCASHOUT')
-                {
-                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='PCCASHOUT' name='PCCASHOUT'  class='update' maxlength='50'  value='"+tdvalue+"'></td>");
-                    $("#PCCASHOUT").keypress(function (e)
-                    {
-
-                        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
-                        {
-
-                            return false;
-                        }
-                    });
-
-                }
-
-                if(ifcondition=='PCBALANCE')
-                {
-                    $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='PCBALANCE' name='PCBALANCE'  class='update' maxlength='50'  value='"+tdvalue+"'></td>");
-                    $("#PCBALANCE").keypress(function (e)
-                    {
-
-                        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
-                        {
-
-                            return false;
-                        }
-                    });
-
-                }
                 if(ifcondition=='PCINVOICEITEMS')
                 {
+
                     $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='PCINVOICEITEMS' name='PCINVOICEITEMS'  class='update' maxlength='50'  value='"+tdvalue+"'></td>");
 
                 }
                 if(ifcondition=='PCCOMMENTS')
                 {
+
                     $('#'+cid).replaceWith("<td class='new' id='"+previous_id+"'><input type='text' id='PCCOMMENTS' name='PCCOMMENTS'  class='update' maxlength='50'  value='"+tdvalue+"'></td>");
 
                 }
@@ -257,60 +214,15 @@ include "../../TSLIB/TSLIB_HEADER.php";
             });
             $(document).on('change','.update',function()
             {
-//        alert('safdsa');
-//        $('.preloader').show();
 
-                if($('#PCDATE_'+pcid).hasClass("edit")==true)
-                {
-                    var PCDATE=$('#PCDATE_'+pcid).text();
-
-                }
-                else
-                {
-
-                    var PCDATE=$('#PCDATE').val();
-
-                }
-
-                if($('#PCCASHIN_'+pcid).hasClass("edit")==true)
-                {
-
-                    var PCCASHIN=$('#PCCASHIN_'+pcid).text();
-
-                }
-                else
-                {
-                    var PCCASHIN=$('#PCCASHIN').val();
-
-                }
-                if($('#PCCASHOUT_'+pcid).hasClass("edit")==true)
-                {
-
-                    var PCCASHOUT=$('#PCCASHOUT_'+pcid).text();
-                }
-                else
-                {
-                    var PCCASHOUT=$('#PCCASHOUT').val();
-
-                }
-                if($('#PCBALANCE_'+pcid).hasClass("edit")==true)
-                {
-
-                    var PCBALANCE=$('#PCBALANCE_'+pcid).text();
-
-                }
-                else
-                {
-                    var PCBALANCE=$('#PCBALANCE').val();
-
-                }
+                $('.preloader').show();
 
 
                 if($('#PCINVOICEITEMS_'+pcid).hasClass("edit")==true)
                 {
 
                     var PCINVOICEITEMS=$('#PCINVOICEITEMS_'+pcid).text();
-                    // alert(PCINVOICEITEMS);
+
                 }
                 else
                 {
@@ -330,29 +242,25 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 }
 
                 $.ajax({
+
                     type: 'POST',
                     url: "ADMIN/EMPLOYEE/DB_PETTY_CASH.do",
-                    data:'&option=update&rowid='+pcid+'&PCDATE='+PCDATE+'&PCCASHIN='+PCCASHIN+'&PCCASHOUT='+PCCASHOUT+'&PCBALANCE='+PCBALANCE+'&PCINVOICEITEMS='+PCINVOICEITEMS+'&PCCOMMENTS='+PCCOMMENTS,
+                    data:'&option=update&rowid='+pcid+'&PCINVOICEITEMS='+PCINVOICEITEMS+'&PCCOMMENTS='+PCCOMMENTS,
                     success: function(data)
                     {
-                        alert(data)
-//                $('.preloader').hide();
+
+                        $('.preloader').hide();
                         var resultflag=data;
-//                alert(resultflag);
                         if(resultflag==1)
                         {
-                            alert('update Successfully');
                             first()
-//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE ENTRY",msgcontent:ET_ENTRY_errormsg[1],position:{top:100,left:100}}});
+                            show_msgbox("PETTY CASH",errmsg[3],"success",false);
                             previous_id=undefined;
                         }
-
                         else
                         {
                             first()
-                            //alert('Not update Successfully');
-//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"EMAIL TEMPLATE ENTRY",msgcontent:ET_ENTRY_errormsg[0],position:{top:100,left:100}}});
-//
+                            show_msgbox("PETTY CASH",errmsg[5],"success",false);
                             previous_id=undefined;
                         }
                     }
@@ -368,6 +276,22 @@ include "../../TSLIB/TSLIB_HEADER.php";
     <form id="pettycashform" class="content" role="form" autocomplete="on">
         <div class="panel-body">
             <fieldset>
+                <div id="select">
+                    <div >
+                        <div class="radio" >
+                            <label><input type="radio"id="PC_cash" name="PC_cash" value="IN" class="entry"/>ENTRY</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio"id="PC_cash" name="PC_cash" value="OUT" class="search"/>SEARCH/UPDATE</label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row form-group">
+
+                </div>
+
                 <div id="petty_cash" hidden>
 
                     <div class="row form-group">
@@ -381,10 +305,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                     <div class="row form-group">
                         <div class="col-md-2">
-                            <label>SELECT DATE:</label>
+                            <label>DATE:</label>
                         </div>
                         <div class='col-md-3'>
-                            <input type='text' class="form-control" id="PC_tb_DATE" name="PC_tb_DATE"/>
+                            <input type='text' class="form-control" id="PC_tb_DATE" name="PC_tb_DATE" style="width: 100px"/>
                         </div>
 
                     </div>
@@ -394,7 +318,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                         </div>
                         <div class="col-lg-3" >
                             <input type="radio" id="PC_cash_radio" name="PC_cash_radio"  value="PC_CASH_IN"/>CASH IN
-                            <input type="radio" id="PC_cash_radio" name="PC_cash_radio"   value="PC_CASH_OUT" CHECKED/>CASH OUT
+                            <input type="radio" id="PC_cash_radio" name="PC_cash_radio"   value="PC_CASH_OUT" checked/>CASH OUT
 
                         </div>
                     </div>
@@ -404,12 +328,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             <label>AMOUNT:</label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" id="PC_tb_atm" name="PC_tb_atm" maxlength="30"/>
+                            <input type="text" class="form-control" id="PC_tb_atm" name="PC_tb_atm" maxlength="6"/>
                         </div>
                     </div>
                     <div class="row form-group" style="">
                         <div class="col-md-2">
-                            <label>INVICE ITEM:</label>
+                            <label>INVOICE ITEM:</label>
                         </div>
                         <div class="col-md-3">
                             <input type="text" class="form-control" id="PC_tb_INVOICE_ITEMS" name="PC_tb_INVOICE_ITEMS" maxlength="30"/>
@@ -426,29 +350,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     </div>
                     <div class="row form-group">
                         <div class="col-lg-offset-2 col-lg-3">
-                            <input type="button" id="PC_bnt_Submit" class="btn" value="Submit" disabled> <input type="button" id="PC_bnt_back" class="btn" value="Back">
+                            <input type="button" id="PC_bnt_Submit" class="btn" value="Submit" disabled>
                         </div>
                     </div>
                 </div>
-                <div id="select">
-                    <div class="row form-group">
-                        <div class="col-md-1">
-                            <label>SELECT:</label>
-                        </div>
-                        <div class="col-md-2" >
-                            <input type="radio"id="PC_cash" name="PC_cash" value="IN" class="entry"/>ENTRY
-                            <BR><input type="radio"id="PC_cash" name="PC_cash" value="OUT" class="search"/>SEARCH/UPDATE
 
-                        </div>
-                    </div>
-                </div>
                 <div id="datatables" hidden>
-
-                    <div class="row form-group">
-                        <div class="col-lg-1">
-                            <input type="button" id="PC_bnt_back" class="btn" value="Back">
-                        </div>
-                    </div>
                     <div id="Datatable" class="table-responsive">
                         <section>
 

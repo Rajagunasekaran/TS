@@ -275,7 +275,7 @@ function get_error_msg($str){
 
 //TERMINATE FOR REJOIN OF APPENDING UPDATE FORM DATAS
 if($_REQUEST["option"]=="USER_RIGHTS_TERMINATE"){
-    $str='9,10,11,12,13,14,56,70,113,114,116,132,133,136,137,138';
+    $str='9,10,11,12,13,14,56,70,113,114,116,132,133,136,137,138,146';
     $errormsg_array= get_error_msg($str);
     $role_result=mysqli_query($con,"SELECT RC_NAME,RC_ID FROM ROLE_CREATION");
     $get_role_array=array();
@@ -568,7 +568,7 @@ function UploadEmployeeFiles($formname,$loginid_result)
 }
 if($_REQUEST["option"]=="ACCESS_RIGHTS_SEARCH_UPDATE")
 {
-    $str='40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,1,2,69,70,71,72,95,113,114,132,133,136,137,138';
+    $str='40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,1,2,69,70,71,72,95,113,114,132,133,136,137,138,146';
     $URSRC_errmsg=get_error_msg($str);
     $get_rolecreation_array=get_roles();
     $project_result=mysqli_query($con,"SELECT * FROM USER_RIGHTS_CONFIGURATION where URC_ID in (1,2,3) ");

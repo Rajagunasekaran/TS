@@ -745,20 +745,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //                            var URSRC_CHR=msgalert[4];
                                 var URSRC_des=msgalert[4];
                                 var URSRC_ACC=msgalert[5];
-//                            if( URSRC_CHR.length!=0)
-//                            {
-//                                var  URSRC_CHR_array='<option value="SELECT">SELECT</option>';
-//                                for(var k=0;k< URSRC_CHR.length;k++){
-////                              alert(URSRC_CHR);
-//                                    URSRC_CHR_array += '<option value="'+ URSRC_CHR[k]+'">'+  URSRC_CHR[k]+'</option>';
-//                                }
-////                     alert(URSRC_CHR_array);
-//                                $('#URSRC_lb_selectchargerno').html( URSRC_CHR_array);
-//                            }
-//                            else
-//                            {
-//                                alert('no data aviable in chargerno')
-//                            }
                                 if(LoginId_exist==0)
                                 {
                                     exist_flag=1;
@@ -802,7 +788,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                                         {
 //                                alert('no data aviable in relationhood ')
                                         }
-                                        if( URSRC_LAP.length!=0)
+                                        if(URSRC_LAP!='')
                                         {
                                             var  URSRC_LAP_array='<option value="SELECT">SELECT</option>';
                                             for(var k=0;k< URSRC_LAP.length;k++){
@@ -812,6 +798,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
                                         }
                                         else
                                         {
+                                            $('#URSRC_lb_selectlaptopno').hide();
+                                            $('#URSRC_lbl_nolaptop').text(URSRC_errorAarray[35]).show();
 //                                alert('no data aviable in laptopno')
                                         }
                                         if(URSRC_des.length!=0)
@@ -943,7 +931,14 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 var URSRC_aadharno=$('#URSRC_tb_aadharno').val();
                 var URSRC_passportno=$('#URSRC_tb_passportno').val();
                 var URSRC_voterid=$('#URSRC_tb_votersid').val();
-                if(button_vflag==1&&(login_id!="")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!=""))
+                var URSRC_designation=$('#URSRC_tb_designation').val();
+                var URSRC_relationhood=$('#URSRC_lb_selectrelationhd').val();
+                var URSRC_accttype=$('#URSRC_tb_accntyp').val();
+                var URSRC_postalcode=$('#URSRC_tb_pstlcode').val();
+                var URSRC_street=$('#URSRC_tb_strtname').val();
+                var URSRC_area=$('#URSRC_tb_area').val();
+                var URSRC_houseno=$('#URSRC_tb_houseno').val();
+                if(button_vflag==1&&(login_id!="")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="") &&(URSRC_designation!='SELECT')&&(URSRC_relationhood!='SELECT')&&(URSRC_accttype!='SELECT')&&(URSRC_postalcode!='')&&(URSRC_street!='')&&(URSRC_area!='')&&(URSRC_houseno!=''))
                 {
                     $("#URSRC_btn_login_submitbutton").removeAttr("disabled")
 //                $('#attachprompt').show();
@@ -989,7 +984,14 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 var URSRC_aadharno=$('#URSRC_tb_aadharno').val();
                 var URSRC_passportno=$('#URSRC_tb_passportno').val();
                 var URSRC_voterid=$('#URSRC_tb_votersid').val();
-                if(button_vflag==1&&(login_id!="SELECT")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(updatedloginid!='')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="") &&($('#URSRC_tb_houseno').val()!='')&&($('#URSRC_tb_strtname').val()!='')&&($('#URSRC_tb_area').val()!='')&&($('#URSRC_tb_pstlcode').val()!='')){
+                var URSRC_designation=$('#URSRC_tb_designation').val();
+                var URSRC_relationhood=$('#URSRC_lb_selectrelationhd').val();
+                var URSRC_accttype=$('#URSRC_tb_accntyp').val();
+                var URSRC_postalcode=$('#URSRC_tb_pstlcode').val();
+                var URSRC_street=$('#URSRC_tb_strtname').val();
+                var URSRC_area=$('#URSRC_tb_area').val();
+                var URSRC_houseno=$('#URSRC_tb_houseno').val();
+                if(button_vflag==1&&(login_id!="SELECT")&&(exist_flag==1)&&(error_ext=='valid')&&(error_valid=='valid')&&(updatedloginid!='')&&(role_id!=false)&&(join_date!="")&& (emp_type!="SELECT")&& (URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) && (URSRC_empdesig!='' )&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& (URSRC_relationhd!='' )&& (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&(URSRC_accttyp!="")&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="") &&($('#URSRC_tb_houseno').val()!='')&&($('#URSRC_tb_strtname').val()!='')&&($('#URSRC_tb_area').val()!='')&&($('#URSRC_tb_pstlcode').val()!='')&&(URSRC_designation!='SELECT')&&(URSRC_relationhood!='SELECT')&&(URSRC_accttype!='SELECT')){
                     $("#URSRC_submitupdate").removeAttr("disabled")
 //                $('#attachprompt').show();
                     if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true))
@@ -1195,6 +1197,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
         //LOGIN SEARCH ND UPDATE FOR LOGIN ID CHANGE FUNCTION
         $('#URSRC_lb_selectloginid').change(function(){
 //        alert('hhhh')
+            $('#URSRC_lbl_nolaptop').hide();
             var loinid_lap_val=$('#URSRC_lb_selectloginid').val();
             $('#attachprompt').show();
             $("#filetableuploads div").remove();
@@ -1379,14 +1382,16 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         var emp_ifsccode=ifsccode.length;
                         $('#URSRC_tb_ifsccode').val(ifsccode).attr("size",emp_ifsccode+2);
                         var emp_accountype=accountype.length;
-//                    $('#URSRC_tb_accntyp').val(accountype).attr("size",emp_accountype+2);
-//                    $("#URSRC_tb_accntyp option[value='" + accountype + "']").attr("selected", true");
                         $('#URSRC_tb_accntyp').val(accountype);
                         $('#URSRC_ta_brnchaddr').val(branchaddr);
                         if(laptop!=null){
-//                        var emp_laptop=laptop.length;
-                            $('#URSRC_lb_selectlaptopno').val(laptop);
+                            $('#URSRC_lb_selectlaptopno').val(laptop).show();
 //                        $("#URSRC_tb_laptopno option[value='" + laptop + "']").attr("selected", true");
+                        }
+                        else
+                        {
+                            $('#URSRC_lb_selectlaptopno').hide();
+                            $('#URSRC_lbl_nolaptop').text(URSRC_errorAarray[35]).show();
                         }
                         if(chargerno!=null){
                             var emp_cahrgerno=chargerno.length;
@@ -1522,10 +1527,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     success: function(data)
                     {
                         if(data.toLowerCase().match("error")){
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:data ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",data,"success",false);
                         }
-//                    $('.preloader',window.parent.document).hide();
                         $(".preloader").hide();
                         var msg_alert=JSON.parse(data);
                         var success_flag=msg_alert[0];
@@ -1538,7 +1541,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         $('#URSRC_lbl_header').hide();
                         if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1))
                         {
-//                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:finalmsg ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",finalmsg,"success",false);
                             $('#URSRC_tble_login').hide();
                             $('#URSRC_tble_rolesearch').hide();
@@ -2427,13 +2429,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 $("#EMP_ENTRY_btn_save").attr("disabled", "disabled");
                 var EMP_ENTRY_loginid = $("#EMP_ENTRY_lb_loginid").val();
 //            alert('login')
-//            alert(EMP_ENTRY_loginid)
                 var EMP_ENTRY_projectselectlistbx = $("input[id=checkbox]").is(":checked");
-//            alert('project5')
-//            alert(EMP_ENTRY_projectselectlistbx)
                 var button_val=$('#EMP_ENTRY_btn_save').val();
-//            alert('button')
-//            alert(button_val)
                 if(button_val == 'SAVE')
                 {
                     if((EMP_ENTRY_loginid!='SELECT')&&( EMP_ENTRY_projectselectlistbx==true))
@@ -2461,7 +2458,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 evt.stopPropagation();
                 evt.preventDefault();
                 evt.stopImmediatePropagation();
-//            alert('corrected')
                 $('#CONFIG_SRCH_UPD_tr_type').empty();
                 if($(this).val() == 'SELECT')
                 {
@@ -2705,7 +2701,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label  class="col-sm-2" id="URSRC_lbl_relationhd">RELATION HOOD <em>*</em></label>
                         <div class="col-sm-4">
-                            <select id='URSRC_lb_selectrelationhd' name="URSRC_lb_selectrelationhd" class="relationhd_submitvalidate form-control">
+                            <select id='URSRC_lb_selectrelationhd' name="URSRC_lb_selectrelationhd" class="relationhd_submitvalidate form-control login_submitvalidate">
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                         </div></div>
@@ -2787,65 +2783,67 @@ include  "../TSLIB/TSLIB_HEADER.php";
 
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
+                            <label id="URSRC_lbl_nolaptop" name="URSRC_lbl_nolaptop"  class="errormsg" hidden></label>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label  class="col-sm-2" name="URSRC_lbl_chargerno" id="URSRC_lbl_chargerno">CHARGER NO</label>
                         <div class="col-sm-4">
                             <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
                         </div></div>
-
-
                     <div id="URSRC_table_others" style="width:450px" hidden>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox"  name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag"> &nbsp;&nbsp;LAPTOP BAG</label>
+                            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag"> &nbsp;LAPTOP BAG</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;&nbsp;MOUSE</label>
+                            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;MOUSE</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;&nbsp;DOOR ACCESS</label>
+                            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;DOOR ACCESS</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;&nbsp;ID CARD</label>
+                            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;ID CARD</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;&nbsp;HEAD SET</label>
+                            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;HEAD SET</label>
                         </div>
 
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">&nbsp;&nbsp;AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate" hidden>
-                        </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">&nbsp;&nbsp;PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate" hidden>
-                        </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">&nbsp;&nbsp;VOTERS ID</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate" hidden>
-                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">
+                                        <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">&nbsp;&nbsp;AADHAAR NO</label>
+                                </div></div><div class="">
+                                <input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate form-control " style="display:inline" hidden>
+                            </div></div>
 
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">
+                                        <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">&nbsp;&nbsp;PASSPORT NO</label>
+                                </div></div><div class="">
+                                <input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
+                            </div></div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">
+                                        <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">&nbsp;VOTERS ID</label>
+                                </div></div><div class="">
+                                <input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
+                            </div> </div>
 
                         <div class="row-fluid form-group">
                             <label class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
@@ -2857,10 +2855,14 @@ include  "../TSLIB/TSLIB_HEADER.php";
 
                         </div>
 
-                        <div>
+                        <div class="form-group">
+                            <label class="col-sm-2"></label> <label class="col-sm-3"></label>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <div class="col-md-10">
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
-                        </span>
+                        </span></div></div></div>
 
                         </div>
                     </div><br>

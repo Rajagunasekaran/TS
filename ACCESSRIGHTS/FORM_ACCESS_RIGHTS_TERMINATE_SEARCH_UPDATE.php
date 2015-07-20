@@ -210,7 +210,6 @@ include "../TSLIB/TSLIB_HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                $('.preloader',window.parent.document).hide();
                     $(".preloader").hide();
                     var msg_alert=JSON.parse(xmlhttp.responseText);
                     var success_flag=msg_alert[0];
@@ -218,8 +217,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                     var cal_flag=msg_alert[2];
                     if((success_flag==1)&&(ss_flag==1)&&(cal_flag==1)){
                         var msg=js_errormsg_array[1].toString().replace("[LOGIN ID]",URT_SRC_empname);
-//                    alert(msg);
-//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:150,left:550}}});
                         show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msg,"success",false);
                         $("#URT_SRC_lbl_datepickertermination").hide();
                         $("#URT_SRC_lb_loginterminate").hide();
@@ -411,14 +408,12 @@ include "../TSLIB/TSLIB_HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                $('.preloader', window.parent.document).hide();
                     $(".preloader").hide();
-//                    alert(xmlhttp.responseText)''
+//                    alert(xmlhttp.responseText)
                     var msg_alert=xmlhttp.responseText;
                     if(msg_alert==1){
                         var loggin=$("#URT_SRC_lb_loginupdate").val();
                         var msg=js_errormsg_array[0].toString().replace("[LOGIN ID]",URT_SRC_empname_upd);
-//                    $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msgcontent:msg,position:{top:100,left:100}}});
                         show_msgbox("ACCESS RIGHTS:TERMINATE SEARCH/UPDATE",msg,"success",false);
                     }
                     $('#URT_SRC_lbl_loginrejoin').hide();
@@ -685,6 +680,7 @@ include "../TSLIB/TSLIB_HEADER.php";
         $('#URT_SRC_lb_loginrejoin').change(function(){
             $("#filetableuploads tr").remove();
             $('#attachprompt').show();
+            $('#URSRC_lbl_nolaptop').hide();
             var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
             ///
             $('#URSRC_lbl_login_role').hide();
@@ -711,7 +707,6 @@ include "../TSLIB/TSLIB_HEADER.php";
             }
             else
             {
-//            $('.preloader', window.parent.document).show();
                 $(".preloader").show();
                 list();
                 var URT_SRC_loggin=$(this).val();
@@ -820,7 +815,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 var year=mindate[2];
                                 var date=parseInt(mindate[0])+1;
                                 var minimumdate = new Date(year,month,date);
-
                                 //load old files start
                                 if(emp_role!='')
                                 {
@@ -838,38 +832,15 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 {
                                     $('#URSRC_tb_accntyp').val(accountype);
                                 }
-                                if(laptop!='')
+                                if(laptop!=null)
                                 {
                                     $('#URSRC_tb_laptopno').val('SELECT');
                                 }
-
-
-//                            else{
-//                                $('#URSRC_tb_laptopno').val('SELECT');
-//                            }
-
-//                            alert(values_array[0][3])
-//                            alert(values_array[0][2])
-//                            for(var f=0;f<values_array[0][3].length;f++)
-//                            {
-//                                var tablerowCount = $('#filetableuploads tr').length;
-//                                var uploadfileid="upload_filename"+tablerowCount;
-//                                var uploadfilename="filename"+tablerowCount;
-//                                var appendfile='<tr><td ><input type=hidden name="uploadfilelist[]" value='+values_array[0][2][f]+'><div class="fileextensionchk"><a href='+values_array[0][4][f]+' target="_blank" class="uploadtag">'+values_array[0][3][f]+'</a></div></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button><label id="attach_error" hidden></label></td></tr></br>';
-//                                $('#filetableuploads').append(appendfile);
-//                            }
-//                            if(values_array[0][2].length>0)
-//                            {
-//                                $('#attachafile').text('Attach another file');
-//                            }
-//                            else
-//                            {
-//                                $('#attachafile').text('Attach a file');
-//                            }
-//                            if(values_array[0][2].length==4)
-//                            {
-//                                $('#attachprompt').hide();
-//                            }
+                                else
+                                {
+                                    $('#URSRC_tb_laptopno').hide();
+                                    $('#URSRC_lbl_nolaptop').text(js_errormsg_array[16]).show();
+                                }
                                 //load old files end
                                 $('#URT_SRC_tb_datepickerrejoin').datepicker("option","minDate",minimumdate);
                                 $('#URT_SRC_tb_datepickerrejoin').datepicker("option","maxDate",new Date());
@@ -881,15 +852,10 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_tb_lastname').val(lastname).attr("size",emp_lastname+3);
                                 $('#URSRC_tb_dob').val(dob);
                                 var emp_designation=designation.length;
-//                            $('#URSRC_tb_designation').val(designation).attr("size",emp_designation+4);
-//                            $('#URSRC_tb_designation').val(designation);
-//                          $('#URSRC_tb_designation option[value="' + designation + '"]').prop('selected', true);
                                 $('#URSRC_tb_permobile').val(mobile);
                                 var emp_kinname=kinname.length;
                                 $('#URSRC_tb_kinname').val(kinname).attr("size",emp_kinname+1);
                                 var emp_relationhood=relationhood.length;
-//                            $('#URSRC_tb_relationhd').val(relationhood).attr("size",emp_relationhood+2);
-//                            $('#URSRC_tb_relationhd').val(relationhood);
                                 $('#URSRC_tb_mobile').val(altmobile);
                                 var emp_bankname=bankname.length;
                                 $('#URSRC_tb_bnkname').val(bankname).attr("size",emp_bankname+2);
@@ -910,24 +876,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_tb_strtname').val(street);
                                 $('#URSRC_tb_area').val(area);
                                 $('#URSRC_tb_pstlcode').val(postal_code);
-//                            if(laptop.length!='')
-//                            {
-////                                var ltp='<option value="SELECT">SELECT</option>'
-////                                for(var l=0;l<laptop.length;l++){
-////                                    ltp+= '<option value="' + laptop[l]+ '">' + laptop[l]+ '</option>';
-////                                }
-//                                $('#URSRC_tb_laptopno').val('SELECT');
-//                            }
-
-////                                if(laptop!=null){
-////                                    var emp_laptop=laptop.length;
-//////                                $('#URSRC_tb_laptopno').val(laptop).attr("size",emp_laptop+2);
-////                                    $('#URSRC_tb_laptopno').val(laptop);
-////                                }
-//                            else{
-//                                $('#URSRC_tb_laptopno').val('SELECT');
-//                            }
-
                                 if(chargerno!=null){
                                     var emp_cahrgerno=chargerno.length;
                                     $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+2);
@@ -1018,16 +966,13 @@ include "../TSLIB/TSLIB_HEADER.php";
 
 //CHANGE FUNCTION FOR LAPTOP
         $(document).on('change','#URSRC_tb_laptopno',function(){
-//        $('.preloader', window.parent.document).show();
             $(".preloader").show();
             var URSRC_lb_laptopno=$('#URSRC_tb_laptopno').find('option:selected').text();
             if(URSRC_lb_laptopno!='SELECT')
             {
                 var xmlhttp=new XMLHttpRequest();
-//            alert('xmlhttp')
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                    $('.preloader', window.parent.document).hide();
                         $(".preloader").hide();
                         var value_array=(xmlhttp.responseText);
                         $('#URSRC_tb_chargerno').val(value_array);
@@ -1044,8 +989,6 @@ include "../TSLIB/TSLIB_HEADER.php";
                 URT_SRC_validation();
             }
         });
-
-
 //CLICK FUNCTION FOR AADHAR RDO BTN
         $('#URSRC_chk_aadharno').click(function(){
             if($("input[name=URSRC_chk_aadharno]").is(":checked")==true){
@@ -1681,6 +1624,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             <select id='URSRC_tb_laptopno' name="URSRC_tb_laptopno"  class="selectlaptopno_submitvalidate form-control" style="display: inline">
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
+                            <label id="URSRC_lbl_nolaptop" name="URSRC_lbl_nolaptop"  class="errormsg" hidden></label>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">CHARGER NO</label>
@@ -1693,51 +1637,53 @@ include "../TSLIB/TSLIB_HEADER.php";
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">&nbsp;&nbsp;LAPTOP BAG</label>
+                            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">&nbsp;LAPTOP BAG</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;&nbsp;MOUSE</label>
+                            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;MOUSE</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;&nbsp;DOOR ACCESS</label>
+                            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;DOOR ACCESS</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;&nbsp;ID CARD</label>
+                            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;ID CARD</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
                                 </div></div>
-                            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;&nbsp;HEAD SET</label>
+                            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;HEAD SET</label>
                         </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">&nbsp;&nbsp;AADHAAR NO</label><input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate" hidden>
-
-                        </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">&nbsp;&nbsp;PASSPORT NO</label><input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
-                        </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">&nbsp;&nbsp;VOTERS ID NO</label><input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate" hidden>
-                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">
+                                    <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">&nbsp;&nbsp;AADHAAR NO</label>
+                                </div></div><div class="">
+                            <input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate form-control" hidden>
+                        </div></div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">
+                                    <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">&nbsp;&nbsp;PASSPORT NO</label>
+                                </div></div><div class="">
+                            <input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
+                        </div></div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">
+                                    <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">&nbsp;VOTERS ID NO</label>
+                                </div></div><div class="">
+                           <input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
+                        </div> </div>
 
                         <div class="row-fluid form-group">
                             <label  class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
@@ -1747,14 +1693,16 @@ include "../TSLIB/TSLIB_HEADER.php";
 
                         <div id="filetableuploads"></div>
 
-
-                        <div>
+                        <div class="form-group">
+                            <label class="col-sm-2"></label> <label class="col-sm-3"></label>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <div class="col-md-9">
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span>
-                        </div>
+                        </div></div></div>
                     </div>
-
                     <!--EMPL DETAILS-->
                     <div><input align="right" type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden></div>
                 </div>
