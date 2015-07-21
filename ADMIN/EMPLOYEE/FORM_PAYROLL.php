@@ -1,7 +1,9 @@
 
 <?php
-include "../../TSLIB/TSLIB_HEADER.php";
-//include  "NEW_MENU.php";
+
+include "../../TSLIB/TSLIB_HEADER.do";
+
+//include  "NEW_MENU.do";
 ?>
 <html>
 <head>
@@ -46,18 +48,36 @@ include "../../TSLIB/TSLIB_HEADER.php";
         }
     </style>
     <script>
-
         $(document).ready(function()
         {
-//
-//
-//  alert('ready fun');
-
+            var  errmsg;
+            $(".preloader").hide();
+//            alert("ready fun");
             var tablerowCount;
             var rowcount;
+            var ifcondition;
 
-            $(".preloader").hide();
-            $("#temptextbox").hide();
+            $("#temptextbox").hide;
+
+
+            $(document).on("keyup",'.number', function (){
+                if (this.value != this.value.replace(/[^0-9\.]/g, ''))
+                {
+                    this.value = this.value.replace(/[^0-9\.]/g, '');
+                }
+            });
+            $(".earninglbl").keypress(function (e){
+                var regex = new RegExp("^[a-zA-Z]+$");
+                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+                if (regex.test(str))
+                {
+                    return true;
+                }
+
+                e.preventDefault();
+                return false;
+            });
+
             $('#PS_tb_FROM_DATE').datepicker(
                 {
                     dateFormat:"dd-mm-yy",
@@ -80,13 +100,15 @@ include "../../TSLIB/TSLIB_HEADER.php";
             var option="initial_data";
             $.ajax({
                 type: "POST",
-                url: "ADMIN/EMPLOYEE/DB_PAY_SLIP.do",
+                url: "ADMIN/EMPLOYEE/DB_PAYROLL.do",
                 data:'&Option='+ option,
                 success: function (data)
                 {
 //               alert(data);
-                    var arrayvalues=JSON.parse(data);
 
+                    var arrayvalues=JSON.parse(data);
+                    errmsg=arrayvalues[1];
+//                alert(errmsg);
                     var activeemployee=arrayvalues[0];
                     var paymentmodearr=arrayvalues[2];
 
@@ -109,7 +131,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     var earninglabelsarr =arrayvalues[3];
                     var deductionlabelsarr=arrayvalues[4];
 
-                    var earninglabels='';
+//                var earninglabels='';
 
 //               for (var i=0;i<earninglabelsarr.length;i++)
 //                {
@@ -146,41 +168,35 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
             $(document).on("click", '.classMinusButton', function()
             {
-                var id=$(this).attr('id');
+                var id= $(this).attr('id');
+//                alert(id);
+                var id=id.split('_');
+                ifcondition=id[1];
+//                alert(ifcondition);
 
-                alert(id);
-                var arr=$('#temptextbox').val();
-                var min=parseInt(arr)-1;
-
-                $('#lblEARNING'+min).hide();
-                $('#EARNING'+min).hide();
-
-
-//                $("#earning_btn").hide();
-                //  $("#EARNING").hide();
-//                $("#earninglbl").hide();
-//                $("#close").hide();
-//                  $(this).find('img').attr('src','images/details_open.png');
-//                  $(this).addClass('classAddButton').removeClass('classMinusButton');
-
+                $('#lblEARNING_'+ifcondition).hide();
+                $('#EARNING_'+ifcondition).hide();
+                $('#btnEARNING_'+ifcondition).hide();
             });
 
             $(document).on("click",'.classMinusButton1',function()
             {
-                $("#deduction_btn").hide();
-                $("#deductionlbl").hide();
-                $("#DEDUCTION").hide();
-                $("#close").hide();
 
+                var id= $(this).attr('id');
+//                alert(id);
+                var id=id.split('_');
+                ifcondition=id[1];
+//                alert(ifcondition);
+
+                $('#lblDEDUCTION_'+ifcondition).hide();
+                $('#DEDUCTION_'+ifcondition).hide();
+                $('#btnDEDUCTION_'+ifcondition).hide();
 //                $(this).find('img').attr('src','images/details_open.png');
 //                $(this).addClass('classAddButton').removeClass('classMinusButton');
             });
 
-
-
             $(document).on("click",'.classAddButton', function ()
             {
-
                 $("#earning_btn").show();
                 $("#earninglbl").show();
                 $("#EARNING").show();
@@ -202,12 +218,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                 }
 
-//                alert(rowcount);
-                $('<div class="form-group"><div class="col-sm-offset-2 col-sm-2"><input type="text" style="width: 100px" id="lbl'+uploadfileid+'"></div><div class="col-sm-2"><input type="text" id="'+uploadfileid+'"style="width: 100px"></div><div class="col-sm-1"><a class="classMinusButton classDivMultiRows" id="btn'+uploadfileid+'"><img src="IMAGES/details_close.png" class=" img-responsive"></a></div></div>').appendTo($("#EARNING"));
-
-
-//                    $(this).find('img').attr('src','images/details_close.png');
-//                    $(this).addClass('classMinusButton').removeClass('classAddButton');
+                $('<div class="form-group"><div class="col-sm-offset-2 col-sm-2"><input type="text" class="earninglbl" name="earninglbl[]"style="width: 100px" id="lbl'+uploadfileid+'"></div><div class="col-sm-2"><input type="text"  name= "earningamt[]" id="'+uploadfileid+'"style="width: 100px"></div><div class="col-sm-1"><a class="classMinusButton classDivMultiRows" id="btn'+uploadfileid+'"><img src="IMAGES/details_close.png" class=" img-responsive"></a></div></div>').appendTo($("#EARNING"));
 
             });
 
@@ -222,7 +233,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 if(tablerowCount==0)
                 {
                     var row_count=parseInt(tablerowCount)+1;
-                    var uploadfileid1="DEDUCTION"+row_count;
+                    var uploadfileid1="DEDUCTION_"+row_count;
                     $('#temptextbox1').val(row_count);
                 }
                 else
@@ -231,17 +242,57 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     var rowcount=parseInt(rowvalue)+1;
                     uploadfileid1="DEDUCTION_"+rowcount;
                     $('#temptextbox1').val(rowcount);
-
                 }
-                $('<div class="form-group"><div class="col-sm-offset-2 col-sm-2"><input type="text" style="width: 100px" id="lbl'+uploadfileid1+'"></div><div class="col-sm-2"><input type="text" id="'+uploadfileid1+'"style="width: 100px"></div><div class="col-sm-1"><a class="classMinusButton1 classDivMultiRows" id="idAMultiRowSpan"><img src="IMAGES/details_close.png" class=" img-responsive"></a></div></div>').appendTo($("#DEDUCTION"));
+                $('<div class="form-group"><div class="col-sm-offset-2 col-sm-2"><input type="text" name="deductionlbl[]" style="width: 100px" id="lbl'+uploadfileid1+'"></div><div class="col-sm-2"><input type="text" name="deductionamt[]" id="'+uploadfileid1+'"style="width: 100px"></div><div class="col-sm-1"><a class="classMinusButton1 classDivMultiRows" id="btn'+uploadfileid1+'"><img src="IMAGES/details_close.png" class=" img-responsive"></a></div></div>').appendTo($("#DEDUCTION"));
 
 //                    $(this).find('img').attr('src','images/details_close.png');
 //                    $(this).addClass('classMinusButton').removeClass('classAddButton');
-
             });
 
+            //FUNTION FOR SUBMIT BUTTON CLICK FOR INSERT AND CALUCULATE AMT
+            $(document).on('click','#PS_bnt_payslip_Submit',function()
+            {
+//                    alert('in');
+                var Option="earningdedution";
+                $.ajax({
+                    type:"POST",
+                    url: "ADMIN/EMPLOYEE/DB_PAYROLL.do",
+                    data:$("#PAY_SLIP").serialize()+'&Option='+ Option,
+                    success: function (data)
+                    {
+//                            alert(data);
+                        var resultflag=data;
+                        if(resultflag== 1)
+                        {
+                            show_msgbox("EMPLOYEE PAYROLL",errmsg[2],"success",false);
+//                                alert('value inserted');
+                        }
+                        else
+                        {
+                            show_msgbox("EMPLOYEE PAYROLL",errmsg[4],"success",false);
+//                                alert(' value not inserted');
+                        }
+                    }
+                });
+            });
 
+            $(document).on('click','#PS_pdf',function()
+            {
+//                alert('IN');
+                var formElement = document.getElementById("#PAY_SLIP");
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.onreadystatechange=function() {
+                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                        $('.preloader').hide();
+//                        alert(xmlhttp.responseText);
+                        var values_array=JSON.parse(xmlhttp.responseText);
+                    }
+                }
+                var option="pdf";
+                var url=document.location.href="ADMIN/EMPLOYEE/DB_PAYROLL.do?option="+option;
+                xmlhttp.send();
 
+            });
         });
     </script>
 </head>
@@ -268,18 +319,6 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                 </div>
             </div>
-            <!--<!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-            <!--            <div class="form-group">-->
-            <!--                <div class="col-sm-offset-2 col-sm-2">-->
-            <!--                    <input type="text" id="lbl'+uploadfileid+'" style="width: 100px">-->
-            <!--                </div>-->
-            <!--                <div class="col-sm-2">-->
-            <!--                    <input type="text" id="'+uploadfileid+'" style="width: 100px">-->
-            <!--                </div>-->
-            <!--                <div class=" col-sm-1">-->
-            <!--                    <a class="classAddButton classDivMultiRows'.$i.'" id="idAMultiRowSpan-'.$multiRow.'-'.$row[14].'"><img src="IMAGES/details_open.png" class=" img-responsive"></a></div>-->
-            <!--            </div>-->
-
 
             <div id="temp" hidden>
                 <input type='text' class="form-control" id="temptextbox" name="temptextbox" style="width: 100px">
@@ -315,18 +354,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 </div>
             </div>
 
-            <!--            <div class="row-fluid form-group">-->
-            <!--             <label class="col-sm-2"><B>EARNINGS:</B><em>*</em></label>-->
-            <!---->
-            <!--            </div>-->
-            <!--           <div class="form-group"><label id="DDC_startdate" class="col-sm-offset-2 col-sm-2">EARNING</label><label id="DDC_enddate" class="col-sm-2">AMOUNT</label></div>';-->
 
             <div class="row-fluid form-group">
 
-                EARNING::<a class="classAddButton classDivMultiRows'.$i.'" id="idAMultiRowSpan-'.$multiRow.'-'.$row[14].'"><img src="IMAGES/details_open.png" class=" img-responsive"></a>
-                <!--              <div id="close" hidden>-->
-                <!--              <a class="classMinusButton classDivMultiRows'.$i.'" id="idAMultiRowSpan-'.$multiRow.'-'.$row[14].'"><img src="IMAGES/details_close.png" class=" img-responsive"></a>-->
-                <!--              </div>-->
+                <label>EARNING::</label><a class="classAddButton classDivMultiRows'.$i.'" id="idAMultiRowSpan-'.$multiRow.'-'.$row[14].'"><img src="IMAGES/details_open.png" class=" img-responsive"></a>
                 <div class="form-group" id="earninglbl" hidden>
                     <label id="DDC_startdate" class="col-sm-offset-2 col-sm-2">EARNING</label><label id="PS_DEDUTION_lbl_amt" class="col-sm-2">AMOUNT</label>
                 </div>
@@ -334,13 +365,11 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                 </div>
                 <div class="col-lg-offset-2" id="earning_btn" hidden >
-                    <input type="button" id="PS_bnt_Submit" class="btn" value="Submit">
+                    <!--                    <input type="button" id="PS_bnt_erning_Submit" class="btn" value="Submit">-->
                 </div>
             </div>
 
-
             <div class="row-fluid form-group">
-
                 DEDUCTION::<a class="classAddButton1 classDivMultiRows'.$i.'" id="idAMultiRowSpan-'.$multiRow.'-'.$row[14].'"><img src="IMAGES/details_open.png" class=" img-responsive"></a>
 
                 <div class="form-group" id="deductionlbl" hidden>
@@ -349,16 +378,17 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 <div id="DEDUCTION" hidden>
                 </div>
                 <div class="col-lg-offset-2" id="deduction_btn" hidden >
-                    <input type="button" id="PS_bnt_Submit" class="btn" value="Submit">
+                    <!--                    <input type="button" id="PS_bnt_Submit" class="btn" value="Submit">-->
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-lg-offset-2 col-lg-3">
-                    <input type="button" id="PS_bnt_Submit" class="btn" value="SAVE" disabled>
+                    <input type="button" id="PS_bnt_payslip_Submit" class="btn" value="SAVE">
+
+                    <input type="button" id="PS_pdf" class="btn" value="PDF">
                 </div>
             </div>
         </div>
-
     </form>
 </div>
 </body>
