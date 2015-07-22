@@ -2358,10 +2358,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
         });
         $('#URSRC_btn_submitbutton').hide();
         $(document).on('change','#URSRC_lb_selectlaptopno',function(){
-//            $('#URSRC_tb_mouse').val('');
-//            $('#URSRC_tb_laptopno').val('');
-//            $("#URSRC_tb_laptopno").prop("readonly", false);
-//            $("#URSRC_tb_mouse").prop("readonly", false);
+            $("#URSRC_chk_bag").removeAttr("disabled","disabled")
             $(".preloader").show();
             var URSRC_lb_laptopno=$('#URSRC_lb_selectlaptopno').find('option:selected').text();
             if(URSRC_lb_laptopno!='SELECT')
@@ -2387,7 +2384,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             $('#URSRC_tb_laptopno').val(laptopno).show();
                             $('input:checkbox[id=URSRC_chk_bag]').attr('checked',true)
                             $("#URSRC_tb_laptopno").prop("readonly", true);
-                            $("#URSRC_chk_bag").prop("readonly", true);
+                            $("#URSRC_chk_bag").attr("disabled","disabled")
                         }
                         else
                         {
