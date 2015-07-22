@@ -1,7 +1,7 @@
 <?php
 //WITHOUT FOLDER CALLING WISE
 set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
-require_once 'google/appengine/api/mail/Message.php';
+//require_once 'google/appengine/api/mail/Message.php';
 require_once ('google-api-php-client-master/src/Google/Client.php');
 include 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
@@ -10,7 +10,7 @@ include "../TSLIB/TSLIB_CONNECTION.php";
 include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
 //include "../TSLIB/TSLIB_CONFIG.php";
-use google\appengine\api\mail\Message;
+//use google\appengine\api\mail\Message;
 //error_reporting(0);
 set_time_limit(0);
 error_reporting(E_ERROR | E_PARSE);
@@ -71,11 +71,17 @@ if(isset($_REQUEST)){
     if($_REQUEST['option']=="COMPANY_PROPERTY")
     {
         $URSRC_lb_laptopno=$_REQUEST['URSRC_lb_laptopno'];
-        $URSRC_cmpny_prop=mysqli_query($con,"SELECT CP_CHARGER_NUMBER FROM COMPANY_PROPERTIES WHERE CP_LAPTOP_NUMBER = '$URSRC_lb_laptopno'");
+//        $URSRC_cmpny_prop=mysqli_query($con,"SELECT CP_CHARGER_NUMBER FROM COMPANY_PROPERTIES WHERE CP_LAPTOP_NUMBER = '$URSRC_lb_laptopno'");
+        $URSRC_cmpny_prop=mysqli_query($con,"SELECT CP_CHARGER_NUMBER,CP_LAPTOP_BAG_NUMBER,CP_MOUSE_NUMBER,CP_BATTERY_SERIAL_NUMBER FROM COMPANY_PROPERTIES WHERE CP_LAPTOP_NUMBER = '$URSRC_lb_laptopno'");
         while($row=mysqli_fetch_array($URSRC_cmpny_prop)){
             $URSRC_charger_no=$row["CP_CHARGER_NUMBER"];
+            $URSRC_laptop_no=$row["CP_LAPTOP_BAG_NUMBER"];
+            $URSRC_mouse_no=$row["CP_MOUSE_NUMBER"];
+            $URSRC_btrysrl_no=$row["CP_BATTERY_SERIAL_NUMBER"];
+            $URSRC_report_values=array('chargerno'=>$URSRC_charger_no,'laptopno'=>$URSRC_laptop_no,'mouse'=>$URSRC_mouse_no,'btry'=>$URSRC_btrysrl_no);
+            $URSRC_values[]=$URSRC_report_values;
         }
-        echo ($URSRC_charger_no);
+        echo json_encode($URSRC_values);
     }
 //LOGIN CREATION SAVE PART
 //    if($_REQUEST['option']=="loginsave")
@@ -121,33 +127,35 @@ if(isset($_REQUEST)){
             $URSRC_laptopno;
         }
         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+        $URSRC_bag=$_POST['URSRC_tb_laptopno'];
         $URSRC_aadharno=$_POST['URSRC_tb_aadharno'];
         $URSRC_passportno=$_POST['URSRC_tb_passportno'];
         $URSRC_voterid=$_POST['URSRC_tb_votersid'];
         $comment=$_POST['URSRC_ta_comments'];
         $comment= $con->real_escape_string($comment);
-        $URSRC_bag=$_POST['URSRC_chk_bag'];
-        if($URSRC_bag=='on')
-        {
-            $URSRC_bag= 'X';
-            $bag='YES';
-        }
-        else
-        {
-            $URSRC_bag='';
-            $bag='NO';
-        }
-        $URSRC_mouse=$_POST['URSRC_chk_mouse'];
-        if($URSRC_mouse=='on')
-        {
-            $URSRC_mouse= 'X';
-            $mouse='YES';
-        }
-        else
-        {
-            $URSRC_mouse='';
-            $mouse='NO';
-        }
+//        $URSRC_bag=$_POST['URSRC_chk_bag'];
+//        if($URSRC_bag=='on')
+//        {
+//            $URSRC_bag= 'X';
+//            $bag='YES';
+//        }
+//        else
+//        {
+//            $URSRC_bag='';
+//            $bag='NO';
+//        }
+        $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+//        if($URSRC_mouse=='on')
+//        {
+//            $URSRC_mouse= 'X';
+//            $mouse='YES';
+//        }
+//        else
+//        {
+//            $URSRC_mouse='';
+//            $mouse='NO';
+//        }
+        $URSRC_btryslno=$_POST['URSRC_tb_btry'];
         $URSRC_dooracess=$_POST['URSRC_chk_dracess'];
         if($URSRC_dooracess=='on')
         {
@@ -209,8 +217,9 @@ if(isset($_REQUEST)){
             $URSRC_voterid='';
         }
         $con->autocommit(false);
-//        echo "CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)";
-        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
+//        echo "CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode','$URSRC_btryslno',@success_flag)";
+//       exit;
+        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode','$URSRC_btryslno',@success_flag)");
 //        $result = $con->query("CALL SP_TS_LOGIN_CREATION_INSERT(1,'$loginid',' ','$final_radioval','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$comment','$URSRC_laptopno','$URSRC_chrgrno','$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
@@ -410,6 +419,13 @@ if(isset($_REQUEST)){
                     $body=$row["ETD_EMAIL_BODY"];
                 }
                 //not aplicable
+                if($URSRC_mouse=='')
+                {
+                    $URSRC_mouse="N/A";
+                }
+                else{
+                    $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+                }
                 if($URSRC_laptopno=='')
                 {
                     $URSRC_laptopno="N/A";
@@ -478,17 +494,17 @@ if(isset($_REQUEST)){
                 //SENDING MAIL OPTIONS
                 $name = $mail_displayname;
                 $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-                try {
-                    $message1 = new Message();
-                    $message1->setSender($name.'<'.$from.'>');
-                    $message1->addTo('lalitha.rajendiran@ssomens.com');
-//                    $message1->addCc($cclist);
-                    $message1->setSubject($mail_subject);
-                    $message1->setHtmlBody($final_message);
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+//                try {
+//                    $message1 = new Message();
+//                    $message1->setSender($name.'<'.$from.'>');
+//                    $message1->addTo('lalitha.rajendiran@ssomens.com');
+////                    $message1->addCc($cclist);
+//                    $message1->setSubject($mail_subject);
+//                    $message1->setHtmlBody($final_message);
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
                 $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                 $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                 if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -512,20 +528,20 @@ if(isset($_REQUEST)){
                 $cc_array=get_active_login_id();
 //                $cc_array=['punitha.shanmugam@ssomens.com'];
                 //SENDING MAIL OPTIONS
-                try {
-                    $name = $intro_mail_displayname;
-                    $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-                    $message1 = new Message();
-                    $message1->setSender($name.'<'.$from.'>');
-//                    $message1->addTo($cc_array);
-                    $message1->addTo('lalitha.rajendiran@ssomens.com');
-//                    $message1->addCc($sadmin);
-                    $message1->setSubject($intro_mail_subject);
-                    $message1->setHtmlBody($intro_message);
-                    $message1->send();
-                } catch (\InvalidArgumentException $e) {
-                    echo $e;
-                }
+//                try {
+//                    $name = $intro_mail_displayname;
+//                    $from = 'lalitha.rajendiran@ssomens.com';//$admin;
+//                    $message1 = new Message();
+//                    $message1->setSender($name.'<'.$from.'>');
+////                    $message1->addTo($cc_array);
+//                    $message1->addTo('lalitha.rajendiran@ssomens.com');
+////                    $message1->addCc($sadmin);
+//                    $message1->setSubject($intro_mail_subject);
+//                    $message1->setHtmlBody($intro_message);
+//                    $message1->send();
+//                } catch (\InvalidArgumentException $e) {
+//                    echo $e;
+//                }
             }
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
         }
@@ -565,7 +581,7 @@ EMP.EMP_NEXT_KIN_NAME,URC2.URC_DATA AS EMP_RELATIONHOOD,EMP.EMP_ALT_MOBILE_NO,EM
 EMP.EMP_STREET_NAME,EMP.EMP_AREA,EMP.EMP_PIN_CODE,EMP.EMP_BANK_NAME,EMP.EMP_BRANCH_NAME,
 EMP.EMP_ACCOUNT_NAME,EMP.EMP_ACCOUNT_NO,EMP.EMP_IFSC_CODE,URC3.URC_DATA AS EMP_ACCOUNT_TYPE,
 EMP.EMP_BRANCH_ADDRESS,EMP.EMP_AADHAAR_NO,EMP.EMP_PASSPORT_NO,EMP.EMP_VOTER_ID,EMP.EMP_COMMENTS,
-CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER,CPD.CPD_LAPTOP_BAG,CPD.CPD_MOUSE,CPD.CPD_DOOR_ACCESS,
+CP.CP_LAPTOP_NUMBER,CP.CP_CHARGER_NUMBER,CP.CP_LAPTOP_BAG_NUMBER,CP.CP_MOUSE_NUMBER,CPD.CPD_DOOR_ACCESS,CP.CP_BATTERY_SERIAL_NUMBER,
 CPD.CPD_ID_CARD,CPD.CPD_HEADSET,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(EMP.EMP_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T') AS EMP_TIMESTAMP
 FROM EMPLOYEE_DETAILS EMP LEFT JOIN COMPANY_PROPERTIES_DETAILS CPD ON EMP.EMP_ID=CPD.EMP_ID LEFT JOIN COMPANY_PROPERTIES CP ON CPD.CP_ID=CP.CP_ID,
 USER_LOGIN_DETAILS ULD,USER_ACCESS UA ,USER_RIGHTS_CONFIGURATION URC,USER_RIGHTS_CONFIGURATION URC1,
@@ -601,8 +617,9 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
             $URSRC_Postalcode=$row['EMP_PIN_CODE'];
             $URSRC_laptopno=$row['CP_LAPTOP_NUMBER'];
             $URSRC_chrgrno=$row['CP_CHARGER_NUMBER'];
-            $URSRC_bag=$row['CPD_LAPTOP_BAG'];
-            $URSRC_mouse=$row['CPD_MOUSE'];
+            $URSRC_bag=$row['CP_LAPTOP_BAG_NUMBER'];
+            $URSRC_mouse=$row['CP_MOUSE_NUMBER'];
+            $URSRC_btrysrlno=$row['CP_BATTERY_SERIAL_NUMBER'];
             $URSRC_dooracess=$row['CPD_DOOR_ACCESS'];
             $URSRC_idcard=$row['CPD_ID_CARD'];
             $URSRC_headset=$row['CPD_HEADSET'];
@@ -617,7 +634,7 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
             $URSRC_passportno=$row['EMP_PASSPORT_NO'];
             $URSRC_voterid=$row['EMP_VOTER_ID'];
             $URSRC_comment=$row['EMP_COMMENTS'];
-            $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'Houseno'=>$URSRC_Houseno,'Streetname'=>$URSRC_Streetname,'Area'=>$URSRC_Area,'Postalcode'=>$URSRC_Postalcode,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'aadharno'=>$URSRC_aadharno,'passportno'=>$URSRC_passportno,'voterid'=>$URSRC_voterid,'comment'=>$URSRC_comment];
+            $final_values=(object)['joindate'=>$join_date,'rcname' => $URSRC_rcname,'emp_type'=>$URSRC_EMP_TYPE,'firstname'=>$URSRC_firstname,'lastname'=>$URSRC_lastname,'dob'=>$URSRC_dob,'designation'=>$URSRC_designation,'mobile'=>$URSRC_mobile,'kinname'=>$URSRC_kinname,'relationhood'=>$URSRC_relationhd,'altmobile'=>$URSRC_Mobileno,'Houseno'=>$URSRC_Houseno,'Streetname'=>$URSRC_Streetname,'Area'=>$URSRC_Area,'Postalcode'=>$URSRC_Postalcode,'laptop'=>$URSRC_laptopno,'chargerno'=>$URSRC_chrgrno,'bag'=>$URSRC_bag,'mouse'=>$URSRC_mouse,'dooraccess'=>$URSRC_dooracess,'idcard'=>$URSRC_idcard,'headset'=>$URSRC_headset,'bankname'=>$URSRC_bankname,'branchname'=>$URSRC_brancname,'accountname'=>$URSRC_acctname,'accountno'=>$URSRC_acctno,'ifsccode'=>$URSRC_ifsccode,'accountype'=>$URSRC_acctype,'branchaddress'=>$URSRC_branchaddr,'aadharno'=>$URSRC_aadharno,'passportno'=>$URSRC_passportno,'voterid'=>$URSRC_voterid,'comment'=>$URSRC_comment,'batryslno'=>$URSRC_btrysrlno];
         }
         $URSRC_values[]=array($final_values,$get_rolecreation_array,$emp_uploadfilelist[0],$emp_uploadfilelist[1],$emp_uploadfilelist[2],$get_lname_array);
         echo json_encode($URSRC_values);
@@ -669,7 +686,6 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
 //    if($_REQUEST['option']=="loginupdate")
     if ($_POST['URSRC_submitupdate']=="UPDATE")
     {
-//        echo'echo1';
         $user_filelist=array();
         $user_filelist=$_POST['uploadfilelist'];
         $rolename=$_POST['roles1'];
@@ -717,28 +733,29 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
         $URSRC_comment=$_POST['URSRC_ta_comments'];
         $URSRC_comment= $con->real_escape_string($URSRC_comment);
 
-        $URSRC_bag=$_POST['URSRC_chk_bag'];
-        if($URSRC_bag=='on')
-        {
-            $URSRC_bag= 'X';
-            $bag='YES';
-        }
-        else
-        {
-            $URSRC_bag='';
-            $bag='NO';
-        }
-        $URSRC_mouse=$_POST['URSRC_chk_mouse'];
-        if($URSRC_mouse=='on')
-        {
-            $URSRC_mouse= 'X';
-            $mouse='YES';
-        }
-        else
-        {
-            $URSRC_mouse='';
-            $mouse='NO';
-        }
+        $URSRC_bag=$_POST['URSRC_tb_laptopno'];
+//        if($URSRC_bag=='on')
+//        {
+//            $URSRC_bag= 'X';
+//            $bag='YES';
+//        }
+//        else
+//        {
+//            $URSRC_bag='';
+//            $bag='NO';
+//        }
+        $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+        $URSRC_btryslno=$_POST['URSRC_tb_btry'];
+//        if($URSRC_mouse=='on')
+//        {
+//            $URSRC_mouse= 'X';
+//            $mouse='YES';
+//        }
+//        else
+//        {
+//            $URSRC_mouse='';
+//            $mouse='NO';
+//        }
         $URSRC_dooracess=$_POST['URSRC_chk_dracess'];
         if($URSRC_dooracess=='on')
         {
@@ -812,10 +829,10 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
             $lastdate=$row['UA_JOIN_DATE'];
         }
         $con->autocommit(false);
-//        echo "CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment',$URSRC_laptopno,$URSRC_chrgrno,'$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)";
+//        echo "CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment',$URSRC_laptopno,$URSRC_chrgrno,'$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode','$URSRC_btryslno',@success_flag)";
 //        exit;
 //exit;
-        $result = $con->query("CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment',$URSRC_laptopno,$URSRC_chrgrno,'$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode',@success_flag)");
+        $result = $con->query("CALL SP_TS_LOGIN_UPDATE($ULD_id,'$loginid','$rolename','$finaldate','$emp_type','$URSRC_firstname','$URSRC_lastname','$URSRC_finaldob','$URSRC_designation','$URSRC_Mobileno','$URSRC_kinname','$URSRC_relationhd','$URSRC_mobile','$URSRC_bankname','$URSRC_brancname','$URSRC_acctname','$URSRC_acctno','$URSRC_ifsccode','$URSRC_acctype','$URSRC_branchaddr','$URSRC_aadharno','$URSRC_passportno','$URSRC_voterid','$URSRC_comment',$URSRC_laptopno,$URSRC_chrgrno,'$URSRC_bag','$URSRC_mouse','$URSRC_dooracess','$URSRC_idcard','$URSRC_headset','$USERSTAMP','$URSRC_Houseno','$URSRC_Streetname','$URSRC_Area','$URSRC_Postalcode','$URSRC_btryslno',@success_flag)");
         if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
         $select = $con->query('SELECT @success_flag');
         $result = $select->fetch_assoc();
@@ -1127,17 +1144,17 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     //SENDING MAIL OPTIONS
                     $name = $mail_dispalyname1;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-                    try {
-                        $message1 = new Message();
-                        $message1->setSender($name.'<'.$from.'>');
-                        $message1->addTo('lalitha.rajendiran@ssomens.com');
-//                        $message1->addCc($cclist);
-                        $message1->setSubject($mail_subject1);
-                        $message1->setHtmlBody($final_message);
-                        $message1->send();
-                    } catch (\InvalidArgumentException $e) {
-                        echo $e;
-                    }
+//                    try {
+//                        $message1 = new Message();
+//                        $message1->setSender($name.'<'.$from.'>');
+//                        $message1->addTo('lalitha.rajendiran@ssomens.com');
+////                        $message1->addCc($cclist);
+//                        $message1->setSubject($mail_subject1);
+//                        $message1->setHtmlBody($final_message);
+//                        $message1->send();
+//                    } catch (\InvalidArgumentException $e) {
+//                        echo $e;
+//                    }
                     $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                     $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                     if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -1163,18 +1180,18 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     //SENDING MAIL OPTIONS
                     $name = $intro_mail_displayname;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-                    try {
-                        $message1 = new Message();
-                        $message1->setSender($name.'<'.$from.'>');
-//                        $message1->addTo($cc_array);
-                        $message1->addTo('lalitha.rajendiran@ssomens.com');
-//                        $message1->addCc($sadmin);
-                        $message1->setSubject($intro_mail_subject);
-                        $message1->setHtmlBody($intro_message);
-                        $message1->send();
-                    } catch (\InvalidArgumentException $e) {
-                        echo $e;
-                    }
+//                    try {
+//                        $message1 = new Message();
+//                        $message1->setSender($name.'<'.$from.'>');
+////                        $message1->addTo($cc_array);
+//                        $message1->addTo('lalitha.rajendiran@ssomens.com');
+////                        $message1->addCc($sadmin);
+//                        $message1->setSubject($intro_mail_subject);
+//                        $message1->setHtmlBody($intro_message);
+//                        $message1->send();
+//                    } catch (\InvalidArgumentException $e) {
+//                        echo $e;
+//                    }
 
 
                 }
@@ -1320,17 +1337,17 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
 
                     $name = $mail_display1;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-                    try {
-                        $message1 = new Message();
-                        $message1->setSender($name.'<'.$from.'>');
-                        $message1->addTo('lalitha.rajendiran@ssomens.com');
-//                        $message1->addCc($cclist);
-                        $message1->setSubject($mail_subject1);
-                        $message1->setHtmlBody($final_message);
-                        $message1->send();
-                    } catch (\InvalidArgumentException $e) {
-                        echo $e;
-                    }
+//                    try {
+//                        $message1 = new Message();
+//                        $message1->setSender($name.'<'.$from.'>');
+//                        $message1->addTo('lalitha.rajendiran@ssomens.com');
+////                        $message1->addCc($cclist);
+//                        $message1->setSubject($mail_subject1);
+//                        $message1->setHtmlBody($final_message);
+//                        $message1->send();
+//                    } catch (\InvalidArgumentException $e) {
+//                        echo $e;
+//                    }
                 }
                 else if(($updatemailflag==0) && ($lastdate!=$finaldate)){
                     $cal_flag=0;
@@ -1341,17 +1358,17 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
 
                         $name = $mail_display1;
                         $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-                        try {
-                            $message1 = new Message();
-                            $message1->setSender($name.'<'.$from.'>');
-                            $message1->addTo('lalitha.rajendiran@ssomens.com');
-//                            $message1->addCc($cclist);
-                            $message1->setSubject($mail_subject1);
-                            $message1->setHtmlBody($final_message);
-                            $message1->send();
-                        } catch (\InvalidArgumentException $e) {
-                            echo $e;
-                        }
+//                        try {
+//                            $message1 = new Message();
+//                            $message1->setSender($name.'<'.$from.'>');
+//                            $message1->addTo('lalitha.rajendiran@ssomens.com');
+////                            $message1->addCc($cclist);
+//                            $message1->setSubject($mail_subject1);
+//                            $message1->setHtmlBody($final_message);
+//                            $message1->send();
+//                        } catch (\InvalidArgumentException $e) {
+//                            echo $e;
+//                        }
                     }
                 }
             }

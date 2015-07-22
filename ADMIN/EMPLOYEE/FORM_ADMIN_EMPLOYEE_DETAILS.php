@@ -21,6 +21,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
             $('#emp_nonactive_lbl').hide();
             $('#ED_btn_pdf').hide();
             $('#CMP_btn_pdf').hide();
+            $('#ED_cmp_activeemp').hide();
+            $('#ED_cmp_non_active_pdf').hide();
+            $('#ED_non_activedetails_pdf').hide();
             var empdet_active_emp=[];
             var empdet_active_nonemp=[];
             var errmsg=[];
@@ -45,7 +48,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     }
                     else
                     {
-                        $('#ED_lbl_norole_err').text(err_msg_array[0]).show();
+//                $('#ED_lbl_norole_err').text(err_msg_array[0]).show();
                     }
                 }
             }
@@ -57,10 +60,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#CMP_company_properties').hide();
                 $('#CMP_errormsg_cmpy').hide();
                 $('#CMP_btn_pdf').hide();
+                $('#ED_cmp_activeemp').hide();
+                $('#ED_cmp_non_active_pdf').hide();
+                $('#ED_non_activedetails_pdf').hide();
             });
             $(document).on('click','#un_used',function(){
-
 //        $('#CMP_company_properties').show();
+                $('.preloader').show();
                 $('#used_pro').hide();
                 $('#emp_active_lb').hide();
                 $('#emp_active_lbl').hide();
@@ -73,6 +79,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#ED_errormsg_cmpy').hide();
                 $('#ED_errormsg_bank').hide();
                 $('#ED_errormsg_personal').hide();
+                $('#ED_cmp_activeemp').hide();
+                $('#ED_cmp_non_active_pdf').hide();
+                $('#ED_non_activedetails_pdf').hide();
                 var title;
                 table1();
 
@@ -82,6 +91,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     return string[2]+'-'+ string[1]+'-'+string[0];
                 }
                 function table1(){
+                    var values_arraystotal=[];
                     var formElement = document.getElementById("ED_form_user");
                     var xmlhttp=new XMLHttpRequest();
                     xmlhttp.onreadystatechange=function() {
@@ -90,7 +100,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                             var values_array=JSON.parse(xmlhttp.responseText);
                             var company_value=values_array[0];
-
+                            var ED_errorAarray=values_arraystotal[1];
                             if(company_value.length!=0)
                             {
                                 $('#CMP_errormsg_cmpy').text(errmsg[5]).show();
@@ -107,6 +117,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                 }
                                 CMP_table_header+='</tbody></table>';
                                 $('#CMP_table_header').html(CMP_table_header);
+
                                 $('#cmp_tble_html').DataTable( {
                                     "aaSorting": [],
                                     "pageLength": 10,
@@ -151,6 +162,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#emp_nonactive_lb').hide();
                 $('#emp_nonactive_lbl').hide();
                 $('#ED_btn_pdf').hide();
+                $('#ED_cmp_activeemp').hide();
+                $('#ED_cmp_non_active_pdf').hide();
+                $('#ED_non_activedetails_pdf').hide();
 
                 var title;
                 var values_arraystotal=[];
@@ -174,20 +188,13 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             {
 
                                 $('#ED_errormsg_cmpy').text(errmsg[3]).show();
-
-                                var ED_table_header='<table id="ED_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:100px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th style="width:75px">LAPTOP NUMBER</th><th style="width:75px">CHARGER NUMBER</th><th>LAPTOP BAG</th><th>MOUSE</th><th>DOOR ACCESS</th><th>ID CARD</th><th>HEADSET</th></tr></thead><tbody>';
+                                $('#ED_cmp_activeemp').show();
+                                var ED_table_header='<table id="ED_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:100px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th style="width:75px">LAPTOP NUMBER</th><th style="width:75px">CHARGER NUMBER</th><th>BATTERY NO</th><th>LAPTOP BAG</th><th>MOUSE</th><th>DOOR ACCESS</th><th>ID CARD</th><th>HEADSET</th></tr></thead><tbody>';
                                 for(var j=0;j<values_array.length;j++){
                                     var AE_empname=values_array[j].empname;
                                     var CPD_laptopno=values_array[j].laptopno;
-                                    if((CPD_laptopno=='null')||(CPD_laptopno==undefined))
-                                    {
-                                        CPD_laptopno='';
-                                    }
                                     var CPD_chargerno=values_array[j].chargerno;
-                                    if((CPD_chargerno=='null')||(CPD_chargerno==undefined))
-                                    {
-                                        CPD_chargerno='';
-                                    }
+                                    var CPD_battery=values_array[j].battery;
                                     var CPD_laptopbag=values_array[j].laptopbag;
                                     if((CPD_laptopbag=='null')||(CPD_laptopbag==undefined))
                                     {
@@ -213,7 +220,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                     {
                                         CPD_headset='';
                                     }
-                                    ED_table_header+='<tr><td nowrap align="center">'+AE_empname+'</td>' + '<td align="center">'+CPD_laptopno+'</td>' + '<td STYLE="width: 10PX" align="center">'+CPD_chargerno+'</td><td align="center">'+CPD_laptopbag+'</td>' +  '<td align="center">'+CPD_mouse+'</td><td align="center">'+CPD_dooraccess+'</td>' + '<td align="center">'+CPD_idcard+'</td><td align="center">'+CPD_headset+'</td></tr>';
+                                    ED_table_header+='<tr><td nowrap align="center">'+AE_empname+'</td>' + '<td align="center">'+CPD_laptopno+'</td>' + '<td STYLE="width: 10PX" align="center">'+CPD_chargerno+'</td><td align="center">'+CPD_battery+'</td><td align="center">'+CPD_laptopbag+'</td>' +  '<td align="center">'+CPD_mouse+'</td><td align="center">'+CPD_dooraccess+'</td>' + '<td align="center">'+CPD_idcard+'</td><td align="center">'+CPD_headset+'</td></tr>';
                                 }
                                 ED_table_header+='</tbody></table>';
 
@@ -230,7 +237,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             }
                             else
                             {
-                                $('#ED_lbl_norole_err').text(ED_errorAarray[0]).show();
+//                        $('#ED_lbl_norole_err').text(ED_errorAarray[0]).show();
                                 $('#ED_lbl_title').hide();
                                 $('#ED_btn_pdf').hide();
                             }
@@ -259,6 +266,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#emp_nonactive_lb').hide();
                 $('#emp_nonactive_lbl').hide();
                 $('#ED_btn_pdf').hide();
+                $('#ED_cmp_activeemp').hide();
+                $('#ED_cmp_non_active_pdf').hide();
+                $('#ED_non_activedetails_pdf').hide();
                 var title;
                 var values_arraystotal=[];
                 var values_array=[];
@@ -280,22 +290,15 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             {
 
                                 $('#ED_errormsg_cmpy').text(errmsg[4]).show();
-                                $('#ED_btn_pdf').show();
+                                $('#ED_cmp_non_active_pdf').show();
 
-                                var ED_table_header='<table id="ED_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:100px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>LAPTOP BAG</th><th>MOUSE</th><th>DOOR ACCESS</th><th>ID CARD</th><th>HEADSET</th></tr></thead><tbody>'
+                                var ED_table_header='<table id="ED_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:100px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>BATTERY NO</th<th>LAPTOP BAG</th><th>MOUSE</th><th>DOOR ACCESS</th><th>ID CARD</th><th>HEADSET</th></tr></thead><tbody>'
                                 for(var j=0;j<values_array.length;j++){
                                     var AE_empname=values_array[j].empname;
                                     var CPD_laptopno=values_array[j].laptopno;
-                                    if((CPD_laptopno=='null')||(CPD_laptopno==undefined))
-                                    {
-                                        CPD_laptopno='';
-                                    }
                                     var CPD_chargerno=values_array[j].chargerno;
-                                    if((CPD_chargerno=='null')||(CPD_chargerno==undefined))
-                                    {
-                                        CPD_chargerno='';
-                                    }
                                     var CPD_laptopbag=values_array[j].laptopbag;
+                                    var CPD_battery=values_array[j].battery;
                                     if((CPD_laptopbag=='null')||(CPD_laptopbag==undefined))
                                     {
                                         CPD_laptopbag='';
@@ -320,7 +323,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                     {
                                         CPD_headset='';
                                     }
-                                    ED_table_header+='<tr><td nowrap align="center">'+AE_empname+'</td>' + '<td align="center">'+CPD_laptopno+'</td>' + '<td STYLE="width: 10PX" align="center">'+CPD_chargerno+'</td><td align="center">'+CPD_laptopbag+'</td>' +  '<td align="center">'+CPD_mouse+'</td><td align="center">'+CPD_dooraccess+'</td>' + '<td align="center">'+CPD_idcard+'</td><td align="center">'+CPD_headset+'</td></tr>';
+                                    ED_table_header+='<tr><td nowrap align="center">'+AE_empname+'</td>' + '<td align="center">'+CPD_laptopno+'</td>' + '<td STYLE="width: 10PX" align="center">'+CPD_chargerno+'</td><td>'+CPD_battery+'</td><td align="center">'+CPD_laptopbag+'</td>' +  '<td align="center">'+CPD_mouse+'</td><td align="center">'+CPD_dooraccess+'</td>' + '<td align="center">'+CPD_idcard+'</td><td align="center">'+CPD_headset+'</td></tr>';
                                 }
                                 ED_table_header+='</tbody></table>';
 
@@ -337,7 +340,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                             }
                             else
                             {
-                                $('#ED_lbl_norole_err').text(ED_errorAarray[0]).show();
+//                        $('#ED_lbl_norole_err').text(ED_errorAarray[0]).show();
                                 $('#ED_lbl_title').hide();
                                 $('#ED_btn_pdf').hide();
                             }
@@ -362,6 +365,10 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#ED_lbl_norole_err').hide();
                 $('#ED_lbl_title').hide();
                 $('#ED_btn_pdf').hide();
+                $('#ED_cmp_activeemp').hide();
+                $('#ED_cmp_non_active_pdf').hide();
+                $('#ED_non_activedetails_pdf').hide();
+
                 $(".preloader").hide();
                 var active_employee='<option>SELECT</option>';
                 for (var i=0;i<empdet_active_emp.length;i++) {
@@ -374,6 +381,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $(document).on('change','#emp_active_lb',function(){
 
                     $(".preloader").show();
+                    $('#ED_cmp_activeemp').hide();
                     $('#employee_active_dt').hide();
                     $('#ED_lbl_norole_err').hide();
                     var login_id=$('#emp_active_lb').val();
@@ -550,7 +558,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                                 else
                                 {
-                                    $('#ED_lbl_norole_err').text(ED_errorAarray[0]).show();
+//                            $('#ED_lbl_norole_err').text(ED_errorAarray[0]).show();
                                     $('#employee_active_dt').hide();
                                     $('#ED_lbl_title').hide();
                                     $('#ED_btn_pdf').hide();
@@ -587,6 +595,9 @@ include "../../TSLIB/TSLIB_HEADER.php";
                 $('#employee_active_dt').hide();
                 $('#ED_lbl_title').hide();
                 $('#ED_btn_pdf').hide();
+                $('#ED_cmp_activeemp').hide();
+                $('#ED_cmp_non_active_pdf').hide();
+                $('#ED_non_activedetails_pdf').hide();
                 $(".preloader").hide();
                 var nonactive_employee='<option>SELECT</option>';
                 for (var i=0;i<empdet_active_nonemp.length;i++) {
@@ -628,20 +639,14 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                     var login_id=$('#emp_nonactive_lb').val();
                                     var title=errmsg[0].toString().replace("[EMP NAME]",$("#emp_nonactive_lb option:selected").text());
                                     $('#ED_errormsg_cmpy').text(title).show();
+                                    $('#ED_non_activedetails_pdf').show();
 
-                                    var ED_table_header='<table id="ED_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:100px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>LAPTOP BAG</th><th>MOUSE</th><th>DOOR ACCESS</th><th>ID CARD</th><th>HEADSET</th></tr></thead><tbody>'
+                                    var ED_table_header='<table id="ED_tble_htmltable" border="1"  cellspacing="0" class="srcresult" style="width:100px" ><thead  bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>BATTERY NO</th><th>LAPTOP BAG</th><th>MOUSE</th><th>DOOR ACCESS</th><th>ID CARD</th><th>HEADSET</th></tr></thead><tbody>'
                                     for(var j=0;j<values_array.length;j++){
                                         var AE_empname=values_array[j].empname;
                                         var CPD_laptopno=values_array[j].laptopno;
-                                        if((CPD_laptopno=='null')||(CPD_laptopno==undefined))
-                                        {
-                                            CPD_laptopno='';
-                                        }
                                         var CPD_chargerno=values_array[j].chargerno;
-                                        if((CPD_chargerno=='null')||(CPD_chargerno==undefined))
-                                        {
-                                            CPD_chargerno='';
-                                        }
+                                        var CPD_battery=values_array[j].battery;
                                         var CPD_laptopbag=values_array[j].laptopbag;
                                         if((CPD_laptopbag=='null')||(CPD_laptopbag==undefined))
                                         {
@@ -667,7 +672,7 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                         {
                                             CPD_headset='';
                                         }
-                                        ED_table_header+='<tr><td nowrap align="center">'+AE_empname+'</td>' + '<td align="center">'+CPD_laptopno+'</td>' + '<td STYLE="width: 10PX" align="center">'+CPD_chargerno+'</td><td align="center">'+CPD_laptopbag+'</td>' +  '<td align="center">'+CPD_mouse+'</td><td align="center">'+CPD_dooraccess+'</td>' + '<td align="center">'+CPD_idcard+'</td><td align="center">'+CPD_headset+'</td></tr>';
+                                        ED_table_header+='<tr><td nowrap align="center">'+AE_empname+'</td>' + '<td align="center">'+CPD_laptopno+'</td>' + '<td STYLE="width: 10PX" align="center">'+CPD_chargerno+'</td><td>'+CPD_battery+'</td><td align="center">'+CPD_laptopbag+'</td>' +  '<td align="center">'+CPD_mouse+'</td><td align="center">'+CPD_dooraccess+'</td>' + '<td align="center">'+CPD_idcard+'</td><td align="center">'+CPD_headset+'</td></tr>';
                                     }
                                     ED_table_header+='</tbody></table>';
 
@@ -683,13 +688,19 @@ include "../../TSLIB/TSLIB_HEADER.php";
                                             { "aTargets" : ["uk-date-column"] , "sType" : "uk_date"}, { "aTargets" : ["uk-timestp-column"] , "sType" : "uk_timestp"} ]
                                     });
                                 }
+                                else
+                                {
+                                    $('#ED_table_header').html('');
+                                    $('#ED_tble_htmltable').hide();
+                                    $('#ED_errormsg_cmpy').hide();
+                                    $('#ED_non_activedetails_pdf').show();
+//                            $('#ED_lbl_norole_err').text(errmsg[0]).show();
+                                }
                                 if(values_array1.length!=0){
 
                                     var login_id=$('#emp_nonactive_lb').val();
                                     var title=errmsg[1].toString().replace("[EMP NAME]",$("#emp_nonactive_lb option:selected").text());
                                     $('#ED_errormsg_bank').text(title).show();
-
-                                    $('#ED_btn_pdf').show();
                                     var BD_table_header='<table id="BD_tble_htmltable" border="1" cellspacing="0" class="srcresult" style="width:100px"><thead bgcolor="#6495ed" style="color:white"><tr><th>EMPLOYEE NAME</th><th>ACCOUNT NAME</th><th>ACCOUNT NUMBER</th><th>BANK NAME</th><th>BRANCH NAME</th><th>ACCOUNT TYPE</th><th>IFSC CODE</th><th>BRANCH ADDRESS</th></tr></thead><tbody>';
                                     for(var i=0;i<values_array1.length;i++){
                                         var BD_empname=values_array1[i].empname;
@@ -803,20 +814,70 @@ include "../../TSLIB/TSLIB_HEADER.php";
 
                 var login_id=$('#emp_active_lb').val();
 
-                var formElement = document.getElementById("ED_form_user");
+//                var formElement = document.getElementById("ED_form_user");
+//                var xmlhttp=new XMLHttpRequest();
+//                xmlhttp.onreadystatechange=function() {
+//                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+//                        $('.preloader').hide();
+//                        var values_array=JSON.parse(xmlhttp.responseText);
+//                    }
+//                }
+//                var heading='company properties';
+                var option="company_datatable";
+                var url=document.location.href="ADMIN/EMPLOYEE/DB_EMPLOYEE_DETAILS.do?option="+option+"&login_id="+login_id;
+//                xmlhttp.send();
+
+            });
+            $(document).on('click','#ED_cmp_activeemp',function(){
+
                 var xmlhttp=new XMLHttpRequest();
-                xmlhttp.onreadystatechange=function() {
-                    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                xmlhttp.onreadystatechange=function(){
+                    if(xmlhttp.readyState==4 && xmlhttp.readyState==200){
                         $('.preloader').hide();
 
                         var values_array=JSON.parse(xmlhttp.responseText);
                     }
                 }
-                var heading='company properties';
-                var option="company_datatable";
-                var url=document.location.href="ADMIN/EMPLOYEE/DB_EMPLOYEE_DETAILS.do?option="+option+"&login_id="+login_id+"&title="+heading;
-                xmlhttp.send();
 
+                var option="company_allemp";
+                var url=document.location.href="ADMIN/EMPLOYEE/DB_EMPLOYEE_DETAILS.do?option="+option;
+                xmlhttp.send();
+            });
+            $(document).on('click','#CMP_btn_pdf',function(){
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.onreadystatechange=function(){
+                    if(xmlhttp.readyState==4 && xmlhttp.readyState==200){
+                        $('.preloader').hide();
+                        var value_array=(xmlhttp.responseText);
+                    }
+                }
+                var option="cmp_unused";
+                var url=document.location.href="ADMIN/EMPLOYEE/DB_EMPLOYEE_DETAILS.do?option="+option;
+                xmlhttp.send();
+            });
+            $(document).on('click','#ED_cmp_non_active_pdf',function(){
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.onreadystatechange=function(){
+                    if(xmlhttp.readyState==4 && xmlhttp.ready==200){
+                        $('.preloader').hide();
+                        var value_array=(xmlhttp.responseText);
+                    }
+                }
+                var option="cmp_non_active";
+                var url=document.location.href="ADMIN/EMPLOYEE/DB_EMPLOYEE_DETAILS.do?option="+option;
+                xmlhttp.send();
+            });
+            $(document).on('click','#ED_non_activedetails_pdf',function(){
+                var xmlhttp=new XMLHttpRequest();
+                xmlhttp.onreadystatechange=function(){
+                    if(xmlhttp.readyState==4 && xmlhttp.ready==200){
+                        $('.preloader').hide();
+                        var value_array=(xmlhttp.responseText);
+                    }
+                }
+                var option="non_active_details";
+                var url=document.location.href="ADMIN/EMPLOYEE/DB_EMPLOYEE_DETAILS.do?option="+option;
+                xmlhttp.send();
             });
         });
         //DOCUMENT READY FUNCTION END
@@ -873,8 +934,12 @@ include "../../TSLIB/TSLIB_HEADER.php";
                     </div>
                 </div>
                 <div><label id="ED_lbl_title" name="ED_lbl_title" class="srctitle"></label></div>
-                <label name="ED_errormsg_cmpy" id="ED_errormsg_cmpy" class="srctitle col-sm-12"></label>
                 <div><input type="button" id='ED_btn_pdf' class="btnpdf" value="PDF"></div>
+                <div><input type="button" id="ED_cmp_activeemp" class="btnpdf" value="PDF"></div>
+                <div><input type="button" id="ED_cmp_non_active_pdf" class="btnpdf" value="PDF"></div>
+                <div><input type="button" id="ED_non_activedetails_pdf" class="btnpdf" value="PDF"></div>
+                <label name="ED_errormsg_cmpy" id="ED_errormsg_cmpy" class="srctitle col-sm-12"></label>
+
                 <div id ="employee_active_dt" class="table-responsive form-group"  style="max-width:1000px;padding-left: 9px" hidden>
                     <section id="ED_table_header" style="max-width:800px"></section></div>
                 <label name="ED_errormsg_bank" id="ED_errormsg_bank" class="srctitle col-sm-12"></label>
