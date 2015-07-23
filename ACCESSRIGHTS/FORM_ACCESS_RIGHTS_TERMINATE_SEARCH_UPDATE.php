@@ -681,8 +681,11 @@ include "../TSLIB/TSLIB_HEADER.php";
             $("#filetableuploads tr").remove();
             $('#attachprompt').show();
             $('#URSRC_lbl_nolaptop').hide();
+            $('#URSRC_tb_laptopbagno').hide();
+            $('#URSRC_tb_mouse').hide();
+            $('#URSRC_chk_bag').attr("disabled","disabled")
+            $('#URSRC_chk_mouse').attr("disabled","disabled")
             var URT_loginid_val=$("#URT_SRC_lb_loginrejoin option:selected").text();
-            ///
             $('#URSRC_lbl_login_role').hide();
             $('#URT_SRC_lbl_datepickerrejoin').hide();
             $('#URT_SRC_tb_datepickerrejoin').hide();
@@ -693,7 +696,6 @@ include "../TSLIB/TSLIB_HEADER.php";
             $('#URT_lbl_dbroles').hide();
             $('#URT_SRC_tble_roles').hide();
             $('#URT_SRC_btn_rejoin').hide();
-            ///
             if(URT_loginid_val=='SELECT')
             {
                 $("#URT_SRC_tble_roles").hide();
@@ -755,12 +757,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_ta_brnchaddr').val('');
                                 $('#URSRC_tb_laptopno').val('');
                                 $('#URSRC_tb_chargerno').val('');
+                                $('#URSRC_tb_btry').val('');
                                 $('#URSRC_tb_houseno').val('');
                                 $('#URSRC_tb_area').val('');
                                 $('#URSRC_tb_pstlcode').val('');
                                 $('#URSRC_ta_brnchaddr').val('');
                                 $('#URSRC_tb_strtname').val('');
-                                $('#URSRC_tb_chargerno').val('');
                                 $('#URSRC_ta_comments').val('');
                                 $('#URSRC_tb_aadharno').val('').hide();
                                 $('#URSRC_tb_passportno').val('').hide();
@@ -779,6 +781,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $("input[name=URT_SRC_radio_nrole]:checked").attr('checked',false);
                                 var values_array=JSON.parse(xmlhttp.responseText);
                                 var min_date=values_array[0][1];
+                                var laptopbagno=values_array[0][2];
                                 var firstname=values_array[0][0].firstname;
                                 var lastname=values_array[0][0].lastname;
                                 var dob=values_array[0][0].dob;
@@ -810,6 +813,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 var street=values_array[0][0].URSRC_street;
                                 var area=values_array[0][0].URSRC_area;
                                 var postal_code=values_array[0][0].URSRC_postal;
+                                var btryslno=values_array[0][0].URSRC_btryslno;
                                 var mindate=min_date.toString().split('-');
                                 var month=mindate[1]-1;
                                 var year=mindate[2];
@@ -832,9 +836,19 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 {
                                     $('#URSRC_tb_accntyp').val(accountype);
                                 }
-                                if(laptop!=null)
+//                                if(laptop!=null){
+//                                    $('#URSRC_lb_selectlaptopno').val(laptop).show();
+////                        $("#URSRC_tb_laptopno option[value='" + laptop + "']").attr("selected", true");
+//                                }
+//                                else
+//                                {
+//                                    $('#URSRC_lb_selectlaptopno').hide();
+//                                    $('#URSRC_lbl_nolaptop').text(URSRC_errorAarray[35]).show();
+//                                }
+                                if(laptopbagno!='')
                                 {
-                                    $('#URSRC_tb_laptopno').val('SELECT');
+                                    $('#URSRC_tb_laptopno').val('SELECT').show();
+                                    $('#URSRC_tb_chargerno').val('');
                                 }
                                 else
                                 {
@@ -877,26 +891,11 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 $('#URSRC_tb_area').val(area);
                                 $('#URSRC_tb_pstlcode').val(postal_code);
                                 if(chargerno!=null){
-                                    var emp_cahrgerno=chargerno.length;
-                                    $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+2);
+//                                    var emp_cahrgerno=chargerno.length;
+//                                    $('#URSRC_tb_chargerno').val(chargerno).attr("size",emp_cahrgerno+2);
+                                    $('#URSRC_tb_chargerno').val('');
                                 }
                                 $('#URSRC_ta_comments').val(comments);
-                                if(bag=='X')
-                                {
-                                    $('#URSRC_chk_bag').attr('checked',true);
-                                }
-                                else
-                                {
-                                    $('#URSRC_chk_bag').attr('checked',false);
-                                }
-                                if(mouse=='X')
-                                {
-                                    $('#URSRC_chk_mouse').attr('checked',true);
-                                }
-                                else
-                                {
-                                    $('#URSRC_chk_mouse').attr('checked',false);
-                                }
                                 if(dooraccess=='X')
                                 {
                                     $('#URSRC_chk_dracess').attr('checked',true);
@@ -966,6 +965,9 @@ include "../TSLIB/TSLIB_HEADER.php";
 
 //CHANGE FUNCTION FOR LAPTOP
         $(document).on('change','#URSRC_tb_laptopno',function(){
+            $('#URSRC_chk_bag').removeAttr("disabled","disabled")
+            $('#URSRC_chk_mouse').removeAttr("disabled","disabled")
+
             $(".preloader").show();
             var URSRC_lb_laptopno=$('#URSRC_tb_laptopno').find('option:selected').text();
             if(URSRC_lb_laptopno!='SELECT')
@@ -974,8 +976,40 @@ include "../TSLIB/TSLIB_HEADER.php";
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $(".preloader").hide();
-                        var value_array=(xmlhttp.responseText);
-                        $('#URSRC_tb_chargerno').val(value_array);
+                        var value_array=JSON.parse(xmlhttp.responseText);
+                        for(var j=0;j<value_array.length;j++) {
+                            var chargerno = value_array[j].chargerno;
+                            laptopno = value_array[j].laptopno;
+                            mouse = value_array[j].mouse;
+                            btry = value_array[j].btry;
+                        }
+                        $('#URSRC_tb_chargerno').val(chargerno);
+                        $('#URSRC_tb_btry').val(btry).show();
+                        if(laptopno!=null)
+                        {
+                            $('#URSRC_tb_laptopbagno').val(laptopno).show();
+                            $('input:checkbox[id=URSRC_chk_bag]').attr('checked',true)
+                            $("#URSRC_tb_laptopbagno").prop("readonly", true);
+//                            $("#URSRC_chk_bag").prop("readonly", true);
+                            $("#URSRC_chk_bag").attr("disabled","disabled")
+                        }
+                        else
+                        {
+                            $('input:checkbox[id=URSRC_chk_bag]').attr('checked',false)
+                            $("#URSRC_tb_laptopbagno").prop("readonly", false);
+                            $('#URSRC_tb_laptopbagno').val('').hide();
+                        }
+                        if(mouse!=null)
+                        {
+                            $('#URSRC_tb_mouse').val(mouse).show();
+                            $('input:checkbox[id=URSRC_chk_mouse]').attr('checked',true)
+                        }
+                        else
+                        {
+                            $('input:checkbox[id=URSRC_chk_mouse]').attr('checked',false)
+                            $("#URSRC_tb_mouse").prop("readonly", false);
+                            $('#URSRC_tb_mouse').val('').hide();
+                        }
                         URT_SRC_validation();
                     }
                 }
@@ -986,6 +1020,12 @@ include "../TSLIB/TSLIB_HEADER.php";
             else{
                 $(".preloader").hide();
                 $('#URSRC_tb_chargerno').val('');
+                $('#URSRC_tb_btry').val('').show();
+                $('#URSRC_tb_laptopbagno').val('').hide();
+                $('#URSRC_tb_mouse').val('').hide();
+                $('input:checkbox[id=URSRC_chk_btry]').attr('checked',false)
+                $('input:checkbox[id=URSRC_chk_mouse]').attr('checked',false)
+                $('input:checkbox[id=URSRC_chk_bag]').attr('checked',false)
                 URT_SRC_validation();
             }
         });
@@ -996,6 +1036,15 @@ include "../TSLIB/TSLIB_HEADER.php";
             }
             else{
                 $('#URSRC_tb_aadharno').hide().val("");
+            }
+        });
+        $('#URSRC_chk_mouse').click(function(){
+            $('#URSRC_tb_mouse').val('');
+            if($("input[name=URSRC_chk_mouse]").is(":checked")==true){
+                $('#URSRC_tb_mouse').val('').show();
+            }
+            else{
+                $('#URSRC_tb_mouse').hide().val("");
             }
         });
         //CLICK FUNCTION FOR RD PASSPORT BTN
@@ -1014,6 +1063,15 @@ include "../TSLIB/TSLIB_HEADER.php";
             }
             else{
                 $('#URSRC_tb_votersid').hide().val("");
+            }
+        });
+        $('#URSRC_chk_bag').click(function(){
+            if(($("input[name=URSRC_chk_bag]").is(":checked")==true)){
+                $('#URSRC_tb_laptopbagno').val('').show();
+            }
+            else{
+//                $("#URSRC_tb_laptopno").prop("readonly", false);
+                $('#URSRC_tb_laptopbagno').hide();
             }
         });
         //CLICK FUNCTION FOR LOGIN TERMINATION RADIO BTN
@@ -1341,13 +1399,15 @@ include "../TSLIB/TSLIB_HEADER.php";
                 var URT_SRC_aadharno=$('#URSRC_tb_aadharno').val();
                 var URT_SRC_passportnono=$('#URSRC_tb_passportno').val();
                 var URT_SRC_votersidno=$('#URSRC_tb_votersid').val();
+                var URSRC_laptopno=$('#URSRC_tb_laptopno').val();
+                var URSRC_mouseno=$('#URSRC_tb_mouse').val();
                 if(Selectedsearchradiooption=='URT_SRC_radio_valuerejoin')
                 {
                     if(button_vflag==1&&($("#URT_SRC_lbl_loginupdate").val()!='SELECT') &&($('#URSRC_lb_selectemptype').val()!='SELECT') && ($("#URT_SRC_tb_datepickerrejoin").val()!="")&& ($("input[name=URT_SRC_radio_nrole]").is(":checked")==true)&&(URSRC_Firstname!='') && (URSRC_Lastname!='' ) && (URSRC_tb_dob!='' ) &&($('#URSRC_tb_designation').val()!='SELECT')&&( URSRC_Mobileno!='' && (parseInt($('#URSRC_tb_permobile').val())!=0)) && (URSRC_kinname!='')&& ($('#URSRC_tb_relationhd').val()!='SELECT') && (URSRC_Mobileno.length>=10)&&(URSRC_mobile.length>=10 )&&(URSRC_brnchaddr!="")&&($('#URSRC_tb_accntyp').val()!='SELECT')&&(URSRC_ifsc!="")&&(URSRC_acctno!="")&&(URSRC_accname!="")&&(URSRC_tb_brnname!="")&&(URSRC_bnkname!="") &&($('#URSRC_tb_houseno').val()!='') &&($('#URSRC_tb_strtname').val()!='')&&($('#URSRC_tb_area').val()!='')&&($('#URSRC_tb_pstlcode').val()!=''))
                     {
                         $("#URT_SRC_btn_rejoin").removeAttr("disabled");
-                        if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)){
-                            if((URT_SRC_aadharno=='' && $("input[name=URSRC_chk_aadharno]").is(":checked")==true) ||(URT_SRC_passportnono=='' && $("input[name=URSRC_chk_passportno]").is(":checked")==true)||(URT_SRC_votersidno=='' && $("input[name=URSRC_chk_votersid]").is(":checked")==true))
+                        if(($("input[name=URSRC_chk_aadharno]").is(":checked")==true)||($("input[name=URSRC_chk_votersid]").is(":checked")==true)||($("input[name=URSRC_chk_passportno]").is(":checked")==true)||($("input[name=URSRC_chk_bag]").is(":checked")==true)||($("input[name=URSRC_chk_mouse]").is(":checked")==true)){
+                            if((URT_SRC_aadharno=='' && $("input[name=URSRC_chk_aadharno]").is(":checked")==true) ||(URT_SRC_passportnono=='' && $("input[name=URSRC_chk_passportno]").is(":checked")==true)||(URT_SRC_votersidno=='' && $("input[name=URSRC_chk_votersid]").is(":checked")==true)||(URSRC_laptopno=='' && $("input[name=URSRC_chk_bag]").is(":checked")==true)||(URSRC_mouseno=='' && $("input[name=URSRC_chk_mouse]").is(":checked")==true))
                                 $("#URT_SRC_btn_rejoin").attr("disabled", "disabled");
                             else
                                 $("#URT_SRC_btn_rejoin").removeAttr("disabled");
@@ -1631,20 +1691,26 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <div class="col-sm-5">
                             <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
                         </div></div>
-
+                    <div class="row-fluid form-group">
+                        <label  class="col-sm-2" name="URSRC_lbl_btry" id="URSRC_lbl_btry">BATTERY SLNO</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="URSRC_tb_btry" id="URSRC_tb_btry" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
+                        </div></div>
                     <div id="URSRC_table_others" style="width:500px" hidden>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">&nbsp;LAPTOP BAG</label>
-                        </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">
-                                </div></div>
-                            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;MOUSE</label>
-                        </div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">
+                                        <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">&nbsp;&nbsp;LAPTOP BAG</label>
+                                </div></div><div class="">
+                                <input type="text" name="URSRC_tb_laptopbagno" id="URSRC_tb_laptopbagno" maxlength='15' class="login_submitvalidate form-control " style="display:inline" readonly hidden>
+                            </div></div>
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">
+                                        <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">&nbsp;&nbsp;MOUSE</label>
+                                </div></div><div class="">
+                                <input type="text" name="URSRC_tb_mouse" id="URSRC_tb_mouse" maxlength='15' class="login_submitvalidate form-control " style="display:inline"  hidden>
+                            </div></div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
@@ -1666,24 +1732,24 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
                                     <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">
-                                    <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">&nbsp;&nbsp;AADHAAR NO</label>
+                                        <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">&nbsp;&nbsp;AADHAAR NO</label>
                                 </div></div><div class="">
-                            <input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate form-control" hidden>
-                        </div></div>
+                                <input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='' class=" sizefix login_submitvalidate form-control" hidden>
+                            </div></div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
                                     <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">
-                                    <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">&nbsp;&nbsp;PASSPORT NO</label>
+                                        <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">&nbsp;&nbsp;PASSPORT NO</label>
                                 </div></div><div class="">
-                            <input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
-                        </div></div>
+                                <input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='10' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
+                            </div></div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
                                     <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">
-                                    <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">&nbsp;VOTERS ID NO</label>
+                                        <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">&nbsp;VOTERS ID NO</label>
                                 </div></div><div class="">
-                           <input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
-                        </div> </div>
+                                <input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='10' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
+                            </div> </div>
 
                         <div class="row-fluid form-group">
                             <label  class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
@@ -1701,35 +1767,35 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span>
-                        </div></div></div>
+                                    </div></div></div>
+                        </div>
+                        <!--EMPL DETAILS-->
+                        <div><input align="right" type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden></div>
                     </div>
-                    <!--EMPL DETAILS-->
-                    <div><input align="right" type="submit" value="REJOIN" id="URT_SRC_btn_rejoin" name="URT_SRC_btn_rejoin" class="btn"  hidden></div>
-                </div>
-                <!--terminate updation-->
-                <div class="row-fluid form-group">
-                    <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="form-inline col-sm-2" hidden>LOGIN ID<em>*</em></label>
-                    <div class="col-sm-4">
-                        <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
-                    </div></div>
-                <div class="row-fluid form-group">
-                    <label id="URT_SRC_lbl_recordversion" class=" col-sm-2" hidden >RECORD VERSION<em>*</em></label>
-                    <div class="col-sm-10">
-                        <select name="URT_SRC_lb_recordversion" id="URT_SRC_lb_recordversion" hidden ></select>
-                    </div></div>
-                <div class="row-fluid form-group">
-                    <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" form-inline col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
-                    <div class="col-sm-10">
-                        <input type="text" name="URT_SRC_tb_ndatepickerupdate" id="URT_SRC_tb_datepickerupdate" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" hidden>
-                    </div></div>
-                <div class="row-fluid form-group">
-                    <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class="form-inline col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
-                    <div class="col-sm-4">
-                        <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate"  class="form-control tarea"hidden> </textarea>
-                    </div></div>
-                <div>
-                    <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:100px">
-                </div>
+                    <!--terminate updation-->
+                    <div class="row-fluid form-group">
+                        <label name="URT_SRC_lbl_nloginupdate" id="URT_SRC_lbl_loginupdate" class="form-inline col-sm-2" hidden>LOGIN ID<em>*</em></label>
+                        <div class="col-sm-4">
+                            <select name="URT_SRC_lb_nloginupdate" id="URT_SRC_lb_loginupdate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label id="URT_SRC_lbl_recordversion" class=" col-sm-2" hidden >RECORD VERSION<em>*</em></label>
+                        <div class="col-sm-10">
+                            <select name="URT_SRC_lb_recordversion" id="URT_SRC_lb_recordversion" hidden ></select>
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label name="URT_SRC_lbl_ndatepickerupdate" id="URT_SRC_lbl_datepickerupdate" class=" form-inline col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="URT_SRC_tb_ndatepickerupdate" id="URT_SRC_tb_datepickerupdate" class="URT_SRC_tb_rejoinndsearchdatepicker datemandtry" hidden>
+                        </div></div>
+                    <div class="row-fluid form-group">
+                        <label name="URT_SRC_lbl_nreasonupdate" id="URT_SRC_lbl_reasonupdate" class="form-inline col-sm-2" hidden> REASON OF TERMINATION<em>*</em></label>
+                        <div class="col-sm-4">
+                            <textarea name="URT_SRC_ta_nreasonupdate" id="URT_SRC_ta_reasonupdate"  class="form-control tarea"hidden> </textarea>
+                        </div></div>
+                    <div>
+                        <input align="right" type="button" value="UPDATE" id="URT_SRC_btn_update" class="btn"  hidden style="width:100px">
+                    </div>
             </fieldset>
         </div>
         <!--</div>-->

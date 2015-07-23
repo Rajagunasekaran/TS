@@ -1,7 +1,7 @@
 <?php
 //WITHOUT FOLDER CALLING WISE
 set_include_path( get_include_path() . PATH_SEPARATOR . 'google-api-php-client-master/src' );
-//require_once 'google/appengine/api/mail/Message.php';
+require_once 'google/appengine/api/mail/Message.php';
 require_once ('google-api-php-client-master/src/Google/Client.php');
 include 'google-api-php-client-master/src/Google/Service/Drive.php';
 include 'google-api-php-client-master/src/Google/Service/Calendar.php';
@@ -10,7 +10,7 @@ include "../TSLIB/TSLIB_CONNECTION.php";
 include "../TSLIB/TSLIB_COMMON.php";
 include "../TSLIB/TSLIB_GET_USERSTAMP.php";
 //include "../TSLIB/TSLIB_CONFIG.php";
-//use google\appengine\api\mail\Message;
+use google\appengine\api\mail\Message;
 //error_reporting(0);
 set_time_limit(0);
 error_reporting(E_ERROR | E_PARSE);
@@ -494,17 +494,17 @@ if(isset($_REQUEST)){
                 //SENDING MAIL OPTIONS
                 $name = $mail_displayname;
                 $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-//                try {
-//                    $message1 = new Message();
-//                    $message1->setSender($name.'<'.$from.'>');
-//                    $message1->addTo('lalitha.rajendiran@ssomens.com');
-////                    $message1->addCc($cclist);
-//                    $message1->setSubject($mail_subject);
-//                    $message1->setHtmlBody($final_message);
-//                    $message1->send();
-//                } catch (\InvalidArgumentException $e) {
-//                    echo $e;
-//                }
+                try {
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+                    $message1->addTo('lalitha.rajendiran@ssomens.com');
+//                    $message1->addCc($cclist);
+                    $message1->setSubject($mail_subject);
+                    $message1->setHtmlBody($final_message);
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
                 $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                 $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                 if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -528,20 +528,20 @@ if(isset($_REQUEST)){
                 $cc_array=get_active_login_id();
 //                $cc_array=['punitha.shanmugam@ssomens.com'];
                 //SENDING MAIL OPTIONS
-//                try {
-//                    $name = $intro_mail_displayname;
-//                    $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-//                    $message1 = new Message();
-//                    $message1->setSender($name.'<'.$from.'>');
-////                    $message1->addTo($cc_array);
-//                    $message1->addTo('lalitha.rajendiran@ssomens.com');
-////                    $message1->addCc($sadmin);
-//                    $message1->setSubject($intro_mail_subject);
-//                    $message1->setHtmlBody($intro_message);
-//                    $message1->send();
-//                } catch (\InvalidArgumentException $e) {
-//                    echo $e;
-//                }
+                try {
+                    $name = $intro_mail_displayname;
+                    $from = 'lalitha.rajendiran@ssomens.com';//$admin;
+                    $message1 = new Message();
+                    $message1->setSender($name.'<'.$from.'>');
+//                    $message1->addTo($cc_array);
+                    $message1->addTo('lalitha.rajendiran@ssomens.com');
+//                    $message1->addCc($sadmin);
+                    $message1->setSubject($intro_mail_subject);
+                    $message1->setHtmlBody($intro_message);
+                    $message1->send();
+                } catch (\InvalidArgumentException $e) {
+                    echo $e;
+                }
             }
             $flag_array=[$flag,$ss_flag,$cal_flag,$fileId,$file_flag,$folderid];
         }
@@ -1144,17 +1144,17 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     //SENDING MAIL OPTIONS
                     $name = $mail_dispalyname1;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-//                    try {
-//                        $message1 = new Message();
-//                        $message1->setSender($name.'<'.$from.'>');
-//                        $message1->addTo('lalitha.rajendiran@ssomens.com');
-////                        $message1->addCc($cclist);
-//                        $message1->setSubject($mail_subject1);
-//                        $message1->setHtmlBody($final_message);
-//                        $message1->send();
-//                    } catch (\InvalidArgumentException $e) {
-//                        echo $e;
-//                    }
+                    try {
+                        $message1 = new Message();
+                        $message1->setSender($name.'<'.$from.'>');
+                        $message1->addTo('lalitha.rajendiran@ssomens.com');
+//                        $message1->addCc($cclist);
+                        $message1->setSubject($mail_subject1);
+                        $message1->setHtmlBody($final_message);
+                        $message1->send();
+                    } catch (\InvalidArgumentException $e) {
+                        echo $e;
+                    }
                     $select_intro_template="SELECT * FROM EMAIL_TEMPLATE_DETAILS WHERE ET_ID=14";
                     $select_introtemplate_rs=mysqli_query($con,$select_intro_template);
                     if($row=mysqli_fetch_array($select_introtemplate_rs)){
@@ -1180,18 +1180,18 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     //SENDING MAIL OPTIONS
                     $name = $intro_mail_displayname;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-//                    try {
-//                        $message1 = new Message();
-//                        $message1->setSender($name.'<'.$from.'>');
-////                        $message1->addTo($cc_array);
-//                        $message1->addTo('lalitha.rajendiran@ssomens.com');
-////                        $message1->addCc($sadmin);
-//                        $message1->setSubject($intro_mail_subject);
-//                        $message1->setHtmlBody($intro_message);
-//                        $message1->send();
-//                    } catch (\InvalidArgumentException $e) {
-//                        echo $e;
-//                    }
+                    try {
+                        $message1 = new Message();
+                        $message1->setSender($name.'<'.$from.'>');
+//                        $message1->addTo($cc_array);
+                        $message1->addTo('lalitha.rajendiran@ssomens.com');
+//                        $message1->addCc($sadmin);
+                        $message1->setSubject($intro_mail_subject);
+                        $message1->setHtmlBody($intro_message);
+                        $message1->send();
+                    } catch (\InvalidArgumentException $e) {
+                        echo $e;
+                    }
 
 
                 }

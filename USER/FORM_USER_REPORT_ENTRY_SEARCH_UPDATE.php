@@ -142,6 +142,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                             $(".preloader").hide();
                             var value_array=JSON.parse(xmlhttp.responseText);
+                            $("#URE_lb_attendance option[value='2']").detach();
                             permission_array=value_array[0];
                             project_array=value_array[1];
                             min_date=value_array[2];
@@ -154,6 +155,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 //                    }
                             if(wfh_flag == 'X')
                             {
+
                                 $('#URE_lb_attendance').append("<option value='2'>WORK FROM HOME</option>")
                                 $('#URE_lb_attendance').children('option[value="1"]').css('display','none');
                                 $('#URE_lb_attendance').children('option[value="0"]').css('display','none');
@@ -161,6 +163,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             }
                             else
                             {
+
                                 $('#URE_lb_attendance').children('option[value="1"]').show();
                                 $('#URE_lb_attendance').children('option[value="0"]').show();
                                 $('#URE_lb_attendance').children('option[value="OD"]').show();
@@ -204,6 +207,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_btn_pdf').hide();
                     $('#USRC_UPD_btn_submit').hide();
                     $('#USRC_UPD_btn_srch').hide();
+                    $('#USRC_UPD_tb_date').hide();
                     $("#USRC_UPD_btn_search").attr("disabled", "disabled");
                     var errmsgs;
                     $("#USRC_UPD_btn_submit").attr("disabled", "disabled");
@@ -740,46 +744,49 @@ include "../TSLIB/TSLIB_HEADER.php";
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                             $(".preloader").hide();
                             response=xmlhttp.responseText;
-                            if(response==1)
-                            {
-                                $('#URE_lbl_checkmsg').text(err_msg[12]).show();
-                                $('#URE_lb_timing').hide();
-                                $('#URE_lbl_permission').hide();
-                                $('#URE_rd_permission').hide();
-                                $('#URE_rd_nopermission').hide();
-                                $('#URE_lbl_nopermission').hide();
-                                $('#URE_lbl_session').hide();
-                                $('#URE_lb_ampm').hide();
-                                $('#URE_tble_projectlistbx').hide();
-                                $('#URE_btn_submit').hide();
-                                $('#URE_rd_permission').removeAttr("disabled");
-                                $('#URE_rd_nopermission').removeAttr("disabled");
-                                $('#URE_lbl_errmsg').hide();
-                            }
-                            else if(response==0)
-                            {
-                                $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-                                $('#URE_tble_enterthereport,#URE_ta_reason,#URE_tble_bandwidth').html('');
-                                $('#URE_lbl_checkmsg').text(err_msg[11]).show();
-                                $('#URE_lbl_errmsg').hide();
-                                $('#URE_lbl_permission').hide();
-                                $('#URE_rd_permission').hide();
-                                $('#URE_rd_nopermission').hide();
-                                $('#URE_lbl_nopermission').hide();
-                                $('#URE_lbl_session').hide();
-                                $('#URE_lb_ampm').hide();
-                                $('#URE_tble_enterthereport').html('');
-                                $('#URE_tble_bandwidth').html('');
-                                $('#URE_tble_projectlistbx').show();
-                                projectlists();
-                                URE_report();
-                                $('#URE_btn_submit').hide();
-                                $("#URE_btn_submit").removeAttr("disabled");
-                                $('#URE_rd_permission').attr('disabled','disabled');
-                                $('#URE_rd_nopermission').attr('disabled','disabled');
-                                $('#URE_lbl_errmsg').hide();
-                                $('#URE_lbl_checkmsg').hide();
-                            }
+//                            if(response==1)
+//                            {
+////                                $('#URE_lbl_checkmsg').text(err_msg[12]).show();
+//                                $('#URE_lb_timing').hide();
+//                                $('#URE_lbl_permission').hide();
+//                                $('#URE_rd_permission').hide();
+//                                $('#URE_rd_nopermission').hide();
+//                                $('#URE_lbl_nopermission').hide();
+//                                $('#noopermission').hide();
+//                                $('#URE_lbl_session').hide();
+//                                $('#URE_lb_ampm').hide();
+//                                $('#URE_tble_projectlistbx').hide();
+//                                $('#URE_btn_submit').hide();
+//                                $('#URE_rd_permission').removeAttr("disabled");
+//                                $('#URE_rd_nopermission').removeAttr("disabled");
+//                                $('#URE_lbl_errmsg').hide();
+//                            }
+//                            else if(response==0)
+//                            {
+
+
+                            $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+                            $('#URE_tble_enterthereport,#URE_ta_reason,#URE_tble_bandwidth').html('');
+//                                $('#URE_lbl_checkmsg').text(err_msg[11]).show();
+                            $('#URE_lbl_errmsg').hide();
+                            $('#URE_rd_permission').hide();
+                            $('#URE_rd_nopermission').hide();
+                            $('#URE_lbl_nopermission').hide();
+                            $('#noopermission').hide();
+                            $('#URE_lbl_session').hide();
+                            $('#URE_lb_ampm').hide();
+                            $('#URE_tble_enterthereport').html('');
+                            $('#URE_tble_bandwidth').html('');
+                            $('#URE_tble_projectlistbx').show();
+                            projectlists();
+                            URE_report();
+                            $('#URE_btn_submit').hide();
+                            $("#URE_btn_submit").removeAttr("disabled");
+                            $('#URE_rd_permission').attr('disabled','disabled');
+                            $('#URE_rd_nopermission').attr('disabled','disabled');
+                            $('#URE_lbl_errmsg').hide();
+                            $('#URE_lbl_checkmsg').hide();
+//                            }
                         }
                     }
                     var option="PRESENT";
@@ -1397,11 +1404,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_tb_date').show();
                     $('#USRC_UPD_tb_date').val(date);
                     $('#USRC_UPD_lb_attendance').val('2');
-                    $('#USRC_UPD_rd_permission').hide();
-                    $('#USRC_UPD_lbl_permission').hide();
+                    $('#USRC_UPD_rd_permission').show();
+                    $('#USRC_UPD_lbl_permission').show();
                     $('#permission_hide').hide();
-                    $('#USRC_UPD_rd_nopermission').hide();
-                    $('#USRC_UPD_lbl_nopermission').hide();
+                    $('#USRC_UPD_rd_nopermission').show();
+                    $('#USRC_UPD_lbl_nopermission').show();
+                    $('#noopermission').show();
                     $('#USRC_UPD_lbl_session').hide();
                     $('#USRC_UPD_lb_ampm').hide();
                     $('#USRC_UPD_tble_projectlistbx').show();
@@ -2071,7 +2079,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     <label name="URE_report_entry" id="URE_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
                 <div id="entry" hidden>
-                    <div style="padding-bottom: 15px">
+                    <div>
 
                         <div class="radio">
                             <label name="entry"  id="URE_lbl_sinentry"><input type="radio" id="URE_rd_sinentry" name="entry" value="SINGLE DAY ENTRY"/>SINGLE DAY ENTRY</label>
@@ -2080,13 +2088,14 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <div class="radio">
                             <label name="entry" id="URE_lbl_mulentry" >
                                 <input type="radio" id="URE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY"/>MULTIPLE DAY ENTRY</label>
-                        </div></div>
+                        </div>
+                    </div>
 
                     <div id="URE_tbl_singleday" hidden>
                         <div class="form-group">
                             <label name="URE_lbl_dte" class="col-sm-2" id="URE_lbl_dte" >DATE</label>
                             <div class="col-sm-4">
-                                <input type ="text" id="URE_tb_date" class='proj datemandtry formshown' name="URE_tb_date" style="width:75px;" />
+                                <input type ="text" id="URE_tb_date" class='proj datemandtry formshown form-control' name="URE_tb_date" style="width:100px;" />
                             </div></div>
 
                         <div id="URE_tble_attendence" hidden>
@@ -2152,14 +2161,14 @@ include "../TSLIB/TSLIB_HEADER.php";
                     <div id="URE_tbl_multipleday" hidden>
                         <div class="row-fluid form-group">
                             <label name="URE_lbl_sdte" class="col-sm-2"  id="URE_lbl_dte" >FROM DATE</label>
-                            <div class="col-sm-8">
-                                <input type ="text" id="URE_ta_fromdate" class='proj datemandtry formshown dtpic valid' name="URE_ta_fromdate" style="width:75px;" />
+                            <div class="col-sm-4">
+                                <input type ="text" id="URE_ta_fromdate" class='proj datemandtry formshown dtpic valid form-control' name="URE_ta_fromdate" style="width:100px;" />
                             </div></div>
 
                         <div class="row-fluid form-group">
                             <label name="URE_lbl_edte" class="col-sm-2" id="URE_lbl_dte" >TO DATE</label>
-                            <div class="col-sm-8">
-                                <input type ="text" id="URE_ta_todate" class='proj datemandtry formshown dtpic valid_date' name="URE_ta_todate" style="width:75px;" />
+                            <div class="col-sm-4">
+                                <input type ="text" id="URE_ta_todate" class='proj datemandtry formshown dtpic valid_date form-control' name="URE_ta_todate" style="width:100px;" />
                             </div></div>
 
                         <div id="URE_tbl_attendence" class="row-fluid form-group" hidden>
@@ -2186,14 +2195,14 @@ include "../TSLIB/TSLIB_HEADER.php";
                 <div id="search_update" hidden>
                     <div class="row-fluid form-group">
                         <label name="USRC_UPD_lbl_strtdte" class="col-sm-2"  id="USRC_UPD_lbl_strtdte" >START DATE<em>*</em></label>
-                        <div class="col-sm-8">
-                            <input type="text" name="USRC_UPD_tb_strtdte" id="USRC_UPD_tb_strtdte" class="USRC_UPD_tb_date valid clear" style="width:75px;">
+                        <div class="col-sm-4">
+                            <input type="text" name="USRC_UPD_tb_strtdte" id="USRC_UPD_tb_strtdte" class="USRC_UPD_tb_date valid clear form-control" style="width:100px;">
                         </div></div>
 
                     <div class="row-fluid form-group">
                         <label name="USRC_UPD_lbl_enddte" class="col-sm-2"  id="USRC_UPD_lbl_enddte" >END DATE<em>*</em></label>
-                        <div class="col-sm-8">
-                            <input type="text" name="USRC_UPD_tb_enddte" id="USRC_UPD_tb_enddte" class="USRC_UPD_tb_date valid clear" style="width:75px;">
+                        <div class="col-sm-4">
+                            <input type="text" name="USRC_UPD_tb_enddte" id="USRC_UPD_tb_enddte" class="USRC_UPD_tb_date valid clear form-control" style="width:100px;">
                         </div></div>
 
                     <div ><input type="button" class="btn" name="USRC_UPD_btn_search" id="USRC_UPD_btn_search" value="SEARCH" disabled ></div>
@@ -2210,8 +2219,9 @@ include "../TSLIB/TSLIB_HEADER.php";
 
                     <div class="row-fluid form-group" style="padding-top: 10px">
                         <label name="USRC_UPD_lbl_dte"  class="col-sm-2" id="USRC_UPD_lbl_dte" hidden>DATE</label>
-                        <div class="col-sm-8">
-                            <input type ="text" id="USRC_UPD_tb_date" class='proj datemandtry formshown update_validate' name="USRC_UPD_tb_date" style="width:130px;" hidden/><label id="USRC_UPD_errmsg" name="USRC_UPD_errmsg" class="errormsg" hidden></label>
+                        <div class="col-sm-4">
+                            <input type ="text" id="USRC_UPD_tb_date" class='proj datemandtry formshown update_validate form-control' name="USRC_UPD_tb_date" style="width:100px;" hidden/>
+                            <label id="USRC_UPD_errmsg" name="USRC_UPD_errmsg" class="errormsg" hidden></label>
                         </div></div>
 
                     <div id="USRC_UPD_tble_attendence" hidden>
