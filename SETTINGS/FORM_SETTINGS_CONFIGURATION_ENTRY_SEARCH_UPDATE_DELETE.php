@@ -150,7 +150,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     }
                     else if($('#CONFIG_ENTRY_lb_type').val()=='23')
                     {
-                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">LAPTOP NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="LN_CONFIG_ENTRY_tb_data" name="LN_CONFIG_ENTRY_tb_data"></div></div><div class=" row-fluid from-group"><label class="col-sm-2">CHARGER NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="CN_CONFIG_ENTRY_tb_data" name="CN_CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
+                        $('#CONFIG_ENTRY_tr_data').html('').append('<div class="row-fluid form-group"><label class="col-sm-2">LAPTOP NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="LN_CONFIG_ENTRY_tb_data" class="form-control "name="LN_CONFIG_ENTRY_tb_data"></div></div><div class="row-fluid from-group"><label class="col-sm-2">CHARGER NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="CN_CONFIG_ENTRY_tb_data" class="form-control" name="CN_CONFIG_ENTRY_tb_data"></div></div><div class="row-fluid from-group"><label class="col-sm-2">BATTERY NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="BN_CONFIG_ENTRY_tb_data" class="form-control" name="BN_CONFIG_ENTRY_tb_data"></div></div><div class="row-fluid from-group"><label class="col-sm-2">LAPBAG NUMBER<em>*</em></label><div class="col-sm-4"><input type="text" id="LBN_CONFIG_ENTRY_tb_data" class="form-control" name="LBN_CONFIG_ENTRY_tb_data"></div></div><div class="row-fluid from-group"><label class="col-sm-2">MOUSE NUMBER</label><div class="col-sm-4"><input type="text" id="MN_CONFIG_ENTRY_tb_data" class="form-control" name="MN_CONFIG_ENTRY_tb_data"><div id="CONFIG_ENTRY_div_errmsg" hidden class="errormsg"></div></div></div>');
                     }
                     else if($('#CONFIG_ENTRY_lb_type').val()=='22')
                     {
@@ -166,12 +166,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $('#CONFIG_ENTRY_tr_data').show();
                     }
                     $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid" style="padding-left: 15px"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled>&nbsp;&nbsp;<input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
-                    // <div class="row form-group"><div class="col-lg-offset-2 col-lg-3"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="CREATE" disabled>         <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>   </div>
-                    //$('#CONFIG_ENTRY_tr_btn').append('<div class="row form-group" align="right"><input  type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE"></div><div class="row-fluid form-group">' + '<input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
-                    //   $('#CONFIG_ENTRY_tr_btn').append('<div class="row-fluid form-group"> <input type="button" id="CONFIG_ENTRY_btn_save" class="btn" value="SAVE" disabled></div> <div> <input type="button" id="CONFIG_ENTRY_btn_reset" class="btn" value="RESET"></div>');
                     $("#CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
                     $("#CN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
-                    $("#LN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#LN_CONFIG_ENTRY_tb_data").doValidation({rule:'',prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#BN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#LBN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
+                    $("#MN_CONFIG_ENTRY_tb_data").doValidation({rule:'alphanumeric',prop:{whitespace:true,uppercase:true,autosize:true}});
                     $(".alphabets").doValidation({rule:'alphabets',prop:{whitespace:true,uppercase:true,autosize:true}});
                     $('#CONFIG_ENTRY_tr_data').show();
                     $('#CONFIG_ENTRY_tr_btn').show();
@@ -183,6 +183,7 @@ include "../TSLIB/TSLIB_HEADER.php";
             });
             //CLICK EVENT FOR BUTTON
             $(document).on('click','#CONFIG_ENTRY_btn_save',function(evt){
+
                 evt.stopPropagation();
                 evt.preventDefault();
                 evt.stopImmediatePropagation();
@@ -192,16 +193,19 @@ include "../TSLIB/TSLIB_HEADER.php";
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $(".preloader").hide();
+
                         var CONFIG_ENTRY_msg_alert=xmlhttp.responseText;
                         var errormessage=CONFIG_ENTRY_msg_alert;
 
                         if(errormessage==1)
                         {
+
                             show_msgbox("CONFIGURATION ENTRY",CONFIG_ENTRY_errmsg[2].replace('[MODULE NAME]',$("#CONFIG_ENTRY_lb_module option:selected").text()),"success",false);
 
                         }
                         else if(errormessage==0)
                         {
+
 
                             show_msgbox("CONFIGURATION ENTRY",CONFIG_ENTRY_errmsg[0],"success",false);
                         }
@@ -243,7 +247,8 @@ include "../TSLIB/TSLIB_HEADER.php";
                             if(xmlhttp.responseText==0)
                                 $("#CONFIG_ENTRY_btn_save").removeAttr("disabled","disabled");
                             else
-                                $("#CONFIG_ENTRY_btn_save").attr("disabled","disabled");
+//                        $("#CONFIG_ENTRY_btn_save").attr("disabled","disabled");
+                                $("#CONFIG_ENTRY_btn_save").removeAttr("disabled","disabled");
 
                         }}
                     var OPTION="CONFIG_ENTRY_check_data";
@@ -383,10 +388,12 @@ include "../TSLIB/TSLIB_HEADER.php";
                 }
                 else if($('#CONFIG_SRCH_UPD_lb_module').val()=='2')
                 {
+
                     tdstr += "<input type='text' id='CONFIG_SRCH_UPD_tb_data' name='CONFIG_SRCH_data' class='reports'    value='"+$(tds[0]).html()+"'>";
                 }
                 else
                 {
+
                     tdstr += "<input type='text' id='CONFIG_SRCH_UPD_tb_data' name='CONFIG_SRCH_data' class='autosize'    value='"+$(tds[0]).html()+"'>";
                 }
                 $('#'+td).html(tdstr);

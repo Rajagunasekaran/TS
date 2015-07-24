@@ -210,6 +210,12 @@ handlers:
 - url: /ADMIN/EMPLOYEE/FORM_PAYROLL.do
   script: ADMIN/EMPLOYEE/FORM_PAYROLL.php
 
+- url: /ADMIN/EMPLOYEE/DB_PAYROLL_PDF.do
+  script: ADMIN/EMPLOYEE/DB_PAYROLL_PDF.php
+
+- url: /ADMIN/EMPLOYEE/DB_PAYROLL_PDF.do
+  script: ADMIN/EMPLOYEE/DB_PAYROLL_PDF.php
+
 - url: /_ah/login_required
   script: do_openid_login.py
 

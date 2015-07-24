@@ -9,13 +9,10 @@ global $con;
 //FUNTION FOR SUBMIT BUTTON CLICK
 if ($_REQUEST['Option']=="earningdedution")
 {
-
     $employeename=$_POST['ps_emp_name'];
-
     $fromdate=date("Y-m-d",strtotime($_POST['PS_tb_FROM_DATE']));
     $todate=date("Y-m-d",strtotime($_POST['PS_tb_TO_DATE']));
     $paymentdate=date("Y-m-d",strtotime($_POST['PS_tb_PAYMENT_DATE']));
-
     $paymentmode=$_POST['payment_mode_lb'];
     $comments=$_POST['PS_tb_COMMENTS'];
 
@@ -25,13 +22,12 @@ if ($_REQUEST['Option']=="earningdedution")
     $Dedution_labels=$_POST['deductionlbl'];
     $Dedution_amt=$_POST['deductionamt'];
 
-    $TH_query=mysqli_query($con,"SELECT * FROM VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS WHERE EMPLOYEE_NAME='$employeename'");
+    $TH_query=mysqli_query($con,"SELECT * FROM VW_TS_PAYSLIP_ALL_ACTIVE_EMPLOYEE_DETAILS WHERE EMPLOYEE_NAME='$employeename'");
     while($row=mysqli_fetch_array($TH_query))
     {
         $TH_active_emp_id=$row["EMP_ID"];
     }
 
-//FOR EARNING LABEL ARRAY
     $Earning_labels_length=count($Earning_labels);
     $Earning_lbl_id;
     for($i=0;$i<$Earning_labels_length;$i++)
@@ -80,7 +76,6 @@ if ($_REQUEST['Option']=="earningdedution")
     }
     $Dedution_lbl_id;
 
-
     //FOR dedution amt ARRAY
 
     $Dedution_amt_length=count($Dedution_amt);
@@ -97,9 +92,12 @@ if ($_REQUEST['Option']=="earningdedution")
         }
     }
     $Dedution_amt_id;
-//APPLWY SP FOR INSERT PAYROLL
-    $QUERY= "call SP_EMPLOYEE_PAYMENT_DETAILS_INSERT('$TH_active_emp_id','$fromdate','$todate','$paymentdate','$paymentmode','$comments','$Earning_lbl_id','$Earning_amt_id','$Dedution_lbl_id','$Dedution_amt_id','dhandapani.sattanathan@ssomens.com',@SUCCESS_FLAG)";
 
+
+//APPLWY SP FOR INSERT PAYROLL
+    ECHO("call SP_EMPLOYEE_PAYMENT_DETAILS_INSERT('$TH_active_emp_id','$fromdate','$todate','$paymentdate','$paymentmode','$comments','$Earning_lbl_id','$Earning_amt_id','$Dedution_lbl_id','$Dedution_amt_id','dhandapani.sattanathan@ssomens.com',@SUCCESS_FLAG)");
+
+    $QUERY= "call SP_EMPLOYEE_PAYMENT_DETAILS_INSERT('$TH_active_emp_id','$fromdate','$todate','$paymentdate','$paymentmode','$comments','$Earning_lbl_id','$Earning_amt_id','$Dedution_lbl_id','$Dedution_amt_id','dhandapani.sattanathan@ssomens.com',@SUCCESS_FLAG)";
     $result = $con->query($QUERY);
     if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
     $select = $con->query('SELECT @SUCCESS_FLAG');
@@ -114,12 +112,11 @@ if($_REQUEST['Option']=="initial_data")
     $TH_active_emp=get_active_emp_id();
     $TH_active_empname=array();
 
-    $TH_query=mysqli_query($con,"SELECT * from VW_TS_ALL_ACTIVE_EMPLOYEE_DETAILS where URC_DATA!='SUPER ADMIN' ORDER BY EMPLOYEE_NAME");
+    $TH_query=mysqli_query($con,"SELECT * from VW_TS_PAYSLIP_ALL_ACTIVE_EMPLOYEE_DETAILS where URC_DATA!='SUPER ADMIN' ORDER BY EMPLOYEE_NAME");
     while($row=mysqli_fetch_array($TH_query))
     {
         $TH_active_empname[]=$row["EMPLOYEE_NAME"];
     }
-
     $error='1,2,3,4,17,7';
     $error_array=get_error_msg($error);
 
@@ -154,41 +151,70 @@ if($_REQUEST['Option']=="initial_data")
     echo JSON_ENCODE($finalvalues);
 
 }
+//echo($_REQUEST['option']=="pdf");
+
 if($_REQUEST['option']=="pdf")
 {
+//        $emp_id=37;
+//        $employeename=$_REQUEST['EMPNAME'];
+//        $startdate=$_REQUEST['fromdate'];
+//        $enddate=$_REQUEST['todate'];
+//
+//        $TH_query=mysqli_query($con,"SELECT * FROM VW_TS_PAYSLIP_ALL_ACTIVE_EMPLOYEE_DETAILS WHERE EMPLOYEE_NAME='$employeename'");
+//        while($row=mysqli_fetch_array($TH_query))
+//        {
+//            $TH_active_emp_id=$row["EMP_ID"];
+//        }
 
-    $TH_query=mysqli_query($con,"SELECT EPD_FROM_PERIOD,EPD_TO_PERIOD,EPD_PAYMENT_DATE,EPD_TOTAL_AMOUNT,EPD_COMMENTS FROM EMPLOYEE_PAYMENT_DETAILS");
-    while($row=mysqli_fetch_array($TH_query))
+    $result = $con->query("CALL SP_TS_PAYSLIP_PDF(1,'2015-07-01','2015-07-31','rajalakshmi.r@ssomens.com',@TEMP_EMPLOYEE_PAYSLIP)");
+    if(!$result) die("CALL failed: (" . $con->errno . ") " . $con->error);
+    $select = $con->query('SELECT @TEMP_EMPLOYEE_PAYSLIP');
+    $result = $select->fetch_assoc();
+    $temp_table_name= $result['@TEMP_EMPLOYEE_PAYSLIP'];
+    $select_data="SELECT * FROM $temp_table_name";
+//        echo($select_data);
+//        exit;
+
+    $select_data_rs=mysqli_query($con,$select_data);
+    $sitevisit_details=mysqli_num_rows($select_data_rs);
+
+//echo($sitevisit_details);
+//        exit;
+    while($row=mysqli_fetch_array($select_data_rs))
     {
-        $employeepayment[]=array($row['EPD_FROM_PERIOD'],$row["EPD_TO_PERIOD"],$row['EPD_PAYMENT_DATE'],$row['EPD_TOTAL_AMOUNT'],$row['EPD_COMMENTS']);
+        $emppaymentdetails[]=array($row['EMP_ID'],$row['EMPLOYEE_NAME'],$row['EMP_DESIGNATION'],$row['EMP_EARNING'],$row['EMP_EARNING_AMOUNT'],$row['EMP_DEDUCTION'], $empdeduction_amt=$row['EMP_DEDUCTION_AMOUNT'],$emp_payment_date=$row['EMP_PAYMENT_DATE'],$emp_payment_mode=$row['EMP_PAYMENT_MODE'],$emp_payment_netpay=$row['EMP_NET_PAY'],$emp_from_date=$row['EMP_FROM_PERIOD'],$emp_to_date=$row['EMP_TO_PERIOD']);
 
     }
-//        echo($employeepayment[0][1]);
-//        exit;
+    if(count($emppaymentdetails)!=0)
+    {
+        $sitevisittable='<table width=1000 border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;"><caption align="left" style="font-weight: bold;"></caption></caption><sethtmlpageheader name="header" page="all" value="on" show-this-page="1"/><tr style="color:white;" bgcolor="#498af3" align="center"><td height=20px align="center" style="color:white;" nowrap><b>EARNING</b></td><td height=20px align="center" style="color:white;" nowrap><b>AMOUNT</b></td><td height=20px align="center" style="color:white;" nowrap><b>DEDUCTION</b></td><td height=20px align="center" style="color:white;" nowrap><b>AMOUNT</b></td><td height=20px align="center" style="color:white;" width="250" nowrap><b>NET PAY</b></td></tr>';
+        for($i=0;$i<count($emppaymentdetails);$i++)
+        {
+            $sitevisittable=$sitevisittable."<tr style='padding-left: 10px;'><td height=20px nowrap style='padding-left: 10px;'>".$emppaymentdetails[$i][3]."</td><td height=20px nowrap style='padding-left: 10px;'>".$emppaymentdetails[$i][4]."</td><td height=20px nowrap style='text-align:center;'>".$emppaymentdetails[$i][5]."</td><td height=20px nowrap style='text-align:center;'>".$emppaymentdetails[$i][6]."</td><td height=20px nowrap style='padding-left: 10px;'>".$emppaymentdetails[$i][9]."</td></tr>";
+        }
+        $sitevisittable=$sitevisittable.'</table>';
+//           $finaltable=$finaltable.'<tr><td>'.$employeeinfo.'</td></tr><tr><td></td></tr><tr></tr><tr><td>'.$sitevisittable.'</td></tr>';
+    }
 
-    $employeepaymentdetails='<table width=1000 border=1 cellpadding=0 cellspacing=0 colspan=3px  style="border-collapse:collapse;">
-    <caption style="caption-side: left;font-weight: bold;">PARTICULARS OF EMPLOYEE PAYROLL</caption><sethtmlpageheader name="header" page="all" value="on" show-this-page="1"/>
-    <tr><td width="250" style="color:#fff; background-color:#498af3;font-weight: bold;" height=25px>EMPLOYEE NAME</td><td style=width="250">'.$employeepayment[0][1].'</td>
-    <td width="250" style="color:#fff; background-color:#498af3;font-weight: bold;" height=25px>FORM DATE</td><td style=width="250">'.$employeepayment[0][2].' </td>
-    </tr><tr><td width="250" style="color:#fff; background-color:#498af3;font-weight: bold;" height=25px>TO DATE</td><td width="250">'.$employeepayment[0][3].'</td>
-    <td width="250" style="color:#fff; background-color:#498af3;font-weight: bold;" height=25px>PAYMENT DATE</td><td width="250">'.$employeepayment[0][4].'</td>
-    </tr><tr><td width="250" style="color:#fff; background-color:#498af3;font-weight: bold;" height=25px>COMMTENS</td><td style=width="250" colspan=3>'.$employeepayment[0][5].'</td></tr>
-    </tr></table>';
-//        echo($employeepaymentdetails);
-//        exit;
-    $reportheadername='COMPANY PROPERTIES TABLE'.$employeepaymentdetails[0][0];
-
-    $finaltable= '<html><body><table><tr><td style="text-align: center;"><div></div></td></tr><tr><td><h2><div style="font-weight: bold;margin-bottom: 5cm;">'.$employeepaymentdetails.'</div></table></body></html>';
+    $finaltable='<html><body><p align=CENTER><br><b>SSOMENS</b><br>SOFTWARE DEVELOPMENT<br>MR.SOMAYA SARATHBABOU <br>DIRECTOR</center></p>NANDANAM APARTMENT<br> 66,A1 first floor,Pappammal Koil Street <br>Vaithikuppam
+                     &nbsp;<br>Puducherry 605012<br>Landline No:+91 413 2333230/231<br>Mobile No:+91 9943303230<br><br><hr>
+                     <p align=CENTER><H3><U>PAY SILP FOR THIS MONTH</U></H3></p></CENTER>
+                     <p align=right><B>WORKING PERIOD:</B>'.$emppaymentdetails[0][10].'<B>&nbsp;&nbsp;TO&nbsp;&nbsp;</B>'.$emppaymentdetails[0][11].'<br><B>PAID DATE:</B>'.$emppaymentdetails[0][7].'<br><B>PAYMENT MODE:</B>'.$emppaymentdetails[0][8].'<BR></p>
+                     <b>EMPLOYEE NAME:</b>'.$emppaymentdetails[0][1].'<BR><br><b>EMPLOYEE ID:</b>'.$emppaymentdetails[0][0].'<BR><br><b>EMPLOYEE DESIGNTION:</b>'.$emppaymentdetails[0][2].'<br><br><br><br><center>'.$sitevisittable.'</center>
+                     <br><br><br><br><br><p align=center>******************COMPUTER GENERATED SLIP******************</p></body></html>';
 //        echo($finaltable);
+
+    $drop_query ="DROP TABLE $temp_table_name ";
+    mysqli_query($con,$drop_query);
 //        exit;
+    $reportheadername='PAY SLIP'.$emppaymentdetails[0][0];
+//        $finaltable='<html><body><center>SSOMENS<br>SOFTWARE DEVELOPMENT<br>MR.somaya sarathbabou</center>NANDANAM APT<br> 66 Pappammal Koil Street <br>Vaithikuppam <br> Puducherry 605012<hr><table><tr><td style="text-align: center;"><div></div></td></tr><tr><td><h2><div style="font-weight: bold;margin-bottom: 5cm;">' .$employeeinfo.'<tr><td><h2><div style="font-weight: bold;margin-bottom: 5cm;">' .$sitevisittable.'</div></table></body></html>';
+//        $finaltable=''.$empl.'<table><tr><td style="text-align: center;"><div></div></td></tr><tr><td><h2><div style="font-weight: bold;margin-bottom: 5cm;">' .$employeeinfo.'<tr><td><h2><div style="font-weight: bold;margin-bottom: 5cm;">' .$sitevisittable.'</div></table></body></html>';
     $mpdf=new mPDF('utf-8','A4');
     $mpdf->debug=true;
-//    $mpdf->SetHTMLHeader('<h3><div style="text-align: center; font-weight: bold;margin-bottom: 2cm;">LIH MING CONSTRUCTION PTE LTD</div></h3>', 'O', true);
+//      $mpdf->SetHTMLHeader('<h3><div style="text-align: center; font-weight: bold;margin-bottom: 2cm;">LIH MING CONSTRUCTION PTE LTD</div></h3>', 'O', true);
     $mpdf->SetHTMLFooter('<div style="text-align: center;">{PAGENO}</div>');
     $mpdf->WriteHTML($finaltable);
     $reportpdf=$mpdf->Output(''.$reportheadername.'.pdf','d');
 }
-
-
-
 ?>

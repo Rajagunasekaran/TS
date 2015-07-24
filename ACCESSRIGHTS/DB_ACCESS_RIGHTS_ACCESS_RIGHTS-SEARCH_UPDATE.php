@@ -144,7 +144,18 @@ if(isset($_REQUEST)){
 //            $URSRC_bag='';
 //            $bag='NO';
 //        }
+        $URSRC_chklapbag=$_REQUEST['URSRC_chk_bag'];
+        $URSRC_bag=$_REQUEST['URSRC_tb_laptopno'];
+        $URSRC_chkmouse=$_REQUEST['URSRC_chk_mouse'];
         $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+        if($URSRC_chkmouse=='on')
+        {
+            $URSRC_mouse;
+        }
+        else
+        {
+            $URSRC_mouse='';
+        }
 //        if($URSRC_mouse=='on')
 //        {
 //            $URSRC_mouse= 'X';
@@ -419,19 +430,27 @@ if(isset($_REQUEST)){
                     $body=$row["ETD_EMAIL_BODY"];
                 }
                 //not aplicable
-                if($URSRC_mouse=='')
+                $URSRC_bag=$_POST['URSRC_tb_laptopno'];
+                if($URSRC_bag!='')
                 {
-                    $URSRC_mouse="N/A";
+                    $URSRC_bag;
                 }
                 else{
-                    $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+                    $URSRC_bag="N/A";
                 }
+//                if($URSRC_mouse=='')
+//                {
+//                    $URSRC_mouse="N/A";
+//                }
+//                else{
+//                    $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+//                }
                 if($URSRC_laptopno=='')
                 {
                     $URSRC_laptopno="N/A";
                 }
                 else{
-                    $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                    $URSRC_laptopno=$_POST['URSRC_lb_selectlaptopno'];
                 }
                 if($URSRC_chrgrno=='')
                 {
@@ -439,6 +458,13 @@ if(isset($_REQUEST)){
                 }
                 else{
                     $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+                }
+                if($URSRC_btryslno=='')
+                {
+                    $URSRC_btryslno="N/A";
+                }
+                else{
+                    $URSRC_btryslno=$_POST['URSRC_tb_btry'];
                 }
                 if($URSRC_chkaadharno=='on')
                 {
@@ -464,6 +490,14 @@ if(isset($_REQUEST)){
                 {
                     $URSRC_voterid="N/A";
                 }
+                if($URSRC_chkmouse=='on')
+                {
+                    $URSRC_mouse;
+                }
+                else
+                {
+                    $URSRC_mouse="N/A";
+                }
                 //not applicable
                 //STRING REPLACE FUNCTION
                 $emp_email_body;
@@ -483,8 +517,8 @@ if(isset($_REQUEST)){
                     $comment_msg.=$comment[$i].'<br>';
                 }
 
-                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]");
-                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_permsg);
+                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]","[BSNO]");
+                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$URSRC_bag,$URSRC_mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_permsg,$URSRC_btryslno);
 
 //                $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
 //                $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
@@ -745,6 +779,18 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
 //            $bag='NO';
 //        }
         $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+        $URSRC_chklapbag=$_REQUEST['URSRC_chk_bag'];
+        $URSRC_bag=$_POST['URSRC_tb_laptopno'];
+        $URSRC_chkmouse=$_REQUEST['URSRC_chk_mouse'];
+        $URSRC_mouse=$_POST['URSRC_tb_mouse'];
+        if($URSRC_chkmouse=='on')
+        {
+            $URSRC_mouse;
+        }
+        else
+        {
+            $URSRC_mouse='';
+        }
         $URSRC_btryslno=$_POST['URSRC_tb_btry'];
 //        if($URSRC_mouse=='on')
 //        {
@@ -1079,12 +1125,20 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                         $mail_dispalyname1=$row["URC_DATA"];
                     }
                     //not aplicable
+                    $URSRC_bag=$_POST['URSRC_tb_laptopno'];
+                    if($URSRC_bag!='')
+                    {
+                        $URSRC_bag;
+                    }
+                    else{
+                        $URSRC_bag="N/A";
+                    }
                     if($URSRC_laptopno=='')
                     {
                         $URSRC_laptopno="N/A";
                     }
                     else{
-                        $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                        $URSRC_laptopno=$_POST['URSRC_lb_selectlaptopno'];
                     }
                     if($URSRC_chrgrno=='')
                     {
@@ -1092,6 +1146,13 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     }
                     else{
                         $URSRC_chrgrno=$_POST['URSRC_tb_chargerno'];
+                    }
+                    if($URSRC_btryslno=='')
+                    {
+                        $URSRC_btryslno="N/A";
+                    }
+                    else{
+                        $URSRC_btryslno=$_POST['URSRC_tb_btry'];
                     }
                     if($URSRC_chkaadharno=='on')
                     {
@@ -1117,6 +1178,14 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     {
                         $URSRC_voterid="N/A";
                     }
+                    if($URSRC_chkmouse=='on')
+                    {
+                        $URSRC_mouse;
+                    }
+                    else
+                    {
+                        $URSRC_mouse="N/A";
+                    }
                     //not applicable
 //STRING REPLACE FUNCTION
 //                    echo 'echo 7';
@@ -1136,9 +1205,13 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     for($i=0;$i<$commnet_length;$i++){
                         $comment_msg.=$comment[$i].'<br>';
                     }
+//                    echo $URSRC_btryslno.'a',$URSRC_chrgrno.'b',$URSRC_bag.'c',$URSRC_mouse.'d',$dooraccess;
+                    $replace= array("[LOGINID]","[FNAME]","[LNAME]", "[DOB]","[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]","[BSNO]");
+                    $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$URSRC_bag,$URSRC_mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_permsg,$URSRC_btryslno);
 
-                    $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[HOUSENO]","[STREETNAME]","[AREA]","[POSTALCODE]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]");
-                    $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Area,$URSRC_Postalcode,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_msgper);
+
+//                    $replace= array( "[FNAME]","[LNAME]", "[DOB]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[HOUSENO]","[STREETNAME]","[AREA]","[POSTALCODE]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]","[BSNO]");
+//                    $str_replaced  = array($URSRC_firstname, $URSRC_lastname, $URSRC_dob,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Area,$URSRC_Postalcode,$URSRC_laptopno,$URSRC_chrgrno,$URSRC_bag,$URSRC_mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_msgper,$URSRC_btryslno);
                    $newphrase = str_replace($replace, $str_replaced, $emp_email_body);
                     $final_message=$final_message.'<br>'.$newphrase;
                     //SENDING MAIL OPTIONS
@@ -1268,12 +1341,20 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                     $mail_display1=$row["URC_DATA"];
                 }
                 //not aplicable
+                $URSRC_bag=$_POST['URSRC_tb_laptopno'];
+                if($URSRC_bag!='')
+                {
+                    $URSRC_bag;
+                }
+                else{
+                    $URSRC_bag="N/A";
+                }
                 if($URSRC_laptopno=='')
                 {
                     $URSRC_laptopno="N/A";
                 }
                 else{
-                    $URSRC_laptopno=$_POST['URSRC_tb_laptopno'];
+                    $URSRC_laptopno=$_POST['URSRC_lb_selectlaptopno'];
                 }
                 if($URSRC_chrgrno=='')
                 {
@@ -1306,6 +1387,14 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                 {
                     $URSRC_voterid="N/A";
                 }
+                if($URSRC_chkmouse=='on')
+                {
+                    $URSRC_mouse;
+                }
+                else
+                {
+                    $URSRC_mouse="N/A";
+                }
                 //not applicable
                 //STRING REPLACE FUNCTION
                 $emp_email_body;
@@ -1324,9 +1413,12 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
                 for($i=0;$i<$commnet_length;$i++){
                     $comment_msg.=$comment[$i].'<br>';
                 }
+                $replace= array("[LOGINID]", "[FNAME]","[LNAME]", "[DOB]","[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]","[BSNO]");
+                $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_laptopno,$URSRC_chrgrno,$URSRC_bag,$URSRC_mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_permsg,$URSRC_btryslno);
 
-                $replace= array("[LOGINID]", "[FNAME]","[LNAME]", "[DOB]", "[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[HOUSENO]","[STREETNAME]","[AREA]","[POSTALCODE]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]");
-                $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Area,$URSRC_Postalcode,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_msgper);
+//                echo $URSRC_laptopno.'a',$URSRC_chrgrno.'b',$URSRC_bag.'c',$URSRC_mouse.'d',$dooraccess;
+//                $replace= array("[LOGINID]", "[FNAME]","[LNAME]", "[DOB]", "[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[HOUSENO]","[STREETNAME]","[AREA]","[POSTALCODE]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]","[HOUSE NO]","[STREET NAME]","[PINCODE]","[AREA]","[COMMENTS]","[BSNO]");
+//                $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Area,$URSRC_Postalcode,$URSRC_laptopno,$URSRC_chrgrno,$URSRC_bag,$URSRC_mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Postalcode,$URSRC_Area,$comment_msgper,$URSRC_btryslno);
 
 //                $replace= array("[LOGINID]", "[FNAME]","[LNAME]", "[DOB]", "[JDATE]","[DESG]","[MOBNO]","[KINNAME]","[REL]","[ALTMOBNO]","[LAPNO]","[CHRNO]","[LAPBAG]","[MOUSE]","[DACC]","[IDCARD]","[HEADSET]","[HOUSENO]","[STREETNAME]","[AREA]","[POSTALCODE]","[BANKNAME]","[BRANCHNAME]","[ACCNAME]","[ACCNO]","[IFSCCODE]","[ACCTYPE]","[BANKADDRESS]","PERSONAL DETAILS:","COMPANY PROPERTIES DETAILS:","BANK ACCOUNT DETAILS:","[AADHAAR NO]","[PASSPORT NO]","[VOTERS ID NO]");
 //                $str_replaced  = array($URSRC_firstname,$URSRC_firstname, $URSRC_lastname, $URSRC_dob,$joindate,$URSRC_designation,$URSRC_Mobileno,$URSRC_kinname,$URSRC_relationhd,$URSRC_mobile,$URSRC_Houseno,$URSRC_Streetname,$URSRC_Area,$URSRC_Postalcode,$URSRC_laptopno,$URSRC_chrgrno,$bag,$mouse,$dooraccess,$idcard,$headset,$URSRC_bankname,$URSRC_brancname,$URSRC_acctname,$URSRC_acctno,$URSRC_ifsccode,$URSRC_acctype,$comment_msg,'<b>'."PERSONAL DETAILS:".'</b>','<b>'."COMPANY PROPERTIES DETAILS:".'</b>','<b>'."BANK ACCOUNT DETAILS:".'</b>',$URSRC_aadharno,$URSRC_passportno,$URSRC_voterid);
@@ -1337,17 +1429,17 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
 
                     $name = $mail_display1;
                     $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-//                    try {
-//                        $message1 = new Message();
-//                        $message1->setSender($name.'<'.$from.'>');
-//                        $message1->addTo('lalitha.rajendiran@ssomens.com');
-////                        $message1->addCc($cclist);
-//                        $message1->setSubject($mail_subject1);
-//                        $message1->setHtmlBody($final_message);
-//                        $message1->send();
-//                    } catch (\InvalidArgumentException $e) {
-//                        echo $e;
-//                    }
+                    try {
+                        $message1 = new Message();
+                        $message1->setSender($name.'<'.$from.'>');
+                        $message1->addTo('lalitha.rajendiran@ssomens.com');
+//                        $message1->addCc($cclist);
+                        $message1->setSubject($mail_subject1);
+                        $message1->setHtmlBody($final_message);
+                        $message1->send();
+                    } catch (\InvalidArgumentException $e) {
+                        echo $e;
+                    }
                 }
                 else if(($updatemailflag==0) && ($lastdate!=$finaldate)){
                     $cal_flag=0;
@@ -1358,17 +1450,17 @@ ORDER BY EMP.EMP_FIRST_NAME,EMP.EMP_LAST_NAME");
 
                         $name = $mail_display1;
                         $from = 'lalitha.rajendiran@ssomens.com';//$admin;
-//                        try {
-//                            $message1 = new Message();
-//                            $message1->setSender($name.'<'.$from.'>');
-//                            $message1->addTo('lalitha.rajendiran@ssomens.com');
-////                            $message1->addCc($cclist);
-//                            $message1->setSubject($mail_subject1);
-//                            $message1->setHtmlBody($final_message);
-//                            $message1->send();
-//                        } catch (\InvalidArgumentException $e) {
-//                            echo $e;
-//                        }
+                        try {
+                            $message1 = new Message();
+                            $message1->setSender($name.'<'.$from.'>');
+                            $message1->addTo('lalitha.rajendiran@ssomens.com');
+//                            $message1->addCc($cclist);
+                            $message1->setSubject($mail_subject1);
+                            $message1->setHtmlBody($final_message);
+                            $message1->send();
+                        } catch (\InvalidArgumentException $e) {
+                            echo $e;
+                        }
                     }
                 }
             }

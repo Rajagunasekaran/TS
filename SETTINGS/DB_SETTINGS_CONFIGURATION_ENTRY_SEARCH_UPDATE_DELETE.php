@@ -39,28 +39,43 @@ if(isset($_REQUEST)){
     //SAVE CODING
     if($_REQUEST['option']=="CONFIG_ENTRY_save")
     {
+
         $flag=$_REQUEST['CONFIG_ENTRY_lb_module'];
         $CONFIG_ENTRY_data=$_REQUEST['CONFIG_ENTRY_tb_data'];
         $CONFIG_ENTRY_type=$_REQUEST['CONFIG_ENTRY_lb_type'];
+        $CONFIG_ENTRY_laptop=$_REQUEST['LN_CONFIG_ENTRY_tb_data'];
+        $CONFIG_ENTRY_charger=$_REQUEST['CN_CONFIG_ENTRY_tb_data'];
+        $CONFIG_ENTRY_battery=$_REQUEST['BN_CONFIG_ENTRY_tb_data'];
+        $CONFIG_ENTRY_lapbag=$_REQUEST['LBN_CONFIG_ENTRY_tb_data'];
+        $CONFIG_ENTRY_mouse=$_REQUEST['MN_CONFIG_ENTRY_tb_data'];
 
-        $CONFIG_ENTRY_arr_config=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA"),5=>array("PROJECT_CONFIGURATION","PC_DATA"),2=>array("REPORT_CONFIGURATION","RC_DATA"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA"));
+        $CONFIG_ENTRY_arr_config=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA"),5=>array("PROJECT_CONFIGURATION","PC_DATA"),2=>array("REPORT_CONFIGURATION","RC_DATA"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA"),6=>array("COMPANY_PROPERTIES","CP_LAPTOP_NUMBER,CP_CHARGER_NUMBER,CP_BATTERY_SERIAL_NUMBER,CP_LAPTOP_BAG_NUMBER,CP_MOUSE_NUMBER,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"));
+
         $sql1= "SELECT ".$CONFIG_ENTRY_arr_config[$flag][1]." FROM ".$CONFIG_ENTRY_arr_config[$flag][0]." CCN WHERE CCN.CGN_ID=(SELECT C.CGN_ID FROM CONFIGURATION C WHERE C.CGN_ID='$CONFIG_ENTRY_type') AND ".$CONFIG_ENTRY_arr_config[$flag][1]."='$CONFIG_ENTRY_data'";
+
+
         $CONFIG_ENTRY_type1 = mysqli_query($con,$sql1);
         $CONFIG_ENTRY_save=0;
         if($row=mysqli_fetch_array($CONFIG_ENTRY_type1)){
             $CONFIG_ENTRY_save= 2;
         }
         $con->autocommit(false);
-        $CONFIG_ENTRY_arr=array(4=>array("attendance_configuration","AC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),5=>array("PROJECT_CONFIGURATION","PC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),2=>array("REPORT_CONFIGURATION","RC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA,URC_USERSTAMP","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"));
-        if($flag==3)
+        $CONFIG_ENTRY_arr=array(4=>array("attendance_configuration","AC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),5=>array("PROJECT_CONFIGURATION","PC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),2=>array("REPORT_CONFIGURATION","RC_DATA,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA,URC_USERSTAMP","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"),6=>array("COMPANY_PROPERTIES","CP_LAPTOP_NUMBER,CP_CHARGER_NUMBER,CP_BATTERY_SERIAL_NUMBER,CP_LAPTOP_BAG_NUMBER,CP_MOUSE_NUMBER,ULD_ID","(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP')"));
+        if($flag==3 && $CONFIG_ENTRY_type!=23)
         {
-//            echo("INSERT INTO ".$CONFIG_ENTRY_arr[$flag][0]." (CGN_ID, ".$CONFIG_ENTRY_arr[$flag][1].") VALUES ('$CONFIG_ENTRY_type', '$CONFIG_ENTRY_data', '$USERSTAMP')");exit;
+
             $sql="INSERT INTO ".$CONFIG_ENTRY_arr[$flag][0]." (CGN_ID, ".$CONFIG_ENTRY_arr[$flag][1].") VALUES ('$CONFIG_ENTRY_type', '$CONFIG_ENTRY_data', '$USERSTAMP')";
         }
+        if($flag==3 && $CONFIG_ENTRY_type==23)
+        {
+            $sql="INSERT INTO COMPANY_PROPERTIES(CP_LAPTOP_NUMBER,CP_CHARGER_NUMBER,CP_BATTERY_SERIAL_NUMBER,CP_LAPTOP_BAG_NUMBER,CP_MOUSE_NUMBER,ULD_ID) VALUES('$CONFIG_ENTRY_laptop','$CONFIG_ENTRY_charger','$CONFIG_ENTRY_battery','$CONFIG_ENTRY_lapbag','$CONFIG_ENTRY_mouse',(SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP'))";
+            $CONFIG_ENTRY_save= 1;
+
+        }
         else
+
             $sql="INSERT INTO ".$CONFIG_ENTRY_arr[$flag][0]." (CGN_ID, ".$CONFIG_ENTRY_arr[$flag][1].") VALUES ('$CONFIG_ENTRY_type', '$CONFIG_ENTRY_data', (SELECT ULD_ID FROM USER_LOGIN_DETAILS WHERE ULD_LOGINID='$USERSTAMP'))";
         if($CONFIG_ENTRY_save!=2){
-
             if (!mysqli_query($con,$sql)) {
                 die('Error: ' . mysqli_error($con));
                 $CONFIG_ENTRY_save=4;
@@ -124,11 +139,10 @@ if(isset($_REQUEST)){
         $arrTableWidth=array(3=>1400,2=>1400,4=>1400,5=>1400);
         $arrHeaderWidth=array(3=>array(500),5=>array(100));
         $CONFIG_SRCH_UPD_arr_data=array(4=>array("ATTENDANCE_CONFIGURATION","AC_DATA","DT.AC_ID,DT.AC_DATA,DT.AC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.AC_TIMESTAMP,'+00:00','+05:30'), '%d-%m-%Y %T')"),5=>array("PROJECT_CONFIGURATION","PC_DATA","DT.PC_ID,DT.PC_DATA,DT.PC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.PC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),2=>array("REPORT_CONFIGURATION","RC_DATA","DT.RC_ID,DT.RC_DATA,DT.RC_INITIALIZE_FLAG,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(DT.RC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"),3=>array("USER_RIGHTS_CONFIGURATION","URC_DATA","DT.URC_ID,DT.URC_DATA,DT.URC_INITIALIZE_FLAG,DT.URC_USERSTAMP,DATE_FORMAT(CONVERT_TZ(DT.URC_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T')"));
-//        echo "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP WHERE  CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC";
-//        echo "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP,USER_LOGIN_DETAILS ULD WHERE  ULD.ULD_ID=DT.ULD_ID AND CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC";
+
         if(($flag==3) && ($CONFIG_SRCH_UPD_type==23))
         {
-            $CONFIG_SRCH_UPD_sql_data = mysqli_query($con,"SELECT CP.CP_ID,CP.CP_LAPTOP_NUMBER, CP.CP_CHARGER_NUMBER, ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(CP.CP_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T') AS TIMESTAMP FROM COMPANY_PROPERTIES CP, USER_LOGIN_DETAILS ULD WHERE CP.ULD_ID=ULD.ULD_ID  ORDER BY CP.CP_LAPTOP_NUMBER  ASC");
+            $CONFIG_SRCH_UPD_sql_data = mysqli_query($con,"SELECT CP.CP_ID,CP.CP_LAPTOP_NUMBER, CP.CP_CHARGER_NUMBER,CP.CP_BATTERY_SERIAL_NUMBER,CP.CP_LAPTOP_BAG_NUMBER,CP.CP_MOUSE_NUMBER,ULD.ULD_LOGINID,DATE_FORMAT(CONVERT_TZ(CP.CP_TIMESTAMP,'+00:00','+05:30'),'%d-%m-%Y %T') AS TIMESTAMP FROM COMPANY_PROPERTIES CP, USER_LOGIN_DETAILS ULD WHERE CP.ULD_ID=ULD.ULD_ID  ORDER BY CP.CP_LAPTOP_NUMBER  ASC");
         }
         elseif(($flag==3) && ($CONFIG_SRCH_UPD_type==24))
         {
@@ -140,15 +154,15 @@ if(isset($_REQUEST)){
         else{
             $CONFIG_SRCH_UPD_sql_data = mysqli_query($con, "SELECT ". $CONFIG_SRCH_UPD_arr_data[$flag][2]. " AS TIMESTAMP FROM ". $CONFIG_SRCH_UPD_arr_data[$flag][0]. " DT,CONFIGURATION C,CONFIGURATION_PROFILE CP,USER_LOGIN_DETAILS ULD WHERE  ULD.ULD_ID=DT.ULD_ID AND CP.CNP_ID='$flag' AND DT.CGN_ID=C.CGN_ID AND C.CGN_ID= '$CONFIG_SRCH_UPD_type' ORDER BY DT. ". $CONFIG_SRCH_UPD_arr_data[$flag][1]. " ASC");
         }
-//        $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult' width='".$arrTableWidth[$flag]."px'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
+
         if($CONFIG_SRCH_UPD_type==23)
-            $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead><tbody>";
+            $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>LAPTOP NUMBER</th><th>CHARGER NUMBER</th><th>BATTERY NUMBER</th><th>LAPBAG NUMBER</th><th>MOUSE NUMBER</th><th>USERSTAMP</th><th>TIMESTAMP</th></tr></thead><tbody>";
         else
             $appendTable="<br><div id='CONFIG_SRCH_UPD_div_errmsg'></div><br><table id='CONFIG_SRCH_UPD_tble_config' border=1 cellspacing='0' class='srcresult'><thead  bgcolor='#6495ed' style='color:white'><tr class='head'><th>DATA</th><th>USERSTAMP</th><th>TIMESTAMP</th><th>EDIT/UPDATE/DELETE</th></tr></thead><tbody>";
         while($row=mysqli_fetch_array($CONFIG_SRCH_UPD_sql_data)){
             $appendTable .='<tr  id='.$row[0].'><td id='.'CONFIG_'.$row[0].'>'.$row[1].'</td>';
             if(($CONFIG_SRCH_UPD_type==23)){
-                for($x = 2; $x < 5; $x++) {
+                for($x = 2; $x < 8; $x++) {
                     $appendTable .="<td width='".$arrHeaderWidth[$flag][$x]."px'  >".$row[$x]."</td>";
                 }
             }
@@ -169,7 +183,7 @@ if(isset($_REQUEST)){
                 if($row[2]=='X')
                 {
                     $deleteoption='<input type="button"  id="edit"  class="edit msgbtn nondelete" value="EDIT"><input type="button"  id="cancl" class="cancl btn" value="CANCEL">';
-//                $deleteoption='<input type="button"  id="edit" style="max-width: 60px!important;" class="edit msgbtn nondelete" value="EDIT"><input type="button" style="max-width: 90px!important; align: center!important;" id="cancl" class="cancl btn" value="CANCEL">';
+
                 }
                 else{
                     $deleteoption='<input type="button"  id="edit"  class="edit msgbtn deletion" value="EDIT"><input type="button"  id="cancel" class="delete btn" value="DELETE">';

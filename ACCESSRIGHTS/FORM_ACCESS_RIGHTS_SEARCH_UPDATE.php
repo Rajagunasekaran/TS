@@ -1683,7 +1683,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     processData:false,
                     success: function(data)
                     {
-//                        alert(data)
                         if(data.match("Error:Folder id Not present")){
 //                        $(document).doValidation({rule:'messagebox',prop:{msgtitle:"ACCESS RIGHTS:SEARCH/UPDATE",msgcontent:URSRC_errorAarray[32] ,position:{top:100,left:100}}});
                             show_msgbox("ACCESS RIGHTS:SEARCH/UPDATE",URSRC_errorAarray[32],"success",false);
@@ -2376,7 +2375,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                         $(".preloader").hide();
-//                        alert(xmlhttp.responseText)
                         var value_array=JSON.parse(xmlhttp.responseText);
                         for(var j=0;j<value_array.length;j++) {
                             var chargerno = value_array[j].chargerno;
