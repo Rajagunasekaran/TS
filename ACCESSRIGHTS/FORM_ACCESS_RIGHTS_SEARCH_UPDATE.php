@@ -48,7 +48,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             return URSRC_new_diff_array;
         }
         $(document).on('click', 'button.removebutton', function () {
-            $(this).closest('tr').remove();
+            $(this).closest('div').remove();
             ValidateSubmitbutton()
             return false;
         });
@@ -116,13 +116,17 @@ include  "../TSLIB/TSLIB_HEADER.php";
             });
             loginbuttonvalidation();
             var rowCount = $('#filetableuploads div').length;
+            alert(rowCount)
             if(rowCount!=0)
             {
-                $('#attachafile').text('Attach another file');
+                alert(rowCount+'pp')
+                $('#attachprompt').show();
+                $('#attachafile').text('Attach another file').show();
             }
             else
             {
-                $('#attachafile').text('Attach a file');
+                alert(rowCount+'lll')
+                $('#attachafile').text('Attach a file').show();
             }
             if(rowCount==4)
             {
@@ -155,6 +159,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //            var appendfile='<div class="col-sm-offset-2 col-sm-10"><label class="inline"><input type="file" style="max-width:250px " class="fileextensionchk form-control" name='+uploadfileid+' id='+uploadfileid+'></label><label class="inline" ><button  class="removebutton" value="" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;"></button></label></div>';
             $('#filetableuploads').append(appendfile);
             ValidateSubmitbutton()
+//            $('#attachprompt').show();//
         });
         var URSRC_menuname=[];
         var URSRC_submenu=[];
@@ -691,6 +696,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
             }
         });
         function URSRC_login_validate(URSRC_login_id){
+            $('#URSRC_tble_rolecreation').hide();
             var URSRC_radio_button_select_value=$("input[name=URSRC_mainradiobutton]:checked").val();
             $('.URSRC_resizefunction').prop("size","20");
             var URSRC_login_id=URSRC_login_id;//$(this).val();
@@ -889,7 +895,9 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //            $('.preloader',window.parent.document).hide();
                 $(".preloader").hide();
                 if(URSRC_radio_button_select_value=="LOGIN CREATION"){
+                    alert('sad')
                     $('#URSRC_tble_rolecreation tr').remove().hide();
+                    $('#URSRC_tble_rolecreation').hide();
                     $('#URSRC_lbl_joindate').hide();
                     $('#URSRC_tb_joindate').val("").hide();
                     $("#URSRC_lbl_email_err").hide();
@@ -899,6 +907,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     $('#URSRC_table_others').hide();
                     $('#URSRC_lb_selectemptype').hide();
                     $('#URSRC_btn_login_submitbutton').hide();
+//                    $('#URSRC_rolesearch_roles div').remove();
+                    $('#URSRC_rolesearch_roles > div').remove();
                     flag=0;
                 }
                 else{
@@ -1071,6 +1081,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
         $('#URSRC_radio_loginsearchupdate').click(function(){
             button_vflag=1;
             $('#URSRC_workfromhome').hide();
+//            $('#URSRC_tble_main').hide();
+//            $('#URSRC_tble_basicrolemenucreation').hide();
+//            $('#URSRC_tble_basicroles').hide();
+//            $('#URSRC_workfromhome').hide();
             $('#CONFIG_SRCH_UPD_tr_type').empty();
             var loinid_lap_val=$('#URSRC_lb_selectloginid').val();
             $('#URSRC_tble_rolecreation').hide();
@@ -1817,7 +1831,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 //        $('.preloader',window.parent.document).hide();
             $(".preloader").hide();
             $('#URSRC_btn_submitbutton').attr("disabled","disabled");
-            $('#URSRC_tble_menu').replaceWith('<table id="URSRC_tble_menu"  ></table>')
+            $('#URSRC_tble_menu').replaceWith('<table id="URSRC_tble_menu" style="width:450px"  ></table>')
             var count=0;
             var menus=[];
             URSRC_menuname=values_array[0];
@@ -1837,7 +1851,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 var menu_value=URSRC_main_menu[i].replace(/ /g,"&");
                 var id_menu=i+'m'
                 var mainmenuid=i;
-                URSRC_menu= '<div ><ul style="list-style: none;" ><li style="list-style: none;" ><tr ><td>&nbsp;&nbsp;&nbsp;<input value="+" type="button"  id='+URSRC_menu_button_id+' height="1" width="1" class="exp" /><input type="checkbox" name="menu" id='+id_menu+' value='+menu_value+' level="parent" class="tree URSRC_submit_validate Parent"  />' + URSRC_main_menu[i] + '</td></tr>';
+                URSRC_menu= '<div class="col-sm-offset-4 col-sm-10"><ul style="list-style: none;" ><li style="list-style: none;" ><tr ><td>&nbsp;&nbsp;&nbsp;<input value="+" type="button"  id='+URSRC_menu_button_id+' height="1" width="1" class="exp" /><input type="checkbox" name="menu" id='+id_menu+' value='+menu_value+' level="parent" class="tree URSRC_submit_validate Parent"  />' + URSRC_main_menu[i] + '</td></tr>';
                 URSRC_menu+='<div id='+URSRC_submenu_div_id+' hidden ><tr><td><table id='+URSRC_submenu_table_id+' class="URSRC_class_submenu"  ></table></tr></div></li></ul></div>';
                 $('#URSRC_tble_menu').append(URSRC_menu);
                 var URSRC_submenu='';
@@ -2456,7 +2470,8 @@ include  "../TSLIB/TSLIB_HEADER.php";
             $('#URSRC_tble_rolesearch').hide();
             $('#URSRC_btn_login_submitbutton').attr("disabled","disabled").hide();
             $('#URSRC_tb_customrole').val("");
-            $('#URSRC_tble_rolecreation tr').remove().hide();
+            $('#URSRC_tble_rolecreation div').remove().hide();
+            $('#URSRC_tble_basicroles').hide();
             $('#URSRC_tble_role').hide();
             $('#URSRC_tble_login').hide();
             $('#URSRC_lbl_basicrole_err').hide()
@@ -2654,14 +2669,15 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             {
                                 $(".preloader").hide();
                                 var msg=err_msg_array[2].replace("[UNAME]",loginid);
-                                show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",true);
+                                show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",false);
                                 EMP_ENTRY_rset()
                                 initialload();
+                                $('#EMP_ENTRY_lb_loginid').hide();
                             }
                             else
                             {
                                 $(".preloader").hide();
-                                show_msgbox("EMPLOYEE WORK FROM ACCESS",err_msg_array[0],"success",true);
+                                show_msgbox("EMPLOYEE WORK FROM ACCESS",err_msg_array[0],"success",false);
                             }
                         }
                         else
@@ -2672,7 +2688,11 @@ include  "../TSLIB/TSLIB_HEADER.php";
                                 var msg=err_msg_array[3].replace("[UNAME]",loginid);
                                 show_msgbox("EMPLOYEE WORK FROM ACCESS",msg,"success",false);
                                 EMP_ENTRY_rset()
-                                initialload();
+//                                initialload();
+                                $('#URSRC_radio_workfromhome').attr("checked",false)
+                                $('#EMP_ENTRY_lb_loginid').hide();
+                                $('#EMP_ENTRY_lbl_loginid').hide();
+                                $('#URSRC_lbl_header').hide();
                             }
                             else
                             {
@@ -2695,7 +2715,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
 <!--SCRIPT TAG END-->
 <!--BODY TAG START-->
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
     <div class="title text-center"><h4><b>ACCESS RIGHTS:SEARCH/ UPDATE</b></h4></div>
     <form  name="URE_attendanceentry" id="URE_attendanceentry" class="content" method="post" enctype="multipart/form-data">
@@ -2735,7 +2755,23 @@ include  "../TSLIB/TSLIB_HEADER.php";
                             <input   type='radio' name='URSRC_mainradiobutton' id='URSRC_radio_workfromhome' value='WORK FROM HOME'>  &nbsp;WORK FROM HOME ACCESS
                         </div></div>
                     <label id="URSRC_lbl_header" class="srctitle"></label>
-
+                </div>
+                <div id="URSRC_workfromhome" class="form-group" hidden>
+                    <div class="row-fluid">
+                        <label name="EMP_ENTRY_lbl_loginid" class="col-sm-2" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
+                        <div class="col-sm-4"><select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" class="form-control" style="display: none">
+                            </select>
+                        </div></div>
+                    <div><label id="EMP_ENTRY_lbl_nologinid" name="EMP_ENTRY_lbl_nologinid" class="errormsg"></label></div>
+                    <div class="row-fluid" id="EMP_ENTRY_tble_projectlistbx"  hidden>
+                        <label name="EMP_ENTRY_lbl_txtselectproj"  class="col-sm-2" id="EMP_ENTRY_lbl_txtselectproj">PROJECT NAME<em>*</em></label>
+                        <div id="EMP_ENTRY_tble_frstsel_projectlistbx" class="col-sm-8" ></div>
+                    </div>
+                    <div class="row-fluid  form-inline col-sm-offset-0 col-sm-2">
+                        <div class="col-sm-2" id="CONFIG_SRCH_UPD_tr_type"></div>
+                        <div class="col-sm-4">
+                            <input type="button" class="btn" name="EMP_ENTRY_btn_reset" id="EMP_ENTRY_btn_reset"  value="RESET" hidden>
+                        </div></div>
                 </div>
                 <div id="URSRC_tble_basicrolemenucreation" hidden>
                     <div id="URSRC_tble_basicroles" hidden ></div>
@@ -2759,7 +2795,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                 </div>
                 <div id="URSRC_tble_login" hidden>
                     <label id="URSRC_lbl_nologin_err" class="errormsg"></label>
-                    <div class="row-fluid form-group">
+                    <div class="row-fluid">
                         <label class="col-sm-2" id="URSRC_lbl_loginid">LOGIN ID<em>*</em></label>
                         <div class="col-sm-4">
                             <input type="text" name="URSRC_tb_loginid" id="URSRC_tb_loginid" class="login_submitvalidate URSRC_email_validate form-control" hidden /><label id="URSRC_lbl_email_err" class="errormsg"></label>
@@ -2929,53 +2965,28 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label  class="col-sm-2" name="URSRC_lbl_chargerno" id="URSRC_lbl_chargerno">CHARGER NO</label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
+                            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='70' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label  class="col-sm-2" name="URSRC_lbl_btry" id="URSRC_lbl_btry">BATTERY SLNO</label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_btry" id="URSRC_tb_btry" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
+                            <input type="text" name="URSRC_tb_btry" id="URSRC_tb_btry" maxlength='75' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
                         </div></div>
-                    <div id="URSRC_table_others" style="width:450px" hidden>
-                        <!--                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">-->
-                        <!--                            <div class="form-inline col-lg-1"><div class="checkbox">-->
-                        <!--                                    <input type="checkbox"  name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">-->
-                        <!--                                </div></div>-->
-                        <!--                            <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag"> &nbsp;LAPTOP BAG</label>-->
-                        <!--                        </div>-->
+                    <div id="URSRC_table_others" style="width:400px" hidden>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
                                     <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">
                                         <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">&nbsp;&nbsp;LAPTOP BAG</label>
                                 </div></div><div class="">
-                                <input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='15' class="login_submitvalidate form-control " style="display:inline" readonly hidden>
+                                <input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='75' class="login_submitvalidate form-control " style="display:inline" readonly hidden>
                             </div></div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
                                     <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">
                                         <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">&nbsp;&nbsp;MOUSE</label>
                                 </div></div><div class="">
-                                <input type="text" name="URSRC_tb_mouse" id="URSRC_tb_mouse" maxlength='15' class="login_submitvalidate form-control " style="display:inline"  hidden>
+                                <input type="text" name="URSRC_tb_mouse" id="URSRC_tb_mouse" maxlength='75' class="login_submitvalidate form-control " style="display:inline"  hidden>
                             </div></div>
-                        <!--                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">-->
-                        <!--                            <div class="form-inline col-lg-1"><div class="checkbox">-->
-                        <!--                                    <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">-->
-                        <!--                                </div></div>-->
-                        <!--                            <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">&nbsp;MOUSE</label>-->
-                        <!--                        </div>-->
-                        <!--                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">-->
-                        <!--                            <div class="form-inline col-lg-5"><div class="checkbox">-->
-                        <!--                                    <label name="URSRC_lbl_btry" id="URSRC_lbl_btry">-->
-                        <!--                                        <input type="checkbox" name="URSRC_chk_btry" id="URSRC_chk_btry" class="login_submitvalidate">&nbsp;&nbsp;BATTERY SLNO</label>-->
-                        <!--                                </div></div><div class="">-->
-                        <!--                                <input type="text" name="URSRC_tb_btry" id="URSRC_tb_btry" maxlength='15' class="login_submitvalidate form-control " style="display:inline" readonly hidden>-->
-                        <!--                            </div></div>-->
-                        <!--                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">-->
-                        <!--                            <div class="form-inline col-lg-1"><div class="checkbox">-->
-                        <!--                                    <input type="checkbox" name="URSRC_chk_btry" id="URSRC_chk_btry" class="login_submitvalidate">-->
-                        <!--                                </div></div>-->
-                        <!--                            <label name="URSRC_lbl_btry" id="URSRC_lbl_btry">&nbsp;BATTERY SLNO</label>-->
-                        <!--                        </div>-->
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
                             <div class="form-inline col-lg-1"><div class="checkbox">
                                     <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
@@ -3017,17 +3028,13 @@ include  "../TSLIB/TSLIB_HEADER.php";
                                 </div></div><div class="">
                                 <input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
                             </div> </div>
-
                         <div class="row-fluid form-group">
                             <label class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
                             <div class="col-sm-offset-6">
                                 <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate tareacomments form-control"></textarea>
                             </div></div>
-
                         <div ID="filetableuploads">
-
                         </div>
-
                         <div class="form-group">
                             <label class="col-sm-2"></label> <label class="col-sm-3"></label>
                             <div class="col-sm-5">
@@ -3036,11 +3043,11 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span></div></div></div>
-
                         </div>
                     </div><br>
-                </div><br><br>
-                <div>
+                </div>
+                <br><br> <br><br>
+                <div class>
                     <input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden />
                 </div>
                 <div id="URSRC_tble_rolesearch" hidden>
@@ -3062,26 +3069,7 @@ include  "../TSLIB/TSLIB_HEADER.php";
                     <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
                 </div><br>
                 <div id="URSRC_btn_update"></div>
-                <div id="URSRC_workfromhome" hidden>
-                    <div class="row-fluid form-group">
-                        <label name="EMP_ENTRY_lbl_loginid" class="col-sm-2" id="EMP_ENTRY_lbl_loginid" hidden>EMPLOYEE NAME<em>*</em></label>
-                        <div class="col-sm-4"><select name="EMP_ENTRY_lb_loginid" id="EMP_ENTRY_lb_loginid" class="form-control" style="display: none">
-                            </select>
-                        </div></div>
-                    <div><label id="EMP_ENTRY_lbl_nologinid" name="EMP_ENTRY_lbl_nologinid" class="errormsg"></label></div>
-                    <div class="row-fluid form-group" id="EMP_ENTRY_tble_projectlistbx"  hidden>
-                        <label name="EMP_ENTRY_lbl_txtselectproj"  class="col-sm-2" id="EMP_ENTRY_lbl_txtselectproj">PROJECT NAME<em>*</em></label>
-                        <div id="EMP_ENTRY_tble_frstsel_projectlistbx" class="col-sm-8" ></div>
-                    </div>
-                    <div class="row-fluid form-group form-inline col-sm-offset-0 col-sm-2">
-                        <div class="col-sm-2" id="CONFIG_SRCH_UPD_tr_type"></div>
-                        <div class="col-sm-4">
-                            <input type="button" class="btn" name="EMP_ENTRY_btn_reset" id="EMP_ENTRY_btn_reset"  value="RESET" hidden>
-                        </div></div>
-
-                </div>
             </fieldset>
-            <!--                                </div>-->
     </form>
 </div>
 </body>

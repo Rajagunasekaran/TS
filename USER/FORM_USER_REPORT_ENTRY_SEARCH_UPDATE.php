@@ -339,22 +339,22 @@ include "../TSLIB/TSLIB_HEADER.php";
             });
             // FUNCTION FOR REASON
             function URE_tble_reason(){
-                $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="tarea form-control "></textarea></div></div>').appendTo($("#URE_tble_reasonlbltxtarea"));
+                $('<div class="row-fluid" style="padding-top: 10px"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="tarea form-control "></textarea></div></div>').appendTo($("#URE_tble_reasonlbltxtarea"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR MULTIPLE DAY REASON
             function URE_mulreason(){
-                $('<div class="row-fluid form-group"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="tarea form-control " ></textarea></div></div>').appendTo($("#URE_tble_reason"));
+                $('<div class="row-fluid" style="padding-top: 10px"><label name="URE_lbl_reason" class="col-sm-2" id="URE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_reason" id="URE_ta_reason" class="tarea form-control " ></textarea></div></div>').appendTo($("#URE_tble_reason"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR REPORT TEXTAREA
             function URE_report(){
-                $('<div class="row-fluid form-group"><label name="URE_lbl_report" class="col-sm-2" id="URE_lbl_report" >REPORT<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_report" id="URE_ta_report" class="tarea form-control " ></textarea></div></div>').appendTo($("#URE_tble_enterthereport"));
+                $('<div class="row-fluid" style="padding-top: 10px"><label name="URE_lbl_report" class="col-sm-2" id="URE_lbl_report" >REPORT<em>*</em></label><div class="col-lg-10"><textarea  name="URE_ta_report" id="URE_ta_report" class="tarea form-control " ></textarea></div></div>').appendTo($("#URE_tble_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUCNTION FOR BANDWIDTH
             function URE_tble_bandwidth(){
-                $('<div class="row-fluid form-group"><label name="URE_lbl_band" class="col-sm-2" id="URE_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-4"><input type="text" name="URE_tb_band" id="URE_tb_band" class="autosize amountonly" style="width:75px;"><label name="URE_lbl_band" id="URE_lbl_band">MB</label></div></div>').appendTo($("#URE_tble_bandwidth"));
+                $('<div class="row-fluid"><label name="URE_lbl_band" class="col-sm-2" id="URE_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-4"><input type="text" name="URE_tb_band" id="URE_tb_band" class="autosize amountonly" style="width:75px;"><label name="URE_lbl_band" id="URE_lbl_band">MB</label></div></div>').appendTo($("#URE_tble_bandwidth"));
                 $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
             }
             //FORM VALIDATION
@@ -744,49 +744,47 @@ include "../TSLIB/TSLIB_HEADER.php";
                         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                             $(".preloader").hide();
                             response=xmlhttp.responseText;
-//                            if(response==1)
-//                            {
-////                                $('#URE_lbl_checkmsg').text(err_msg[12]).show();
-//                                $('#URE_lb_timing').hide();
-//                                $('#URE_lbl_permission').hide();
-//                                $('#URE_rd_permission').hide();
-//                                $('#URE_rd_nopermission').hide();
-//                                $('#URE_lbl_nopermission').hide();
-//                                $('#noopermission').hide();
-//                                $('#URE_lbl_session').hide();
-//                                $('#URE_lb_ampm').hide();
-//                                $('#URE_tble_projectlistbx').hide();
-//                                $('#URE_btn_submit').hide();
-//                                $('#URE_rd_permission').removeAttr("disabled");
-//                                $('#URE_rd_nopermission').removeAttr("disabled");
-//                                $('#URE_lbl_errmsg').hide();
-//                            }
-//                            else if(response==0)
-//                            {
-
-
-                            $("html, body").animate({ scrollTop: $(document).height() }, "fast");
-                            $('#URE_tble_enterthereport,#URE_ta_reason,#URE_tble_bandwidth').html('');
+                            if(response==1)
+                            {
+                                $('#URE_lbl_checkmsg').text(err_msg[12]).show();
+                                $('#URE_lb_timing').hide();
+                                $('#URE_lbl_permission').hide();
+                                $('#URE_rd_permission').hide();
+                                $('#URE_rd_nopermission').hide();
+                                $('#URE_lbl_nopermission').hide();
+                                $('#noopermission').hide();
+                                $('#URE_lbl_session').hide();
+                                $('#URE_lb_ampm').hide();
+                                $('#URE_tble_projectlistbx').hide();
+                                $('#URE_btn_submit').hide();
+                                $('#URE_rd_permission').removeAttr("disabled");
+                                $('#URE_rd_nopermission').removeAttr("disabled");
+                                $('#URE_lbl_errmsg').hide();
+                            }
+                            else if(response==0)
+                            {
+                                $("html, body").animate({ scrollTop: $(document).height() }, "fast");
+                                $('#URE_tble_enterthereport,#URE_ta_reason,#URE_tble_bandwidth').html('');
 //                                $('#URE_lbl_checkmsg').text(err_msg[11]).show();
-                            $('#URE_lbl_errmsg').hide();
-                            $('#URE_rd_permission').hide();
-                            $('#URE_rd_nopermission').hide();
-                            $('#URE_lbl_nopermission').hide();
-                            $('#noopermission').hide();
-                            $('#URE_lbl_session').hide();
-                            $('#URE_lb_ampm').hide();
-                            $('#URE_tble_enterthereport').html('');
-                            $('#URE_tble_bandwidth').html('');
-                            $('#URE_tble_projectlistbx').show();
-                            projectlists();
-                            URE_report();
-                            $('#URE_btn_submit').hide();
-                            $("#URE_btn_submit").removeAttr("disabled");
-                            $('#URE_rd_permission').attr('disabled','disabled');
-                            $('#URE_rd_nopermission').attr('disabled','disabled');
-                            $('#URE_lbl_errmsg').hide();
-                            $('#URE_lbl_checkmsg').hide();
-//                            }
+                                $('#URE_lbl_errmsg').hide();
+                                $('#URE_rd_permission').hide();
+                                $('#URE_rd_nopermission').hide();
+                                $('#URE_lbl_nopermission').hide();
+                                $('#noopermission').hide();
+                                $('#URE_lbl_session').hide();
+                                $('#URE_lb_ampm').hide();
+                                $('#URE_tble_enterthereport').html('');
+                                $('#URE_tble_bandwidth').html('');
+                                $('#URE_tble_projectlistbx').show();
+                                projectlists();
+                                URE_report();
+                                $('#URE_btn_submit').hide();
+                                $("#URE_btn_submit").removeAttr("disabled");
+                                $('#URE_rd_permission').attr('disabled','disabled');
+                                $('#URE_rd_nopermission').attr('disabled','disabled');
+                                $('#URE_lbl_errmsg').hide();
+                                $('#URE_lbl_checkmsg').hide();
+                            }
                         }
                     }
                     var option="PRESENT";
@@ -1375,7 +1373,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_ta_report').val(report);
 //            USRC_UPD_tble_bandwidth()
                     $('#USRC_UPD_tble_bandwidth').show()
-                    $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
+                    $(' <div class="row-fluid"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
                     $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
                     $('#USRC_UPD_tb_band').val(bandwidth);
                     $('#USRC_UPD_btn_submit').show();
@@ -1441,7 +1439,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#USRC_UPD_lb_ampm').val("FULLDAY");
 //            USRC_UPD_reason()
                     $('#USRC_UPD_tble_reasonlbltxtarea').show()
-                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                    $( '<div class="row-fluid" style="padding-top: 10px"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
                     $('textarea').autogrow({onInitialize: true});
                     $('#USRC_UPD_ta_reason').val(reason).show();
                     $('#USRC_UPD_btn_submit').show();
@@ -1507,7 +1505,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#search_update').show()
                     //FUNCTION FOR REASON
 //            function USRC_UPD_reason(){
-                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                    $( '<div class="row-fluid" style="padding-top: 10px"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
                     $('textarea').autogrow({onInitialize: true});
                     $('#USRC_UPD_ta_reason').val(reason).show();
                     $('#USRC_UPD_btn_submit').show();
@@ -1546,7 +1544,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         projecdid();
                     }
                     $('#USRC_UPD_tble_bandwidth').show()
-                    $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
+                    $(' <div class="row-fluid"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
                     $('#USRC_UPD_tb_band').val(bandwidth);
                     $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
                     USRC_UPD_reason()
@@ -1653,7 +1651,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $('#USRC_UPD_lbl_txtselectproj').show();
                         $("#USRC_UPD_tble_bandwidth").show();
 //                USRC_UPD_tble_bandwidth();
-                        $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
+                        $(' <div class="row-fluid "><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
                         $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
                         $('#USRC_UPD_btn_submit').hide();
                         $('#USRC_UPD_lb_timing').prop('selectedIndex',0);
@@ -1804,7 +1802,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     $('#search_update').show()
                     //FUNCTION FOR REASON
 //            function USRC_UPD_reason(){
-                    $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                    $( '<div class="row-fluid" style="padding-top: 10px"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
 //            }
                     $('textarea').autogrow({onInitialize: true});
                     $('#USRC_UPD_tble_projectlistbx').hide();
@@ -1840,7 +1838,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                     projectlist();
                     USRC_UPD_report();
 //                USRC_UPD_tble_bandwidth();
-                    $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
+                    $(' <div class="row-fluid"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
                     $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
                     $('#USRC_UPD_lb_timing').hide();
                     var permission_list='<option>SELECT</option>';
@@ -1882,17 +1880,17 @@ include "../TSLIB/TSLIB_HEADER.php";
             }
             //FUNCTION FOR REASON
             function USRC_UPD_reason(){
-                $( '<div class="row-fluid form-group"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
+                $( '<div class="row-fluid" style="padding-top: 10px"><label name="USRC_UPD_lbl_reason" class="col-sm-2" id="USRC_UPD_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_reason" id="USRC_UPD_ta_reason" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_reasonlbltxtarea"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTIO FOR REPORT
             function USRC_UPD_report(){
-                $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_report" class="col-sm-2" id="USRC_UPD_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_report" id="USRC_UPD_ta_report" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_enterthereport"));
+                $(' <div class="row-fluid" style="padding-top: 10px"><label name="USRC_UPD_lbl_report" class="col-sm-2" id="USRC_UPD_lbl_report" >ENTER THE REPORT<em>*</em></label><div class="col-lg-10"><textarea  name="USRC_UPD_ta_report" id="USRC_UPD_ta_report" class="tarea form-control update_validate" ></textarea></div></div>').appendTo($("#USRC_UPD_tble_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR BANDWIDTH
             function USRC_UPD_tble_bandwidth(){
-                $(' <div class="row-fluid form-group"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
+                $(' <div class="row-fluid"><label name="USRC_UPD_lbl_band" class="col-sm-2" id="USRC_UPD_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="USRC_UPD_tb_band" id="USRC_UPD_tb_band" class="autosize amountonly update_validate" style="width:75px;"><label name="USRC_UPD_lbl_band" id="USRC_UPD_lbl_band">MB</label></div></div>').appendTo($("#USRC_UPD_tble_bandwidth"));
                 $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
             }
             //FORM VALIDATION
@@ -2058,7 +2056,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 <!--HEAD TAG END-->
 <!--BODY TAG START-->
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
     <div class="title text-center"><h4><b>USER REPORT ENTRY SEARCH/UPDATE</b></h4></div>
     <form id="URE_form_dailyuserentry" name="URE_form_dailyuserentry" class="content form-horizontal" role="form" >
@@ -2074,34 +2072,35 @@ include "../TSLIB/TSLIB_HEADER.php";
                         <label><input type="radio" name="UR_ESU" value="search_update" class="rdclick">SEARCH/UPDATE/DELETE</label>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label name="URE_report_entry" id="URE_lbl_report_entry" class="srctitle col-sm-12"></label>
+                <div class="row-fluid">
+                    <label name="URE_report_entry" id="URE_lbl_report_entry" class="srctitle"></label>
                 </div>
                 <div id="entry" hidden>
-                    <div>
-
+                    <div style="padding-bottom: 15px">
                         <div class="radio">
-                            <label name="entry"  id="URE_lbl_sinentry"><input type="radio" id="URE_rd_sinentry" name="entry" value="SINGLE DAY ENTRY"/>SINGLE DAY ENTRY</label>
+                            <label name="entry" class="col-sm-12" id="URE_lbl_sinentry"><input type="radio" id="URE_rd_sinentry" name="entry" value="SINGLE DAY ENTRY"/>SINGLE DAY ENTRY</label>
                         </div>
 
                         <div class="radio">
-                            <label name="entry" id="URE_lbl_mulentry" >
+                            <label name="entry" class="col-sm-12" id="URE_lbl_mulentry" >
                                 <input type="radio" id="URE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY"/>MULTIPLE DAY ENTRY</label>
                         </div>
                     </div>
 
-                    <div id="URE_tbl_singleday" hidden>
-                        <div class="form-group">
+
+                    <div id="URE_tbl_singleday" class="form-group" hidden>
+                        <div class="row-fluid" style="padding-right: 15px">
                             <label name="URE_lbl_dte" class="col-sm-2" id="URE_lbl_dte" >DATE</label>
                             <div class="col-sm-4">
                                 <input type ="text" id="URE_tb_date" class='proj datemandtry formshown form-control' name="URE_tb_date" style="width:100px;" />
+
                             </div></div>
 
-                        <div id="URE_tble_attendence" hidden>
-                            <div class="form-group">
+
+                        <div id="URE_tble_attendence" hidden >
+                            <div class="row-fluid">
                                 <label name="URE_lbl_attendance"  class="col-sm-2"  id="URE_lbl_attendance">ATTENDANCE</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <select id="URE_lb_attendance" name="URE_lb_attendance" class="form-control">
                                         <option>SELECT</option>
                                         <option value="1">PRESENT</option>
@@ -2111,29 +2110,32 @@ include "../TSLIB/TSLIB_HEADER.php";
                                     </select>
                                 </div></div>
                             <div id="noopermission" hidden>
-                                <div class="form-group">
+                                <div class="row-fluid" style="padding-right: 100px">
                                     <label class="col-sm-2"></label>
                                     <div class="col-sm-9">
-                                        <div class="form-group">
+                                        <div class="row-fluid">
                                             <div class="col-md-2">
                                                 <div class="radio">
                                                     <label name="URE_permission"  id="URE_lbl_permission">
                                                         <input type="radio" id="URE_rd_permission" name="permission" value="PERMISSION"/>PERMISSION<em>*</em></label>
                                                 </div></div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-2" style="padding-top: 10px">
                                                 <select name="URE_lb_timing" id="URE_lb_timing" class="form-control" style="display: none" >
                                                 </select>
                                             </div></div>
-                                        <div class="form-group">
+                                        <div class="row-fluid">
                                             <div class="col-md-3">
                                                 <div class="radio">
                                                     <label name="URE_nopermission"  id="URE_lbl_nopermission">
                                                         <input type="radio" id="URE_rd_nopermission" name="permission" value="NOPERMISSION"/>NO PERMISSION<em>*</em></label>
                                                 </div></div>
 
-                                        </div></div></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="form-group">
+                            <div class="row-fluid" style="padding-top:10px">
                                 <label name="URE_lbl_session" class="col-sm-2" id="URE_lbl_session" hidden >SESSION</label>
                                 <div class="col-sm-4">
                                     <select name="URE_lb_ampm" id="URE_lb_ampm" class="form-control" >
@@ -2146,41 +2148,43 @@ include "../TSLIB/TSLIB_HEADER.php";
                         </div>
 
                         <div id="URE_tble_reasonlbltxtarea"></div>
-                        <div id="URE_tble_projectlistbx" class="row-fluid form-group" hidden>
+
+                        <div id="URE_tble_projectlistbx" class="row-fluid" hidden>
                             <label name="URE_lbl_txtselectproj" class="col-sm-2" id="URE_lbl_txtselectproj">PROJECT<em>*</em></label>
                             <div id="URE_tble_frstsel_projectlistbx" class="col-sm-10" ></div>
                         </div>
 
                         <div id="URE_tble_enterthereport"></div>
                         <div id="URE_tble_bandwidth"></div>
-                        <div><input type="button"  class="btn" name="URE_btn_submit" id="URE_btn_submit"  value="SAVE" disabled></div>
+                        <div style="padding-left: 15px"><input type="button"  class="btn" name="URE_btn_submit" id="URE_btn_submit"  value="SAVE" disabled></div>
 
                         <div  style="padding-left: 15px"><label id="URE_lbl_errmsg" name="URE_lbl_errmsg" class="errormsg"></label></div>
                     </div>
 
-                    <div id="URE_tbl_multipleday" hidden>
-                        <div class="row-fluid form-group">
+                    <div id="URE_tbl_multipleday" class="form-group" hidden>
+                        <div class="row-fluid">
                             <label name="URE_lbl_sdte" class="col-sm-2"  id="URE_lbl_dte" >FROM DATE</label>
                             <div class="col-sm-4">
                                 <input type ="text" id="URE_ta_fromdate" class='proj datemandtry formshown dtpic valid form-control' name="URE_ta_fromdate" style="width:100px;" />
                             </div></div>
 
-                        <div class="row-fluid form-group">
+                        <div class="row-fluid">
                             <label name="URE_lbl_edte" class="col-sm-2" id="URE_lbl_dte" >TO DATE</label>
                             <div class="col-sm-4">
                                 <input type ="text" id="URE_ta_todate" class='proj datemandtry formshown dtpic valid_date form-control' name="URE_ta_todate" style="width:100px;" />
                             </div></div>
 
-                        <div id="URE_tbl_attendence" class="row-fluid form-group" hidden>
-                            <label name="URE_lbl_attdnce" class="col-sm-2" id="URE_lbl_attdnce">ATTENDANCE</label>
-                            <div class="col-sm-4">
-                                <select id="URE_lb_attdnce" name="URE_lb_attdnce" class="form-control">
-                                    <option>SELECT</option>
-                                    <option value="0">ABSENT</option>
-                                    <option value="OD">ONDUTY</option>
-                                </select>
-                            </div>
-                        </div>
+                        <div id="URE_tbl_attendence"  hidden>
+                            <div class="row-fluid">
+                                <label name="URE_lbl_attdnce" class="col-sm-2" id="URE_lbl_attdnce">ATTENDANCE</label>
+                                <div class="col-sm-4">
+                                    <select id="URE_lb_attdnce" name="URE_lb_attdnce" class="form-control">
+                                        <option>SELECT</option>
+                                        <option value="0">ABSENT</option>
+                                        <option value="OD">ONDUTY</option>
+                                    </select>
+                                </div>
+                            </div></div>
 
                         <div id="URE_tble_reason"></div>
                         <div style="padding-left: 15px">
@@ -2192,32 +2196,32 @@ include "../TSLIB/TSLIB_HEADER.php";
                     <div style="padding-left: 15px"><label id="URE_lbl_checkmsg" name="URE_lbl_checkmsg" class="errormsg"></label></div>
                 </div>
 
-                <div id="search_update" hidden>
-                    <div class="row-fluid form-group">
+                <div id="search_update" class="form-group" hidden>
+                    <div class="row-fluid">
                         <label name="USRC_UPD_lbl_strtdte" class="col-sm-2"  id="USRC_UPD_lbl_strtdte" >START DATE<em>*</em></label>
                         <div class="col-sm-4">
                             <input type="text" name="USRC_UPD_tb_strtdte" id="USRC_UPD_tb_strtdte" class="USRC_UPD_tb_date valid clear form-control" style="width:100px;">
                         </div></div>
 
-                    <div class="row-fluid form-group">
+                    <div class="row-fluid">
                         <label name="USRC_UPD_lbl_enddte" class="col-sm-2"  id="USRC_UPD_lbl_enddte" >END DATE<em>*</em></label>
                         <div class="col-sm-4">
                             <input type="text" name="USRC_UPD_tb_enddte" id="USRC_UPD_tb_enddte" class="USRC_UPD_tb_date valid clear form-control" style="width:100px;">
                         </div></div>
 
-                    <div ><input type="button" class="btn" name="USRC_UPD_btn_search" id="USRC_UPD_btn_search" value="SEARCH" disabled ></div>
+                    <div class="row-fluid" style="padding-left: 15px"><input type="button" class="btn" name="USRC_UPD_btn_search" id="USRC_UPD_btn_search" value="SEARCH" disabled ></div>
 
-                    <div class="srctitle" name="USRC_UPD_div_header" id="USRC_UPD_div_header" hidden></div>
-                    <div ><input type="button" id='USRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
+                    <div class="srctitle row-fluid" style="padding-left: 15px" name="USRC_UPD_div_header" id="USRC_UPD_div_header" hidden></div>
+                    <div style="padding-left: 15px"><input type="button" id='USRC_UPD_btn_pdf'  class="btnpdf" value="PDF"></div>
                     <!--            <div class="errormsg" name="USRC_UPD_errmsg" id="USRC_UPD_errmsg" hidden></div>-->
-                    <div id="USRC_UPD_div_tablecontainer" style="max-width: 800px" class="table-responsive" hidden>
+                    <div id="USRC_UPD_div_tablecontainer" style="max-width: 800px;padding-left: 15px" class="table-responsive" hidden>
                         <section>
                         </section>
                     </div>
 
-                    <div ><input type="button" id="USRC_UPD_btn_srch" class="btn" name="USRC_UPD_btn_srch" value="SEARCH" hidden/></div>
+                    <div style="padding-left: 15px" ><input type="button" id="USRC_UPD_btn_srch" class="btn" name="USRC_UPD_btn_srch" value="SEARCH" hidden/></div>
 
-                    <div class="row-fluid form-group" style="padding-top: 10px">
+                    <div class="row-fluid" style="padding-top: 10px;padding-right:15px">
                         <label name="USRC_UPD_lbl_dte"  class="col-sm-2" id="USRC_UPD_lbl_dte" hidden>DATE</label>
                         <div class="col-sm-4">
                             <input type ="text" id="USRC_UPD_tb_date" class='proj datemandtry formshown update_validate form-control' name="USRC_UPD_tb_date" style="width:100px;" hidden/>
@@ -2225,7 +2229,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         </div></div>
 
                     <div id="USRC_UPD_tble_attendence" hidden>
-                        <div class=" form-group">
+                        <div class="row-fluid">
                             <label name="USRC_UPD_lbl_attendance" class="col-sm-2" id="USRC_UPD_lbl_attendance" >ATTENDANCE</label>
                             <div class="col-sm-2">
                                 <select id="USRC_UPD_lb_attendance" name="USRC_UPD_lb_attendance" class="update_validate form-control">
@@ -2235,51 +2239,30 @@ include "../TSLIB/TSLIB_HEADER.php";
                                 </select>
                             </div></div>
                         <div id="permission_hide" hidden>
-                            <div class="form-group">
+                            <div class="row-fluid" style="padding-right: 100px">
                                 <label class="col-sm-2"></label>
                                 <div class="col-sm-9">
-                                    <div class="form-group">
+                                    <div class="row-fluid">
                                         <div class="col-md-2">
                                             <div class="radio">
                                                 <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission"><input type="radio" id="USRC_UPD_rd_permission" name="permission" value="PERMISSION" class="update_validate"/>PERMISSION<em>*</em>
                                             </div>
                                             </label>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-2" style="padding-top: 11px">
                                             <select  name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate form-control" style="display:none">
                                                 <option>SELECT</option>
                                             </select>
                                         </div></div>
-                                    <div class="row form-group">
-                                        <div class="col-md-4">
+                                    <div class="row-fluid">
+                                        <div class="col-md-3">
                                             <div class="radio">
                                                 <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_nopermission" ><input type="radio" id="USRC_UPD_rd_nopermission" name="permission" value="NOPERMISSION" class="update_validate"/>NO PERMISSION<em>*</em></label>
                                             </div></div></div>
 
                                 </div></div></div>
-                        <!--        <div style="padding-left: 190px">-->
-                        <!--            <div class="col-sm-2">-->
-                        <!--                <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_permission" >-->
-                        <!--                    <div class="radio">-->
-                        <!--                        <input type="radio" id="USRC_UPD_rd_permission" name="permission" value="PERMISSION" class="update_validate"/>PERMISSION <em>*</em>-->
-                        <!--                    </div>-->
-                        <!--                </label>-->
-                        <!--            </div>-->
-                        <!--            <div class="col-sm-2">-->
-                        <!--                <select  name="USRC_UPD_lb_timing" id="USRC_UPD_lb_timing" class="update_validate form-control" style="display:none">-->
-                        <!--                    <option>SELECT</option>-->
-                        <!--                </select>-->
-                        <!--            </div>-->
-                        <!--        </div>-->
-                        <!---->
-                        <!--        <div style="padding-left: 190px">-->
-                        <!--            <label name="USRC_UPD_permission" class="col-sm-10" id="USRC_UPD_lbl_nopermission" >-->
-                        <!--                <div class="col-sm-3"> <div class="radio">-->
-                        <!--                        <input type="radio" id="USRC_UPD_rd_nopermission" name="permission" value="NOPERMISSION" class="update_validate"/>NO PERMISSION <em>*</em></label>-->
-                        <!--        </div></div>-->
-                        <!--</div>-->
 
-                        <div class=" form-group">
+                        <div class="row-fluid" style="padding-top: 10px">
                             <label name="USRC_UPD_lbl_session" class="col-sm-2" id="USRC_UPD_lbl_session" hidden >SESSION</label>
                             <div class="col-sm-2">
                                 <select name="USRC_UPD_lb_ampm" id="USRC_UPD_lb_ampm" class="update_validate form-control" style="display: none" >
@@ -2291,7 +2274,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             </div></div>
                     </div>
                     <div id="USRC_UPD_tble_reasonlbltxtarea" ></div>
-                    <div id="USRC_UPD_tble_projectlistbx" class="row-fluid form-group" hidden>
+                    <div id="USRC_UPD_tble_projectlistbx" class="row-fluid" hidden>
                         <label name="USRC_UPD_lbl_txtselectproj" class="col-sm-2" id="USRC_UPD_lbl_txtselectproj" >PROJECT<em>*</em></label>
                         <div id="USRC_UPD_tble_frstsel_projectlistbx" class="col-sm-10"></div>
 
@@ -2301,7 +2284,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 
                     <div> <label id="USRC_UPD_banderrmsg" name="USRC_UPD_banderrmsg" class="errormsg" hidden></label></div>
 
-                    <div>
+                    <div style="padding-left: 15px">
                         <input type="button"  class="btn" name="USRC_UPD_btn_submit" id="USRC_UPD_btn_submit"  value="UPDATE" disabled ></div>
 
                     <div id="USRC_UPD_btn_submit"></div>
@@ -2313,4 +2296,3 @@ include "../TSLIB/TSLIB_HEADER.php";
 </body>
 <!--BODY TAG END-->
 </html>
-
