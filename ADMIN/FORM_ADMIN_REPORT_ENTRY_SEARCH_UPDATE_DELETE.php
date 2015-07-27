@@ -603,7 +603,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#ARE_lbl_nopermission').show();
 //
 //                    var ARE_chk_notinformed='<div class="form-inline col-lg-1"><div class="checkbox"><input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate"></div></div><label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">&nbsp;&nbsp;</label> </div>';
-                    var ARE_chk_notinformed='<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-2"><div class="form-group"><div class="checkbox"><label name="ARE_noinformed"  id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>';
+                    var ARE_chk_notinformed='<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-3"><div class="row-fluid"><div class="checkbox"><label name="ARE_noinformed"  id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>';
                     $('#ARE_chk_notinfrmd').html(ARE_chk_notinformed);
                     $('#ARE_chk_notinfrmd').show();
                     var permission_list='<option>SELECT</option>';
@@ -811,22 +811,22 @@ include '../TSLIB/TSLIB_HEADER.php';
             }
             //FUNCTION FOR REASON
             function ARE_reason(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_reason" class="col-sm-2"  id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tble_reasonlbltxtarea"));
+                $('<div class="row-fluid" style="padding-top:10px"><label name="ARE_lbl_reason" class="col-sm-2"  id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tble_reasonlbltxtarea"));
                 $('textarea').autogrow({onInitialize: true});
             }
             //FUNCTION FOR MULTIPLE ENTRY REASON
             function ARE_mulreason(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_reason"  class="col-sm-2" id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tbl_reason"));
+                $('<div class="row-fluid"><label name="ARE_lbl_reason"  class="col-sm-2" id="ARE_lbl_reason" >REASON<em>*</em></label><div class="col-lg-10"><textarea  name="ARE_ta_reason" id="ARE_ta_reason" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tbl_reason"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR REPORT
             function ARE_report(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_report" class="col-sm-2" id="ARE_lbl_report">ENTER THE REPORT<em>*</em></label><div class="col-sm-8"><textarea  name="ARE_ta_report" id="ARE_ta_report" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tbl_enterthereport"));
+                $('<div class="row-fluid"><label name="ARE_lbl_report" class="col-sm-2" id="ARE_lbl_report">ENTER THE REPORT<em>*</em></label><div class="col-sm-8"><textarea  name="ARE_ta_report" id="ARE_ta_report" class="form-control tarea"></textarea></div></div>').appendTo($("#ARE_tbl_enterthereport"));
                 $('textarea').autogrow({onInitialize: true});
             }
             // FUNCTION FOR BANDWIDTH
             function ARE_tble_bandwidth(){
-                $('<div class="row-fluid form-group"><label name="ARE_lbl_band" class="col-sm-2" id="ARE_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-8"><input type="text" name="ARE_tb_band" id="ARE_tb_band" class="autosize amountonly" style="width:75px;"><label name="ARE_lbl_band" id="ARE_lbl_band">MB</label></div></div>').appendTo($("#ARE_tble_bandwidth"));
+                $('<div class="row-fluid" style="padding-left: 3px"><label name="ARE_lbl_band" class="col-sm-2" id="ARE_lbl_band" >BANDWIDTH<em>*</em></label><div class="col-sm-4"><input type="text" name="ARE_tb_band" id="ARE_tb_band" class="autosize amountonly" style="width:75px;"><label name="ARE_lbl_band" id="ARE_lbl_band">MB</label></div></div>').appendTo($("#ARE_tble_bandwidth"));
                 $(".amountonly").doValidation({rule:'numbersonly',prop:{realpart:4,imaginary:2}});
             }
             //FORM VALIDATION
@@ -1007,11 +1007,11 @@ include '../TSLIB/TSLIB_HEADER.php';
                 if(adminselectoptionvalue=='ADMIN REPORT ENTRY')
                 {
 
-                    $('#day_entry').html('').append('<div class="row-fluid form-group"><div class="radio"><label name="entry" class="col-sm-8" id="ARE_lbl_sinentry" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label></div></div></div>');
+                    $('#day_entry').html('').append('<div class="row-fluid"><div class="radio"><label name="entry" class="col-sm-12" id="ARE_lbl_sinentry" hidden><input type="radio" id="ARE_rd_sinentry"  name="entry" value="SINGLE DAY ENTRY" hidden/>SINGLE DAY ENTRY</label></div></div>');
                     $('#day_entry').show();
-                    $('#multiple_day').html('').append(' <div class="row-fluid form-group"><div class="radio"><label name="entry" class="col-sm-8" id="ARE_lbl_mulentry" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY" hidden/>MULTIPLE DAY ENTRY</label></div></div></div>');
+                    $('#multiple_day').html('').append(' <div class="row-fluid"><div class="radio"><label name="entry" class="col-sm-12" id="ARE_lbl_mulentry" hidden><input type="radio" id="ARE_rd_mulentry" name="entry" value="MULTIPLE DAY ENTRY" hidden/>MULTIPLE DAY ENTRY</label></div></div>');
                     $('#multiple_day').show();
-                    $('#multiple_label').html('').append('<div class="row-fluid form-group"  style="padding-top: 10px"><label name="ARE_lbl_multipleday" id="ARE_lbl_multipleday" class="srctitle col-sm-12" hidden>MULTIPLE DAY ENTRY</label></div>');
+                    $('#multiple_label').html('').append('<div class="row-fluid "><label name="ARE_lbl_multipleday" id="ARE_lbl_multipleday" class="srctitle" hidden>MULTIPLE DAY ENTRY</label></div>');
                     $("#ARE_lbl_sinentry").show();
                     $("#ARE_rd_sinentry").show();
                     $("#ARE_lbl_mulentry").show();
@@ -1024,7 +1024,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                 else if((adminselectoptionvalue=='ONDUTY REPORT ENTRY'))
                 {
                     $('#ARE_tble_ondutyentry').show();
-                    $('#onduty_date').html('').append('<div class="row-fluid form-group"><label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte">DATE</label><div class="col-sm-8"><input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class="proj datemandtry enable ondutydayentry" style="width:75px;"/></div></div>');
+                    $('#onduty_date').html('').append('<div class="row-fluid"><label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte">DATE</label><div class="col-sm-8"><input type="text" id="ARE_tb_dte" name="ARE_tb_dte" class="proj datemandtry enable ondutydayentry" style="width:75px;"/></div></div>');
                     $('#onduty_date').show();
                     $('#day_entry').html('');
                     $('#multiple_day').html('');
@@ -1117,9 +1117,9 @@ include '../TSLIB/TSLIB_HEADER.php';
             // CLICK EVENT FOR MULTIPLEDAYENTRY RADIO BUTTON
             $("#multiple_day").click(function(){
                 $('#ARE_chk1_notinfrmd').html('');
-                $('#single_emp').html('').append('<div class="row-fluid form-group"><div class="radio"><label name="ARE_lbl_emp" class="col-sm-8" id="ARE_lbl_sinemp" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_sinemp" name="ARE_rd_emp" value="FOR SINGLE EMPLOYEE"hidden/>FOR SINGLE EMPLOYEE</label></div></div></div>');
+                $('#single_emp').html('').append('<div class="row-fluid"><div class="radio"><label name="ARE_lbl_emp" class="col-sm-12" id="ARE_lbl_sinemp" hidden><input type="radio" id="ARE_rd_sinemp" name="ARE_rd_emp" value="FOR SINGLE EMPLOYEE" hidden/>FOR SINGLE EMPLOYEE</label></div></div>');
                 $('#single_emp').show();
-                $('#all_emp').html('').append('<div  class="row-fluid form-group" ><div class="radio"><label name="ARE_lbl_emp" class="col-sm-8" id="ARE_lbl_allemp" hidden><div class="col-sm-4"><input type="radio" id="ARE_rd_allemp" name="ARE_rd_emp" value="FOR ALL EMPLOYEE"hidden/>FOR ALL EMPLOYEE</label></div></div></div>');
+                $('#all_emp').html('').append('<div  class="row-fluid" ><div class="radio"><label name="ARE_lbl_emp" class="col-sm-12" id="ARE_lbl_allemp" hidden><input type="radio" id="ARE_rd_allemp" name="ARE_rd_emp" value="FOR ALL EMPLOYEE"hidden/>FOR ALL EMPLOYEE</label></div></div>');
                 $('#all_emp').show();
                 $('#report_search').attr('checked',true);
                 $('#ARE_rd_mulentry').attr('checked',true);
@@ -1359,7 +1359,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                     ARE_mulreason()
 //                    alert('alert')
-                    var ARE_chk_notinformed='<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-4"><div class="form-group"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>';
+                    var ARE_chk_notinformed='<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="col-md-4"><div class="row-fluid"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-8" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>';
                     $('#ARE_chk1_notinfrmd').html(ARE_chk_notinformed).show();
                     $('#ARE_lbl_reason').show();
                     $('#ARE_ta_reason').show();
@@ -1474,11 +1474,11 @@ include '../TSLIB/TSLIB_HEADER.php';
                             $('#ARE_rd_notinformed').show();
                             $('#ARE_lbl_notinformed').show();
                             $('#ARE_lbl_des').show();
-                            $('#onduty_des').html('').append('<div class="row-fluid form-group"><label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label><div class="col-lg-10"><textarea id="ARE_ta_des" name="ARE_ta_des" class="enable form-control tarea" hidden></textarea></div></div>');
+                            $('#onduty_des').html('').append('<div class="row-fluid "><label name="ARE_lbl_des" class="col-sm-2" id="ARE_lbl_des" hidden>DESCRIPTION</label><div class="col-lg-10"><textarea id="ARE_ta_des" name="ARE_ta_des" class="enable form-control tarea" hidden></textarea></div></div>');
                             $('#onduty_des').show();
                             $("#ARE_lbl_des").show();
                             $("#ARE_ta_des").show();
-                            $('#onduty_button').html('').append('<input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden />');
+                            $('#onduty_button').html('').append('<div style="padding-left:15px"><input type="button" id="ARE_btn_odsubmit" name="ARE_btn_odsubmit" value="SAVE" class="btn" disabled hidden /></div>');
                             $('#onduty_button').show();
                             $("#ARE_btn_odsubmit").show();
                         }
@@ -1704,11 +1704,12 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             //CHANGE EVENT FOR BETWEEN RANGE RADIO BTN
             $(document).on('change','#ASRC_UPD_DEL_rd_btwnrange',function(){
-                $('#between_range').html('').append('<div  class="row-fluid form-group" ><label name="ASRC_UPD_DEL_lbl_btwnranges" id="ASRC_UPD_DEL_lbl_btwnranges" class="srctitle col-sm-12" hidden>BETWEEN RANGE</label></div>');
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+                $('#between_range').html('').append('<div  class="row-fluid"style="padding-top: 10px" ><label name="ASRC_UPD_DEL_lbl_btwnranges" id="ASRC_UPD_DEL_lbl_btwnranges" class="srctitle" hidden>BETWEEN RANGE</label></div>');
                 $('#between_range').show();
-                $('#active_emp').html('').append('<div class="row-fluid form-group"><div class="radio"><label name="ASRC_UPD_DEL_lbl_actveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_actveemp"  hidden><div class="col-sm-4"><input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label></div></div></div>');
+                $('#active_emp').html('').append('<div class="row-fluid"><div class="radio"><label name="ASRC_UPD_DEL_lbl_actveemp" class="col-sm-12" id="ASRC_UPD_DEL_lbl_actveemp"  hidden><input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_actveemp" value="EMPLOYEE" hidden>ACTIVE EMPLOYEE</label></div></div>');
                 $('#active_emp').show();
-                $('#non_active').html('').append('<div class="row-fluid form-group" ><div class="radio"><label name="ASRC_UPD_DEL_lbl_nonactveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_nonactveemp"  hidden><div class="col-sm-4"><input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_nonactveemp"  value="EMPLOYEE" class="attnd" hidden>NON ACTIVE EMPLOYEE</label></div></div></div>');
+                $('#non_active').html('').append('<div class="row-fluid" ><div class="radio"><label name="ASRC_UPD_DEL_lbl_nonactveemp" class="col-sm-12" id="ASRC_UPD_DEL_lbl_nonactveemp"  hidden><input type="radio" name="ASRC_UPD_DEL_rd_veemp" id="ASRC_UPD_DEL_rd_nonactveemp"  value="EMPLOYEE" class="attnd" hidden>NON ACTIVE EMPLOYEE</label></div></div>');
                 $('#non_active').show();
                 $('#date_click').html('');
                 $('#ASRC_UPD_DEL_lbl_reportdte').hide();
@@ -1788,6 +1789,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             });
             //CHANGE EVENT FOR ALL ACTIVE  RANGE RADIO BTN
             $(document).on('change','#ASRC_UPD_DEL_rd_allactveemp',function(){
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                 $('#date_click').html('').append('<div class="row-fluid form-group"><label name="ASRC_UPD_DEL_lbl_dte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_dte" hidden>DATE</label><div class="col-sm-8"><input type="text" name="ASRC_UPD_DEL_tb_dte" id="ASRC_UPD_DEL_tb_dte" class="ASRC_UPD_DEL_date valid enable"   style="width:75px;"  hidden ></div></div>');
                 $('#date_click').show();
                 $('#search_click').html('').append('<div class="row-fluid form-group" style="padding-left: 15px" ><input type="button" class="btn" id="ASRC_UPD_DEL_btn_allsearch" onclick="buttonchange()"  value="SEARCH" hidden disabled></div>');
@@ -1859,6 +1861,7 @@ include '../TSLIB/TSLIB_HEADER.php';
             $(document).on('change','#active_emp',function(){
                 if($('#ASRC_UPD_DEL_rd_actveemp').attr('checked',true))
                 {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     var active_employee='<option>SELECT</option>';
                     for (var i=0;i<active_emp.length;i++) {
                         active_employee += '<option value="' + active_emp[i][1] + '">' + active_emp[i][0] + '</option>';
@@ -1920,6 +1923,7 @@ include '../TSLIB/TSLIB_HEADER.php';
 //    var min_date;
 //        $(document).on('change','#ASRC_UPD_DEL_lb_loginid',function(){
             $(document).on('change','.emplistbxactve',function(){
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
 //                var ASRC_UPD_DEL_loginidlist =$("#ASRC_UPD_DEL_lb_loginid").val();
                 var ASRC_UPD_DEL_loginidlist =$('#ASRC_UPD_DEL_lb_loginid').find('option:selected').text();
                 $(".preloader").show();
@@ -2480,12 +2484,14 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $('#ASRC_UPD_DEL_chk_flag').attr('checked',false);
                         $("#ASRC_UPD_DEL_chk_flag").hide();
                         $("#ASRC_UPD_DEL_lbl_flag").hide();
+                        $('#flage').hide();
                     }
                     else
                     {
                         $('#ASRC_UPD_DEL_chk_flag').attr('checked','checked');
                         $("#ASRC_UPD_DEL_chk_flag").show();
                         $("#ASRC_UPD_DEL_lbl_flag").show();
+                        $('#flage').show();
                     }
                 }
                 if(attendance=='0.5')
@@ -2701,7 +2707,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                         $('#ASRC_UPD_DEL_rd_permission').attr('checked',false);
                         $('#ASRC_UPD_DEL_rd_nopermission').attr('checked',false);
                         $('#ASRC_chk_notinformed').html('').append('test')
-                        $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="form-group"><div class="col-md-4"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-10" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
+                        $('#ASRC_chk_notinformed').html('').append('<label class="col-sm-2 form-group"></label><div class="col-sm-9"><div class="row-fluid"><div class="col-md-4" style="padding-bottom: 10px"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-10" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div>');
                         $('#ASRC_chk_notinformed').show();
                         $('#ARE_lbl_notinformed').show();
                         $('#ARE_rd_notinformed').show();
@@ -2923,7 +2929,7 @@ include '../TSLIB/TSLIB_HEADER.php';
                     $('#permissionupd').hide();
                     $('#permission').hide();
                     $('#ASRC_UPD_DEL_btn_submit').show();
-                    $('#ASRC_chk_notinformed').html('').append('<div class="form-group"><label class="col-sm-2"></label><div class="col-sm-9"><div class="form-group"><div class="col-md-4"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-10" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div></div>');
+                    $('#ASRC_chk_notinformed').html('').append('<label class="col-sm-2 form-group"></label><div class="col-sm-9"><div class="row-fluid"><div class="col-md-4" style="padding-bottom: 10px"><div class="checkbox"><label name="ARE_noinformed" class="col-sm-10" id="ARE_lbl_notinformed"><input type="checkbox" name="notinformed" id="ARE_rd_notinformed" value="NOTINFORMED" >NOT INFORMED</label></div></div></div></div>');
                     $('#ASRC_chk_notinformed').show();
 //            $("#ASRC_UPD_DEL_chk_flag").show();
 //            $("#ASRC_UPD_DEL_lbl_flag").show();
@@ -3509,7 +3515,7 @@ include '../TSLIB/TSLIB_HEADER.php';
         });
     </script>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/> </div>
     <div class="title text-center"><h4><b>ADMIN REPORT ENTRY /SEARCH /UPDATE</b></h4></div>
     <form id="ARE_form_adminreportentry" class="content form-horizontal">
@@ -3528,15 +3534,17 @@ include '../TSLIB/TSLIB_HEADER.php';
                     <label name="ARE_report_entry" id="ARE_lbl_report_entry" class="srctitle col-sm-12"></label>
                 </div>
                 <div id="entries" hidden>
+
                     <div class="row-fluid form-group">
                         <label name="ARE_lbl_optn" class="col-sm-2" id="ARE_lbl_optn">SELECT A OPTION<em>*</em></label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <select id="option" name="option" class="adminselectoption form-control">
                                 <option>SELECT</option>
                                 <option>ADMIN REPORT ENTRY</option>
                                 <option>ONDUTY REPORT ENTRY</option>
                             </select>
                         </div></div>
+
                     <div id="day_entry"></div>
                     <!--                    <div style="padding-bottom: 15px">-->
                     <!--                        <div class="radio">-->
@@ -3569,123 +3577,134 @@ include '../TSLIB/TSLIB_HEADER.php';
                     <!--        <div class="col-sm-4">-->
                     <!--                <input type="radio" id="ARE_rd_allemp" name="ARE_rd_emp" value="FOR ALL EMPLOYEE"hidden/>FOR ALL EMPLOYEE</label>-->
                     <!--</div></div></div>-->
+                    <div class="form-group">
+                        <div id="ARE_tble_singledayentry" hidden>
 
-                    <div id="ARE_tble_singledayentry" hidden>
-                        <!--    <div class="row-fluid form-group">-->
-                        <div class="row-fluid form-group">
-                            <label name="ARE_lbl_loginid" id="ARE_lbl_loginid" class="col-sm-2">EMPLOYEE NAME</label>
-                            <div class="col-sm-4">
-                                <select name="ARE_lb_loginid" id="ARE_lb_loginid" class="form-control" style="display: inline">
-                                    <option>SELECT</option>
-                                </select><br>
-                                <label id="ARE_lbl_norole_err" name="ARE_lbl_norole_err" class="errormsg" ></label>
-                            </div></div>
-                        <div class="row-fluid form-group">
-                            <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte" hidden>DATE</label>
-                            <div class="col-sm-4">
-                                <input type ="text" id="ARE_tb_date" class='tb_date proj datemandtry singledayentry' hidden name="ARE_tb_date" style="width:75px;" />
-                            </div></div>
-                        <div id="ARE_tble_attendence" class="row-fluid form-group">
-                            <label name="ARE_lbl_attendance" class="col-sm-2" id="ARE_lbl_attendance" >ATTENDANCE</label>
-                            <div class="col-sm-4">
-                                <select id="ARE_lb_attendance" name="ARE_lb_attendance" class="form-control">
-                                    <option>SELECT</option>
-                                    <option value="1">PRESENT</option>
-                                    <option value="0">ABSENT</option>
-                                    <option value="OD">ONDUTY</option>
-                                </select>
+                            <!--    <div class="row-fluid form-group">-->
+                            <div class="row-fluid" style="padding-top: 10px">
+                                <label name="ARE_lbl_loginid" id="ARE_lbl_loginid" class="col-sm-2">EMPLOYEE NAME</label>
+                                <div class="col-sm-3">
+                                    <select name="ARE_lb_loginid" id="ARE_lb_loginid" class="form-control" style="display: inline">
+                                        <option>SELECT</option>
+                                    </select><br>
+                                    <label id="ARE_lbl_norole_err" name="ARE_lbl_norole_err" class="errormsg" ></label>
+                                </div></div>
+                            <div class="row-fluid" style="padding-top: 10px">
+                                <label name="ARE_lbl_dte" class="col-sm-2" id="ARE_lbl_dte" hidden>DATE</label>
+                                <div class="col-sm-4">
+                                    <input type ="text" id="ARE_tb_date" class='tb_date proj datemandtry singledayentry' hidden name="ARE_tb_date" style="width:75px;" />
+                                </div></div>
+                            <div id="ARE_tble_attendence" class="row-fluid">
+                                <label name="ARE_lbl_attendance" class="col-sm-2" id="ARE_lbl_attendance" >ATTENDANCE</label>
+                                <div class="col-sm-3">
+                                    <select id="ARE_lb_attendance" name="ARE_lb_attendance" class="form-control">
+                                        <option>SELECT</option>
+                                        <option value="1">PRESENT</option>
+                                        <option value="0">ABSENT</option>
+                                        <option value="OD">ONDUTY</option>
+                                    </select>
+                                </div>
                             </div>
+                            <div id="ARE_chk_notinfrmd"></div>
+                            <div id="permission" style="padding-right: 20px" hidden>
+                                <div class="form-group">
+                                    <label class="col-sm-2"></label>
+                                    <div class="col-sm-9">
+                                        <div class="row-fluid">
+                                            <div class="col-md-2">
+                                                <div class="radio">
+                                                    <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">
+                                                        <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select name="ARE_lb_timing" id="ARE_lb_timing" class="form-control" style="display:none" hidden>
+                                                    <option>SELECT</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-4">
+                                                <div class="radio">
+                                                    <label name="ARE_nopermission" class="col-sm-8" id="ARE_lbl_nopermission">
+                                                        <input type="radio" name="permission" id="ARE_rd_nopermission" class='permissn' value="NOPERMISSION" hidden >NO PERMISSION<em>*</em></label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row-fluid">
+                                <label name="ARE_lbl_session" class="col-sm-2" id="ARE_lbl_session" hidden >SESSION</label>
+                                <div class="col-sm-3">
+                                    <select name="ARE_lb_ampm" id="ARE_lb_ampm" class="form-control" >
+                                        <option>SELECT</option>
+                                        <option>FULLDAY</option>
+                                        <option>AM</option>
+                                        <option>PM</option>
+                                    </select>
+                                </div></div>
                         </div>
-                        <div id="ARE_chk_notinfrmd"></div>
-                        <div id="permission" hidden>
-                            <div class="form-group">
-                                <label class="col-sm-2"></label>
-                                <div class="col-sm-9">
-                                    <div class="form-group">
-                                        <div class="col-md-2">
-                                            <div class="radio">
-                                                <label name="ARE_permission" class="col-sm-8" id="ARE_lbl_permission">
-                                                    <input type="radio" name="permission" id="ARE_rd_permission" class='permissn'value="PERMISSION" hidden >PERMISSION<em>*</em>
-                                            </div></div>
-                                        <div class="col-sm-2">
-                                            <select name="ARE_lb_timing" id="ARE_lb_timing" class="form-control" style="display:none" hidden>
-                                                <option>SELECT</option>
-                                            </select>
-                                        </div></div>
-                                    <div class="form-group">
-                                        <div class="col-md-4">
-                                            <div class="radio">
-                                                <label name="ARE_nopermission" class="col-sm-8" id="ARE_lbl_nopermission">
-                                                    <input type="radio" name="permission" id="ARE_rd_nopermission" class='permissn' value="NOPERMISSION" hidden >NO PERMISSION<em>*</em></label>
-                                            </div></div>
-                                    </div></div></div>
+
+                        <div id="ARE_tble_reasonlbltxtarea"></div>
+                        <div id="ARE_tble_projectlistbx"  class="row-fluid" hidden>
+                            <label name="ARE_lbl_txtselectproj" class="col-sm-2" id="ARE_lbl_txtselectproj" >PROJECT<em>*</em></label>
+                            <div id="ARE_tble_frstsel_projectlistbx" class="col-sm-10"></div>
                         </div>
-                        <div class="row-fluid form-group">
-                            <label name="ARE_lbl_session" class="col-sm-2" id="ARE_lbl_session" hidden >SESSION</label>
-                            <div class="col-sm-4">
-                                <select name="ARE_lb_ampm" id="ARE_lb_ampm" class="form-control" >
-                                    <option>SELECT</option>
-                                    <option>FULLDAY</option>
-                                    <option>AM</option>
-                                    <option>PM</option>
-                                </select>
-                            </div></div>
-                    </div>
-                    <div id="ARE_tble_reasonlbltxtarea"></div>
-                    <div id="ARE_tble_projectlistbx"  class="row-fluid form-group" hidden>
-                        <label name="ARE_lbl_txtselectproj" class="col-sm-2" id="ARE_lbl_txtselectproj" >PROJECT<em>*</em></label>
 
-                        <div id="ARE_tble_frstsel_projectlistbx" class="col-sm-10"></div>
+                        <div id="ARE_tbl_enterthereport"></div>
+                        <div id="ARE_tble_bandwidth"></div>
+                        <div style="padding-left: 3px">
+                            <input type="button"  class="btn" name="ARE_btn_submit" id="ARE_btn_submit"  value="SAVE" >
+                        </div>
                     </div>
-
-                    <div id="ARE_tbl_enterthereport"></div>
-                    <div id="ARE_tble_bandwidth"></div>
-                    <div>
-                        <input type="button"  class="btn" name="ARE_btn_submit" id="ARE_btn_submit"  value="SAVE" >
-                    </div>
-
                     <div><label id="ARE_lbl_errmsg" name="ARE_lbl_errmsg" class="errormsg"></label></div>
                     <div><label id="ARE_lbl_checkmsg" name="ARE_lbl_checkmsg" class="errormsg"></label></div>
-                    <div id="ARE_tble_mutipledayentry" hidden>
-                        <div class="row-fluid form-group">
+                    <div class="form-group">
+                        <div id="ARE_tble_mutipledayentry" hidden>
+                            <div class="row-fluid">
+                                <label name="ARE_lbl_lgnid" class="col-sm-2" id="ARE_lbl_lgnid" >EMPLOYEE NAME</label>
+                                <div class="col-sm-4">
+                                    <select name="ARE_lb_lgnid" id="ARE_lb_lgnid" class="form-control">
+                                    </select>
+                                </div></div>
+                            <div class="row-fluid" style="padding-top: 10px">
+                                <label name="ARE_lbl_sdte" class="col-sm-2" id="ARE_lbl_sdte" hidden>FROM DATE</label>
+                                <div class="col-sm-4">
+                                    <input type ="text" id="ARE_tb_sdate" class='proj datemandtry change valid form-control' hidden name="ARE_tb_sdate" style="width:100px;" />
+                                </div></div>
+                            <div class="row-fluid">
+                                <label name="ARE_lbl_edte" class="col-sm-2" id="ARE_lbl_edte" hidden>TO DATE</label>
+                                <div class="col-sm-4">
+                                    <input type ="text" id="ARE_tb_edate" class='proj datemandtry change valid form-control' hidden name="ARE_tb_edate" style="width:100px;" />
+                                </div></div></div>
 
-                            <label name="ARE_lbl_lgnid" class="col-sm-2" id="ARE_lbl_lgnid" >EMPLOYEE NAME</label>
-                            <div class="col-sm-4">
-                                <select name="ARE_lb_lgnid" id="ARE_lb_lgnid"class="form-control">
-                                </select>
-                            </div></div>
-                        <div class="row-fluid form-group">
-                            <label name="ARE_lbl_sdte" class="col-sm-2" id="ARE_lbl_sdte" hidden>FROM DATE</label>
-                            <div class="col-sm-4">
-                                <input type ="text" id="ARE_tb_sdate" class='proj datemandtry change valid' hidden name="ARE_tb_sdate" style="width:75px;" />
-                            </div></div>
-                        <div class="row-fluid form-group">
-                            <label name="ARE_lbl_edte" class="col-sm-2" id="ARE_lbl_edte" hidden>TO DATE</label>
-                            <div class="col-sm-4">
-                                <input type ="text" id="ARE_tb_edate" class='proj datemandtry change valid' hidden name="ARE_tb_edate" style="width:75px;" />
-                            </div></div>
-                        <div id="ARE_tbl_attendence" class="row-fluid form-group" >
+                        <!--    <div style="padding-right: 25px">-->
+                        <div id="ARE_tbl_attendence" class="row-fluid">
                             <label name="ARE_lbl_attdnce"  class="col-sm-2" id="ARE_lbl_attdnce" >ATTENDANCE</label>
                             <div class="col-sm-4">
-                                <select id="ARE_lb_attdnce" name="ARE_lb_attdnce" class="form-control">
+                                <select id="ARE_lb_attdnce" name="ARE_lb_attdnce" class="form-control" >
                                     <option>SELECT</option>
                                     <option value="0">ABSENT</option>
                                     <option value="OD">ONDUTY</option>
                                 </select>
                             </div></div>
-                    </div>
-                    <div id="ARE_chk1_notinfrmd"></div>
-                    <div id="ARE_tbl_reason"></div>
-                    <input type="button"  class="btn" name="ARE_btn_save" id="ARE_btn_save"  value="SAVE" >
+                        <!--</div>-->
 
-                    <div><label id="ARE_msg" name="ARE_msg" class="errormsg"></label></div>
+                        <div id="ARE_chk1_notinfrmd"></div>
+                        <div id="ARE_tbl_reason"></div>
+                        <div style="padding-left: 3px"><input type="button"  class="btn" name="ARE_btn_save" id="ARE_btn_save"  value="SAVE" ></div>
 
-                    <div id="ARE_tble_ondutyentry" hidden>
-                        <div id="onduty_date"></div>
-                        <div id="onduty_des"></div>
-                        <div id="onduty_button"></div>
+                        <div><label id="ARE_msg" name="ARE_msg" class="errormsg"></label></div>
 
-                        <div><label id="ARE_lbl_oderrmsg" name="ARE_lbl_oderrmsg" class="errormsg"></label></div>
+                        <div id="ARE_tble_ondutyentry" hidden>
+                            <div id="onduty_date"></div>
+                            <div id="onduty_des"></div>
+                            <div id="onduty_button"></div>
+                            <div><label id="ARE_lbl_oderrmsg" name="ARE_lbl_oderrmsg" class="errormsg"></label></div>
+                        </div>
                     </div>
                 </div>
                 <!--search update-->
@@ -3702,192 +3721,195 @@ include '../TSLIB/TSLIB_HEADER.php';
 
                     <div id="ASRC_UPD_DEL_tble_dailyuserentry" hidden>
                         <div id="ASRC_UPD_DEL_tbl_entry" hidden>
-                            <div class="row-fluid form-group" >
+                            <div class="row-fluid" >
                                 <div class="radio">
-                                    <label name="ASRC_UPD_DEL_lbl_btwnrange" class="col-sm-8" id="ASRC_UPD_DEL_lbl_btwnrange">
-                                        <div class="col-sm-4">
-                                            <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_btwnrange" value="RANGES" class='attnd'>BETWEEN RANGE</label>
+                                    <label name="ASRC_UPD_DEL_lbl_btwnrange" class="col-sm-12" id="ASRC_UPD_DEL_lbl_btwnrange">
+
+                                        <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_btwnrange" value="RANGES" class='attnd'>BETWEEN RANGE</label>
                                 </div></div>
-                        </div>
-                        <div  class="row-fluid form-group">
-                            <div class="radio">
-                                <label name="ASRC_UPD_DEL_lbl_allactveemp" class="col-sm-8" id="ASRC_UPD_DEL_lbl_allactveemp">
-                                    <div class="col-sm-4">
+
+                            <div  class="row-fluid">
+                                <div class="radio">
+                                    <label name="ASRC_UPD_DEL_lbl_allactveemp" class="col-sm-12" id="ASRC_UPD_DEL_lbl_allactveemp">
+
                                         <input type="radio" name="ASRC_UPD_DEL_rd_range" id="ASRC_UPD_DEL_rd_allactveemp"   value="RANGES" class='attnd'>ALL ACTIVE EMPLOYEE</label>
+                                </div></div>
+
+                            <div class="row-fluid" style="padding-top: 10px">
+                                <label name="ASRC_UPD_DEL_lbl_allactveemps" id="ASRC_UPD_DEL_lbl_allactveemps" class="srctitle" hidden>ALL ACTIVE EMPLOYEE</label>
+                            </div>
+                            <div id="date_click"></div>
+
+                            <div id="between_range"></div>
+
+                            <div id="active_emp"></div>
+
+                            <div id="non_active"></div>
+
+                        </div>
+                        <div id="search_click"></div>
+
+                        <div class="row-fluid form-group">
+                            <label name="ASRC_UPD_DELlbl_loginid" class="col-sm-2" id="ASRC_UPD_DEL_lbl_loginid"  hidden>EMPLOYEE NAME</label>
+                            <div class="col-sm-4">
+                                <select name="ASRC_UPD_DEL_lb_loginid" id="ASRC_UPD_DEL_lb_loginid" class="form-control emplistbxactve" hidden>
+                                </select>
+                            </div></div>
+
+                        <div class="form-group row-fluid">
+                            <label name="ASRC_UPD_DEL_lbl_strtdte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_strtdte"  hidden>START DATE<em>*</em></label>
+                            <div class="col-sm-8">
+                                <input type="text" name="ASRC_UPD_DEL_tb_strtdte" id="ASRC_UPD_DEL_tb_strtdte" hidden class="ASRC_UPD_DEL_date valid clear form-control" style="width:100px;">
+                            </div></div>
+                        <div class="form-group row-fluid">
+                            <label name="ASRC_UPD_DEL_lbl_enddte" class="col-sm-2"  id="ASRC_UPD_DEL_lbl_enddte" hidden>END DATE<em>*</em></label>
+                            <div class="col-sm-8">
+                                <input type="text" name="ASRC_UPD_DEL_tb_enddte" id="ASRC_UPD_DEL_tb_enddte" hidden class="ASRC_UPD_DEL_date valid clear form-control" style="width:100px;">
+                            </div></div>
+                        <div>
+                            <input type="button" class="btn" name="ASRC_UPD_DEL_btn_search" id="ASRC_UPD_DEL_btn_search"  value="SEARCH" disabled hidden>
+                        </div>
+
+                        <div class="row-fluid form-group srctitle col-sm-2"  name="ASRC_UPD_DEL_div_header" id="ASRC_UPD_DEL_div_header" hidden></div>
+
+                        <div ><input type="button" id='ASRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
+                        <div id="ASRC_UPD_DEL_div_tablecontainer" class="table-responsive"  hidden>
+                            <section>
+                            </section>
+                        </div>
+
+                        <div ><input type="button" id="ASRC_UPD_DEL_btn_srch" class="btn" name="ASRC_UPD_DEL_btn_srch" value="SEARCH" hidden/>
+                            <input type="button" id="ASRC_UPD_DEL_btn_del" class="btn" name="ASRC_UPD_DEL_btn_del" value="DELETE" hidden disabled/>
+                        </div>
+                        <div class="row-fluid form-group" style="padding-top: 25px">
+                            <label name="ASRC_UPD_DEL_lbl_reportdte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_reportdte" hidden>DATE</label>
+                            <div class="col-sm-8">
+                                <input type ="text" id="ASRC_UPD_DEL_ta_reportdate" class='proj datemandtry update_validate ' hidden name="ASRC_UPD_DEL_ta_reportdate" style="width:75px;" /><label id="ASRC_UPD_DEL_errmsg" name="ASRC_UPD_DEL_errmsg" class="errormsg"></label>
+
+                            </div></div>
+                        <div id="ASRC_UPD_DEL_tble_attendence" class="row-fluid form-group" >
+
+                            <label name="ASRC_UPD_DEL_lbl_attendance"class="col-sm-2"id="ASRC_UPD_DEL_lbl_attendance" >ATTENDANCE<em>*</em></label>
+                            <div class="col-sm-2">
+                                <select id="ASRC_UPD_DEL_lb_attendance" name="ASRC_UPD_DEL_lb_attendance" class="update_validate form-control">
+                                    <option value="1">PRESENT</option>
+                                    <option value="0">ABSENT</option>
+                                    <option value="OD">ONDUTY</option>
+                                </select>
+                            </div></div>
+                        <div id="ASRC_chk_notinformed"></div>
+                        <div id="permissionupd"  hidden>
+                            <!--    <div class="form-group">-->
+                            <label class="col-sm-2 form-group"></label>
+                            <div class="col-sm-9">
+                                <div class="row-fluid">
+                                    <div class="col-md-2">
+                                        <div class="radio">
+                                            <label name="ASRC_UPD_DEL_permission" class="col-sm-8" id="ASRC_UPD_DEL_lbl_permission" hidden>  <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden>PERMISSION<em>*</em>
+                                        </div>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <select name="ASRC_UPD_DEL_lb_timing" id="ASRC_UPD_DEL_lb_timing" class="update_validate form-control">
+                                        </select>
+                                        </select>
+                                    </div></div>
+                                <div class="row-fluid">
+                                    <div class="col-md-4">
+                                        <div class="radio">
+                                            <label name="ASRC_UPD_DEL_nopermission" class="col-sm-10"  id="ASRC_UPD_DEL_lbl_nopermission" hidden> <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_nopermission" value="NOPERMISSION" class='permissn update_validate'  hidden>NO PERMISSION<em>*</em></label>
+                                        </div></div>
+                                </div>
+
+                            </div></div>
+                        <!--</div>-->
+
+                        <div class="form-group row-fluid" style="padding-top: 10px">
+                            <label name="ASRC_UPD_DEL_lbl_session"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_session" hidden >SESSION</label>
+                            <div class="col-sm-2">
+                                <select name="ASRC_UPD_DEL_lb_ampm" id="ASRC_UPD_DEL_lb_ampm" class="update_validate form-control">
+                                    <option>SELECT</option>
+                                    <option>FULLDAY</option>
+                                    <option>AM</option>
+                                    <option>PM</option>
+                                </select>
                             </div></div>
                     </div>
-                    <div class="row-fluid form-group" >
-                        <label name="ASRC_UPD_DEL_lbl_allactveemps" id="ASRC_UPD_DEL_lbl_allactveemps" class="srctitle  col-sm-12" hidden>ALL ACTIVE EMPLOYEE</label>
+                    <div id="ASRC_UPD_DEL_tble_reasonlbltxtarea">
                     </div>
-                    <div id="date_click"></div>
+                    <div id="flage" hidden>
+                        <label name="ASRC_UPD_DEL_lbl_flag" class="col-sm-2" id="ASRC_UPD_DEL_lbl_flag" hidden>
+                            <input type="checkbox" name="flag" id="ASRC_UPD_DEL_chk_flag" class='update_validate'  hidden >FLAG</label>
 
-                    <div id="between_range"></div>
+                    </div>
+                    <div id="ASRC_UPD_DEL_tble_projectlistbx"  class="form-group"  hidden>
+                        <label name="ASRC_UPD_DEL_lbl_txtselectproj" class="col-sm-2"  id="ASRC_UPD_DEL_lbl_txtselectproj" >PROJECT<em>*</em></label>
+                        <div class="checkbox col-md-2">
+                            <div id="ASRC_UPD_DEL_tble_frstsel_projectlistbx" class="col-sm-10"></div>
+                        </div>
+                    </div>
+                    <div id="ASRC_UPD_DEL_tble_enterthereport"></div>
+                    <div id="ASRC_UPD_DEL_tble_bandwidth"></div>
+                    <div>
+                        <label id="ASRC_UPD_DEL_banerrmsg" name="ASRC_UPD_DEL_banerrmsg" class="errormsg"></label>
+                    </div>
+                    <div >
+                        <input type="button"  class="btn" name="ASRC_UPD_DEL_btn_submit" id="ASRC_UPD_DEL_btn_submit"  value="UPDATE" disabled>
+                    </div>
 
-                    <div id="active_emp"></div>
-
-                    <div id="non_active"></div>
-
-                </div>
-                <div id="search_click"></div>
-
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DELlbl_loginid" class="col-sm-2" id="ASRC_UPD_DEL_lbl_loginid"  hidden>EMPLOYEE NAME</label>
-                    <div class="col-sm-4">
-                        <select name="ASRC_UPD_DEL_lb_loginid" id="ASRC_UPD_DEL_lb_loginid" class="form-control emplistbxactve" hidden>
-                        </select>
-                    </div></div>
-
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DEL_lbl_strtdte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_strtdte"  hidden>START DATE<em>*</em></label>
-                    <div class="col-sm-8">
-                        <input type="text" name="ASRC_UPD_DEL_tb_strtdte" id="ASRC_UPD_DEL_tb_strtdte" hidden class="ASRC_UPD_DEL_date valid clear" style="width:75px;">
-                    </div></div>
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DEL_lbl_enddte" class="col-sm-2"  id="ASRC_UPD_DEL_lbl_enddte" hidden>END DATE<em>*</em></label>
-                    <div class="col-sm-8">
-                        <input type="text" name="ASRC_UPD_DEL_tb_enddte" id="ASRC_UPD_DEL_tb_enddte" hidden class="ASRC_UPD_DEL_date valid clear" style="width:75px;">
-                    </div></div>
-                <div>
-                    <input type="button" class="btn" name="ASRC_UPD_DEL_btn_search" id="ASRC_UPD_DEL_btn_search"  value="SEARCH" disabled hidden>
-                </div>
-
-                <div class="row-fluid form-group srctitle col-sm-2"  name="ASRC_UPD_DEL_div_header" id="ASRC_UPD_DEL_div_header" hidden></div>
-
-                <div ><input type="button" id='ASRC_UPD_btn_pdf' class="btnpdf" value="PDF"></div>
-                <div id="ASRC_UPD_DEL_div_tablecontainer" class="table-responsive"  hidden>
-                    <section>
-                    </section>
-                </div>
-
-                <div ><input type="button" id="ASRC_UPD_DEL_btn_srch" class="btn" name="ASRC_UPD_DEL_btn_srch" value="SEARCH" hidden/>
-                    <input type="button" id="ASRC_UPD_DEL_btn_del" class="btn" name="ASRC_UPD_DEL_btn_del" value="DELETE" hidden disabled/>
-                </div>
-                <div class="row-fluid form-group" style="padding-top: 25px">
-                    <label name="ASRC_UPD_DEL_lbl_reportdte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_reportdte" hidden>DATE</label>
-                    <div class="col-sm-8">
-                        <input type ="text" id="ASRC_UPD_DEL_ta_reportdate" class='proj datemandtry update_validate ' hidden name="ASRC_UPD_DEL_ta_reportdate" style="width:75px;" /><label id="ASRC_UPD_DEL_errmsg" name="ASRC_UPD_DEL_errmsg" class="errormsg"></label>
-
-                    </div></div>
-                <div id="ASRC_UPD_DEL_tble_attendence" class="row-fluid form-group" >
-
-                    <label name="ASRC_UPD_DEL_lbl_attendance"class="col-sm-2"id="ASRC_UPD_DEL_lbl_attendance" >ATTENDANCE<em>*</em></label>
-                    <div class="col-sm-2">
-                        <select id="ASRC_UPD_DEL_lb_attendance" name="ASRC_UPD_DEL_lb_attendance" class="update_validate form-control">
-                            <option value="1">PRESENT</option>
-                            <option value="0">ABSENT</option>
-                            <option value="OD">ONDUTY</option>
-                        </select>
-                    </div></div>
-                <div id="ASRC_chk_notinformed"></div>
-                <div id="permissionupd" hidden>
-                    <div class="form-group">
-                        <label class="col-sm-2"></label>
-                        <div class="col-sm-9">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    <div class="radio">
-                                        <label name="ASRC_UPD_DEL_permission" class="col-sm-8" id="ASRC_UPD_DEL_lbl_permission" hidden>  <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_permission" value="PERMISSION" class='permissn update_validate'  hidden>PERMISSION<em>*</em>
-                                    </div>
-                                    </label>
-                                </div>
-                                <div class="col-sm-2">
-                                    <select name="ASRC_UPD_DEL_lb_timing" id="ASRC_UPD_DEL_lb_timing" class="update_validate form-control">
-                                    </select>
-                                    </select>
+                    <div id="ASRC_UPD_DEL_tble_ondutyentry">
+                        <div id="ASRC_UPD_DEL_tble_odshow"hidden>
+                            <div class="row-fluid form-group">
+                                <label name="ASRC_UPD_DEL_lbl_sdte"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_sdte">START DATE</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="ASRC_UPD_DEL_tb_sdte" name="ASRC_UPD_DEL_tb_sdte" class='date datemandtry' style="width:75px;"/>
                                 </div></div>
-                            <div class="row form-group">
-                                <div class="col-md-4">
-                                    <div class="radio">
-                                        <label name="ASRC_UPD_DEL_nopermission" class="col-sm-10"  id="ASRC_UPD_DEL_lbl_nopermission" hidden> <input type="radio" name="permission" id="ASRC_UPD_DEL_rd_nopermission" value="NOPERMISSION" class='permissn update_validate'  hidden>NO PERMISSION<em>*</em></label>
-                                    </div></div></div>
+                            <div class="row-fluid form-group">
+                                <label name="ASRC_UPD_DEL_lbl_edte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_edte">END DATE</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="ASRC_UPD_DEL_tb_edte" name="ASRC_UPD_DEL_tb_edte" class='date datemandtry' style="width:75px;"/>
+                                </div></div>
 
-                        </div></div></div>
+                            <div>
+                                <input type="button" id="ASRC_UPD_DEL_od_btn" name="ASRC_UPD_DEL_od_btn" value="SEARCH" class="btn"  disabled />
+                            </div>
+                        </div>
+                        <div class="row-fluid form-group srctitle col-sm-2" name="ASRC_UPD_DEL_div_headers" id="ASRC_UPD_DEL_div_headers" hidden></div>
 
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DEL_lbl_session"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_session" hidden >SESSION</label>
-                    <div class="col-sm-2">
-                        <select name="ASRC_UPD_DEL_lb_ampm" id="ASRC_UPD_DEL_lb_ampm" class="update_validate form-control">
-                            <option>SELECT</option>
-                            <option>FULLDAY</option>
-                            <option>AM</option>
-                            <option>PM</option>
-                        </select>
-                    </div></div>
-        </div>
-        <div id="ASRC_UPD_DEL_tble_reasonlbltxtarea">
-        </div>
-        <div class="row-fluid form-group">
-            <label name="ASRC_UPD_DEL_lbl_flag" class="col-sm-2" id="ASRC_UPD_DEL_lbl_flag" hidden>
-                <input type="checkbox" name="flag" id="ASRC_UPD_DEL_chk_flag" class='update_validate'  hidden >FLAG</label>
+                        <div><input type="button" id='ASRC_UPD_btn_od_pdf' class="btnpdf" value="PDF"></div>
 
-        </div>
-        <div id="ASRC_UPD_DEL_tble_projectlistbx"  class="row-fluid form-group"  hidden>
-            <label name="ASRC_UPD_DEL_lbl_txtselectproj" class="col-sm-2"  id="ASRC_UPD_DEL_lbl_txtselectproj" >PROJECT<em>*</em></label>
-            <div id="ASRC_UPD_DEL_tble_frstsel_projectlistbx" class="col-sm-10"></div>
-        </div>
+                        <div id="ASRC_UPD_DEL_div_ondutytablecontainer" class="table-responsive" hidden>
+                            <section id="ASRC_UPD_section_od">
+                            </section>
+                        </div>
+                        <div>
+                            <input type="button" id="ASRC_UPD_DEL_odsrch_btn" name="ASRC_UPD_DEL_odsrch_btn" value="SEARCH" class="btn"  disabled  />
+                        </div>
+                        <div>
+                            <label id="ASRC_UPD_DEL_oderrmsg" name="ASRC_UPD_DEL_oderrmsg" class="errormsg" hidden></label>
+                        </div>
+                        <div id="updatepart">
+                            <div class="row-fluid form-group">
+                                <label name="ASRC_UPD_DEL_lbl_oddte"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_oddte">DATE</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="ASRC_UPD_DEL_tb_oddte" name="ASRC_UPD_DEL_tb_oddte" class='odenable datemandtry' style="width:75px;" readonly/>
+                                </div></div>
 
-        <div id="ASRC_UPD_DEL_tble_enterthereport"></div>
-        <div id="ASRC_UPD_DEL_tble_bandwidth"></div>
-        <div>
-            <label id="ASRC_UPD_DEL_banerrmsg" name="ASRC_UPD_DEL_banerrmsg" class="errormsg"></label>
-        </div>
-        <div >
-            <input type="button"  class="btn" name="ASRC_UPD_DEL_btn_submit" id="ASRC_UPD_DEL_btn_submit"  value="UPDATE" disabled>
-        </div>
-
-        <div id="ASRC_UPD_DEL_tble_ondutyentry">
-            <div id="ASRC_UPD_DEL_tble_odshow"hidden>
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DEL_lbl_sdte"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_sdte">START DATE</label>
-                    <div class="col-sm-8">
-                        <input type="text" id="ASRC_UPD_DEL_tb_sdte" name="ASRC_UPD_DEL_tb_sdte" class='date datemandtry' style="width:75px;"/>
-                    </div></div>
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DEL_lbl_edte" class="col-sm-2" id="ASRC_UPD_DEL_lbl_edte">END DATE</label>
-                    <div class="col-sm-8">
-                        <input type="text" id="ASRC_UPD_DEL_tb_edte" name="ASRC_UPD_DEL_tb_edte" class='date datemandtry' style="width:75px;"/>
-                    </div></div>
-
-                <div>
-                    <input type="button" id="ASRC_UPD_DEL_od_btn" name="ASRC_UPD_DEL_od_btn" value="SEARCH" class="btn"  disabled />
+                            <div class="row-fluid form-group">
+                                <label name="ASRC_UPD_DEL_lbl_des" class="col-sm-2" id="ASRC_UPD_DEL_lbl_des">DESCRIPTION</label>
+                                <div class="col-lg-10">
+                                    <textarea id="ASRC_UPD_DEL_ta_des" name="ASRC_UPD_DEL_ta_des" class='odenable form-control tarea'></textarea>
+                                </div></div>
+                            <div>
+                                <input type="button" id="ASRC_UPD_DEL_odsubmit" name="ASRC_UPD_DEL_odsubmit" value="UPDATE" class="btn" disabled  />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row-fluid form-group srctitle col-sm-2" name="ASRC_UPD_DEL_div_headers" id="ASRC_UPD_DEL_div_headers" hidden></div>
-
-            <div><input type="button" id='ASRC_UPD_btn_od_pdf' class="btnpdf" value="PDF"></div>
-
-            <div id="ASRC_UPD_DEL_div_ondutytablecontainer" class="table-responsive" hidden>
-                <section id="ASRC_UPD_section_od">
-                </section>
-            </div>
-            <div>
-                <input type="button" id="ASRC_UPD_DEL_odsrch_btn" name="ASRC_UPD_DEL_odsrch_btn" value="SEARCH" class="btn"  disabled  />
-            </div>
-            <div>
-                <label id="ASRC_UPD_DEL_oderrmsg" name="ASRC_UPD_DEL_oderrmsg" class="errormsg" hidden></label>
-            </div>
-            <div id="updatepart">
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DEL_lbl_oddte"  class="col-sm-2" id="ASRC_UPD_DEL_lbl_oddte">DATE</label>
-                    <div class="col-sm-8">
-                        <input type="text" id="ASRC_UPD_DEL_tb_oddte" name="ASRC_UPD_DEL_tb_oddte" class='odenable datemandtry' style="width:75px;" readonly/>
-                    </div></div>
-
-                <div class="row-fluid form-group">
-                    <label name="ASRC_UPD_DEL_lbl_des" class="col-sm-2" id="ASRC_UPD_DEL_lbl_des">DESCRIPTION</label>
-                    <div class="col-lg-10">
-                        <textarea id="ASRC_UPD_DEL_ta_des" name="ASRC_UPD_DEL_ta_des" class='odenable form-control tarea'></textarea>
-                    </div></div>
-                <div>
-                    <input type="button" id="ASRC_UPD_DEL_odsubmit" name="ASRC_UPD_DEL_odsubmit" value="UPDATE" class="btn" disabled  />
-                </div>
-            </div>
+            </fieldset>
         </div>
-</div>
-</fieldset>
-</div>
-</form>
-<!--</div>-->
+    </form>
+    <!--</div>-->
 </div>
 </body>
 <!--BODY TAG END-->

@@ -28,7 +28,7 @@ include "../TSLIB/TSLIB_HEADER.php";
         $('textarea').autogrow({onInitialize: true});
         //reomve file upload row
         $(document).on('click', 'button.removebutton', function () {
-            $(this).closest('tr').remove();
+            $(this).closest('div').remove();
             ValidateSubmitbutton()
             return false;
         });
@@ -97,9 +97,10 @@ include "../TSLIB/TSLIB_HEADER.php";
 
             });
             URT_SRC_validation();
-            var rowCount = $('#filetableuploads tr').length;
+            var rowCount = $('#filetableuploads div').length;
             if(rowCount!=0)
             {
+                $('#attachprompt').show();
                 $('#attachafile').text('Attach another file');
             }
             else
@@ -124,20 +125,18 @@ include "../TSLIB/TSLIB_HEADER.php";
         //add file upload row
         $(document).on("click",'#attachprompt', function (){
             button_vflag=0;
-            var tablerowCount = $('#filetableuploads tr').length;
+            var tablerowCount = $('#filetableuploads div').length;
             var uploadfileid="upload_filename"+tablerowCount;
-            var appendfile='<input type="file" name="UTERM_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></br>';
+            var appendfile='<div class="col-sm-offset-6 col-sm-10" style="padding-left:23px"><input type="file" name="UTERM_uploaded_files[]" class="fileextensionchk" id='+uploadfileid+'></td><td><button type="button" class="removebutton" title="Remove this row" style="background-color:red;color:white;font-size:10;font-weight: bold;">Remove</button></div>';
             $('#filetableuploads').append(appendfile);
             ValidateSubmitbutton();
         });
-
         //GLOBAL DECLARATION
         var URT_SRC_terminate_array=[];
         var js_errormsg_array=[];
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onreadystatechange=function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//            $('.preloader', window.parent.document).hide();
                 $(".preloader").hide();
                 var value_array=JSON.parse(xmlhttp.responseText);
                 js_errormsg_array=value_array[0];
@@ -227,7 +226,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                         $("#URT_SRC_ta_reasontermination").hide();
                         $("#URT_SRC_btn_termination").hide();
                         $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
-                        $("#filetableuploads tr").remove();
+                        $("#filetableuploads div").remove();
                         $('#attachafile').text('Attach a file');
                     }
                     if(success_flag==0){
@@ -342,7 +341,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             $('#URSRC_lb_selectemptype').hide().prop('selectedIndex',0);
                             $("input[name=URT_SRC_radio_nterminndupdatesearch]:checked").attr('checked',false);
                             $("input[name=URT_SRC_radio_nselectoption]:checked").attr('checked',false);
-                            $("#filetableuploads tr").remove();
+                            $("#filetableuploads div").remove();
                             $('#attachafile').text('Attach a file');
                         }
                         else if(success_flag==0){
@@ -678,7 +677,7 @@ include "../TSLIB/TSLIB_HEADER.php";
 
         //CHANGE FUNCTION FOR REJOIN LOGIN ID LISTBOX
         $('#URT_SRC_lb_loginrejoin').change(function(){
-            $("#filetableuploads tr").remove();
+            $("#filetableuploads div").remove();
             $('#attachprompt').show();
             $('#URSRC_lbl_nolaptop').hide();
             $('#URSRC_tb_laptopbagno').hide();
@@ -1134,9 +1133,8 @@ include "../TSLIB/TSLIB_HEADER.php";
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-//                $('.preloader', window.parent.document).hide();
-                    $(".preloader").hide();
                     var loginid_array=JSON.parse(xmlhttp.responseText);
+                    $(".preloader").hide();
                     if(loginid_array.length!=0){
                         var URT_SRC_loginid_options='<option>SELECT</option>'
                         for(var l=0;l<loginid_array.length;l++){
@@ -1477,18 +1475,16 @@ include "../TSLIB/TSLIB_HEADER.php";
     });
 </script>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="preloader"><span class="Centerer"></span><img class="preloaderimg"/></div>
     <div class="title text-center"><h4><b>ACCESS RIGHTS:TERMINATE SEARCH/UPDATE</b></h4></div>
     <form id="URT_SRC_form_terminatesearchupdate" class="content" method="post" enctype="multipart/form-data">
         <div class="panel-body">
             <fieldset>
-                <!--                <div style="padding-bottom: 15px">-->
                 <div style="padding-left: 15px" >
                     <div class="radio">
                         <label name="URT_SRC_lbl_nlogintermination" class="col-sm-12" id="URT_SRC_lbl_logintermination" hidde><input type="radio" name="URT_SRC_radio_nterminndupdatesearch" id="URT_SRC_radio_logintermination" value="URT_SRC_radio_valuelogintermination" >LOGIN TERMINATION</label>
                     </div></div>
-
                 <div class="form-group">
                     <div style="padding-left: 15px" >
                         <div class="radio">
@@ -1503,9 +1499,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             <select name="URT_SRC_lb_nloginterminate" id="URT_SRC_lb_loginterminate" class="form-control" style="display: none" hidden> <option>SELECT</option></select>
                         </div>
                     </div>
-
                     <div class="row-fluid form-group">
-                        <!-- <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class="srctitle col-lg-8 control-label col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>-->
                         <label name="URT_SRC_lbl_datepickertermination" id="URT_SRC_lbl_datepickertermination" class=" col-sm-2" hidden> SELECT A END DATE <em>*</em> </label>
                         <div class="col-sm-4">
                             <input type="text" name="URT_SRC_tb_ndatepickertermination" id="URT_SRC_tb_datepickertermination" class="URT_SRC_tb_termindatepickerclass datemandtry" style="width:75px;" hidden>
@@ -1556,7 +1550,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                 <!--EMPLOYEE DETAILS-->
                 <div id="URSRC_table_employeetbl" hidden>
                     <div class="row-fluid form-group">
-                        <label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls">PERSONAL DETAILS</label>
+                        <label class="srctitle"  name="URSRC_lbl_personnaldtls" id="URSRC_lbl_personnaldtls" style="padding-left: 15px">PERSONAL DETAILS</label>
                     </div>
                     <div class="row-fluid form-group" width="175">
                         <label name="row URSRC_lbl_firstname" class="col-lg-2" id="URSRC_lbl_firstname">FIRST NAME <em>*</em></label>
@@ -1633,7 +1627,7 @@ include "../TSLIB/TSLIB_HEADER.php";
                             <input type="text" name="URSRC_tb_pstlcode" id="URSRC_tb_pstlcode" maxlength='6' class="sizefix pstlcode login_submitvalidate" style="width:75px">
                         </div></div>
                     <div class="row-fluid form-group">
-                        <label class="srctitle" class="col-sm-2" name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls">BANK DETAILS</label>
+                        <label class="srctitle" class="col-sm-2" name="URSRC_lbl_bnkdtls" id="URSRC_lbl_bnkdtls" style="padding-left: 15px">BANK DETAILS</label>
                     </div>
                     <div class="row-fluid form-group" width="175">
                         <label name="URSRC_lbl_bnkname" class="col-sm-2" id="URSRC_lbl_bnkname">BANK NAME <em>*</em></label>
@@ -1671,11 +1665,11 @@ include "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group" width="175">
                         <label name="URSRC_lbl_brnchaddr" class="col-sm-2" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label>
                         <div class="col-sm-10">
-                            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate tarea form-control "></textarea>
+                            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate tareabranchs form-control " style="width:380px"></textarea>
                         </div></div>
                     <div class="row-fluid  form-group">
 
-                        <label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
+                        <label class="srctitle"  name="URSRC_lbl_others" id="URSRC_lbl_others" style="padding-left: 15px">OTHERS</label>
                     </div>
                     <div class="row-fluid form-group">
                         <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label>
@@ -1689,45 +1683,45 @@ include "../TSLIB/TSLIB_HEADER.php";
                     <div class="row-fluid form-group">
                         <label name="URSRC_lbl_laptopno" class="col-sm-2" id="URSRC_lbl_laptopno">CHARGER NO</label>
                         <div class="col-sm-5">
-                            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
+                            <input type="text" name="URSRC_tb_chargerno" id="URSRC_tb_chargerno" maxlength='70' class="alphanumeric sizefix login_submitvalidate form-control" style="width:380px" readonly>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label  class="col-sm-2" name="URSRC_lbl_btry" id="URSRC_lbl_btry">BATTERY SLNO</label>
                         <div class="col-sm-4">
-                            <input type="text" name="URSRC_tb_btry" id="URSRC_tb_btry" maxlength='50' class="alphanumeric sizefix login_submitvalidate form-control" readonly>
+                            <input type="text" name="URSRC_tb_btry" id="URSRC_tb_btry" maxlength='75' class="alphanumeric sizefix login_submitvalidate form-control"  style="width:200px" readonly>
                         </div></div>
-                    <div id="URSRC_table_others" style="width:500px" hidden>
+                    <div id="URSRC_table_others" style="width:390px" hidden>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
                                     <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">
                                         <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">&nbsp;&nbsp;LAPTOP BAG</label>
                                 </div></div><div class="">
-                                <input type="text" name="URSRC_tb_laptopbagno" id="URSRC_tb_laptopbagno" maxlength='15' class="login_submitvalidate form-control " style="display:inline" readonly hidden>
+                                <input type="text" name="URSRC_tb_laptopbagno" id="URSRC_tb_laptopbagno" maxlength='75' class="login_submitvalidate form-control " style="display:inline" readonly hidden>
                             </div></div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
                                     <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">
                                         <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">&nbsp;&nbsp;MOUSE</label>
                                 </div></div><div class="">
-                                <input type="text" name="URSRC_tb_mouse" id="URSRC_tb_mouse" maxlength='15' class="login_submitvalidate form-control " style="display:inline"  hidden>
+                                <input type="text" name="URSRC_tb_mouse" id="URSRC_tb_mouse" maxlength='75' class="login_submitvalidate form-control " style="display:inline"  hidden>
                             </div></div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">
+                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">
+                                        <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">&nbsp;&nbsp;DOOR ACCESS</label>
                                 </div></div>
-                            <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">&nbsp;DOOR ACCESS</label>
                         </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">
+                        <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">
+                                        <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">&nbsp;&nbsp;ID CARD</label>
                                 </div></div>
-                            <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">&nbsp;ID CARD</label>
                         </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-3">
-                            <div class="form-inline col-lg-1"><div class="checkbox">
-                                    <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">
+                        <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-6">
+                            <div class="form-inline col-lg-5"><div class="checkbox">
+                                    <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">
+                                        <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">&nbsp;&nbsp;HEAD SET</label>
                                 </div></div>
-                            <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">&nbsp;HEAD SET</label>
                         </div>
                         <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
                             <div class="form-inline col-lg-5"><div class="checkbox">
@@ -1753,17 +1747,15 @@ include "../TSLIB/TSLIB_HEADER.php";
 
                         <div class="row-fluid form-group">
                             <label  class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
-                            <div class="col-sm-offset-5">
-                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength tarea form-control login_submitvalidate"></textarea>
+                            <div class="col-sm-offset-7">
+                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength tareacomments form-control login_submitvalidate" style="width:380px"></textarea>
                             </div></div>
-
                         <div id="filetableuploads"></div>
-
                         <div class="form-group">
                             <label class="col-sm-2"></label> <label class="col-sm-3"></label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-7">
                                 <div class="form-group">
-                                    <div class="col-md-9">
+                                    <div class="col-md-20" style="padding-left:43px">
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span>
