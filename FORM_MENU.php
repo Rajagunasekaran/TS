@@ -1,4 +1,4 @@
-<!--//*******************************************FILE DESCRIPTION*********************************************//
+﻿<!--//*******************************************FILE DESCRIPTION*********************************************//
 //*******************************************MENU*********************************************//
 //DONE BY:SAFI
 //VER 0.05,SD:06/01/2015 ED:06/01/2015,TRACKER NO 74,DESC:VALIDATION DONE FOR CLOCK OUT FUNCTION
@@ -431,7 +431,7 @@ $Userstamp=json_encode($UserStamp);
 <div class="container-fluid">
     <div class="wrapper" >
         <div class="preloader" hidden><span class="Centerer"></span><img class="preloaderimg"/> </div>
-        <img src="images/SSOMENS_TIME_SHEET.jpg"  class="img-responsive" alt="Responsive image" align="middle"/>
+        <img src="images/companyLogo.jpg"  class="img-responsive" alt="Responsive image" align="middle"/>
         <div>
             <div>
                 <div style="width:1000px"><b><h4><span style="font-family:Helvetica Neue" id="clock"></span></h4></b></div>

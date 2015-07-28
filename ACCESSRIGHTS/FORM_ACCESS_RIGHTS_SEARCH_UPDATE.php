@@ -2838,7 +2838,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <div class="col-sm-2">
                             <input type="text" name="URSRC_tb_mobile" id="URSRC_tb_mobile" class="mobileno title_nos valid login_submitvalidate form-control" maxlength='10' >
                             <label id="URSRC_lbl_validnumber1" name="URSRC_lbl_validnumber1" class="errormsg"></label>
-
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="col-sm-2" name="URSRC_lbl_houseno" id="URSRC_lbl_houseno">HOUSE NO<em>*</em></label>
@@ -2896,10 +2895,10 @@ include  "../TSLIB/TSLIB_HEADER.php";
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                         </div></div>
-                    <div class="row-fluid form-group">
+                    <div class="row-fluid form-group" width="175">
                         <label class="col-sm-2" name="URSRC_lbl_brnchaddr" id="URSRC_lbl_brnchaddr">BRANCH ADDRESS<em>*</em></label>
                         <div class="col-sm-4">
-                            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate tareabranch form-control"></textarea>
+                            <textarea rows="4" cols="50" name="URSRC_ta_brnchaddr" id="URSRC_ta_brnchaddr" class="maxlength login_submitvalidate  form-control"></textarea>
                         </div></div>
                     <div class="row-fluid form-group">
                         <label class="srctitle col-sm-2"  name="URSRC_lbl_others" id="URSRC_lbl_others">OTHERS</label>
@@ -2908,7 +2907,6 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <label class="col-sm-2" id="URSRC_lbl_laptopno">LAPTOP NUMBER</label></td>
                         <div class="col-sm-4">
                             <select id='URSRC_lb_selectlaptopno' name="URSRC_lb_selectlaptopno"  maxlength="40" class="selectlaptopno_submitvalidate form-control">
-
                                 <option value='SELECT' selected="selected"> SELECT</option>
                             </select>
                             <label id="URSRC_lbl_nolaptop" name="URSRC_lbl_nolaptop"  class="errormsg" hidden></label>
@@ -2923,101 +2921,101 @@ include  "../TSLIB/TSLIB_HEADER.php";
                         <div class="col-sm-4">
                             <input type="text" name="URSRC_tb_btry" id="URSRC_tb_btry" maxlength='75' class="alphanumeric sizefix login_submitvalidate form-control" style="width:200px" readonly>
                         </div></div>
-                    <div id="URSRC_table_others" style="width:390px" hidden>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                    <div id="URSRC_table_others" class="col-sm-offset-2" hidden>
+                        <div class="form-group form-inline col-lg-7">
+                            <div class="col-lg-3" style="padding-left:0px"><div class="checkbox">
                                     <label name="URSRC_lbl_laptopbag" id="URSRC_lbl_laptopbag">
                                         <input type="checkbox" name="URSRC_chk_bag" id="URSRC_chk_bag" class="login_submitvalidate">&nbsp;&nbsp;LAPTOP BAG</label>
                                 </div></div><div class="">
                                 <input type="text" name="URSRC_tb_laptopno" id="URSRC_tb_laptopno" maxlength='75' class="login_submitvalidate form-control " style="display:inline" readonly hidden>
                             </div></div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                        <div class="form-group form-inline col-lg-7">
+                            <div class="col-lg-3" style="padding-left:0px"><div class="checkbox">
                                     <label name="URSRC_lbl_laptopno" id="URSRC_lbl_laptopno">
                                         <input type="checkbox" name="URSRC_chk_mouse" id="URSRC_chk_mouse" class="login_submitvalidate">&nbsp;&nbsp;MOUSE</label>
                                 </div></div><div class="">
                                 <input type="text" name="URSRC_tb_mouse" id="URSRC_tb_mouse" maxlength='75' class="login_submitvalidate form-control " style="display:inline"  hidden>
                             </div></div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                        <div class="col-lg-10">
+                            <div class="form-group form-inline col-sm-10" style="padding-left:0px"><div class="checkbox">
                                     <label name="URSRC_lbl_dracess" id="URSRC_lbl_dracess">
-                                    <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">&nbsp;&nbsp;DOOR ACCESS</label>
+                                        <input type="checkbox" name="URSRC_chk_dracess" id="URSRC_chk_dracess"  class="login_submitvalidate">&nbsp;&nbsp;DOOR ACCESS</label>
                                 </div></div>
                         </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                        <div class="col-lg-10">
+                            <div class="form-group form-inline col-sm-10" style="padding-left:0px"><div class="checkbox">
                                     <label name="URSRC_lbl_idcrd" id="URSRC_lbl_idcrd">
-                                    <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">&nbsp;&nbsp;ID CARD</label>
+                                        <input type="checkbox" name="URSRC_chk_idcrd" id="URSRC_chk_idcrd" class="login_submitvalidate">&nbsp;&nbsp;ID CARD</label>
                                 </div></div>
                         </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6  col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                        <div class="col-lg-10">
+                            <div class="form-group form-inline col-sm-10" style="padding-left:0px"><div class="checkbox">
                                     <label name="URSRC_lbl_headset" id="URSRC_lbl_headset">
-                                    <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">&nbsp;&nbsp;HEAD SET</label>
+                                        <input type="checkbox" name="URSRC_chk_headset" id="URSRC_chk_headset" class="login_submitvalidate">&nbsp;&nbsp;HEAD SET</label>
                                 </div></div>
                         </div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                        <div class="col-lg-10">
+                            <div class="form-group form-inline col-sm-10" style="padding-left:0px">
+                                <div class="checkbox">
                                     <label name="URSRC_lbl_aadharno" id="URSRC_lbl_aadharno">
                                         <input type="checkbox" name="URSRC_chk_aadharno" id="URSRC_chk_aadharno" class="login_submitvalidate">&nbsp;&nbsp;AADHAAR NO</label>
-                                </div></div><div class="">
+                                </div>
                                 <input type="text" name="URSRC_tb_aadharno" id="URSRC_tb_aadharno" maxlength='15' class=" alphanumeric sizefix login_submitvalidate form-control " style="display:inline" hidden>
                             </div></div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                        <div class="col-lg-10">
+                            <div class="form-group form-inline col-sm-10" style="padding-left:0px">
+                                <div class="checkbox">
                                     <label name="URSRC_lbl_passportno" id="URSRC_lbl_passportno">
                                         <input type="checkbox" name="URSRC_chk_passportno" id="URSRC_chk_passportno" class="login_submitvalidate">&nbsp;&nbsp;PASSPORT NO</label>
-                                </div></div><div class="">
+                                </div>
                                 <input type="text" name="URSRC_tb_passportno" id="URSRC_tb_passportno" maxlength='15' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
                             </div></div>
-                        <div class="row-fluid form-group form-inline col-sm-offset-6 col-lg-6">
-                            <div class="form-inline col-lg-5"><div class="checkbox">
+                        <div class="col-lg-10">
+                            <div class="form-group form-inline col-sm-10" style="padding-left:0px">
+                                <div class="checkbox">
                                     <label name="URSRC_lbl_votersid" id="URSRC_lbl_votersid">
                                         <input type="checkbox" name="URSRC_chk_votersid" id="URSRC_chk_votersid" class="login_submitvalidate">&nbsp;VOTERS ID</label>
-                                </div></div><div class="">
+                                </div>
                                 <input type="text" name="URSRC_tb_votersid" id="URSRC_tb_votersid" maxlength='25' class="alphanumeric sizefix login_submitvalidate form-control" hidden>
                             </div> </div>
-                        <div class="row-fluid form-group">
-                            <label class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
-                            <div class="col-sm-offset-7">
-                                <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate tareacomments form-control"></textarea>
-                            </div></div>
-                        <div ID="filetableuploads">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2"></label> <label class="col-sm-3"></label>
-                            <div class="col-sm-7">
-                                <div class="form-group">
-                                    <div class="col-md-20" style="padding-left:43px" >
+                    </div>
+                    <div class="row-fluid form-group col-sm-19">
+                        <label class="col-sm-2" name="URSRC_lbl_comments" id="URSRC_lbl_comments">COMMENTS</label>
+                        <div class="col-sm-4">
+                            <textarea rows="4" cols="50" name="URSRC_ta_comments" id="URSRC_ta_comments" class="maxlength login_submitvalidate  form-control"></textarea>
+                        </div></div>
+                    <div ID="filetableuploads"> </div>
+                    <div class="form-group col-sm-offset-2">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <div class="col-md-20" style="padding-left:0px">
                         <span id="attachprompt"><img width="15" height="15" src="https://ssl.gstatic.com/codesite/ph/images/paperclip.gif" border="0">
                         <a href="javascript:_addAttachmentFields('attachmentarea')" id="attachafile">Attach a file</a>
                         </span></div></div></div>
-                        </div>
-                    </div><br>
-                </div>
-<!--                <br><br> <br><br>-->
-                <div  style="padding-right:1000px">
-                    <input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden />
-                </div>
-                <div id="URSRC_tble_rolesearch" hidden>
-                    <div><label id="URSRC_lbl_norole_err" class="errormsg"></label></div>
-                    <div class="row-fluid form-group">
-                        <lable class="col-sm-2" id="URSRC_lbl_selectrole">SELECT A ROLE<em>*</em></lable>
-                        <div class="col-sm-4">
-                            <select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate form-control' >
-
-                                <option value='SELECT' selected="selected"> SELECT</option>
-                            </select>
-                        </div>
                     </div>
-                    <div id="URSRC_rolesearch_roles"></div>
+                    <!--                <br><br> <br><br>-->
+                    <div class="col-sm-3">
+                        <input class="btn" type="submit"  id="URSRC_btn_login_submitbutton" name="SAVE" value="SUBMIT" disabled hidden />
+                    </div>
+                    <div id="URSRC_tble_rolesearch" hidden>
+                        <div><label id="URSRC_lbl_norole_err" class="errormsg"></label></div>
+                        <div class="row-fluid form-group">
+                            <lable class="col-sm-2" id="URSRC_lbl_selectrole">SELECT A ROLE<em>*</em></lable>
+                            <div class="col-sm-4">
+                                <select id='URSRC_lb_selectrole' name="URSRC_lb_rolename" title="ROLE" class='submitvalidate form-control' >
 
-                    <label id="URSRC_lbl_nodetails_err" class="errormsg"></label>
-                    <div id="URSRC_tble_menu" hidden ></div>
-                    <div id="URSRC_tble_folder" hidden></div>
-                    <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
-                </div><br>
-                <div id="URSRC_btn_update"></div>
+                                    <option value='SELECT' selected="selected"> SELECT</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="URSRC_rolesearch_roles"></div>
+
+                        <label id="URSRC_lbl_nodetails_err" class="errormsg"></label>
+                        <div id="URSRC_tble_menu" hidden ></div>
+                        <div id="URSRC_tble_folder" hidden></div>
+                        <input class="btn" type="submit"  id="URSRC_btn_submitbutton" name="SAVE" value="SUBMIT"  disabled/>
+                    </div><br>
+                    <div id="URSRC_btn_update"></div>
             </fieldset>
     </form>
 </div>
